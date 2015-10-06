@@ -60,9 +60,7 @@ nnoremap ]] :action MethodDown<CR>
 vmap [[ :action MethodUp<CR>
 vmap ]] :action MethodDown<CR>
 
-nnoremap / :action Find<CR>
-nnoremap n :action FindNext<CR>
-nnoremap N :action FindPrevious<CR>
+" GotoClass shorcut
 nnoremap <Leader>c :action GotoClass<CR>
 " Emulate CtlrP plugin
 nnoremap <c-p> :action GotoFile<CR>
