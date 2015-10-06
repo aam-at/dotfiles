@@ -37,6 +37,10 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 
+" Tab navigation
+map <Leader>n gT
+map <Leader>m gt
+
 " Fast vim like window closing
 nnoremap <Leader>q :action CloseEditor<CR>
 nnoremap <Leader>Q :action CloseAllEditors<CR>
@@ -54,6 +58,9 @@ nnoremap <Leader>rf :action ReformatCode<CR>
 nnoremap <Leader>ro :action OptimizeImports<CR>
 nnoremap <Leader>rr :action RenameElement<CR>
 
+" Open code inspection: pycharm internal linter
+nmap <Leader>ri :action InspectCode<CR>
+
 " Some pymode like navigation
 nnoremap [[ :action MethodUp<CR>
 nnoremap ]] :action MethodDown<CR>
@@ -67,7 +74,7 @@ nnoremap <c-p> :action GotoFile<CR>
 
 " Behavior like jedi-vim plugin
 nnoremap <Leader>d :action GotoDeclaration<CR>
-nnoremap <Leader>n :action FindUsages<CR>
+nnoremap <Leader>z :action FindUsages<CR>
 " Quick inline documentation
 nnoremap K :action QuickJavaDoc<CR>
 " Insert break point
