@@ -1,7 +1,3 @@
-" Other plugins:
-" 1) Relative Line Numbers
-
-
 " show a visual line under the cursor's current line
 set cursorline
 " show the matching part of the pair for [] {} and ()
@@ -61,10 +57,6 @@ inoremap <Right> <NOP>
 nnoremap j gj
 nnoremap k gk
 
-" This is quit all
-noremap <Leader>q :q<cr>
-noremap <Leader>Q :qa<cr>
-
 " bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
 " Every unnecessary keystroke that can be saved is good for your health :)
 map <c-j> <c-w>j
@@ -74,13 +66,13 @@ map <c-h> <c-w>h
 
 autocmd! bufwritepost .vimrc source %
 
-nnoremap ,q :action CloseEditor<CR>
-nnoremap ,Q :action CloseAllEditors<CR>
+nnoremap <Leader>q :action CloseEditor<CR>
+nnoremap <Leader>Q :action CloseAllEditors<CR>
 
-nnoremap ,rm :action Refactorings.QuickListPopupAction<CR>
-nnoremap ,rf :action ReformatCode<CR>
-nnoremap ,ro :action OptimizeImports<CR>
-nnoremap ,rr :action RenameElement<CR>
+nnoremap <Leader>rm :action Refactorings.QuickListPopupAction<CR>
+nnoremap <Leader>rf :action ReformatCode<CR>
+nnoremap <Leader>ro :action OptimizeImports<CR>
+nnoremap <Leader>rr :action RenameElement<CR>
 
 
 nnoremap [[ :action MethodUp<CR>
@@ -91,9 +83,9 @@ vmap ]] :action MethodDown<CR>
 " nnoremap / :action Find<CR>
 " nnoremap n :action FindNext<CR>
 " nnoremap N :action FindPrevious<CR>
-nnoremap ,c :action GotoClass<CR>
+nnoremap <Leader>c :action GotoClass<CR>
 " Emulate CtlrP plugin
 nnoremap <c-p> :action GotoFile<CR>
 " Behavior like jedi-vim plugin
-nnoremap ,d :action GotoDeclaration<CR>
-nnoremap ,n :action FindUsages<CR>
+nnoremap <Leader>d :action GotoDeclaration<CR>
+nnoremap <Leader>n :action FindUsages<CR>
