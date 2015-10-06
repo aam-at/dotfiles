@@ -269,6 +269,10 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 
+" Tab navigation
+map <Leader>n gT
+map <Leader>m gt
+
     
 " Session management {
 
@@ -465,7 +469,7 @@ nmap <silent> <F4> :Tagbar<CR>
         let g:jedi#goto_assignments_command = "<leader>g"
         let g:jedi#goto_definitions_command = ""
         let g:jedi#documentation_command = "K"
-        let g:jedi#usages_command = "<leader>n"
+        let g:jedi#usages_command = "<leader>z"
         let g:jedi#completions_command = "<C-Space>"
         " disable <leader>r. Use rope-vim for refactoring
         let g:jedi#rename_command = ""
