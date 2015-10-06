@@ -1,0 +1,99 @@
+" Other plugins:
+" 1) Relative Line Numbers
+
+
+" show a visual line under the cursor's current line
+set cursorline
+" show the matching part of the pair for [] {} and ()
+set showmatch
+set ruler
+
+" TABs setting {
+
+    " set tabs to have 4 spaces
+    set tabstop=4
+    set softtabstop=4
+    " when using the >> or << commands, shift lines by 4 spaces
+    set shiftwidth=4
+    set shiftround
+    " expand tabs into spaces
+    set expandtab
+
+" }
+
+" Line numbers and text length {
+    " show line numbers: better numbers plugin
+    set relativenumber
+    set numberwidth=3
+    set nowrap  " don't automatically wrap on load
+    set formatoptions-=t   " don't automatically wrap text when typing
+    set colorcolumn=80
+    highlight ColorColumn ctermbg=233
+    " set foldmethod=indent
+    " set foldlevel=99
+"}
+
+set list
+set listchars=tab:▸\                " ┐
+set listchars+=trail:·              " │ Use custom symbols to
+" set listchars+=eol:↴              " │ represent invisible characters ¶
+set listchars+=nbsp:_               " |
+set listchars+=extends:»,precedes:« " ┘
+
+" Rebind <Leader> key
+" I like to have it here becuase it is easier to reach than the default and
+" it is next to ``m`` and ``n`` which I use for navigating between tabs.
+let mapleader = ","
+
+" Learn vim hard way
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP> 
+inoremap <Up> <NOP> 
+inoremap <Down> <NOP> 
+inoremap <Left> <NOP> 
+inoremap <Right> <NOP> 
+
+" This makes j and k work on "screen lines" instead of on "file lines"; now, when
+" we have a long line that wraps to multiple screen lines, j and k behave as we
+" expect them to.
+nnoremap j gj
+nnoremap k gk
+
+" This is quit all
+noremap <Leader>q :q<cr>
+noremap <Leader>Q :qa<cr>
+
+" bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
+" Every unnecessary keystroke that can be saved is good for your health :)
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+
+autocmd! bufwritepost .vimrc source %
+
+nnoremap ,q :action CloseEditor<CR>
+nnoremap ,Q :action CloseAllEditors<CR>
+
+nnoremap ,rm :action Refactorings.QuickListPopupAction<CR>
+nnoremap ,rf :action ReformatCode<CR>
+nnoremap ,ro :action OptimizeImports<CR>
+nnoremap ,rr :action RenameElement<CR>
+
+
+nnoremap [[ :action MethodUp<CR>
+nnoremap ]] :action MethodDown<CR>
+vmap [[ :action MethodUp<CR>
+vmap ]] :action MethodDown<CR>
+
+" nnoremap / :action Find<CR>
+" nnoremap n :action FindNext<CR>
+" nnoremap N :action FindPrevious<CR>
+nnoremap ,c :action GotoClass<CR>
+" Emulate CtlrP plugin
+nnoremap <c-p> :action GotoFile<CR>
+" Behavior like jedi-vim plugin
+nnoremap ,d :action GotoDeclaration<CR>
+nnoremap ,n :action FindUsages<CR>
