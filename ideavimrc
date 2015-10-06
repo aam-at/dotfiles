@@ -3,7 +3,7 @@ set matchpairs
 " message on status line to show current mode
 set showmode
 " no ignore case when pattern has uppercase
-set smarcase
+set smartcase
 " show line numbers
 set relativenumber
 
