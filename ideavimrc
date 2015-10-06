@@ -64,8 +64,11 @@ vmap ]] :action MethodDown<CR>
 nnoremap <Leader>c :action GotoClass<CR>
 " Emulate CtlrP plugin
 nnoremap <c-p> :action GotoFile<CR>
+
 " Behavior like jedi-vim plugin
 nnoremap <Leader>d :action GotoDeclaration<CR>
 nnoremap <Leader>n :action FindUsages<CR>
 " Quick inline documentation
 nnoremap K :action QuickJavaDoc<CR>
+" Insert break point
+nnoremap <Leader>b Aimport pdb; pdb.set_trace()  # XXX BREAKPOINT<Esc>
