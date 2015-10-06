@@ -6,6 +6,8 @@ set showmode
 set smartcase
 " show line numbers
 set relativenumber
+" use visual bell instead of beeping
+set visualbell
 
 " Rebind <Leader> key
 " I like to have it here becuase it is easier to reach than the default and
@@ -39,10 +41,12 @@ map <c-h> <c-w>h
 nnoremap <Leader>q :action CloseEditor<CR>
 nnoremap <Leader>Q :action CloseAllEditors<CR>
 
-" Pycharm bookmarks
-" Open bookmarks
-nmap <Leader>bo :action ShowBookmarks<CR>
-nmap <Leader>bb :action ToggleBookmark<CR>
+" Emuluate vim-bookmarks plugin
+nmap ma :action ShowBookmarks<CR>
+nmap mm :action ToggleBookmark<CR>
+nmap mi :action ToggleBookmarkWithMnemonic<CR>
+nmap mn :action GotoNextBookmark<CR>
+nmap mp :action GotoPreviousBookmark<CR>
 
 " Access to refactorings inside vim
 nnoremap <Leader>rm :action Refactorings.QuickListPopupAction<CR>
@@ -65,3 +69,5 @@ nnoremap <c-p> :action GotoFile<CR>
 " Behavior like jedi-vim plugin
 nnoremap <Leader>d :action GotoDeclaration<CR>
 nnoremap <Leader>n :action FindUsages<CR>
+" Quick inline documentation
+nnoremap K :action QuickJavaDoc<CR>
