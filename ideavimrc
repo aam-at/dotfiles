@@ -35,10 +35,14 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 
-
 " Fast vim like window closing
 nnoremap <Leader>q :action CloseEditor<CR>
 nnoremap <Leader>Q :action CloseAllEditors<CR>
+
+" Pycharm bookmarks
+" Open bookmarks
+nmap <Leader>bo :action ShowBookmarks<CR>
+nmap <Leader>bb :action ToggleBookmark<CR>
 
 " Access to refactorings inside vim
 nnoremap <Leader>rm :action Refactorings.QuickListPopupAction<CR>
