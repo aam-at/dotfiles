@@ -1,40 +1,11 @@
-" show a visual line under the cursor's current line
-set cursorline
 " show the matching part of the pair for [] {} and ()
-set showmatch
-set ruler
-
-" TABs setting {
-
-    " set tabs to have 4 spaces
-    set tabstop=4
-    set softtabstop=4
-    " when using the >> or << commands, shift lines by 4 spaces
-    set shiftwidth=4
-    set shiftround
-    " expand tabs into spaces
-    set expandtab
-
-" }
-
-" Line numbers and text length {
-    " show line numbers: better numbers plugin
-    set relativenumber
-    set numberwidth=3
-    set nowrap  " don't automatically wrap on load
-    set formatoptions-=t   " don't automatically wrap text when typing
-    set colorcolumn=80
-    highlight ColorColumn ctermbg=233
-    " set foldmethod=indent
-    " set foldlevel=99
-"}
-
-set list
-set listchars=tab:▸\                " ┐
-set listchars+=trail:·              " │ Use custom symbols to
-" set listchars+=eol:↴              " │ represent invisible characters ¶
-set listchars+=nbsp:_               " |
-set listchars+=extends:»,precedes:« " ┘
+set matchpairs
+" message on status line to show current mode
+set showmode
+" no ignore case when pattern has uppercase
+set smarcase
+" show line numbers
+set relativenumber
 
 " Rebind <Leader> key
 " I like to have it here becuase it is easier to reach than the default and
@@ -66,23 +37,25 @@ map <c-h> <c-w>h
 
 autocmd! bufwritepost .vimrc source %
 
+" Fast vim like window closing
 nnoremap <Leader>q :action CloseEditor<CR>
 nnoremap <Leader>Q :action CloseAllEditors<CR>
 
+" Access to refactorings inside vim
 nnoremap <Leader>rm :action Refactorings.QuickListPopupAction<CR>
 nnoremap <Leader>rf :action ReformatCode<CR>
 nnoremap <Leader>ro :action OptimizeImports<CR>
 nnoremap <Leader>rr :action RenameElement<CR>
 
-
+" Some pymode like navigation
 nnoremap [[ :action MethodUp<CR>
 nnoremap ]] :action MethodDown<CR>
 vmap [[ :action MethodUp<CR>
 vmap ]] :action MethodDown<CR>
 
-" nnoremap / :action Find<CR>
-" nnoremap n :action FindNext<CR>
-" nnoremap N :action FindPrevious<CR>
+nnoremap / :action Find<CR>
+nnoremap n :action FindNext<CR>
+nnoremap N :action FindPrevious<CR>
 nnoremap <Leader>c :action GotoClass<CR>
 " Emulate CtlrP plugin
 nnoremap <c-p> :action GotoFile<CR>
