@@ -40,6 +40,8 @@ map <c-h> <c-w>h
 " Tab navigation
 map <Leader>n gT
 map <Leader>m gt
+" Rotate current active tab to opposite side
+map gr :action MoveEditorToOppositeTabGroup<CR>
 
 " Fast vim like window closing
 nnoremap <Leader>q :action CloseEditor<CR>
