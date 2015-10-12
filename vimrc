@@ -164,6 +164,7 @@ autocmd! bufwritepost .vimrc source %
 " Python config
 " enable syntax highlighting
 syntax enable
+set shell=/bin/bash
 
 " TABs setting {
 
