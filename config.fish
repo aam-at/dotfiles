@@ -22,6 +22,8 @@ if test -f /home/aam/.autojump/share/autojump/autojump.fish;
     . /home/aam/.autojump/share/autojump/autojump.fish;
 end
 
+fish_vi_mode
+
 # Add sbin to PATH variable
 set -x PATH $PATH /sbin/
 
