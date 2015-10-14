@@ -36,9 +36,11 @@
     if s:is_windows
         call add(s:my_settings.plugin_groups, 'windows')
     endif
+
 " }
 
 " setup & neobundle {
+
     set nocompatible              " be iMproved, required
     filetype off                  " required
     if s:is_windows
@@ -50,9 +52,11 @@
     " Let NeoBundle manage NeoBundle
     " Required:
     NeoBundleFetch 'Shougo/neobundle.vim'
+
 " }
 
 " functions {
+
     function! s:get_cache_dir(suffix) "{{{
         return resolve(expand(s:my_settings.cache_dir . '/' . a:suffix))
     endfunction "}}}
@@ -101,6 +105,7 @@
             bdelete
         endif
     endfunction " }
+
 " }
 
 
@@ -254,11 +259,23 @@ NeoBundle 'easymotion/vim-easymotion'
 "
 """""""""""""""""""""""""
 
+" base configuration {
+
+    if s:is_windows && !s:is_cygwin
+        " ensure correct shell in gvim
+        set shell=c:\windows\system32\cmd.exe
+    endif
+
+    if $SHELL =~ '/fish$'
+        " VIM expects to be run from a POSIX shell.
+        set shell=sh
+    endif
+
+" }
+
 autocmd! bufwritepost .vimrc source %
 " set guifont=Source\ Code\ Pro\ 12
 " Python config
-" enable syntax highlighting
-set shell=/bin/bash
 
 " TABs setting {
 
@@ -666,7 +683,8 @@ nmap <silent> <F4> :Tagbar<CR>
     "
     " Refer to :help neobundle for more examples and for a full list of commands.
     " Put your non-Plugin stuff after this line
-      syntax enable
+    " enable syntax highlighting
+    syntax enable
 
     " Use 256 colours (Use this setting only if your terminal supports 256 colours)
     set t_Co=256
