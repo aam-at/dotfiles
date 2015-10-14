@@ -1,8 +1,8 @@
-" detect OS {
+" detect OS {{{
     let s:is_windows = has('win32') || has('win64')
     let s:is_cygwin = has('win32unix')
     let s:is_macvim = has('gui_macvim')
-" }
+"}}}
 
 " my settings {
     " initialize default settings
@@ -20,7 +20,6 @@
         let s:my_settings.autocomplete_method = 'ycm'
     endif
 
-    let s:my_settings.plugin_groups = ['core', 'python', 'programming', 'misc', 'windows']
     let s:my_settings.plugin_groups = []
     call add(s:my_settings.plugin_groups, 'core')
     call add(s:my_settings.plugin_groups, 'editing')
@@ -104,12 +103,199 @@
     endfunction " }
 " }
 
+"""""""""""""""""
+"               "
+" BASE SETTINGS "
+"               "
+"""""""""""""""""
+" base configuration {{{
 
-"""""""""""""""""""""""""
-"
-" PACKAGE MANAGEMENT
-" 
-""""""""""""""""""""""""" {{{
+    set timeoutlen=300                                  "mapping timeout
+    set ttimeoutlen=50                                  "keycode timeout
+  
+    set history=1000                                    "number of command lines to remember
+    set undolevels=1000
+    set ttyfast                                         "assume fast terminal connection
+    set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
+    set encoding=utf-8                                  "set encoding for text
+    if exists('$TMUX')
+        set clipboard=
+    else
+        set clipboard=unnamed                           "sync with OS clipboard
+    endif
+    set hidden                                          "allow buffer switching without saving
+    set autoread                                        "auto reload if file saved externally
+    set fileformats+=mac                                "add mac to auto-detection of file format line endings
+    set nrformats-=octal                                "always assume decimal numbers
+    set showcmd
+    set tags=tags;/
+    set showfulltag
+    set modeline
+    set modelines=5
+
+    if s:is_windows && !s:is_cygwin
+        " ensure correct shell in gvim
+        set shell=c:\windows\system32\cmd.exe
+    endif
+
+    if $SHELL =~ '/fish$'
+        " VIM expects to be run from a POSIX shell.
+        set shell=sh
+    endif
+
+    set noshelltemp                                     "use pipes
+
+    " whitespace
+    set backspace=indent,eol,start                      "allow backspacing everything in insert mode
+    set autoindent                                      "automatically indent to match adjacent lines
+    set expandtab                                       "spaces instead of tabs
+    set smarttab                                        "use shiftwidth to enter tabs
+    let &tabstop=s:my_settings.default_indent           "number of spaces per tab for display
+    let &softtabstop=s:my_settings.default_indent       "number of spaces per tab in insert mode
+    let &shiftwidth=s:my_settings.default_indent        "number of spaces when indenting
+    set list                                            "highlight whitespace
+    set listchars=tab:▸\ ,trail:•,extends:»,precedes:«
+    set shiftround
+    set linebreak
+    let &showbreak='↪ '
+
+    set scrolloff=1                                     "always show content after scroll
+    set scrolljump=5                                    "minimum number of lines to scroll
+    set display+=lastline
+    set wildmenu                                        "show list for autocomplete
+    set wildmode=list:full
+    set wildignorecase
+
+    set splitbelow
+    set splitright
+
+    " disable sounds
+    set noerrorbells
+    set novisualbell
+    set t_vb=
+
+    " searching
+    set hlsearch                                        "highlight searches
+    set incsearch                                       "incremental searching
+    set ignorecase                                      "ignore case for searching
+    set smartcase                                       "do case-sensitive if there's a capital letter
+    if executable('ack')
+        set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
+        set grepformat=%f:%l:%c:%m
+    endif
+    if executable('ag')
+        set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+        set grepformat=%f:%l:%c:%m
+    endif
+
+
+    " vim file/folder management {{{
+        " persistent undo
+        if exists('+undofile')
+            set undofile
+            let &undodir = s:get_cache_dir('undo')
+        endif
+
+        " backups
+        set backup
+        let &backupdir = s:get_cache_dir('backup')
+        set backupskip=/tmp/*,/private/tmp/*"
+
+        " swap files
+        let &directory = s:get_cache_dir('swap')
+        set noswapfile
+        set writebackup
+
+        call EnsureExists(s:my_settings.cache_dir)
+        call EnsureExists(&undodir)
+        call EnsureExists(&backupdir)
+        call EnsureExists(&directory)
+    "}}}
+
+    let mapleader = ","
+    let g:mapleader = ","
+"}}}
+
+" ui configuration {{{
+    set textwidth=79
+    set nowrap                                          "don't automatically wrap on load
+    set formatoptions-=t                                "don't automatically wrap text when typing
+
+    set ruler
+    set showmatch                                       "automatically highlight matching braces/brackets/etc.
+    set matchtime=2                                     "tens of a second to show matching parentheses
+    set number
+    set lazyredraw
+    set laststatus=2
+    set noshowmode
+    set foldenable                                      "enable folds by default
+    set foldmethod=syntax                               "fold via syntax of files
+    set foldlevelstart=99                               "open all folds by default
+    let g:xml_syntax_folding=1                          "enable xml folding
+
+    set cursorline
+    autocmd WinLeave * setlocal nocursorline
+    autocmd WinEnter * setlocal cursorline
+    let &colorcolumn=s:my_settings.max_column
+    highlight ColorColumn ctermbg=233
+    if s:my_settings.enable_cursorcolumn
+        set cursorcolumn
+        autocmd WinLeave * setlocal nocursorcolumn
+        autocmd WinEnter * setlocal cursorcolumn
+    endif
+
+    if has('conceal')
+        set conceallevel=1
+        set listchars+=conceal:Δ
+    endif
+    set gfn=Sauce\ Code\ Powerline
+    " set gfn=Menlo\ For\ Powerline
+
+    if has('gui_running')
+        " open maximized
+        set lines=999 columns=9999
+        if s:is_windows
+            autocmd GUIEnter * simalt ~x
+        endif
+
+        set guioptions+=t                                 "tear off menu items
+        set guioptions-=T                                 "toolbar icons
+
+        if s:is_macvim
+            "set gfn=Ubuntu_Mono:h14
+            set transparency=2
+        endif
+
+        if s:is_windows
+            "set gfn=Ubuntu_Mono:h10
+        endif
+
+        if has('gui_gtk')
+            "set gfn=Ubuntu\ Mono\ 11
+        endif
+    else
+        if $COLORTERM == 'gnome-terminal'
+            set t_Co=256 "why you no tell me correct colors?!?!
+        endif
+        if $TERM_PROGRAM == 'iTerm.app'
+            " different cursors for insert vs normal mode
+            if exists('$TMUX')
+                let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+                let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+            else
+                let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+                let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+            endif
+        endif
+    endif
+"}}}
+
+
+""""""""""""""""""""""""""
+"                        "
+" PACKAGE MANAGEMENT     "
+"                        "
+"""""""""""""""""""""""""" {{{
 
 if count(s:my_settings.plugin_groups, 'core') "{{{
     NeoBundle 'bling/vim-airline' "{{{
@@ -127,10 +313,6 @@ if count(s:my_settings.plugin_groups, 'core') "{{{
         nmap <leader>8 <Plug>AirlineSelectTab8
         nmap <leader>9 <Plug>AirlineSelectTab9
         let g:airline_powerline_fonts = 1
-        set laststatus=2
-        set guifont=Sauce\ Code\ Powerline
-        " set guifont=Menlo\ For\ Powerline
-        " 
         if !exists('g:airline_symbols')
             let g:airline_symbols = {}
         endif
@@ -263,7 +445,14 @@ if count(s:my_settings.plugin_groups, 'navigation') "{{{
     "}}}
     NeoBundle 'Xuyuanp/nerdtree-git-plugin'
     " Easymotion
-    NeoBundle 'easymotion/vim-easymotion'
+    NeoBundle 'easymotion/vim-easymotion' "{{{
+        " Easymotion colors for light colors
+        hi link EasyMotionTarget ErrorMsg
+        hi link EasyMotionTarget2First Search
+        hi link EasyMotionTarget2Second Search
+        hi link EasyMotionShade  Comment
+    "}}}"
+
 endif "}}}
 
 
@@ -313,7 +502,9 @@ if count(s:my_settings.plugin_groups, 'autocomplete') "{{{
         let g:ycm_complete_in_comments_and_strings=1
         let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
         let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
-        let g:ycm_filetype_blacklist={'unite': 1}
+        let g:ycm_filetype_specific_completion_to_disable = { 'python' : 1 }
+        let g:ycm_filetype_blacklist={'unite': 1, 'python' : 1}
+    " }
       "}}}
       NeoBundle 'SirVer/ultisnips' "{{{
         let g:UltiSnipsExpandTrigger="<tab>"
@@ -335,12 +526,19 @@ if count(s:my_settings.plugin_groups, 'autocomplete') "{{{
       NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload':{'insert':1}} "{{{
         let g:neocomplete#enable_at_startup=1
         let g:neocomplete#data_directory=s:get_cache_dir('neocomplete')
+        " Necomplcache
+        if !exists('g:neocomplcache_omni_functions')
+            let g:neocomplcache_omni_functions = {}
+            let g:neocomplcache_omni_functions['python'] = 'jedi#completions'
+        endif
+        " make Vim call omni function when below patterns matchs
+        let g:neocomplcache_force_omni_patterns = {}
+        let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*' 
       "}}}
     endif "}}}
 endif "}}}
 
 if count(s:my_settings.plugin_groups, 'python') "{{{
-
     " NeoBundle 'nvie/vim-flake8' - same functionality to syntastic
     NeoBundleLazy 'klen/python-mode', {'autoload':{'filetypes':['python']}} "{{{
         " Activate rope
@@ -390,6 +588,7 @@ if count(s:my_settings.plugin_groups, 'python') "{{{
     "}}}
     NeoBundleLazy 'python-rope/ropevim', {'autoload':{'filetypes':['python']}}
     NeoBundleLazy 'davidhalter/jedi-vim', {'autoload':{'filetypes':['python']}} "{{{
+        let g:jedi#auto_vim_configuration = 0
         let g:jedi#popup_on_dot = 0
         let g:jedi#goto_command = "<leader>d"
         let g:jedi#goto_assignments_command = "<leader>g"
@@ -533,13 +732,25 @@ if count(s:my_settings.plugin_groups, 'textobj') "{{{
     NeoBundle 'kana/vim-textobj-user'
     NeoBundle 'kana/vim-textobj-indent'
     NeoBundle 'kana/vim-textobj-entire'
-    NeoBundle 'reedes/vim-textobj-sentence'
+    NeoBundle 'reedes/vim-textobj-sentence' "{{{
+        augroup textobj_sentence
+            autocmd!
+            autocmd FileType markdown call textobj#sentence#init()
+            autocmd FileType textile call textobj#sentence#init()
+            autocmd FileType text call textobj#sentence#init()
+        augroup END
+
+        augroup textobj_quote
+            autocmd!
+            autocmd FileType markdown call textobj#quote#init()
+            autocmd FileType textile call textobj#quote#init()
+            autocmd FileType text call textobj#quote#init({'educate': 0})
+        augroup END
+    "}}}
     NeoBundle 'reedes/vim-textobj-quote'
     NeoBundle 'reedes/vim-wordy'
     NeoBundle 'lucapette/vim-textobj-underscore'
     NeoBundle 'reedes/vim-litecorrect'
-" }
-
 endif "}}}
 
 
@@ -621,6 +832,13 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
 
     inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
     inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function()
+        " return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+        " For no inserting <CR> key.
+        return pumvisible() ? "\<C-y>" : "\<CR>"
+    endfunction
+
     "inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
     inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
         \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
@@ -631,128 +849,11 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
 
 "}}}
 
-" Togglable panels
-NeoBundle 'tpope/vim-vinegar'
-NeoBundle 'vim-scripts/taglist.vim'
 
 
-"""""""""""""""""""""""""
-"
-" SETTINGS & KEYBINDINGS
-"
-"""""""""""""""""""""""""
 
-" base configuration {
-
-    set timeoutlen=300                                  "mapping timeout
-    set ttimeoutlen=50                                  "keycode timeout
-  
-    set history=1000                                    "number of command lines to remember
-    set ttyfast                                         "assume fast terminal connection
-    set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
-    set encoding=utf-8                                  "set encoding for text
-    if exists('$TMUX')
-        set clipboard=
-    else
-        set clipboard=unnamed                           "sync with OS clipboard
-    endif
-    set hidden                                          "allow buffer switching without saving
-    set autoread                                        "auto reload if file saved externally
-    set fileformats+=mac                                "add mac to auto-detection of file format line endings
-    set nrformats-=octal                                "always assume decimal numbers
-    set showcmd
-    set tags=tags;/
-    set showfulltag
-    set modeline
-    set modelines=5
-" backup/persistance settings {
-
-    set undodir=~/.vim/tmp/undo//
-    set backupdir=~/.vim/tmp/backup//
-    set directory=~/.vim/tmp/swap//
-    set backupskip=/tmp/*,/private/tmp/*"
-    set backup
-    set writebackup
-    " Disable swap files
-    set noswapfile
-    " persist (g)undo tree between sessions
-    set undofile
-    set history=700
-    set undolevels=700
-
-" }
-
-    if s:is_windows && !s:is_cygwin
-        " ensure correct shell in gvim
-        set shell=c:\windows\system32\cmd.exe
-    endif
-
-    if $SHELL =~ '/fish$'
-        " VIM expects to be run from a POSIX shell.
-        set shell=sh
-    endif
-
-" }
 
 autocmd! bufwritepost .vimrc source %
-" set guifont=Source\ Code\ Pro\ 12
-" Python config
-
-" TABs setting {
-
-    " set tabs to have 4 spaces
-    set tabstop=4
-    set softtabstop=4
-    " when using the >> or << commands, shift lines by 4 spaces
-    set shiftwidth=4
-    set shiftround
-    " expand tabs into spaces
-    set expandtab
-
-" }
-
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start 
-" indent when moving to the next line while writing code
-set autoindent
-" show a visual line under the cursor's current line
-set cursorline
-" show the matching part of the pair for [] {} and ()
-set showmatch
-set ruler
-
-" Line numbers and text length {
-    " show line numbers: better numbers plugin
-    set number
-    " set relativenumber
-    set textwidth=79
-    set nowrap  " don't automatically wrap on load
-    set formatoptions-=t   " don't automatically wrap text when typing
-    set colorcolumn=80
-    highlight ColorColumn ctermbg=233
-    " set foldmethod=indent
-    " set foldlevel=99
-"}
-
-set list
-set listchars=tab:▸\                " ┐
-set listchars+=trail:·              " │ Use custom symbols to
-" set listchars+=eol:↴              " │ represent invisible characters ¶
-set listchars+=nbsp:_               " |
-set listchars+=extends:»,precedes:« " ┘
-
-
-" Easymotion colors for light colors {
-    hi link EasyMotionTarget ErrorMsg
-    hi link EasyMotionTarget2First Search
-    hi link EasyMotionTarget2Second Search
-    hi link EasyMotionShade  Comment
-"}
-
-" Rebind <Leader> key
-" I like to have it here becuase it is easier to reach than the default and
-" it is next to ``m`` and ``n`` which I use for navigating between tabs.
-let mapleader = ","
 
 " Learn vim hard way
 noremap <Up> <NOP>
@@ -784,75 +885,6 @@ map <c-h> <c-w>h
 " Tab navigation
 map <Leader>n gT
 map <Leader>m gt
-
-    
-" Session management {
-
-    let g:session_directory = "~/.vim/sessions"
-    let g:session_autoload = "no"
-    let g:session_autosave = "no"
-    let g:session_command_aliases = 1
-    nnoremap <leader>so :OpenSession
-    nnoremap <leader>ss :SaveSession
-    nnoremap <leader>sd :DeleteSession<CR>
-    nnoremap <leader>sc :CloseSession<CR>
-
-" }
-
-
-
-
-" Writing plugins settings {
-
-    " TextObj Sentence {
-            augroup textobj_sentence
-              autocmd!
-              autocmd FileType markdown call textobj#sentence#init()
-              autocmd FileType textile call textobj#sentence#init()
-              autocmd FileType text call textobj#sentence#init()
-            augroup END
-    " }
-
-    " TextObj Quote {
-            augroup textobj_quote
-                autocmd!
-                autocmd FileType markdown call textobj#quote#init()
-                autocmd FileType textile call textobj#quote#init()
-                autocmd FileType text call textobj#quote#init({'educate': 0})
-            augroup END
-    " }
-
-"}
-
-"General programming plugins settings {
-
-    " Neocomplete settings {
-
-        " make neocomplcache use jedi#completions omini function for python scripts
-        if !exists('g:neocomplcache_omni_functions')
-            let g:neocomplcache_omni_functions = {}
-            let g:neocomplcache_omni_functions['python'] = 'jedi#completions'
-        endif
-        " make Vim call omni function when below patterns matchs
-        let g:neocomplcache_force_omni_patterns = {}
-        let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*' 
-
-    " }
-
-    " YouCompleteMe plugin {
-        let g:ycm_filetype_specific_completion_to_disable = { 'python' : 1 }
-        let g:ycm_filetype_blacklist = { 'python' : 1 }
-    " }
-
-    " Syntactic plugin 
-
-"}
-
-" Powerline/Airline plugin {
-
-    set encoding=utf-8 " Necessary to show Unicode glyphs
-
-" }
 
 " fresh ubuntu installation {
     " sudo apt-get update
