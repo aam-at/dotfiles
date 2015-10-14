@@ -6,150 +6,145 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+set runtimepath+=~/.vim/bundle/neobundle.vim/
+call neobundle#begin(expand('~/.vim/bundle/'))
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-" Plugin 'flazz/vim-colorschemes'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'vim-scripts/Lucius'
-Plugin 'xolox/vim-session'
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" Core plugin
+NeoBundle 'Shougo/vimproc.vim', {
+            \ 'build' : {
+            \     'windows' : 'tools\\update-dll-mingw',
+            \     'cygwin' : 'make -f make_cygwin.mak',
+            \     'mac' : 'make',
+            \     'linux' : 'make',
+            \     'unix' : 'gmake',
+            \    },
+            \ }
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'xolox/vim-session'
+
+" NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'vim-scripts/Lucius'
 
 " Togglable panels
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'tpope/vim-vinegar'
-Plugin 'tpope/vim-repeat'
-Plugin 'powerline/fonts'
-Plugin 'bling/vim-airline'
-Plugin 'Shougo/unite.vim'
-Plugin 'vim-scripts/taglist.vim'
-Plugin 'majutsushi/tagbar'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'Xuyuanp/nerdtree-git-plugin'
+NeoBundle 'tpope/vim-vinegar'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'powerline/fonts'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'vim-scripts/taglist.vim'
+NeoBundle 'majutsushi/tagbar'
 
 " Search in files {
-    Plugin 'mileszs/ack.vim'
-    Plugin 'rking/ag.vim'
-    Plugin 'kien/ctrlp.vim'
-    Plugin 'tacahiroy/ctrlp-funky'
+    NeoBundle 'mileszs/ack.vim'
+    NeoBundle 'rking/ag.vim'
+    NeoBundle 'kien/ctrlp.vim'
+    NeoBundle 'tacahiroy/ctrlp-funky'
 " }
 
 " Git wrapper for vim
-Plugin 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-fugitive'
 
 " Supertab plugin
-Plugin 'ervandew/supertab'
+NeoBundle 'ervandew/supertab'
 
 " Better numbers for vim
-Plugin 'myusuf3/numbers.vim'
+NeoBundle 'myusuf3/numbers.vim'
 
 " Vim Tmux navigation
-Plugin 'christoomey/vim-tmux-navigator'
+NeoBundle 'christoomey/vim-tmux-navigator'
 
 " Notes management {
 
-    " Plugin 'vimwiki/vimwiki'
+    " NeoBundle 'vimwiki/vimwiki'
     " Vim + Evernote
-    Plugin 'xolox/vim-notes'
-    Plugin 'neilagabriel/vim-geeknote'
+    NeoBundle 'xolox/vim-notes'
+    NeoBundle 'neilagabriel/vim-geeknote'
 
 " }
 
 " Surround plugin
-Plugin 'tpope/vim-surround'
+NeoBundle 'tpope/vim-surround'
 
 " Easymotion
-Plugin 'easymotion/vim-easymotion'
+NeoBundle 'easymotion/vim-easymotion'
 
 " Plugins for writing {
 
-    Plugin 'kana/vim-textobj-user'
-    Plugin 'kana/vim-textobj-indent'
-    Plugin 'reedes/vim-litecorrect'
-    Plugin 'reedes/vim-textobj-sentence'
-    Plugin 'reedes/vim-textobj-quote'
-    Plugin 'reedes/vim-wordy'
+    NeoBundle 'kana/vim-textobj-user'
+    NeoBundle 'kana/vim-textobj-indent'
+    NeoBundle 'reedes/vim-litecorrect'
+    NeoBundle 'reedes/vim-textobj-sentence'
+    NeoBundle 'reedes/vim-textobj-quote'
+    NeoBundle 'reedes/vim-wordy'
 
 " }
 
 " Plugins for programming {
 
     " Commenting code
-    Plugin 'scrooloose/nerdcommenter'
+    NeoBundle 'scrooloose/nerdcommenter'
 
     " Undo window
-    Plugin 'simnalamburt/vim-mundo'
+    NeoBundle 'simnalamburt/vim-mundo'
     " Snippets
-    Plugin 'MarcWeber/vim-addon-mw-utils'
-    Plugin 'tomtom/tlib_vim'
-    Plugin 'garbas/vim-snipmate'
-    Plugin 'honza/vim-snippets'
-    " Plugin 'Valloric/YouCompleteMe'
-    " Plugin 'Shougo/neocomplete.vim'
-    Plugin 'scrooloose/syntastic'
-    Plugin 'godlygeek/tabular'
-    Plugin 'kien/rainbow_parentheses.vim'
+    NeoBundle 'MarcWeber/vim-addon-mw-utils'
+    NeoBundle 'tomtom/tlib_vim'
+    NeoBundle 'garbas/vim-snipmate'
+    NeoBundle 'honza/vim-snippets'
+    " NeoBundle 'Valloric/YouCompleteMe'
+    " NeoBundle 'Shougo/neocomplete.vim'
+    NeoBundle 'scrooloose/syntastic'
+    NeoBundle 'godlygeek/tabular'
+    NeoBundle 'kien/rainbow_parentheses.vim'
     
     " Python plugins {
 
-        " Plugin 'nvie/vim-flake8' - same functionality to syntastic
-        Plugin 'klen/python-mode'
-        Plugin 'python-rope/ropevim'
-        Plugin 'davidhalter/jedi-vim'
-        Plugin 'heavenshell/vim-pydocstring'
-        Plugin 'vim-scripts/python_match.vim'
+        " NeoBundle 'nvie/vim-flake8' - same functionality to syntastic
+        NeoBundle 'klen/python-mode'
+        NeoBundle 'python-rope/ropevim'
+        NeoBundle 'davidhalter/jedi-vim'
+        NeoBundle 'heavenshell/vim-pydocstring'
+        NeoBundle 'vim-scripts/python_match.vim'
 
     " }
     
     " Lua plugins {
 
-        Plugin 'xolox/vim-misc'
-        Plugin 'xolox/vim-lua-inspect'
-        Plugin 'xolox/vim-lua-ftplugin'
-        " Plugin 'WolfgangMehner/lua-support'
+        NeoBundle 'xolox/vim-misc'
+        NeoBundle 'xolox/vim-lua-inspect'
+        NeoBundle 'xolox/vim-lua-ftplugin'
+        " NeoBundle 'WolfgangMehner/lua-support'
     
     " }
     
     " Misc plugins {
-        Plugin 'plasticboy/vim-markdown'
+        NeoBundle 'plasticboy/vim-markdown'
     "}
     
     " Utility functions for vim programming
-    Plugin 'L9'
+    NeoBundle 'L9'
 
 " }
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-" Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
-
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call neobundle#end()         " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
 " Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+" :NeoBundleList - list configured bundles
+" :NeoBundleInstall(!) - install (update) bundles
+" :NeoBundleClean(!) - confirm (or auto-approve) removal of unused bundles
 "
-" see :h vundle for more details or wiki for FAQ
+" Refer to :help neobundle for more examples and for a full list of commands.
 " Put your non-Plugin stuff after this line
 
 
