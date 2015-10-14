@@ -1,17 +1,114 @@
+" detect OS {
+    let s:is_windows = has('win32') || has('win64')
+    let s:is_cygwin = has('win32unix')
+    let s:is_macvim = has('gui_macvim')
+" }
+
+" my settings {
+
+    " initialize default settings
+    let s:my_settings = {}
+    let s:my_settings.cache_dir = '~/.vim/.cache'
+    let s:my_settings.default_indent = 4
+    let s:my_settings.max_column = 120
+    let s:my_settings.autocomplete_method = 'neocomplcache'
+    let s:my_settings.enable_cursorcolumn = 0
+    let s:my_settings.colorscheme = 'lucius'
+    let s:my_settings.background = 'light'
+    if has('lua')
+        let s:my_settings.autocomplete_method = 'neocomplete'
+    elseif filereadable(expand("~/.vim/bundle/YouCompleteMe/python/ycm_core.*"))
+        let s:my_settings.autocomplete_method = 'ycm'
+    endif
+
+    let s:my_settings.plugin_groups = ['core', 'python', 'programming', 'misc', 'windows']
+    let s:my_settings.plugin_groups = []
+    call add(s:my_settings.plugin_groups, 'core')
+    call add(s:my_settings.plugin_groups, 'python')
+    call add(s:my_settings.plugin_groups, 'scm')
+    call add(s:my_settings.plugin_groups, 'editing')
+    call add(s:my_settings.plugin_groups, 'indents')
+    call add(s:my_settings.plugin_groups, 'navigation')
+    call add(s:my_settings.plugin_groups, 'unite')
+    call add(s:my_settings.plugin_groups, 'autocomplete')
+    " call add(s:settings.plugin_groups, 'textobj')
+    call add(s:my_settings.plugin_groups, 'misc')
+    if s:is_windows
+        call add(s:my_settings.plugin_groups, 'windows')
+    endif
+" }
+
+" setup & neobundle {
+    set nocompatible              " be iMproved, required
+    filetype off                  " required
+    if s:is_windows
+        set rtp+=~/.vim
+    endif
+    " set the runtime path to include NeoBundle and initialize
+    set rtp+=~/.vim/bundle/neobundle.vim
+    call neobundle#begin(expand('~/.vim/bundle/'))
+    " Let NeoBundle manage NeoBundle
+    " Required:
+    NeoBundleFetch 'Shougo/neobundle.vim'
+" }
+
+" functions {
+    function! s:get_cache_dir(suffix) "{{{
+        return resolve(expand(s:my_settings.cache_dir . '/' . a:suffix))
+    endfunction "}}}
+
+    function! Source(begin, end) " {
+        let lines = getline(a:begin, a:end)
+        for line in lines
+        execute line
+        endfor
+    endfunction " }
+
+    function! Preserve(command) " {
+        " preparation: save last search, and cursor position.
+        let _s=@/
+        let l = line(".")
+        let c = col(".")
+        " do the business:
+        execute a:command
+        " clean up: restore previous search history, and cursor position
+        let @/=_s
+        call cursor(l, c)
+    endfunction " }
+
+    function! StripTrailingWhitespace() " {
+        call Preserve("%s/\\s\\+$//e")
+    endfunction " }
+
+    function! EnsureExists(path) " {
+        if !isdirectory(expand(a:path))
+            call mkdir(expand(a:path))
+        endif
+    endfunction " }
+
+    function! CloseWindowOrKillBuffer() " {
+        let number_of_windows_to_this_buffer = len(filter(range(1, winnr('$')), "winbufnr(v:val) == bufnr('%')"))
+
+        " never bdelete a nerd tree
+        if matchstr(expand("%"), 'NERD') == 'NERD'
+            wincmd c
+            return
+        endif
+
+        if number_of_windows_to_this_buffer > 1
+            wincmd c
+        else
+            bdelete
+        endif
+    endfunction " }
+" }
+
+
 """""""""""""""""""""""""
 "
 " PACKAGE MANAGEMENT
 " 
 """""""""""""""""""""""""
-set nocompatible              " be iMproved, required
-filetype off                  " required
-" set the runtime path to include Vundle and initialize
-set runtimepath+=~/.vim/bundle/neobundle.vim/
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Core plugin
 NeoBundle 'Shougo/vimproc.vim', {
@@ -24,6 +121,21 @@ NeoBundle 'Shougo/vimproc.vim', {
             \    },
             \ }
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/unite-outline'
+NeoBundleLazy 'Shougo/vimshell.vim', {'autoload':{'commands':[ 'VimShell', 'VimShellInteractive' ]}} " {
+    let g:vimshell_editor_command='mvim'
+    let g:vimshell_right_prompt='getcwd()'
+    let g:vimshell_data_directory=s:get_cache_dir('vimshell')
+    let g:vimshell_vimshrc_path='~/.vim/vimshrc'
+
+    nnoremap <leader>c :VimShell -split<cr>
+    nnoremap <leader>cc :VimShell -split<cr>
+    nnoremap <leader>cn :VimShellInteractive node<cr>
+    nnoremap <leader>cl :VimShellInteractive lua<cr>
+    nnoremap <leader>cr :VimShellInteractive irb<cr>
+    nnoremap <leader>cp :VimShellInteractive python<cr>
+" }
+
 NeoBundle 'xolox/vim-session'
 
 " NeoBundle 'flazz/vim-colorschemes'
@@ -37,7 +149,6 @@ NeoBundle 'tpope/vim-vinegar'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'powerline/fonts'
 NeoBundle 'bling/vim-airline'
-NeoBundle 'Shougo/unite.vim'
 NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'majutsushi/tagbar'
 
@@ -50,6 +161,7 @@ NeoBundle 'majutsushi/tagbar'
 
 " Git wrapper for vim
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'gregsexton/gitv'
 
 " Supertab plugin
 NeoBundle 'ervandew/supertab'
@@ -96,14 +208,15 @@ NeoBundle 'easymotion/vim-easymotion'
     " Snippets
     NeoBundle 'MarcWeber/vim-addon-mw-utils'
     NeoBundle 'tomtom/tlib_vim'
-    NeoBundle 'garbas/vim-snipmate'
-    NeoBundle 'honza/vim-snippets'
-    " NeoBundle 'Valloric/YouCompleteMe'
-    " NeoBundle 'Shougo/neocomplete.vim'
+    " Completion
+    NeoBundle 'Shougo/neocomplete.vim'
+    " Snippets for necomplete
+    NeoBundle 'Shougo/neosnippet'
+    NeoBundle 'Shougo/neosnippet-snippets'
     NeoBundle 'scrooloose/syntastic'
     NeoBundle 'godlygeek/tabular'
     NeoBundle 'kien/rainbow_parentheses.vim'
-    
+
     " Python plugins {
 
         " NeoBundle 'nvie/vim-flake8' - same functionality to syntastic
@@ -133,19 +246,6 @@ NeoBundle 'easymotion/vim-easymotion'
 
 " }
 
-" All of your Plugins must be added before the following line
-call neobundle#end()         " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :NeoBundleList - list configured bundles
-" :NeoBundleInstall(!) - install (update) bundles
-" :NeoBundleClean(!) - confirm (or auto-approve) removal of unused bundles
-"
-" Refer to :help neobundle for more examples and for a full list of commands.
-" Put your non-Plugin stuff after this line
 
 
 """""""""""""""""""""""""
@@ -158,7 +258,6 @@ autocmd! bufwritepost .vimrc source %
 " set guifont=Source\ Code\ Pro\ 12
 " Python config
 " enable syntax highlighting
-syntax enable
 set shell=/bin/bash
 
 " TABs setting {
@@ -221,10 +320,6 @@ set listchars+=extends:»,precedes:« " ┘
 
 " }
 
-" Use 256 colours (Use this setting only if your terminal supports 256 colours)
-set t_Co=256
-set background=light
-colorscheme lucius
 
 " Easymotion colors for light colors {
     hi link EasyMotionTarget ErrorMsg
@@ -367,9 +462,6 @@ nmap <silent> <F4> :Tagbar<CR>
         let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*' 
 
     " }
-
-    " Snipmate plugin
-    let g:snipMateAllowMatchingDot = 0
 
     " YouCompleteMe plugin {
         let g:ycm_filetype_specific_completion_to_disable = { 'python' : 1 }
@@ -552,4 +644,34 @@ nmap <silent> <F4> :Tagbar<CR>
     " make install
     " sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 0
     " http://stackoverflow.com/questions/26956933/how-to-make-vim74-compile-with-python
+" }
+
+
+" finish loading {
+    if exists('g:dotvim_settings.disabled_plugins')
+        for plugin in g:dotvim_settings.disabled_plugins
+            exec 'NeoBundleDisable '.plugin
+        endfor
+    endif
+
+    call neobundle#end()         " required
+    filetype plugin indent on    " required
+    " To ignore plugin indent changes, instead use:
+    "filetype plugin on
+    "
+    " Brief help
+    " :NeoBundleList - list configured bundles
+    " :NeoBundleInstall(!) - install (update) bundles
+    " :NeoBundleClean(!) - confirm (or auto-approve) removal of unused bundles
+    "
+    " Refer to :help neobundle for more examples and for a full list of commands.
+    " Put your non-Plugin stuff after this line
+      syntax enable
+
+    " Use 256 colours (Use this setting only if your terminal supports 256 colours)
+    set t_Co=256
+    let &background=s:my_settings.background
+    exec 'colorscheme '.s:my_settings.colorscheme
+
+    NeoBundleCheck
 " }
