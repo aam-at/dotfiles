@@ -5,7 +5,6 @@
 " }
 
 " my settings {
-
     " initialize default settings
     let s:my_settings = {}
     let s:my_settings.cache_dir = '~/.vim/.cache'
@@ -26,23 +25,21 @@
     call add(s:my_settings.plugin_groups, 'core')
     call add(s:my_settings.plugin_groups, 'editing')
     call add(s:my_settings.plugin_groups, 'navigation')
-    call add(s:my_settings.plugin_groups, 'unite')
     call add(s:my_settings.plugin_groups, 'programming')
     call add(s:my_settings.plugin_groups, 'autocomplete')
     call add(s:my_settings.plugin_groups, 'python')
     call add(s:my_settings.plugin_groups, 'lua')
     call add(s:my_settings.plugin_groups, 'scm')
+    call add(s:my_settings.plugin_groups, 'unite')
     call add(s:my_settings.plugin_groups, 'indents')
     " call add(s:settings.plugin_groups, 'textobj')
     call add(s:my_settings.plugin_groups, 'misc')
     if s:is_windows
         call add(s:my_settings.plugin_groups, 'windows')
     endif
-
 " }
 
 " setup & neobundle {
-
     set nocompatible              " be iMproved, required
     filetype off                  " required
     if s:is_windows
@@ -54,11 +51,9 @@
     " Let NeoBundle manage NeoBundle
     " Required:
     NeoBundleFetch 'Shougo/neobundle.vim'
-
 " }
 
 " functions {
-
     function! s:get_cache_dir(suffix) "{{{
         return resolve(expand(s:my_settings.cache_dir . '/' . a:suffix))
     endfunction "}}}
@@ -107,7 +102,6 @@
             bdelete
         endif
     endfunction " }
-
 " }
 
 
@@ -155,6 +149,8 @@ if count(s:my_settings.plugin_groups, 'core') "{{{
         let g:airline_symbols.paste = '∥'
         let g:airline_symbols.whitespace = 'Ξ'
     "}}}
+    " Better numbers for vim
+    NeoBundle 'myusuf3/numbers.vim'
     NeoBundle 'tpope/vim-surround'
     NeoBundle 'tpope/vim-repeat'
     NeoBundle 'tpope/vim-dispatch'
@@ -225,8 +221,9 @@ if count(s:my_settings.plugin_groups, 'navigation') "{{{
         nnoremap <leader>vo :GrepOptions<cr>
     "}}}
     NeoBundle 'ctrlpvim/ctrlp.vim', { 'depends': 'tacahiroy/ctrlp-funky' } "{{{
+        let g:ctrlp_working_path_mode = 0
         let g:ctrlp_clear_cache_on_exit=1
-        let g:ctrlp_max_height=40
+        let g:ctrlp_max_height=20
         let g:ctrlp_show_hidden=0
         let g:ctrlp_follow_symlinks=1
         let g:ctrlp_max_files=20000
@@ -252,30 +249,21 @@ if count(s:my_settings.plugin_groups, 'navigation') "{{{
         nnoremap [ctrlp]l :CtrlPLine<cr>
         nnoremap [ctrlp]o :CtrlPFunky<cr>
         nnoremap [ctrlp]b :CtrlPBuffer<cr>
-
-        " Use Vim's cwd
-        let g:ctrlp_working_path_mode = 0
-        let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15'
-
-        " CtrlP funky plugin
-        nnoremap <Leader>fu :CtrlPFunky<Cr>
-        " narrow the list down with a word under cursor
-        nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-
     "}}}
     NeoBundleLazy 'scrooloose/nerdtree', {'autoload':{'commands':['NERDTreeToggle','NERDTreeFind']}} "{{{
         let NERDTreeShowHidden=1
         let NERDTreeQuitOnOpen=0
-        let NERDTreeShowLineNumbers=1
+        let NERDTreeShowLineNumbers=0
         let NERDTreeChDirMode=0
         let NERDTreeShowBookmarks=1
         let NERDTreeIgnore=['\.git','\.hg']
         let NERDTreeBookmarksFile=s:get_cache_dir('NERDTreeBookmarks')
         " NERDTree key bindings
         nmap <silent> <F5> :NERDTreeToggle<CR>
-        nnoremap <F3> :NERDTreeFind<CR>
     "}}}
     NeoBundle 'Xuyuanp/nerdtree-git-plugin'
+    " Easymotion
+    NeoBundle 'easymotion/vim-easymotion'
 endif "}}}
 
 
@@ -305,6 +293,7 @@ if count(s:my_settings.plugin_groups, 'programming') "{{{
     "}}}
     " Commenting code
     NeoBundle 'scrooloose/nerdcommenter'
+    NeoBundle 'kien/rainbow_parentheses.vim'
     NeoBundleLazy 'majutsushi/tagbar' , {'autoload':{'commands':'TagbarToggle'}} "{{{
         nnoremap <silent> <F4> :TagbarToggle<CR>
     "}}}
@@ -315,6 +304,39 @@ if count(s:my_settings.plugin_groups, 'programming') "{{{
         set completeopt=menuone,longest,preview
     "}}}
 
+endif "}}}
+
+if count(s:my_settings.plugin_groups, 'autocomplete') "{{{
+    NeoBundle 'honza/vim-snippets'
+    if s:my_settings.autocomplete_method == 'ycm' "{{{
+      NeoBundle 'Valloric/YouCompleteMe' "{{{
+        let g:ycm_complete_in_comments_and_strings=1
+        let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
+        let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
+        let g:ycm_filetype_blacklist={'unite': 1}
+      "}}}
+      NeoBundle 'SirVer/ultisnips' "{{{
+        let g:UltiSnipsExpandTrigger="<tab>"
+        let g:UltiSnipsJumpForwardTrigger="<tab>"
+        let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+        let g:UltiSnipsSnippetsDir='~/.vim/snippets'
+      "}}}
+    else
+      NeoBundle 'Shougo/neosnippet-snippets'
+      NeoBundle 'Shougo/neosnippet.vim' "{{{
+        let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
+        let g:neosnippet#enable_snipmate_compatibility=1
+
+        imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ? "\<C-n>" : "\<TAB>")
+        smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+        imap <expr><S-TAB> pumvisible() ? "\<C-p>" : ""
+        smap <expr><S-TAB> pumvisible() ? "\<C-p>" : ""
+      "}}}
+      NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload':{'insert':1}} "{{{
+        let g:neocomplete#enable_at_startup=1
+        let g:neocomplete#data_directory=s:get_cache_dir('neocomplete')
+      "}}}
+    endif "}}}
 endif "}}}
 
 if count(s:my_settings.plugin_groups, 'python') "{{{
@@ -418,6 +440,109 @@ if count(s:my_settings.plugin_groups, 'scm') "{{{
     "}}}
 endif "}}}
 
+if count(s:my_settings.plugin_groups, 'unite') "{{{
+    NeoBundle 'Shougo/unite.vim' "{{{
+    let bundle = neobundle#get('unite.vim')
+    function! bundle.hooks.on_source(bundle)
+        call unite#filters#matcher_default#use(['matcher_fuzzy'])
+        call unite#filters#sorter_default#use(['sorter_rank'])
+        call unite#custom#profile('default', 'context', {
+                    \ 'start_insert': 1
+                    \ })
+    endfunction
+
+    let g:unite_data_directory=s:get_cache_dir('unite')
+    let g:unite_source_history_yank_enable=1
+    let g:unite_source_rec_max_cache_files=5000
+
+    if executable('ag')
+        let g:unite_source_grep_command='ag'
+        let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
+        let g:unite_source_grep_recursive_opt=''
+    elseif executable('ack')
+        let g:unite_source_grep_command='ack'
+        let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
+        let g:unite_source_grep_recursive_opt=''
+    endif
+
+    function! s:unite_settings()
+        nmap <buffer> Q <plug>(unite_exit)
+        nmap <buffer> <esc> <plug>(unite_exit)
+        imap <buffer> <esc> <plug>(unite_exit)
+    endfunction
+    autocmd FileType unite call s:unite_settings()
+
+    nmap <space> [unite]
+    nnoremap [unite] <nop>
+
+    if s:is_windows
+        nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_rec:! buffer file_mru bookmark<cr><c-u>
+        nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec:!<cr><c-u>
+    else
+        nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_rec/async:! buffer file_mru bookmark<cr><c-u>
+        nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec/async:!<cr><c-u>
+    endif
+    nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=recent file_mru<cr>
+    nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
+    nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
+    nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer file_mru<cr>
+    nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
+    nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
+    nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
+    "}}}
+    NeoBundleLazy 'Shougo/neomru.vim', {'autoload':{'unite_sources':'file_mru'}}
+    NeoBundleLazy 'osyo-manga/unite-airline_themes', {'autoload':{'unite_sources':'airline_themes'}} "{{{
+    nnoremap <silent> [unite]a :<C-u>Unite -winheight=10 -auto-preview -buffer-name=airline_themes airline_themes<cr>
+    "}}}
+    NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':'colorscheme'}} "{{{
+    nnoremap <silent> [unite]c :<C-u>Unite -winheight=10 -auto-preview -buffer-name=colorschemes colorscheme<cr>
+    "}}}
+    NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':['tag','tag/file']}} "{{{
+    nnoremap <silent> [unite]t :<C-u>Unite -auto-resize -buffer-name=tag tag tag/file<cr>
+    "}}}
+    NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}} "{{{
+    nnoremap <silent> [unite]o :<C-u>Unite -auto-resize -buffer-name=outline outline<cr>
+    "}}}
+    NeoBundleLazy 'Shougo/unite-help', {'autoload':{'unite_sources':'help'}} "{{{
+    nnoremap <silent> [unite]h :<C-u>Unite -auto-resize -buffer-name=help help<cr>
+    "}}}
+    NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen','unite_sources':['junkfile','junkfile/new']}} "{{{
+    let g:junkfile#directory=s:get_cache_dir('junk')
+    nnoremap <silent> [unite]j :<C-u>Unite -auto-resize -buffer-name=junk junkfile junkfile/new<cr>
+    "}}}
+endif "}}}
+
+if count(s:my_settings.plugin_groups, 'indents') "{{{
+    NeoBundle 'nathanaelkane/vim-indent-guides' "{{{
+        let g:indent_guides_start_level=1
+        let g:indent_guides_guide_size=1
+        let g:indent_guides_enable_on_vim_startup=0
+        let g:indent_guides_color_change_percent=3
+        if !has('gui_running')
+        let g:indent_guides_auto_colors=0
+        function! s:indent_set_console_colors()
+            hi IndentGuidesOdd ctermbg=235
+            hi IndentGuidesEven ctermbg=236
+        endfunction
+        autocmd VimEnter,Colorscheme * call s:indent_set_console_colors()
+        endif
+    "}}}
+endif "}}}
+
+if count(s:my_settings.plugin_groups, 'textobj') "{{{
+    NeoBundle 'kana/vim-textobj-user'
+    NeoBundle 'kana/vim-textobj-indent'
+    NeoBundle 'kana/vim-textobj-entire'
+    NeoBundle 'reedes/vim-textobj-sentence'
+    NeoBundle 'reedes/vim-textobj-quote'
+    NeoBundle 'reedes/vim-wordy'
+    NeoBundle 'lucapette/vim-textobj-underscore'
+    NeoBundle 'reedes/vim-litecorrect'
+" }
+
+endif "}}}
+
+
 if count(s:my_settings.plugin_groups, 'misc') "{{{
     if exists('$TMUX')
       NeoBundle 'christoomey/vim-tmux-navigator'
@@ -442,6 +567,7 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
         "}}}
 
     "}}}
+    NeoBundle 'powerline/fonts'
     NeoBundle 'bufkill.vim'
     NeoBundle 'mhinz/vim-startify' "{{{
       let g:startify_session_dir = s:get_cache_dir('sessions')
@@ -495,7 +621,7 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
 
     inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
     inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
-    inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    "inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
     inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
         \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
@@ -505,60 +631,9 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
 
 "}}}
 
-" Core plugin
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/unite-outline'
-
-
 " Togglable panels
 NeoBundle 'tpope/vim-vinegar'
-NeoBundle 'powerline/fonts'
 NeoBundle 'vim-scripts/taglist.vim'
-
-" Better numbers for vim
-NeoBundle 'myusuf3/numbers.vim'
-
-
-" Notes management {
-
-
-" }
-
-" Easymotion
-NeoBundle 'easymotion/vim-easymotion'
-
-" Plugins for writing {
-
-    NeoBundle 'kana/vim-textobj-user'
-    NeoBundle 'kana/vim-textobj-indent'
-    NeoBundle 'reedes/vim-litecorrect'
-    NeoBundle 'reedes/vim-textobj-sentence'
-    NeoBundle 'reedes/vim-textobj-quote'
-    NeoBundle 'reedes/vim-wordy'
-
-" }
-
-" Plugins for programming {
-
-    " Snippets
-    NeoBundle 'MarcWeber/vim-addon-mw-utils'
-    NeoBundle 'tomtom/tlib_vim'
-    " Completion
-    NeoBundle 'Shougo/neocomplete.vim'
-    " Snippets for necomplete
-    NeoBundle 'Shougo/neosnippet'
-    NeoBundle 'Shougo/neosnippet-snippets'
-    NeoBundle 'kien/rainbow_parentheses.vim'
-
-    " Misc plugins {
-        NeoBundle 'plasticboy/vim-markdown'
-    "}
-    
-    " Utility functions for vim programming
-    NeoBundle 'L9'
-
-" }
-
 
 
 """""""""""""""""""""""""
