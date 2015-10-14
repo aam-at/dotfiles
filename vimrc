@@ -24,13 +24,15 @@
     let s:my_settings.plugin_groups = ['core', 'python', 'programming', 'misc', 'windows']
     let s:my_settings.plugin_groups = []
     call add(s:my_settings.plugin_groups, 'core')
-    call add(s:my_settings.plugin_groups, 'python')
-    call add(s:my_settings.plugin_groups, 'scm')
     call add(s:my_settings.plugin_groups, 'editing')
+    call add(s:my_settings.plugin_groups, 'programming')
+    call add(s:my_settings.plugin_groups, 'autocomplete')
+    call add(s:my_settings.plugin_groups, 'python')
+    call add(s:my_settings.plugin_groups, 'lua')
+    call add(s:my_settings.plugin_groups, 'scm')
     call add(s:my_settings.plugin_groups, 'indents')
     call add(s:my_settings.plugin_groups, 'navigation')
     call add(s:my_settings.plugin_groups, 'unite')
-    call add(s:my_settings.plugin_groups, 'autocomplete')
     " call add(s:settings.plugin_groups, 'textobj')
     call add(s:my_settings.plugin_groups, 'misc')
     if s:is_windows
@@ -113,49 +115,339 @@
 "
 " PACKAGE MANAGEMENT
 " 
-"""""""""""""""""""""""""
+""""""""""""""""""""""""" {{{
+
+if count(s:my_settings.plugin_groups, 'core') "{{{
+    NeoBundle 'bling/vim-airline' "{{{
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline#extensions#tabline#left_sep = ' '
+        let g:airline#extensions#tabline#left_alt_sep = '¦'
+        let g:airline#extensions#tabline#buffer_idx_mode = 1
+        nmap <leader>1 <Plug>AirlineSelectTab1
+        nmap <leader>2 <Plug>AirlineSelectTab2
+        nmap <leader>3 <Plug>AirlineSelectTab3
+        nmap <leader>4 <Plug>AirlineSelectTab4
+        nmap <leader>5 <Plug>AirlineSelectTab5
+        nmap <leader>6 <Plug>AirlineSelectTab6
+        nmap <leader>7 <Plug>AirlineSelectTab7
+        nmap <leader>8 <Plug>AirlineSelectTab8
+        nmap <leader>9 <Plug>AirlineSelectTab9
+        let g:airline_powerline_fonts = 1
+        set laststatus=2
+        set guifont=Sauce\ Code\ Powerline
+        " set guifont=Menlo\ For\ Powerline
+        " 
+        if !exists('g:airline_symbols')
+            let g:airline_symbols = {}
+        endif
+
+        " unicode symbols
+        let g:airline_left_sep = '»'
+        let g:airline_left_sep = '▶'
+        let g:airline_right_sep = '«'
+        let g:airline_right_sep = '◀'
+        let g:airline_symbols.linenr = '␊'
+        let g:airline_symbols.linenr = '␤'
+        let g:airline_symbols.linenr = '¶'
+        let g:airline_symbols.branch = '⎇'
+        let g:airline_symbols.paste = 'ρ'
+        let g:airline_symbols.paste = 'Þ'
+        let g:airline_symbols.paste = '∥'
+        let g:airline_symbols.whitespace = 'Ξ'
+    "}}}
+    NeoBundle 'tpope/vim-surround'
+    NeoBundle 'tpope/vim-repeat'
+    NeoBundle 'tpope/vim-dispatch'
+    NeoBundle 'tpope/vim-eunuch'
+    NeoBundle 'tpope/vim-unimpaired' "{{{
+        nmap <c-up> [e
+        nmap <c-down> ]e
+        vmap <c-up> [egv
+        vmap <c-down> ]egv
+    "}}}
+    NeoBundle 'Shougo/vimproc.vim', {
+        \   'build': {
+        \   'mac': 'make -f make_mac.mak',
+        \   'unix': 'make -f make_unix.mak',
+        \   'cygwin': 'make -f make_cygwin.mak',
+        \   'windows': '"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\nmake.exe" make_msvc32.mak',
+        \ },
+    \ }
+endif "}}}
+
+if count(s:my_settings.plugin_groups, 'editing') "{{{
+    NeoBundleLazy 'editorconfig/editorconfig-vim', {'autoload':{'insert':1}}
+    NeoBundle 'tpope/vim-endwise'
+    NeoBundle 'tpope/vim-speeddating'
+    NeoBundle 'thinca/vim-visualstar'
+    NeoBundle 'tomtom/tcomment_vim'
+    NeoBundle 'terryma/vim-expand-region'
+    NeoBundle 'terryma/vim-multiple-cursors'
+    NeoBundle 'chrisbra/NrrwRgn'
+    NeoBundleLazy 'godlygeek/tabular', {'autoload':{'commands':'Tabularize'}} "{{{
+        nmap <Leader>a& :Tabularize /&<CR>
+        vmap <Leader>a& :Tabularize /&<CR>
+        nmap <Leader>a= :Tabularize /=<CR>
+        vmap <Leader>a= :Tabularize /=<CR>
+        nmap <Leader>a: :Tabularize /:<CR>
+        vmap <Leader>a: :Tabularize /:<CR>
+        nmap <Leader>a:: :Tabularize /:\zs<CR>
+        vmap <Leader>a:: :Tabularize /:\zs<CR>
+        nmap <Leader>a, :Tabularize /,<CR>
+        vmap <Leader>a, :Tabularize /,<CR>
+        nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+        vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+    "}}}
+    NeoBundle 'jiangmiao/auto-pairs'
+    NeoBundle 'justinmk/vim-sneak' "{{{
+        let g:sneak#streak = 1
+    "}}}
+endif "}}}
+
+if count(s:my_settings.plugin_groups, 'programming') "{{{
+    NeoBundle 'scrooloose/syntastic' "{{{
+        set statusline+=%#warningmsg#
+        set statusline+=%{SyntasticStatuslineFlag()}
+        set statusline+=%*
+
+        let g:syntastic_error_symbol = '✗'
+        let g:syntastic_warning_symbol = '∆'
+        let g:syntastic_style_error_symbol = '✠'
+        let g:syntastic_style_warning_symbol = '≈'
+
+        let g:syntastic_always_populate_loc_list = 1
+        let g:syntastic_auto_loc_list = 1
+        let g:syntastic_check_on_open = 1
+        let g:syntastic_check_on_wq = 0
+        let g:syntastic_loc_list_height = 7
+
+        let g:syntastic_python_checkers = ['flake8', 'pep8']
+        " avoid conflicts with python mode
+        " Dysable syntastic for python. Currently use syntastic (some problems
+        " with quickfix window in python mode)
+        let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
+        let g:syntastic_ignore_files = ['\.py$'] 
+    "}}}
+    " Commenting code
+    NeoBundle 'scrooloose/nerdcommenter'
+    " Undo window
+    NeoBundle 'simnalamburt/vim-mundo' "{{{
+        " f3 toggles the Gundo plugin window
+        nnoremap <silent> <F3> :GundoToggle<CR>
+        let g:gundo_width=80
+        let g:gundo_right = 1
+    "}}}
+    NeoBundleLazy 'majutsushi/tagbar' , {'autoload':{'commands':'TagbarToggle'}} "{{{
+        nnoremap <silent> <F4> :TagbarToggle<CR>
+    "}}}
+    " Supertab plugin
+    NeoBundle 'ervandew/supertab' "{{{
+        au FileType python set omnifunc=pythoncomplete#Complete
+        let g:SuperTabDefaultCompletionType = "context"
+        set completeopt=menuone,longest,preview
+    "}}}
+
+endif "}}}
+
+if count(s:my_settings.plugin_groups, 'python') "{{{
+
+    " NeoBundle 'nvie/vim-flake8' - same functionality to syntastic
+    NeoBundleLazy 'klen/python-mode', {'autoload':{'filetypes':['python']}} "{{{
+        " Activate rope
+        " Keys:
+        " K             Show python docs
+        " <Ctrl-Space>  Rope autocomplete
+        " <Ctrl-c>g     Rope goto definition
+        " <Ctrl-c>d     Rope show documentation
+        " <Ctrl-c>f     Rope find occurrences
+        " <Leader>b     Set, unset breakpoint (g:pymode_breakpoint enabled)
+        " [[            Jump on previous class or function (normal, visual, operator modes)
+        " ]]            Jump on next class or function (normal, visual, operator modes)
+        " [M            Jump on previous class or method (normal, visual, operator modes)
+        " ]M            Jump on next class or method (normal, visual, operator modes)
+        let g:pymode_rope = 0 " use jedi plugin for autocompletion
+
+        " Documentation
+        let g:pymode_doc = 1
+        let g:pymode_doc_key = 'K'
+
+        "Linting
+        let g:pymode_lint = 1
+        let g:pymode_lint_checker = "pyflakes,pep8"
+        " Auto check on save
+        let g:pymode_lint_write = 0
+
+        "Quickfix window
+        let g:pymode_quickfix_minheight = 3
+        let g:pymode_quickfix_maxheight = 6
+        let g:pymode_lint_cwindow = 1
+
+        " Support virtualenv
+        let g:pymode_virtualenv = 1
+
+        " Enable breakpoints plugin
+        let g:pymode_breakpoint = 1
+        let g:pymode_breakpoint_bind = '<leader>b'
+
+        " syntax highlighting
+        let g:pymode_syntax = 1
+        let g:pymode_syntax_all = 1
+        let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+        let g:pymode_syntax_space_errors = g:pymode_syntax_all
+
+        " Don't autofold code
+        let g:pymode_folding = 0
+    "}}}
+    NeoBundleLazy 'python-rope/ropevim', {'autoload':{'filetypes':['python']}}
+    NeoBundleLazy 'davidhalter/jedi-vim', {'autoload':{'filetypes':['python']}} "{{{
+        let g:jedi#popup_on_dot = 0
+        let g:jedi#goto_command = "<leader>d"
+        let g:jedi#goto_assignments_command = "<leader>g"
+        let g:jedi#goto_definitions_command = ""
+        let g:jedi#documentation_command = "K"
+        let g:jedi#usages_command = "<leader>z"
+        let g:jedi#completions_command = "<C-Space>"
+        " disable <leader>r. Use rope-vim for refactoring
+        let g:jedi#rename_command = ""
+    "}}}
+    NeoBundleLazy 'heavenshell/vim-pydocstring', {'autoload':{'filetypes':['python']}} "{{{
+        nmap <silent> <C-_> <Plug>(pydocstring)
+    "}}}
+    NeoBundleLazy 'vim-scripts/python_match.vim', {'autoload':{'filetypes':['python']}}
+
+endif "}}}
+
+if count(s:my_settings.plugin_groups, 'lua') "{{{
+
+    NeoBundleLazy 'xolox/vim-misc', {'autoload':{'filetypes':['lua']}}
+    NeoBundleLazy 'xolox/vim-lua-inspect', {'autoload':{'filetypes':['lua']}}
+    NeoBundleLazy 'xolox/vim-lua-ftplugin', {'autoload':{'filetypes':['lua']}}
+    " NeoBundle 'WolfgangMehner/lua-support'
+
+endif "}}}
+
+if count(s:my_settings.plugin_groups, 'scm') "{{{
+    NeoBundle 'mhinz/vim-signify' "{{{
+        let g:signify_update_on_bufenter=0
+    "}}}
+    if executable('hg')
+        NeoBundle 'bitbucket:ludovicchabant/vim-lawrencium'
+    endif
+    NeoBundle 'tpope/vim-fugitive' "{{{
+        nnoremap <silent> <leader>gs :Gstatus<CR>
+        nnoremap <silent> <leader>gd :Gdiff<CR>
+        nnoremap <silent> <leader>gc :Gcommit<CR>
+        nnoremap <silent> <leader>gb :Gblame<CR>
+        nnoremap <silent> <leader>gl :Glog<CR>
+        nnoremap <silent> <leader>gp :Git push<CR>
+        nnoremap <silent> <leader>gw :Gwrite<CR>
+        nnoremap <silent> <leader>gr :Gremove<CR>
+        autocmd BufReadPost fugitive://* set bufhidden=delete
+    "}}}
+    NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'], 'autoload':{'commands':'Gitv'}} "{{{
+        nnoremap <silent> <leader>gv :Gitv<CR>
+        nnoremap <silent> <leader>gV :Gitv!<CR>
+    "}}}
+endif "}}}
+
+if count(s:my_settings.plugin_groups, 'misc') "{{{
+    if exists('$TMUX')
+      NeoBundle 'christoomey/vim-tmux-navigator'
+    endif
+    NeoBundleLazy 'tpope/vim-scriptease', {'autoload':{'filetypes':['vim']}}
+    NeoBundleLazy 'tpope/vim-markdown', {'autoload':{'filetypes':['markdown']}}
+    if executable('redcarpet') && executable('instant-markdown-d')
+      NeoBundleLazy 'suan/vim-instant-markdown', {'autoload':{'filetypes':['markdown']}}
+    endif
+    NeoBundleLazy 'guns/xterm-color-table.vim', {'autoload':{'commands':'XtermColorTable'}}
+    NeoBundle 'chrisbra/vim_faq'
+    " Notes {{{
+        " NeoBundle 'vimwiki/vimwiki' "{{{
+            " let g:vimwiki_list = [{'path': '~/my_wiki/', 
+            "                   \ 'syntax': 'markdown', 'ext': '.md'}]
+        "}}}
+        NeoBundle 'xolox/vim-misc'
+        NeoBundle 'xolox/vim-notes'
+        NeoBundle 'neilagabriel/vim-geeknote' "{{{
+            let g:GeeknoteFormat="markdown"
+            let g:notes_directories = ['~/Dropbox/Notes']  
+        "}}}
+
+    "}}}
+    NeoBundle 'bufkill.vim'
+    NeoBundle 'mhinz/vim-startify' "{{{
+      let g:startify_session_dir = s:get_cache_dir('sessions')
+      let g:startify_change_to_vcs_root = 1
+      let g:startify_show_sessions = 1
+      nnoremap <F1> :Startify<cr>
+    "}}}
+    NeoBundleLazy 'mattn/gist-vim', { 'depends': 'mattn/webapi-vim', 'autoload': { 'commands': 'Gist' } } "{{{
+      let g:gist_post_private=1
+      let g:gist_show_privates=1
+    "}}}
+    NeoBundleLazy 'Shougo/vimshell.vim', {'autoload':{'commands':[ 'VimShell', 'VimShellInteractive' ]}} "{{{
+      if s:is_macvim
+        let g:vimshell_editor_command='mvim'
+      else
+        let g:vimshell_editor_command='vim'
+      endif
+      let g:vimshell_right_prompt='getcwd()'
+      let g:vimshell_data_directory=s:get_cache_dir('vimshell')
+      let g:vimshell_vimshrc_path='~/.vim/vimshrc'
+
+      nnoremap <leader>c :VimShell -split<cr>
+      nnoremap <leader>cc :VimShell -split<cr>
+      nnoremap <leader>cn :VimShellInteractive node<cr>
+      nnoremap <leader>cl :VimShellInteractive lua<cr>
+      nnoremap <leader>cr :VimShellInteractive irb<cr>
+      nnoremap <leader>cp :VimShellInteractive python<cr>
+    "}}}
+    NeoBundleLazy 'zhaocai/GoldenView.Vim', {'autoload':{'mappings':['<Plug>ToggleGoldenViewAutoResize']}} "{{{
+      let g:goldenview__enable_default_mapping=0
+      nmap <F4> <Plug>ToggleGoldenViewAutoResize
+    "}}}
+  endif "}}}
+
+
+" }}}
+
+" mappings {{{
+    " Better navigating through omnicomplete option list
+    " See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
+    function! OmniPopup(action)
+        if pumvisible()
+            if a:action == 'j'
+                return "\<C-N>"
+            elseif a:action == 'k'
+                return "\<C-P>"
+            endif
+        endif
+        return a:action
+    endfunction
+
+    inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
+    inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
+    inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+        \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+    inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+        \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>
+
+
+"}}}
 
 " Core plugin
-NeoBundle 'Shougo/vimproc.vim', {
-            \ 'build' : {
-            \     'windows' : 'tools\\update-dll-mingw',
-            \     'cygwin' : 'make -f make_cygwin.mak',
-            \     'mac' : 'make',
-            \     'linux' : 'make',
-            \     'unix' : 'gmake',
-            \    },
-            \ }
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
-NeoBundleLazy 'Shougo/vimshell.vim', {'autoload':{'commands':[ 'VimShell', 'VimShellInteractive' ]}} " {
-    let g:vimshell_editor_command='mvim'
-    let g:vimshell_right_prompt='getcwd()'
-    let g:vimshell_data_directory=s:get_cache_dir('vimshell')
-    let g:vimshell_vimshrc_path='~/.vim/vimshrc'
 
-    nnoremap <leader>c :VimShell -split<cr>
-    nnoremap <leader>cc :VimShell -split<cr>
-    nnoremap <leader>cn :VimShellInteractive node<cr>
-    nnoremap <leader>cl :VimShellInteractive lua<cr>
-    nnoremap <leader>cr :VimShellInteractive irb<cr>
-    nnoremap <leader>cp :VimShellInteractive python<cr>
-" }
-
-NeoBundle 'xolox/vim-session'
-
-" NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'vim-scripts/Lucius'
 
 " Togglable panels
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Xuyuanp/nerdtree-git-plugin'
 NeoBundle 'tpope/vim-vinegar'
-NeoBundle 'tpope/vim-repeat'
 NeoBundle 'powerline/fonts'
-NeoBundle 'bling/vim-airline'
 NeoBundle 'vim-scripts/taglist.vim'
-NeoBundle 'majutsushi/tagbar'
 
 " Search in files {
     NeoBundle 'mileszs/ack.vim'
@@ -164,30 +456,16 @@ NeoBundle 'majutsushi/tagbar'
     NeoBundle 'tacahiroy/ctrlp-funky'
 " }
 
-" Git wrapper for vim
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'gregsexton/gitv'
 
-" Supertab plugin
-NeoBundle 'ervandew/supertab'
 
 " Better numbers for vim
 NeoBundle 'myusuf3/numbers.vim'
 
-" Vim Tmux navigation
-NeoBundle 'christoomey/vim-tmux-navigator'
 
 " Notes management {
 
-    " NeoBundle 'vimwiki/vimwiki'
-    " Vim + Evernote
-    NeoBundle 'xolox/vim-notes'
-    NeoBundle 'neilagabriel/vim-geeknote'
 
 " }
-
-" Surround plugin
-NeoBundle 'tpope/vim-surround'
 
 " Easymotion
 NeoBundle 'easymotion/vim-easymotion'
@@ -205,11 +483,6 @@ NeoBundle 'easymotion/vim-easymotion'
 
 " Plugins for programming {
 
-    " Commenting code
-    NeoBundle 'scrooloose/nerdcommenter'
-
-    " Undo window
-    NeoBundle 'simnalamburt/vim-mundo'
     " Snippets
     NeoBundle 'MarcWeber/vim-addon-mw-utils'
     NeoBundle 'tomtom/tlib_vim'
@@ -218,30 +491,8 @@ NeoBundle 'easymotion/vim-easymotion'
     " Snippets for necomplete
     NeoBundle 'Shougo/neosnippet'
     NeoBundle 'Shougo/neosnippet-snippets'
-    NeoBundle 'scrooloose/syntastic'
-    NeoBundle 'godlygeek/tabular'
     NeoBundle 'kien/rainbow_parentheses.vim'
 
-    " Python plugins {
-
-        " NeoBundle 'nvie/vim-flake8' - same functionality to syntastic
-        NeoBundle 'klen/python-mode'
-        NeoBundle 'python-rope/ropevim'
-        NeoBundle 'davidhalter/jedi-vim'
-        NeoBundle 'heavenshell/vim-pydocstring'
-        NeoBundle 'vim-scripts/python_match.vim'
-
-    " }
-    
-    " Lua plugins {
-
-        NeoBundle 'xolox/vim-misc'
-        NeoBundle 'xolox/vim-lua-inspect'
-        NeoBundle 'xolox/vim-lua-ftplugin'
-        " NeoBundle 'WolfgangMehner/lua-support'
-    
-    " }
-    
     " Misc plugins {
         NeoBundle 'plasticboy/vim-markdown'
     "}
@@ -260,6 +511,44 @@ NeoBundle 'easymotion/vim-easymotion'
 """""""""""""""""""""""""
 
 " base configuration {
+
+    set timeoutlen=300                                  "mapping timeout
+    set ttimeoutlen=50                                  "keycode timeout
+  
+    set history=1000                                    "number of command lines to remember
+    set ttyfast                                         "assume fast terminal connection
+    set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
+    set encoding=utf-8                                  "set encoding for text
+    if exists('$TMUX')
+        set clipboard=
+    else
+        set clipboard=unnamed                           "sync with OS clipboard
+    endif
+    set hidden                                          "allow buffer switching without saving
+    set autoread                                        "auto reload if file saved externally
+    set fileformats+=mac                                "add mac to auto-detection of file format line endings
+    set nrformats-=octal                                "always assume decimal numbers
+    set showcmd
+    set tags=tags;/
+    set showfulltag
+    set modeline
+    set modelines=5
+" backup/persistance settings {
+
+    set undodir=~/.vim/tmp/undo//
+    set backupdir=~/.vim/tmp/backup//
+    set directory=~/.vim/tmp/swap//
+    set backupskip=/tmp/*,/private/tmp/*"
+    set backup
+    set writebackup
+    " Disable swap files
+    set noswapfile
+    " persist (g)undo tree between sessions
+    set undofile
+    set history=700
+    set undolevels=700
+
+" }
 
     if s:is_windows && !s:is_cygwin
         " ensure correct shell in gvim
@@ -319,23 +608,6 @@ set listchars+=trail:·              " │ Use custom symbols to
 " set listchars+=eol:↴              " │ represent invisible characters ¶
 set listchars+=nbsp:_               " |
 set listchars+=extends:»,precedes:« " ┘
-
-" backup/persistance settings {
-
-    set undodir=~/.vim/tmp/undo//
-    set backupdir=~/.vim/tmp/backup//
-    set directory=~/.vim/tmp/swap//
-    set backupskip=/tmp/*,/private/tmp/*"
-    set backup
-    set writebackup
-    " Disable swap files
-    set noswapfile
-    " persist (g)undo tree between sessions
-    set undofile
-    set history=700
-    set undolevels=700
-
-" }
 
 
 " Easymotion colors for light colors {
@@ -398,8 +670,6 @@ map <Leader>m gt
 " NERDTree key bindings
 nmap <silent> <F5> :NERDTreeToggle<CR>
 
-" Tag bar key binding
-nmap <silent> <F4> :Tagbar<CR>
 
 " Search plugins {
 
@@ -432,15 +702,6 @@ nmap <silent> <F4> :Tagbar<CR>
 
 " }
 
-" Notes management {
-
-    " let g:vimwiki_list = [{'path': '~/my_wiki/', 
-    "                   \ 'syntax': 'markdown', 'ext': '.md'}]
-    " vim-geeknote settings
-    let g:GeeknoteFormat="markdown"
-    let g:notes_directories = ['~/Dropbox/Notes']  
-
-" }
 
 
 " Writing plugins settings {
@@ -485,161 +746,13 @@ nmap <silent> <F4> :Tagbar<CR>
         let g:ycm_filetype_blacklist = { 'python' : 1 }
     " }
 
-    " Syntactic plugin {
+    " Syntactic plugin 
 
-        set statusline+=%#warningmsg#
-        set statusline+=%{SyntasticStatuslineFlag()}
-        set statusline+=%*
-
-        let g:syntastic_error_symbol = '✗'
-        let g:syntastic_warning_symbol = '⚠'
-
-        let g:syntastic_always_populate_loc_list = 1
-        let g:syntastic_auto_loc_list = 1
-        let g:syntastic_check_on_open = 1
-        let g:syntastic_check_on_wq = 0
-        let g:syntastic_loc_list_height = 7
-        
-        let g:syntastic_python_checkers = ['flake8', 'pep8']
-        " avoid conflicts with python mode
-        " Dysable syntastic for python. Currently use syntastic (some problems
-        " with quickfix window in python mode)
-        " let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
-        " let g:syntastic_ignore_files = ['\.py$'] 
-
-    " }
-
-    " Gundo plugin {
-
-        " f3 toggles the Gundo plugin window
-        nnoremap <silent> <F3> :GundoToggle<CR>
-        let g:gundo_width=80
-        let g:gundo_right = 1
-
-    " }
 "}
-
-" Python specific plugins settings {
-    
-    " Pymode plugin {
-        " Activate rope
-        " Keys:
-        " K             Show python docs
-        " <Ctrl-Space>  Rope autocomplete
-        " <Ctrl-c>g     Rope goto definition
-        " <Ctrl-c>d     Rope show documentation
-        " <Ctrl-c>f     Rope find occurrences
-        " <Leader>b     Set, unset breakpoint (g:pymode_breakpoint enabled)
-        " [[            Jump on previous class or function (normal, visual, operator modes)
-        " ]]            Jump on next class or function (normal, visual, operator modes)
-        " [M            Jump on previous class or method (normal, visual, operator modes)
-        " ]M            Jump on next class or method (normal, visual, operator modes)
-        let g:pymode_rope = 0 " use jedi plugin for autocompletion
-
-        " Documentation
-        let g:pymode_doc = 1
-        let g:pymode_doc_key = 'K'
-
-        "Linting
-        let g:pymode_lint = 1
-        let g:pymode_lint_checker = "pyflakes,pep8"
-        " Auto check on save
-        let g:pymode_lint_write = 0
-
-        "Quickfix window
-        let g:pymode_quickfix_minheight = 3
-        let g:pymode_quickfix_maxheight = 6
-        let g:pymode_lint_cwindow = 1
-
-        " Support virtualenv
-        let g:pymode_virtualenv = 1
-
-        " Enable breakpoints plugin
-        let g:pymode_breakpoint = 1
-        let g:pymode_breakpoint_bind = '<leader>b'
-
-        " syntax highlighting
-        let g:pymode_syntax = 1
-        let g:pymode_syntax_all = 1
-        let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-        let g:pymode_syntax_space_errors = g:pymode_syntax_all
-
-        " Don't autofold code
-        let g:pymode_folding = 0
-    " }
-
-    " Jedi plugin {
-        let g:jedi#popup_on_dot = 0
-        let g:jedi#goto_command = "<leader>d"
-        let g:jedi#goto_assignments_command = "<leader>g"
-        let g:jedi#goto_definitions_command = ""
-        let g:jedi#documentation_command = "K"
-        let g:jedi#usages_command = "<leader>z"
-        let g:jedi#completions_command = "<C-Space>"
-        " disable <leader>r. Use rope-vim for refactoring
-        let g:jedi#rename_command = ""
-    " }
-
-    " Supertab plugin {
-        au FileType python set omnifunc=pythoncomplete#Complete
-        let g:SuperTabDefaultCompletionType = "context"
-        set completeopt=menuone,longest,preview
-    " }
-
-    " Better navigating through omnicomplete option list
-    " See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
-    function! OmniPopup(action)
-        if pumvisible()
-            if a:action == 'j'
-                return "\<C-N>"
-            elseif a:action == 'k'
-                return "\<C-P>"
-            endif
-        endif
-        return a:action
-    endfunction
-
-    inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
-    inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
-    inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-    inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-        \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
-    inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-        \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>
-
-    " Remap pydocstring
-    nmap <silent> <C-_> <Plug>(pydocstring) 
-
-" }
 
 " Powerline/Airline plugin {
 
     set encoding=utf-8 " Necessary to show Unicode glyphs
-    let g:airline_powerline_fonts = 1
-    " let g:Powerline_symbols = 'fancy'
-    " set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
-    set laststatus=2
-    set guifont=Sauce\ Code\ Powerline
-    " set guifont=Menlo\ For\ Powerline
-    " 
-    if !exists('g:airline_symbols')
-        let g:airline_symbols = {}
-    endif
-
-    " unicode symbols
-    let g:airline_left_sep = '»'
-    let g:airline_left_sep = '▶'
-    let g:airline_right_sep = '«'
-    let g:airline_right_sep = '◀'
-    let g:airline_symbols.linenr = '␊'
-    let g:airline_symbols.linenr = '␤'
-    let g:airline_symbols.linenr = '¶'
-    let g:airline_symbols.branch = '⎇'
-    let g:airline_symbols.paste = 'ρ'
-    let g:airline_symbols.paste = 'Þ'
-    let g:airline_symbols.paste = '∥'
-    let g:airline_symbols.whitespace = 'Ξ'
 
 " }
 
@@ -663,6 +776,17 @@ nmap <silent> <F4> :Tagbar<CR>
     " http://stackoverflow.com/questions/26956933/how-to-make-vim74-compile-with-python
 " }
 
+" color schemes {
+    NeoBundle 'vim-scripts/Lucius'
+    NeoBundle 'altercation/vim-colors-solarized' "{{{
+        let g:solarized_termcolors=256
+        let g:solarized_termtrans=1
+    "}}}
+    " NeoBundle 'flazz/vim-colorschemes'
+    NeoBundle 'nanotech/jellybeans.vim'
+    NeoBundle 'tomasr/molokai'
+    NeoBundle 'chriskempson/vim-tomorrow-theme'
+" }
 
 " finish loading {
     if exists('g:dotvim_settings.disabled_plugins')
