@@ -25,14 +25,14 @@
     let s:my_settings.plugin_groups = []
     call add(s:my_settings.plugin_groups, 'core')
     call add(s:my_settings.plugin_groups, 'editing')
+    call add(s:my_settings.plugin_groups, 'navigation')
+    call add(s:my_settings.plugin_groups, 'unite')
     call add(s:my_settings.plugin_groups, 'programming')
     call add(s:my_settings.plugin_groups, 'autocomplete')
     call add(s:my_settings.plugin_groups, 'python')
     call add(s:my_settings.plugin_groups, 'lua')
     call add(s:my_settings.plugin_groups, 'scm')
     call add(s:my_settings.plugin_groups, 'indents')
-    call add(s:my_settings.plugin_groups, 'navigation')
-    call add(s:my_settings.plugin_groups, 'unite')
     " call add(s:settings.plugin_groups, 'textobj')
     call add(s:my_settings.plugin_groups, 'misc')
     if s:is_windows
@@ -204,6 +204,81 @@ if count(s:my_settings.plugin_groups, 'editing') "{{{
     "}}}
 endif "}}}
 
+if count(s:my_settings.plugin_groups, 'navigation') "{{{
+    NeoBundle 'mileszs/ack.vim' "{{{
+        if executable('ag')
+            let g:ackprg = "ag --nogroup --column --smart-case --follow"
+        endif
+    "}}}
+    NeoBundle 'rking/ag.vim'
+    " Undo window
+    NeoBundleLazy 'simnalamburt/vim-mundo', {'autoload':{'commands': 'GundoToggle'}} "{{{
+        " f3 toggles the Gundo plugin window
+        nnoremap <silent> <F3> :GundoToggle<CR>
+        let g:gundo_width=80
+        let g:gundo_right = 1
+    "}}}
+    NeoBundleLazy 'EasyGrep', {'autoload':{'commands':'GrepOptions'}} "{{{
+        let g:EasyGrepRecursive=1
+        let g:EasyGrepAllOptionsInExplorer=1
+        let g:EasyGrepCommand=1
+        nnoremap <leader>vo :GrepOptions<cr>
+    "}}}
+    NeoBundle 'ctrlpvim/ctrlp.vim', { 'depends': 'tacahiroy/ctrlp-funky' } "{{{
+        let g:ctrlp_clear_cache_on_exit=1
+        let g:ctrlp_max_height=40
+        let g:ctrlp_show_hidden=0
+        let g:ctrlp_follow_symlinks=1
+        let g:ctrlp_max_files=20000
+        let g:ctrlp_cache_dir=s:get_cache_dir('ctrlp')
+        let g:ctrlp_reuse_window='startify'
+        let g:ctrlp_extensions=['funky']
+        let g:ctrlp_custom_ignore = {
+                    \ 'dir': '\v[\/]\.(git|hg|svn|idea)$',
+                    \ 'file': '\v\.(DS_Store|exe|so|dll|pyc)$'
+                    \ }
+
+        if executable('ag')
+            " Faster indexing of files; requires having ag (AKA the_silver_searcher)
+            " installed.
+            let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
+        endif
+
+        nmap \ [ctrlp]
+        nnoremap [ctrlp] <nop>
+
+        nnoremap [ctrlp]t :CtrlPBufTag<cr>
+        nnoremap [ctrlp]T :CtrlPTag<cr>
+        nnoremap [ctrlp]l :CtrlPLine<cr>
+        nnoremap [ctrlp]o :CtrlPFunky<cr>
+        nnoremap [ctrlp]b :CtrlPBuffer<cr>
+
+        " Use Vim's cwd
+        let g:ctrlp_working_path_mode = 0
+        let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15'
+
+        " CtrlP funky plugin
+        nnoremap <Leader>fu :CtrlPFunky<Cr>
+        " narrow the list down with a word under cursor
+        nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+
+    "}}}
+    NeoBundleLazy 'scrooloose/nerdtree', {'autoload':{'commands':['NERDTreeToggle','NERDTreeFind']}} "{{{
+        let NERDTreeShowHidden=1
+        let NERDTreeQuitOnOpen=0
+        let NERDTreeShowLineNumbers=1
+        let NERDTreeChDirMode=0
+        let NERDTreeShowBookmarks=1
+        let NERDTreeIgnore=['\.git','\.hg']
+        let NERDTreeBookmarksFile=s:get_cache_dir('NERDTreeBookmarks')
+        " NERDTree key bindings
+        nmap <silent> <F5> :NERDTreeToggle<CR>
+        nnoremap <F3> :NERDTreeFind<CR>
+    "}}}
+    NeoBundle 'Xuyuanp/nerdtree-git-plugin'
+endif "}}}
+
+
 if count(s:my_settings.plugin_groups, 'programming') "{{{
     NeoBundle 'scrooloose/syntastic' "{{{
         set statusline+=%#warningmsg#
@@ -230,13 +305,6 @@ if count(s:my_settings.plugin_groups, 'programming') "{{{
     "}}}
     " Commenting code
     NeoBundle 'scrooloose/nerdcommenter'
-    " Undo window
-    NeoBundle 'simnalamburt/vim-mundo' "{{{
-        " f3 toggles the Gundo plugin window
-        nnoremap <silent> <F3> :GundoToggle<CR>
-        let g:gundo_width=80
-        let g:gundo_right = 1
-    "}}}
     NeoBundleLazy 'majutsushi/tagbar' , {'autoload':{'commands':'TagbarToggle'}} "{{{
         nnoremap <silent> <F4> :TagbarToggle<CR>
     "}}}
@@ -404,7 +472,7 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
     "}}}
     NeoBundleLazy 'zhaocai/GoldenView.Vim', {'autoload':{'mappings':['<Plug>ToggleGoldenViewAutoResize']}} "{{{
       let g:goldenview__enable_default_mapping=0
-      nmap <F4> <Plug>ToggleGoldenViewAutoResize
+      nmap <F6> <Plug>ToggleGoldenViewAutoResize
     "}}}
   endif "}}}
 
@@ -443,20 +511,9 @@ NeoBundle 'Shougo/unite-outline'
 
 
 " Togglable panels
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'Xuyuanp/nerdtree-git-plugin'
 NeoBundle 'tpope/vim-vinegar'
 NeoBundle 'powerline/fonts'
 NeoBundle 'vim-scripts/taglist.vim'
-
-" Search in files {
-    NeoBundle 'mileszs/ack.vim'
-    NeoBundle 'rking/ag.vim'
-    NeoBundle 'kien/ctrlp.vim'
-    NeoBundle 'tacahiroy/ctrlp-funky'
-" }
-
-
 
 " Better numbers for vim
 NeoBundle 'myusuf3/numbers.vim'
@@ -667,40 +724,6 @@ map <Leader>m gt
 
 " }
 
-" NERDTree key bindings
-nmap <silent> <F5> :NERDTreeToggle<CR>
-
-
-" Search plugins {
-
-    " Ag plugin
-    " let g:ag_prg="ag --column --smart-case"
-
-    " CtrlP plugin {
-
-        " let g:ctrlp_map = '<leader>t'
-
-        " Use Vim's cwd
-        let g:ctrlp_working_path_mode = 0
-        let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:15'
-
-        " Faster indexing of files; requires having ag (AKA the_silver_searcher)
-        " installed.
-        let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
-            \ --ignore .git
-            \ --ignore .svn
-            \ --ignore .hg
-            \ --ignore .DS_Store
-            \ --ignore "**/*.pyc"
-            \ -g ""'
-    " }
-
-    " CtrlP funky plugin
-    nnoremap <Leader>fu :CtrlPFunky<Cr>
-    " narrow the list down with a word under cursor
-    nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-
-" }
 
 
 
