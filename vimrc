@@ -817,6 +817,65 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
 " }}}
 
 " mappings {{{
+    " Learn vim hard way
+    noremap <Up> <NOP>
+    noremap <Down> <NOP>
+    noremap <Left> <NOP>
+    noremap <Right> <NOP> 
+    inoremap <Up> <NOP> 
+    inoremap <Down> <NOP> 
+    inoremap <Left> <NOP> 
+    inoremap <Right> <NOP> 
+
+    " formatting shortcuts
+    nmap <leader>fef :call Preserve("normal gg=G")<CR>
+    nmap <leader>f$ :call StripTrailingWhitespace()<CR>
+    vmap <leader>s :sort<cr>
+
+    " Shorcuts for quick save and quit
+    nnoremap <leader>w :w<cr>
+    noremap <Leader>q :q<cr>
+    noremap <Leader>Q :qa<cr>
+
+    " toggle paste
+    map <F6> :set invpaste<CR>:set paste?<CR>
+
+    " remap arrow keys
+    nnoremap <left> :bprev<CR>
+    nnoremap <right> :bnext<CR>
+    nnoremap <up> :tabnext<CR>
+    nnoremap <down> :tabprev<CR>
+
+    " smash escape
+    inoremap jk <esc>
+    inoremap kj <esc>
+
+    " change cursor position in insert mode
+    inoremap <C-h> <left>
+    inoremap <C-l> <right>
+    inoremap <C-u> <C-g>u<C-u>
+
+    nnoremap j gj
+    nnoremap k gk
+
+    " shortcuts for windows {{{
+        nnoremap <leader>v <C-w>v<C-w>l
+        nnoremap <leader>s <C-w>s
+        nnoremap <leader>vsa :vert sba<cr>
+        " bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
+        " Every unnecessary keystroke that can be saved is good for your health :)
+        nnoremap <C-h> <C-w>h
+        nnoremap <C-j> <C-w>j
+        nnoremap <C-k> <C-w>k
+        nnoremap <C-l> <C-w>l
+    "}}}
+
+    " Tab shorcuts
+    map <Leader>n gT
+    map <Leader>m gt
+    map <leader>tn :tabnew<CR>
+    map <leader>tc :tabclose<CR>
+
     " Better navigating through omnicomplete option list
     " See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
     function! OmniPopup(action)
@@ -849,42 +908,21 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
 
 "}}}
 
+" autocmd {{{
+    autocmd! bufwritepost .vimrc source %
+    " go back to previous position of cursor if any
+    autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \  exe 'normal! g`"zvzz' |
+        \ endif
 
-
-
-
-autocmd! bufwritepost .vimrc source %
-
-" Learn vim hard way
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP> 
-inoremap <Up> <NOP> 
-inoremap <Down> <NOP> 
-inoremap <Left> <NOP> 
-inoremap <Right> <NOP> 
-
-" This makes j and k work on "screen lines" instead of on "file lines"; now, when
-" we have a long line that wraps to multiple screen lines, j and k behave as we
-" expect them to.
-nnoremap j gj
-nnoremap k gk
-
-" This is quit all
-noremap <Leader>q :q<cr>
-noremap <Leader>Q :qa<cr>
-
-" bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
-" Every unnecessary keystroke that can be saved is good for your health :)
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
-map <c-h> <c-w>h
-
-" Tab navigation
-map <Leader>n gT
-map <Leader>m gt
+    autocmd FileType js,scss,css autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+    autocmd FileType css,scss setlocal foldmethod=marker foldmarker={,}
+    autocmd FileType css,scss nnoremap <silent> <leader>S vi{:sort<CR>
+    autocmd FileType python setlocal foldmethod=indent
+    autocmd FileType markdown setlocal nolist
+    autocmd FileType vim setlocal fdm=indent keywordprg=:help
+"}}}
 
 " fresh ubuntu installation {
     " sudo apt-get update
