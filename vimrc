@@ -80,7 +80,7 @@ Plugin 'easymotion/vim-easymotion'
     Plugin 'scrooloose/nerdcommenter'
 
     " Undo window
-    Plugin 'sjl/gundo.vim'
+    Plugin 'simnalamburt/vim-mundo'
     " Snippets
     Plugin 'MarcWeber/vim-addon-mw-utils'
     Plugin 'tomtom/tlib_vim'
