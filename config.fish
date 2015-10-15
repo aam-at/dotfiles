@@ -11,8 +11,7 @@ source $OMF_PATH/init.fish
 set fish_theme agnoster
 
 # Oh My Fish plugins
-set fish_plugins vi-mode vundle python pyenv
-
+set fish_plugins vi-mode python pyenv
 # Load fishmarks (http://github.com/techwizrd/fishmarks)
 # install: curl -L https://github.com/techwizrd/fishmarks/raw/master/install.fish | fish
 . $HOME/.fishmarks/marks.fish

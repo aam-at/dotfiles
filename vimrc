@@ -781,10 +781,10 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
     NeoBundle 'powerline/fonts'
     NeoBundle 'bufkill.vim'
     NeoBundle 'mhinz/vim-startify' "{{{
-      let g:startify_session_dir = s:get_cache_dir('sessions')
-      let g:startify_change_to_vcs_root = 1
-      let g:startify_show_sessions = 1
-      nnoremap <F1> :Startify<cr>
+        let g:startify_session_dir = s:get_cache_dir('sessions')
+        let g:startify_change_to_vcs_root = 1
+        let g:startify_show_sessions = 1
+        nnoremap <F1> :Startify<cr>
     "}}}
     NeoBundleLazy 'mattn/gist-vim', { 'depends': 'mattn/webapi-vim', 'autoload': { 'commands': 'Gist' } } "{{{
       let g:gist_post_private=1
