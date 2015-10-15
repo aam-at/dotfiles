@@ -25,6 +25,7 @@ fish_vi_mode
 
 # Add sbin to PATH variable
 set -x PATH $PATH /sbin/
+set -x GOPATH $HOME/go
 
 ####################
 # Custom functions #

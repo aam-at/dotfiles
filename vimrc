@@ -179,12 +179,14 @@
     set incsearch                                       "incremental searching
     set ignorecase                                      "ignore case for searching
     set smartcase                                       "do case-sensitive if there's a capital letter
-    if executable('ack')
-        set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
-        set grepformat=%f:%l:%c:%m
-    endif
     if executable('ag')
         set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+        set grepformat=%f:%l:%c:%m
+    elseif executable('pt')
+        set grepprg=pt\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+        set grepformat=%f:%l:%c:%m
+    elseif executable('ack')
+        set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
         set grepformat=%f:%l:%c:%m
     endif
 
@@ -658,6 +660,10 @@ if count(s:my_settings.plugin_groups, 'unite') "{{{
         let g:unite_source_grep_command='ag'
         let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
         let g:unite_source_grep_recursive_opt=''
+    elseif executable('pt')
+        let g:unite_source_grep_command = 'pt'
+        let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
+        let g:unite_source_grep_recursive_opt = ''
     elseif executable('ack')
         let g:unite_source_grep_command='ack'
         let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
