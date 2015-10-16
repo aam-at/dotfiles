@@ -27,3 +27,6 @@ if [[ ! -f ~/vim/bundle/neobundle.vim ]]; then
 fi
 ln -fi ./vim/vimrc ~/.vimrc
 ln -fi ./idea/ideavimrc ~/.ideavimrc
+
+# map caps to esc for better vim
+ln -fi ./xmodmap/xmodmap ~/.xmodmap
