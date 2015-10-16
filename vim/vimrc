@@ -609,9 +609,9 @@ endif "}}}
 
 if count(s:my_settings.plugin_groups, 'lua') "{{{
 
-    NeoBundleLazy 'xolox/vim-misc', {'autoload':{'filetypes':['lua']}}
-    NeoBundleLazy 'xolox/vim-lua-inspect', {'autoload':{'filetypes':['lua']}}
-    NeoBundleLazy 'xolox/vim-lua-ftplugin', {'autoload':{'filetypes':['lua']}}
+    NeoBundle 'xolox/vim-misc'
+    NeoBundleLazy 'xolox/vim-lua-inspect', {'depends': 'xolox/vim-misc', 'autoload':{'filetypes':['lua']}}
+    NeoBundleLazy 'xolox/vim-lua-ftplugin', {'depends': 'xolox/vim-misc', 'autoload':{'filetypes':['lua']}}
     " NeoBundle 'WolfgangMehner/lua-support'
 
 endif "}}}
@@ -786,7 +786,7 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
             "                   \ 'syntax': 'markdown', 'ext': '.md'}]
         "}}}
         NeoBundle 'xolox/vim-misc'
-        NeoBundle 'xolox/vim-notes'
+        NeoBundle 'xolox/vim-notes', {'depends' : 'xolox/vim-misc'}
         NeoBundle 'neilagabriel/vim-geeknote' "{{{
             let g:GeeknoteFormat="markdown"
             let g:notes_directories = ['~/Dropbox/Notes']  

@@ -21,12 +21,15 @@
 # }
 ln -fi ./tmux/tmux.conf ~/.tmux.conf
 ln -fi ./fish/config.fish ~/.config/fish/config.fish
-if [[ ! -f ~/vim/bundle/neobundle.vim ]]; then
-    mkdir -p ~/vim/bundle
-    cp -rp ./vim/bundle/neobundle.vim ~/vim/bundle/
+if [[ ! -f ~/.vim/bundle/neobundle.vim ]]; then
+    mkdir -p ~/.vim/bundle
+    cp -rp ./vim/bundle/neobundle.vim ~/.vim/bundle/
 fi
 ln -fi ./vim/vimrc ~/.vimrc
 ln -fi ./idea/ideavimrc ~/.ideavimrc
+vim +NeoBundleInstall
+ln -fi ./vim/vimrc ~/.nvimrc
+ln -si ~/.vim ~/.nvim
 
 # map caps to esc for better vim
 ln -fi ./xmodmap/xmodmap ~/.xmodmap
