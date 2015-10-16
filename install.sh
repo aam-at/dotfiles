@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # fresh ubuntu installation {
     # sudo apt-get update
     # sudo apt-get upgrade -y
@@ -20,3 +22,4 @@
 ln -fi ./tmux/tmux.conf ~/.tmux.conf
 ln -fi ./fish/config.fish ~/.config/fish/config.fish
 ln -fi vimrc ~/.vimrc
+ln -fi ./idea/ideavimrc ~/.ideavimrc

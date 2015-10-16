@@ -8,6 +8,11 @@ set smartcase
 set relativenumber
 " use visual bell instead of beeping
 set visualbell
+" searching
+set hlsearch                                        "highlight searches
+set incsearch                                       "incremental searching
+set ignorecase                                      "ignore case for searching
+set smartcase                                       "do case-sensitive if there's a capital letter
 
 " Rebind <Leader> key
 " I like to have it here becuase it is easier to reach than the default and
