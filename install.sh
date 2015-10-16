@@ -18,4 +18,5 @@
     # http://stackoverflow.com/questions/26956933/how-to-make-vim74-compile-with-python
 # }
 ln -fi ./tmux/tmux.conf ~/.tmux.conf
+ln -fi ./fish/config.fish ~/.config/fish/config.fish
 ln -fi vimrc ~/.vimrc
