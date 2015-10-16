@@ -12,7 +12,7 @@
     let s:my_settings.max_column = 120
     let s:my_settings.autocomplete_method = 'neocomplcache'
     let s:my_settings.enable_cursorcolumn = 0
-    let s:my_settings.colorscheme = 'lucius'
+    let s:my_settings.colorscheme = 'solarized'
     let s:my_settings.background = 'light'
     if has('lua')
         let s:my_settings.autocomplete_method = 'neocomplete'
@@ -674,6 +674,11 @@ if count(s:my_settings.plugin_groups, 'unite') "{{{
         nmap <buffer> Q <plug>(unite_exit)
         nmap <buffer> <esc> <plug>(unite_exit)
         imap <buffer> <esc> <plug>(unite_exit)
+        " Play nice with supertab
+        let b:SuperTabDisabled=1
+        " Enable navigation with control-j and control-k in insert mode
+        imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+        imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
     endfunction
     autocmd FileType unite call s:unite_settings()
 
@@ -697,23 +702,23 @@ if count(s:my_settings.plugin_groups, 'unite') "{{{
     "}}}
     NeoBundleLazy 'Shougo/neomru.vim', {'autoload':{'unite_sources':'file_mru'}}
     NeoBundleLazy 'osyo-manga/unite-airline_themes', {'autoload':{'unite_sources':'airline_themes'}} "{{{
-    nnoremap <silent> [unite]a :<C-u>Unite -winheight=10 -auto-preview -buffer-name=airline_themes airline_themes<cr>
+        nnoremap <silent> [unite]a :<C-u>Unite -winheight=10 -auto-preview -buffer-name=airline_themes airline_themes<cr>
     "}}}
     NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':'colorscheme'}} "{{{
-    nnoremap <silent> [unite]c :<C-u>Unite -winheight=10 -auto-preview -buffer-name=colorschemes colorscheme<cr>
+        nnoremap <silent> [unite]c :<C-u>Unite -winheight=10 -auto-preview -buffer-name=colorschemes colorscheme<cr>
     "}}}
     NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':['tag','tag/file']}} "{{{
-    nnoremap <silent> [unite]t :<C-u>Unite -auto-resize -buffer-name=tag tag tag/file<cr>
+        nnoremap <silent> [unite]t :<C-u>Unite -auto-resize -buffer-name=tag tag tag/file<cr>
     "}}}
     NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}} "{{{
-    nnoremap <silent> [unite]o :<C-u>Unite -auto-resize -buffer-name=outline outline<cr>
+        nnoremap <silent> [unite]o :<C-u>Unite -auto-resize -buffer-name=outline outline<cr>
     "}}}
     NeoBundleLazy 'Shougo/unite-help', {'autoload':{'unite_sources':'help'}} "{{{
-    nnoremap <silent> [unite]h :<C-u>Unite -auto-resize -buffer-name=help help<cr>
+        nnoremap <silent> [unite]h :<C-u>Unite -auto-resize -buffer-name=help help<cr>
     "}}}
     NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen','unite_sources':['junkfile','junkfile/new']}} "{{{
-    let g:junkfile#directory=s:get_cache_dir('junk')
-    nnoremap <silent> [unite]j :<C-u>Unite -auto-resize -buffer-name=junk junkfile junkfile/new<cr>
+        let g:junkfile#directory=s:get_cache_dir('junk')
+        nnoremap <silent> [unite]j :<C-u>Unite -auto-resize -buffer-name=junk junkfile junkfile/new<cr>
     "}}}
 endif "}}}
 
@@ -763,6 +768,11 @@ endif "}}}
 if count(s:my_settings.plugin_groups, 'misc') "{{{
     if exists('$TMUX')
       NeoBundle 'christoomey/vim-tmux-navigator'
+      NeoBundle 'benmills/vimux'
+      NeoBundle 'julienr/vim-cellmode', {'autoload':{'filetypes':['python']}}
+    endif
+    if executable('task')
+        NeoBundle 'blindFS/vim-taskwarrior'
     endif
     NeoBundleLazy 'tpope/vim-scriptease', {'autoload':{'filetypes':['vim']}}
     NeoBundleLazy 'tpope/vim-markdown', {'autoload':{'filetypes':['markdown']}}
@@ -815,7 +825,7 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
     "}}}
     NeoBundleLazy 'zhaocai/GoldenView.Vim', {'autoload':{'mappings':['<Plug>ToggleGoldenViewAutoResize']}} "{{{
       let g:goldenview__enable_default_mapping=0
-      nmap <F6> <Plug>ToggleGoldenViewAutoResize
+      nmap <F8> <Plug>ToggleGoldenViewAutoResize
     "}}}
   endif "}}}
 
@@ -930,36 +940,24 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
     autocmd FileType vim setlocal fdm=indent keywordprg=:help
 "}}}
 
-" fresh ubuntu installation {
-    " sudo apt-get update
-    " sudo apt-get upgrade -y
-    " sudo apt-get install vim-gtk cmake build-essential silversearcher-i fish -y
-    " install vundle
-    " git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-    " vim +PluginInstall
-    " Compile and configure vim to use anaconda python2.7
-    " sudo apt-get install liblua5.2-dev ruby-dev ctags
-    " pipi install ropevim
-    " ./configure --with-features=huge --enable-rubyinterp \
-    "             --enable-pythoninterp --with-python-config-dir=$HOME/anaconda/lib/python2.7/config \
-    "             --enable-gui=gtk --enable-cscope \
-    "             --enable-luainterp --with-luajit --with-lua-prefix=$HOME/local/lua_packages/torch/install/bin/th \
-    "             --enable-fail-if-missing --prefix=$HOME/opt/vim
-    " make install
-    " sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 0
-    " http://stackoverflow.com/questions/26956933/how-to-make-vim74-compile-with-python
-" }
-
 " color schemes {
     NeoBundle 'vim-scripts/Lucius'
     NeoBundle 'altercation/vim-colors-solarized' "{{{
-        let g:solarized_termcolors=256
+        if has('gui_running')
+            let g:solarized_termcolors=256
+        else
+            " set t_Co=16
+            let g:solarized_termcolors=16
+        endif
         let g:solarized_termtrans=1
     "}}}
-    " NeoBundle 'flazz/vim-colorschemes'
+    NeoBundle 'flazz/vim-colorschemes'
     NeoBundle 'nanotech/jellybeans.vim'
     NeoBundle 'tomasr/molokai'
     NeoBundle 'chriskempson/vim-tomorrow-theme'
+    NeoBundle 'saghul/vim-colortoggle' "{{{
+        let g:default_background_type = s:my_settings.background
+    "}}}
 " }
 
 " finish loading {
@@ -980,7 +978,6 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
     " :NeoBundleClean(!) - confirm (or auto-approve) removal of unused bundles
     "
     " Refer to :help neobundle for more examples and for a full list of commands.
-    " Put your non-Plugin stuff after this line
     " enable syntax highlighting
     syntax enable
 
