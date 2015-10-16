@@ -1,0 +1,3 @@
+[submodule "guake/guake-colors-solarized"]
+	path = guake/guake-colors-solarized
+	url = https://github.com/coolwanglu/guake-colors-solarized
