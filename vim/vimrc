@@ -446,7 +446,6 @@ if count(s:my_settings.plugin_groups, 'navigation') "{{{
         nmap <silent> <F5> :NERDTreeToggle<CR>
     "}}}
     NeoBundle 'Xuyuanp/nerdtree-git-plugin'
-    " Easymotion
     NeoBundle 'easymotion/vim-easymotion' "{{{
         " Easymotion colors for light colors
         hi link EasyMotionTarget ErrorMsg
@@ -454,7 +453,7 @@ if count(s:my_settings.plugin_groups, 'navigation') "{{{
         hi link EasyMotionTarget2Second Search
         hi link EasyMotionShade  Comment
     "}}}"
-
+    NeoBundle 'MattesGroeger/vim-bookmarks'
 endif "}}}
 
 
