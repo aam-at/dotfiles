@@ -4,3 +4,6 @@
 [submodule "idea/intellij-colors-solarized"]
 	path = idea/intellij-colors-solarized
 	url = https://github.com/jkaving/intellij-colors-solarized
+[submodule "vim/bundle/neobundle.vim"]
+	path = vim/bundle/neobundle.vim
+	url = https://github.com/Shougo/neobundle.vim

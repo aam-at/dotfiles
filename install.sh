@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # fresh ubuntu installation {
     # sudo apt-get update
@@ -21,5 +21,9 @@
 # }
 ln -fi ./tmux/tmux.conf ~/.tmux.conf
 ln -fi ./fish/config.fish ~/.config/fish/config.fish
-ln -fi vimrc ~/.vimrc
+if [[ ! -f ~/vim/bundle/neobundle.vim ]]; then
+    mkdir -p ~/vim/bundle
+    cp -rp ./vim/bundle/neobundle.vim ~/vim/bundle/
+fi
+ln -fi ./vim/vimrc ~/.vimrc
 ln -fi ./idea/ideavimrc ~/.ideavimrc
