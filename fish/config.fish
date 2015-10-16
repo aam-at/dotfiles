@@ -21,7 +21,11 @@ if test -f /home/aam/.autojump/share/autojump/autojump.fish;
     . /home/aam/.autojump/share/autojump/autojump.fish;
 end
 
+# use vi-mode by default
 fish_vi_mode
+
+# colorscheme for fish
+source ~/dotfiles/fish/solarized.fish
 
 # Add sbin to PATH variable
 set -x PATH $PATH /sbin/
