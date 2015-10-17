@@ -771,7 +771,9 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
       NeoBundle 'julienr/vim-cellmode', {'autoload':{'filetypes':['python']}}
     endif
     if executable('task')
-        NeoBundle 'blindFS/vim-taskwarrior'
+        NeoBundle 'blindFS/vim-taskwarrior' "{{{
+            let g:task_log_directory   = '~/Dropbox/Task'
+        "}}}
     endif
     NeoBundleLazy 'tpope/vim-scriptease', {'autoload':{'filetypes':['vim']}}
     NeoBundleLazy 'tpope/vim-markdown', {'autoload':{'filetypes':['markdown']}}
