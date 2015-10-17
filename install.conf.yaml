@@ -1,0 +1,10 @@
+- clean: ['~']
+- shell:
+    - mkdir -p ~/.config
+- link:
+    ~/.tmux.conf: tmux/tmux.conf
+    ~/.config/fish/config.fish: ./fish/config.fish
+    ~/.vimrc: vim/vimrc
+    ~/.ideavimrc: idea/ideavimrc
+    ~/.nvimrc: vim/vimrc
+    ~/.xmodmap: xmodmap/xmodmap
