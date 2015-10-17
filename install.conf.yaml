@@ -1,10 +1,19 @@
 - clean: ['~']
 - shell:
-    - mkdir -p ~/.config
+    - [git submodule update --init --recursive, Installing submodules]
+    - [curl -L github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish, Installing oh-my-fish]
+    - [ln -s ~/.vim $HOME/.nvim, Link neovim to vim]
 - link:
     ~/.tmux.conf: tmux/tmux.conf
-    ~/.config/fish/config.fish: ./fish/config.fish
+    ~/.tmux/plugins/tpm:
+        create: true
+        path: tmux/plugins/tpm
+    ~/.config/fish/config.fish: fish/config.fish
+    ~/.vim/bundle/neobundle.vim:
+        create: true
+        path: vim/bundle/neobundle.vim
     ~/.vimrc: vim/vimrc
-    ~/.ideavimrc: idea/ideavimrc
     ~/.nvimrc: vim/vimrc
+    ~/.ideavimrc: idea/ideavimrc
+    ~/.taskrc: task/taskrc
     ~/.xmodmap: xmodmap/xmodmap
