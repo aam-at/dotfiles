@@ -832,7 +832,7 @@ endif "}}}
 
 if count(s:my_settings.plugin_groups, 'windows') "{{{
     NeoBundle 'derekmcloughlin/gvimfullscreen_win32' "{{{
-        let $GVIMFS=substitute(expand("$VIM/bundle/gvimfullscreen_win32/gvimfullscreen.dll"), '\\', '\\\\', 'g')
+        let $GVIMFS=substitute(expand("$HOME/.vim/bundle/gvimfullscreen_win32/gvimfullscreen.dll"), '\\', '\\\\', 'g')
         map <F11> <Esc>:call libcallnr($GVIMFS, "ToggleFullScreen", 0)<CR>
     "}}}
 endif "}}}
