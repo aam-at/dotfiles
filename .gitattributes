@@ -1,2 +1,4 @@
 # Force text files to have unix eols, so Windows/Cygwin does not break them
+install.bat eol=crlf
+install_win.conf.yaml eol=crlf
 *.* eol=lf

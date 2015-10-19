@@ -262,6 +262,8 @@
 
         set guioptions+=t                                 "tear off menu items
         set guioptions-=T                                 "toolbar icons
+        set guioptions-=r
+        set guioptions-=L
 
         if s:is_macvim
             "set gfn=Ubuntu_Mono:h14
@@ -269,7 +271,7 @@
         endif
 
         if s:is_windows
-            "set gfn=Ubuntu_Mono:h10
+            set gfn=Hack
         endif
 
         if has('gui_gtk')
@@ -831,10 +833,17 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
 endif "}}}
 
 if count(s:my_settings.plugin_groups, 'windows') "{{{
-    NeoBundle 'derekmcloughlin/gvimfullscreen_win32' "{{{
-        let $GVIMFS=substitute(expand("$HOME/.vim/bundle/gvimfullscreen_win32/gvimfullscreen.dll"), '\\', '\\\\', 'g')
-        map <F11> <Esc>:call libcallnr($GVIMFS, "ToggleFullScreen", 0)<CR>
-    "}}}
+	if has('win32') && !has('win64')
+		NeoBundle 'derekmcloughlin/gvimfullscreen_win32' "{{{
+			let $GVIMFS=substitute(expand("$HOME/.vim/bundle/gvimfullscreen_win32/gvimfullscreen.dll"), '\\', '\\\\', 'g')
+			map <F11> <Esc>:call libcallnr($GVIMFS, "ToggleFullScreen", 0)<CR>
+		"}}}
+	else
+		NeoBundle 'xqin/gvimfullscreen' "{{{
+			let $GVIMFS=substitute(expand("$HOME/.vim/bundle/gvimfullscreen/gvimfullscreen.dll.x64"), '\\', '\\\\', 'g')
+			map <F11> <Esc>:call libcallnr($GVIMFS, "ToggleFullScreen", 0)<CR>
+		"}}}
+	endif
 endif "}}}
 
 " }}}
