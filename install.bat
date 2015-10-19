@@ -1,8 +1,8 @@
-set CONFIG="install.conf.yaml"
+set CONFIG=install_win.conf.yaml
 set DOTBOT_DIR=dotbot
 
-set DOTBOT_BIN=bin/dotbot
+set DOTBOT_BIN=bin\dotbot
 
-git submodule update --init --recursive %DOTBOT_DIR%
+REM git submodule update --init --recursive %DOTBOT_DIR%
 
-"%DOTBOT_DIR%/%DOTBOT_BIN%" -c "%CONFIG%" %*
+python "%DOTBOT_DIR%\%DOTBOT_BIN%" -d . -c "%CONFIG%" %*
