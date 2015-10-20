@@ -13,6 +13,15 @@
 # Files
 data.location=~/.task
 
+# inthe.am config
+taskd.certificate=~/.task/private.certificate.pem
+taskd.key=~/.task/private.key.pem
+taskd.ca=~/.task/ca.cert.pem
+taskd.server=taskwarrior.inthe.am:53589
+taskd.credentials=inthe_am/alexander.matyasko/0895cf2d-059b-4f73-81a1-6d8cd3b0cee8
+
+taskd.trust=ignore hostname
+
 # Color theme (uncomment one to use)
 #include /usr/local/share/doc/task/rc/light-16.theme
 #include /usr/local/share/doc/task/rc/light-256.theme
