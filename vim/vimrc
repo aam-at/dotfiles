@@ -783,18 +783,21 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
         NeoBundle 'blindFS/vim-taskwarrior' "{{{
             let g:task_log_directory   = '~/Dropbox/Task'
         "}}}
+        NeoBundle 'tbabej/taskwiki'
+        NeoBundle 'powerman/vim-plugin-AnsiEsc'
     endif
     NeoBundleLazy 'tpope/vim-scriptease', {'autoload':{'filetypes':['vim']}}
     NeoBundleLazy 'tpope/vim-markdown', {'autoload':{'filetypes':['markdown']}}
     if executable('redcarpet') && executable('instant-markdown-d')
-      NeoBundleLazy 'suan/vim-instant-markdown', {'autoload':{'filetypes':['markdown']}}
+        NeoBundleLazy 'suan/vim-instant-markdown', {'autoload':{'filetypes':['markdown']}}
     endif
     NeoBundleLazy 'guns/xterm-color-table.vim', {'autoload':{'commands':'XtermColorTable'}}
     NeoBundle 'chrisbra/vim_faq'
     " Notes {{{
-        " NeoBundle 'vimwiki/vimwiki' "{{{
-            " let g:vimwiki_list = [{'path': '~/my_wiki/', 
-            "                   \ 'syntax': 'markdown', 'ext': '.md'}]
+        NeoBundle 'vimwiki/vimwiki' "{{{
+            " Taskwarior backend for notes
+            let g:vimwiki_list = [{'path': '~/.task/', 
+                               \ 'syntax': 'markdown', 'ext': '.md'}]
         "}}}
         NeoBundle 'xolox/vim-misc'
         NeoBundle 'xolox/vim-notes', {'depends' : 'xolox/vim-misc'}
