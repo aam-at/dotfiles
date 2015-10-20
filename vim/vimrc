@@ -451,6 +451,7 @@ if count(s:my_settings.plugin_groups, 'navigation') "{{{
         " NERDTree key bindings
         nmap <silent> <F5> :NERDTreeToggle<CR>
     "}}}
+    NeoBundle 'jistr/vim-nerdtree-tabs'
     NeoBundle 'Xuyuanp/nerdtree-git-plugin'
     NeoBundle 'easymotion/vim-easymotion' "{{{
         " Easymotion colors for light colors
