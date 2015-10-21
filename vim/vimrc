@@ -781,7 +781,7 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
     endif
     if executable('task')
         NeoBundle 'blindFS/vim-taskwarrior' "{{{
-            let g:task_log_directory   = '~/Dropbox/Task'
+            let g:task_log_directory   = '~/.task'
         "}}}
         NeoBundle 'tbabej/taskwiki'
         NeoBundle 'powerman/vim-plugin-AnsiEsc'
