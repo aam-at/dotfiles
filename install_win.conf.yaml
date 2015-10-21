@@ -3,3 +3,4 @@
     ~/_vimrc: vim/vimrc
 	~/_gvimrc: vim/gvimrc
     ~/.ideavimrc: idea/ideavimrc
+    ~/.spacemacs: spacemacs/spacemacs

@@ -15,5 +15,6 @@
     ~/.vimrc: vim/vimrc
     ~/.nvimrc: vim/vimrc
     ~/.ideavimrc: idea/ideavimrc
+    ~/.spacemacs: spacemacs/spacemacs
     ~/.taskrc: task/taskrc
     ~/.xmodmap: xmodmap/xmodmap
