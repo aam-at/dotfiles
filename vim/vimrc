@@ -28,6 +28,7 @@
     call add(s:my_settings.plugin_groups, 'autocomplete')
     call add(s:my_settings.plugin_groups, 'python')
     call add(s:my_settings.plugin_groups, 'lua')
+    call add(s:my_settings.plugin_groups, 'latex')
     call add(s:my_settings.plugin_groups, 'scm')
     call add(s:my_settings.plugin_groups, 'unite')
     call add(s:my_settings.plugin_groups, 'indents')
@@ -612,16 +613,19 @@ if count(s:my_settings.plugin_groups, 'python') "{{{
         nmap <silent> <C-_> <Plug>(pydocstring)
     "}}}
     NeoBundleLazy 'vim-scripts/python_match.vim', {'autoload':{'filetypes':['python']}}
-
 endif "}}}
 
 if count(s:my_settings.plugin_groups, 'lua') "{{{
-
     NeoBundle 'xolox/vim-misc'
     NeoBundleLazy 'xolox/vim-lua-inspect', {'depends': 'xolox/vim-misc', 'autoload':{'filetypes':['lua']}}
     NeoBundleLazy 'xolox/vim-lua-ftplugin', {'depends': 'xolox/vim-misc', 'autoload':{'filetypes':['lua']}}
     " NeoBundle 'WolfgangMehner/lua-support'
+endif "}}}
 
+if count(s:my_settings.plugin_groups, 'lua') "{{{
+    NeoBundleLazy 'LaTeX-Box-Team/LaTeX-Box', {'autoload':{'filetypes':['tex']}}
+    NeoBundleLazy 'lervag/vimtex', {'autoload':{'filetypes':['tex']}}
+    NeoBundleLazy 'xuhdev/vim-latex-live-preview', {'autoload':{'filetypes':['tex']}}
 endif "}}}
 
 if count(s:my_settings.plugin_groups, 'scm') "{{{
