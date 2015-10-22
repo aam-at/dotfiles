@@ -453,6 +453,7 @@ if count(s:my_settings.plugin_groups, 'navigation') "{{{
     "}}}
     NeoBundle 'jistr/vim-nerdtree-tabs'
     NeoBundle 'Xuyuanp/nerdtree-git-plugin'
+    NeoBundle 'tpope/vim-vinegar'
     NeoBundle 'easymotion/vim-easymotion' "{{{
         " Easymotion colors for light colors
         hi link EasyMotionTarget ErrorMsg
