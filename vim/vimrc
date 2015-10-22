@@ -393,6 +393,9 @@ if count(s:my_settings.plugin_groups, 'navigation') "{{{
             let g:ackprg = "ag --nogroup --column --smart-case --follow"
         endif
     "}}}
+    " ag can be installed on windows with https://chocolatey.org/
+    " pt written in go. works everywhere.
+    " TODO: select the one which is fastest.
     NeoBundle 'rking/ag.vim' "{{{
         if !executable('ag') && executable('pt')
             let g:ag_prg = "pt --nogroup --column --smart-case --follow"
@@ -625,7 +628,9 @@ endif "}}}
 if count(s:my_settings.plugin_groups, 'lua') "{{{
     NeoBundleLazy 'LaTeX-Box-Team/LaTeX-Box', {'autoload':{'filetypes':['tex']}}
     NeoBundleLazy 'lervag/vimtex', {'autoload':{'filetypes':['tex']}}
-    NeoBundleLazy 'xuhdev/vim-latex-live-preview', {'autoload':{'filetypes':['tex']}}
+    if !s:is_windows
+        NeoBundleLazy 'xuhdev/vim-latex-live-preview', {'autoload':{'filetypes':['tex']}}
+    endif
 endif "}}}
 
 if count(s:my_settings.plugin_groups, 'scm') "{{{
