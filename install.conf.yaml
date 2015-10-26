@@ -17,4 +17,7 @@
     ~/.ideavimrc: idea/ideavimrc
     ~/.spacemacs: spacemacs/spacemacs
     ~/.taskrc: task/taskrc
+    ~/.profile: bash/profile
+    ~/.bashrc: bash/bashrc
+    ~/.bash_aliases: bash/bash_aliases
     ~/.xmodmap: xmodmap/xmodmap
