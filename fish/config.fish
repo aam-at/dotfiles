@@ -38,3 +38,4 @@ set -x GOPATH $HOME/go
 function ll
     ls -lh $argv
 end
+alias fuck='TF_ALIAS=fuck eval $(thefuck $(fc -ln -1))'
