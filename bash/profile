@@ -30,5 +30,3 @@ if [ -n "$BASH_VERSION" ]; then
         source "$HOME/.bashrc"
     fi
 fi
-
-. /home/aam/local/lua_packages/torch/install/bin/torch-activate

@@ -64,6 +64,3 @@ fi
 
 export GOPATH=$HOME/go
 export PATH="/home/aam/anaconda/bin:$GOPATH/bin:$PATH"
-
-. /home/aam/local/lua_packages/torch/install/bin/torch-activate
-eval $(thefuck --alias)
