@@ -32,7 +32,7 @@
     call add(s:my_settings.plugin_groups, 'scm')
     call add(s:my_settings.plugin_groups, 'unite')
     call add(s:my_settings.plugin_groups, 'indents')
-    " call add(s:settings.plugin_groups, 'textobj')
+    call add(s:my_settings.plugin_groups, 'writing')
     call add(s:my_settings.plugin_groups, 'misc')
     if s:is_windows
         call add(s:my_settings.plugin_groups, 'windows')
@@ -625,7 +625,7 @@ if count(s:my_settings.plugin_groups, 'lua') "{{{
     " NeoBundle 'WolfgangMehner/lua-support'
 endif "}}}
 
-if count(s:my_settings.plugin_groups, 'lua') "{{{
+if count(s:my_settings.plugin_groups, 'latex') "{{{
     NeoBundleLazy 'LaTeX-Box-Team/LaTeX-Box', {'autoload':{'filetypes':['tex']}}
     NeoBundleLazy 'lervag/vimtex', {'autoload':{'filetypes':['tex']}}
     if !s:is_windows
@@ -757,10 +757,11 @@ if count(s:my_settings.plugin_groups, 'indents') "{{{
     "}}}
 endif "}}}
 
-if count(s:my_settings.plugin_groups, 'textobj') "{{{
+if count(s:my_settings.plugin_groups, 'writing') "{{{
     NeoBundle 'kana/vim-textobj-user'
     NeoBundle 'kana/vim-textobj-indent'
     NeoBundle 'kana/vim-textobj-entire'
+    NeoBundle 'lucapette/vim-textobj-underscore'
     NeoBundle 'reedes/vim-textobj-sentence' "{{{
         augroup textobj_sentence
             autocmd!
@@ -768,7 +769,8 @@ if count(s:my_settings.plugin_groups, 'textobj') "{{{
             autocmd FileType textile call textobj#sentence#init()
             autocmd FileType text call textobj#sentence#init()
         augroup END
-
+    "}}}
+    NeoBundle 'reedes/vim-textobj-quote' "{{{
         augroup textobj_quote
             autocmd!
             autocmd FileType markdown call textobj#quote#init()
@@ -776,10 +778,30 @@ if count(s:my_settings.plugin_groups, 'textobj') "{{{
             autocmd FileType text call textobj#quote#init({'educate': 0})
         augroup END
     "}}}
-    NeoBundle 'reedes/vim-textobj-quote'
-    NeoBundle 'reedes/vim-wordy'
-    NeoBundle 'lucapette/vim-textobj-underscore'
-    NeoBundle 'reedes/vim-litecorrect'
+    NeoBundle 'reedes/vim-wordy', {'autoload': {'filetypes': ['txt', 'tex']}}
+    NeoBundle 'reedes/vim-litecorrect' "{{{
+        augroup litecorrect
+            autocmd!
+            autocmd FileType markdown,mkd call litecorrect#init()
+            autocmd FileType textile      call litecorrect#init()
+            autocmd FileType text         call litecorrect#init()
+        augroup END
+    "}}}
+    NeoBundle 'reedes/vim-pencil' "{{{
+        augroup pencil
+            autocmd!
+            autocmd FileType markdown,mkd call pencil#init()
+            autocmd FileType texfile      call pencil#init()
+            autocmd FileType text         call pencil#init()
+        augroup END
+    "}}}
+    NeoBundle 'panozzaj/vim-autocorrect' "{{{
+        augroup autocorrect
+            autocmd filetype markdown,mkd call AutoCorrect()
+            autocmd filetype text         call AutoCorrect()
+            autocmd filetype texfile      call AutoCorrect()
+        augroup END
+    "}}}
 endif "}}}
 
 
@@ -1005,9 +1027,9 @@ endif "}}}
     endif
 
     call neobundle#end()         " required
-    filetype plugin indent on    " required
+    " filetype plugin indent on    " required
     " To ignore plugin indent changes, instead use:
-    "filetype plugin on
+    filetype plugin on
     "
     " Brief help
     " :NeoBundleList - list configured bundles
