@@ -796,6 +796,7 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
         NeoBundle 'tbabej/taskwiki'
         NeoBundle 'powerman/vim-plugin-AnsiEsc'
     endif
+    NeoBundle 'wakatime/vim-wakatime'
     NeoBundleLazy 'tpope/vim-scriptease', {'autoload':{'filetypes':['vim']}}
     NeoBundleLazy 'tpope/vim-markdown', {'autoload':{'filetypes':['markdown']}}
     if executable('redcarpet') && executable('instant-markdown-d')
