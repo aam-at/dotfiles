@@ -11,7 +11,7 @@ source $OMF_PATH/init.fish
 set fish_theme agnoster
 
 # Oh My Fish plugins
-set fish_plugins vi-mode python pyenv
+set fish_plugins vi-mode python pyenv git-flow
 # Load fishmarks (http://github.com/techwizrd/fishmarks)
 # install: curl -L https://github.com/techwizrd/fishmarks/raw/master/install.fish | fish
 . $HOME/.fishmarks/marks.fish
@@ -29,14 +29,36 @@ source ~/dotfiles/fish/solarized.fish
 
 # Add sbin to PATH variable
 set -x PATH $PATH /sbin/
-set -x GOPATH $HOME/go
+# Source environement variables shared between different shells.
+# http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
+function setenv
+    if [ $argv[1] = PATH ]
+        # Replace colons and spaces with newlines
+        set -gx PATH (echo $argv[2] | tr ': ' \n)
+    else
+        set -gx $argv
+    end
+end
+. ~/.env
 
 ####################
 # Custom functions #
 ####################
 
+function reload
+    source ~/.config/fish/config.fish
+end
+
 function ll
-    ls -lh $argv
+    ls -lhG $argv
+end
+
+function la
+    ls -lahG $argv
+end
+
+function lsd
+    ls -d */
 end
 
 function fuck -d 'Correct your previous console command'

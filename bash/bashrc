@@ -62,5 +62,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export GOPATH=$HOME/go
-export PATH="/home/aam/anaconda/bin:$GOPATH/bin:$PATH"
+# Source environement variables shared between different shells.
+# http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
+function setenv() { export "$1=$2";  }
+. ~/.env

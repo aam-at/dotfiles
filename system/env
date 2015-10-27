@@ -1,0 +1,5 @@
+# Define environement variables which will be automatically sourced
+# for bash and shell scripts.
+# http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
+setenv GOPATH "$HOME/local/go_packages"
+setenv PATH "$HOME/anaconda/bin:$GOPATH/bin:$PATH"

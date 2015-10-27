@@ -22,4 +22,5 @@
     ~/.bash_aliases: bash/bash_aliases
     ~/.bash_logout: bash/bash_logout
     ~/.dircolors: bash/dircolors-solarized/dircolors.ansi-light
-    ~/.xmodmap: xmodmap/xmodmap
+    ~/.env: system/env
+    ~/.xmodmap: system/xmodmap
