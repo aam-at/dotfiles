@@ -1,0 +1,70 @@
+#!/bin/bash
+# Things to check if I got problem:
+# https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
+# https://raw.githubusercontent.com/aaren/dotvim/master/install
+# http://stackoverflow.com/questions/26956933/how-to-make-vim74-compile-with-python
+
+
+# Install a regular vim compiled against the system python.
+install_vim () {
+    make distclean
+    # Install
+    ./configure --prefix=$HOME/.local \
+        --with-features=huge \
+        --enable-multibyte \
+        --enable-gui=gtk --enable-cscope \
+        --enable-rubyinterp \
+        --enable-luainterp --with-luajit \
+        # --with-lua-prefix=$HOME/local/lua_packages/torch/install/bin/th \
+        --enable-pythoninterp \
+        # --with-python-config-dir="`python-config --prefix`/lib/python2.7/config" \
+        # CFLAGS="`python-config --includes`" \
+        # LDFLAGS="`python-config --ldflags" \
+        # LIBS="`python-config --libs`" \
+        # --prefix=$HOME/opt/vim \
+        --enable-fail-if-missing
+    make
+    make install
+}
+
+# Install vim compiled against anaconda python.
+install_vim_anaconda () {
+    make distclean
+
+    PYTHON_CONFIG=$HOME/anaconda/lib/python2.7/config
+    # force vim to use this python binary
+    # export vi_cv_path_python=$APPDATA/bin/python
+
+    ./configure --prefix=`python-config --prefix` \
+        --with-features=huge \
+        --enable-multibyte \
+        --enable-gui=gtk --enable-cscope \
+        --enable-rubyinterp \
+        --enable-luainterp --with-luajit \
+        --enable-luainterp \
+        # --with-lua-prefix=$HOME/local/lua_packages/torch/install/bin/th \
+        --enable-pythoninterp \
+        --with-python-config-dir=$PYTHON_CONFIG \
+        CFLAGS="`python-config --includes`" \
+        LDFLAGS="-L $PYTHON_CONFIG" \
+        LIBS="`python-config --libs`" \
+        # --prefix=$HOME/opt/vim \
+        --enable-fail-if-missing
+    make
+    make install
+}
+
+
+# Install necessary libs
+sudo apt-get install libncurses5-dev vim-gtk -y
+if [[ $1 = "conda" ]]; then
+    echo "compiling vim against anaconda python"
+    install_vim_anaconda
+elif [[ $# -eq 0 ]]; then
+    echo "compiling vim against system python"
+    install_vim
+else
+    echo "usage (navigate to vim src folder):"
+    echo "./install - compile against system python"
+    echo "./install conda - compile against anaconda python"
+fi
