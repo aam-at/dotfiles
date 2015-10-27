@@ -1,4 +1,5 @@
 #!/bin/bash
+# This scripts must be launched from vim src folder.
 # Things to check if I got problem:
 # https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
 # https://raw.githubusercontent.com/aaren/dotvim/master/install
@@ -9,10 +10,10 @@
 install_vim () {
     make distclean
     # Install
-    ./configure --prefix=$HOME/.local \
+    ./configure \ # --prefix=$HOME/.local \
         --with-features=huge \
         --enable-multibyte \
-        --enable-gui=gtk --enable-cscope \
+        --enable-gui=auto --enable-cscope \
         --enable-rubyinterp \
         --enable-luainterp --with-luajit \
         # --with-lua-prefix=$HOME/local/lua_packages/torch/install/bin/th \
@@ -21,10 +22,12 @@ install_vim () {
         # CFLAGS="`python-config --includes`" \
         # LDFLAGS="`python-config --ldflags" \
         # LIBS="`python-config --libs`" \
-        # --prefix=$HOME/opt/vim \
+        --prefix=/usr \
+        --enable-gtk2-check \
+        --enable-gnome-check \
         --enable-fail-if-missing
-    make
-    make install
+    make VIMRUNTIMEDIR=/usr/share/vim/vim74
+    sudo checkinstall
 }
 
 # Install vim compiled against anaconda python.
@@ -35,28 +38,28 @@ install_vim_anaconda () {
     # force vim to use this python binary
     # export vi_cv_path_python=$APPDATA/bin/python
 
-    ./configure --prefix=`python-config --prefix` \
+    ./configure \ # --prefix=`python-config --prefix`
         --with-features=huge \
         --enable-multibyte \
-        --enable-gui=gtk --enable-cscope \
+        --enable-gui=auto --enable-cscope \
         --enable-rubyinterp \
         --enable-luainterp --with-luajit \
-        --enable-luainterp \
         # --with-lua-prefix=$HOME/local/lua_packages/torch/install/bin/th \
         --enable-pythoninterp \
         --with-python-config-dir=$PYTHON_CONFIG \
-        CFLAGS="`python-config --includes`" \
-        LDFLAGS="-L $PYTHON_CONFIG" \
-        LIBS="`python-config --libs`" \
-        # --prefix=$HOME/opt/vim \
+        # CFLAGS="`python-config --includes`" \
+        # LDFLAGS="-L $PYTHON_CONFIG" \
+        # LIBS="`python-config --libs`" \
+        --prefix=/usr \
+        --enable-gtk2-check \
+        --enable-gnome-check \
         --enable-fail-if-missing
-    make
-    make install
+    make VIMRUNTIMEDIR=/usr/share/vim/vim74
+    sudo checkinstall
 }
 
-
 # Install necessary libs
-sudo apt-get install libncurses5-dev vim-gtk -y
+sudo apt-get build-dep vim
 if [[ $1 = "conda" ]]; then
     echo "compiling vim against anaconda python"
     install_vim_anaconda
