@@ -41,11 +41,10 @@ values."
      emacs-lisp
      (latex :variables latex-build-command "LatexMk"
             :variables latex-enable-auto-fill t)
-     auctex
      extra-langs
      shell-scripts windows-scripts autohotkey
      ;; Autocompletion
-     auto-completion company-mode ycmd
+     auto-completion ycmd
      ;; ----------------------------------------------------------------
      ;; Tools
      ;; ----------------------------------------------------------------
@@ -55,7 +54,7 @@ values."
              shell-default-position 'bottom)
      tmux
      dash ;; offline help search
-     smex trishume finance
+     smex finance
      wakatime
      )
    ;; List of additional packages that will be installed without being
