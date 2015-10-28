@@ -820,20 +820,16 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
     endif
     NeoBundle 'wakatime/vim-wakatime'
     NeoBundleLazy 'tpope/vim-scriptease', {'autoload':{'filetypes':['vim']}}
-    NeoBundleLazy 'tpope/vim-markdown', {'autoload':{'filetypes':['markdown']}}
-    if executable('redcarpet') && executable('instant-markdown-d')
-        NeoBundleLazy 'suan/vim-instant-markdown', {'autoload':{'filetypes':['markdown']}}
-    endif
+    NeoBundleLazy 'plasticboy/vim-markdown', {'autoload':{'filetypes':['markdown']}}
     NeoBundleLazy 'guns/xterm-color-table.vim', {'autoload':{'commands':'XtermColorTable'}}
     NeoBundle 'chrisbra/vim_faq'
     " Notes {{{
         NeoBundle 'vimwiki/vimwiki' "{{{
             " Taskwarior backend for notes
             let g:vimwiki_list = [{'path': '~/Dropbox/Notes/',
-                               \ 'syntax': 'markdown', 'ext': '.md'}]
-            let g:vimwiki_ext2syntax = {'.md': 'markdown',
-                                \ '.mkd': 'markdown',
-                                \ '.wiki': 'media'}
+                        \ 'syntax': 'markdown', 'ext': '.md'}]
+            " autocmd! BufRead,BufNewFile */vimwiki/*        set filetype=vimwiki
+            autocmd BufNewFile,BufReadPost *.md set filetype=markdown
         "}}}
         NeoBundle 'neilagabriel/vim-geeknote' "{{{
             let g:GeeknoteFormat="markdown"

@@ -20,3 +20,7 @@ NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-notes', {'depends' : 'xolox/vim-misc'} "{{{
     "let g:notes_title_sync='no'
 "}}}
+
+if executable('redcarpet') && executable('instant-markdown-d')
+    NeoBundleLazy 'suan/vim-instant-markdown', {'autoload':{'filetypes':['markdown']}}
+endif
