@@ -29,6 +29,7 @@ source ~/dotfiles/fish/solarized.fish
 
 # Add sbin to PATH variable
 set -x PATH $PATH /sbin/
+
 # Source environement variables shared between different shells.
 # http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
 function setenv
@@ -39,26 +40,16 @@ function setenv
         set -gx $argv
     end
 end
-. ~/.env
+# sources environment variables
+source ~/.env
 
-####################
-# Custom functions #
-####################
+################################
+# Custom functions and aliases #
+################################
+source ~/.aliases
 
 function reload
     source ~/.config/fish/config.fish
-end
-
-function ll
-    ls -lhG $argv
-end
-
-function la
-    ls -lahG $argv
-end
-
-function lsd
-    ls -d */
 end
 
 function fuck -d 'Correct your previous console command'
