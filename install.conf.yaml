@@ -4,6 +4,7 @@
     - [curl -L github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish, Installing oh-my-fish]
     - [ln -s ~/.vim $HOME/.nvim, Link neovim to vim]
 - link:
+    ~/.gitconfig: git/gitconfig
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux/plugins/tpm:
         create: true
