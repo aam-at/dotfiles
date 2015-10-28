@@ -54,9 +54,9 @@ alias md='gollum --host localhost --port 4566 ~/Dropbox/Notes/'
 alias vim-geeknote='vim -c Geeknote'
 
 # from http://news.ycombinator.com/item?id=4492682
-function tree1; tree --dirsfirst -ChFLQ 1 $argv; end
-function tree2; tree --dirsfirst -ChFLQ 2 $argv; end
-function tree3; tree --dirsfirst -ChFLQ 3 $argv; end
-function tree4; tree --dirsfirst -ChFLQ 4 $argv; end
-function tree5; tree --dirsfirst -ChFLQ 5 $argv; end
-function tree6; tree --dirsfirst -ChFLQ 6 $argv; end
+alias tree1='tree --dirsfirst -ChFLQ 1'
+alias tree2='tree --dirsfirst -ChFLQ 2'
+alias tree3='tree --dirsfirst -ChFLQ 3'
+alias tree4='tree --dirsfirst -ChFLQ 4'
+alias tree5='tree --dirsfirst -ChFLQ 5'
+alias tree6='tree --dirsfirst -ChFLQ 6'
