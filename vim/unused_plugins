@@ -15,3 +15,8 @@ NeoBundle 'tpope/vim-vinegar'
 
 " Snipmate plugin
 let g:snipMateAllowMatchingDot = 0
+
+NeoBundle 'xolox/vim-misc'
+NeoBundle 'xolox/vim-notes', {'depends' : 'xolox/vim-misc'} "{{{
+    "let g:notes_title_sync='no'
+"}}}
