@@ -824,6 +824,8 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
     NeoBundleLazy 'guns/xterm-color-table.vim', {'autoload':{'commands':'XtermColorTable'}}
     NeoBundle 'chrisbra/vim_faq'
     " Notes {{{
+        " If I'm lazy to wait for emacs launch, for quick edit
+        NeoBundle 'jceb/vim-orgmode'
         NeoBundle 'vimwiki/vimwiki' "{{{
             " Taskwarior backend for notes
             let g:vimwiki_list = [{'path': '~/Dropbox/Notes/',
