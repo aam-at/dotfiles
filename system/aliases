@@ -48,7 +48,7 @@ alias egrep='egrep --color=auto'
 alias ps="ps -Sa -o 'uid,pid,ppid,time,rss,command'"
 
 # start local markdown wiki for my notes
-alias md='gollum --host localhost --port 4566 ~/Dropbox/Notes/'
+alias md='gollum --host localhost --port 4567 ~/Dropbox/Notes/'
 
 # Launch vim with geeknote
 alias vim-geeknote='vim -c Geeknote'
