@@ -14,7 +14,14 @@
 ;; which require an initialization must be listed explicitly in the list.
 (setq aam-packages
     '(
-      ;; package names go here
+      ;; Twitter hackernews stackexchange
+      twittering-mode hackernews sx
+      ;; for viewsing log files
+      syslog-mode
+      ;; provides synchronization with google calendar.
+      (org-caldav :location (recipe
+                               :fetcher github
+                               :repo "dengste/org-caldav"))
       ))
 
 ;; List of packages to exclude.
@@ -29,3 +36,22 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
+(defun aam/init-org-caldav()
+  (use-package org-caldav
+    :defer t))
+
+(defun kostajh/init-twittering-mode()
+  (use-package twittering-mode
+    :defer t))
+
+(defun aam/init-hackernews()
+  (use-package hackernews
+    :defer t))
+
+(defun aam/init-sx()
+  (use-package sx
+    :defer t))
+
+(defun aam/init-syslog-mode()
+  (use-package syslog-mode
+    :defer t))
