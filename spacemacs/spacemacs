@@ -28,11 +28,15 @@ values."
      ;; General
      ;; ----------------------------------------------------------------
      better-defaults
+     (perspectives :variables
+                   perspective-enable-persp-projectile t)
      (colors :variables colors-enable-rainbow-identifiers t)
      themes-megapack
      spell-checking
      syntax-checking
      version-control git
+     ;; More VIM in emacs
+     evil-snipe unimpaired vinegar
      ;; ----------------------------------------------------------------
      ;; Programming languages
      ;; ----------------------------------------------------------------
@@ -43,12 +47,13 @@ values."
             :variables latex-enable-auto-fill t)
      extra-langs
      shell-scripts windows-scripts autohotkey
-     ;; Autocompletion
-     auto-completion ycmd
+     ;; Auto-completion & tags
+     auto-completion ycmd gtags
      ;; ----------------------------------------------------------------
      ;; Tools
      ;; ----------------------------------------------------------------
      org evernote ;; Note-taking and organizer
+     emoji xkcd ;; something for fun
      (shell :variables
              shell-default-height 30
              shell-default-position 'bottom)
