@@ -17,6 +17,7 @@
     ~/.nvimrc: vim/vimrc
     ~/.ideavimrc: idea/ideavimrc
     ~/.spacemacs: spacemacs/spacemacs
+    ~/.emacs.d/private/aam: spacemacs/aam
     ~/.taskrc: task/taskrc
     ~/.profile: bash/profile
     ~/.bashrc: bash/bashrc

@@ -63,6 +63,9 @@ values."
      wakatime ;; tracking coding time
      fasd ;; like autojump but better. TODO: try to use it with fish shell
      pandoc ;; pandoc the most extensive file document conversion tool
+
+     ;; My private layer
+     aam
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
