@@ -53,9 +53,11 @@ values."
              shell-default-height 30
              shell-default-position 'bottom)
      tmux
-     dash ;; offline help search
+     dash ;; offline help search with zeal/dash on linux/osx
      smex finance
-     wakatime
+     wakatime ;; tracking coding time
+     fasd ;; like autojump but better. TODO: try to use it with fish shell
+     pandoc ;; pandoc the most extensive file document conversion tool
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -63,7 +65,7 @@ values."
    ;; configuration in `dotspacemacs/config'.
    dotspacemacs-additional-packages '()
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(ox-pandoc)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -111,7 +113,7 @@ values."
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
