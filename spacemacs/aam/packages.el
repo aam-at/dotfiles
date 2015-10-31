@@ -18,6 +18,9 @@
       twittering-mode hackernews sx
       ;; for viewsing log files
       syslog-mode
+      ;; Additional package for org-mode
+      ;; TODO: configure keybindings for quick access
+      org-dashboard org-journal
       ;; provides synchronization with google calendar.
       (org-caldav :location (recipe
                                :fetcher github
@@ -41,6 +44,16 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
+(defun aam/init-org-dashboard()
+  (use-package org-dashboard
+    :defer t))
+
+(defun aam/init-org-journal()
+  (use-package org-journal
+    :defer t
+    :config
+    (setq org-journal-dir "~/Dropbox/Notes/journal")))
+
 (defun aam/init-org-caldav()
   (use-package org-caldav
     :defer t))

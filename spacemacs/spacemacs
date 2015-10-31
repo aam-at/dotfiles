@@ -229,15 +229,32 @@ user code."
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
-  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
   ;; Enable visual line navigation
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
   (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
   (define-key evil-visual-state-map "j" 'evil-next-visual-line)
   (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
-  ;; Show line numberths
+
+  ;; Show line numbers
   (global-linum-mode)
   (with-eval-after-load 'linum (linum-relative-toggle))
+
+  ;; Org settings
+  (setq org-directory "~/Dropbox/Notes")
+  ;; Mobile setup
+  (setq org-mobile-directory "~/Dropbox/Notes/mobile")
+  (setq org-mobile-inbox-for-pull (concat org-directory "/index.org"))
+  ;; Tracking habits
+  (require 'org-habit)
+  (add-to-list 'org-modules 'org-habit t)
+  (setq org-habit-graph-column 80)
+  (setq org-log-into-drawer "LOGBOOK")
+  ;; Pomodoro and timer
+  (add-to-list 'org-modules 'org-timer t)
+
+  ;; Tex settings
+  (setq TeX-PDF-mode t)
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
