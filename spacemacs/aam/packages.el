@@ -22,7 +22,12 @@
       (org-caldav :location (recipe
                                :fetcher github
                                :repo "dengste/org-caldav"))
-      ))
+      ;; integration for orgmode and habitrpg.
+      (habitrpg :location (recipe
+                          :fetcher github
+                          :repo "ryjm/habitrpg.el"))
+      )
+    )
 
 ;; List of packages to exclude.
 (setq aam-excluded-packages '())
@@ -38,6 +43,10 @@
 ;; https://github.com/jwiegley/use-package
 (defun aam/init-org-caldav()
   (use-package org-caldav
+    :defer t))
+
+(defun aam/init-habitrpg()
+  (use-package habitrpg
     :defer t))
 
 (defun kostajh/init-twittering-mode()
