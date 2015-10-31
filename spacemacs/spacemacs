@@ -223,7 +223,7 @@ values."
   "Initialization function for user code.
 It is called immediately after `dotspacemacs/init'.  You are free to put any
 user code."
-)
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
