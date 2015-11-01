@@ -60,9 +60,14 @@
 
 (defun aam/init-habitrpg()
   (use-package habitrpg
-    :defer t))
+    :defer t
+    :config
+    (setq
+    habitrpg-api-url "https://habitica.com/api/v2"
+    habitrpg-api-user "caa7c046-2e41-4233-acba-1880eb789c8a"
+    habitrpg-api-token "api-token")))
 
-(defun kostajh/init-twittering-mode()
+(defun aam/init-twittering-mode()
   (use-package twittering-mode
     :defer t))
 
