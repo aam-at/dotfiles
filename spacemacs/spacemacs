@@ -245,9 +245,22 @@ layers configuration. You are free to put any user code."
 
   ;; Org settings
   (setq org-directory "~/Dropbox/Notes")
-  ;; Mobile setup
-  (setq org-mobile-directory "~/Dropbox/Notes/mobile")
-  (setq org-mobile-inbox-for-pull (concat org-directory "/index.org"))
+  (setq org-agenda-files (list (concat org-directory "/work.org")
+                               ;; File so sync with google calendar
+                               (concat org-directory "/fromwork.org")
+                               (concat org-directory "/ideas.org")
+                               (concat org-directory "/me.org")
+                               (concat org-directory "/notes.org")
+                               (concat org-directory "/journal")))
+  (setq org-default-notes-file (concat org-directory "/refile.org"))
+  ;; Agenda management
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-agenda-custom-commands
+        '(("w" "Weekly tasks" tags "+weekly")
+          ("W" "Waiting tasks" todo-tree "WAITING")
+          ("c" "Cleaning tasks" tags "+cleaning")
+          ("d" "Daily tasks" tags "+daily")))
   ;; Tracking habits
   (require 'org-habit)
   (add-to-list 'org-modules 'org-habit t)
@@ -255,6 +268,9 @@ layers configuration. You are free to put any user code."
   (setq org-log-into-drawer "LOGBOOK")
   ;; Pomodoro and timer
   (add-to-list 'org-modules 'org-timer t)
+  ;; Mobile setup
+  (setq org-mobile-directory "~/Dropbox/Notes/mobile")
+  (setq org-mobile-inbox-for-pull (concat org-directory "/index.org"))
 
   ;; Tex settings
   (setq TeX-PDF-mode t)
