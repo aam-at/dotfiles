@@ -251,11 +251,40 @@ layers configuration. You are free to put any user code."
   (setq org-agenda-files (list (concat org-directory "/work.org")
                                ;; File so sync with google calendar
                                (concat org-directory "/fromwork.org")
-                               (concat org-directory "/ideas.org")
-                               (concat org-directory "/me.org")
+                               (concat org-directory "/todo.org")
+                               (concat org-directory "/habits.org")
                                (concat org-directory "/notes.org")
+                               (concat org-directory "/ideas.org")
                                (concat org-directory "/journal")))
   (setq org-default-notes-file (concat org-directory "/refile.org"))
+  (setq org-capture-templates
+        '(
+          ("i" "Idea" entry (file (concat org-directory "/ideas.org"))
+           "* %^{Short description of the idea}
+:PROPERTIES:
+:CREATED:%U
+:END:
+%i\n%?\n")
+          ("h" "Habit" entry (file (concat org-directory "/habits.org"))
+           "* TODO %?
+SCHEDULED: %^{When should we stop?}t +1d
+:PROPERTIES:
+:STYLE: habit
+:CREATED:%U
+:END:
+%i\n")
+          ("n" "Note" entry (file (concat org-directory "/notes.org"))
+           "* %^{Select note title}
+:PROPERTIES:
+:CREATED:%U
+:END:
+%i\n%?\n")
+          ("t" "Todo" entry (file (concat org-directory "/todo.org"))
+"* TODO %?
+:PROPERTIES:
+:CREATED:%U
+:END:
+%i\n Link: %a\n")))
   ;; Agenda management
   (setq org-agenda-skip-scheduled-if-done t)
   (setq org-agenda-skip-deadline-if-done t)
@@ -273,11 +302,19 @@ layers configuration. You are free to put any user code."
   (add-to-list 'org-modules 'org-timer t)
   ;; Mobile setup
   (setq org-mobile-directory "~/Dropbox/Notes/mobile")
-  (setq org-mobile-inbox-for-pull (concat org-directory "/index.org"))
+  (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
 
   ;; Tex settings
   (setq TeX-PDF-mode t)
+  ;; Automatic update for pdf
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+  ;; Emacs freezes with linum-mode
+  (add-hook 'doc-view-mode-hook
+            (lambda ()
+              (linum-mode -1)
+              ))
+  (defadvice doc-view-display (after fit-width activate)
+    (doc-view-fit-width-to-window))
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
