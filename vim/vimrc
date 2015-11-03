@@ -847,29 +847,29 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
         nnoremap <F1> :Startify<cr>
     "}}}
     NeoBundleLazy 'mattn/gist-vim', { 'depends': 'mattn/webapi-vim', 'autoload': { 'commands': 'Gist' } } "{{{
-      let g:gist_post_private=1
-      let g:gist_show_privates=1
+        let g:gist_post_private=1
+        let g:gist_show_privates=1
     "}}}
     NeoBundleLazy 'Shougo/vimshell.vim', {'autoload':{'commands':[ 'VimShell', 'VimShellInteractive' ]}} "{{{
-      if s:is_macvim
-        let g:vimshell_editor_command='mvim'
-      else
-        let g:vimshell_editor_command='vim'
-      endif
-      let g:vimshell_right_prompt='getcwd()'
-      let g:vimshell_data_directory=s:get_cache_dir('vimshell')
-      let g:vimshell_vimshrc_path='~/.vim/vimshrc'
+        if s:is_macvim
+            let g:vimshell_editor_command='mvim'
+        else
+            let g:vimshell_editor_command='vim'
+        endif
+        let g:vimshell_right_prompt='getcwd()'
+        let g:vimshell_data_directory=s:get_cache_dir('vimshell')
+        let g:vimshell_vimshrc_path='~/.vim/vimshrc'
 
-      nnoremap <leader>c :VimShell -split<cr>
-      nnoremap <leader>cc :VimShell -split<cr>
-      nnoremap <leader>cn :VimShellInteractive node<cr>
-      nnoremap <leader>cl :VimShellInteractive lua<cr>
-      nnoremap <leader>cr :VimShellInteractive irb<cr>
-      nnoremap <leader>cp :VimShellInteractive python<cr>
+        nnoremap <leader>c :VimShell -split<cr>
+        nnoremap <leader>cc :VimShell -split<cr>
+        nnoremap <leader>cn :VimShellInteractive node<cr>
+        nnoremap <leader>cl :VimShellInteractive lua<cr>
+        nnoremap <leader>cr :VimShellInteractive irb<cr>
+        nnoremap <leader>cp :VimShellInteractive python<cr>
     "}}}
     NeoBundleLazy 'zhaocai/GoldenView.Vim', {'autoload':{'mappings':['<Plug>ToggleGoldenViewAutoResize']}} "{{{
-      let g:goldenview__enable_default_mapping=0
-      nmap <F8> <Plug>ToggleGoldenViewAutoResize
+        let g:goldenview__enable_default_mapping=0
+        nmap <F8> <Plug>ToggleGoldenViewAutoResize
     "}}}
 endif "}}}
 
