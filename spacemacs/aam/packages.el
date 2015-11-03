@@ -46,22 +46,38 @@
 ;; https://github.com/jwiegley/use-package
 (defun aam/init-org-dashboard()
   (use-package org-dashboard
-    :defer t))
+    :defer t
+    :init
+    (progn
+      (evil-leader/set-key-for-mode 'org-mode
+        "mD" 'org-dashboard-display))))
 
 (defun aam/init-org-journal()
   (use-package org-journal
     :defer t
-    :config
-    (setq org-journal-dir "~/Dropbox/Notes/journal")))
+    :init
+    (progn
+      (setq org-journal-dir "~/Dropbox/Notes/journal")
+      (evil-leader/set-key-for-mode 'org-mode
+        "mj" 'org-journal-new-entry)
+      (evil-leader/set-key-for-mode 'org-journal-mode
+        "mj" 'org-journal-new-entry
+        "mn" 'org-journal-open-next-entry
+        "mp" 'org-journal-open-previous-entry))))
 
 (defun aam/init-org-caldav()
   (use-package org-caldav
-    :defer t))
+    :defer t
+    :init
+    (setq
+    org-caldav-calendars '(:calendar-id "iu5alt927aue6hsjis25qhsark@group.calendar.google.com"
+                            :files "~/Dropbox/Notes/work.org"
+                            :inbox "~/Dropbox/Notes/fromwork.org"))))
 
 (defun aam/init-habitrpg()
   (use-package habitrpg
     :defer t
-    :config
+    :init
     (setq
     habitrpg-api-url "https://habitica.com/api/v2"
     habitrpg-api-user "caa7c046-2e41-4233-acba-1880eb789c8a"
@@ -73,7 +89,11 @@
 
 (defun aam/init-hackernews()
   (use-package hackernews
-    :defer t))
+    :defer t
+    :init
+    (progn
+      (evil-leader/set-key
+        "ah" 'hackernews))))
 
 (defun aam/init-sx()
   (use-package sx
