@@ -304,15 +304,23 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq org-mobile-directory "~/Dropbox/Notes/mobile")
   (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
 
+  ;; General text settings
+  ;; Disable annoying wrapping
+  (remove-hook 'text-mode 'turn-on-auto-fill)
+  ;; Turn on visual line wrapping
+  (add-hook 'text-mode 'turn-on-visual-line-mode)
+
   ;; Tex settings
   (setq TeX-PDF-mode t)
-  ;; Automatic update for pdf
-  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-  ;; Emacs freezes with linum-mode
-  (add-hook 'doc-view-mode-hook
-            (lambda ()
-              (linum-mode -1)
-              ))
+
+  ;; Doc-view settings
+  (defun my-doc-view-mode-settings ()
+    ;; Automatic update for pdf
+    (auto-revert-mode)
+    ;; Emacs freezes with linum-mode
+    (linum-mode -1)
+    )
+  (add-hook 'doc-view-mode-hook 'my-doc-view-mode-settings)
   (defadvice doc-view-display (after fit-width activate)
     (doc-view-fit-width-to-window))
 )
