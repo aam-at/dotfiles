@@ -1,0 +1,4 @@
+$pdflatex = 'pdflatex -interaction=nonstopmode -synctex=1 %O %S';
+$pdf_mode = 1;
+$bibtex_use = 1;
+$clean_ext = 'bbl rel %R-blx.bib %R.synctex.gz';
