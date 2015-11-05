@@ -25,7 +25,7 @@
                             :fetcher github
                             :repo "ryjm/habitrpg.el"))
     ;; Reference management
-    (org-ref : location (recipe
+    (org-ref :location (recipe
                          :fetcher github
                          :repo "jkitchin/org-ref"))
     helm-bibtex
@@ -87,7 +87,7 @@
      habitrpg-api-user "caa7c046-2e41-4233-acba-1880eb789c8a"
      habitrpg-api-token "api-token")))
 
-(defun aam/org-ref()
+(defun aam/init-org-ref()
   (use-package org-ref
     :defer t
     :init
@@ -107,7 +107,7 @@
           org-ref-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib")
           org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers/"))))
 
-(defun aam/helm-bibtex()
+(defun aam/init-helm-bibtex()
   (use-package helm-bibtex
     :defer t
     :config
