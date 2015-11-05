@@ -24,7 +24,14 @@
     (habitrpg :location (recipe
                             :fetcher github
                             :repo "ryjm/habitrpg.el"))
-    ;; Reference management
+    (hydra :location (recipe
+                     :fetcher github
+                     :repo "abo-abo/hydra"))
+    ;; ebib dependecy for orgref
+    (ebib :location (recipe
+                     :fetcher github
+                     :repo "joostkremers/ebib"))
+    ;; org mode reference management
     (org-ref :location (recipe
                          :fetcher github
                          :repo "jkitchin/org-ref"))
@@ -87,30 +94,55 @@
      habitrpg-api-user "caa7c046-2e41-4233-acba-1880eb789c8a"
      habitrpg-api-token "api-token")))
 
+(defun aam/init-hydra()
+  (use-package hydra
+    :defer t))
+
+(defun aam/init-ebib()
+  (use-package ebib
+    :defer t))
+
 (defun aam/init-org-ref()
   (use-package org-ref
     :defer t
     :init
     (progn
       (require 'org)
+      (require 'hydra)
+      (setq hydra-is-helpful t)
+
+      (require 'key-chord)
+      (key-chord-mode 1)
+      (key-chord-define-global
+       "zz"
+       (defhydra org-ref-hydra ()
+         "org-ref"
+         ("c" org-ref-helm-insert-cite-link "cite")
+         ("r" org-ref-helm-insert-ref-link "ref")
+         ("l" org-ref-helm-insert-label-link "label")
+         ("R" org-ref "org-ref")))
       ;; optional but very useful libraries in org-ref
+      (require 'isbn)
       (require 'doi-utils)
-      (require 'jmax-bibtex)
       (require 'pubmed)
       (require 'arxiv)
       (require 'sci-id))
+      ;; (require 'jmax-bibtex))
     :config
-    (progn
-      (setq reftex-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib"))
-
-      ;; see org-ref for use of these variables
-      (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
-          org-ref-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib")
-          org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers/"))))
+    (custom-set-variables
+     '(reftex-default-bibliography (quote "~/Dropbox/Research/Bibliography/references.bib"))
+     '(org-ref-bibliography-notes (quote "~/Dropbox/Notes/papers.org"))
+     '(org-ref-default-bibliography (quote "~/Dropbox/Research/Bibliography/references.bib"))
+     '(org-ref-pdf-directory (quote "~/Dropbox/Research/Bibliography/Papers/"))
+     )))
 
 (defun aam/init-helm-bibtex()
   (use-package helm-bibtex
     :defer t
+    :init
+    (progn
+      (evil-leader/set-key
+        "hc" 'helm-bibtex))
     :config
     (progn
       (setq helm-bibtex-pdf-symbol "⌘")
