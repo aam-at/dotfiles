@@ -13,24 +13,28 @@
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
 (setq aam-packages
-    '(
-      ;; Twitter hackernews stackexchange
-      twittering-mode hackernews sx
-      ;; for viewsing log files
-      syslog-mode
-      ;; Additional package for org-mode
-      ;; TODO: configure keybindings for quick access
-      org-dashboard org-journal
-      ;; provides synchronization with google calendar.
-      (org-caldav :location (recipe
-                               :fetcher github
-                               :repo "dengste/org-caldav"))
-      ;; integration for orgmode and habitrpg.
-      (habitrpg :location (recipe
-                          :fetcher github
-                          :repo "ryjm/habitrpg.el"))
-      )
-    )
+  '(
+    ;; Additional package for org-mode
+    org-dashboard org-journal
+    ;; provides synchronization with google calendar.
+    (org-caldav :location (recipe
+                            :fetcher github
+                            :repo "dengste/org-caldav"))
+    ;; integration for orgmode and habitrpg.
+    (habitrpg :location (recipe
+                            :fetcher github
+                            :repo "ryjm/habitrpg.el"))
+    ;; Reference management
+    (org-ref : location (recipe
+                         :fetcher github
+                         :repo "jkitchin/org-ref"))
+    helm-bibtex
+    ;; Replace default doc-view
+    pdf-tools
+    ;; Twitter hackernews stackexchange
+    twittering-mode hackernews sx
+    ;; for viewsing log files
+    syslog-mode))
 
 ;; List of packages to exclude.
 (setq aam-excluded-packages '())
@@ -79,9 +83,62 @@
     :defer t
     :init
     (setq
-    habitrpg-api-url "https://habitica.com/api/v2"
-    habitrpg-api-user "caa7c046-2e41-4233-acba-1880eb789c8a"
-    habitrpg-api-token "api-token")))
+     habitrpg-api-url "https://habitica.com/api/v2"
+     habitrpg-api-user "caa7c046-2e41-4233-acba-1880eb789c8a"
+     habitrpg-api-token "api-token")))
+
+(defun aam/org-ref()
+  (use-package org-ref
+    :defer t
+    :init
+    (progn
+      ;; optional but very useful libraries in org-ref
+      (require 'doi-utils)
+      (require 'jmax-bibtex)
+      (require 'pubmed)
+      (require 'arxiv)
+      (require 'sci-id))
+    :config
+    (progn
+      (setq reftex-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib"))
+
+      ;; see org-ref for use of these variables
+      (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
+          org-ref-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib")
+          org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers/"))))
+
+(defun aam/helm-bibtex()
+  (use-package helm-bibtex
+    :defer t
+    :config
+    (progn
+      (setq helm-bibtex-pdf-symbol "⌘")
+      (setq helm-bibtex-notes-symbol "✎")
+      (setq helm-bibtex-additional-search-fields '(keywords tags))
+      (setq helm-bibtex-bibliography "~/Dropbox/Research/Bibliography/references.bib")
+      (setq helm-bibtex-library-path "~/Dropbox/Research/Bibliography/Papers/")
+      (setq helm-bibtex-pdf-open-function
+            (lambda (fpath)
+              (start-process "evince" "*helm-bibtex-evince*" "/usr/bin/xournal" fpath)))
+      (setq helm-bibtex-format-citation-functions
+            '((org-mode      . helm-bibtex-format-citation-org-link-to-PDF)
+              (latex-mode    . helm-bibtex-format-citation-cite)
+              (markdown-mode . helm-bibtex-format-citation-pandoc-citeproc)
+              (default       . helm-bibtex-format-citation-default)))
+      )))
+
+(defun aam/init-pdf-tools()
+  (use-package pdf-tools
+    :defer t
+    :config
+    (progn
+      (defvar prefer-pdf-tools (fboundp 'pdf-view-mode))
+      (defun start-pdf-tools-if-pdf ()
+        (when (and prefer-pdf-tools
+                   (eq doc-view-doc-type 'pdf))
+          (pdf-view-mode)))
+
+      (add-hook 'doc-view-mode-hook 'start-pdf-tools-if-pdf))))
 
 (defun aam/init-twittering-mode()
   (use-package twittering-mode

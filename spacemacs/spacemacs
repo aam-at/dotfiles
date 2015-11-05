@@ -238,8 +238,11 @@ layers configuration. You are free to put any user code."
   (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
   ;; Show line numbers
-  (global-linum-mode)
-  (with-eval-after-load 'linum (linum-relative-toggle))
+  (add-hook 'prog-mode-hook #'linum-mode)
+  (with-eval-after-load 'linum
+    (add-hook 'prog-mode-hook #'linum-relative-toggle))
+  ;; (spacemacs/toggle-line-numbers-on)
+  ;; (with-eval-after-load 'linum (linum-relative-toggle))
 
   ;; Wakatime settings
   (setq wakatime-api-key "api-key")
@@ -304,13 +307,24 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
 
   ;; Latex/Tex settings
-  (setq TeX-PDF-mode t)
   (defun my-latex-settings()
     ;; Disable annoying wrapping
     (spacemacs/toggle-auto-fill-mode-off)
     ;; Turn on visual line wrapping and visual line navigation
     (spacemacs/toggle-visual-line-navigation-on))
   (add-hook 'LaTeX-mode-hook 'my-latex-settings)
+
+  ;; Auctex settings
+  ;; Pdf syncing
+  (cond
+   ((string-equal system-type "darwin")
+    (progn (setq TeX-view-program-selection '((output-pdf "Skim")))))
+   ((string-equal system-type "gnu/linux")
+    (progn (setq TeX-view-program-selection '((output-pdf "Okular"))))))
+  (setq TeX-source-correlate-method 'synctex)
+  (setq TeX-view-program-list
+        '(("Okular" "okular --unique %o#src:%n%b")
+          ("Skim" "displayline -b -g %n %o %b")))
 
   ;; Doc-view settings
   (defun my-doc-view-settings ()
