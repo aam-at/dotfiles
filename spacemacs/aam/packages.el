@@ -92,6 +92,7 @@
     :defer t
     :init
     (progn
+      (require 'org)
       ;; optional but very useful libraries in org-ref
       (require 'doi-utils)
       (require 'jmax-bibtex)

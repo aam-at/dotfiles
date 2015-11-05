@@ -257,6 +257,7 @@ layers configuration. You are free to put any user code."
                                (concat org-directory "/habits.org")
                                (concat org-directory "/notes.org")
                                (concat org-directory "/ideas.org")
+                               (concat org-directory "/papers.org")
                                (concat org-directory "/journal")))
   (setq org-default-notes-file (concat org-directory "/refile.org"))
   (setq org-capture-templates
