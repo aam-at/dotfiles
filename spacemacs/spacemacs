@@ -43,8 +43,7 @@ values."
      c-c++ python lua haskell go
      html javascript markdown ipython-notebook
      emacs-lisp
-     (latex :variables latex-build-command "LatexMk"
-            :variables latex-enable-auto-fill t)
+     (latex :variables latex-build-command "LatexMk")
      extra-langs
      shell-scripts windows-scripts autohotkey
      ;; Auto-completion & tags
@@ -304,23 +303,23 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq org-mobile-directory "~/Dropbox/Notes/mobile")
   (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
 
-  ;; General text settings
-  ;; Disable annoying wrapping
-  (remove-hook 'text-mode 'turn-on-auto-fill)
-  ;; Turn on visual line wrapping
-  (add-hook 'text-mode 'turn-on-visual-line-mode)
-
-  ;; Tex settings
+  ;; Latex/Tex settings
   (setq TeX-PDF-mode t)
+  (defun my-latex-settings()
+    ;; Disable annoying wrapping
+    (spacemacs/toggle-auto-fill-mode-off)
+    ;; Turn on visual line wrapping and visual line navigation
+    (spacemacs/toggle-visual-line-navigation-on))
+  (add-hook 'LaTeX-mode-hook 'my-latex-settings)
 
   ;; Doc-view settings
-  (defun my-doc-view-mode-settings ()
+  (defun my-doc-view-settings ()
     ;; Automatic update for pdf
     (auto-revert-mode)
     ;; Emacs freezes with linum-mode
     (linum-mode -1)
     )
-  (add-hook 'doc-view-mode-hook 'my-doc-view-mode-settings)
+  (add-hook 'doc-view-mode-hook 'my-doc-view-settings)
   (defadvice doc-view-display (after fit-width activate)
     (doc-view-fit-width-to-window))
 )
