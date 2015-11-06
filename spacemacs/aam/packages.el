@@ -167,6 +167,23 @@
 (defun aam/init-pdf-tools()
   (use-package pdf-tools
     :defer t
+    :init
+    (evilify pdf-view-mode pdf-view-mode-map
+             ;; "/"  'spacemacs/doc-view-search-new-query
+             ;; "?"  'spacemacs/doc-view-search-new-query-backward
+             "gg" 'pdf-view-first-page
+             "G"  'pdf-view-last-page
+             "gt" 'pdf-view-goto-page
+             "h"  'pdf-view-previous-page
+             "j"  'pdf-view-next-line-or-next-page
+             "k"  'pdf-view-previous-line-or-previous-page
+             ;; "K"  'pdf-view-kill-proc-and-buffer
+             "l"  'pdf-view-next-page
+             ;; "n"  'doc-view-search
+             ;; "N"  'doc-view-search-backward
+             (kbd "C-d") 'pdf-view-scroll-up-or-next-page
+             ;; (kbd "C-k") 'doc-view-kill-proc
+             (kbd "C-u") 'pdf-view-scroll-down-or-previous-page)
     :config
     (progn
       (defvar prefer-pdf-tools (fboundp 'pdf-view-mode))
