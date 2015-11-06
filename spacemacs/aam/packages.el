@@ -27,10 +27,11 @@
     (hydra :location (recipe
                      :fetcher github
                      :repo "abo-abo/hydra"))
-    ;; ebib dependecy for orgref
+    ;; ebib and key-chord dependecy for orgref
     (ebib :location (recipe
                      :fetcher github
                      :repo "joostkremers/ebib"))
+    key-chord
     ;; org mode reference management
     (org-ref :location (recipe
                          :fetcher github
@@ -102,6 +103,10 @@
   (use-package ebib
     :defer t))
 
+(defun aam/init-key-chord()
+  (use-package key-chord
+    :defer t))
+
 (defun aam/init-org-ref()
   (use-package org-ref
     :defer t
@@ -152,7 +157,7 @@
       (setq helm-bibtex-library-path "~/Dropbox/Research/Bibliography/Papers/")
       (setq helm-bibtex-pdf-open-function
             (lambda (fpath)
-              (start-process "evince" "*helm-bibtex-evince*" "/usr/bin/xournal" fpath)))
+              (start-process "xournal" "*helm-bibtex-xournal*" "/usr/bin/xournal" fpath)))
       (setq helm-bibtex-format-citation-functions
             '((org-mode      . helm-bibtex-format-citation-org-link-to-PDF)
               (latex-mode    . helm-bibtex-format-citation-cite)
