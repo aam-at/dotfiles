@@ -134,12 +134,14 @@
       (require 'sci-id))
       ;; (require 'jmax-bibtex))
     :config
-    (custom-set-variables
-     '(reftex-default-bibliography (quote "~/Dropbox/Research/Bibliography/references.bib"))
-     '(org-ref-bibliography-notes (quote "~/Dropbox/Notes/papers.org"))
-     '(org-ref-default-bibliography (quote "~/Dropbox/Research/Bibliography/references.bib"))
-     '(org-ref-pdf-directory (quote "~/Dropbox/Research/Bibliography/Papers/"))
-     )))
+    (progn
+      ;; (setq org-ref-bibliography-notes '(expand-file-name "~/Dropbox/Notes/papers.org"))
+      (custom-set-variables
+       '(reftex-default-bibliography (quote "~/Dropbox/Research/Bibliography/references.bib"))
+       '(org-ref-bibliography-notes (quote "~/Dropbox/Notes/papers.org"))
+       '(org-ref-default-bibliography (quote "~/Dropbox/Research/Bibliography/references.bib"))
+       '(org-ref-pdf-directory (quote "~/Dropbox/Research/Bibliography/Papers/"))))
+     ))
 
 (defun aam/init-helm-bibtex()
   (use-package helm-bibtex

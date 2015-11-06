@@ -3,3 +3,5 @@
       '((:calendar-id "iu5alt927aue6hsjis25qhsark@group.calendar.google.com" :files ("~/Dropbox/Notes/work.org")
                       :inbox "~/Dropbox/Notes/fromwork.org"))
       )
+(evil-leader/set-key-for-mode 'bibtex-mode
+  "mn" 'org-ref-open-bibtex-notes)
