@@ -131,7 +131,8 @@
       (require 'doi-utils)
       (require 'pubmed)
       (require 'arxiv)
-      (require 'sci-id))
+      (require 'sci-id)
+      (require 'jmax-bibtex))
     :config
     ;; Org-ref configuration
     (setq reftex-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib"))

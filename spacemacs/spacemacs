@@ -309,6 +309,8 @@ SCHEDULED: %^{When should we stop?}t +1d
 
   ;; Latex/Tex settings
   (defun my-latex-settings()
+    (add-to-list 'TeX-output-view-style
+                 '("^pdf$" "." "okular --unique %o#src:%n%b"))
     ;; Disable annoying wrapping
     (spacemacs/toggle-auto-fill-mode-off)
     ;; Turn on visual line wrapping and visual line navigation
@@ -317,15 +319,14 @@ SCHEDULED: %^{When should we stop?}t +1d
 
   ;; Auctex settings
   ;; Pdf syncing
-  (cond
-   ((string-equal system-type "darwin")
-    (progn (setq TeX-view-program-selection '((output-pdf "Skim")))))
-   ((string-equal system-type "gnu/linux")
-    (progn (setq TeX-view-program-selection '((output-pdf "Okular"))))))
-  (setq TeX-source-correlate-method 'synctex)
   (setq TeX-view-program-list
-        '(("Okular" "okular --unique %o#src:%n%b")
-          ("Skim" "displayline -b -g %n %o %b")))
+        '(("Skim" "displayline -b -g %n %o %b")
+          ("Evince" "evince --page-index=%(outpage) %o")
+          ("Okular" "okular --unique %o#src:%n%b")))
+  (setq TeX-view-program-selection '((output-pdf "Okular")))
+  (setq TeX-source-correlate-method 'synctex)
+  (with-eval-after-load 'tex
+    (add-to-list 'TeX-command-list '("View" "evince %o" TeX-run-command nil t :help "Run evince on your document")))
 
   ;; Doc-view settings
   (defun my-doc-view-settings ()
