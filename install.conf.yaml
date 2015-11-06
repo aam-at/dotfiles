@@ -17,7 +17,6 @@
     ~/.nvimrc: vim/vimrc
     ~/.ideavimrc: idea/ideavimrc
     ~/.spacemacs: spacemacs/spacemacs
-    ~/.emacs.d/core/libs/key-chord.el: spacemacs/key-chord.el
     ~/.emacs.d/private/aam: spacemacs/aam
     ~/.taskrc: task/taskrc
     ~/.profile: bash/profile
