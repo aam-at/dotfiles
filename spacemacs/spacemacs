@@ -318,6 +318,7 @@ SCHEDULED: %^{When should we stop?}t +1d
   (add-hook 'LaTeX-mode-hook 'my-latex-settings)
 
   ;; Auctex settings
+  (setq-default TeX-master nil) ; Query for master file.
   ;; Pdf syncing
   (setq TeX-view-program-list
         '(("Skim" "displayline -b -g %n %o %b")
