@@ -30,6 +30,7 @@ values."
      better-defaults
      (perspectives :variables
                    perspective-enable-persp-projectile t)
+     eyebrowse
      (colors :variables colors-enable-rainbow-identifiers t)
      themes-megapack
      spell-checking
