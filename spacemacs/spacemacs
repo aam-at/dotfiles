@@ -340,6 +340,10 @@ SCHEDULED: %^{When should we stop?}t +1d
   (add-hook 'doc-view-mode-hook 'my-doc-view-settings)
   (defadvice doc-view-display (after fit-width activate)
     (doc-view-fit-width-to-window))
+
+  ;; Lua congiguration
+  (setq lua-default-application "qlua")
+  (setq lua-default-command-switches "-lqttorch -lenv -i")
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
