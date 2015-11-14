@@ -829,14 +829,14 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
         NeoBundle 'jceb/vim-orgmode'
         NeoBundle 'vimwiki/vimwiki' "{{{
             " Taskwarior backend for notes
-            let g:vimwiki_list = [{'path': '~/Dropbox/Notes/',
+            let g:vimwiki_list = [{'path': '~/Dropbox/Notes/markdown/',
                         \ 'syntax': 'markdown', 'ext': '.md'}]
             " autocmd! BufRead,BufNewFile */vimwiki/*        set filetype=vimwiki
             autocmd BufNewFile,BufReadPost *.md set filetype=markdown
         "}}}
         NeoBundle 'neilagabriel/vim-geeknote' "{{{
             let g:GeeknoteFormat="markdown"
-            let g:notes_directories = ['~/Dropbox/Notes']  
+            let g:notes_directories = ['~/Dropbox/Notes/markdown/']
         "}}}
     "}}}
     NeoBundle 'powerline/fonts'
