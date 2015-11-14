@@ -1,6 +1,5 @@
 alias ..="cd .."
 alias ...="cd ../.."
-alias -="cd -"
 
 alias la="ls -lahG"
 alias ll="ls -lhG"

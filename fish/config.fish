@@ -47,6 +47,7 @@ source ~/.env
 # Custom functions and aliases #
 ################################
 source ~/.aliases
+alias -="cd -"
 
 function reload
     source ~/.config/fish/config.fish
