@@ -216,6 +216,7 @@
     "}}}
 
     let mapleader = ","
+    let maplocalleader = "\\"
     let g:mapleader = ","
 "}}}
 
@@ -860,12 +861,12 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
         let g:vimshell_data_directory=s:get_cache_dir('vimshell')
         let g:vimshell_vimshrc_path='~/.vim/vimshrc'
 
-        nnoremap <leader>c :VimShell -split<cr>
-        nnoremap <leader>cc :VimShell -split<cr>
-        nnoremap <leader>cn :VimShellInteractive node<cr>
-        nnoremap <leader>cl :VimShellInteractive lua<cr>
-        nnoremap <leader>cr :VimShellInteractive irb<cr>
-        nnoremap <leader>cp :VimShellInteractive python<cr>
+        nnoremap <localleader>c :VimShell -split<cr>
+        nnoremap <localleader>cc :VimShell -split<cr>
+        nnoremap <localleader>cn :VimShellInteractive node<cr>
+        nnoremap <localleader>cl :VimShellInteractive lua<cr>
+        nnoremap <localleader>cr :VimShellInteractive irb<cr>
+        nnoremap <localleader>cp :VimShellInteractive python<cr>
     "}}}
     NeoBundleLazy 'zhaocai/GoldenView.Vim', {'autoload':{'mappings':['<Plug>ToggleGoldenViewAutoResize']}} "{{{
         let g:goldenview__enable_default_mapping=0
