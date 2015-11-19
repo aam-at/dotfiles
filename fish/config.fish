@@ -33,12 +33,7 @@ set -x PATH $PATH /sbin/
 # Source environement variables shared between different shells.
 # http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
 function setenv
-    if [ $argv[1] = PATH ]
-        # Replace colons and spaces with newlines
-        set -gx PATH (echo $argv[2] | tr ': ' \n)
-    else
-        set -gx $argv
-    end
+    set -gx $argv[1] (echo $argv[2] | tr ': ' \n)
 end
 # sources environment variables
 source ~/.env

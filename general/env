@@ -1,6 +1,11 @@
 # Define environement variables which will be automatically sourced
 # for bash and shell scripts.
 # http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
+# Configure cuda
+setenv CUDA_HOME "/usr/local/cuda"
+setenv PATH "$CUDA_HOME/bin:$PATH"
+setenv LD_LIBRARY_PATH "$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
+
 setenv GOPATH "$HOME/local/go_packages"
 setenv PATH "$HOME/.local/bin:$PATH"
 setenv PATH "$HOME/anaconda/bin:$GOPATH/bin:$PATH"
