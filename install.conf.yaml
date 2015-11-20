@@ -2,6 +2,7 @@
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
     - [curl -L github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish, Installing oh-my-fish]
+    - [curl -L github.com/techwizrd/fishmarks/raw/master/install.fish | fish, Installing fishmarks]
     - [ln -s ~/.vim $HOME/.nvim, Link neovim to vim]
 - link:
     ~/.gitconfig: git/gitconfig
