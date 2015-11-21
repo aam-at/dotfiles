@@ -5,6 +5,7 @@
     - [curl -L github.com/techwizrd/fishmarks/raw/master/install.fish | fish, Installing fishmarks]
     - [ln -s ~/.vim $HOME/.nvim, Link neovim to vim]
 - link:
+    ~/.ssh/config: config/ssh
     ~/.gitconfig: git/gitconfig
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux/plugins/tpm:
