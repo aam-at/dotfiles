@@ -20,6 +20,7 @@
     ~/.ideavimrc: idea/ideavimrc
     ~/.spacemacs: spacemacs/spacemacs
     ~/.emacs.d/private/aam: spacemacs/aam
+    ~/.emacs.d/core/pymacs.el: spacemacs/pymacs.el
     ~/.taskrc: task/taskrc
     ~/.profile: bash/profile
     ~/.bashrc: bash/bashrc
