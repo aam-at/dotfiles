@@ -231,6 +231,7 @@ user code."
 layers configuration. You are free to put any user code."
   ;; Emacs configuration
   (setq vc-follow-symlinks t)
+  (desktop-save-mode t)
 
   ;; Enable visual line navigation
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
