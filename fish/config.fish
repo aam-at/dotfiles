@@ -1,8 +1,8 @@
 # Path to Oh My Fish install.
-set -gx OMF_PATH /home/aam/.local/share/omf
+set -gx OMF_PATH $HOME/.local/share/omf
 
 # Customize Oh My Fish configuration path.
-#set -gx OMF_CONFIG /home/aam/.config/omf
+set -gx OMF_CONFIG $HOME/.config/omf
 
 # Load oh-my-fish configuration.
 source $OMF_PATH/init.fish
@@ -17,8 +17,8 @@ set fish_plugins vi-mode python pyenv git-flow
 . $HOME/.fishmarks/marks.fish
 
 # autojump utility for easy navigation
-if test -f /home/aam/.autojump/share/autojump/autojump.fish;
-    . /home/aam/.autojump/share/autojump/autojump.fish;
+if test -f $HOME/.autojump/share/autojump/autojump.fish;
+    . $HOME/.autojump/share/autojump/autojump.fish;
 end
 
 # use vi-mode by default

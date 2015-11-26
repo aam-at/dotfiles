@@ -42,8 +42,8 @@
                         :fetcher github
                         :repo "rootzlevel/synosaurus"))
     thesaurus synonymous
-    ;; Replace default doc-view
-    pdf-tools
+    ;; Replace default doc-view and provide djvu support
+    pdf-tools djvu
     ;; Twitter hackernews stackexchange
     twittering-mode hackernews sx
     ;; for viewsing log files
@@ -229,6 +229,10 @@
           (pdf-view-mode)))
 
       (add-hook 'doc-view-mode-hook 'start-pdf-tools-if-pdf))))
+
+(defun aam/init-djvu()
+  (use-package djvu
+    :defer t))
 
 (defun aam/init-twittering-mode()
   (use-package twittering-mode
