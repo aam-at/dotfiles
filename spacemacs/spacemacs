@@ -241,6 +241,7 @@ layers configuration. You are free to put any user code."
 
   ;; Show line numbers
   (add-hook 'prog-mode-hook #'linum-mode)
+  (add-hook 'prog-mode-hook 'spacemacs/toggle-fill-column-indicator-on)
   (with-eval-after-load 'linum
     (add-hook 'prog-mode-hook #'linum-relative-toggle))
   ;; (spacemacs/toggle-line-numbers-on)

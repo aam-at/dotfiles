@@ -11,7 +11,7 @@
   (interactive)
   (require 'pymacs)
   (pymacs-load "ropemacs" "rope-"))
-(add-hook 'python-mode 'load-ropemacs)
+(add-hook 'python-mode-hook 'load-ropemacs)
 
 (setq ropemacs-confirm-saving 'nil)
 (evil-leader/set-key-for-mode 'python-mode
