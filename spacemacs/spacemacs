@@ -270,7 +270,8 @@ layers configuration. You are free to put any user code."
 :PROPERTIES:
 :CREATED:%U
 :END:
-%i\n%?\n")
+%i\n%?\n
+Link: %a\n")
           ("h" "Habit" entry (file (concat org-directory "/habits.org"))
            "* TODO %?
 SCHEDULED: %^{When should we stop?}t +1d
