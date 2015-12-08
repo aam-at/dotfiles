@@ -6,11 +6,14 @@
 
 ;; Configure ropemacs
 ;; ropemacs rope pymacs needs to be installed manually
+(defvar is-ropemacs-loaded nil "True if ropemacs already loaded")
 (defun load-ropemacs()
   "Load pymacs and ropemacs"
   (interactive)
-  (require 'pymacs)
-  (pymacs-load "ropemacs" "rope-"))
+  (unless is-ropemacs-loaded
+    (setq is-ropemacs-loaded t)
+    (require 'pymacs)
+    (pymacs-load "ropemacs" "rope-")))
 (add-hook 'python-mode-hook 'load-ropemacs)
 
 (setq ropemacs-confirm-saving 'nil)
