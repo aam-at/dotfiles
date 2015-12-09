@@ -35,7 +35,7 @@ values."
      themes-megapack
      spell-checking
      syntax-checking
-     version-control git
+     version-control git github
      ;; More VIM in emacs
      evil-snipe unimpaired vinegar
      ;; ----------------------------------------------------------------
