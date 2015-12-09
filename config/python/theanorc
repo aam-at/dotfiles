@@ -1,0 +1,15 @@
+[global]
+optimizer_including = cudnn
+# optimizer = None
+# exception_verbosity=high
+device = gpu0
+floatX = float32
+force_device=True
+allow_gc=False
+
+[nvcc]
+fastmath = True
+flags=-L~/anaconda/libs
+
+[gcc]
+cxxflags=-I /usr/local/cuda-7.5/include -L /usr/local/cuda-7.5/lib64

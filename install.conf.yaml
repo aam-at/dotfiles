@@ -6,6 +6,8 @@
     - [ln -s ~/.vim $HOME/.nvim, Link neovim to vim]
 - link:
     ~/.ssh/config: config/ssh/config
+    ~/.theanorc: config/python/theanorc
+    ~/.fuelrc: config/python/fuelrc
     ~/.gitconfig: git/gitconfig
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux/plugins/tpm:
