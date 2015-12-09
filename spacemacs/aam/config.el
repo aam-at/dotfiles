@@ -17,6 +17,7 @@
 (add-hook 'python-mode-hook 'load-ropemacs)
 
 (setq ropemacs-confirm-saving 'nil)
+(setq ropemacs-enable-autoimport 't)
 (evil-leader/set-key-for-mode 'python-mode
   ;; Rope project shortcuts
   "mpo" 'rope-open-project
