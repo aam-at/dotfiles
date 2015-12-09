@@ -617,6 +617,9 @@ if count(s:my_settings.plugin_groups, 'python') "{{{
         nmap <silent> <C-_> <Plug>(pydocstring)
     "}}}
     NeoBundleLazy 'vim-scripts/python_match.vim', {'autoload':{'filetypes':['python']}}
+    NeoBundleLazy 'mindriot101/vim-yapf', {'autoload':{'filetypes':['python']}} "{{{
+        nmap <leader>= :call Yapf()<cr>
+    "}}}
 endif "}}}
 
 if count(s:my_settings.plugin_groups, 'lua') "{{{
