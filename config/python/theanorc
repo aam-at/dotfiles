@@ -6,6 +6,7 @@ device = gpu0
 floatX = float32
 force_device=True
 allow_gc=False
+assert_no_cpu_op = raise
 
 [nvcc]
 fastmath = True
