@@ -346,6 +346,9 @@ SCHEDULED: %^{When should we stop?}t +1d
   (defadvice doc-view-display (after fit-width activate)
     (doc-view-fit-width-to-window))
 
+  ;; C++ development
+  (set-variable 'ycmd-server-command '("python" "~/local/tools/ycmd/ycmd"))
+
   ;; Lua congiguration
   (setq lua-default-application "qlua")
   (setq lua-default-command-switches "-lqttorch -lenv -i")
