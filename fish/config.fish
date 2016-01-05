@@ -25,6 +25,7 @@ if test -f $HOME/.autojump/share/autojump/autojump.fish;
 end
 
 # use vi-mode by default
+set -U fish_key_bindings fish_vi_key_bindings
 fish_vi_mode
 
 # colorscheme for fish

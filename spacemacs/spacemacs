@@ -28,6 +28,7 @@ values."
      ;; General
      ;; ----------------------------------------------------------------
      better-defaults
+     eyebrowse
      (colors :variables colors-enable-rainbow-identifiers t)
      themes-megapack
      spell-checking
