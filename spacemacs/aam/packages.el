@@ -132,12 +132,18 @@
          ("l" org-ref-helm-insert-label-link "label")
          ("R" org-ref "org-ref")))
       ;; optional but very useful libraries in org-ref
-      (require 'isbn)
+      (require 'org-ref-isbn)
+      (require 'org-ref-pdf)
+      (require 'org-ref-url-utils)
       (require 'doi-utils)
-      (require 'pubmed)
-      (require 'arxiv)
-      (require 'sci-id)
-      (require 'jmax-bibtex))
+      (require 'org-ref-worldcat)
+      (require 'org-ref-scifinder)
+      (require 'org-ref-pubmed)
+      (require 'org-ref-arxiv)
+      (require 'org-ref-sci-id)
+      (require 'org-ref-bibtex)
+      (require 'org-ref-scopus)
+      (require 'org-ref-wos))
     :config
     ;; Org-ref configuration
     (setq reftex-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib"))
@@ -204,7 +210,7 @@
   (use-package pdf-tools
     :defer t
     :init
-    (evilify pdf-view-mode pdf-view-mode-map
+    (evilified-state-evilify pdf-view-mode pdf-view-mode-map
              "/"  'isearch-forward
              "?"  'isearch-backward
              "gg" 'pdf-view-first-page
