@@ -10,7 +10,7 @@ setenv CPATH "$CUDA_HOME/include:$CPATH"
 # Configure cudnn
 setenv CUDNN_HOME "~/.local/lib/cudnn"
 setenv LD_LIBRARY_PATH "$CUDNN_HOME/lib64:$LD_LIBRARY_PATH"
-setenv CPATH "~/.local/lib/cudnn/include:$CPATH"
+setenv CPATH "$CUDNN_HOME/include:$CPATH"
 
 setenv GOPATH "$HOME/local/go_packages"
 setenv PATH "$HOME/.local/bin:$PATH"
