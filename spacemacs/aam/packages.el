@@ -66,7 +66,7 @@
     :defer t
     :init
     (progn
-      (evil-leader/set-key-for-mode 'org-mode
+      (spacemacs/set-leader-keys-for-major-mode 'org-mode
         "mD" 'org-dashboard-display))))
 
 (defun aam/init-org-journal()
@@ -75,9 +75,9 @@
     :init
     (progn
       (setq org-journal-dir "~/Dropbox/Notes/journal")
-      (evil-leader/set-key-for-mode 'org-mode
+      (spacemacs/set-leader-keys-for-major-mode 'org-mode
         "mj" 'org-journal-new-entry)
-      (evil-leader/set-key-for-mode 'org-journal-mode
+      (spacemacs/set-leader-keys-for-major-mode 'org-journal-mode
         "mj" 'org-journal-new-entry
         "mn" 'org-journal-open-next-entry
         "mp" 'org-journal-open-previous-entry))))
