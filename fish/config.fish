@@ -7,11 +7,14 @@ set -gx OMF_CONFIG $HOME/.config/omf
 # Load oh-my-fish configuration.
 source $OMF_PATH/init.fish
 
+# Oh My Fish plugins
+set fish_plugins vi-mode python pyenv gi git-flow emacs
+set fish_plugins extract thefuck weather
+set fish_plugins agnoster krisleech zish toaster ocean
+
 # Oh My Fish theme
 set fish_theme agnoster
 
-# Oh My Fish plugins
-set fish_plugins vi-mode python pyenv git-flow
 # Load fishmarks (http://github.com/techwizrd/fishmarks)
 # install: curl -L https://github.com/techwizrd/fishmarks/raw/master/install.fish | fish
 . $HOME/.fishmarks/marks.fish
