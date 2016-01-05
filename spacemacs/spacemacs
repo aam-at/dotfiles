@@ -33,8 +33,8 @@ values."
      spell-checking
      syntax-checking
      version-control git github
-     ;; More VIM in emacs
-     evil-snipe unimpaired vinegar
+     ;; More VIM sugar in emacs
+     evil-snipe unimpaired vinegar evil-cleverparens
      ;; ----------------------------------------------------------------
      ;; Programming languages
      ;; ----------------------------------------------------------------
