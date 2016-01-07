@@ -34,6 +34,11 @@ values."
      spell-checking
      syntax-checking
      version-control git github
+     (chinese :variables
+              ;; chinese-enable-fcitx t
+              ;; chinese-default-input-method 'wubi
+              chinese-enable-youdao-dict t
+              chinese-enable-avy-pinyin nil)
      ;; More VIM sugar in emacs
      evil-snipe unimpaired vinegar evil-cleverparens
      ;; ----------------------------------------------------------------
