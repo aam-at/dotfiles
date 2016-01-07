@@ -300,6 +300,11 @@ SCHEDULED: %^{When should we stop?}t +1d
           ("W" "Waiting tasks" todo-tree "WAITING")
           ("c" "Cleaning tasks" tags "+cleaning")
           ("d" "Daily tasks" tags "+daily")))
+  ;; Anki like functionality
+  (require 'org-drill)
+  (add-to-list 'org-modules 'org-drill t)
+  (setq org-learn-always-reschedule t)
+  (setq org-drill-add-random-noise-to-intervals-p t)
   ;; Tracking habits
   (require 'org-habit)
   (add-to-list 'org-modules 'org-habit t)
