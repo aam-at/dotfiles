@@ -70,3 +70,4 @@ fi
 # http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
 function setenv() { export "$1=$2";  }
 . ~/.env
+eval "$(thefuck --alias)"
