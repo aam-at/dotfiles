@@ -3,7 +3,6 @@
     - [git submodule update --init --recursive, Installing submodules]
     - [curl -L github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish, Installing oh-my-fish]
     - [curl -L github.com/techwizrd/fishmarks/raw/master/install.fish | fish, Installing fishmarks]
-    - [ln -s ~/.vim $HOME/.nvim, Link neovim to vim]
 - link:
     ~/.ssh/config: config/ssh/config
     ~/.theanorc: config/python/theanorc
@@ -14,11 +13,10 @@
         create: true
         path: tmux/plugins/tpm
     ~/.config/fish/config.fish: fish/config.fish
-    ~/.vim/bundle/neobundle.vim:
+    ~/.config/nvim/bundle/neobundle.vim:
         create: true
-        path: vim/bundle/neobundle.vim
-    ~/.vimrc: vim/vimrc
-    ~/.nvimrc: vim/vimrc
+        path: ../.vim
+    ~/.config/nvim/init.vim: vim/vimrc
     ~/.ideavimrc: idea/ideavimrc
     ~/.spacemacs: spacemacs/spacemacs
     ~/.emacs.d/private/aam: spacemacs/aam
