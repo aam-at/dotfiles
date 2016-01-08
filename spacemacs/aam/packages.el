@@ -31,7 +31,7 @@
     (ebib :location (recipe
                      :fetcher github
                      :repo "joostkremers/ebib"))
-    key-chord
+    key-chord key-seq
     ;; org mode reference management
     (org-ref :location (recipe
                          :fetcher github
@@ -105,6 +105,12 @@
 
 (defun aam/init-key-chord()
   (use-package key-chord
+    :defer t
+    :init
+    (key-chord-mode 1)))
+
+(defun aam/init-key-seq ()
+  (use-package key-seq
     :defer t))
 
 (defun aam/init-org-ref()
@@ -117,7 +123,6 @@
       (setq hydra-is-helpful t)
 
       (require 'key-chord)
-      (key-chord-mode 1)
       (key-chord-define-global
        "zz"
        (defhydra org-ref-hydra ()
