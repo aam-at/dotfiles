@@ -37,11 +37,6 @@
                          :fetcher github
                          :repo "jkitchin/org-ref"))
     helm-bibtex
-    ;; synonyms and thesaurus
-    (synosaurus :location (recipe
-                        :fetcher github
-                        :repo "rootzlevel/synosaurus"))
-    thesaurus synonymous
     ;; Replace default doc-view and provide djvu support
     pdf-tools djvu
     ;; Twitter hackernews stackexchange
@@ -174,37 +169,6 @@
               (markdown-mode . helm-bibtex-format-citation-pandoc-citeproc)
               (default       . helm-bibtex-format-citation-default)))
       )))
-
-(defun aam/init-synosaurus()
-  (use-package synosaurus
-    :defer t
-    :init
-    (progn
-      (add-hook 'markdown-mode-hook 'synosaurus-mode)
-      (add-hook 'text-mode-hook 'synosaurus-mode)
-      (evil-leader/set-key
-        "Sl" 'synosaurus-lookup
-        "Sr" 'synosaurus-choose-and-replace))
-    :config
-    (progn
-      (setq synosaurus-choose-method 'default))
-    ))
-
-(defun aam/init-thesaurus()
-  (use-package thesaurus
-    :defer t
-    :init
-    (progn
-      (evil-leader/set-key
-        "St" 'thesaurus-choose-synonym-and-replace))
-    :config
-    (progn
-      (setq thesaurus-bhl-api-key "api-key"))
-    ))
-
-(defun aam/init-synonymous()
-  (use-package synonymous
-    :defer t))
 
 (defun aam/init-pdf-tools()
   (use-package pdf-tools

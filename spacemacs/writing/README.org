@@ -14,7 +14,9 @@
 * Description
 This layer provides some utilities for better and more pleasant writing:
   - write-room integration;
-  - write-good integration
+  - write-good integration;
+  - langtool integration;
+  - few tools for synonyms and thesaurus.
 
 * Install
 To use this contribution add it to your =~/.spacemacs=
@@ -25,6 +27,15 @@ To use this contribution add it to your =~/.spacemacs=
 
 * Key bindings
 
-| Key Binding | Description           |
-|-------------+-----------------------|
-| ~SPC a W~   | Toggle writeroom mode |
+| Key Binding | Description                          |
+|-------------+--------------------------------------|
+| ~SPC x W~   | Toggle writeroom mode                |
+| ~SPC x G~   | Toggle writegood mode                |
+| ~SPC x 4 w~ | Start language checking              |
+| ~SPC x 4 W~ | Finish language checking             |
+| ~SPC x 4 l~ | Switch default language for langtool |
+| ~SPC x 4 4~ | Show langtool message at point       |
+| ~SPC x 4 c~ | Correct buffer using langtool        |
+| ~SPS S l~   | synosaurus-lookup                    |
+| ~SPS S r~   | synosaurus-choose-and-replace        |
+| ~SPS S t~   | thesaurus-choose-synonym-and-replace |
