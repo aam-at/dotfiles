@@ -62,7 +62,7 @@
     :init
     (progn
       (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "mD" 'org-dashboard-display))))
+        "oD" 'org-dashboard-display))))
 
 (defun aam/init-org-journal()
   (use-package org-journal
@@ -71,7 +71,7 @@
     (progn
       (setq org-journal-dir "~/Dropbox/Notes/journal")
       (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "mj" 'org-journal-new-entry)
+        "oj" 'org-journal-new-entry)
       (spacemacs/set-leader-keys-for-major-mode 'org-journal-mode
         "mj" 'org-journal-new-entry
         "mn" 'org-journal-open-next-entry
