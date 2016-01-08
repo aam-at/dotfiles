@@ -15,7 +15,7 @@ def walklevel(some_dir, level=1):
             del dirs[:]
 
 join, isfile, isdir = os.path.join, os.path.isfile, os.path.isdir
-python_path = "/home/aam/anaconda/bin/python"
+python_path = "python"
 for dir_path, sub_dirs, files in walklevel('.', level=2):
     if ".git" in sub_dirs:
         print("Pulling changes for %s" % dir_path)
