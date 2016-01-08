@@ -13,6 +13,10 @@
         create: true
         path: tmux/plugins/tpm
     ~/.config/fish/config.fish: fish/config.fish
+    ~/.vim/bundle/neobundle.vim:
+         create: true
+         path: vim/bundle/neobundle.vim
+    ~/.vimrc: vim/vimrc
     ~/.config/nvim/bundle/neobundle.vim:
         create: true
         path: ../.vim
