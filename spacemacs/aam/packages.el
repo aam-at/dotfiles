@@ -131,7 +131,10 @@
          ("r" org-ref-helm-insert-ref-link "ref")
          ("l" org-ref-helm-insert-label-link "label")
          ("R" org-ref "org-ref")))
-      ;; optional but very useful libraries in org-ref
+      (spacemacs/set-leader-keys
+        "oc" 'org-ref-cite-hydra/body
+        "ob" 'org-ref-bibtex-hydra/body)
+      ;; optional but very useful libraries from org-ref
       (require 'org-ref-isbn)
       (require 'org-ref-pdf)
       (require 'org-ref-url-utils)
