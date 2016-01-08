@@ -67,8 +67,8 @@ values."
      fasd ;; like autojump but better. TODO: try to use it with fish shell
      pandoc ;; pandoc the most extensive file document conversion tool
 
-     ;; My private layer
-     aam
+     ;; My private layers
+     aam writing
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -353,6 +353,11 @@ SCHEDULED: %^{When should we stop?}t +1d
   (add-hook 'doc-view-mode-hook 'my-doc-view-settings)
   (defadvice doc-view-display (after fit-width activate)
     (doc-view-fit-width-to-window))
+
+  ;; configure langtool
+  (setq langtool-java-classpath
+        "/usr/share/languagetool:/usr/share/java/languagetool/*")
+  (setq langtool-default-language "en-US")
 
   ;; C++ development
   (set-variable 'ycmd-server-command '("python" "~/local/tools/ycmd/ycmd"))
