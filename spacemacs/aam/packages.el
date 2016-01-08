@@ -41,6 +41,8 @@
     pdf-tools djvu
     ;; Twitter hackernews stackexchange
     twittering-mode hackernews sx
+    ;; some evil extras
+    visual-marks
     ;; for viewsing log files
     syslog-mode))
 
@@ -231,3 +233,8 @@
 (defun aam/init-syslog-mode()
   (use-package syslog-mode
     :defer t))
+
+(defun aam/init-evil-visual-mark-mode ()
+  :defer t
+  :config
+  (spacemacs/set-leader-keys "tM" 'evil-visual-mark-mode))
