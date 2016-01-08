@@ -243,6 +243,22 @@ layers configuration. You are free to put any user code."
   (define-key evil-visual-state-map "j" 'evil-next-visual-line)
   (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
+  ;; easy window navigation
+  (key-seq-define evil-normal-state-map "wh" 'evil-window-left)
+  (key-seq-define evil-normal-state-map "wj" 'evil-window-down)
+  (key-seq-define evil-normal-state-map "wk" 'evil-window-up)
+  (key-seq-define evil-normal-state-map "wl" 'evil-window-right)
+  ;; ;; easy window splitting
+  (key-seq-define evil-normal-state-map "wy" 'split-window-right)
+  (key-seq-define evil-normal-state-map "wu" 'split-window-below-and-focus)
+  (key-seq-define evil-normal-state-map "wi" 'split-window-below)
+  (key-seq-define evil-normal-state-map "wo" 'split-window-right-and-focus)
+  (key-seq-define evil-normal-state-map "wm" 'toggle-maximize-buffer)
+  ;; easy kill
+  (key-seq-define evil-normal-state-map "kf" 'delete-frame)
+  (key-seq-define evil-normal-state-map "kw" 'evil-quit)
+  (key-seq-define evil-normal-state-map "kb" 'kill-this-buffer)
+
   ;; Show line numbers
   (add-hook 'prog-mode-hook #'linum-mode)
   (add-hook 'prog-mode-hook 'spacemacs/toggle-fill-column-indicator-on)
