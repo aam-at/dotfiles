@@ -25,9 +25,9 @@
     ~/.spacemacs: spacemacs/spacemacs
     ~/.emacs.d/private/aam: spacemacs/aam
     ~/.emacs.d/private/writing: spacemacs/writing
-    ~/.emacs.d/private/org-extras: spacemacs/org-extras
     ~/.emacs.d/private/pdf-tools: spacemacs/pdf-tools
-    ~/.emacs.d/core/pymacs.el: spacemacs/pymacs.el
+    ~/.emacs.d/private/org-extras: spacemacs/org-extras
+    ~/.emacs.d/private/python-extras: spacemacs/python-extras
     ~/.taskrc: task/taskrc
     ~/.profile: bash/profile
     ~/.bashrc: bash/bashrc
