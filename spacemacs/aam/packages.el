@@ -96,9 +96,7 @@
   (use-package hackernews
     :defer t
     :init
-    (progn
-      (evil-leader/set-key
-        "ah" 'hackernews))))
+    (spacemacs/set-leader-keys "ah" 'hackernews)))
 
 (defun aam/init-sx()
   (use-package sx

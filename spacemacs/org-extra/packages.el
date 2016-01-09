@@ -51,8 +51,7 @@
     :defer t
     :init
     (progn
-      (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "oD" 'org-dashboard-display))))
+      (spacemacs/set-leader-keys "oD" 'org-dashboard-display))))
 
 (defun org-extra/init-org-journal()
   (use-package org-journal
@@ -60,12 +59,11 @@
     :init
     (progn
       (setq org-journal-dir "~/Dropbox/Notes/journal")
-      (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "oj" 'org-journal-new-entry)
+      (spacemacs/set-leader-keys "oj" 'org-journal-new-entry)
       (spacemacs/set-leader-keys-for-major-mode 'org-journal-mode
-        "mj" 'org-journal-new-entry
-        "mn" 'org-journal-open-next-entry
-        "mp" 'org-journal-open-previous-entry))))
+        "j" 'org-journal-new-entry
+        "n" 'org-journal-open-next-entry
+        "p" 'org-journal-open-previous-entry))))
 
 (defun org-extra/init-org-caldav()
   (use-package org-caldav
@@ -105,6 +103,8 @@
       (spacemacs/set-leader-keys
         "oc" 'org-ref-cite-hydra/body
         "ob" 'org-ref-bibtex-hydra/body)
+      (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode
+        "n" 'org-ref-open-bibtex-notes)
       ;; optional but very useful libraries from org-ref
       (require 'org-ref-isbn)
       (require 'org-ref-pdf)

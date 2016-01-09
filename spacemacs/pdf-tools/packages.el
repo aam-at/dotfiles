@@ -33,28 +33,23 @@
   (use-package pdf-tools
     :defer t
     :init
-    (evilified-state-evilify pdf-view-mode pdf-view-mode-map
-             "/"  'isearch-forward
-             "?"  'isearch-backward
-             "gg" 'pdf-view-first-page
-             "G"  'pdf-view-last-page
-             "gt" 'pdf-view-goto-page
-             "h"  'pdf-view-previous-page
-             "j"  'pdf-view-next-line-or-next-page
-             "k"  'pdf-view-previous-line-or-previous-page
-             "K"  'kill-this-buffer
-             "l"  'pdf-view-next-page
-             ;; "n"  'isearch-repeat-forward
-             ;; "N"  'isearch-repeat-backward
-             (kbd "C-d") 'pdf-view-scroll-up-or-next-page
-             ;; (kbd "C-k") 'doc-view-kill-proc
-             (kbd "C-u") 'pdf-view-scroll-down-or-previous-page)
-    :config
     (progn
-      (defvar prefer-pdf-tools (fboundp 'pdf-view-mode))
-      (defun start-pdf-tools-if-pdf ()
-        (when (and prefer-pdf-tools
-                   (eq doc-view-doc-type 'pdf))
-          (pdf-view-mode)))
-
-      (add-hook 'doc-view-mode-hook 'start-pdf-tools-if-pdf))))
+      (pdf-tools-install)
+      (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode)))
+    :config
+    (evilified-state-evilify pdf-view-mode pdf-view-mode-map
+      "/"  'isearch-forward
+      "?"  'isearch-backward
+      "gg" 'pdf-view-first-page
+      "G"  'pdf-view-last-page
+      "gt" 'pdf-view-goto-page
+      "h"  'pdf-view-previous-page
+      "j"  'pdf-view-next-line-or-next-page
+      "k"  'pdf-view-previous-line-or-previous-page
+      "K"  'kill-this-buffer
+      "l"  'pdf-view-next-page
+      ;; "n"  'isearch-repeat-forward
+      ;; "N"  'isearch-repeat-backward
+      (kbd "C-d") 'pdf-view-scroll-up-or-next-page
+      ;; (kbd "C-k") 'doc-view-kill-proc
+      (kbd "C-u") 'pdf-view-scroll-down-or-previous-page)))
