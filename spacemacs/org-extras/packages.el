@@ -1,4 +1,4 @@
-;;; packages.el --- org-extra Layer packages File for Spacemacs
+;;; packages.el --- org-extras Layer packages File for Spacemacs
 ;;
 ;; Copyright (c) 2012-2014 Sylvain Benner
 ;; Copyright (c) 2014-2015 Sylvain Benner & Contributors
@@ -12,14 +12,14 @@
 
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
-(setq org-extra-packages
+(setq org-extras-packages
     '(
       org-dashboard org-journal
       ;; provides synchronization with google calendar.
       (org-caldav :location (recipe
                              :fetcher github
                              :repo "dengste/org-caldav"))
-      
+
       ;; ebib and key-chord dependecy for orgref
       (hydra :location (recipe
                         :fetcher github
@@ -35,54 +35,51 @@
     ))
 
 ;; List of packages to exclude.
-(setq org-extra-excluded-packages '())
+(setq org-extras-excluded-packages '())
 
-;; For each package, define a function org-extra/init-<package-name>
+;; For each package, define a function org-extras/init-<package-name>
 ;;
-;; (defun org-extra/init-my-package ()
+;; (defun org-extras/init-my-package ()
 ;;   "Initialize my package"
 ;;   )
 ;;
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
-(defun org-extra/init-org-dashboard()
+(defun org-extras/init-org-dashboard()
   (use-package org-dashboard
     :defer t
     :init
     (progn
       (spacemacs/set-leader-keys "oD" 'org-dashboard-display))))
 
-(defun org-extra/init-org-journal()
+(defun org-extras/init-org-journal()
   (use-package org-journal
     :defer t
     :init
     (progn
-      (setq org-journal-dir "~/Dropbox/Notes/journal")
       (spacemacs/set-leader-keys "oj" 'org-journal-new-entry)
       (spacemacs/set-leader-keys-for-major-mode 'org-journal-mode
         "j" 'org-journal-new-entry
         "n" 'org-journal-open-next-entry
         "p" 'org-journal-open-previous-entry))))
 
-(defun org-extra/init-org-caldav()
+(defun org-extras/init-org-caldav()
   (use-package org-caldav
     :defer t
-    :init
-    (setq
-     org-caldav-calendars '(:calendar-id "iu5alt927aue6hsjis25qhsark@group.calendar.google.com"
-                                         :files "~/Dropbox/Notes/work.org"
-                                         :inbox "~/Dropbox/Notes/fromwork.org"))))
+    :config
+    (spacemacs/set-leader-keys "oS" 'org-caldav-sync)
+    ))
 
-(defun org-extra/init-hydra()
+(defun org-extras/init-hydra()
   (use-package hydra
     :defer t))
 
-(defun org-extra/init-ebib()
+(defun org-extras/init-ebib()
   (use-package ebib
     :defer t))
 
-(defun org-extra/init-org-ref()
+(defun org-extras/init-org-ref()
   (use-package org-ref
     :defer t
     :init
@@ -125,8 +122,7 @@
           org-ref-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib")
           org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers")))
 
-(defun org-extra/init-ob-ipython()
+(defun org-extras/init-ob-ipython()
   (spacemacs|use-package-add-hook org
     (use-package ob-ipython)
-    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
-    ))
+    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)))

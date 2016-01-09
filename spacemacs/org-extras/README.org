@@ -1,0 +1,70 @@
+#+TITLE: org-extras layer
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="../css/readtheorg.css" />
+
+#+CAPTION: logo
+
+# The maximum height of the logo should be 200 pixels.
+[[img/org-extras.png]]
+
+* Table of Contents                                        :TOC_4_org:noexport:
+ - [[Description][Description]]
+ - [[Install][Install]]
+   - [[org-journal][org-journal]]
+   - [[org-caldav][org-caldav]]
+ - [[Key bindings][Key bindings]]
+   - [[org-journal][org-journal]]
+   - [[org-caldav][org-caldav]]
+   - [[org-ref][org-ref]]
+
+* Description
+This layer provides following goodies for org:
+  - org-dashboard
+  - org-journal (daily journal)
+  - org-caldav (google calendar sync)
+  - org-ref (reference management)
+  - ob-ipython (better ipython for org)
+
+* Install
+To use this contribution add it to your =~/.spacemacs=
+
+#+begin_src emacs-lisp
+  (setq-default dotspacemacs-configuration-layers '(org-extras))
+#+end_src
+
+** org-journal
+#+BEGIN_SRC emacs-lisp
+(setq org-journal-dir "~/Dropbox/Notes/journal")
+#+END_SRC
+** org-caldav
+#+BEGIN_SRC emacs-lisp
+(setq org-caldav-calendars
+        '((:calendar-id "iu5alt927aue6hsjis25qhsark@group.calendar.google.com"
+                        :files ("~/Dropbox/Notes/work.org")
+                        :inbox "~/Dropbox/Notes/fromwork.org")))
+#+END_SRC
+
+* Key bindings
+
+** org-journal
+
+| Key Binding       | Description                   |
+|-------------------+-------------------------------|
+| ~SPC o j~         | New entry in org journal      |
+| ~SPC m j~         | New entry in org journal      |
+| ~SPC m n~         | Next entry in org journal     |
+| ~SPC m p~         | Previous entry in org journal |
+
+** org-caldav
+
+| Key Binding       | Description                   |
+|-------------------+-------------------------------|
+| ~SPC o S~         | Sync org with google calendar |
+
+** org-ref
+
+| Key Binding       | Description                   |
+|-------------------+-------------------------------|
+| ~z z~ (key-chord) | org-ref-hydra menu            |
+| ~SPC o c~         | org-ref-cite-hydra/body       |
+| ~SPC o b~         | org-ref-bibtex-hydra/body     |
+| ~SPC m n~         | Open org-ref bibtex notes     |

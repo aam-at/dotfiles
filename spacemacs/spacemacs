@@ -68,7 +68,7 @@ values."
      pandoc ;; pandoc the most extensive file document conversion tool
 
      ;; My private layers
-     aam writing org-extra pdf-tools
+     aam writing org-extras pdf-tools
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -336,10 +336,13 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; Mobile setup
   (setq org-mobile-directory "~/Dropbox/Notes/mobile")
   (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
-  ;; configuration for org and google calendar synchronisation
+  ;; configuration for org and google calendar synchronization
   (setq org-caldav-calendars
-        '((:calendar-id "iu5alt927aue6hsjis25qhsark@group.calendar.google.com" :files ("~/Dropbox/Notes/work.org")
+        '((:calendar-id "iu5alt927aue6hsjis25qhsark@group.calendar.google.com"
+                        :files ("~/Dropbox/Notes/work.org")
                         :inbox "~/Dropbox/Notes/fromwork.org")))
+  ;; configure journal-dir
+  (setq org-journal-dir "~/Dropbox/Notes/journal")
 
   ;; Latex/Tex settings
   (defun my-latex-settings()
