@@ -12,8 +12,7 @@
  - [[Key bindings][Key bindings]]
 
 * Description
-This layer does wonderful things:
-  - thing01
+This layer evilify pdf-tools.
 
 * Install
 To use this contribution add it to your =~/.spacemacs=
@@ -24,6 +23,17 @@ To use this contribution add it to your =~/.spacemacs=
 
 * Key bindings
 
-| Key Binding     | Description    |
-|-----------------+----------------|
-| ~<SPC> x x x~   | Does thing01   |
+| Key Binding | Description                        |
+|-------------+------------------------------------|
+| ~/~         | isearch-forward                    |
+| ~?~         | isearch-backward                   |
+| ~gg~        | Go to the first page               |
+| ~G~         | Go to the last page                |
+| ~gt~        | Go to page number                  |
+| ~h~         | Go to previous page                |
+| ~l~         | Go to next page                    |
+| ~j~         | Scroll down                        |
+| ~k~         | Scroll up                          |
+| ~K~         | Kill this buffer                   |
+| ~C d~       | Scroll up or go to next page       |
+| ~C u~       | Scroll down or go to previous page |
