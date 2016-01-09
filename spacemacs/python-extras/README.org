@@ -10,10 +10,14 @@
  - [[Description][Description]]
  - [[Install][Install]]
  - [[Key bindings][Key bindings]]
+   - [[Rope projects][Rope projects]]
+   - [[Refactorings][Refactorings]]
+   - [[Generate (variable|function|class|module|package)][Generate (variable|function|class|module|package)]]
+   - [[Rope assist][Rope assist]]
 
 * Description
-This layer does wonderful things:
-  - thing01
+This layer enables following things for python development:
+- pymacs
 
 * Install
 To use this contribution add it to your =~/.spacemacs=
@@ -21,9 +25,63 @@ To use this contribution add it to your =~/.spacemacs=
 #+begin_src emacs-lisp
   (setq-default dotspacemacs-configuration-layers '(python-extras))
 #+end_src
+You also need to install ~rope~ and ~ropemacs~ libraries using ~pip~.
 
 * Key bindings
 
-| Key Binding     | Description    |
-|-----------------+----------------|
-| ~<SPC> x x x~   | Does thing01   |
+** Rope projects
+
+| Key Binding     | Description                             |
+|-----------------+-----------------------------------------|
+| ~<SPC> m p o~   | Open rope project                       |
+| ~<SPC> m p k~   | Close rope project                      |
+| ~<SPC> m p f~   | Rope find file                          |
+| ~<SPC> m 4 f~   | Rope find file and open in other window |
+| ~<SPC> m p u~   | Rope undo                               |
+| ~<SPC> m p r~   | Rope redu                               |
+| ~<SPC> m p c~   | Rope project config                     |
+| ~<SPC> m p n m~ | Rope project new module                 |
+| ~<SPC> m p n p~ | Rope project new package                |
+| ~<SPC> m p n f~ | Rope project new file                   |
+| ~<SPC> m p n d~ | Rope project new directory              |
+
+** Refactorings
+
+| Key Binding     | Description                |
+|-----------------+----------------------------|
+| ~<SPC> m r r~   | Rope rename                |
+| ~<SPC> m r l~   | Rope extract variable      |
+| ~<SPC> m r m~   | Rope extract method        |
+| ~<SPC> m r v~   | Rope move                  |
+| ~<SPC> m r x~   | Rope restructure           |
+| ~<SPC> m r u~   | Rope use function          |
+| ~<SPC> m r f~   | Rope introduce factory     |
+| ~<SPC> m r s~   | Rope change signature      |
+| ~<SPC> m r 1 r~ | Rope rename current module |
+| ~<SPC> m r 1 v~ | Rope move current module   |
+| ~<SPC> m r 1 p~ | Rope module to package     |
+| ~<SPC> m r o~   | Rope organize imports      |
+
+** Generate (variable|function|class|module|package)
+
+| Key Binding     | Description            |
+|-----------------+------------------------|
+| ~<SPC> m r n v~ | Rope generate variable |
+| ~<SPC> m r n f~ | Rope generate function |
+| ~<SPC> m r n c~ | Rope generate class    |
+| ~<SPC> m r n m~ | Rope generate module   |
+| ~<SPC> m r n p~ | Rope generate package  |
+
+** Rope assist
+
+| Key Binding     | Description               |
+|-----------------+---------------------------|
+| ~<SPC> m r a /~ | Rope code assist          |
+| ~<SPC> m r a g~ | Rope go to definition     |
+| ~<SPC> m r a d~ | Rope show documentation   |
+| ~<SPC> m r a f~ | Rope find occurrences     |
+| ~<SPC> m r a i~ | Rope find implementations |
+| ~<SPC> m r a ?~ | Rope lucky assist         |
+| ~<SPC> m r a j~ | Rope jump to global       |
+| ~<SPC> m r a c~ | Rope show calltip         |
+| ~<SPC> m r a a~ | Rope analyze module     |

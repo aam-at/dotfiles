@@ -14,7 +14,7 @@
 ;; which require an initialization must be listed explicitly in the list.
 (setq python-extras-packages
     '(
-      ;; package names go here
+      pymacs
       ))
 
 ;; List of packages to exclude.
@@ -29,3 +29,6 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
+(defun python-extras/init-pymacs()
+  (use-package pymacs
+    :load-path "private/python-extras/"))
