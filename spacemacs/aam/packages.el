@@ -14,31 +14,14 @@
 ;; which require an initialization must be listed explicitly in the list.
 (setq aam-packages
   '(
-    ;; Additional package for org-mode
-    org-dashboard org-journal
-    ;; provides synchronization with google calendar.
-    (org-caldav :location (recipe
-                            :fetcher github
-                            :repo "dengste/org-caldav"))
     ;; integration for orgmode and habitrpg.
     (habitrpg :location (recipe
                             :fetcher github
                             :repo "ryjm/habitrpg.el"))
-    (hydra :location (recipe
-                     :fetcher github
-                     :repo "abo-abo/hydra"))
-    ;; ebib and key-chord dependecy for orgref
-    (ebib :location (recipe
-                     :fetcher github
-                     :repo "joostkremers/ebib"))
     key-chord key-seq
-    ;; org mode reference management
-    (org-ref :location (recipe
-                         :fetcher github
-                         :repo "jkitchin/org-ref"))
     helm-bibtex
-    ;; Replace default doc-view and provide djvu support
-    pdf-tools djvu
+    ;; provide djvu support
+    djvu
     ;; Twitter hackernews stackexchange
     twittering-mode hackernews sx
     ;; some evil extras
@@ -58,36 +41,6 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
-(defun aam/init-org-dashboard()
-  (use-package org-dashboard
-    :defer t
-    :init
-    (progn
-      (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "oD" 'org-dashboard-display))))
-
-(defun aam/init-org-journal()
-  (use-package org-journal
-    :defer t
-    :init
-    (progn
-      (setq org-journal-dir "~/Dropbox/Notes/journal")
-      (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "oj" 'org-journal-new-entry)
-      (spacemacs/set-leader-keys-for-major-mode 'org-journal-mode
-        "mj" 'org-journal-new-entry
-        "mn" 'org-journal-open-next-entry
-        "mp" 'org-journal-open-previous-entry))))
-
-(defun aam/init-org-caldav()
-  (use-package org-caldav
-    :defer t
-    :init
-    (setq
-    org-caldav-calendars '(:calendar-id "iu5alt927aue6hsjis25qhsark@group.calendar.google.com"
-                            :files "~/Dropbox/Notes/work.org"
-                            :inbox "~/Dropbox/Notes/fromwork.org"))))
-
 (defun aam/init-habitrpg()
   (use-package habitrpg
     :defer t
@@ -96,14 +49,6 @@
      habitrpg-api-url "https://habitica.com/api/v2"
      habitrpg-api-user "caa7c046-2e41-4233-acba-1880eb789c8a"
      habitrpg-api-token "api-token")))
-
-(defun aam/init-hydra()
-  (use-package hydra
-    :defer t))
-
-(defun aam/init-ebib()
-  (use-package ebib
-    :defer t))
 
 (defun aam/init-key-chord()
   (use-package key-chord
@@ -114,47 +59,6 @@
 (defun aam/init-key-seq ()
   (use-package key-seq
     :defer t))
-
-(defun aam/init-org-ref()
-  (use-package org-ref
-    :defer t
-    :init
-    (progn
-      (require 'org)
-      (require 'hydra)
-      (setq hydra-is-helpful t)
-
-      (require 'key-chord)
-      (key-chord-define-global
-       "zz"
-       (defhydra org-ref-hydra ()
-         "org-ref"
-         ("c" org-ref-helm-insert-cite-link "cite")
-         ("r" org-ref-helm-insert-ref-link "ref")
-         ("l" org-ref-helm-insert-label-link "label")
-         ("R" org-ref "org-ref")))
-      (spacemacs/set-leader-keys
-        "oc" 'org-ref-cite-hydra/body
-        "ob" 'org-ref-bibtex-hydra/body)
-      ;; optional but very useful libraries from org-ref
-      (require 'org-ref-isbn)
-      (require 'org-ref-pdf)
-      (require 'org-ref-url-utils)
-      (require 'doi-utils)
-      (require 'org-ref-worldcat)
-      (require 'org-ref-scifinder)
-      (require 'org-ref-pubmed)
-      (require 'org-ref-arxiv)
-      (require 'org-ref-sci-id)
-      (require 'org-ref-bibtex)
-      (require 'org-ref-scopus)
-      (require 'org-ref-wos))
-    :config
-    ;; Org-ref configuration
-    (setq reftex-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib"))
-    (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
-          org-ref-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib")
-          org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers")))
 
 (defun aam/init-helm-bibtex()
   (use-package helm-bibtex
@@ -179,36 +83,6 @@
               (markdown-mode . helm-bibtex-format-citation-pandoc-citeproc)
               (default       . helm-bibtex-format-citation-default)))
       )))
-
-(defun aam/init-pdf-tools()
-  (use-package pdf-tools
-    :defer t
-    :init
-    (evilified-state-evilify pdf-view-mode pdf-view-mode-map
-             "/"  'isearch-forward
-             "?"  'isearch-backward
-             "gg" 'pdf-view-first-page
-             "G"  'pdf-view-last-page
-             "gt" 'pdf-view-goto-page
-             "h"  'pdf-view-previous-page
-             "j"  'pdf-view-next-line-or-next-page
-             "k"  'pdf-view-previous-line-or-previous-page
-             "K"  'kill-this-buffer
-             "l"  'pdf-view-next-page
-             ;; "n"  'isearch-repeat-forward
-             ;; "N"  'isearch-repeat-backward
-             (kbd "C-d") 'pdf-view-scroll-up-or-next-page
-             ;; (kbd "C-k") 'doc-view-kill-proc
-             (kbd "C-u") 'pdf-view-scroll-down-or-previous-page)
-    :config
-    (progn
-      (defvar prefer-pdf-tools (fboundp 'pdf-view-mode))
-      (defun start-pdf-tools-if-pdf ()
-        (when (and prefer-pdf-tools
-                   (eq doc-view-doc-type 'pdf))
-          (pdf-view-mode)))
-
-      (add-hook 'doc-view-mode-hook 'start-pdf-tools-if-pdf))))
 
 (defun aam/init-djvu()
   (use-package djvu

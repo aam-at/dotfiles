@@ -68,7 +68,7 @@ values."
      pandoc ;; pandoc the most extensive file document conversion tool
 
      ;; My private layers
-     aam writing
+     aam writing org-extra pdf-tools
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
