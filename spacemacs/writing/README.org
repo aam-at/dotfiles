@@ -9,7 +9,15 @@
 * Table of Contents                                        :TOC_4_org:noexport:
  - [[Description][Description]]
  - [[Install][Install]]
+   - [[langtool][langtool]]
+   - [[synosaurus][synosaurus]]
+   - [[thesaurus][thesaurus]]
  - [[Key bindings][Key bindings]]
+   - [[writeroom][writeroom]]
+   - [[writegood][writegood]]
+   - [[langtool][langtool]]
+   - [[synosaurus][synosaurus]]
+   - [[thesaurus][thesaurus]]
 
 * Description
 This layer provides some utilities for better and more pleasant writing:
@@ -25,17 +33,59 @@ To use this contribution add it to your =~/.spacemacs=
   (setq-default dotspacemacs-configuration-layers '(writing))
 #+end_src
 
+** langtool
+#+BEGIN_SRC emacs-lisp
+  (setq langtool-java-classpath
+        "/usr/share/languagetool:/usr/share/java/languagetool/*")
+  (setq langtool-default-language "en-US")
+#+END_SRC
+
+** synosaurus
+By default, wordnet backend.
+#+BEGIN_SRC emacs-lisp
+  (setq synosaurus-backend 'synosaurus-backend-wordnet)
+#+END_SRC
+To install wordnet on Ubuntu run:
+#+BEGIN_SRC bash
+  sudo apt-get install wn
+#+END_SRC
+
+** thesaurus
+#+BEGIN_SRC emacs-lisp
+  (setq thesaurus-bhl-api-key "your-api-key")
+#+END_SRC
+
 * Key bindings
+
+** writeroom
 
 | Key Binding | Description                          |
 |-------------+--------------------------------------|
 | ~SPC x W~   | Toggle writeroom mode                |
+
+** writegood
+
+| Key Binding | Description                          |
+|-------------+--------------------------------------|
 | ~SPC x G~   | Toggle writegood mode                |
+
+** langtool
+
+| Key Binding | Description                          |
+|-------------+--------------------------------------|
 | ~SPC x 4 w~ | Start language checking              |
 | ~SPC x 4 W~ | Finish language checking             |
 | ~SPC x 4 l~ | Switch default language for langtool |
 | ~SPC x 4 4~ | Show langtool message at point       |
 | ~SPC x 4 c~ | Correct buffer using langtool        |
+
+** synosaurus
+| Key Binding | Description                          |
+|-------------+--------------------------------------|
 | ~SPS S l~   | synosaurus-lookup                    |
 | ~SPS S r~   | synosaurus-choose-and-replace        |
+
+** thesaurus
+| Key Binding | Description                          |
+|-------------+--------------------------------------|
 | ~SPS S t~   | thesaurus-choose-synonym-and-replace |
