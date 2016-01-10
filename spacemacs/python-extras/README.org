@@ -18,6 +18,7 @@
 * Description
 This layer enables following things for python development:
 - pymacs
+- py-autopep8
 
 * Install
 To use this contribution add it to your =~/.spacemacs=
