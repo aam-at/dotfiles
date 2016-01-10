@@ -57,6 +57,8 @@ values."
      ;; ----------------------------------------------------------------
      org evernote ;; Note-taking and organizer
      emoji xkcd ;; something for fun
+     (elfeed :variables rmh-elfeed-org-files (list "~/Dropbox/Notes/feeds.org"))
+     speed-reading
      selectric
      (shell :variables
              shell-default-height 30
