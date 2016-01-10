@@ -4,7 +4,7 @@
 #+CAPTION: logo
 
 # The maximum height of the logo should be 200 pixels.
-[[img/org-extras.png]]
+# [[img/org-extras.png]]
 
 * Table of Contents                                        :TOC_4_org:noexport:
  - [[Description][Description]]
@@ -15,6 +15,7 @@
    - [[org-journal][org-journal]]
    - [[org-caldav][org-caldav]]
    - [[org-ref][org-ref]]
+   - [[org-eww][org-eww]]
 
 * Description
 This layer provides following goodies for org:
@@ -23,6 +24,7 @@ This layer provides following goodies for org:
   - org-caldav (google calendar sync)
   - org-ref (reference management)
   - ob-ipython (better ipython for org)
+  - org-eww (live preview for org)
 
 * Install
 To use this contribution add it to your =~/.spacemacs=
@@ -68,3 +70,10 @@ To use this contribution add it to your =~/.spacemacs=
 | ~SPC o c~         | org-ref-cite-hydra/body       |
 | ~SPC o b~         | org-ref-bibtex-hydra/body     |
 | ~SPC m n~         | Open org-ref bibtex notes     |
+
+** org-eww
+
+| Key Binding | Description                                |
+|-------------+--------------------------------------------|
+| ~<SPC> o p~ | Enable org-eww preview for current buffer |
+| ~<SPC> o P~ | Disable org-eww preview for current buffer |
