@@ -5,8 +5,8 @@
   "Load pymacs and ropemacs"
   (interactive)
   (unless is-ropemacs-loaded
-    (setq is-ropemacs-loaded t)
     (require 'pymacs)
+    (setq is-ropemacs-loaded t)
     (pymacs-load "ropemacs" "rope-")))
 (add-hook 'python-mode-hook 'load-ropemacs)
 
