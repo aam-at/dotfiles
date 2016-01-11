@@ -26,6 +26,7 @@
     ~/.emacs.d/private/aam: spacemacs/aam
     ~/.emacs.d/private/writing: spacemacs/writing
     ~/.emacs.d/private/pdf-tools: spacemacs/pdf-tools
+    ~/.emacs.d/private/notmuch: spacemacs/notmuch
     ~/.emacs.d/private/org-extras: spacemacs/org-extras
     ~/.emacs.d/private/python-extras: spacemacs/python-extras
     ~/.elfeed: ../Dropbox/Sync/Elfeed
