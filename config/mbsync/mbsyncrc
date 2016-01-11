@@ -1,0 +1,52 @@
+# gmail account
+IMAPAccount gmail
+Host imap.gmail.com
+User alexander.matyasko@gmail.com
+PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mail/gmailpass.gpg"
+Port 993
+SSLType IMAPS
+AuthMechs Login
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+Path ~/.mail/gmail/
+Inbox ~/.mail/gmail/INBOX
+
+Channel gmail
+Master :gmail-remote:
+Slave :gmail-local:
+# Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
+Patterns *
+Create Slave
+Sync All
+Expunge Both
+SyncState *
+
+# uni account
+IMAPAccount uni
+Host outlook.office365.com
+User Aliaksan001@e.ntu.edu.sg
+PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mail/unipass.gpg"
+Port 993
+SSLType IMAPS
+AuthMechs Login
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore uni-remote
+Account uni
+
+MaildirStore uni-local
+Path ~/.mail/uni/
+Inbox ~/.mail/uni/INBOX
+
+Channel uni
+Master :uni-remote:
+Slave :uni-local:
+Patterns *
+Create Slave
+Sync All
+Expunge Both
+SyncState *

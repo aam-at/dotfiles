@@ -5,6 +5,7 @@
     - [curl -L github.com/techwizrd/fishmarks/raw/master/install.fish | fish, Installing fishmarks]
 - link:
     ~/.ssh/config: config/ssh/config
+    ~/.mbsyncrc: config/mbsync/mbsyncrc
     ~/.theanorc: config/python/theanorc
     ~/.fuelrc: config/python/fuelrc
     ~/.gitconfig: git/gitconfig
