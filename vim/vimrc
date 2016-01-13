@@ -657,7 +657,8 @@ if count(s:my_settings.plugin_groups, 'scm') "{{{
         nnoremap <silent> <leader>gc :Gcommit<CR>
         nnoremap <silent> <leader>gb :Gblame<CR>
         nnoremap <silent> <leader>gl :Glog<CR>
-        nnoremap <silent> <leader>gp :Git push<CR>
+        nnoremap <silent> <leader>gp :Gpush<CR>
+        nnoremap <silent> <leader>gf :Gpull<CR>
         nnoremap <silent> <leader>gw :Gwrite<CR>
         nnoremap <silent> <leader>gr :Gremove<CR>
         autocmd BufReadPost fugitive://* set bufhidden=delete
