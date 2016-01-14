@@ -369,7 +369,8 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq TeX-view-program-selection '((output-pdf "Okular")))
   (setq TeX-source-correlate-method 'synctex)
   (with-eval-after-load 'tex
-    (add-to-list 'TeX-command-list '("View" "evince %o" TeX-run-command nil t :help "Run evince on your document")))
+    (add-to-list 'TeX-command-list '("View" "evince %o" TeX-run-command nil t
+                                     :help "Run evince on your document")))
 
   ;; Doc-view settings
   (defun my-doc-view-settings ()
@@ -396,6 +397,8 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq lua-default-application "qlua")
   (setq lua-default-command-switches "-lqttorch -lenv -i")
 
+  ;; default elfeed search
+  (setq-default elfeed-search-filter "@1-week-ago +unread ")
   ;; email configuration
   (setq mu4e-account-alist
         '(("gmail"
