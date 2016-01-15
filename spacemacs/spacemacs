@@ -365,8 +365,9 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq TeX-view-program-list
         '(("Skim" "displayline -b -g %n %o %b")
           ("Evince" "evince --page-index=%(outpage) %o")
-          ("Okular" "okular --unique %o#src:%n%b")))
-  (setq TeX-view-program-selection '((output-pdf "Okular")))
+          ("Okular" "okular --unique %o#src:%n%b")
+          ("Zathura" "zathura")))
+  (setq TeX-view-program-selection '((output-pdf "Okular") (output-dvi "xdvi")))
   (setq TeX-source-correlate-method 'synctex)
   (with-eval-after-load 'tex
     (add-to-list 'TeX-command-list '("View" "evince %o" TeX-run-command nil t
