@@ -361,16 +361,48 @@ SCHEDULED: %^{When should we stop?}t +1d
 
   ;; Auctex settings
   (setq-default TeX-master nil) ; Query for master file.
+  ;; zathura for emacs
+  (setq zathura-procs ())
+  (defun zathura-forward-search ()
+    ;; Open the compiled pdf in Zathura with synctex. This is complicated since
+    ;; 1) Zathura refuses to acknowledge Synctex directive if the pdf is not
+    ;; already opened
+    ;; 2) This means we have to bookkeep open Zathura processes ourselves: first
+    ;; open a new pdf from the beginning, if it is not already open. Then call
+    ;; Zathura again with the synctex directive.
+    (interactive)
+    (let* ((zathura-launch-buf (get-buffer-create "*Zathura Output*"))
+           (pdfname (TeX-master-file "pdf"))
+           (zatentry (assoc pdfname zathura-procs))
+           (zatproc (if (and zatentry (process-live-p (cdr zatentry)))
+                        (cdr zatentry)
+                      (progn
+                        (let ((proc (progn (message "Launching Zathura")
+                                           (start-process "zathura-launch"
+                                                          zathura-launch-buf "zathura"
+                                                          "-x" "emacsclient +%{line} %{input}" pdfname))))
+                          (when zatentry
+                            (setq zathura-procs (delq zatentry zathura-procs)))
+                          (add-to-list 'zathura-procs (cons pdfname proc))
+                          (set-process-query-on-exit-flag proc nil)
+                          proc))))
+           (pid (process-id zatproc))
+           (synctex (format "%s:0:%s"
+                            (TeX-current-line)
+                            (TeX-current-file-name-master-relative))))
+      (start-process "zathura-synctex" zathura-launch-buf "zathura" "--synctex-forward" synctex pdfname)))
   ;; Pdf syncing
   (setq TeX-view-program-list
         '(("Skim" "displayline -b -g %n %o %b")
           ("Evince" "evince --page-index=%(outpage) %o")
           ("Okular" "okular --unique %o#src:%n%b")
-          ("Zathura" "zathura")))
-  (setq TeX-view-program-selection '((output-pdf "Okular") (output-dvi "xdvi")))
+          ("Zathura" zathura-forward-search)))
+  (setq TeX-view-program-selection '((output-pdf "Zathura") (output-dvi "xdvi")))
   (setq TeX-source-correlate-method 'synctex)
+  (setq TeX-source-correlate-mode t)
+  (setq TeX-source-correlate-start-server t)
   (with-eval-after-load 'tex
-    (add-to-list 'TeX-command-list '("View" "evince %o" TeX-run-command nil t
+    (add-to-list 'TeX-command-list '("View Evince" "evince %o" TeX-run-command nil t
                                      :help "Run evince on your document")))
 
   ;; Doc-view settings
