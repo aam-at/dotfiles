@@ -348,6 +348,11 @@ SCHEDULED: %^{When should we stop?}t +1d
                         :inbox "~/Dropbox/Notes/fromwork.org")))
   ;; configure journal-dir
   (setq org-journal-dir "~/Dropbox/Notes/journal")
+  ;; show images inline (only works in GUI)
+  (when (window-system)
+    (setq org-startup-with-inline-images t))
+  ;; limit images width
+  (setq org-image-actual-width '(800))
 
   ;; Latex/Tex settings
   (defun my-latex-settings()
