@@ -35,44 +35,44 @@
       ;; "/"  'isearch-forward
       ;; "?"  'isearch-backward
       ;; Navigation
-      "h"  'pdf-view-previous-page
-      "j"  'pdf-view-next-line-or-next-page
-      "k"  'pdf-view-previous-line-or-previous-page
-      "l"  'pdf-view-next-page
-      "gg" 'pdf-view-first-page
-      "G"  'pdf-view-last-page
-      "gt" 'pdf-view-goto-page
-      "gl" 'pdf-view-goto-label
+      "h"         'pdf-view-previous-page
+      "j"         'pdf-view-next-line-or-next-page
+      "k"         'pdf-view-previous-line-or-previous-page
+      "l"         'pdf-view-next-page
+      "gg"        'pdf-view-first-page
+      "G"         'pdf-view-last-page
+      "gt"        'pdf-view-goto-page
+      "gl"        'pdf-view-goto-label
       (kbd "C-d") 'pdf-view-scroll-up-or-next-page
       (kbd "C-u") 'pdf-view-scroll-down-or-previous-page
       ;; Jump to link
-      "f"  'pdf-links-action-perform
-      "F"  'pdf-links-isearch-link
+      "f"         'pdf-links-action-perform
+      "F"         'pdf-links-isearch-link
       ;; History navigation
-      "H"  'pdf-history-backward
-      "L"  'pdf-history-forward
+      "H"         'pdf-history-backward
+      "L"         'pdf-history-forward
       ;; Image box slice
-      "sm" 'pdf-view-set-slice-using-mouse
-      "sb" 'pdf-view-set-slice-from-bounding-box
-      "sr" 'pdf-view-reset-slice
+      "sm"        'pdf-view-set-slice-using-mouse
+      "sb"        'pdf-view-set-slice-from-bounding-box
+      "sr"        'pdf-view-reset-slice
       ;; Annotations
-      "al" 'pdf-annot-list-annotations
-      "aD" 'pdf-annot-delete
-      "aa" 'pdf-annot-attachment-dired
-      "at" 'pdf-annot-add-text-annotation
+      "al"        'pdf-annot-list-annotations
+      "aD"        'pdf-annot-delete
+      "aa"        'pdf-annot-attachment-dired
+      "at"        'pdf-annot-add-text-annotation
       ;; Misc
-      "so" 'pdf-occur
-      "o"  'pdf-outline
-      "i"  'pdf-misc-display-metadata
+      "so"        'pdf-occur
+      "o"         'pdf-outline
+      "i"         'pdf-misc-display-metadata
       (kbd "C-p") 'pdf-misc-print-document
-      "u"  'pdf-view-revert-buffer)
+      "u"         'pdf-view-revert-buffer)
 
     (evil-define-key 'visual pdf-view-mode-map
       "am" 'pdf-annot-add-markup-annotation
-      "ah" 	'pdf-annot-add-highlight-markup-annotation
-      "ao" 	'pdf-annot-add-strikeout-markup-annotation
-      "as" 	'pdf-annot-add-squiggly-markup-annotation
-      "au" 	'pdf-annot-add-underline-markup-annotation
+      "ah" 'pdf-annot-add-highlight-markup-annotation
+      "ao" 'pdf-annot-add-strikeout-markup-annotation
+      "as" 'pdf-annot-add-squiggly-markup-annotation
+      "au" 'pdf-annot-add-underline-markup-annotation
       "y"  'pdf-view-kill-ring-save)
 
     (evilified-state-evilify pdf-outline-buffer-mode pdf-outline-buffer-mode-map
@@ -81,15 +81,18 @@
         "k"                'previous-line
         "K"                'outline-backward-same-level
         "J"                'outline-forward-same-level
+        "h"                'hide-subtree
+        "l"                'show-subtree
+        "L"                'show-all
         "d"                'hide-subtree
-        "a"                'show-all
         "s"                'show-subtree
+        "a"                'show-all
         (kbd "C-h")        'pdf-outline-up-heading
         "gg"               'beginning-of-buffer
         "G"                'pdf-outline-end-of-buffer
         "TAB"              'outline-toggle-children
         "RET"              'pdf-outline-follow-link
-        (kbd "M-RET")      'pdf-outline-follow-link-and-quit
+        "M-RET"            'pdf-outline-follow-link-and-quit
         "f"                'pdf-outline-display-link
         [mouse-1]          'pdf-outline-mouse-display-link
         "o"                'pdf-outline-select-pdf-window
@@ -97,16 +100,15 @@
         "''"               'pdf-outline-move-to-current-page
         "Q"                'pdf-outline-quit-and-kill
         "q"                'quit-window
-        "F"                'pdf-outline-follow-mode
-        )
+        "F"                'pdf-outline-follow-mode)
 
     (evilified-state-evilify pdf-occur-buffer-mode pdf-occur-buffer-mode-map
-      "q" 'tablist-quit
-      "r" 'pdf-occur-revert-buffer-with-args
-      "*" 'spacemacs/enter-ahs-forward
+      "q"           'tablist-quit
+      "r"           'pdf-occur-revert-buffer-with-args
+      "*"           'spacemacs/enter-ahs-forward
       ;; "?" 'evil-search-backward
-      (kbd "<return>") 'pdf-occur-goto-occurrence
-      (kbd "M-<return>") 'pdf-occur-view-occurrence)
+      "RET"         'pdf-occur-goto-occurrence
+      (kbd "M-RET") 'pdf-occur-view-occurrence)
 
     (evilified-state-evilify pdf-annot-list-mode pdf-annot-list-mode-map
       "f" 'pdf-annot-list-display-annotation-from-id
@@ -115,7 +117,12 @@
       "u" 'tablist-unmark-forward
       "q" 'tablist-quit
       )
-))
+
+    (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode
+      ;; Fit document to window
+      "fw" 'pdf-view-fit-width-to-window
+      "fh" 'pdf-view-fit-height-to-window
+      "fp" 'pdf-view-fit-page-to-window)))
 
 (defun pdf-tools/init-org-pdfview()
   :ensure t)
