@@ -29,6 +29,7 @@
     ;; for viewsing log files
     syslog-mode
     password-store
+    cloc
     ztree
     ;; mu4e extras
     mu4e-maildirs-extension))
@@ -148,6 +149,10 @@
 
 (defun aam/init-password-store()
   :defer t)
+
+(defun aam/init-cloc()
+  :defer t)
+
 
 (defun aam/init-ztree()
   (use-package ztree
