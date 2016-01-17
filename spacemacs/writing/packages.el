@@ -23,6 +23,7 @@
                              :fetcher github
                              :repo "rootzlevel/synosaurus"))
       thesaurus synonymous
+      define-word
       ))
 
 ;; List of packages to exclude.
@@ -81,9 +82,17 @@
     :defer t
     :init
     (progn
-      (evil-leader/set-key
+      (spacemacs/set-leader-keys
         "St" 'thesaurus-choose-synonym-and-replace))))
 
 (defun writing/init-synonymous()
   (use-package synonymous
     :defer t))
+
+(defun writing/init-define-word()
+  (use-package define-word
+    :defer t
+    :config
+    (spacemacs/set-leader-keys
+      "Sm" 'define-word-at-point
+      "SM" 'define-word)))

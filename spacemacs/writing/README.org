@@ -18,13 +18,14 @@
    - [[langtool][langtool]]
    - [[synosaurus][synosaurus]]
    - [[thesaurus][thesaurus]]
+   - [[define-word][define-word]]
 
 * Description
 This layer provides some utilities for better and more pleasant writing:
   - write-room integration;
   - write-good integration;
   - langtool integration;
-  - few tools for synonyms and thesaurus.
+  - few tools for synonyms, thesaurus, define-word.
 
 * Install
 To use this contribution add it to your =~/.spacemacs=
@@ -89,3 +90,10 @@ To install wordnet on Ubuntu run:
 | Key Binding | Description                          |
 |-------------+--------------------------------------|
 | ~SPS S t~   | thesaurus-choose-synonym-and-replace |
+
+** define-word
+
+| Key Binding | Description          |
+|-------------+----------------------|
+| ~SPS S m~   | define word at point |
+| ~SPS S M~   | define word          |
