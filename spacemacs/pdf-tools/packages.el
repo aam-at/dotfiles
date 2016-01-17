@@ -13,22 +13,14 @@
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
 (setq pdf-tools-packages
-    '(
-      pdf-tools
-      ))
+      '(
+        pdf-tools
+        org-pdfview
+        ))
 
 ;; List of packages to exclude.
 (setq pdf-tools-excluded-packages '())
 
-;; For each package, define a function pdf-tools/init-<package-name>
-;;
-;; (defun pdf-tools/init-my-package ()
-;;   "Initialize my package"
-;;   )
-;;
-;; Often the body of an initialize function uses `use-package'
-;; For more info on `use-package', see readme:
-;; https://github.com/jwiegley/use-package
 (defun pdf-tools/init-pdf-tools()
   (use-package pdf-tools
     :defer t
@@ -38,18 +30,92 @@
       (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode)))
     :config
     (evilified-state-evilify pdf-view-mode pdf-view-mode-map
-      "/"  'isearch-forward
-      "?"  'isearch-backward
-      "gg" 'pdf-view-first-page
-      "G"  'pdf-view-last-page
-      "gt" 'pdf-view-goto-page
+      ;; TODO: make vim like search work
+      ;; Use instead isearch - C-s and C-r
+      ;; "/"  'isearch-forward
+      ;; "?"  'isearch-backward
+      ;; Navigation
       "h"  'pdf-view-previous-page
       "j"  'pdf-view-next-line-or-next-page
       "k"  'pdf-view-previous-line-or-previous-page
-      "K"  'kill-this-buffer
       "l"  'pdf-view-next-page
-      ;; "n"  'isearch-repeat-forward
-      ;; "N"  'isearch-repeat-backward
+      "gg" 'pdf-view-first-page
+      "G"  'pdf-view-last-page
+      "gt" 'pdf-view-goto-page
+      "gl" 'pdf-view-goto-label
       (kbd "C-d") 'pdf-view-scroll-up-or-next-page
-      ;; (kbd "C-k") 'doc-view-kill-proc
-      (kbd "C-u") 'pdf-view-scroll-down-or-previous-page)))
+      (kbd "C-u") 'pdf-view-scroll-down-or-previous-page
+      ;; Jump to link
+      "f"  'pdf-links-action-perform
+      "F"  'pdf-links-isearch-link
+      ;; History navigation
+      "H"  'pdf-history-backward
+      "L"  'pdf-history-forward
+      ;; Image box slice
+      "sm" 'pdf-view-set-slice-using-mouse
+      "sb" 'pdf-view-set-slice-from-bounding-box
+      "sr" 'pdf-view-reset-slice
+      ;; Annotations
+      "al" 'pdf-annot-list-annotations
+      "aD" 'pdf-annot-delete
+      "aa" 'pdf-annot-attachment-dired
+      "at" 'pdf-annot-add-text-annotation
+      ;; Misc
+      "so" 'pdf-occur
+      "o"  'pdf-outline
+      "i"  'pdf-misc-display-metadata
+      (kbd "C-p") 'pdf-misc-print-document
+      "u"  'pdf-view-revert-buffer)
+
+    (evil-define-key 'visual pdf-view-mode-map
+      "am" 'pdf-annot-add-markup-annotation
+      "ah" 	'pdf-annot-add-highlight-markup-annotation
+      "ao" 	'pdf-annot-add-strikeout-markup-annotation
+      "as" 	'pdf-annot-add-squiggly-markup-annotation
+      "au" 	'pdf-annot-add-underline-markup-annotation
+      "y"  'pdf-view-kill-ring-save)
+
+    (evilified-state-evilify pdf-outline-buffer-mode pdf-outline-buffer-mode-map
+        "-"                'negative-argument
+        "j"                'next-line
+        "k"                'previous-line
+        "K"                'outline-backward-same-level
+        "J"                'outline-forward-same-level
+        "d"                'hide-subtree
+        "a"                'show-all
+        "s"                'show-subtree
+        (kbd "C-h")        'pdf-outline-up-heading
+        "gg"               'beginning-of-buffer
+        "G"                'pdf-outline-end-of-buffer
+        "TAB"              'outline-toggle-children
+        "RET"              'pdf-outline-follow-link
+        (kbd "M-RET")      'pdf-outline-follow-link-and-quit
+        "f"                'pdf-outline-display-link
+        [mouse-1]          'pdf-outline-mouse-display-link
+        "o"                'pdf-outline-select-pdf-window
+        "``"               'pdf-outline-move-to-current-page
+        "''"               'pdf-outline-move-to-current-page
+        "Q"                'pdf-outline-quit-and-kill
+        "q"                'quit-window
+        "F"                'pdf-outline-follow-mode
+        )
+
+    (evilified-state-evilify pdf-occur-buffer-mode pdf-occur-buffer-mode-map
+      "q" 'tablist-quit
+      "r" 'pdf-occur-revert-buffer-with-args
+      "*" 'spacemacs/enter-ahs-forward
+      ;; "?" 'evil-search-backward
+      (kbd "<return>") 'pdf-occur-goto-occurrence
+      (kbd "M-<return>") 'pdf-occur-view-occurrence)
+
+    (evilified-state-evilify pdf-annot-list-mode pdf-annot-list-mode-map
+      "f" 'pdf-annot-list-display-annotation-from-id
+      "d" 'tablist-flag-forward
+      "x" 'tablist-do-flagged-delete
+      "u" 'tablist-unmark-forward
+      "q" 'tablist-quit
+      )
+))
+
+(defun pdf-tools/init-org-pdfview()
+  :ensure t)
