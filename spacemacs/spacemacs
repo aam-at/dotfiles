@@ -474,6 +474,15 @@ SCHEDULED: %^{When should we stop?}t +1d
         '(("/gmail/INBOX" . ?g)
           ("/uni/INBOX" . ?c)))
   (setq mu4e-view-prefer-html t)
+  (defun html2text ()
+    "Replacement for standard html2text using shr."
+    (interactive)
+    (let ((dom (libxml-parse-html-region (point-min) (point-max))))
+      (erase-buffer)
+      (shr-insert-document dom)
+      (goto-char (point-min))))
+  ;; (setq mu4e-html2text-command "w3m -dump -T text/html")
+  (setq mu4e-html2text-command nil)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
