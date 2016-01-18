@@ -483,6 +483,9 @@ SCHEDULED: %^{When should we stop?}t +1d
       (goto-char (point-min))))
   ;; (setq mu4e-html2text-command "w3m -dump -T text/html")
   (setq mu4e-html2text-command nil)
+  (setq mu4e-maildirs-extension-maildir-separator    "*"
+        mu4e-maildirs-extension-submaildir-separator "✉"
+        mu4e-maildirs-extension-action-text          nil)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will

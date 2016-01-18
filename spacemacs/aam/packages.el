@@ -30,9 +30,7 @@
     syslog-mode
     password-store
     cloc
-    ztree
-    ;; mu4e extras
-    mu4e-maildirs-extension))
+    ztree))
 
 ;; List of packages to exclude.
 (setq aam-excluded-packages '())
@@ -137,15 +135,6 @@
     :defer t
     :config
     (spacemacs/set-leader-keys "tM" 'evil-visual-mark-mode)))
-
-(defun aam/init-mu4e-maildirs-extension()
-  (use-package mu4e-maildirs-extension
-    :defer t
-    :config
-    (mu4e-maildirs-extension)
-    (setq mu4e-maildirs-extension-maildir-separator    "*"
-          mu4e-maildirs-extension-submaildir-separator "✉"
-          mu4e-maildirs-extension-action-text          nil)))
 
 (defun aam/init-password-store()
   :defer t)
