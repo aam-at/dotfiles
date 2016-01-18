@@ -31,6 +31,7 @@
       (org-ref :location (recipe
                           :fetcher github
                           :repo "jkitchin/org-ref"))
+      auctex org markdown-mode
       ob-ipython
       org-eww
     ))
@@ -102,7 +103,26 @@
         "oc" 'org-ref-cite-hydra/body
         "ob" 'org-ref-bibtex-hydra/body)
       (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode
-        "n" 'org-ref-open-bibtex-notes)
+        ;; Navigation
+        "j" 'org-ref-bibtex-next-entry
+        "k" 'org-ref-bibtex-previous-entry
+
+        ;; Open
+        "b" 'org-ref-open-in-browser
+        "n" 'org-ref-open-bibtex-notes
+        "p" 'org-ref-open-bibtex-pdf
+
+        ;; Misc
+        "h" 'org-ref-bibtex-hydra/body
+        "i" 'org-ref-bibtex-hydra/org-ref-bibtex-new-entry/body-and-exit
+        "s" 'org-ref-sort-bibtex-entry
+
+        ;; Lookup utilities
+        "lA" 'arxiv-add-bibtex-entry
+        "la" 'arxiv-get-pdf-add-bibtex-entry
+        "ld" 'doi-utils-add-bibtex-entry-from-doi
+        "li" 'isbn-to-bibtex
+        "lp" 'pubmed-insert-bibtex-from-pmid)
       ;; optional but very useful libraries from org-ref
       (require 'org-ref-isbn)
       (require 'org-ref-pdf)
@@ -115,13 +135,19 @@
       (require 'org-ref-sci-id)
       (require 'org-ref-bibtex)
       (require 'org-ref-scopus)
-      (require 'org-ref-wos))
-    :config
-    ;; Org-ref configuration
-    (setq reftex-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib"))
-    (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
-          org-ref-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib")
-          org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers")))
+      (require 'org-ref-wos))))
+
+(defun org-extras/post-init-auctex ()
+  (spacemacs/set-leader-keys-for-major-mode 'latex-mode
+    "ic" 'org-ref-helm-insert-cite-link))
+
+(defun org-extras/post-init-org ()
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "ic" 'org-ref-helm-insert-cite-link))
+
+(defun org-extras/post-init-markdown-mode ()
+  (spacemacs/set-leader-keys-for-major-mode 'markdown-mode
+    "ic" 'org-ref-helm-insert-cite-link))
 
 (defun org-extras/init-ob-ipython()
   (spacemacs|use-package-add-hook org

@@ -284,6 +284,7 @@ layers configuration. You are free to put any user code."
                                (concat org-directory "/todo.org")
                                (concat org-directory "/habits.org")
                                (concat org-directory "/notes.org")
+                               (concat org-directory "/bookmarks.org")
                                (concat org-directory "/ideas.org")
                                (concat org-directory "/papers.org")
                                (concat org-directory "/drills.org")
@@ -353,6 +354,11 @@ SCHEDULED: %^{When should we stop?}t +1d
     (setq org-startup-with-inline-images t))
   ;; limit images width
   (setq org-image-actual-width '(800))
+  ;; Org-ref configuration
+  (setq reftex-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib"))
+  (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
+        org-ref-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib")
+        org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers")
 
   ;; Latex/Tex settings
   (defun my-latex-settings()
@@ -460,7 +466,7 @@ SCHEDULED: %^{When should we stop?}t +1d
         mu4e-refile-folder "/archive"
         mu4e-trash-folder "/trash"
         mu4e-get-mail-command "mbsync -a"
-        mu4e-update-interval nil
+        mu4e-update-interval 600
         mu4e-compose-signature-auto-include nil
         mu4e-view-show-images t
         mu4e-view-show-addresses t)
