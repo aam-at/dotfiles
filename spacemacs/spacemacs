@@ -438,7 +438,11 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; C++ development
   (set-variable 'ycmd-server-command '("python" "~/local/tools/ycmd/ycmd"))
 
-  ;; Lua congiguration
+  ;; Python development
+  (setq ropemacs-confirm-saving 'nil)
+  (setq ropemacs-enable-autoimport 't)
+
+  ;; Lua development
   (setq lua-default-application "qlua")
   (setq lua-default-command-switches "-lqttorch -lenv -i")
 
