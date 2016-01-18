@@ -6,8 +6,8 @@
   (interactive)
   (unless is-ropemacs-loaded
     (require 'pymacs)
-    (setq is-ropemacs-loaded t)
-    (pymacs-load "ropemacs" "rope-")))
+    (pymacs-load "ropemacs" "rope-")
+    (setq is-ropemacs-loaded t)))
 (add-hook 'python-mode-hook 'load-ropemacs)
 
 (setq ropemacs-confirm-saving 'nil)
