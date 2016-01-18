@@ -83,22 +83,20 @@
 (defun org-extras/init-org-ref()
   (use-package org-ref
     :defer t
-    :init
+    :config
     (progn
       (require 'org)
       (require 'hydra)
       (setq hydra-is-helpful t)
 
-      (require 'key-chord)
-      (key-chord-define-global
-       "zz"
-       (defhydra org-ref-hydra ()
-         "org-ref"
-         ("c" org-ref-helm-insert-cite-link "cite")
-         ("r" org-ref-helm-insert-ref-link "ref")
-         ("l" org-ref-helm-insert-label-link "label")
-         ("R" org-ref "org-ref")))
+      (defhydra org-ref-hydra ()
+        "org-ref"
+        ("c" org-ref-helm-insert-cite-link "cite")
+        ("r" org-ref-helm-insert-ref-link "ref")
+        ("l" org-ref-helm-insert-label-link "label")
+        ("R" org-ref "org-ref"))
       (spacemacs/set-leader-keys
+        "or" 'org-ref-hydra/body
         "oc" 'org-ref-cite-hydra/body
         "ob" 'org-ref-bibtex-hydra/body)
       (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode
