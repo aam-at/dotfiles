@@ -15,15 +15,16 @@ def walklevel(some_dir, level=1):
             del dirs[:]
 
 join, isfile, isdir = os.path.join, os.path.isfile, os.path.isdir
-python_path = "python"
 for dir_path, sub_dirs, files in walklevel('.', level=2):
     if ".git" in sub_dirs:
         print("Pulling changes for %s" % dir_path)
         call(["git", "pull"], cwd=dir_path)
     if "setup.py" in files:
         print(files)
-        setup_arg = "develop"
-        if dir_path == "fuel":
-            setup_arg = "install"
+        setup_arg = 'develop'
+        if dir_path == 'fuel':
+            setup_arg = 'install'
+        else:
+            setup_arg = 'develop'
         print("Setup.py for %s" % dir_path)
-        call([python_path, "setup.py", setup_arg], cwd=dir_path)
+        call(["python", "setup.py", setup_arg], cwd=dir_path)
