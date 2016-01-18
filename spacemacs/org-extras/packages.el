@@ -31,7 +31,6 @@
       (org-ref :location (recipe
                           :fetcher github
                           :repo "jkitchin/org-ref"))
-      auctex org markdown-mode
       ob-ipython
       org-eww
     ))
@@ -136,18 +135,6 @@
       (require 'org-ref-bibtex)
       (require 'org-ref-scopus)
       (require 'org-ref-wos))))
-
-(defun org-extras/post-init-auctex ()
-  (spacemacs/set-leader-keys-for-major-mode 'latex-mode
-    "ic" 'org-ref-helm-insert-cite-link))
-
-(defun org-extras/post-init-org ()
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "ic" 'org-ref-helm-insert-cite-link))
-
-(defun org-extras/post-init-markdown-mode ()
-  (spacemacs/set-leader-keys-for-major-mode 'markdown-mode
-    "ic" 'org-ref-helm-insert-cite-link))
 
 (defun org-extras/init-ob-ipython()
   (spacemacs|use-package-add-hook org
