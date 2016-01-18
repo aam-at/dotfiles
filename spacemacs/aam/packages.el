@@ -68,8 +68,7 @@
     :defer t
     :init
     (progn
-      (evil-leader/set-key
-        "hc" 'helm-bibtex))
+      (spacemacs/set-leader-keys "hc" 'helm-bibtex))
     :config
     (progn
       (setq helm-bibtex-pdf-symbol "⌘")
@@ -96,8 +95,7 @@
     :defer t
     :commands twit
     :init
-    (evil-leader/set-key
-      "at" 'twit)
+    (spacemacs/set-leader-keys "at" 'twit)
     (when (configuration-layer/package-usedp 'flyspell)
       (add-hook 'twittering-edit-mode-hook (lambda () (flyspell-mode 1))))
     (push 'twittering-edit-mode evil-insert-state-modes)
