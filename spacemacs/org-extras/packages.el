@@ -51,8 +51,7 @@
   (use-package org-dashboard
     :defer t
     :init
-    (progn
-      (spacemacs/set-leader-keys "oD" 'org-dashboard-display))))
+    (spacemacs/set-leader-keys "oD" 'org-dashboard-display)))
 
 (defun org-extras/init-org-journal()
   (use-package org-journal
@@ -68,9 +67,9 @@
 (defun org-extras/init-org-caldav()
   (use-package org-caldav
     :defer t
-    :config
-    (spacemacs/set-leader-keys "oS" 'org-caldav-sync)
-    ))
+    :commands org-caldav-sync
+    :init
+    (spacemacs/set-leader-keys "oS" 'org-caldav-sync)))
 
 (defun org-extras/init-hydra()
   (use-package hydra
@@ -83,43 +82,42 @@
 (defun org-extras/init-org-ref()
   (use-package org-ref
     :defer t
-    :config
-    (progn
-      (require 'org)
-      (require 'hydra)
-      (setq hydra-is-helpful t)
+    :init
+    (require 'org)
+    (require 'hydra)
+    (setq hydra-is-helpful t)
 
-      (defhydra org-ref-hydra ()
-        "org-ref"
-        ("c" org-ref-helm-insert-cite-link "cite")
-        ("r" org-ref-helm-insert-ref-link "ref")
-        ("l" org-ref-helm-insert-label-link "label")
-        ("R" org-ref "org-ref"))
-      (spacemacs/set-leader-keys
-        "or" 'org-ref-hydra/body
-        "oc" 'org-ref-cite-hydra/body
-        "ob" 'org-ref-bibtex-hydra/body)
-      (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode
-        ;; Navigation
-        "j" 'org-ref-bibtex-next-entry
-        "k" 'org-ref-bibtex-previous-entry
+    (defhydra org-ref-hydra ()
+      "org-ref"
+      ("c" org-ref-helm-insert-cite-link "cite")
+      ("r" org-ref-helm-insert-ref-link "ref")
+      ("l" org-ref-helm-insert-label-link "label")
+      ("R" org-ref "org-ref"))
+    (spacemacs/set-leader-keys
+      "or" 'org-ref-hydra/body
+      "oc" 'org-ref-cite-hydra/body
+      "ob" 'org-ref-bibtex-hydra/body)
+    (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode
+      ;; Navigation
+      "j" 'org-ref-bibtex-next-entry
+      "k" 'org-ref-bibtex-previous-entry
 
-        ;; Open
-        "b" 'org-ref-open-in-browser
-        "n" 'org-ref-open-bibtex-notes
-        "p" 'org-ref-open-bibtex-pdf
+      ;; Open
+      "b" 'org-ref-open-in-browser
+      "n" 'org-ref-open-bibtex-notes
+      "p" 'org-ref-open-bibtex-pdf
 
-        ;; Misc
-        "h" 'org-ref-bibtex-hydra/body
-        "i" 'org-ref-bibtex-hydra/org-ref-bibtex-new-entry/body-and-exit
-        "s" 'org-ref-sort-bibtex-entry
+      ;; Misc
+      "h" 'org-ref-bibtex-hydra/body
+      "i" 'org-ref-bibtex-hydra/org-ref-bibtex-new-entry/body-and-exit
+      "s" 'org-ref-sort-bibtex-entry
 
-        ;; Lookup utilities
-        "lA" 'arxiv-add-bibtex-entry
-        "la" 'arxiv-get-pdf-add-bibtex-entry
-        "ld" 'doi-utils-add-bibtex-entry-from-doi
-        "li" 'isbn-to-bibtex
-        "lp" 'pubmed-insert-bibtex-from-pmid)
+      ;; Lookup utilities
+      "lA" 'arxiv-add-bibtex-entry
+      "la" 'arxiv-get-pdf-add-bibtex-entry
+      "ld" 'doi-utils-add-bibtex-entry-from-doi
+      "li" 'isbn-to-bibtex
+      "lp" 'pubmed-insert-bibtex-from-pmid)
       ;; optional but very useful libraries from org-ref
       (require 'org-ref-isbn)
       (require 'org-ref-pdf)
@@ -132,7 +130,7 @@
       (require 'org-ref-sci-id)
       (require 'org-ref-bibtex)
       (require 'org-ref-scopus)
-      (require 'org-ref-wos))))
+      (require 'org-ref-wos)))
 
 (defun org-extras/init-ob-ipython()
   (spacemacs|use-package-add-hook org
