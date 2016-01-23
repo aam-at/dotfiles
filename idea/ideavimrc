@@ -63,6 +63,10 @@ nmap mi :action ToggleBookmarkWithMnemonic<CR>
 nmap mn :action GotoNextBookmark<CR>
 nmap mp :action GotoPreviousBookmark<CR>
 
+" Fold code
+nmap zm :action CollapseAllRegions<CR>
+nmap zr :action ExpandAllRegions<CR>
+
 " Access to refactorings inside vim
 nnoremap <Leader>rm :action Refactorings.QuickListPopupAction<CR>
 nnoremap <Leader>rf :action ReformatCode<CR>
@@ -89,4 +93,4 @@ nnoremap <Leader>z :action FindUsages<CR>
 " Quick inline documentation
 nnoremap K :action QuickJavaDoc<CR>
 " Insert break point
-nnoremap <Leader>b Aimport pdb; pdb.set_trace()  # XXX BREAKPOINT<Esc>
+nnoremap <Leader>b Aimport ipdb; ipdb.set_trace()  # XXX BREAKPOINT<Esc>
