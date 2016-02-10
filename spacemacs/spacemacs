@@ -415,7 +415,9 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq TeX-source-correlate-start-server t)
   (with-eval-after-load 'tex
     (add-to-list 'TeX-command-list '("View Evince" "evince %o" TeX-run-command nil t
-                                     :help "Run evince on your document")))
+                                     :help "Open document using evince"))
+    (add-to-list 'TeX-command-list '("View Zathura" "zathura %o" TeX-run-command nil t
+                                      :help "Open document using zathura")))
 
   ;; Doc-view settings
   (defun my-doc-view-settings ()
