@@ -15,6 +15,7 @@
 (setq org-extras-packages
     '(
       org-dashboard org-journal
+      org-doing
       ;; provides synchronization with google calendar.
       (org-caldav :location (recipe
                              :fetcher github
@@ -63,6 +64,13 @@
         "j" 'org-journal-new-entry
         "n" 'org-journal-open-next-entry
         "p" 'org-journal-open-previous-entry))))
+
+(defun org-extras/init-org-doing()
+  (use-package org-doing
+    :defer t
+    :init
+    (progn
+      (spacemacs/set-leader-keys "od" 'org-doing))))
 
 (defun org-extras/init-org-caldav()
   (use-package org-caldav

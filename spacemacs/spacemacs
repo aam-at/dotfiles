@@ -359,6 +359,8 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
         org-ref-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib")
         org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers")
+  ;; org-doing settings
+  (setq org-doing-file (concat org-directory "/todo.org"))
 
   ;; Latex/Tex settings
   (defun my-latex-settings()
