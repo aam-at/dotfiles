@@ -430,6 +430,10 @@ SCHEDULED: %^{When should we stop?}t +1d
   (defadvice doc-view-display (after fit-width activate)
     (doc-view-fit-width-to-window))
 
+  ;; Epub reading
+  (setq auto-mode-alist (append (list '("\\.epub$" . archive-mode)) auto-mode-alist))
+  (setq auto-coding-alist (append (list '("\\.epub$" . no-conversion)) auto-coding-alist))
+
   ;; configure langtool
   (setq langtool-java-classpath
         "/usr/share/languagetool:/usr/share/java/languagetool/*")
