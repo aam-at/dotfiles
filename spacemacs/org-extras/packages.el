@@ -15,6 +15,7 @@
 (setq org-extras-packages
     '(
       org-dashboard org-journal
+      org-download
       org-doing
       ;; provides synchronization with google calendar.
       (org-caldav :location (recipe
@@ -64,6 +65,9 @@
         "j" 'org-journal-new-entry
         "n" 'org-journal-open-next-entry
         "p" 'org-journal-open-previous-entry))))
+
+(defun org-extras/init-org-download()
+  (use-package org-download))
 
 (defun org-extras/init-org-doing()
   (use-package org-doing
