@@ -31,7 +31,8 @@
     ~/.emacs.d/private/notmuch: spacemacs/notmuch
     ~/.emacs.d/private/org-extras: spacemacs/org-extras
     ~/.emacs.d/private/python-extras: spacemacs/python-extras
-    ~/.elfeed: ../Dropbox/Sync/Elfeed
+    ~/.elfeed: ../Dropbox/Sync/elfeed
+    ~/.password-store: ../Dropbox/Sync/pass
     ~/.taskrc: task/taskrc
     ~/.profile: bash/profile
     ~/.bashrc: bash/bashrc
