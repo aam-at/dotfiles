@@ -269,12 +269,13 @@ layers configuration. You are free to put any user code."
   (add-hook 'prog-mode-hook 'spacemacs/toggle-fill-column-indicator-on)
   (with-eval-after-load 'linum
     (add-hook 'prog-mode-hook #'linum-relative-toggle))
-  ;; (spacemacs/toggle-line-numbers-on)
-  ;; (with-eval-after-load 'linum (linum-relative-toggle))
 
   ;; Wakatime settings
   (setq wakatime-api-key "api-key")
   (setq wakatime-cli-path "~/anaconda/bin/wakatime")
+
+  ;; password-store settings
+  (setq password-store-password-length 18)
 
   ;; Org settings
   (setq org-directory "~/Dropbox/Notes")
