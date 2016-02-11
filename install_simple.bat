@@ -3,4 +3,8 @@ mklink /H ..\_gvimrc vim\gvimrc
 mklink /H ..\.ideavimrc idea\ideavimrc
 mklink /H ..\.gitconfig git\gitconfig
 mklink /H ..\.spacemacs spacemacs\spacemacs
-mklink /H ..\.emacs.d\private spacemacs\aam
+mklink /J ..\.emacs.d\private\aam spacemacs\aam
+mklink /J ..\.emacs.d\private\notmuch spacemacs\notmuch
+mklink /J ..\.emacs.d\private\org-extras spacemacs\org-extras
+mklink /J ..\.emacs.d\private\python-extras spacemacs\python-extras
+mklink /J ..\.emacs.d\private\writing spacemacs\writing
