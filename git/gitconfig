@@ -119,3 +119,6 @@
     ra = "!f() { git remote add $1 https://bitbucket.org/$2.git; }; f"
     # }}}
 # }}}
+
+[diff "gpg"]
+	textconv = gpg --no-tty --decrypt

@@ -521,6 +521,11 @@ SCHEDULED: %^{When should we stop?}t +1d
         mu4e-maildirs-extension-submaildir-separator "✉"
         mu4e-maildirs-extension-action-text          nil)
 
+  ;; twitter settings
+  (setq twittering-tinyurl-service 'bit.ly)
+  (setq twittering-bitly-login "login")
+  (setq twittering-bitly-api-key "api-key")
+
   ;; load encrypted part of config
   (require 'secure-config "secure-config.el.gpg")
 )

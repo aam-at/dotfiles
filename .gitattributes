@@ -2,3 +2,4 @@
 install.bat eol=crlf
 install_win.conf.yaml eol=crlf
 *.* eol=lf
+*.gpg filter=gpg diff=gpg
