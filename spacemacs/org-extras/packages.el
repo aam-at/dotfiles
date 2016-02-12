@@ -92,10 +92,27 @@
 
   :config
   (progn
-    (evil-leader/set-key
-      "ots" 'org-trello/sync-buffer
-      "otc" 'org-trello/sync-card
-      )))
+    (spacemacs/set-leader-keys
+      "otv" 'org-trello-version
+      "oti" 'org-trello-install-key-and-token
+      "otI" 'org-trello-install-board-metadata
+      "otc" 'org-trello-sync-card
+      "ots" 'org-trello-sync-buffer
+      "ota" 'org-trello-assign-me
+      "otd" 'org-trello-check-setup
+      "otD" 'org-trello-delete-setup
+      "otb" 'org-trello-create-board-and-install-metadata
+      "otk" 'org-trello-kill-entity
+      "otK" 'org-trello-kill-cards
+      "ota" 'org-trello-archive-card
+      "otA" 'org-trello-archive-cards
+      "otj" 'org-trello-jump-to-trello-card
+      "otJ" 'org-trello-jump-to-trello-board
+      "otC" 'org-trello-add-card-comments
+      "otc" 'org-trello-show-card-comments
+      "otl" 'org-trello-show-card-labels
+      "otu" 'org-trello-update-board-metadata
+      "oth" 'org-trello-help-describing-bindings)))
 
 (defun org-extras/init-org-caldav()
   (use-package org-caldav
