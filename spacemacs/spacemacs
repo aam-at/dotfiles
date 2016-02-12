@@ -242,6 +242,13 @@ layers configuration. You are free to put any user code."
   (desktop-save-mode t)
   (setq projectile-tags-command "ctags-exuberant -Re -f \"%s\" %s")
 
+  ;; epa encryption
+  (setq epa-file-select-keys 0)
+  (setq epa-file-cache-passphrase-for-symmetric-encryption t)
+
+  ;; tramp configuration
+  (setq tramp-default-method "rsync")
+
   ;; Enable visual line navigation
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
   (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
@@ -273,6 +280,16 @@ layers configuration. You are free to put any user code."
   ;; Wakatime settings
   (setq wakatime-api-key "api-key")
   (setq wakatime-cli-path "~/anaconda/bin/wakatime")
+
+  ;; Habitica settings
+  (setq habitrpg-api-user "ID-HERE")
+  (setq habitrpg-api-token "TOKEN-HERE")
+  (add-hook 'org-after-todo-state-change-hook 'habitrpg-add 'append)
+  (add-hook 'org-clock-in-hook 'habitrpg-clock-in)
+  (add-hook 'org-clock-out-hook 'habitrpg-clock-out)
+  (add-to-list 'hrpg-tags-list "research")
+  (add-to-list 'hrpg-tags-list "writing")
+  (add-to-list 'hrpg-tags-list "programming")
 
   ;; password-store settings
   (setq password-store-password-length 18)
