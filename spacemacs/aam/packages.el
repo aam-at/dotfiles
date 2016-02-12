@@ -49,9 +49,7 @@
     :defer t
     :init
     (setq
-     habitrpg-api-url "https://habitica.com/api/v2"
-     habitrpg-api-user "caa7c046-2e41-4233-acba-1880eb789c8a"
-     habitrpg-api-token "api-token")))
+     habitrpg-api-url "https://habitica.com/api/v2")))
 
 (defun aam/init-key-chord()
   (use-package key-chord
