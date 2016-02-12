@@ -17,6 +17,7 @@
       org-dashboard org-journal
       org-download
       org-doing
+      org-trello
       ;; provides synchronization with google calendar.
       (org-caldav :location (recipe
                              :fetcher github
@@ -75,6 +76,26 @@
     :init
     (progn
       (spacemacs/set-leader-keys "od" 'org-doing))))
+
+(defun org-extras/init-org-trello ()
+  :defer t
+  :init
+  ;; org-trello major mode for all .trello files
+  (add-to-list 'auto-mode-alist '("\\.trello$" . org-mode))
+
+  ;; add a hook function to check if this is trello file, then activate the org-trello minor mode.
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (let ((filename (buffer-file-name (current-buffer))))
+                (when (and filename (string= "trello" (file-name-extension filename)))
+                  (org-trello-mode)))))
+
+  :config
+  (progn
+    (evil-leader/set-key
+      "ots" 'org-trello/sync-buffer
+      "otc" 'org-trello/sync-card
+      )))
 
 (defun org-extras/init-org-caldav()
   (use-package org-caldav
