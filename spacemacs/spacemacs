@@ -73,6 +73,7 @@ values."
 
      ;; My private layers
      aam writing pdf-tools
+     habitrpg
      org-extras python-extras
      )
    ;; List of additional packages that will be installed without being
@@ -527,7 +528,7 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq twittering-bitly-api-key "api-key")
 
   ;; load encrypted part of config
-  (require 'secure-config "secure-config.el.gpg")
+  (load-library "secure-config")
 )
 
 ;; Do not write anything past this comment. This is where Emacs will

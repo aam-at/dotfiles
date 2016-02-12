@@ -14,10 +14,6 @@
 ;; which require an initialization must be listed explicitly in the list.
 (setq aam-packages
   '(
-    ;; integration for orgmode and habitrpg.
-    (habitrpg :location (recipe
-                            :fetcher github
-                            :repo "ryjm/habitrpg.el"))
     key-chord key-seq
     helm-bibtex
     ;; provide djvu support
@@ -44,13 +40,6 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
-(defun aam/init-habitrpg()
-  (use-package habitrpg
-    :defer t
-    :init
-    (setq
-     habitrpg-api-url "https://habitica.com/api/v2")))
-
 (defun aam/init-key-chord()
   (use-package key-chord
     :defer t
