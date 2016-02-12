@@ -340,6 +340,8 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq org-log-into-drawer "LOGBOOK")
   ;; Pomodoro and timer
   (add-to-list 'org-modules 'org-timer t)
+  ;; Org-effectiveness
+  (add-to-list 'org-modules 'org-effectiveness t)
   ;; Mobile setup
   (setq org-mobile-directory "~/Dropbox/Notes/mobile")
   (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
