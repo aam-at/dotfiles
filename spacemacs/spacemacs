@@ -245,6 +245,7 @@ layers configuration. You are free to put any user code."
   ;; epa encryption
   (setq epa-file-select-keys 0)
   (setq epa-file-cache-passphrase-for-symmetric-encryption t)
+  (add-to-list 'load-suffixes ".el.gpg")
 
   ;; tramp configuration
   (setq tramp-default-method "rsync")
@@ -282,14 +283,15 @@ layers configuration. You are free to put any user code."
   (setq wakatime-cli-path "~/anaconda/bin/wakatime")
 
   ;; Habitica settings
-  (setq habitrpg-api-user "ID-HERE")
-  (setq habitrpg-api-token "TOKEN-HERE")
+  (setq habitrpg-api-user "api-user")
+  (setq habitrpg-api-token "api-token")
   (add-hook 'org-after-todo-state-change-hook 'habitrpg-add 'append)
   (add-hook 'org-clock-in-hook 'habitrpg-clock-in)
   (add-hook 'org-clock-out-hook 'habitrpg-clock-out)
-  (add-to-list 'hrpg-tags-list "research")
-  (add-to-list 'hrpg-tags-list "writing")
-  (add-to-list 'hrpg-tags-list "programming")
+  (with-eval-after-load 'habitrpg
+    (add-to-list 'hrpg-tags-list "research")
+    (add-to-list 'hrpg-tags-list "writing")
+    (add-to-list 'hrpg-tags-list "programming"))
 
   ;; password-store settings
   (setq password-store-password-length 18)
@@ -518,6 +520,9 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq mu4e-maildirs-extension-maildir-separator    "*"
         mu4e-maildirs-extension-submaildir-separator "✉"
         mu4e-maildirs-extension-action-text          nil)
+
+  ;; load encrypted part of config
+  (require 'secure-config "secure-config.el.gpg")
 )
 
 ;; Do not write anything past this comment. This is where Emacs will

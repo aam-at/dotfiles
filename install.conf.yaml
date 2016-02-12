@@ -25,6 +25,7 @@
     ~/.config/nvim/init.vim: vim/vimrc
     ~/.ideavimrc: idea/ideavimrc
     ~/.spacemacs: spacemacs/spacemacs
+    ~/.emacs.d/core/secure-config.el.gpg: spacemacs/secure-config.el.gpg
     ~/.emacs.d/private/aam: spacemacs/aam
     ~/.emacs.d/private/writing: spacemacs/writing
     ~/.emacs.d/private/pdf-tools: spacemacs/pdf-tools
