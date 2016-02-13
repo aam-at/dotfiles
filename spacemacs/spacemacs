@@ -49,7 +49,7 @@ values."
      emacs-lisp
      (latex :variables latex-build-command "LatexMk")
      extra-langs
-     shell-scripts windows-scripts autohotkey
+     shell-scripts windows-scripts vimscript autohotkey
      ;; Auto-completion & tags
      auto-completion ycmd cscope
      ;; ----------------------------------------------------------------
