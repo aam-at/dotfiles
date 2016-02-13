@@ -56,7 +56,7 @@ values."
      ;; Tools
      ;; ----------------------------------------------------------------
      org evernote ;; note-taking and organizer
-     mu4e notmuch ;; email
+     mu4e notmuch erc ;; email & irc
      emoji xkcd ;; something for fun
      (elfeed :variables rmh-elfeed-org-files (list "~/Dropbox/Notes/feeds.org"))
      speed-reading
