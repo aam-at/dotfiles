@@ -92,7 +92,7 @@
 
   :config
   (progn
-    (spacemacs/set-leader-keys
+    (spacemacs/set-leader-keys-for-minor-mode 'org-trello-mode
       "otv" 'org-trello-version
       "oti" 'org-trello-install-key-and-token
       "otI" 'org-trello-install-board-metadata
