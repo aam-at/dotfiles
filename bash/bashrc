@@ -71,3 +71,7 @@ fi
 function setenv() { export "$1=$2";  }
 . ~/.env
 eval "$(thefuck --alias)"
+
+for f in ~/.bash_completion.d/*; do
+    . $f
+done

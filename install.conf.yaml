@@ -40,6 +40,7 @@
     ~/.profile: bash/profile
     ~/.bashrc: bash/bashrc
     ~/.aliases: general/aliases
+    ~/.bash_completion.d: bash/completions
     ~/.bash_aliases: bash/bash_aliases
     ~/.bash_logout: bash/bash_logout
     ~/.dircolors: bash/dircolors-solarized/dircolors.ansi-light
