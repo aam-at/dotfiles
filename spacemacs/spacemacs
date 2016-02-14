@@ -55,12 +55,13 @@ values."
      ;; ----------------------------------------------------------------
      ;; Tools
      ;; ----------------------------------------------------------------
-     org evernote ;; note-taking and organizer
      mu4e notmuch erc ;; email & irc
+     chrome search-engine ;; web
+     org evernote ;; note-taking and organizer
      emoji xkcd ;; something for fun
      (elfeed :variables rmh-elfeed-org-files (list "~/Dropbox/Notes/feeds.org"))
      speed-reading
-     selectric
+     selectric typography ;; writing
      (shell :variables
              shell-default-height 30
              shell-default-position 'bottom)
@@ -278,6 +279,11 @@ layers configuration. You are free to put any user code."
   (add-hook 'prog-mode-hook 'spacemacs/toggle-fill-column-indicator-on)
   (with-eval-after-load 'linum
     (add-hook 'prog-mode-hook #'linum-relative-toggle))
+
+  ;; Chrome settings
+  (add-hook 'edit-server-done-hook (lambda () (shell-command "wmctrl -a \"Google Chrome\"")))
+  (setq edit-server-url-major-mode-alist
+        '(("github\\.com" . org-mode)))
 
   ;; Wakatime settings
   (setq wakatime-api-key "api-key")
