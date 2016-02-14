@@ -282,8 +282,6 @@ layers configuration. You are free to put any user code."
 
   ;; Chrome settings
   (add-hook 'edit-server-done-hook (lambda () (shell-command "wmctrl -a \"Google Chrome\"")))
-  (setq edit-server-url-major-mode-alist
-        '(("github\\.com" . org-mode)))
 
   ;; Wakatime settings
   (setq wakatime-api-key "api-key")
