@@ -25,6 +25,7 @@
     ;; for viewsing log files
     syslog-mode
     password-store
+    ewmctrl
     cloc
     ztree))
 
@@ -123,6 +124,39 @@
 
 (defun aam/init-password-store()
   :defer t)
+
+(defun aam/init-ewmctrl()
+  :defer t
+  :init
+  (spacemacs/set-leader-keys "aw" 'ewmctrl)
+  :config
+  (progn
+    (evilified-state-evilify ewmctrl-mode ewmctrl-mode-map
+      "RET" 'ewmctrl-focus-window
+      "D" 'ewmctrl-delete-window
+      "g" 'ewmctrl-refresh
+      "I" 'ewmctrl-change-window-icon-name
+      "fc" 'ewmctrl-filters-clear
+      "fd" 'ewmctrl-filter-by-desktop-number
+      "fD" 'ewmctrl-filter-desktop-number-clear
+      "fn" 'ewmctrl-filter-by-name
+      "fN" 'ewmctrl-filter-name-clear
+      "fp" 'ewmctrl-filter-by-pid
+      "fP" 'ewmctrl-filter-pid-clear
+      "m" 'ewmctrl-move-window-to-other-desktop
+      "M" 'ewmctrl-move-window-to-current-desktop-and-focus
+      "n" 'next-line
+      "N" 'ewmctrl-change-window-name
+      "p" 'previous-line
+      "r" 'ewmctrl-resize-window
+      "Sd" 'ewmctrl-sort-by-desktop-number
+      "SD" 'ewmctrl-sort-by-desktop-number-reversed
+      "Sn" 'ewmctrl-sort-by-name
+      "SN" 'ewmctrl-sort-by-name-reversed
+      "Sp" 'ewmctrl-sort-by-pid
+      "SP" 'ewmctrl-sort-by-pid-reversed
+      ";" 'ewmctrl-toggle-single-key-to-focus)
+    ))
 
 (defun aam/init-cloc()
   :defer t)
