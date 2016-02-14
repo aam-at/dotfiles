@@ -65,26 +65,27 @@ Each entry is either:
 (defun habitrpg/init-habitrpg()
   (use-package habitrpg
     :defer t
+    :commands (habitrpg-add)
     :init
-    (setq habitrpg-api-url "https://habitica.com/api/v2")
     (spacemacs/set-leader-keys "oh" 'habitrpg-status)
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode "oha" 'habitrpg-add)
+    :config
+    (evil-set-initial-state 'habitrpg-status-mode 'emacs)
+    (define-key habitrpg-status-mode-map
+      (kbd dotspacemacs-leader-key) spacemacs-default-map)
+    (evilified-state-evilify habitrpg-status-mode habitrpg-status-mode-map
+      "j" 'habitrpg-goto-next-section
+      "k" 'habitrpg-goto-previous-section
+      "J" 'habitrpg-goto-next-sibling-section
+      "K" 'habitrpg-goto-previous-sibling-section
+      (kbd "C-h") 'habitrpg-goto-parent-section)
     (spacemacs/set-leader-keys-for-major-mode 'habitrpg-status-mode
-      "n" 'habitrpg-goto-next-section
-      "p" 'habitrpg-goto-previous-section
-      "a" 'habitrpg-do-backlog
-      "I" 'habitrpg-clock-in
       "i" 'habitrpg-clock-in-status
-      "O" 'habitrpg-clock-out
       "u" 'habitrpg-upvote-at-point
       "d" 'habitrpg-downvote-at-point
       "t" 'habitrpg-key-mode-popup-manage
       "g" 'habitrpg-refresh
-      "G" 'habitrpg-refresh-all
-      "q" 'habitrpg-quit-window)
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "oha" 'habitrpg-add)
-    :config
-    ;; (define-key habitrpg-mode-map (kbd "gr") 'habitrpg-refresh)
-    ;; (define-key habitrpg-mode-map (kbd "gR") 'habitrpg-refresh-all))
+      "G" 'habitrpg-refresh-all)
+    (evil-set-initial-state 'habitrpg-key-mode 'emacs)
   ))
 ;;; packages.el ends here
