@@ -122,3 +122,5 @@
 
 [diff "gpg"]
 	textconv = gpg --no-tty --decrypt
+[push]
+	default = simple
