@@ -41,7 +41,9 @@
       "l"         'pdf-view-next-page
       "gg"        'pdf-view-first-page
       "G"         'pdf-view-last-page
-      "gt"        'pdf-view-goto-page
+      "ge"        'pdf-view-goto-page
+      "gt"        'eyebrowse-next-window-config
+      "gT"        'eyebrowse-prev-window-config
       "gl"        'pdf-view-goto-label
       (kbd "C-d") 'pdf-view-scroll-up-or-next-page
       (kbd "C-u") 'pdf-view-scroll-down-or-previous-page
@@ -106,7 +108,7 @@
       "q"           'tablist-quit
       "r"           'pdf-occur-revert-buffer-with-args
       "*"           'spacemacs/enter-ahs-forward
-      ;; "?" 'evil-search-backward
+      "?"           'evil-search-backward
       "RET"         'pdf-occur-goto-occurrence
       (kbd "M-RET") 'pdf-occur-view-occurrence)
 
@@ -118,11 +120,34 @@
       "q" 'tablist-quit
       )
 
+    (spacemacs/declare-prefix-for-mode 'pdf-view-mode "ma" "annotations")
+    (spacemacs/declare-prefix-for-mode 'pdf-view-mode "mf" "fit")
+    (spacemacs/declare-prefix-for-mode 'pdf-view-mode "ms" "slice/search")
+
     (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode
+      ;; Slicing image
+      "sm" 'pdf-view-set-slice-using-mouse
+      "sb" 'pdf-view-set-slice-from-bounding-box
+      "sr" 'pdf-view-reset-slice
+      ;; Annotations
+      "aD" 	'pdf-annot-delete
+      "at" 	'pdf-annot-attachment-dired
+      "ah" 	'pdf-annot-add-highlight-markup-annotation
+      "al" 	'pdf-annot-list-annotations
+      "am" 	'pdf-annot-add-markup-annotation
+      "ao" 	'pdf-annot-add-strikeout-markup-annotation
+      "as" 	'pdf-annot-add-squiggly-markup-annotation
+      "at" 	'pdf-annot-add-text-annotation
+      "au" 	'pdf-annot-add-underline-markup-annotation
       ;; Fit document to window
       "fw" 'pdf-view-fit-width-to-window
       "fh" 'pdf-view-fit-height-to-window
-      "fp" 'pdf-view-fit-page-to-window)))
+      "fp" 'pdf-view-fit-page-to-window
+      ;; Other
+      "ss" 'pdf-occur
+      "p" 'pdf-misc-print-document
+      "o" 'pdf-outline
+      "n" 'pdf-view-midnight-minor-mode)))
 
 (defun pdf-tools/init-org-pdfview()
   :ensure t)
