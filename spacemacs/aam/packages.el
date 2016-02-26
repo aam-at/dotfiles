@@ -123,7 +123,19 @@
     (spacemacs/set-leader-keys "tM" 'evil-visual-mark-mode)))
 
 (defun aam/init-password-store()
-  :defer t)
+  :defer t
+  :config
+  (spacemacs/declare-prefix "op" "password store")
+  (spacemacs/set-leader-keys
+    "opy" 'password-store-copy
+    "opg" 'password-store-generate
+    "ops" 'password-store-url
+    "opi" 'password-store-insert
+    "ope" 'password-store-edit
+    "opr" 'password-store-rename
+    "opI" 'password-store-init
+    "opc" 'password-store-clear
+    "opD" 'password-store-remove))
 
 (defun aam/init-ewmctrl()
   :defer t
