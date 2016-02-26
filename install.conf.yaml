@@ -9,6 +9,7 @@
     ~/.mbsyncrc: config/mbsync/mbsyncrc
     ~/.theanorc: config/python/theanorc
     ~/.fuelrc: config/python/fuelrc
+    ~/.authinfo.gpg: config/authinfo.gpg
     ~/.gitconfig: git/gitconfig
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux/plugins/tpm:
