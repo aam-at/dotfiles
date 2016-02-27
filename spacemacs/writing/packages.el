@@ -24,6 +24,7 @@
                              :repo "rootzlevel/synosaurus"))
       thesaurus synonymous
       define-word
+      (words :location local)
       ))
 
 ;; List of packages to exclude.
@@ -40,27 +41,25 @@
 ;; https://github.com/jwiegley/use-package
 (defun writing/init-writeroom-mode ()
   "Initialize writeroom-mode"
-
-  (use-package writeroom-mode
-    :init (spacemacs/set-leader-keys "xW" #'writeroom-mode)))
+  :defer t
+  :init
+  (spacemacs/set-leader-keys "xW" #'writeroom-mode))
 
 (defun writing/init-writegood-mode ()
   "Initialize writegood-mode"
-
-  (use-package writegood-mode
-    :init (spacemacs/set-leader-keys "xG" #'writegood-mode)))
+  :defer t
+  :init
+  (spacemacs/set-leader-keys "xG" #'writegood-mode))
 
 (defun writing/init-langtool ()
-  "Initialize writeroom-mode"
-
-  (use-package langtool
-    :init
-    (spacemacs/set-leader-keys
-      "x4w" #'langtool-check
-      "x4W" #'langtool-check-done
-      "x4l" #'langtool-switch-default-language
-      "x44" #'langtool-show-message-at-point
-      "x4c" #'langtool-correct-buffer)))
+  :defer t
+  :init
+  (spacemacs/set-leader-keys
+    "x4w" #'langtool-check
+    "x4W" #'langtool-check-done
+    "x4l" #'langtool-switch-default-language
+    "x44" #'langtool-show-message-at-point
+    "x4c" #'langtool-correct-buffer))
 
 (defun writing/init-synosaurus()
   (use-package synosaurus
@@ -73,26 +72,32 @@
         "Sl" 'synosaurus-lookup
         "Sr" 'synosaurus-choose-and-replace))
     :config
-    (progn
-      (setq synosaurus-choose-method 'default))
-    ))
+    (setq synosaurus-choose-method 'default)))
 
 (defun writing/init-thesaurus()
-  (use-package thesaurus
-    :defer t
-    :init
-    (progn
-      (spacemacs/set-leader-keys
-        "St" 'thesaurus-choose-synonym-and-replace))))
+  :defer t
+  :init
+  (spacemacs/set-leader-keys
+    "St" 'thesaurus-choose-synonym-and-replace))
 
 (defun writing/init-synonymous()
-  (use-package synonymous
-    :defer t))
+  :defer t
+  :init
+  (spacemacs/set-leader-keys
+    "Ss" 'synonymous-synonyms
+    "Sa" 'synonymous-antonyms))
 
 (defun writing/init-define-word()
-  (use-package define-word
+  :defer t
+  :init
+  (spacemacs/set-leader-keys
+    "Sm" 'define-word-at-point
+    "SM" 'define-word))
+
+(defun writing/init-words()
+  (use-package words
     :defer t
-    :config
+    :commands (words words-hydra/body)
+    :init
     (spacemacs/set-leader-keys
-      "Sm" 'define-word-at-point
-      "SM" 'define-word)))
+      "Sw" 'words-hydra/body)))

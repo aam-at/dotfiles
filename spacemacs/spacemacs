@@ -47,7 +47,9 @@ values."
      c-c++ python lua haskell go
      html javascript markdown ipython-notebook
      emacs-lisp
-     (latex :variables latex-build-command "LatexMk")
+     (latex :variables
+            latex-build-command "LatexMk"
+            latex-enable-folding t)
      extra-langs
      shell-scripts windows-scripts vimscript autohotkey
      ;; Auto-completion & tags
