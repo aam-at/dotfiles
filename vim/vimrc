@@ -513,7 +513,8 @@ if count(s:my_settings.plugin_groups, 'programming') "{{{
         let g:SuperTabDefaultCompletionType = "context"
         set completeopt=menuone,longest,preview
     "}}}
-
+    " Protobuf highlighting
+    NeoBundle 'uarun/vim-protobuf'
 endif "}}}
 
 if count(s:my_settings.plugin_groups, 'autocomplete') "{{{

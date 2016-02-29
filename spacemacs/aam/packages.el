@@ -24,6 +24,7 @@
     evil-visual-mark-mode
     ;; for viewsing log files
     syslog-mode
+    protobuf-mode
     password-store
     ewmctrl
     cloc
@@ -115,6 +116,9 @@
 (defun aam/init-syslog-mode()
   (use-package syslog-mode
     :defer t))
+
+(defun aam/init-protobuf-mode()
+  :defer t)
 
 (defun aam/init-evil-visual-mark-mode()
   (use-package evil-visual-mark-mode
