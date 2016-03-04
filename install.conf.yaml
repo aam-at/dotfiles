@@ -17,6 +17,7 @@
         path: tmux/plugins/tpm
     ~/.config/fish/config.fish: fish/config.fish
     ~/.config/fish/completions: fish/completions
+    ~/.config/fish/functions: fish/functions
     ~/.vim/bundle/neobundle.vim:
          create: true
          path: vim/bundle/neobundle.vim
