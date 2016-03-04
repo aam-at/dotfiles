@@ -67,6 +67,10 @@ nmap mp :action GotoPreviousBookmark<CR>
 nmap zm :action CollapseAllRegions<CR>
 nmap zr :action ExpandAllRegions<CR>
 
+" Comment code
+vmap gc :action CommentByLineComment<CR>
+nmap gcc :action CommentByLineComment<CR>
+
 " Access to refactorings inside vim
 nnoremap <Leader>rm :action Refactorings.QuickListPopupAction<CR>
 nnoremap <Leader>rf :action ReformatCode<CR>
