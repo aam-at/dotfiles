@@ -6,7 +6,8 @@
     - [mkdir -p ~/.local/bin && ln -frs scripts/* ~/.local/bin/, Link scripts]
 - link:
     ~/.ssh/config: config/ssh/config
-    ~/.mbsyncrc: config/mbsync/mbsyncrc
+    ~/.mbsyncrc: config/mbsyncrc
+    ~/.config/redshift.conf: config/redshift.conf
     ~/.theanorc: config/python/theanorc
     ~/.fuelrc: config/python/fuelrc
     ~/.authinfo.gpg: config/authinfo.gpg
