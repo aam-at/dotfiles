@@ -57,7 +57,8 @@ values."
      ;; ----------------------------------------------------------------
      ;; Tools
      ;; ----------------------------------------------------------------
-     mu4e notmuch erc ;; email & irc
+     (mu4e :variables mu4e-account-alist t)
+     notmuch erc ;; email & irc
      chrome search-engine ;; web
      org evernote ;; note-taking and organizer
      emoji xkcd ;; something for fun
@@ -489,7 +490,54 @@ SCHEDULED: %^{When should we stop?}t +1d
 
   ;; default elfeed search
   (setq-default elfeed-search-filter "@1-week-ago +unread ")
+
   ;; email configuration
+  (setq mu4e-maildir "~/.mail"
+        mu4e-refile-folder "/archive"
+        mu4e-trash-folder "/trash"
+        mu4e-attachment-dir "~/Downloads"
+        mu4e-get-mail-command "mbsync -a"
+        mu4e-update-interval 600
+        mu4e-compose-signature-auto-include nil
+        mu4e-view-show-images t
+        mu4e-view-show-addresses t
+        message-kill-buffer-on-exit t
+        mu4e-enable-notifications t)
+  ;; See: http://emacs.stackexchange.com/questions/3051/how-can-i-use-eww-as-a-renderer-for-mu4e
+  (defun my-render-html-message ()
+    "Replacement for standard html2text using shr."
+    (let ((dom (libxml-parse-html-region (point-min) (point-max))))
+      (erase-buffer)
+      (shr-insert-document dom)
+      (goto-char (point-min))))
+  (setq mu4e-html2text-command 'my-render-html-message)
+  ;; (setq mu4e-html2text-command "w3m -dump -T text/html")
+  (setq mu4e-view-prefer-html t)
+  (add-to-list 'mu4e-view-actions
+               '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+
+  ;; org-mu4e settings
+  (setq org-mu4e-convert-to-html t)
+
+  ;; give me ISO(ish) format date-time stamps in the header list
+  (setq  mu4e-headers-date-format "%Y-%m-%d %H:%M")
+
+  ;; customize the reply-quote-string
+  ;; M-x find-function RET message-citation-line-format for docs
+  (setq message-citation-line-format "%N @ %Y-%m-%d %H:%M %Z:\n")
+  (setq message-citation-line-function 'message-insert-formatted-citation-line)
+
+  ;; the headers to show in the headers list -- a pair of a field
+  ;; and its width, with `nil' meaning 'unlimited'
+  ;; (better only use that for the last field.
+  ;; These are the defaults:
+  (setq mu4e-headers-fields
+        '( (:date          .  25)
+           (:flags         .   6)
+           (:from          .  22)
+           (:subject       .  nil)))
+
+  ;; mail account list
   (setq mu4e-account-alist
         '(("gmail"
            ;; Under each account, set the account-specific variables you want.
@@ -498,40 +546,83 @@ SCHEDULED: %^{When should we stop?}t +1d
            (mu4e-drafts-folder "/gmail/[Gmail]/.Drafts")
            (mu4e-trash-folder "/gmail/[Gmail]/.Trash")
            (user-mail-address "alexander.matyasko@gmail.com")
-           (user-full-name "Alexander Matyasko"))
-          ("uni"
+           (user-full-name "Alexander Matyasko")
+           (message-send-mail-function smtpmail-send-it)
+           (starttls-use-gnutls t)
+           (smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
+           (smtpmail-auth-credentials
+            '(("smtp.gmail.com" 587 "yi.tang.uni@gmail.com" nil)))
+           (smtpmail-default-smtp-server "smtp.gmail.com")
+           (smtpmail-smtp-server "smtp.gmail.com")
+           (smtpmail-smtp-service 587)
+           (smtpmail-smtp-user "alexander.matyasko@gmail.com"))
+          ("office"
            (mu4e-sent-messages-behavior sent)
-           (mu4e-sent-folder "/uni/Sent Items")
-           (mu4e-drafts-folder "/uni/Drafts")
-           (mu4e-trash-folder "/uni/Deleted Items")
+           (mu4e-sent-folder "/office/Sent Items")
+           (mu4e-drafts-folder "/office/Drafts")
+           (mu4e-trash-folder "/office/Deleted Items")
            (user-mail-address "aliaksan001@e.ntu.edu.sg")
-           (user-full-name "Alexander Matyasko"))))
+           (user-full-name "Alexander Matyasko")
+           (message-send-mail-function smtpmail-send-it)
+           (smtpmail-stream-type starttls)
+           (smtpmail-default-smtp-server "smtp.office365.com")
+           (smtpmail-smtp-server "smtp.office365.com")
+           (smtpmail-smtp-service 587)
+           (smtpmail-smtp-user "aliaksan001@e.ntu.edu.sg")
+                 ;; account info
+           (user-mail-address "aliaksan001@e.ntu.edu.sg")
+           (user-full-name  "Alexander Matyasko")
+                 ;; mu4e
+           (mu4e-drafts-folder "/office/Drafts")
+           (mu4e-sent-folder   "/office/Sent Items")
+           (mu4e-trash-folder  "/office/Trash")
+           (mu4e-maildir-shortcuts  '(("/office/INBOX"       . ?i)
+                                      ("/office/Sent Items"  . ?s)
+                                      ("/office/Trash"       . ?t)))
+           (mu4e-compose-signature (concat
+                                    "Alexander Matyasko\n"
+                                    "PhD Student")))))
   (mu4e/mail-account-reset)
-  (setq mu4e-maildir "~/.mail"
-        mu4e-refile-folder "/archive"
-        mu4e-trash-folder "/trash"
-        mu4e-get-mail-command "mbsync -a"
-        mu4e-update-interval 600
-        mu4e-compose-signature-auto-include nil
-        mu4e-view-show-images t
-        mu4e-view-show-addresses t)
   (setq mu4e-maildir-shortcuts
         '(("/gmail/INBOX" . ?g)
-          ("/uni/INBOX" . ?c)))
-  (setq mu4e-view-prefer-html t)
-  (defun html2text ()
-    "Replacement for standard html2text using shr."
-    (interactive)
-    (let ((dom (libxml-parse-html-region (point-min) (point-max))))
-      (erase-buffer)
-      (shr-insert-document dom)
-      (goto-char (point-min))))
-  ;; (setq mu4e-html2text-command "w3m -dump -T text/html")
-  (setq mu4e-html2text-command nil)
+          ("/office/INBOX" . ?c)))
   (setq mu4e-maildirs-extension-maildir-separator    "*"
         mu4e-maildirs-extension-submaildir-separator "✉"
         mu4e-maildirs-extension-action-text          nil)
 
+  ;; email org-contacts
+  (setq org-contacts-files "~/Dropbox/Notes/contacts.org")
+  (setq mu4e-org-contacts-file  "~/Dropbox/Notes/contacts.org")
+  (add-to-list 'mu4e-headers-actions
+               '("org-contact-add" . mu4e-action-add-org-contact) t)
+  (add-to-list 'mu4e-view-actions
+               '("org-contact-add" . mu4e-action-add-org-contact) t)
+
+  ;; message mode hooks
+  (add-hook 'message-mode-hook 'turn-on-orgstruct)
+  (add-hook 'message-mode-hook 'turn-on-orgstruct++)
+  (add-hook 'message-mode-hook 'turn-on-auto-fill)
+  (add-hook 'message-mode-hook 'orgtbl-mode)
+
+  (require 'org-mime)
+  (setq org-mime-library 'mml)
+  (add-hook 'message-mode-hook
+            (lambda ()
+              (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-c M-o") 'org-mime-subtree)))
+  (add-hook 'org-mime-html-hook
+            (lambda ()
+              ;; (insert-file-contents "~/git/.emacs.d/personal/css/office.css")
+              (org-mime-change-element-style
+               "blockquote" "border-left: 2px solid gray; padding-left: 4px;")
+              (org-mime-change-element-style
+               "pre" (format "color: %s; background-color: %s; padding: 0.5em;"
+                             "#E6E1DC" "#232323"))))
   ;; twitter settings
   (setq twittering-tinyurl-service 'bit.ly)
   (setq twittering-bitly-login "login")
