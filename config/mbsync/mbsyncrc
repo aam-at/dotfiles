@@ -2,7 +2,7 @@
 IMAPAccount gmail
 Host imap.gmail.com
 User alexander.matyasko@gmail.com
-PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mail/gmailpass.gpg"
+PassCmd "pass show gmail.com"
 Port 993
 SSLType IMAPS
 AuthMechs Login
@@ -25,26 +25,26 @@ Sync All
 Expunge Both
 SyncState *
 
-# uni account
-IMAPAccount uni
+# office account
+IMAPAccount office
 Host outlook.office365.com
 User Aliaksan001@e.ntu.edu.sg
-PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mail/unipass.gpg"
+PassCmd "pass show outlook.office.com"
 Port 993
 SSLType IMAPS
 AuthMechs Login
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-IMAPStore uni-remote
-Account uni
+IMAPStore office-remote
+Account office
 
-MaildirStore uni-local
-Path ~/.mail/uni/
-Inbox ~/.mail/uni/INBOX
+MaildirStore office-local
+Path ~/.mail/office/
+Inbox ~/.mail/office/INBOX
 
-Channel uni
-Master :uni-remote:
-Slave :uni-local:
+Channel office
+Master :office-remote:
+Slave :office-local:
 Patterns *
 Create Slave
 Sync All
