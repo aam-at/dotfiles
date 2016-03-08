@@ -553,7 +553,10 @@ SCHEDULED: %^{When should we stop?}t +1d
            (smtpmail-default-smtp-server "smtp.gmail.com")
            (smtpmail-smtp-server "smtp.gmail.com")
            (smtpmail-smtp-service 587)
-           (smtpmail-smtp-user "alexander.matyasko@gmail.com"))
+           (smtpmail-smtp-user "alexander.matyasko@gmail.com")
+           (mu4e-compose-signature (concat
+                                    "Best,\n"
+                                    "Alexander Matyasko")))
           ("office"
            (mu4e-sent-messages-behavior sent)
            (mu4e-sent-folder "/office/Sent Items")
@@ -581,6 +584,9 @@ SCHEDULED: %^{When should we stop?}t +1d
                                     "Alexander Matyasko\n"
                                     "PhD Student")))))
   (mu4e/mail-account-reset)
+  (setq mu4e-compose-dont-reply-to-self t)
+  (setq mu4e-user-mail-address-list '("alexander.matyasko@gmail.com"
+                                     "aliaksan001@e.ntu.edu.sg"))
   (setq mu4e-maildir-shortcuts
         '(("/gmail/INBOX" . ?g)
           ("/office/INBOX" . ?c)))
@@ -602,6 +608,11 @@ SCHEDULED: %^{When should we stop?}t +1d
   (add-hook 'message-mode-hook 'turn-on-orgstruct++)
   (add-hook 'message-mode-hook 'turn-on-auto-fill)
   (add-hook 'message-mode-hook 'orgtbl-mode)
+  ;; confirmation
+  (add-hook 'message-send-hook
+            (lambda ()
+              (unless (yes-or-no-p "Sure you want to send this?")
+                (signal 'quit nil))))
 
   (require 'org-mime)
   (setq org-mime-library 'mml)
