@@ -18,9 +18,8 @@ join, isfile, isdir = os.path.join, os.path.isfile, os.path.isdir
 for dir_path, sub_dirs, files in walklevel('.', level=2):
     if ".git" in sub_dirs:
         print("Pulling changes for %s" % dir_path)
-        call(["git", "pull"], cwd=dir_path)
+        call(["git", "pull", "--rebase"], cwd=dir_path)
     if "setup.py" in files:
-        print(files)
         setup_arg = 'develop'
         if dir_path == 'fuel':
             setup_arg = 'install'

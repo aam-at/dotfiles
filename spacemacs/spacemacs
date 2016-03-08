@@ -68,7 +68,8 @@ values."
              shell-default-height 30
              shell-default-position 'bottom)
      tmux ranger
-     dash ;; offline help search with zeal/dash on linux/osx
+     (dash :variables ;; offline help search with zeal/dash on linux/osx
+           dash-helm-dash-docset-path "~/.local/share/Zeal/Zeal/docsets")
      smex finance
      wakatime ;; tracking coding time
      fasd ;; like autojump but better. TODO: try to use it with fish shell
@@ -396,10 +397,12 @@ SCHEDULED: %^{When should we stop?}t +1d
   (defun my-latex-settings()
     (add-to-list 'TeX-output-view-style
                  '("^pdf$" "." "okular --unique %o#src:%n%b"))
-    ;; Disable annoying wrapping
+    ;; disable annoying wrapping
     (spacemacs/toggle-auto-fill-mode-off)
-    ;; Turn on visual line wrapping and visual line navigation
-    (spacemacs/toggle-visual-line-navigation-on))
+    ;; turn on visual line wrapping and visual line navigation
+    (spacemacs/toggle-visual-line-navigation-on)
+    ;; set manually docset for zeal
+    (setq zeal-at-point-docset "latex"))
   (add-hook 'LaTeX-mode-hook 'my-latex-settings)
 
   ;; Auctex settings
