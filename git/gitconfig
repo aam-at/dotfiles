@@ -20,6 +20,7 @@
     # }}}
     # tweak defaults {{{
     diff = diff --word-diff
+    wdiff = diff --color-words
     branch = branch -ra
     grep = grep -Ii
     bra = branch -ra
