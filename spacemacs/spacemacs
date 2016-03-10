@@ -408,6 +408,7 @@ SCHEDULED: %^{When should we stop?}t +1d
 
   ;; Auctex settings
   (setq-default TeX-master nil) ; Query for master file.
+  (setq TeX-auto-untabify t)
   ;; zathura for emacs
   (setq zathura-procs ())
   (defun zathura-forward-search ()
