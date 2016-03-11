@@ -21,7 +21,7 @@
     # tweak defaults {{{
     diff = diff --word-diff
     wdiff = diff --color-words
-    ldiff = latexdiff --latexmk --bbl --quite --pdf-viewer emacsclient
+    ldiff = latexdiff --latexmk --quite --pdf-viewer emacsclient
     branch = branch -ra
     grep = grep -Ii
     bra = branch -ra
