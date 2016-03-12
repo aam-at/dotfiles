@@ -10,9 +10,9 @@ source $OMF_PATH/init.fish
 # Oh My Fish plugins
 set fish_plugins vi-mode python pyenv gi git-flow emacs
 set fish_plugins extract thefuck weather
+# Oh My Fish themes
 set fish_plugins agnoster krisleech zish toaster ocean
-
-# Oh My Fish theme
+# select theme
 set fish_theme agnoster
 
 # Load fishmarks (http://github.com/techwizrd/fishmarks)

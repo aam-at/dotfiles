@@ -364,6 +364,7 @@ if count(s:my_settings.plugin_groups, 'core') "{{{
         \   'windows': '"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\nmake.exe" make_msvc32.mak',
         \ },
     \ }
+    NeoBundle 'Konfekt/FastFold'
 endif "}}}
 
 if count(s:my_settings.plugin_groups, 'editing') "{{{
