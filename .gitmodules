@@ -16,3 +16,6 @@
 [submodule "bash/dircolors-solarized"]
 	path = bash/dircolors-solarized
 	url = https://github.com/seebi/dircolors-solarized
+[submodule "bash/bashmarks"]
+	path = bash/bashmarks
+	url = https://github.com/aam-at/bashmarks
