@@ -19,17 +19,38 @@ alias ec="emacsclient -c"
 ################################
 
 # git related shortcut
+alias gcl='git clone'
 alias undopush="git push -f origin HEAD^:master"
 alias gd="git diff"
 alias gdc="git diff --cached"
 alias ga="git add"
-alias gca="git commit -a -m"
-alias gcm="git commit -m"
-alias gbd="git branch -D"
+alias gall='git add -A'
+alias gf='git fetch --all --prune'
+alias gft='git fetch --all --prune --tags'
+alias gfv='git fetch --all --prune --verbose'
+alias gftv='git fetch --all --prune --tags --verbose'
+alias gs="git status -sb --ignore-submodules"
+alias gss="git status -sb --ignore-submodules"
 alias gst="git status -sb --ignore-submodules"
-alias gm="git merge --no-ff"
-alias gpt="git push --tags"
+alias gsu='git submodule update --init --recursive'
+alias gl='git pull'
+alias gpr='git pull --rebase'
+# alias gpom="git pull origin master"
 alias gp="git push"
+alias gpo='git push origin'
+alias gpt="git push --tags"
+alias gpu='git push --set-upstream'
+alias gpom='git push origin master'
+# alias gdv='git diff -w "$@" | vim -R -'
+alias gc='git commit -v'
+alias gca='git commit -v -a'
+alias gcm='git commit -v -m'
+alias gci='git commit --interactive'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gbt='git branch --track'
+alias gbd="git branch -D"
+alias gm="git merge --no-ff"
 alias grs="git reset --soft"
 alias grh="git reset --hard"
 alias gb="git branch"
@@ -38,18 +59,33 @@ alias gco="git checkout"
 alias gba="git branch -a"
 alias gcp="git cherry-pick"
 alias gl="git lg"
-alias gpom="git pull origin master"
+alias gt="git tag"
+alias gta="git tag -a"
+alias gtd="git tag -d"
+alias gtl="git tag -l"
 # turn on coloring on grep
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
-# Quick check running state of a process
+# xclip
+alias pbcopy="xclip -selection clipboard"
+alias pbpaste="xclip -selection clipboard -o"
+
+# emacs
+alias em='emacs'
+alias en='emacs -nw'
+alias e='emacsclient -n'
+alias et='emacsclient -t'
+alias ed='emacs --daemon'
+alias E='SUDO_EDITOR=emacsclient sudo -e'
+
+# quick check running state of a process
 alias ps="ps -Sa -o 'uid,pid,ppid,time,rss,command'"
 
 # start local markdown wiki for my notes
 alias md='gollum --host localhost --port 4567 ~/Dropbox/Notes/'
 
-# Launch vim with geeknote
+# launch vim with geeknote
 alias vim-geeknote='vim -c Geeknote'
 
 # from http://news.ycombinator.com/item?id=4492682
