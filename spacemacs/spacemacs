@@ -80,6 +80,7 @@ values."
      aam writing pdf-tools
      habitrpg
      org-extras python-extras
+     graphviz
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
