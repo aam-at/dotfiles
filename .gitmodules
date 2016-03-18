@@ -22,3 +22,6 @@
 [submodule "spacemacs/graphviz"]
 	path = spacemacs/graphviz
 	url = https://github.com/luxbock/graphviz
+[submodule "spacemacs/writing/local/textlint"]
+	path = spacemacs/writing/local/textlint
+	url = https://github.com/DamienCassou/textlint

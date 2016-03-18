@@ -25,7 +25,7 @@
       thesaurus synonymous
       define-word
       (words :location local)
-      ))
+      (textlint :location local)))
 
 ;; List of packages to exclude.
 (setq writing-excluded-packages '())
@@ -101,3 +101,10 @@
     :init
     (spacemacs/set-leader-keys
       "Sw" 'words-hydra/body)))
+
+(defun writing/init-textlint()
+  :config
+  (require 'textlint)
+  :init
+  (spacemacs/set-leader-keys
+    "S!" 'textlint-run))

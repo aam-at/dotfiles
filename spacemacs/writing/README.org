@@ -19,13 +19,17 @@
    - [[synosaurus][synosaurus]]
    - [[thesaurus][thesaurus]]
    - [[define-word][define-word]]
+   - [[words][words]]
+   - [[textlint][textlint]]
 
 * Description
 This layer provides some utilities for better and more pleasant writing:
   - write-room integration;
   - write-good integration;
   - langtool integration;
-  - few tools for synonyms, thesaurus, define-word.
+  - few tools for thesaurus like functionality (synosaurus, thesaurus, synonymous, define-word);
+  - words by [[https://github.com/jkitchin/][jkitchin]];
+  - textlint for style check;
 
 * Install
 To use this contribution add it to your =~/.spacemacs=
@@ -97,3 +101,16 @@ To install wordnet on Ubuntu run:
 |-------------+----------------------|
 | ~SPS S m~   | define word at point |
 | ~SPS S M~   | define word          |
+
+** words
+
+| Key Binding | Description           |
+|-------------+-----------------------|
+| ~SPS S w~   | open words hydra menu |
+
+** textlint
+
+| Key Binding | Description                     |
+|-------------+---------------------------------|
+| ~SPS S !~   | run textlint in current buffer |
+
