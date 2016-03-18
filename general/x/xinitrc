@@ -1,0 +1,5 @@
+export ALTERNATE_EDITOR=vim
+export EDITOR=emacsclient
+export VISUAL=emacsclient
+
+[ -e $HOME/.Xmodmap ] && xmodmap $HOME/.Xmodmap

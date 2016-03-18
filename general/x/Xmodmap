@@ -1,0 +1,63 @@
+! see /usr/include/X11/keysymdef.h
+! use xev to get keycodes
+! use xmodmap without arguments to see modifiers
+! modifiers are shift, control, lock, mod1, mod2, mod3, mod4, mod5
+! mod1 - mod5 are for free use
+! XCompose intercepts sequences of typed characters and replaces them with 
+! other sequences; i.e., a dead key followed by another key produces a new
+! character
+
+! format of keycode/keysym lines:
+! [keycode|keysym] [<keycode|keysym>] = <1> <2> <3> <4>
+! where <1> <key>, <2> <shift-key>, <3> <Mode_switch-key>
+! <4> <shift-Mode_switch-key>
+clear Mod2
+clear Mod3
+clear Mod4
+clear Mod5
+
+! Swap caps lock and escape
+remove Lock = Caps_Lock
+keysym Escape = Caps_Lock
+keysym Caps_Lock = Escape
+add Lock = Caps_Lock
+
+! make hold enter be right control
+! see: http://emacsredux.com/blog/2013/11/12/a-crazy-productivity-boost-remap-return-to-control/
+! remove Control = Control_R
+! keycode 0x69 = Return
+! keycode 0x24 = Control_R
+! add Control = Control_R
+
+! Make the "Windows" Key Mode_Switch
+! keycode 133 on my lapptop
+! (for non-latin chars below) and Mod4
+keycode 133 = Mode_switch
+
+keysym 4 = 4 dollar EuroSign sterling
+
+! Greek characters
+keysym a = a A Greek_alpha Greek_ALPHA
+keysym b = b B Greek_beta Greek_BETA
+keysym g = g G Greek_gamma Greek_GAMMA
+keysym d = d D Greek_delta Greek_DELTA
+keysym e = e E Greek_epsilon Greek_EPSILON
+keysym z = z Z Greek_zeta Greek_ZETA
+keysym h = h H Greek_eta Greek_ETA
+keysym o = o O Greek_theta Greek_THETA
+keysym i = i I Greek_iota Greek_IOTA
+keysym k = k K Greek_kappa Greek_KAPPA
+keysym l = l L Greek_lamda Greek_LAMDA
+keysym m = m M Greek_mu Greek_MU
+keysym n = n N Greek_nu Greek_NU
+keysym f = f F Greek_xi Greek_XI
+keysym c = c C Greek_omicron Greek_OMICRON
+keysym p = p P Greek_pi Greek_PI
+keysym r = r R Greek_rho Greek_RHO
+keysym s = s S Greek_sigma Greek_SIGMA
+keysym t = t T Greek_tau Greek_TAU
+keysym u = u U Greek_upsilon Greek_UPSILON
+keysym v = v V Greek_phi Greek_PHI
+keysym x = x X Greek_chi Greek_CHI
+keysym y = y Y Greek_psi Greek_PSI
+keysym w = w W Greek_omega Greek_OMEGA

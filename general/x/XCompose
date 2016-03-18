@@ -1,0 +1,23 @@
+# semi-colon
+<dead_horn> <space> : "; "
+<dead_horn> <Return> : ";\n"
+<dead_horn> <dead_horn> : ";"
+
+# apostrophe and quotes
+<dead_horn> <q> : "'"
+<dead_horn> <Q> : "\""
+
+# currency
+<dead_horn> <u> <1> : "¢"
+<dead_horn> <u> <2> : "€"
+<dead_horn> <u> <3> : "£"
+<dead_horn> <u> <4> : "¥"
+
+# math / science symbols
+<dead_horn> <minus> : "÷"
+<dead_horn> <equal> : "×"
+<dead_horn> <underscore> : "±"
+<dead_horn> <8> : "•"
+<dead_horn> <0> : "°"
+<dead_horn> <5> : "‰"
+<dead_horn> <p> : "¶"

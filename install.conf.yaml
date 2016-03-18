@@ -51,5 +51,6 @@
     ~/.bash_logout: bash/bash_logout
     ~/.dircolors: bash/dircolors-solarized/dircolors.ansi-light
     ~/.env: general/env
-    ~/.xmodmap: general/xmodmap
+    ~/.xmodmap: general/x/Xmodmap
+    ~/.xinitrc: general/x/xinitrc
     ~/.latexmkrc: general/latexmkrc
