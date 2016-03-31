@@ -15,7 +15,8 @@
 (setq aam-packages
   '(
     key-chord key-seq
-    helm-bibtex
+    ;; citations
+    helm-bibtex gscholar-bibtex ebib
     ;; provide djvu support
     djvu
     ;; Twitter hackernews stackexchange
@@ -74,6 +75,20 @@
               (markdown-mode . helm-bibtex-format-citation-pandoc-citeproc)
               (default       . helm-bibtex-format-citation-default)))
       )))
+
+(defun aam/init-gscholar-bibtex()
+  :defer t
+  :init
+  (spacemacs/set-leader-keys "ol" 'gscholar-bibtex)
+  :config
+  (evil-set-initial-state 'gscholar-bibtex-mode 'emacs))
+
+(defun aam/post-init-ebib()
+  :config
+  (setq ebib-preload-bib-files '("~/Dropbox/Research/Bibliography/references.bib"))
+  (evil-set-initial-state 'ebib-index-mode 'emacs)
+  (evil-set-initial-state 'ebib-entry-mode 'emacs)
+  (evil-set-initial-state 'ebib-log-mode 'emacs))
 
 (defun aam/init-djvu()
   (use-package djvu
