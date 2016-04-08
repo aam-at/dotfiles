@@ -313,6 +313,7 @@ layers configuration. You are free to put any user code."
   (setq password-store-password-length 18)
 
   ;; calendar settings
+  (evil-set-initial-state 'calendar-mode 'emacs)
   (setq calendar-date-style "european")
 
   ;; Org settings
@@ -325,7 +326,8 @@ layers configuration. You are free to put any user code."
                                (concat org-directory "/bookmarks.org")
                                (concat org-directory "/ideas.org")
                                (concat org-directory "/papers.org")
-                               (concat org-directory "/drills.org")
+                               (concat org-directory "/books.org")
+                               ;; (concat org-directory "/drills.org")
                                (concat org-directory "/journal")))
   (setq org-default-notes-file (concat org-directory "/refile.org"))
   (setq org-capture-templates
