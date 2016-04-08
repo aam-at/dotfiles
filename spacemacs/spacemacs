@@ -257,7 +257,7 @@ layers configuration. You are free to put any user code."
   ;; tramp configuration
   (setq tramp-default-method "rsync")
 
-  ;; Enable visual line navigation
+  ;; enable visual line navigation
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
   (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
   (define-key evil-visual-state-map "j" 'evil-next-visual-line)
@@ -279,11 +279,16 @@ layers configuration. You are free to put any user code."
   (key-seq-define evil-normal-state-map "kw" 'evil-quit)
   (key-seq-define evil-normal-state-map "kb" 'kill-this-buffer)
 
-  ;; Show line numbers
-  (add-hook 'prog-mode-hook #'linum-mode)
-  (add-hook 'prog-mode-hook 'spacemacs/toggle-fill-column-indicator-on)
-  (with-eval-after-load 'linum
-    (add-hook 'prog-mode-hook #'linum-relative-toggle))
+  ;; programming settings
+  (defun my-prog-settings()
+    (spacemacs/toggle-fill-column-indicator-on)
+    (spacemacs/toggle-line-numbers-on)
+    (linum-relative-on)
+    )
+  (add-hook 'prog-mode-hook 'my-prog-settings)
+  ;; basic text settings
+  (add-hook 'text-mode-hook 'visual-line-mode)
+  (spacemacs/set-leader-keys "C-t l" 'visual-line-mode)
 
   ;; Chrome settings
   (add-hook 'edit-server-done-hook (lambda () (shell-command "wmctrl -a \"Google Chrome\"")))

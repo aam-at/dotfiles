@@ -138,8 +138,8 @@
 (defun aam/init-evil-visual-mark-mode()
   (use-package evil-visual-mark-mode
     :defer t
-    :config
-    (spacemacs/set-leader-keys "tM" 'evil-visual-mark-mode)))
+    :commands evil-visual-mark-mode
+    :init (spacemacs/set-leader-keys "C-t m" 'evil-visual-mark-mode)))
 
 (defun aam/init-password-store()
   :defer t
