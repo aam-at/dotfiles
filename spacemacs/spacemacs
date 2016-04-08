@@ -307,14 +307,16 @@ layers configuration. You are free to put any user code."
   ;; password-store settings
   (setq password-store-password-length 18)
 
+  ;; calendar settings
+  (setq calendar-date-style "european")
+
   ;; Org settings
   (setq org-directory "~/Dropbox/Notes")
   (setq org-agenda-files (list (concat org-directory "/work.org")
+                               (concat org-directory "/personal.org")
                                ;; File so sync with google calendar
                                (concat org-directory "/fromwork.org")
                                (concat org-directory "/todo.org")
-                               (concat org-directory "/habits.org")
-                               (concat org-directory "/notes.org")
                                (concat org-directory "/bookmarks.org")
                                (concat org-directory "/ideas.org")
                                (concat org-directory "/papers.org")
@@ -354,7 +356,8 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq org-agenda-skip-scheduled-if-done t)
   (setq org-agenda-skip-deadline-if-done t)
   (setq org-agenda-custom-commands
-        '(("w" "Weekly tasks" tags "+weekly")
+        '(("f" occur-tree "FIXME")
+          ("w" "Weekly tasks" tags "+weekly")
           ("W" "Waiting tasks" todo-tree "WAITING")
           ("c" "Cleaning tasks" tags "+cleaning")
           ("d" "Daily tasks" tags "+daily")))
