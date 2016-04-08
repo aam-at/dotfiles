@@ -31,9 +31,7 @@
                        :fetcher github
                        :repo "joostkremers/ebib"))
       ;; org mode reference management
-      (org-ref :location (recipe
-                          :fetcher github
-                          :repo "jkitchin/org-ref"))
+      org-ref
       ob-ipython
       org-eww
     ))
