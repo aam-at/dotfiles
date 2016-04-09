@@ -1,0 +1,5 @@
+[Desktop Entry]
+Exec=stumpwm
+TryExec=stumpwm
+Name=stumpwm
+Comment=Emacs Mouseless Window Manager
