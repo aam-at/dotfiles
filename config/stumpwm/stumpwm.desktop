@@ -1,5 +1,7 @@
 [Desktop Entry]
+Encoding=UTF-8
+Type=XSession
 Exec=stumpwm
 TryExec=stumpwm
-Name=stumpwm
-Comment=Emacs Mouseless Window Manager
+Name=StumpWM
+Comment=Stump window manager

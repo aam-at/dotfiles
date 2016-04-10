@@ -4,8 +4,9 @@
 
 (in-package :stumpwm)
 
-;; change the prefix key to something else
-(set-prefix-key (kbd "C-z"))
+;;;;;;;;;;;;;;;;;;
+;; Custom commands
+;;;;;;;;;;;;;;;;;;
 
 ;; prompt the user for an interactive command. The first arg is an
 ;; optional initial contents.
@@ -13,63 +14,94 @@
   (let ((cmd (read-one-line (current-screen) ": " :initial-input initial)))
     (when cmd
       (eval-command cmd t))))
+(defcommand firefox () ()
+  "run firefox"
+  (run-or-raise "firefox" '(:class "Firefox")))
+(defcommand chrome () ()
+  "run google chrome"
+  (run-or-raise "google-chrome" '(:instance "google-chrome")))
+(defcommand vol-up () ()
+  "Increase the volume from the shell"
+  (run-shell-command
+   "amixer -D pulse sset Master 5%+"))
+(defcommand vol-down () ()
+  "Decrease the volume  from the shell"
+  (run-shell-command
+   "amixer -D pulse sset Master 5%-"))
+(defcommand vol-mute () ()
+  "toggle mute"
+  (run-shell-command
+   "amixer -q -D pulse sset Master toggle"))
 
-;; Read some doc
-(define-key *root-map* (kbd "d") "exec gv")
-;; Browse somewhere
-(define-key *root-map* (kbd "b") "colon1 exec firefox http://www.")
-;; Ssh somewhere
-(define-key *root-map* (kbd "C-s") "colon1 exec xterm -e ssh ")
-;; Lock screen
-(define-key *root-map* (kbd "C-l") "exec xlock")
+;; Custom menu
+(defcommand mymenu () ()
+  (labels ((pick (options)
+                 (let ((selection (stumpwm::select-from-menu (current-screen) options "")))
+                   (cond
+                    ((null selection)
+                     (throw 'stumpwm::error "Abort."))
+                    ((stringp (second selection))
+                     (second selection))
+                    (t
+                     (pick (cdr selection)))))))
+    (let ((choice (pick *app-menu*)))
+      (run-shell-command choice))))
+(defparameter *app-menu* '(("Audio/Video"
+                            ("VLC" "vlc"))
+                           ("Internet"
+                            ("Chrome" "chrome-google")
+                            ("Firefox" "firefox")
+                            ("Conkeror" "conkeror"))
+                           ("Office Applications"
+                            ("Emacs" "emacs")
+                            ("Libre Office" "libreoffice"))
+                           ("System Tools"
+                            ("Network Connections" "nm-connection-editor")
+                            )))
 
 ;; Web jump (works for Google and Imdb)
 (defmacro make-web-jump (name prefix)
   `(defcommand ,(intern name) (search) ((:rest ,(concatenate 'string name " search: ")))
-    (substitute #\+ #\Space search)
-    (run-shell-command (concatenate 'string ,prefix search))))
+     (substitute #\+ #\Space search)
+     (run-shell-command (concatenate 'string ,prefix search))))
 
-(make-web-jump "google" "firefox http://www.google.fr/search?q=")
-(make-web-jump "imdb" "firefox http://www.imdb.com/find?q=")
+(make-web-jump "google" "google-chrome http://www.google.com/search?q=")
 
-;; C-t M-s is a terrble binding, but you get the idea.
+;;;;;;;;;;;;;;
+;; Define keys
+;;;;;;;;;;;;;;
+
+;; Browse somewhere
+(define-key *root-map* (kbd "b") "colon1 exec chrome http://www.")
+;; Ssh somewhere
+(define-key *root-map* (kbd "C-s") "colon1 exec xterm -e ssh ")
+;; Lock screen
+(define-key *root-map* (kbd "C-l") "exec gnome-screensaver-command -l")
+;; Google
 (define-key *root-map* (kbd "M-s") "google")
-(define-key *root-map* (kbd "i") "imdb")
+;; Multimedia
+(define-key *root-map* (kbd "XF86AudioLowerVolume")   "vol-down")
+(define-key *root-map* (kbd "XF86AudioRaiseVolume")   "vol-up")
+(define-key *root-map* (kbd "C-(")  "vol-down")
+(define-key *root-map* (kbd "C-)")  "vol-up")
+(define-key *root-map* (kbd "C-*")  "vol-mute")
+(define-key *root-map* (kbd "Print")
+  "exec import -window root png:$HOME/screenshot_$(date +%F_%H-%M-%S).png")
+;; Custom menu
+(define-key *root-map* (kbd ".") "mymenu")
+
+;;;;;;;;;;;;;;;;;;;
+;; Startup programs
+;;;;;;;;;;;;;;;;;;;
+
+(run-shell-command "pulseaudio --start")
+(run-shell-command "xmodmap ~/.xmodmap")
+(run-shell-command "guake -e tmux")
+(run-shell-command "dropbox start")
+
+;;;;;;;;;;;;;;;;;;;;
+;; Visual appearance
+;;;;;;;;;;;;;;;;;;;;
 
 ;; Message window font
 (set-font "-xos4-terminus-medium-r-normal--14-140-72-72-c-80-iso8859-15")
-
-;;; Define window placement policy...
-
-;; Clear rules
-(clear-window-placement-rules)
-
-;; Last rule to match takes precedence!
-;; TIP: if the argument to :title or :role begins with an ellipsis, a substring
-;; match is performed.
-;; TIP: if the :create flag is set then a missing group will be created and
-;; restored from *data-dir*/create file.
-;; TIP: if the :restore flag is set then group dump is restored even for an
-;; existing group using *data-dir*/restore file.
-(define-frame-preference "Default"
-  ;; frame raise lock (lock AND raise == jumpto)
-  (0 t nil :class "Konqueror" :role "...konqueror-mainwindow")
-  (1 t nil :class "XTerm"))
-
-(define-frame-preference "Ardour"
-  (0 t   t   :instance "ardour_editor" :type :normal)
-  (0 t   t   :title "Ardour - Session Control")
-  (0 nil nil :class "XTerm")
-  (1 t   nil :type :normal)
-  (1 t   t   :instance "ardour_mixer")
-  (2 t   t   :instance "jvmetro")
-  (1 t   t   :instance "qjackctl")
-  (3 t   t   :instance "qjackctl" :role "qjackctlMainForm"))
-
-(define-frame-preference "Shareland"
-  (0 t   nil :class "XTerm")
-  (1 nil t   :class "aMule"))
-
-(define-frame-preference "Emacs"
-  (1 t t :restore "emacs-editing-dump" :title "...xdvi")
-  (0 t t :create "emacs-dump" :class "Emacs"))

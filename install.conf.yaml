@@ -13,6 +13,7 @@
     ~/.theanorc: config/python/theanorc
     ~/.fuelrc: config/python/fuelrc
     ~/.authinfo.gpg: config/authinfo.gpg
+    ~/.stumpwmrc: config/stumpwm/stumpwmrc
     ~/.gitconfig: git/gitconfig
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux/plugins/tpm:
