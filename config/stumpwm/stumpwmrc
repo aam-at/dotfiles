@@ -49,7 +49,7 @@
 (defparameter *app-menu* '(("Audio/Video"
                             ("VLC" "vlc"))
                            ("Internet"
-                            ("Chrome" "chrome-google")
+                            ("Chrome" "google-chrome")
                             ("Firefox" "firefox")
                             ("Conkeror" "conkeror"))
                            ("Office Applications"
@@ -96,8 +96,11 @@
 
 (run-shell-command "pulseaudio --start")
 (run-shell-command "xmodmap ~/.xmodmap")
+(run-shell-command "/usr/bin/gnome-keyring-daemon --start --components=ssh")
+(run-shell-command "/usr/bin/gnome-keyring-daemon --start --components=gpg")
 (run-shell-command "guake -e tmux")
 (run-shell-command "dropbox start")
+(run-shell-command "redshift")
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; Visual appearance

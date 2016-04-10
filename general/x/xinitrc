@@ -2,4 +2,13 @@ export ALTERNATE_EDITOR=vim
 export EDITOR=emacsclient
 export VISUAL=emacsclient
 
-[ -e $HOME/.Xmodmap ] && xmodmap $HOME/.Xmodmap
+eval `gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh`
+export GNOME_KEYRING_CONTROL
+export SSH_AUTH_SOCK
+export GPG_AGENT_INFO
+export GNOME_KEYRING_PID
+
+[ -e $HOME/.Xmodmap ] && exec xmodmap $HOME/.Xmodmap
+exec xsetroot -cursor_name left_ptr
+exec xset s off
+exec xset b off
