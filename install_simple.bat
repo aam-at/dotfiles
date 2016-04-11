@@ -8,3 +8,6 @@ mklink /J ..\.emacs.d\private\notmuch spacemacs\notmuch
 mklink /J ..\.emacs.d\private\org-extras spacemacs\org-extras
 mklink /J ..\.emacs.d\private\python-extras spacemacs\python-extras
 mklink /J ..\.emacs.d\private\writing spacemacs\writing
+mklink /J ..\.emacs.d\private\pdf-tools spacemacs\pdf-tools
+mklink /J ..\.emacs.d\private\habitrpg spacemacs\habitrpg
+mklink /J ..\.emacs.d\private\graphviz spacemacs\graphviz
