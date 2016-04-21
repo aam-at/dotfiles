@@ -498,7 +498,7 @@ SCHEDULED: %^{When should we stop?}t +1d
 
   ;; Lua development
   (setq lua-default-application "qlua")
-  (setq lua-default-command-switches "-lqttorch -lenv -i")
+  (setq lua-default-command-switches (quote ("-ltorch" "-lenv" "-i")))
 
   ;; default elfeed search
   (setq-default elfeed-search-filter "@1-week-ago +unread ")

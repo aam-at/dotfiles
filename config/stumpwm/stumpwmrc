@@ -20,6 +20,9 @@
 (defcommand chrome () ()
   "run google chrome"
   (run-or-raise "google-chrome" '(:instance "google-chrome")))
+(defcommand skype () ()
+  "run skype"
+  (run-or-raise "skype" '(:instance "skype")))
 (defcommand vol-up () ()
   "Increase the volume from the shell"
   (run-shell-command
