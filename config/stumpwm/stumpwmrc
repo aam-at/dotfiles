@@ -14,15 +14,35 @@
   (let ((cmd (read-one-line (current-screen) ": " :initial-input initial)))
     (when cmd
       (eval-command cmd t))))
+
+;; internet
 (defcommand firefox () ()
   "run firefox"
   (run-or-raise "firefox" '(:class "Firefox")))
 (defcommand chrome () ()
   "run google chrome"
   (run-or-raise "google-chrome" '(:instance "google-chrome")))
+
+;; messaging
 (defcommand skype () ()
   "run skype"
   (run-or-raise "skype" '(:instance "skype")))
+(defcommand viber () ()
+  "run viber"
+  (run-or-raise "/opt/viber/Viber" '(:instance "Viber")))
+
+;; code
+(defcommand pycharm () ()
+  "run pycharm"
+  (run-or-raise "/opt/pycharm/bin/pycharm.sh" '(:instance "pycharm")))
+(defcommand atomic () ()
+  "run atom editor"
+  (run-or-raise "atom" '(:instance "atom")))
+(defcommand zerobrane () ()
+  "run zerobrane studio"
+  (run-or-raise "zbstudio" '(:instance "zbstudio")))
+
+;; multimedia
 (defcommand vol-up () ()
   "Increase the volume from the shell"
   (run-shell-command
@@ -37,7 +57,7 @@
    "amixer -q -D pulse sset Master toggle"))
 
 ;; Custom menu
-(defcommand mymenu () ()
+(defcommand show-menu () ()
   (labels ((pick (options)
                  (let ((selection (stumpwm::select-from-menu (current-screen) options "")))
                    (cond
@@ -48,9 +68,13 @@
                     (t
                      (pick (cdr selection)))))))
     (let ((choice (pick *app-menu*)))
-      (run-shell-command choice))))
+      (run-program choice))))
 (defparameter *app-menu* '(("Audio/Video"
                             ("VLC" "vlc"))
+                           ("Dev"
+                            ("Pycharm" "pycharm")
+                            ("Atom" "atom")
+                            ("ZeroBrane" "zbstudio"))
                            ("Internet"
                             ("Chrome" "google-chrome")
                             ("Firefox" "firefox")
@@ -91,7 +115,7 @@
 (define-key *root-map* (kbd "Print")
   "exec import -window root png:$HOME/screenshot_$(date +%F_%H-%M-%S).png")
 ;; Custom menu
-(define-key *root-map* (kbd ".") "mymenu")
+(define-key *root-map* (kbd ".") "show-menu")
 
 ;;;;;;;;;;;;;;;;;;;
 ;; Startup programs
