@@ -36,13 +36,24 @@ set -x PATH $PATH /sbin/
 
 # Source environement variables shared between different shells.
 # http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
-function setenv
-    if [ $argv[1] = PATH ]
-        # Replace colons and spaces with newlines
-        set -gx PATH (echo $argv[2] | tr ': ' \n)
-    else
-        set -gx $argv
+function export --description 'Set global variable. Alias for set -gx, made for bash compatibility'
+  if test -z "$argv"
+    set
+    return 0
+  end
+  for arg in $argv
+    set -l v (echo $arg|tr '=' \n)
+    switch (count $v)
+      case 1
+        set -gx $v $$v
+      case 2
+        if [ $v[1] = PATH ]
+          set -gx PATH (echo $v[2]|tr ': ' \n)
+        else
+          set -gx $v
+        end
     end
+  end
 end
 # sources environment variables
 source ~/.env
@@ -54,17 +65,24 @@ source ~/.aliases
 alias -="cd -"
 
 function reload
-    source ~/.config/fish/config.fish
+  source ~/.config/fish/config.fish
 end
 
 function fuck -d 'Correct your previous console command'
-    set -l exit_code $status
-    set -l eval_script (mktemp 2>/dev/null ; or mktemp -t 'thefuck')
-    set -l fucked_up_commandd $history[1]
-    thefuck $fucked_up_commandd > $eval_script
-    . $eval_script
-    rm $eval_script
-    if test $exit_code -ne 0
-        history --delete $fucked_up_commandd
-    end
+  set -l exit_code $status
+  set -l eval_script (mktemp 2>/dev/null ; or mktemp -t 'thefuck')
+  set -l fucked_up_commandd $history[1]
+  thefuck $fucked_up_commandd > $eval_script
+  . $eval_script
+  rm $eval_script
+  if test $exit_code -ne 0
+    history --delete $fucked_up_commandd
+  end
+end
+
+if test -d ~/.pyenv
+  set -gx PYENV_ROOT $HOME/.pyenv
+  set -x PATH $HOME/.pyenv/bin $PATH
+  pyenv init - | source
+  pyenv virtualenv-init - | source
 end
