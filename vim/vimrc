@@ -885,6 +885,7 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
         let g:goldenview__enable_default_mapping=0
         nmap <F8> <Plug>ToggleGoldenViewAutoResize
     "}}}
+    NeoBundleLazy 'krisajenkins/vim-pipe'
 endif "}}}
 
 if count(s:my_settings.plugin_groups, 'windows') "{{{

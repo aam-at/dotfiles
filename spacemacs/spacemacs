@@ -340,7 +340,7 @@ layers configuration. You are free to put any user code."
 :END:
 %i\n%?\n
 Link: %a\n")
-          ("h" "Habit" entry (file (concat org-directory "/habits.org"))
+          ("h" "Habit" entry (file (concat org-directory "/personal.org"))
            "* TODO %?
 SCHEDULED: %^{When should we stop?}t +1d
 :PROPERTIES:
@@ -348,7 +348,7 @@ SCHEDULED: %^{When should we stop?}t +1d
 :CREATED:%U
 :END:
 %i\n")
-          ("n" "Note" entry (file (concat org-directory "/notes.org"))
+          ("n" "Note" entry (file (concat org-directory "/personal.org"))
            "* %^{Select note title}
 :PROPERTIES:
 :CREATED:%U
