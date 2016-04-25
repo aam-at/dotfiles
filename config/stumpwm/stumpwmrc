@@ -43,6 +43,9 @@
   (run-or-raise "zbstudio" '(:instance "zbstudio")))
 
 ;; multimedia
+(defcommand atom-editor() ()
+  "run atom editor"
+  (run-or-raise "atom" '(:instance "atom")))
 (defcommand vol-up () ()
   "Increase the volume from the shell"
   (run-shell-command

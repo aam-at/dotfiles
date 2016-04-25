@@ -32,8 +32,8 @@ install_vim () {
 install_vim_anaconda () {
     make distclean
 
-    PYTHON_CONFIG=$HOME/anaconda/lib/python2.7/config
-    PYTHON3_CONFIG=$HOME/.pyenv/versions/3.4.4/lib/python3.4/config-3.4m
+    PYTHON_CONFIG=$HOME/.pyenv/versions/anaconda2-4.0.0/lib/python2.7/config
+    PYTHON3_CONFIG=$HOME/.pyenv/versions/anaconda3-4.0.0/lib/python3.5/config-3.5m
     # force vim to use this python binary
     # export vi_cv_path_python=$APPDATA/bin/python
     FLAGS="$FLAGS --with-python-config-dir=$PYTHON_CONFIG"
