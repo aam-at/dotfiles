@@ -100,3 +100,7 @@
   'ctrl-x ctrl-t': 'emacs-plus:transpose-lines'
   'ctrl-x ctrl-x': 'emacs-plus:exchange-point-and-mark'
   'ctrl-x h': 'core:select-all'
+
+'atom-text-editor.vim-mode.normal-mode':
+  '] l': 'linter:next-error'
+  '[ l': 'linter:previous-error'

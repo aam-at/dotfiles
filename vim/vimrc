@@ -610,7 +610,7 @@ if count(s:my_settings.plugin_groups, 'python') "{{{
         let g:pymode_folding = 0
     "}}}
     NeoBundleLazy 'python-rope/ropevim', {'autoload':{'filetypes':['python']}}
-    NeoBundle 'davidhalter/jedi-vim', {'autoload':{'filetypes':['python']}} "{{{
+    NeoBundle 'davidhalter/jedi-vim' "{{{
         let g:jedi#auto_vim_configuration = 0
         let g:jedi#popup_on_dot = 0
         let g:jedi#goto_command = "<leader>d"
