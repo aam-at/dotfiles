@@ -1,0 +1,102 @@
+# Your keymap
+#
+# Atom keymaps work similarly to style sheets. Just as style sheets use
+# selectors to apply styles to elements, Atom keymaps use selectors to associate
+# keystrokes with events in specific contexts. Unlike style sheets however,
+# each selector can only be declared once.
+#
+# You can create a new keybinding in this file by typing "key" and then hitting
+# tab.
+#
+# Here's an example taken from Atom's built-in keymap:
+#
+# 'atom-text-editor':
+#   'enter': 'editor:newline'
+#
+# 'atom-workspace':
+#   'ctrl-shift-p': 'core:move-up'
+#   'ctrl-p': 'core:move-down'
+#
+# You can find more information about keymaps in these guides:
+# * https://atom.io/docs/latest/using-atom-basic-customization#customizing-key-bindings
+# * https://atom.io/docs/latest/behind-atom-keymaps-in-depth
+#
+# If you're having trouble with your keybindings not working, try the
+# Keybinding Resolver: `Cmd+.` on OS X and `Ctrl+.` on other platforms. See the
+# Debugging Guide for more information:
+# * https://atom.io/docs/latest/hacking-atom-debugging#check-the-keybindings
+#
+# This file uses CoffeeScript Object Notation (CSON).
+# If you are unfamiliar with CSON, you can read more about it in the
+# Atom Flight Manual:
+# https://atom.io/docs/latest/using-atom-basic-customization#cson
+
+'body atom-text-editor.autocomplete-active.vim-mode':
+  'ctrl-p': 'autocomplete-plus:move-up'
+  'ctrl-n': 'autocomplete-plus:move-down'
+  'pageup': 'autocomplete-plus:page-up'
+  'pagedown': 'autocomplete-plus:page-down'
+  'home': 'autocomplete-plus:move-to-top'
+  'end': 'autocomplete-plus:move-to-bottom'
+
+'.fuzzy-finder, .command-palette, .tree-view':
+  'ctrl-n': 'core:move-down'
+  'ctrl-p': 'core:move-up'
+
+'atom-text-editor.vim-mode.insert-mode':
+  'ctrl-/': 'core:undo'
+  'ctrl-_': 'core:undo'
+  'ctrl-n': 'core:move-down'
+  'ctrl-p': 'core:move-up'
+  'ctrl-a': 'editor:move-to-beginning-of-line'
+  'ctrl-b': 'core:move-left'
+  'ctrl-e': 'editor:move-to-end-of-screen-line'
+  'ctrl-f': 'core:move-right'
+  'ctrl-g': 'editor:consolidate-selections'
+  'ctrl-t': 'editor:transpose'
+  'ctrl-y': 'core:paste'
+  'alt-b': 'editor:move-to-beginning-of-word'
+  'alt-f': 'editor:move-to-end-of-word'
+  'alt-right': 'editor:move-to-end-of-word'
+  'ctrl-alt-/': 'core:redo'
+  # 'ctrl-x ctrl-l': 'editor:lower-case'
+  'ctrl-x ctrl-u': 'editor:upper-case'
+  'ctrl-x u': 'core:undo'
+
+'atom-workspace atom-text-editor.vim-mode.insert-mode:not([mini])':
+  'alt-.': 'symbols-view:toggle-file-symbols'
+  'alt-/': 'autocomplete-plus:activate'
+  'alt-;': 'editor:toggle-line-comments'
+  'alt-<': 'core:move-to-top'
+  'alt->': 'core:move-to-bottom'
+  'alt-\\': 'emacs-plus:delete-horizontal-space'
+  'alt-^': 'emacs-plus:delete-indentation'
+  'alt-backspace': 'emacs-plus:backward-kill-word'
+  'alt-c': 'emacs-plus:capitalize-word'
+  'alt-d': 'emacs-plus:kill-word'
+  'alt-delete': 'emacs-plus:backward-kill-word'
+  'alt-g g': 'go-to-line:toggle'
+  'alt-left': 'editor:move-to-beginning-of-word'
+  'alt-m': 'editor:move-to-first-character-of-line'
+  'alt-q': 'autoflow:reflow-selection'
+  'alt-space': 'emacs-plus:just-one-space'
+  'alt-t': 'emacs-plus:transpose-words'
+  'alt-w': 'emacs-plus:copy'
+  'alt-{': 'editor:move-to-beginning-of-previous-paragraph'
+  'alt-}': 'editor:move-to-beginning-of-next-paragraph'
+  'ctrl-alt-w': 'emacs-plus:append-next-kill'
+  'ctrl-i': 'editor:auto-indent'
+  'ctrl-j': 'editor:newline'
+  'ctrl-k': 'emacs-plus:kill-line'
+  'ctrl-l': 'emacs-plus:recenter-top-bottom'
+  'ctrl-m': 'editor:newline'
+  'ctrl-o': 'emacs-plus:open-line'
+  'ctrl-r': 'find-and-replace:show'
+  'ctrl-s': 'find-and-replace:show'
+  'ctrl-shift-backspace': 'emacs-plus:kill-whole-line'
+  'ctrl-space': 'emacs-plus:set-mark'
+  'ctrl-w': 'emacs-plus:kill-region'
+  'ctrl-x ctrl-s': 'core:save'
+  'ctrl-x ctrl-t': 'emacs-plus:transpose-lines'
+  'ctrl-x ctrl-x': 'emacs-plus:exchange-point-and-mark'
+  'ctrl-x h': 'core:select-all'
