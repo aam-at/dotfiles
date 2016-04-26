@@ -64,6 +64,7 @@
 (defun writing/init-synosaurus()
   (use-package synosaurus
     :defer t
+    :diminish synosaurus-mode
     :init
     (progn
       (add-hook 'markdown-mode-hook 'synosaurus-mode)

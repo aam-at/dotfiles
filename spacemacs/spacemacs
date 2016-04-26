@@ -317,8 +317,11 @@ layers configuration. You are free to put any user code."
   (evil-set-initial-state 'calendar-mode 'emacs)
   (setq calendar-date-style "european")
 
-  ;; Org settings
+  ;; org settings
   (setq org-directory "~/Dropbox/Notes")
+  (setq org-default-notes-file (concat org-directory "/refile.org"))
+
+  ;; agenda settings
   (setq org-agenda-files (list (concat org-directory "/work.org")
                                (concat org-directory "/personal.org")
                                ;; File so sync with google calendar
@@ -330,7 +333,16 @@ layers configuration. You are free to put any user code."
                                (concat org-directory "/books.org")
                                ;; (concat org-directory "/drills.org")
                                (concat org-directory "/journal")))
-  (setq org-default-notes-file (concat org-directory "/refile.org"))
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-agenda-custom-commands
+        '(("f" occur-tree "FIXME")
+          ("w" "Weekly tasks" tags "+weekly")
+          ("W" "Waiting tasks" todo-tree "WAITING")
+          ("c" "Cleaning tasks" tags "+cleaning")
+          ("d" "Daily tasks" tags "+daily")))
+
+  ;; org capture settings
   (setq org-capture-templates
         '(
           ("i" "Idea" entry (file (concat org-directory "/ideas.org"))
@@ -360,16 +372,9 @@ SCHEDULED: %^{When should we stop?}t +1d
 :CREATED:%U
 :END:
 %i\n Link: %a\n")))
-  ;; Agenda management
-  (setq org-agenda-skip-scheduled-if-done t)
-  (setq org-agenda-skip-deadline-if-done t)
-  (setq org-agenda-custom-commands
-        '(("f" occur-tree "FIXME")
-          ("w" "Weekly tasks" tags "+weekly")
-          ("W" "Waiting tasks" todo-tree "WAITING")
-          ("c" "Cleaning tasks" tags "+cleaning")
-          ("d" "Daily tasks" tags "+daily")))
-  ;; Anki like functionality
+
+  ;; additional org-modules
+  ;; anki like functionality
   (require 'org-drill)
   (add-to-list 'org-modules 'org-drill t)
   (setq org-learn-always-reschedule t)
@@ -386,6 +391,7 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; Mobile setup
   (setq org-mobile-directory "~/Dropbox/Notes/mobile")
   (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
+
   ;; configuration for org and google calendar synchronization
   (setq org-caldav-calendars
         '((:calendar-id "iu5alt927aue6hsjis25qhsark@group.calendar.google.com"

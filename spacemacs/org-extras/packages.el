@@ -14,6 +14,7 @@
 ;; which require an initialization must be listed explicitly in the list.
 (setq org-extras-packages
     '(
+      cdlatex
       org-dashboard org-journal
       org-download
       org-doing
@@ -48,6 +49,14 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
+(defun org-extras/init-cdlatex()
+  (use-package cdlatex
+    :defer t
+    :diminish org-cdlatex-mode
+    :init
+    (with-eval-after-load 'org
+      (add-hook 'org-mode-hook 'turn-on-org-cdlatex))))
+
 (defun org-extras/init-org-dashboard()
   (use-package org-dashboard
     :defer t
