@@ -17,6 +17,7 @@
       ;; general writing
       writeroom-mode
       writegood-mode
+      (write-or-die :location local)
       langtool
       ;; synonyms and thesaurus
       (synosaurus :location (recipe
@@ -50,6 +51,20 @@
   :defer t
   :init
   (spacemacs/set-leader-keys "xG" #'writegood-mode))
+
+(defun writing/init-write-or-die ()
+  (use-package write-or-die
+    :defer t
+    :commands write-or-die-mode
+    :init
+    (add-hook 'text-mode-hook #'write-or-die-mode)
+    (spacemacs/set-leader-keys "xD" #'write-or-die-mode)
+    (spacemacs|add-toggle write-or-die
+      :status (eq write-or-die-state 1)
+      :on (write-or-die-go)
+      :off (write-or-die-stop)
+      :documentation "Activate `Write or Die!'"
+      :evil-leader "C-t d")))
 
 (defun writing/init-langtool ()
   :defer t

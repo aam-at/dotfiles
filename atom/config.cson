@@ -5,6 +5,8 @@
     useCoreMovementCommands: false
   "exception-reporting":
     userId: "57e316fc-e076-bd06-1a54-7c192ffca86c"
+  linter:
+    showErrorPanel: false
   "linter-luacheck": {}
   welcome:
     showOnStartup: false
