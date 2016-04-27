@@ -54,6 +54,7 @@
   'ctrl-f': 'core:move-right'
   'ctrl-g': 'editor:consolidate-selections'
   'ctrl-t': 'editor:transpose'
+  'ctrl-d': 'code:delete'
   'ctrl-y': 'core:paste'
   'alt-b': 'editor:move-to-beginning-of-word'
   'alt-f': 'editor:move-to-end-of-word'

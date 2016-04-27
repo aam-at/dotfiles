@@ -3,6 +3,11 @@
     kernelspec: "{\"kernelspecs\":{\"itorch\":{\"resources_dir\":\"/home/amatyasko/.ipython/kernels/itorch\",\"spec\":{\"language\":\"lua\",\"display_name\":\"iTorch\",\"env\":{},\"argv\":[\"/home/amatyasko/local/torch/install/bin/itorch_launcher\",\"{connection_file}\"]}},\"python2\":{\"resource_dir\":\"/home/amatyasko/anaconda/lib/python2.7/site-packages/ipykernel/resources\",\"spec\":{\"language\":\"python\",\"display_name\":\"Python 2\",\"env\":{},\"argv\":[\"/home/amatyasko/anaconda/bin/python\",\"-m\",\"ipykernel\",\"-f\",\"{connection_file}\"]}}}}"
   "autocomplete-plus":
     useCoreMovementCommands: false
+  core:
+    themes: [
+      "one-light-ui"
+      "solarized-light-syntax"
+    ]
   "exception-reporting":
     userId: "57e316fc-e076-bd06-1a54-7c192ffca86c"
   linter:
