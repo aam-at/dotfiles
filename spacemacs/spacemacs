@@ -321,6 +321,11 @@ layers configuration. You are free to put any user code."
   (setq org-directory "~/Dropbox/Notes")
   (setq org-default-notes-file (concat org-directory "/refile.org"))
 
+  ;; org appearance
+  (setq org-todo-keyword-faces
+        '(("FAILED" . (:foreground "red" :weight bold :strike-through t))
+          ("CANCELED" . (:foreground "blue" :weight bold))))
+
   ;; agenda settings
   (setq org-agenda-files (list (concat org-directory "/work.org")
                                (concat org-directory "/personal.org")
