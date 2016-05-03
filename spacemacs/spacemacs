@@ -44,6 +44,7 @@ values."
      ;; ----------------------------------------------------------------
      ;; Programming languages
      ;; ----------------------------------------------------------------
+     realgud ;; enhanced emacs debugging
      c-c++ python lua haskell go
      html javascript markdown ipython-notebook
      emacs-lisp

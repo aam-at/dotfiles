@@ -41,6 +41,7 @@
     ~/.emacs.d/private/notmuch: spacemacs/notmuch
     ~/.emacs.d/private/habitrpg: spacemacs/habitrpg
     ~/.emacs.d/private/org-extras: spacemacs/org-extras
+    ~/.emacs.d/private/realgud: spacemacs/realgud
     ~/.emacs.d/private/python-extras: spacemacs/python-extras
     ~/.emacs.d/private/graphviz: spacemacs/graphviz
     ~/.elfeed: ../Dropbox/Sync/elfeed
