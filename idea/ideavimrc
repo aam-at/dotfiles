@@ -23,11 +23,11 @@ let mapleader = ","
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
-noremap <Right> <NOP> 
-inoremap <Up> <NOP> 
-inoremap <Down> <NOP> 
-inoremap <Left> <NOP> 
-inoremap <Right> <NOP> 
+noremap <Right> <NOP>
+inoremap <Up> <NOP>
+inoremap <Down> <NOP>
+inoremap <Left> <NOP>
+inoremap <Right> <NOP>
 
 " This makes j and k work on "screen lines" instead of on "file lines"; now, when
 " we have a long line that wraps to multiple screen lines, j and k behave as we
