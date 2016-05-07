@@ -69,11 +69,11 @@
       (setq helm-bibtex-pdf-open-function
             (lambda (fpath)
               (start-process "xournal" "*helm-bibtex-xournal*" "/usr/bin/xournal" fpath)))
-      (setq helm-bibtex-format-citation-functions
-            '((org-mode      . helm-bibtex-format-citation-org-link-to-PDF)
-              (latex-mode    . helm-bibtex-format-citation-cite)
-              (markdown-mode . helm-bibtex-format-citation-pandoc-citeproc)
-              (default       . helm-bibtex-format-citation-default)))
+      (setq bibtex-completion-format-citation-functions
+            '((org-mode      . bibtex-completion-format-citation-org-link-to-PDF)
+              (latex-mode    . bibtex-completion-format-citation-cite)
+              (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
+              (default       . bibtex-completion-format-citation-default)))
       )))
 
 (defun aam/init-gscholar-bibtex()

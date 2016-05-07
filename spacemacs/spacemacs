@@ -336,9 +336,8 @@ layers configuration. You are free to put any user code."
                                (concat org-directory "/bookmarks.org")
                                (concat org-directory "/ideas.org")
                                (concat org-directory "/papers.org")
-                               (concat org-directory "/books.org")
                                ;; (concat org-directory "/drills.org")
-                               (concat org-directory "/journal")))
+                               (concat org-directory "/books.org")))
   (setq org-agenda-skip-scheduled-if-done t)
   (setq org-agenda-skip-deadline-if-done t)
   (setq org-agenda-custom-commands
@@ -403,8 +402,12 @@ SCHEDULED: %^{When should we stop?}t +1d
         '((:calendar-id "iu5alt927aue6hsjis25qhsark@group.calendar.google.com"
                         :files ("~/Dropbox/Notes/work.org")
                         :inbox "~/Dropbox/Notes/fromwork.org")))
-  ;; configure journal-dir
+
+  ;; configure org-journal
   (setq org-journal-dir "~/Dropbox/Notes/journal")
+  (setq org-journal-file-format "%Y%m%d.org")
+  (push org-journal-dir org-agenda-files)
+
   ;; show images inline (only works in GUI)
   (when (window-system)
     (setq org-startup-with-inline-images t))
