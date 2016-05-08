@@ -325,7 +325,8 @@ layers configuration. You are free to put any user code."
   ;; org appearance
   (setq org-todo-keyword-faces
         '(("FAILED" . (:foreground "red" :weight bold :strike-through t))
-          ("CANCELED" . (:foreground "blue" :weight bold))))
+          ("CANCELED" . (:foreground "blue" :weight bold))
+          ("POSTPONED" . (:foreground "blue" :weight bold))))
 
   ;; agenda settings
   (setq org-agenda-files (list (concat org-directory "/work.org")
