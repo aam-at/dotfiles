@@ -396,6 +396,9 @@ SCHEDULED: %^{When should we stop?}t +1d
   (add-to-list 'org-modules 'org-habit t)
   (setq org-habit-graph-column 80)
   (setq org-log-into-drawer "LOGBOOK")
+  ;; eww buffer preview
+  (require 'org-eww)
+  (add-to-list 'org-modules 'org-eww t)
   ;; Pomodoro and timer
   (add-to-list 'org-modules 'org-timer t)
   ;; Org-effectiveness
