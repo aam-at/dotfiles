@@ -34,9 +34,6 @@
       ;; org mode reference management
       org-ref
       ob-ipython
-      (org-eww-mode :location (recipe
-                          :fetcher github
-                          :repo "lujun9972/org-eww"))
     ))
 
 ;; List of packages to exclude.
@@ -195,11 +192,3 @@
   (spacemacs|use-package-add-hook org
     (use-package ob-ipython)
     (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)))
-
-(defun org-extras/init-org-eww-mode()
-  (use-package org-eww-mode
-    :defer t
-    :config 
-    (spacemacs/set-leader-keys
-      "op" 'org-eww/turn-on-preview-at-save
-      "oP" 'org-eww/turn-off-preview-at-save)))
