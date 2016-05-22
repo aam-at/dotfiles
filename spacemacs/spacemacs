@@ -416,7 +416,12 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; configure org-journal
   (setq org-journal-dir "~/Dropbox/Notes/journal")
   (setq org-journal-file-format "%Y%m%d.org")
+  (setq org-journal-carryover-items "TODO=\"POSTPONED\"")
+  (setq org-journal-enable-encryption t)
   (push org-journal-dir org-agenda-files)
+
+  ;; org-crypt
+  (setq org-crypt-key "alexander.matyasko@gmail.com")
 
   ;; show images inline (only works in GUI)
   (when (window-system)
