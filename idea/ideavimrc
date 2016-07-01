@@ -35,6 +35,9 @@ inoremap <Right> <NOP>
 nnoremap j gj
 nnoremap k gk
 
+" Emacs like copying
+map <c-y> :action VimCopyPutTextAfterCursor<CR>
+
 " Shortcuts for splits
 nnoremap <leader>v <C-w>v<C-w>l
 nnoremap <leader>s <C-w>s
