@@ -388,6 +388,26 @@ SCHEDULED: %^{When should we stop?}t +1d
 :END:
 %i\n Link: %a\n")))
 
+  ;; org babel languages
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((R . t)
+     (ditaa . t)
+     (dot . t)
+     (emacs-lisp . t)
+     (gnuplot . t)
+     (haskell . nil)
+     (latex . t)
+     (ledger . t)
+     (ocaml . nil)
+     (octave . t)
+     (python . t)
+     (ruby . t)
+     (screen . nil)
+     (sh . t)
+     (sql . nil)
+     (sqlite . t)))
+
   ;; additional org-modules
   ;; anki like functionality
   (require 'org-drill)
