@@ -19,7 +19,13 @@ export CPATH="$CUDNN_HOME/include:$CPATH"
 export LD_LIBRARY_PATH="$CUDNN_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CUDNN_HOME/lib64:$LIBRARY_PATH"
 
+# Configure cnmem
+export CNMEM_HOME="/.local/lib/cnmem"
+export CPATH="$CNMEM_HOME/include:$CPATH"
+export LD_LIBRARY_PATH="$CNMEM_HOME/lib64:$LD_LIBRARY_PATH"
+export LIBRARY_PATH="$CNMEM_HOME/lib64:$LIBRARY_PATH"
+
 export GOPATH="$HOME/local/go_packages"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/anaconda/bin:$GOPATH/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+export PATH="$GOPATH/bin:$PATH"
 export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
