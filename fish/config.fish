@@ -26,7 +26,6 @@ end
 
 # use vi-mode by default
 set -U fish_key_bindings fish_vi_key_bindings
-fish_vi_mode
 
 # colorscheme for fish
 source ~/dotfiles/fish/solarized.fish
