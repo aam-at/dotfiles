@@ -22,14 +22,10 @@
     ~/.config/fish/config.fish: fish/config.fish
     ~/.config/fish/completions: fish/completions
     ~/.config/fish/functions: fish/functions
-    ~/.vim/bundle/neobundle.vim:
-         create: true
-         path: vim/bundle/neobundle.vim
-    ~/.vimrc: vim/vimrc
     ~/.config/nvim/bundle/neobundle.vim:
         create: true
-        path: ../.vim
-    ~/.config/nvim/init.vim: vim/vimrc
+        path: nvim/bundle/neobundle.vim
+    ~/.config/nvim/init.vim: nvim/init.vim
     ~/.ideavimrc: idea/ideavimrc
     ~/.atom: atom
     ~/.spacemacs: spacemacs/spacemacs
