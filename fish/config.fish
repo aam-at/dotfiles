@@ -9,7 +9,7 @@ source $OMF_PATH/init.fish
 
 # Oh My Fish plugins
 set fish_plugins vi-mode python pyenv gi git-flow emacs
-set fish_plugins extract thefuck weather
+set fish_plugins thefuck weather
 # Oh My Fish themes
 set fish_plugins agnoster krisleech zish toaster ocean
 # select theme
