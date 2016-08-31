@@ -7,7 +7,7 @@
 " my settings {
     " initialize default settings
     let s:my_settings = {}
-    let s:my_settings.cache_dir = '~/.vim/.cache'
+    let s:my_settings.cache_dir = '~/.config/nvim/.cache'
     let s:my_settings.default_indent = 4
     let s:my_settings.max_column = 120
     let s:my_settings.autocomplete_method = 'neocomplcache'
@@ -16,7 +16,7 @@
     let s:my_settings.background = 'light'
     if has('lua')
         let s:my_settings.autocomplete_method = 'neocomplete'
-    elseif filereadable(expand("~/.vim/bundle/YouCompleteMe/python/ycm_core.*"))
+    elseif filereadable(expand("~/.nvim/bundle/YouCompleteMe/python/ycm_core.*"))
         let s:my_settings.autocomplete_method = 'ycm'
     endif
 
@@ -49,12 +49,12 @@
         endif
 
         " set the runtime path to include NeoBundle and initialize
-        set runtimepath+=~/.vim/bundle/neobundle.vim/
+        set runtimepath+=~/.config/nvim/bundle/neobundle.vim/
     endif
     if s:is_windows
-        set rtp+=~/.vim
+        set rtp+=~/.config/nvim
     endif
-    call neobundle#begin(expand('~/.vim/bundle/'))
+    call neobundle#begin(expand('~/.config/nvim/bundle/'))
     " Let NeoBundle manage NeoBundle
     " Required:
     NeoBundleFetch 'Shougo/neobundle.vim'
@@ -227,10 +227,17 @@
     let g:mapleader = ","
 "}}}
 
+" python configuration {{{
+    let g:python_host_prog = '/home/amatyasko/.pyenv/versions/neovim2/bin/python'
+    let g:python3_host_prog = '/home/amatyasko/.pyenv/versions/neovim3/bin/python'
+" }}}
+
 " ui configuration {{{
     set textwidth=79
     set nowrap                                          "don't automatically wrap on load
     set formatoptions-=t                                "don't automatically wrap text when typing
+    " set termguicolors
+    " :let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1              " change cursor shape (does not work with guake)
 
     set ruler
     set showmatch                                       "automatically highlight matching braces/brackets/etc.
@@ -533,12 +540,12 @@ if count(s:my_settings.plugin_groups, 'autocomplete') "{{{
         let g:UltiSnipsExpandTrigger="<tab>"
         let g:UltiSnipsJumpForwardTrigger="<tab>"
         let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-        let g:UltiSnipsSnippetsDir='~/.vim/snippets'
+        let g:UltiSnipsSnippetsDir='~/.config/nvim/snippets'
       "}}}
     else
       NeoBundle 'Shougo/neosnippet-snippets'
       NeoBundle 'Shougo/neosnippet.vim' "{{{
-        let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
+        let g:neosnippet#snippets_directory='~/.config/nvim/bundle/vim-snippets/snippets,~/.config/nvim/snippets'
         let g:neosnippet#enable_snipmate_compatibility=1
 
         imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ? "\<C-n>" : "\<TAB>")
@@ -832,6 +839,13 @@ if count(s:my_settings.plugin_groups, 'writing') "{{{
             autocmd filetype texfile      call AutoCorrect()
         augroup END
     "}}}
+    NeoBundleLazy 'junegunn/goyo.vim', {'autoload':{'commands':'Goyo'}}
+    NeoBundleLazy 'junegunn/limelight.vim', {'autoload':{'commands':'Limelight'}} "{{{
+        let g:limelight_conceal_ctermfg = 'gray'
+        let g:limelight_conceal_ctermfg = 240
+        autocmd! User GoyoEnter Limelight
+        autocmd! User GoyoLeave Limelight!
+    " }}}
 endif "}}}
 
 
@@ -863,10 +877,6 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
             " autocmd! BufRead,BufNewFile */vimwiki/*        set filetype=vimwiki
             autocmd BufNewFile,BufReadPost *.md set filetype=markdown
         "}}}
-        NeoBundle 'neilagabriel/vim-geeknote' "{{{
-            let g:GeeknoteFormat="markdown"
-            let g:notes_directories = ['~/Dropbox/Notes/markdown/']
-        "}}}
     "}}}
     NeoBundle 'powerline/fonts'
     NeoBundle 'bufkill.vim'
@@ -888,7 +898,7 @@ if count(s:my_settings.plugin_groups, 'misc') "{{{
         endif
         let g:vimshell_right_prompt='getcwd()'
         let g:vimshell_data_directory=s:get_cache_dir('vimshell')
-        let g:vimshell_vimshrc_path='~/.vim/vimshrc'
+        let g:vimshell_vimshrc_path='~/.config/nvim/vimshrc'
 
         nnoremap <localleader>c :VimShell -split<cr>
         nnoremap <localleader>cc :VimShell -split<cr>
@@ -907,12 +917,12 @@ endif "}}}
 if count(s:my_settings.plugin_groups, 'windows') "{{{
     if has('win32') && !has('win64')
         NeoBundle 'derekmcloughlin/gvimfullscreen_win32' "{{{
-            let $GVIMFS=substitute(expand("$HOME/.vim/bundle/gvimfullscreen_win32/gvimfullscreen.dll"), '\\', '\\\\', 'g')
+            let $GVIMFS=substitute(expand("$HOME/.config/nvim/bundle/gvimfullscreen_win32/gvimfullscreen.dll"), '\\', '\\\\', 'g')
             map <F11> <Esc>:call libcallnr($GVIMFS, "ToggleFullScreen", 0)<CR>
         "}}}
     else
         NeoBundle 'xqin/gvimfullscreen' "{{{
-            let $GVIMFS=substitute(expand("$HOME/.vim/bundle/gvimfullscreen/gvimfullscreen.dll.x64"), '\\', '\\\\', 'g')
+            let $GVIMFS=substitute(expand("$HOME/.config/nvim/bundle/gvimfullscreen/gvimfullscreen.dll.x64"), '\\', '\\\\', 'g')
             map <F11> <Esc>:call libcallnr($GVIMFS, "ToggleFullScreen", 0)<CR>
         "}}}
     endif
@@ -1031,13 +1041,14 @@ endif "}}}
 " color schemes {
     NeoBundle 'vim-scripts/Lucius'
     NeoBundle 'altercation/vim-colors-solarized' "{{{
-        if has('gui_running')
-            let g:solarized_termcolors=256
-        else
-            " set t_Co=16
-            let g:solarized_termcolors=16
-        endif
+        let g:solarized_termcolors=256
         let g:solarized_termtrans=1
+        " if has('gui_running')
+        "     let g:solarized_termcolors=256
+        " else
+        "     " set t_Co=16
+        "     let g:solarized_termcolors=16
+        " endif
     "}}}
     NeoBundle 'flazz/vim-colorschemes'
     NeoBundle 'nanotech/jellybeans.vim'

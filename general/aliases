@@ -71,6 +71,10 @@ alias egrep='egrep --color=auto'
 alias pbcopy="xclip -selection clipboard"
 alias pbpaste="xclip -selection clipboard -o"
 
+# vim -> neovim
+alias v='nvim'
+alias vim='nvim'
+
 # emacs
 alias em='emacs'
 alias en='emacs -nw'
