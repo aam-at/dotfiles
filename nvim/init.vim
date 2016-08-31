@@ -553,17 +553,12 @@ if count(s:my_settings.plugin_groups, 'autocomplete') "{{{
         imap <expr><S-TAB> pumvisible() ? "\<C-p>" : ""
         smap <expr><S-TAB> pumvisible() ? "\<C-p>" : ""
       "}}}
-      NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload':{'insert':1}} "{{{
-        let g:neocomplete#enable_at_startup=1
-        let g:neocomplete#data_directory=s:get_cache_dir('neocomplete')
-        " Necomplcache
-        if !exists('g:neocomplcache_omni_functions')
-            let g:neocomplcache_omni_functions = {}
-            let g:neocomplcache_omni_functions['python'] = 'jedi#completions'
-        endif
-        " make Vim call omni function when below patterns matchs
-        let g:neocomplcache_force_omni_patterns = {}
-        let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*' 
+      NeoBundle 'Shougo/deoplete.nvim' "{{{
+        let g:deoplete#enable_at_startup = 1   "enable deoplete at vim startup
+        let g:deoplete#enable_ignore_case = 1  "let matcher ignore case
+        let g:deoplete#enable_smart_case = 1   "smart case
+        inoremap <expr><C-h> deolete#mappings#smart_close_popup()."\<C-h>"
+        inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
       "}}}
     endif "}}}
 endif "}}}
@@ -628,17 +623,6 @@ if count(s:my_settings.plugin_groups, 'python') "{{{
         let g:jedi#completions_command = "<C-Space>"
         " disable <leader>r. Use rope-vim for refactoring
         let g:jedi#rename_command = ""
-        if jedi#init_python()
-          function! s:jedi_auto_force_py_version() abort
-            let major_version = pyenv#python#get_internal_major_version()
-            call jedi#force_py_version(major_version)
-          endfunction
-          augroup vim-pyenv-custom-augroup
-            autocmd! *
-            autocmd User vim-pyenv-activate-post   call s:jedi_auto_force_py_version()
-            autocmd User vim-pyenv-deactivate-post call s:jedi_auto_force_py_version()
-          augroup END
-        endif
     "}}}
     NeoBundleLazy 'heavenshell/vim-pydocstring', {'autoload':{'filetypes':['python']}} "{{{
         nmap <silent> <C-_> <Plug>(pydocstring)
