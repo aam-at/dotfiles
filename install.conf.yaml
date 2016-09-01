@@ -12,6 +12,7 @@
     ~/.config/redshift.conf: config/redshift.conf
     ~/.theanorc: config/python/theanorc
     ~/.fuelrc: config/python/fuelrc
+    ~/.config/pudb/pudb.cfg: config/python/pudb.cfg
     ~/.authinfo.gpg: config/authinfo.gpg
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
     ~/.gitconfig: git/gitconfig
