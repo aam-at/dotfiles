@@ -1,2 +1,4 @@
 /fish/functions/fish_prompt.fish
 atom/
+/nvim/bundle/*
+/nvim/.cache
