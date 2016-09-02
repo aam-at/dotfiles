@@ -51,7 +51,7 @@
     set go+=rRlLbh                  " show all the scrollbars
     set go-=rRlLbh                  " hide all the scrollbars
     set fillchars+=vert:│           " better looking for windows separator
-    
+
     set ruler                       " sets a permanent rule
     set number
     set lazyredraw                  " only redraws if it is needed
@@ -59,14 +59,14 @@
     set noshowmode
     set modeline
     set modelines=5
-    
+
     set scrolloff=1                                     "always show content after scroll
     set scrolljump=5                                    "minimum number of lines to scroll
     set display+=lastline
-    
+
     set splitbelow
     set splitright
-    
+
     " disable sounds
     set noerrorbells
     set novisualbell
@@ -132,7 +132,7 @@
       endif
     endif
   "}}}
-  
+
   " tabs, space and wrapping {{{
     set backspace=indent,eol,start                      "allow backspacing everything in insert mode
     set autoindent                                      "automatically indent to match adjacent lines
@@ -186,7 +186,7 @@
     set foldlevelstart=99                               "open all folds by default
     let g:xml_syntax_folding=1                          "enable xml folding
   "}}}
-  
+
   " searching {{{
     set hlsearch                                      "highlight searches
     set incsearch                                     "incremental searching
@@ -206,7 +206,7 @@
       set grepformat=%f:%l:%c:%m
     endif
   " }}}
-  
+
   " History and permanent undo levels {{{
     set history=1000                                  "number of command lines to remember
     set undolevels=1000
@@ -265,28 +265,6 @@
     au VimResized * exe "normal! \<c-w>="
   "}}}
 
-  " New windows {{{
-    nnoremap <Leader>v <C-w>v
-    nnoremap <Leader>h <C-w>s
-  " }}}
-
-  " Fast window moves {{{
-    nnoremap <C-h> <C-w>h
-    nnoremap <C-j> <C-w>j
-    nnoremap <C-k> <C-w>k
-    nnoremap <C-l> <C-w>l
-  " }}}
-
-  " Fast window & buffer close and kill {{{
-    nnoremap <Leader>k <C-w>c
-    nnoremap <silent><Leader>K :bd<CR>
-  " }}}
-
-  " Autoload configuration when this file changes ($MYVIMRC) {{{
-    autocmd! BufWritePost vimrc source %
-    autocmd! BufWritePost *.vimrc source ~/.vimrc
-  " }}}
-
   " Toggle the Quickfix window {{{
     function! s:QuickfixToggle()
       for i in range(1, winnr('$'))
@@ -307,25 +285,6 @@
     nnoremap <Leader>`` :qa!<CR>
   "}}}
 
-  " Execution permissions by default to shebang (#!) files {{{
-  augroup shebang_chmod
-    autocmd!
-    autocmd BufNewFile  * let b:brand_new_file = 1
-    autocmd BufWritePost * unlet! b:brand_new_file
-    autocmd BufWritePre *
-          \ if exists('b:brand_new_file') |
-          \   if getline(1) =~ '^#!' |
-          \     let b:chmod_post = '+x' |
-          \   endif |
-          \ endif
-    autocmd BufWritePost,FileWritePost *
-          \ if exists('b:chmod_post') && executable('chmod') |
-          \   silent! execute '!chmod '.b:chmod_post.' "<afile>"' |
-          \   unlet b:chmod_post |
-          \ endif
-  augroup END
-
-  " }}}
 
   " Load matchit by default {{{
     if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
@@ -338,7 +297,7 @@
   " }}}
 
   " mappings {{{
-    " Learn vim hard way "{{{
+    " learn vim hard way "{{{
       noremap <Up> <NOP>
       noremap <Down> <NOP>
       noremap <Left> <NOP>
@@ -349,10 +308,27 @@
       inoremap <Right> <NOP>
     "}}}
 
-    " formatting shortcuts {{{
-      nmap <leader>fef :call Preserve("normal gg=G")<CR>
-      nmap <leader>f$ :call StripTrailingWhitespace()<CR>
-      vmap <leader>s :sort<cr>
+    " remap arrow keys {{{
+      nnoremap <left> :bprev<CR>
+      nnoremap <right> :bnext<CR>
+      nnoremap <up> :tabnext<CR>
+      nnoremap <down> :tabprev<CR>
+    "}}}
+
+    " change cursor position in insert mode {{{
+      inoremap <C-h> <left>
+      inoremap <C-l> <right>
+      inoremap <C-u> <C-g>u<C-u>
+    "}}}
+
+    " visual lines navigation {{{
+      nnoremap j gj
+      nnoremap k gk
+    "}}}
+
+    " smash escape {{{
+      inoremap jk <esc>
+      inoremap kj <esc>
     "}}}
 
     " shorcuts for quick save and quit {{{
@@ -361,31 +337,11 @@
       noremap <Leader>Q :qa<cr>
     "}}}
 
-    " toggle paste
-    map <F6> :set invpaste<CR>:set paste?<CR>
-
-    " remap arrow keys {{{
-      nnoremap <left> :bprev<CR>
-      nnoremap <right> :bnext<CR>
-      nnoremap <up> :tabnext<CR>
-      nnoremap <down> :tabprev<CR>
-    "}}}
-
-    " smash escape
-    inoremap jk <esc>
-    inoremap kj <esc>
-
-    " change cursor position in insert mode
-    inoremap <C-h> <left>
-    inoremap <C-l> <right>
-    inoremap <C-u> <C-g>u<C-u>
-
-    nnoremap j gj
-    nnoremap k gk
-
     " shortcuts for windows {{{
-      nnoremap <leader>v <C-w>v<C-w>l
+      nnoremap <leader>v <C-w>v
+      nnoremap <Leader>V <C-w>v<C-w>h
       nnoremap <leader>s <C-w>s
+      nnoremap <Leader>S <C-w>S<C-w>k
       nnoremap <leader>vsa :vert sba<cr>
       " bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
       " Every unnecessary keystroke that can be saved is good for your health :)
@@ -393,13 +349,26 @@
       nnoremap <C-j> <C-w>j
       nnoremap <C-k> <C-w>k
       nnoremap <C-l> <C-w>l
+      " fast window & buffer close and kill
+      nnoremap <Leader>k <C-w>c
+      nnoremap <silent><Leader>K :bd<CR>
     "}}}
 
-    " Tab shorcuts
-    map <Leader>n gT
-    map <Leader>m gt
-    map <leader>tn :tabnew<CR>
-    map <leader>tc :tabclose<CR>
+    " tab shorcuts {{{
+      map <Leader>n gT
+      map <Leader>m gt
+      map <leader>tn :tabnew<CR>
+      map <leader>tc :tabclose<CR>
+    "}}}
+
+    " formatting shortcuts {{{
+      nmap <leader>fef :call Preserve("normal gg=G")<CR>
+      nmap <leader>f$ :call StripTrailingWhitespace()<CR>
+      vmap <leader>s :sort<cr>
+    "}}}
+
+    " toggle paste
+    map <F6> :set invpaste<CR>:set paste?<CR>
 
     " Better navigating through omnicomplete option list
     " See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
@@ -432,21 +401,44 @@
   "}}}
 
   " autocmd {{{
-      autocmd! bufwritepost .vimrc source %
-      " go back to previous position of cursor if any
-      autocmd BufReadPost *
-          \ if line("'\"") > 0 && line("'\"") <= line("$") |
-          \  exe 'normal! g`"zvzz' |
-          \ endif
+    " go back to previous position of cursor if any
+    autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \  exe 'normal! g`"zvzz' |
+        \ endif
 
-      autocmd FileType js,scss,css autocmd BufWritePre <buffer> call StripTrailingWhitespace()
-      autocmd FileType css,scss setlocal foldmethod=marker foldmarker={,}
-      autocmd FileType css,scss nnoremap <silent> <leader>S vi{:sort<CR>
-      autocmd FileType python setlocal foldmethod=indent
-      autocmd FileType markdown setlocal nolist
-      autocmd FileType vim setlocal fdm=indent keywordprg=:help
+    autocmd FileType js,scss,css autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+    autocmd FileType css,scss setlocal foldmethod=marker foldmarker={,}
+    autocmd FileType css,scss nnoremap <silent> <leader>S vi{:sort<CR>
+    autocmd FileType python setlocal foldmethod=indent
+    autocmd FileType markdown setlocal nolist
+    autocmd FileType vim setlocal fdm=indent keywordprg=:help
+
+    " autoload configuration when this file changes ($MYVIMRC) {{{
+      autocmd! BufWritePost vimrc source %
+      autocmd! BufWritePost *.vimrc source $NVIM_HOME/init.vim
+    "}}}
   "}}}
 
+  " execution permissions by default to shebang (#!) files {{{
+  augroup shebang_chmod
+    autocmd!
+    autocmd BufNewFile  * let b:brand_new_file = 1
+    autocmd BufWritePost * unlet! b:brand_new_file
+    autocmd BufWritePre *
+          \ if exists('b:brand_new_file') |
+          \   if getline(1) =~ '^#!' |
+          \     let b:chmod_post = '+x' |
+          \   endif |
+          \ endif
+    autocmd BufWritePost,FileWritePost *
+          \ if exists('b:chmod_post') && executable('chmod') |
+          \   silent! execute '!chmod '.b:chmod_post.' "<afile>"' |
+          \   unlet b:chmod_post |
+          \ endif
+  augroup END
+
+  " }}}
 "}}}
 
 call neobundle#append()
