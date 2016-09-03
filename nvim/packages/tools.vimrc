@@ -43,7 +43,7 @@ call neobundle#append()
         let g:vimshell_editor_command='vim'
     endif
     let g:vimshell_right_prompt='getcwd()'
-    let g:vimshell_data_directory=GetCacheDir('vimshell')
+    let g:vimshell_data_directory=utils#GetCacheDir('vimshell')
     let g:vimshell_vimshrc_path='~/.config/nvim/vimshrc'
 
     nnoremap <localleader>c :VimShell -split<cr>

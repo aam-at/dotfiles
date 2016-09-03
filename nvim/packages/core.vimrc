@@ -219,23 +219,23 @@
     " persistent undo
     if exists('+undofile')
         set undofile
-        let &undodir = GetCacheDir('undo')
+        let &undodir = utils#GetCacheDir('undo')
     endif
 
     " backups
     set backup
-    let &backupdir = GetCacheDir('backup')
+    let &backupdir = utils#GetCacheDir('backup')
     set backupskip=/tmp/*,/private/tmp/*"
 
     " swap files
     set noswapfile
-    let &directory = GetCacheDir('swap')
+    let &directory = utils#GetCacheDir('swap')
     set writebackup
 
-    call EnsureExists(g:my_settings.cache_dir)
-    call EnsureExists(&undodir)
-    call EnsureExists(&backupdir)
-    call EnsureExists(&directory)
+    call utils#EnsureExists(g:my_settings.cache_dir)
+    call utils#EnsureExists(&undodir)
+    call utils#EnsureExists(&backupdir)
+    call utils#EnsureExists(&directory)
   " }}}
 
   " wildmenu {{{
@@ -362,8 +362,8 @@
     "}}}
 
     " formatting shortcuts {{{
-      nmap <leader>fef :call Preserve("normal gg=G")<CR>
-      nmap <leader>f$ :call StripTrailingWhitespace()<CR>
+      nmap <leader>fef :call utils#Preserve("normal gg=G")<CR>
+      nmap <leader>f$ :call utils#StripTrailingWhitespace()<CR>
       vmap <leader>s :sort<cr>
     "}}}
 
@@ -407,7 +407,7 @@
         \  exe 'normal! g`"zvzz' |
         \ endif
 
-    autocmd FileType js,scss,css autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+    autocmd FileType js,scss,css autocmd BufWritePre <buffer> call utils#StripTrailingWhitespace()
     autocmd FileType css,scss setlocal foldmethod=marker foldmarker={,}
     autocmd FileType css,scss nnoremap <silent> <leader>S vi{:sort<CR>
     autocmd FileType python setlocal foldmethod=indent
@@ -447,7 +447,7 @@ call neobundle#append()
   NeoBundle 'myusuf3/numbers.vim'
   " fancy start screen for vim
   NeoBundle 'mhinz/vim-startify' "{{{
-      let g:startify_session_dir = GetCacheDir('sessions')
+      let g:startify_session_dir = utils#GetCacheDir('sessions')
       let g:startify_change_to_vcs_root = 1
       let g:startify_show_sessions = 1
       nnoremap <F1> :Startify<cr>

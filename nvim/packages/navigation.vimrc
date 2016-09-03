@@ -53,7 +53,7 @@ call neobundle#append()
     let g:ctrlp_show_hidden=0
     let g:ctrlp_follow_symlinks=1
     let g:ctrlp_max_files=20000
-    let g:ctrlp_cache_dir=GetCacheDir('ctrlp')
+    let g:ctrlp_cache_dir=utils#GetCacheDir('ctrlp')
     let g:ctrlp_reuse_window='startify'
     let g:ctrlp_extensions=['funky']
     let g:ctrlp_custom_ignore = {
@@ -83,7 +83,7 @@ call neobundle#append()
     let NERDTreeChDirMode=0
     let NERDTreeShowBookmarks=1
     let NERDTreeIgnore=['\.git','\.hg']
-    let NERDTreeBookmarksFile=GetCacheDir('NERDTreeBookmarks')
+    let NERDTreeBookmarksFile=utils#GetCacheDir('NERDTreeBookmarks')
     " NERDTree key bindings
     nmap <silent> <F5> :NERDTreeToggle<CR>
   "}}}
@@ -103,7 +103,7 @@ call neobundle#append()
     let g:vimfiler_readonly_file_icon = '✗'
     let g:vimfiler_force_overwrite_statusline = 0
     let g:vimfiler_time_format = '%d-%m-%Y %H:%M:%S'
-    let g:vimfiler_data_directory = GetCacheDir('vimfiler')
+    let g:vimfiler_data_directory = utils#GetCacheDir('vimfiler')
   "}}}
   " a diff tool for directories
   NeoBundleLazy 'joedicastro/DirDiff.vim', { 'autoload': { 'commands' : 'DirDiff'}}

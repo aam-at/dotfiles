@@ -8,7 +8,7 @@
     " initialize default settings
     let $NVIM_HOME=$HOME."/.config/nvim"
     let g:my_settings = {}
-    let g:my_settings.cache_dir = '~/.config/nvim/.cache'
+    let g:my_settings.cache_dir = $NVIM_HOME. '/.cache'
     let g:my_settings.default_indent = 4
     let g:my_settings.max_column = 120
     let g:my_settings.autocomplete_method = 'neocomplcache'
@@ -51,97 +51,38 @@
         endif
 
         " set the runtime path to include NeoBundle and initialize
-        set runtimepath+=~/.config/nvim/bundle/neobundle.vim/
+        exec 'set runtimepath+='.$NVIM_HOME.'/bundle/neobundle.vim'
     endif
     if g:is_windows
         set rtp+=~/.config/nvim
     endif
-    call neobundle#begin(expand('~/.config/nvim/bundle/'))
+    call neobundle#begin($NVIM_HOME.'/bundle/')
     " Let NeoBundle manage NeoBundle
     " Required:
     NeoBundleFetch 'Shougo/neobundle.vim'
 " }
 
-" functions {{{
-  function! GetCacheDir(suffix) "{
-    return resolve(expand(g:my_settings.cache_dir . '/' . a:suffix))
-  endfunction "}
-
-  function! Source(begin, end) "{
-    let lines = getline(a:begin, a:end)
-    for line in lines
-    execute line
-    endfor
-  endfunction "}
-
-  function! Preserve(command) "{
-    " preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " do the business:
-    execute a:command
-    " clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
-  endfunction "}
-
-  function! StripTrailingWhitespace() "{
-    call Preserve("%s/\\s\\+$//e")
-  endfunction "}
-
-  function! EnsureExists(path) "{
-    if !isdirectory(expand(a:path))
-      call mkdir(expand(a:path))
-    endif
-  endfunction "}
-
-  function! CloseWindowOrKillBuffer()" {
-    let number_of_windows_to_this_buffer = len(filter(range(1, winnr('$')), "winbufnr(v:val) == bufnr('%')"))
-
-    " never bdelete a nerd tree
-    if matchstr(expand("%"), 'NERD') == 'NERD'
-      wincmd c
-      return
-    endif
-
-    if number_of_windows_to_this_buffer > 1
-      wincmd c
-    else
-      bdelete
-    endif
-  endfunction "}
-" }}}
-
-"""""""""""""""""
-"               "
-" BASE SETTINGS "
-"               "
-"""""""""""""""""
 " base configuration {{{
+  set noshelltemp                                     "use pipes
 
-  
-    set noshelltemp                                     "use pipes
+  let mapleader = ","
+  let g:mapleader = ","
+  let maplocalleader = "\\"
+  nmap <space> [unite]
+  nnoremap [unite] <nop>
+  nmap <LocalLeader> [menu]
+  nnoremap [menu] <Nop>
 
-
-
-    let mapleader = ","
-    let maplocalleader = "\\"
-    let g:mapleader = ","
-"}}}
-
-" python configuration {{{
-    let g:python_host_prog = $HOME.'/.pyenv/versions/neovim2/bin/python'
-    let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim3/bin/python'
-" }}}
-
-" ui configuration {{{
+  " python configuration {{{
+      let g:python_host_prog = $HOME.'/.pyenv/versions/neovim2/bin/python'
+      let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim3/bin/python'
+  " }}}
 "}}}
 
 
 """"""""""""""""""""""""""
 "                        "
-" PACKAGE MANAGEMENT     "
+"     BASE PACKAGES      "
 "                        "
 """""""""""""""""""""""""" {{{
 
@@ -158,6 +99,8 @@ NeoBundle 'Shougo/vimproc', {
 " unite. The interface to rule almost everything
 NeoBundle 'Shougo/unite.vim' "{{{
   let g:unite_source_menu_menus = {}
+  " menus menu
+  nnoremap <silent>[menu]u :Unite -silent -winheight=20 menu<CR>
 
   let bundle = neobundle#get('unite.vim')
   function! bundle.hooks.on_source(bundle)
@@ -168,7 +111,7 @@ NeoBundle 'Shougo/unite.vim' "{{{
                 \ })
   endfunction
 
-  let g:unite_data_directory=GetCacheDir('unite')
+  let g:unite_data_directory=utils#GetCacheDir('unite')
   let g:unite_source_history_yank_enable=1
   let g:unite_source_rec_max_cache_files=5000
 
@@ -200,9 +143,6 @@ NeoBundle 'Shougo/unite.vim' "{{{
   endfunction
   autocmd FileType unite call s:unite_settings()
 
-  nmap <space> [unite]
-  nnoremap [unite] <nop>
-  
   if g:is_windows
     nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_rec:! buffer file_mru bookmark<cr><c-u>
     nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec:!<cr><c-u>
@@ -211,7 +151,6 @@ NeoBundle 'Shougo/unite.vim' "{{{
     nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec/async:!<cr><c-u>
   endif
   nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=recent file_mru<cr>
-  nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
   nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
   nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer file_mru<cr>
   nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
@@ -222,6 +161,9 @@ NeoBundle 'Shougo/unite.vim' "{{{
 " Unite sources
 NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}} "{{{
   nnoremap <silent> [unite]o :<C-u>Unite -auto-resize -buffer-name=outline outline<cr>
+"}}}
+NeoBundleLazy 'Shougo/neoyank.vim', {'autoload':{'unite_sources':'history_yank'}} "{{{
+  nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
 "}}}
 NeoBundleLazy 'Shougo/unite-help', {'autoload':{'unite_sources':'help'}} "{{{
   nnoremap <silent> [unite]h :<C-u>Unite -auto-resize -buffer-name=help help<cr>
@@ -237,7 +179,7 @@ NeoBundleLazy 'osyo-manga/unite-airline_themes', {'autoload':{'unite_sources':'a
 "}}}
 " junk files
 NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen','unite_sources':['junkfile','junkfile/new']}} "{{{
-  let g:junkfile#directory=GetCacheDir('junk')
+  let g:junkfile#directory=utils#GetCacheDir('junk')
   nnoremap <silent> [unite]j :<C-u>Unite -auto-resize -buffer-name=junk junkfile junkfile/new<cr>
   nnoremap <silent><Leader>d :Unite -silent junkfile/new junkfile<CR>
 "}}}
@@ -250,8 +192,11 @@ NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
             \ ['quickfix', 'location_list']}}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
 NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
-NeoBundleLazy 'Shougo/neomru.vim', {'autoload':{'unite_sources': 
-            \['file_mru', 'directory_mru']}}
+NeoBundleLazy 'Shougo/neomru.vim', {'autoload':{'unite_sources':
+            \['file_mru', 'directory_mru']}} "{{{
+   let g:neomru#file_mru_path = g:my_settings.cache_dir.'/neomru/file'
+   let g:neomru#directory_mru_path = g:my_settings.cache_dir.'/neomru/directory'
+"}}}
 
 " color schemes {{{
   NeoBundle 'altercation/vim-colors-solarized' "{{{
@@ -271,7 +216,7 @@ NeoBundleLazy 'Shougo/neomru.vim', {'autoload':{'unite_sources':
   NeoBundle 'saghul/vim-colortoggle' "{{{
     let g:default_background_type = g:my_settings.background
   "}}}
-  
+
   " dark themes
   " improved terminal version of molokai, almost identical to the GUI one
   NeoBundle 'joedicastro/vim-molokai256'
@@ -290,6 +235,8 @@ NeoBundleLazy 'Shougo/neomru.vim', {'autoload':{'unite_sources':
 
 " GUI {{{
   NeoBundle 'bling/vim-airline' "{{{
+    set noshowmode
+
     let g:airline_theme='powerlineish'
     let g:airline_powerline_fonts=1
     let g:airline#extensions#branch#enabled=1
