@@ -156,5 +156,5 @@ call neobundle#end()
     \]
     let g:unite_source_menu_menus.python.command_candidates = helperfuncs#unite_menu_gen(g:unite_source_menu_menus.python.command_candidates, [])
 
-    nnoremap <silent>[menu]p :Unite -silent -winheight=42 menu:python<CR>
+    nnoremap <silent> <LocalLeader>p :Unite -silent -winheight=42 menu:python<CR>
 "}}}

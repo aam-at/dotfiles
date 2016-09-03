@@ -91,5 +91,5 @@ call neobundle#end()
     \]
   let g:unite_source_menu_menus.tools.command_candidates = helperfuncs#unite_menu_gen(g:unite_source_menu_menus.tools.command_candidates, [])
 
-  nnoremap <silent>[menu]t :Unite -silent menu:tools<CR>
+  nnoremap <silent> <LocalLeader>t :Unite -silent menu:tools<CR>
 "}}}

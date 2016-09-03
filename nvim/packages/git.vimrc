@@ -159,5 +159,5 @@ call neobundle#end()
   \]
   let g:unite_source_menu_menus.git.command_candidates = helperfuncs#unite_menu_gen(g:unite_source_menu_menus.git.command_candidates, [])
 
-  nnoremap <silent>[menu]g :Unite -silent -winheight=29 -start-insert menu:git<CR>
+  nnoremap <silent> <LocalLeader>g :Unite -silent -winheight=29 -start-insert menu:git<CR>
 "}}}

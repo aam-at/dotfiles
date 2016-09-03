@@ -14,17 +14,17 @@ call neobundle#append()
 call neobundle#end()
 
 " unite menu {{{
-let g:unite_source_menu_menus.markdown = {
-    \ 'description' : '       preview markdown extra docs
-    \                           ⌘ [space]k',
-  \}
-let g:unite_source_menu_menus.markdown.command_candidates = [
-    \['▷ preview',
-    \'Me'],
-    \['▷ refresh',
-    \'Mer'],
-  \]
-let g:unite_source_menu_menus.markdown.command_candidates = helperfuncs#unite_menu_gen(g:unite_source_menu_menus.markdown.command_candidates, [])
+  let g:unite_source_menu_menus.markdown = {
+      \ 'description' : '       preview markdown extra docs
+      \                           ⌘ [space]k',
+    \}
+  let g:unite_source_menu_menus.markdown.command_candidates = [
+      \['▷ preview',
+      \'Me'],
+      \['▷ refresh',
+      \'Mer'],
+    \]
+  let g:unite_source_menu_menus.markdown.command_candidates = helperfuncs#unite_menu_gen(g:unite_source_menu_menus.markdown.command_candidates, [])
 
-nnoremap <silent>[menu]k :Unite -silent menu:markdown<CR>
+  nnoremap <silent> <LocalLeader>k :Unite -silent menu:markdown<CR>
 "}}}

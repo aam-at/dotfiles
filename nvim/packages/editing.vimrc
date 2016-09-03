@@ -85,6 +85,8 @@ call neobundle#append()
   NeoBundleLazy 'vim-scripts/loremipsum', { 'autoload' : { 'commands' : 'Loremipsum'}}
   " transpose lines and text blocks
   NeoBundleLazy 'salsifis/vim-transpose', { 'autoload' : { 'commands' : 'Transpose'}}
+  " easy exchange for two motions
+  NeoBundle 'tommcdo/vim-exchange'
   " marks admin
   NeoBundle 'kshenoy/vim-signature'
   
@@ -140,7 +142,7 @@ call neobundle#end()
 
 " unite menu {{{
   let g:unite_source_menu_menus.text = {
-      \ 'description' : '           text edition
+      \ 'description' : '           text editing
       \                                          ⌘ [space]e',
     \}
   let g:unite_source_menu_menus.text.command_candidates = [
@@ -179,5 +181,5 @@ call neobundle#end()
     \]
   let g:unite_source_menu_menus.text.command_candidates = helperfuncs#unite_menu_gen(g:unite_source_menu_menus.text.command_candidates, [])
 
-  nnoremap <silent>[menu]e :Unite -silent -winheight=20 menu:text <CR>
+  nnoremap <silent> <LocalLeader>e :Unite -silent -winheight=20 menu:text <CR>
 "}}}

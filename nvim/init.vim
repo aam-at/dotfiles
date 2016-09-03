@@ -68,10 +68,11 @@
   let mapleader = ","
   let g:mapleader = ","
   let maplocalleader = "\\"
+  let g:maplocalleader = "\\"
   nmap <space> [unite]
   nnoremap [unite] <nop>
   nmap <LocalLeader> [menu]
-  nnoremap [menu] <Nop>
+  nnoremap [menu] <nop>
 
   " python configuration {{{
       let g:python_host_prog = $HOME.'/.pyenv/versions/neovim2/bin/python'
@@ -100,7 +101,7 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle 'Shougo/unite.vim' "{{{
   let g:unite_source_menu_menus = {}
   " menus menu
-  nnoremap <silent>[menu]u :Unite -silent -winheight=20 menu<CR>
+  nnoremap <silent> <LocalLeader>u :<C-u>Unite -silent -winheight=20 menu<cr>
 
   let bundle = neobundle#get('unite.vim')
   function! bundle.hooks.on_source(bundle)
@@ -143,6 +144,19 @@ NeoBundle 'Shougo/unite.vim' "{{{
   endfunction
   autocmd FileType unite call s:unite_settings()
 
+  nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
+  nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
+  nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
+  nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
+  nnoremap <silent> [unite]T :<C-u>Unite -auto-resize -buffer-name=tabs tab<CR>
+"}}}
+
+" Unite sources
+NeoBundle 'Shougo/neomru.vim', {'autoload':{'unite_sources':
+            \['file_mru', 'directory_mru']}} "{{{
+  let g:neomru#file_mru_path = g:my_settings.cache_dir.'/neomru/file'
+  let g:neomru#directory_mru_path = g:my_settings.cache_dir.'/neomru/directory'
+
   if g:is_windows
     nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_rec:! buffer file_mru bookmark<cr><c-u>
     nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec:!<cr><c-u>
@@ -150,53 +164,41 @@ NeoBundle 'Shougo/unite.vim' "{{{
     nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_rec/async:! buffer file_mru bookmark<cr><c-u>
     nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec/async:!<cr><c-u>
   endif
-  nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=recent file_mru<cr>
-  nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
   nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer file_mru<cr>
-  nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
-  nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
-  nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
+  nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=recent file_mru<cr>
 "}}}
-
-" Unite sources
-NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}} "{{{
+NeoBundle 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}} "{{{
   nnoremap <silent> [unite]o :<C-u>Unite -auto-resize -buffer-name=outline outline<cr>
 "}}}
-NeoBundleLazy 'Shougo/neoyank.vim', {'autoload':{'unite_sources':'history_yank'}} "{{{
+NeoBundle 'Shougo/neoyank.vim', {'autoload':{'unite_sources':'history_yank'}} "{{{
   nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
 "}}}
-NeoBundleLazy 'Shougo/unite-help', {'autoload':{'unite_sources':'help'}} "{{{
+NeoBundle 'Shougo/unite-help', {'autoload':{'unite_sources':'help'}} "{{{
   nnoremap <silent> [unite]h :<C-u>Unite -auto-resize -buffer-name=help help<cr>
 "}}}
-NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':['tag','tag/file']}} "{{{
+NeoBundle 'tsukkee/unite-tag', {'autoload':{'unite_sources':['tag','tag/file']}} "{{{
   nnoremap <silent> [unite]t :<C-u>Unite -auto-resize -buffer-name=tag tag tag/file<cr>
 "}}}
-NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':'colorscheme'}} "{{{
+NeoBundle 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':'colorscheme'}} "{{{
   nnoremap <silent> [unite]c :<C-u>Unite -winheight=10 -auto-preview -buffer-name=colorschemes colorscheme<cr>
 "}}}
-NeoBundleLazy 'osyo-manga/unite-airline_themes', {'autoload':{'unite_sources':'airline_themes'}} "{{{
+NeoBundle 'osyo-manga/unite-airline_themes', {'autoload':{'unite_sources':'airline_themes'}} "{{{
   nnoremap <silent> [unite]a :<C-u>Unite -winheight=10 -auto-preview -buffer-name=airline_themes airline_themes<cr>
 "}}}
 " junk files
-NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen','unite_sources':['junkfile','junkfile/new']}} "{{{
+NeoBundle 'Shougo/junkfile.vim', {'autoload':{'unite_sources':'junkfile'}} "{{{
   let g:junkfile#directory=utils#GetCacheDir('junk')
-  nnoremap <silent> [unite]j :<C-u>Unite -auto-resize -buffer-name=junk junkfile junkfile/new<cr>
-  nnoremap <silent><Leader>d :Unite -silent junkfile/new junkfile<CR>
+  nnoremap <silent> [unite]j :<C-u>Unite -auto-resize -buffer-name=junk junkfile<cr>
 "}}}
-NeoBundleLazy 'ujihisa/unite-locate', {'autoload':{'unite_sources':'locate'}}
-NeoBundleLazy 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' :
+NeoBundle 'ujihisa/unite-locate', {'autoload':{'unite_sources':'locate'}}
+NeoBundle 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' :
             \ ['history/command', 'history/search']}}
-NeoBundleLazy 'osyo-manga/unite-filetype', { 'autoload' : {'unite_sources' :
+NeoBundle 'osyo-manga/unite-filetype', { 'autoload' : {'unite_sources' :
             \ 'filetype', }}
-NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
+NeoBundle 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
             \ ['quickfix', 'location_list']}}
-NeoBundleLazy 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
-NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
-NeoBundleLazy 'Shougo/neomru.vim', {'autoload':{'unite_sources':
-            \['file_mru', 'directory_mru']}} "{{{
-   let g:neomru#file_mru_path = g:my_settings.cache_dir.'/neomru/file'
-   let g:neomru#directory_mru_path = g:my_settings.cache_dir.'/neomru/directory'
-"}}}
+NeoBundle 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
+NeoBundle 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
 
 " color schemes {{{
   NeoBundle 'altercation/vim-colors-solarized' "{{{
