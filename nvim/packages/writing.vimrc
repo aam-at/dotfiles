@@ -39,9 +39,11 @@ call neobundle#append()
       autocmd filetype texfile      call AutoCorrect()
     augroup END
   "}}}
-  NeoBundleLazy 'aam-at/vim-ditto', {'autoload': {'commands': ['ToggleDitto']}}
+  NeoBundleLazy 'dbmrq/vim-ditto', {'autoload': {'commands': ['ToggleDitto']}}
     let g:ditto_mode = "file"
     let g:ditto_dir = utils#GetCacheDir('ditto')
+    call utils#EnsureExists(g:ditto_dir)
+
     au FileType markdown,text,tex DittoOn  " Turn on Ditto's autocmds
 
     nmap <leader>di <Plug>ToggleDitto      " Turn it on and off
