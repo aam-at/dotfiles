@@ -15,7 +15,7 @@
     ~/.config/pudb/pudb.cfg:
         create: true
         path: config/python/pudb.cfg
-    ~/.authinfo.gpg: config/authinfo.gpg
+    ~/.authinfo.gpg: ../Dropbox/Sync/authinfo.gpg
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
     ~/.gitconfig: git/gitconfig
     ~/.tmux.conf: tmux/tmux.conf
