@@ -5,9 +5,9 @@ function extract -d "Extracts and expands a variety of archive files"
         if test -f $file
             echo -s "💥 Extracting '" (set_color --bold blue) $file (set_color normal) "' ..."
             switch $file
-                case *.tar
-                    tar -xf $file
-                case *.tar.xz *.txz
+                case "*.tar"
+                    tar -xvf $file
+                case "*.tar.xz" "*.txz"
                     set os (uname)
                     if [ $os = "Darwin" ]
                         type gtar >/dev/null
@@ -16,23 +16,28 @@ function extract -d "Extracts and expands a variety of archive files"
                     else
                         tar -Jxf $file
                     end
-                case *.tar.bz2 *.tbz *.tbz2
+                case "*.tar.bz2" "*.tbz" "*.tbz2"
                     tar -jxf $file
-                case *.tar.gz *.tgz
-                    tar -zxf $file
-                case *.xz
+                case "*.tar.gz" "*.tgz"
+                    tar -zxvf $file
+                case "*.xz"
                     unxz $file
-                case *.bz2
+                case "*.bz2"
+                    # tar -jxvf $argv[1]
                     bunzip2 $file
-                case *.gz
-                    gunzip $file
-                case *.rar
+                case "*.gz"
+                    if test (echo $file[1] | awk -F. '{print $(NF-1)}') = tar  # tar bundle compressed with gzip
+                        tar -zxvf $file
+                    else  # single gzip
+                        gunzip $file
+                    end
+                case "*.rar"
                     unrar x $file
-                case *.zip
+                case "*.zip"
                     unzip -uo $file -d (basename $file .zip)
-                case *.pax
+                case "*.pax"
                     pax -r < $file
-                case *.Z
+                case "*.Z"
                     uncompress $file
                 case "*.7z"
                     7za x $file
