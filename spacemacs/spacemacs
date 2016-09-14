@@ -304,7 +304,7 @@ layers configuration. You are free to put any user code."
   ;; (setq wakatime-cli-path "/usr/local/bin/wakatime")
 
   ;; Habitica settings
-  (setq habitrpg-api-url "https://habitica.com/api/v2")
+  (setq habitrpg-api-url "https://habitica.com/api/v3")
   (setq habitrpg-api-user "api-user")
   (setq habitrpg-api-token "api-token")
   (add-hook 'org-after-todo-state-change-hook 'habitrpg-add 'append)
