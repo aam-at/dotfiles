@@ -168,10 +168,12 @@
       endif
       if &textwidth == 80
         set textwidth=0
+        set fo-=t
         exec 'hi ColorColumn ctermbg='.s:nowrap_cc_bg[0].
                     \' guibg='.s:nowrap_cc_bg[1]
       elseif &textwidth == 0
         set textwidth=80
+        set fo+=t
         exec 'hi ColorColumn ctermbg='.g:curr_cc_ctermbg.
                     \' guibg='.g:curr_cc_guibg
       endif
