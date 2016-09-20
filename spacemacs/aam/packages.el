@@ -14,7 +14,8 @@
 ;; which require an initialization must be listed explicitly in the list.
 (setq aam-packages
   '(
-    key-chord key-seq
+    ;; FIXME disable for now as it clobbers match data in org-mode buffers
+    ;; key-chord key-seq
     ;; citations
     helm-bibtex gscholar-bibtex ebib
     ;; provide djvu support
@@ -51,7 +52,23 @@
 
 (defun aam/init-key-seq ()
   (use-package key-seq
-    :defer t))
+    :defer t
+    :config
+    ;; easy window navigation
+    (key-seq-define evil-normal-state-map "wh" 'evil-window-left)
+    (key-seq-define evil-normal-state-map "wj" 'evil-window-down)
+    (key-seq-define evil-normal-state-map "wk" 'evil-window-up)
+    (key-seq-define evil-normal-state-map "wl" 'evil-window-right)
+    ;; ;; easy window splitting
+    (key-seq-define evil-normal-state-map "wy" 'split-window-right)
+    (key-seq-define evil-normal-state-map "wu" 'split-window-below-and-focus)
+    (key-seq-define evil-normal-state-map "wi" 'split-window-below)
+    (key-seq-define evil-normal-state-map "wo" 'split-window-right-and-focus)
+    (key-seq-define evil-normal-state-map "wm" 'toggle-maximize-buffer)
+    ;; easy kill
+    (key-seq-define evil-normal-state-map "kf" 'delete-frame)
+    (key-seq-define evil-normal-state-map "kw" 'evil-quit)
+    (key-seq-define evil-normal-state-map "kb" 'kill-this-buffer)))
 
 (defun aam/init-helm-bibtex()
   (use-package helm-bibtex
