@@ -55,18 +55,23 @@ function export --description 'Set global variable. Alias for set -gx, made for 
   end
 end
 # sources environment variables
-source ~/.env
+if test -e ~/.env
+  source ~/.env
+end
 
 ################################
 # Custom functions and aliases #
 ################################
-source ~/.aliases
+if test -e ~/.aliases
+  source ~/.aliases
+end
 alias -="cd -"
 
 function reload
   source ~/.config/fish/config.fish
 end
 
+# configure fucks
 function fuck -d 'Correct your previous console command'
   set -l exit_code $status
   set -l eval_script (mktemp 2>/dev/null ; or mktemp -t 'thefuck')
@@ -77,6 +82,11 @@ function fuck -d 'Correct your previous console command'
   if test $exit_code -ne 0
     history --delete $fucked_up_commandd
   end
+end
+
+# configure autojump
+if test -d /usr/share/autojump
+  source /usr/share/autojump/autojump.fish
 end
 
 if test -d ~/.pyenv

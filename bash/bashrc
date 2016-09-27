@@ -73,9 +73,15 @@ fi
 # source environement variables
 . ~/.env
 
-# setup thefuck and pyenv
+# conifgure fucks
 eval "$(thefuck --alias)"
 
+# configure autojump
+if [ -f /usr/share/autojump/autojump.sh ]; then
+    . /usr/share/autojump/autojump.sh
+fi
+
+# configure pyenv
 if [ -d $HOME/.pyenv ]; then
   export PYENV_ROOT=$HOME/.pyenv
   export PATH=$HOME/.pyenv/bin:$PATH
