@@ -33,13 +33,11 @@
     ~/.emacs.d/core/secure-config.el.gpg: spacemacs/secure-config.el.gpg
     ~/.emacs.d/private/aam: spacemacs/aam
     ~/.emacs.d/private/writing: spacemacs/writing
-    ~/.emacs.d/private/pdf-tools: spacemacs/pdf-tools
     ~/.emacs.d/private/notmuch: spacemacs/notmuch
     ~/.emacs.d/private/habitrpg: spacemacs/habitrpg
     ~/.emacs.d/private/org-extras: spacemacs/org-extras
     ~/.emacs.d/private/realgud: spacemacs/realgud
     ~/.emacs.d/private/python-extras: spacemacs/python-extras
-    ~/.emacs.d/private/graphviz: spacemacs/graphviz
     ~/.elfeed: ../Dropbox/Sync/elfeed
     ~/.password-store: ../Dropbox/Sync/pass
     ~/.taskrc: task/taskrc
