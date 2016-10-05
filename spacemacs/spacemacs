@@ -123,9 +123,12 @@ values."
    ;; If the value is nil then no banner is displayed. (default 'official)
    dotspacemacs-startup-banner 'official
    ;; List of items to show in the startup buffer. If nil it is disabled.
-   ;; Possible values are: `recents' `bookmarks' `projects'.
+   ;; Possible values are: `recents' `bookmarks' `projects'. `agenda', `todos'
    ;; (default '(recents projects))
-   dotspacemacs-startup-lists '(recents projects)
+   dotspacemacs-startup-lists '((recents  . 5)
+                                (projects . 7)
+                                agenda
+                                todos)
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
@@ -433,7 +436,9 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq org-journal-file-format "%Y%m%d.org")
   (setq org-journal-carryover-items "TODO=\"POSTPONED\"")
   (setq org-journal-enable-encryption t)
-  (push org-journal-dir org-agenda-files)
+  (setq org-journal-agenda-days 7)
+  (setq org-journal-agenda-files (org-extras/org-journal-list-agenda-files org-journal-agenda-days))
+  (setq org-agenda-files (append org-journal-agenda-files org-agenda-files))
 
   ;; org-crypt
   (setq org-crypt-key "alexander.matyasko@gmail.com")
