@@ -128,7 +128,7 @@ values."
    dotspacemacs-startup-lists '((recents  . 5)
                                 (projects . 7)
                                 agenda
-                                todos)
+                                (todos . 10))
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
@@ -259,6 +259,9 @@ layers configuration. You are free to put any user code."
   (require 'server)
   (or (server-running-p)
       (server-start))
+
+  ;; startup
+  (setq spacemacs-buffer-startup-lists-length nil)
 
   ;; layouts configuration
   (setq layouts-enable-autosave t)
