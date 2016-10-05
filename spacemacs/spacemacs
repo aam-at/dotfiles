@@ -28,41 +28,42 @@ values."
      ;; General
      ;; ----------------------------------------------------------------
      better-defaults
-     eyebrowse
      (colors :variables colors-enable-rainbow-identifiers t)
-     themes-megapack
+     (ibuffer :variables ibuffer-group-buffers-by 'projects)
      spell-checking
      syntax-checking
      version-control git github
+     themes-megapack
      (chinese :variables
               ;; chinese-enable-fcitx t
               ;; chinese-default-input-method 'wubi
               chinese-enable-youdao-dict t
               chinese-enable-avy-pinyin nil)
      ;; More VIM sugar in emacs
-     evil-snipe unimpaired vinegar evil-cleverparens
+     evil-snipe vinegar evil-cleverparens
      ;; ----------------------------------------------------------------
      ;; Programming languages
      ;; ----------------------------------------------------------------
-     realgud ;; enhanced emacs debugging
      c-c++ python lua haskell go
      html javascript markdown ipython-notebook
      emacs-lisp
      (latex :variables
             latex-build-command "LatexMk"
             latex-enable-folding t)
+     bibtex
      extra-langs
      shell-scripts windows-scripts vimscript autohotkey
+     rebox ;; text boxes
      ;; Auto-completion & tags
      auto-completion ycmd cscope
      ;; ----------------------------------------------------------------
      ;; Tools
      ;; ----------------------------------------------------------------
-     (mu4e :variables mu4e-account-alist t)
-     notmuch erc ;; email & irc
+     pdf-tools
+     (mu4e :variables mu4e-account-alist t) erc ;; email & irc
      chrome search-engine ;; web
      org evernote ;; note-taking and organizer
-     ;; FIXME emoji clobbers org-mode match data
+     ;; FIXME: disabled. emoji clobbers org-mode match data
      ;; emoji
      xkcd ;; something for fun
      (elfeed :variables rmh-elfeed-org-files (list "~/Dropbox/Notes/feeds.org"))
@@ -81,10 +82,10 @@ values."
      pandoc ;; pandoc the most extensive file document conversion tool
 
      ;; My private layers
-     aam writing pdf-tools
+     aam writing notmuch
      habitrpg
      org-extras python-extras
-     graphviz
+     realgud ;; enhanced emacs debugging
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -256,6 +257,9 @@ layers configuration. You are free to put any user code."
   (or (server-running-p)
       (server-start))
 
+  ;; layouts configuration
+  (setq layouts-enable-autosave t)
+
   ;; epa encryption
   (setq epa-file-select-keys 0)
   (setq epa-file-cache-passphrase-for-symmetric-encryption t)
@@ -289,18 +293,10 @@ layers configuration. You are free to put any user code."
   ;; (setq wakatime-python-path "/usr/bin/python")
   ;; (setq wakatime-cli-path "/usr/local/bin/wakatime")
 
-  ;; Habitica settings
+  ;; habitica settings
   (setq habitrpg-api-url "https://habitica.com/api/v3")
   (setq habitrpg-api-user "api-user")
   (setq habitrpg-api-token "api-token")
-  (defun my-habitrpg-add()
-    (interactive)
-    (when (or (string= org-state "DONE") (string= org-state "TODO"))
-      (habitrpg-add))
-    )
-  (add-hook 'org-after-todo-state-change-hook 'my-habitrpg-add 'append)
-  (add-hook 'org-clock-in-hook 'habitrpg-clock-in)
-  (add-hook 'org-clock-out-hook 'habitrpg-clock-out)
   (with-eval-after-load 'habitrpg
     (add-to-list 'hrpg-tags-list "research")
     (add-to-list 'hrpg-tags-list "writing")
@@ -400,13 +396,17 @@ SCHEDULED: %^{When should we stop?}t +1d
      (sql . nil)
      (sqlite . t)))
 
+  ;; cdlatex for org-mode
+  (spacemacs|diminish org-cdlatex-mode)
+  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+
   ;; additional org-modules
   ;; anki like functionality
   (require 'org-drill)
   (add-to-list 'org-modules 'org-drill t)
   (setq org-learn-always-reschedule t)
   (setq org-drill-add-random-noise-to-intervals-p t)
-  ;; Tracking habits
+  ;; tracking habits
   (require 'org-habit)
   (add-to-list 'org-modules 'org-habit t)
   (setq org-habit-graph-column 80)
@@ -414,11 +414,11 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; eww buffer preview
   (require 'org-eww)
   (add-to-list 'org-modules 'org-eww t)
-  ;; Pomodoro and timer
+  ;; pomodoro and timer
   (add-to-list 'org-modules 'org-timer t)
-  ;; Org-effectiveness
+  ;; org-effectiveness
   (add-to-list 'org-modules 'org-effectiveness t)
-  ;; Mobile setup
+  ;; mobile setup
   (setq org-mobile-directory "~/Dropbox/Notes/mobile")
   (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
 
@@ -443,13 +443,22 @@ SCHEDULED: %^{When should we stop?}t +1d
     (setq org-startup-with-inline-images t))
   ;; limit images width
   (setq org-image-actual-width '(800))
-  ;; Org-ref configuration
+  ;; org-doing settings
+  (setq org-doing-file (concat org-directory "/todo.org"))
+
+  ;; org-ref configuration
   (setq reftex-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib"))
   (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
         org-ref-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib")
         org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers")
-  ;; org-doing settings
-  (setq org-doing-file (concat org-directory "/todo.org"))
+  ;; helm-bibtex
+  (setq bibtex-completion-bibliography "~/Dropbox/Research/Bibliography/references.bib")
+  (setq bibtex-completion-library-path "~/Dropbox/Research/Bibliography/Papers/")
+  ;; ebib settings
+  (setq ebib-preload-bib-files '("~/Dropbox/Research/Bibliography/references.bib"))
+  (evil-set-initial-state 'ebib-index-mode 'emacs)
+  (evil-set-initial-state 'ebib-entry-mode 'emacs)
+  (evil-set-initial-state 'ebib-log-mode 'emacs)
 
   ;; Latex/Tex settings
   (defun my-latex-settings()

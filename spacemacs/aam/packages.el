@@ -17,13 +17,11 @@
     ;; FIXME disable for now as it clobbers match data in org-mode buffers
     ;; key-chord key-seq
     ;; citations
-    helm-bibtex gscholar-bibtex ebib
+    helm-bibtex gscholar-bibtex
     ;; provide djvu support
     djvu
     ;; Twitter hackernews stackexchange
     twittering-mode hackernews sx
-    ;; some evil extras
-    evil-visual-mark-mode
     ;; for viewsing log files
     syslog-mode
     protobuf-mode
@@ -45,53 +43,43 @@
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
 (defun aam/init-key-chord()
-  (use-package key-chord
-    :defer t
-    :init
-    (key-chord-mode 1)))
+  :defer t
+  :init
+  (key-chord-mode 1))
 
 (defun aam/init-key-seq ()
-  (use-package key-seq
-    :defer t
-    :config
-    ;; easy window navigation
-    (key-seq-define evil-normal-state-map "wh" 'evil-window-left)
-    (key-seq-define evil-normal-state-map "wj" 'evil-window-down)
-    (key-seq-define evil-normal-state-map "wk" 'evil-window-up)
-    (key-seq-define evil-normal-state-map "wl" 'evil-window-right)
-    ;; ;; easy window splitting
-    (key-seq-define evil-normal-state-map "wy" 'split-window-right)
-    (key-seq-define evil-normal-state-map "wu" 'split-window-below-and-focus)
-    (key-seq-define evil-normal-state-map "wi" 'split-window-below)
-    (key-seq-define evil-normal-state-map "wo" 'split-window-right-and-focus)
-    (key-seq-define evil-normal-state-map "wm" 'toggle-maximize-buffer)
-    ;; easy kill
-    (key-seq-define evil-normal-state-map "kf" 'delete-frame)
-    (key-seq-define evil-normal-state-map "kw" 'evil-quit)
-    (key-seq-define evil-normal-state-map "kb" 'kill-this-buffer)))
+  :defer t
+  :config
+  ;; easy window navigation
+  (key-seq-define evil-normal-state-map "wh" 'evil-window-left)
+  (key-seq-define evil-normal-state-map "wj" 'evil-window-down)
+  (key-seq-define evil-normal-state-map "wk" 'evil-window-up)
+  (key-seq-define evil-normal-state-map "wl" 'evil-window-right)
+  ;; ;; easy window splitting
+  (key-seq-define evil-normal-state-map "wy" 'split-window-right)
+  (key-seq-define evil-normal-state-map "wu" 'split-window-below-and-focus)
+  (key-seq-define evil-normal-state-map "wi" 'split-window-below)
+  (key-seq-define evil-normal-state-map "wo" 'split-window-right-and-focus)
+  (key-seq-define evil-normal-state-map "wm" 'toggle-maximize-buffer)
+  ;; easy kill
+  (key-seq-define evil-normal-state-map "kf" 'delete-frame)
+  (key-seq-define evil-normal-state-map "kw" 'evil-quit)
+  (key-seq-define evil-normal-state-map "kb" 'kill-this-buffer))
 
-(defun aam/init-helm-bibtex()
-  (use-package helm-bibtex
-    :defer t
-    :init
-    (progn
-      (spacemacs/set-leader-keys "hc" 'helm-bibtex))
-    :config
-    (progn
-      (setq helm-bibtex-pdf-symbol "⌘")
-      (setq helm-bibtex-notes-symbol "✎")
-      (setq helm-bibtex-additional-search-fields '(keywords tags))
-      (setq helm-bibtex-bibliography "~/Dropbox/Research/Bibliography/references.bib")
-      (setq helm-bibtex-library-path "~/Dropbox/Research/Bibliography/Papers/")
-      (setq helm-bibtex-pdf-open-function
-            (lambda (fpath)
-              (start-process "xournal" "*helm-bibtex-xournal*" "/usr/bin/xournal" fpath)))
-      (setq bibtex-completion-format-citation-functions
-            '((org-mode      . bibtex-completion-format-citation-org-link-to-PDF)
-              (latex-mode    . bibtex-completion-format-citation-cite)
-              (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
-              (default       . bibtex-completion-format-citation-default)))
-      )))
+(defun aam/post-init-helm-bibtex()
+  (spacemacs/set-leader-keys "hc" 'helm-bibtex)
+  (setq bibtex-completion-pdf-symbol "⌘")
+  (setq bibtex-completion-notes-symbol "✎")
+  (setq bibtex-completion-additional-search-fields '(keywords tags))
+
+  (setq bibtex-completion-pdf-open-function
+        (lambda (fpath)
+          (start-process "xournal" "*helm-bibtex-xournal*" "/usr/bin/xournal" fpath)))
+  (setq bibtex-completion-format-citation-functions
+        '((org-mode      . bibtex-completion-format-citation-org-link-to-PDF)
+          (latex-mode    . bibtex-completion-format-citation-cite)
+          (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
+          (default       . bibtex-completion-format-citation-default))))
 
 (defun aam/init-gscholar-bibtex()
   :defer t
@@ -100,16 +88,8 @@
   :config
   (evil-set-initial-state 'gscholar-bibtex-mode 'emacs))
 
-(defun aam/post-init-ebib()
-  :config
-  (setq ebib-preload-bib-files '("~/Dropbox/Research/Bibliography/references.bib"))
-  (evil-set-initial-state 'ebib-index-mode 'emacs)
-  (evil-set-initial-state 'ebib-entry-mode 'emacs)
-  (evil-set-initial-state 'ebib-log-mode 'emacs))
-
 (defun aam/init-djvu()
-  (use-package djvu
-    :defer t))
+  :defer t)
 
 (defun aam/init-twittering-mode ()
   (use-package twittering-mode
@@ -132,31 +112,22 @@
     (setq twittering-use-icon-storage 1)))
 
 (defun aam/init-hackernews()
-  (use-package hackernews
-    :defer t
-    :init
-    (spacemacs/set-leader-keys "ah" 'hackernews)))
+  :defer t
+  :init
+  (spacemacs/set-leader-keys "ah" 'hackernews))
 
 (defun aam/init-sx()
-  (use-package sx
-    :defer t
-    :config
-    (setq sx-cache-directory (concat spacemacs-cache-directory "sx"))
-    (when (not (file-directory-p sx-cache-directory))
-      (make-directory sx-cache-directory))))
+  :defer t
+  :config
+  (setq sx-cache-directory (concat spacemacs-cache-directory "sx"))
+  (when (not (file-directory-p sx-cache-directory))
+    (make-directory sx-cache-directory)))
 
 (defun aam/init-syslog-mode()
-  (use-package syslog-mode
-    :defer t))
+  :defer t)
 
 (defun aam/init-protobuf-mode()
   :defer t)
-
-(defun aam/init-evil-visual-mark-mode()
-  (use-package evil-visual-mark-mode
-    :defer t
-    :commands evil-visual-mark-mode
-    :init (spacemacs/set-leader-keys "C-t m" 'evil-visual-mark-mode)))
 
 (defun aam/init-password-store()
   :defer t
@@ -211,48 +182,47 @@
 
 
 (defun aam/init-ztree()
-  (use-package ztree
-    :defer t
-    :config
-    (set-face-attribute 'ztreep-diff-model-add-face  nil :foreground "deep sky blue")
-    (setq ztree-draw-unicode-lines t)
-    (bind-keys :map ztreediff-mode-map
-                   ("p" . previous-line)
-                   ("k" . previous-line)
-                   ("j" . next-line)
-                   ("n" . next-line))
+  :defer t
+  :commands (ztree-mode)
+  :config
+  (setq ztree-draw-unicode-lines t)
+  (bind-keys :map ztree-mode-map
+             ("p" . previous-line)
+             ("k" . previous-line)
+             ("j" . next-line)
+             ("n" . next-line))
 
-    (when (package-installed-p 'hydra)
-        (bind-keys :map ztreediff-mode-map
-                   ("\\" . hydra-ztree/body))
-        (defhydra hydra-ztree (:color blue :hint nil)
-            "
-                                                                        ╭────────────┐
-         Move      File                 Do                              │ Ztree diff │
-      ╭─────────────────────────────────────────────────────────────────┴────────────╯
-        _k_/_p_   [_C_] copy                  [_h_] toggle equal files
-        ^ ^↑^ ^   [_D_] delete                [_x_] toggle subtree
-        ^_TAB_^   [_v_] view                  [_r_] partial rescan
-        ^ ^↓^ ^   [_d_] simple diff           [_R_] full rescan
-        _j_/_n_   [_RET_] diff/expand         [_g_] refresh
-        ^ ^ ^ ^   [_SPC_] simple diff/expand
-      --------------------------------------------------------------------------------
-            "
-           ("\\" hydra-master/body "back")
-           ("<ESC>" nil "quit")
-           ("p" previous-line)
-           ("k" previous-line)
-           ("j" next-line)
-           ("n" next-line)
-           ("C" ztree-diff-copy)
-           ("h" ztree-diff-toggle-show-equal-files)
-           ("D" ztree-diff-delete-file)
-           ("v" ztree-diff-view-file)
-           ("d" ztree-diff-simple-diff-files)
-           ("r" ztree-diff-partial-rescan)
-           ("R" ztree-diff-full-rescan)
-           ("RET" ztree-perform-action)
-           ("SPC" ztree-perform-soft-action)
-           ("TAB" ztree-jump-side)
-           ("g" ztree-refresh-buffer)
-           ("x" ztree-toggle-expand-subtree)))))
+  (when (package-installed-p 'hydra)
+    (bind-keys :map ztree-mode-map
+               ("\\" . hydra-ztree/body))
+    (defhydra hydra-ztree (:color blue :hint nil)
+              "
+              ╭────────────┐
+              Move      File                 Do                              │ Ztree diff │
+              ╭─────────────────────────────────────────────────────────────────┴────────────╯
+              _k_/_p_   [_C_] copy                  [_h_] toggle equal files
+              ^ ^↑^ ^   [_D_] delete                [_x_] toggle subtree
+              ^_TAB_^   [_v_] view                  [_r_] partial rescan
+              ^ ^↓^ ^   [_d_] simple diff           [_R_] full rescan
+              _j_/_n_   [_RET_] diff/expand         [_g_] refresh
+              ^ ^ ^ ^   [_SPC_] simple diff/expand
+              --------------------------------------------------------------------------------
+              "
+              ("\\" hydra-master/body "back")
+              ("<ESC>" nil "quit")
+              ("p" previous-line)
+              ("k" previous-line)
+              ("j" next-line)
+              ("n" next-line)
+              ("C" ztree-diff-copy)
+              ("h" ztree-diff-toggle-show-equal-files)
+              ("D" ztree-diff-delete-file)
+              ("v" ztree-diff-view-file)
+              ("d" ztree-diff-simple-diff-files)
+              ("r" ztree-diff-partial-rescan)
+              ("R" ztree-diff-full-rescan)
+              ("RET" ztree-perform-action)
+              ("SPC" ztree-perform-soft-action)
+              ("TAB" ztree-jump-side)
+              ("g" ztree-refresh-buffer)
+              ("x" ztree-toggle-expand-subtree))))

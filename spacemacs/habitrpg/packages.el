@@ -33,6 +33,7 @@
     (habitrpg :location (recipe
                          :fetcher github
                          :repo "ryjm/habitrpg.el"))
+    org
     )
   "The list of Lisp packages required by the habitrpg layer.
 
@@ -88,4 +89,14 @@ Each entry is either:
       "G" 'habitrpg-refresh-all)
     (evil-set-initial-state 'habitrpg-key-mode 'emacs)
   ))
+
+(defun habitrpg/post-init-org()
+  (defun my-habitrpg-add()
+    (interactive)
+    (when (or (string= org-state "DONE") (string= org-state "TODO"))
+      (habitrpg-add)))
+
+  (add-hook 'org-after-todo-state-change-hook 'my-habitrpg-add 'append)
+  (add-hook 'org-clock-in-hook 'habitrpg-clock-in)
+  (add-hook 'org-clock-out-hook 'habitrpg-clock-out))
 ;;; packages.el ends here

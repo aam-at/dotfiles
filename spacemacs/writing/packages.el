@@ -14,6 +14,7 @@
 ;; which require an initialization must be listed explicitly in the list.
 (setq writing-packages
     '(
+      cdlatex
       ;; general writing
       writeroom-mode
       writegood-mode
@@ -24,7 +25,6 @@
                              :fetcher github
                              :repo "rootzlevel/synosaurus"))
       thesaurus synonymous
-      define-word
       (words :location local)
       (textlint :location local)))
 
@@ -40,6 +40,14 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
+(defun writing/init-cdlatex()
+  (use-package cdlatex
+    :defer t
+    :commands cdlatex-mode
+    :diminish cdlatex-mode
+    :init
+    (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)))
+
 (defun writing/init-writeroom-mode ()
   "Initialize writeroom-mode"
   :defer t
@@ -102,13 +110,6 @@
   (spacemacs/set-leader-keys
     "Ss" 'synonymous-synonyms
     "Sa" 'synonymous-antonyms))
-
-(defun writing/init-define-word()
-  :defer t
-  :init
-  (spacemacs/set-leader-keys
-    "Sm" 'define-word-at-point
-    "SM" 'define-word))
 
 (defun writing/init-words()
   (use-package words

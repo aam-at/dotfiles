@@ -61,5 +61,4 @@ Each entry is either:
 
 ;;; packages.el ends here
 (defun realgud/init-realgud ()
-  (use-package realgud
-    :defer t))
+  :defer t)
