@@ -114,6 +114,7 @@ call neobundle#append()
 
   NeoBundle 'Konfekt/FastFold'
   " text-objects {{{
+    NeoBundle 'vim-scripts/argtextobj.vim' " aa, ia
     NeoBundle 'kana/vim-textobj-user'
     NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
     NeoBundle 'kana/vim-textobj-line' " al, il
