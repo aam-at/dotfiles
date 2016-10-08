@@ -1,26 +1,31 @@
 # Path to Oh My Fish install.
 set -gx OMF_PATH $HOME/.local/share/omf
 
-# Customize Oh My Fish configuration path.
-set -gx OMF_CONFIG $HOME/.config/omf
-
 # Load oh-my-fish configuration.
-source $OMF_PATH/init.fish
+if test -d $OMF_PATH
+    # Customize Oh My Fish configuration path.
+    set -gx OMF_CONFIG $HOME/.config/omf
 
-# Oh My Fish plugins
-set fish_plugins vi-mode python pyenv gi git-flow emacs
-set fish_plugins thefuck weather
-# Oh My Fish themes
-set fish_plugins agnoster krisleech zish toaster ocean
-# select theme
-set fish_theme agnoster
+    source $OMF_PATH/init.fish
+
+    # Oh My Fish plugins
+    set fish_plugins vi-mode python pyenv gi git-flow \
+                     emacs thefuck weather
+    # Oh My Fish themes
+    set fish_themes agnoster batman krisleech zish \
+                    toaster ocean syl20bnr
+    # select theme
+    set fish_theme agnoster
+end
 
 # Load fishmarks (http://github.com/techwizrd/fishmarks)
 # install: curl -L https://github.com/techwizrd/fishmarks/raw/master/install.fish | fish
-. $HOME/.fishmarks/marks.fish
+if test -d $HOME/.fishmarks
+    source $HOME/.fishmarks/marks.fish
+end
 
 # autojump utility for easy navigation
-if test -f $HOME/.autojump/share/autojump/autojump.fish;
+if test -d $HOME/.autojump/share/autojump;
     . $HOME/.autojump/share/autojump/autojump.fish;
 end
 
