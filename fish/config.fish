@@ -35,9 +35,6 @@ set -U fish_key_bindings fish_vi_key_bindings
 # colorscheme for fish
 source ~/dotfiles/fish/solarized.fish
 
-# Add sbin to PATH variable
-set -x PATH $PATH /sbin/
-
 # Source environement variables shared between different shells.
 # http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
 function export --description 'Set global variable. Alias for set -gx, made for bash compatibility'
