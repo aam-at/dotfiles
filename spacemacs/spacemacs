@@ -320,6 +320,7 @@ layers configuration. You are free to put any user code."
   (setq org-default-notes-file (concat org-directory "/refile.org"))
 
   ;; org appearance
+  (setq org-startup-indented t)
   (setq org-todo-keyword-faces
         '(("FAILED" . (:foreground "red" :weight bold :strike-through t))
           ("CANCELED" . (:foreground "blue" :weight bold))
