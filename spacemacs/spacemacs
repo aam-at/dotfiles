@@ -260,6 +260,9 @@ layers configuration. You are free to put any user code."
   (or (server-running-p)
       (server-start))
 
+  ;; FIXME: Which key fix for master emacs 26.0.50
+  (defalias 'display-buffer-in-major-side-window 'window--make-major-side-window)
+
   ;; startup
   (setq spacemacs-buffer-startup-lists-length nil)
 
