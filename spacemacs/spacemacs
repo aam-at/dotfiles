@@ -52,6 +52,7 @@ values."
             latex-enable-folding t)
      bibtex
      extra-langs
+     yaml
      shell-scripts windows-scripts vimscript autohotkey
      rebox ;; text boxes
      ;; Auto-completion & tags
