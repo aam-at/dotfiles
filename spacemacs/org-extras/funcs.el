@@ -16,5 +16,7 @@
 (defun org-extras/org-journal-list-agenda-files (n)
   "Add journal entries for the past n days"
   (if n
-      (mapcar 'org-extras/org-journal-file-for-date-before (number-sequence 1 n))
+      (seq-filter
+       'file-exists-p
+       (mapcar 'org-extras/org-journal-file-for-date-before (number-sequence 1 n)))
     (eval org-journal-dir)))
