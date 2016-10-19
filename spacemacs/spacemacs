@@ -323,6 +323,9 @@ layers configuration. You are free to put any user code."
   (setq org-directory "~/Dropbox/Notes")
   (setq org-default-notes-file (concat org-directory "/refile.org"))
 
+  ;; sync buffers
+  (add-hook 'org-mode-hook 'auto-revert-mode)
+
   ;; org appearance
   (setq org-startup-indented t)
   (setq org-todo-keyword-faces
