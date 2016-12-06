@@ -52,52 +52,66 @@ map <c-h> <c-w>h
 " Tab navigation
 map <Leader>n gT
 map <Leader>m gt
-" Rotate current active tab to opposite side
-map gr :action MoveEditorToOppositeTabGroup<CR>
 
-" Fast vim like window closing
-nnoremap <Leader>q :action CloseEditor<CR>
-nnoremap <Leader>Q :action CloseAllEditors<CR>
+" Insert break point
+nnoremap <Leader>b Aimport pudb; pudb.set_trace()  # XXX BREAKPOINT<Esc>
 
-" Emuluate vim-bookmarks plugin
-nmap ma :action ShowBookmarks<CR>
-nmap mm :action ToggleBookmark<CR>
-nmap mi :action ToggleBookmarkWithMnemonic<CR>
-nmap mn :action GotoNextBookmark<CR>
-nmap mp :action GotoPreviousBookmark<CR>
+" ============================================================================
+" IDE actions
+" ============================================================================
 
-" Fold code
-nmap zm :action CollapseAllRegions<CR>
-nmap zr :action ExpandAllRegions<CR>
+" windows and tabs {
+  nnoremap <Leader>q :action CloseEditor<CR>
+  nnoremap <Leader>Q :action CloseAllEditors<CR>
+  " rotate current active tab to opposite side
+  map gr :action MoveEditorToOppositeTabGroup<CR>
+" }
 
-" Comment code
-vmap gc :action CommentByLineComment<CR>
-nmap gcc :action CommentByLineComment<CR>
+" editing {
+  " comments
+  vmap gc :action CommentByLineComment<CR>
+  nmap gcc :action CommentByLineComment<CR>
 
-" Access to refactorings inside vim
-nnoremap <Leader>rm :action Refactorings.QuickListPopupAction<CR>
-nnoremap <Leader>rf :action ReformatCode<CR>
-nnoremap <Leader>ro :action OptimizeImports<CR>
-nnoremap <Leader>rr :action RenameElement<CR>
+  " folding
+  nmap zm :action CollapseAllRegions<CR>
+  nmap zr :action ExpandAllRegions<CR>
+" }
 
-" Open code inspection: pycharm internal linter
+" behavior like jedi-vim plugin
+nnoremap <Leader>d :action GotoDeclaration<CR>
+nnoremap <Leader>z :action FindUsages<CR>
+
+" quick inline documentation
+nnoremap K :action QuickJavaDoc<CR>
+
+" refactorings
+nmap <Leader>rm :action Refactorings.QuickListPopupAction<CR>
+nmap <Leader>rf :action ReformatCode<CR>
+nmap <Leader>ro :action OptimizeImports<CR>
+nmap <Leader>rr :action RenameElement<CR>
+" code inspection
 nmap <Leader>ri :action InspectCode<CR>
 
-" Some pymode like navigation
+" pymode like navigation
 nnoremap [[ :action MethodUp<CR>
 nnoremap ]] :action MethodDown<CR>
 vmap [[ :action MethodUp<CR>
 vmap ]] :action MethodDown<CR>
 
-" GotoClass shorcut
-nnoremap <Leader>c :action GotoClass<CR>
-" Emulate CtlrP plugin
-nnoremap <c-p> :action GotoFile<CR>
+" project navigation {
+  nnoremap <Space>c :action GotoClass<CR>
+  nnoremap <Space>f :action GotoFile<CR>
+  nnoremap <Space>s :action GotoSymbol<CR>
+  nnoremap <Space>x :action CloseContent<CR>
+  nnoremap <Space>r :action RecentFiles<CR>
+  nnoremap <Space>t :action FileStructurePopup<CR>
+  nnoremap <Space>h :action QuickJavaDoc<CR>
+" }
 
-" Behavior like jedi-vim plugin
-nnoremap <Leader>d :action GotoDeclaration<CR>
-nnoremap <Leader>z :action FindUsages<CR>
-" Quick inline documentation
-nnoremap K :action QuickJavaDoc<CR>
-" Insert break point
-nnoremap <Leader>b Aimport ipdb; ipdb.set_trace()  # XXX BREAKPOINT<Esc>
+" bookmarks: emuluate vim-bookmarks plugin {
+  nmap ma :action ShowBookmarks<CR>
+  nmap mm :action ToggleBookmark<CR>
+  nmap mi :action ToggleBookmarkWithMnemonic<CR>
+  nmap mn :action GotoNextBookmark<CR>
+  nmap mp :action GotoPreviousBookmark<CR>
+" }
