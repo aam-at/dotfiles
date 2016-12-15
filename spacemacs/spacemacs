@@ -467,6 +467,8 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
         org-ref-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib")
         org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers")
+  (setq org-ref-note-title-format "** TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :Year: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n[[cite:%k]] [[file:%F][pdf]]\n")
+  (setq org-ref-create-notes-hook nil)
   ;; helm-bibtex
   (setq bibtex-completion-bibliography "~/Dropbox/Research/Bibliography/references.bib")
   (setq bibtex-completion-library-path "~/Dropbox/Research/Bibliography/Papers/")
