@@ -20,6 +20,7 @@
     helm-bibtex gscholar-bibtex
     ;; provide djvu support
     djvu
+    sr-speedbar
     ;; Twitter hackernews stackexchange
     twittering-mode hackernews sx
     ;; for viewsing log files
@@ -89,6 +90,9 @@
   (evil-set-initial-state 'gscholar-bibtex-mode 'emacs))
 
 (defun aam/init-djvu()
+  :defer t)
+
+(defun aam/init-sr-speedbar ()
   :defer t)
 
 (defun aam/init-twittering-mode ()
