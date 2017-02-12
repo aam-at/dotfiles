@@ -3,8 +3,8 @@
 # http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
 
 export ALTERNATE_EDITOR=vim
-export EDITOR=emacsclient
-export VISUAL=emacsclient
+export EDITOR="emacsclient -t"
+export VISUAL="emacsclient -t"
 
 # Configure cuda
 export CUDA_HOME="/usr/local/cuda"
