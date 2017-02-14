@@ -12,15 +12,18 @@
 
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
-(setq org-extras-packages
+(defconst org-extras-packages
     '(
       org-dashboard org-journal
       org-doing
       org-trello
       ;; provides synchronization with google calendar.
-      (org-caldav :location (recipe
+      (org-gcal :location (recipe
                              :fetcher github
-                             :repo "dengste/org-caldav"))
+                             :repo "myuhe/org-gcal.el"))
+      (emacs-calfw :location (recipe
+                              :fetcher github
+                              :repo "kiwanami/emacs-calfw"))
       (ebib :location (recipe
                        :fetcher github
                        :repo "joostkremers/ebib"))
@@ -29,7 +32,7 @@
     ))
 
 ;; List of packages to exclude.
-(setq org-extras-excluded-packages '())
+(defconst org-extras-excluded-packages '())
 
 ;; For each package, define a function org-extras/init-<package-name>
 ;;
@@ -88,12 +91,22 @@
     "otu" 'org-trello-update-board-metadata
     "oth" 'org-trello-help-describing-bindings))
 
-(defun org-extras/init-org-caldav()
-  (use-package org-caldav
-    :defer t
-    :commands org-caldav-sync
-    :init
-    (spacemacs/set-leader-keys "oS" 'org-caldav-sync)))
+(defun org-extras/init-org-gcal()
+  :init
+  (require 'org-gcal)
+  (spacemacs/set-leader-keys "aCs" 'org-gcal-sync)
+  (spacemacs/set-leader-keys "aCf" 'org-gcal-fetch)
+  (spacemacs/set-leader-keys "aCp" 'org-gcal-post-at-point)
+  (spacemacs/set-leader-keys "aCr" 'org-gcal-refresh-token))
+
+(defun org-extras/init-emacs-calfw()
+  :init
+  (progn
+    (require 'calfw-ical)
+    (require 'calfw-org)
+    (spacemacs/set-leader-keys "aCo" 'cfw:open-org-calendar))
+  :config
+  (evil-set-initial-state 'cfw:calendar-mode 'emacs))
 
 (defun org-extras/init-ebib() :defer t)
 
