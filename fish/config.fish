@@ -43,7 +43,7 @@ function export --description 'Set global variable. Alias for set -gx, made for 
     return 0
   end
   for arg in $argv
-    set -l v (echo $arg|tr '=' \n)
+    set -l v (echo $arg|sed s/=/\\n/)
     switch (count $v)
       case 1
         set -gx $v $$v
