@@ -22,3 +22,6 @@
 [submodule "spacemacs/writing/local/textlint"]
 	path = spacemacs/writing/local/textlint
 	url = https://github.com/DamienCassou/textlint
+[submodule "spacemacs/org-journal"]
+	path = spacemacs/org-journal
+	url = https://github.com/borgnix/spacemacs-journal

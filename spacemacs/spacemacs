@@ -85,7 +85,8 @@ values."
      ;; My private layers
      aam writing notmuch
      habitrpg
-     org-extras python-extras
+     org-extras journal
+     python-extras
      realgud ;; enhanced emacs debugging
      )
    ;; List of additional packages that will be installed without being

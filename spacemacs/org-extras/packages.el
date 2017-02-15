@@ -14,7 +14,7 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst org-extras-packages
     '(
-      org-dashboard org-journal
+      org-dashboard
       org-doing
       org-trello
       ;; provides synchronization with google calendar.
@@ -47,15 +47,6 @@
   :defer t
   :init
   (spacemacs/set-leader-keys "oD" 'org-dashboard-display))
-
-(defun org-extras/init-org-journal()
-  :defer t
-  :init
-  (spacemacs/set-leader-keys "oj" 'org-journal-new-entry)
-  (spacemacs/set-leader-keys-for-major-mode 'org-journal-mode
-    "j" 'org-journal-new-entry
-    "n" 'org-journal-open-next-entry
-    "p" 'org-journal-open-previous-entry))
 
 (defun org-extras/init-org-doing()
   :defer t
