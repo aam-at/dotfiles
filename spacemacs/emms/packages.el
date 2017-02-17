@@ -67,6 +67,8 @@
     )
   :config
   (progn
+    (setq emms-directory (concat spacemacs-cache-directory "emms"))
+    (setq emms-source-file-default-directory "~/Music")
     (setq emms-player-mpd-music-directory "~/Music")
     (evil-set-initial-state 'emms-playlist-mode 'emacs)
     (define-key emms-playlist-mode-map
