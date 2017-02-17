@@ -35,6 +35,7 @@
     ~/.emacs.d/core/secure-config.el.gpg: spacemacs/secure-config.el.gpg
     ~/.emacs.d/private/aam: spacemacs/aam
     ~/.emacs.d/private/emacs-icons: spacemacs/emacs-icons
+    ~/.emacs.d/private/emms: spacemacs/emms
     ~/.emacs.d/private/writing: spacemacs/writing
     ~/.emacs.d/private/notmuch: spacemacs/notmuch
     ~/.emacs.d/private/habitrpg: spacemacs/habitrpg

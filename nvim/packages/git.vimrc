@@ -1,6 +1,7 @@
 call neobundle#append()
 " plugins {{{
-  " admin git NeoBundle 'tpope/vim-fugitive' "{{{
+  " admin git
+  NeoBundle 'tpope/vim-fugitive' "{{{
     nnoremap <Leader>gn :Unite output:echo\ system("git\ init")<CR>
     nnoremap <Leader>gs :Gstatus<CR>
     nnoremap <Leader>gw :Gwrite<CR>

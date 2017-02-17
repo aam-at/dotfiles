@@ -84,7 +84,7 @@ values."
 
      ;; My private layers
      aam writing notmuch
-     habitrpg
+     emms habitrpg
      org-extras journal
      python-extras
      emacs-icons
