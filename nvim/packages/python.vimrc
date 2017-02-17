@@ -98,6 +98,11 @@ call neobundle#append()
     map <Leader>ri :VimuxInspectRunner<CR>
     map <Leader>rq :VimuxCloseRunner<CR>
   " }}}
+  " sort python imports
+  NeoBundleLazy 'fisadev/vim-isort', {'autoload': {'filetypes': ['python']}} "{{{
+    let g:vim_isort_map = ''
+    map <Leader>rI :Isort<CR>
+  "}}}
 " }}}
 call neobundle#end()
 
@@ -139,6 +144,8 @@ call neobundle#end()
         \'PymodeRopeRenameModule'],
     \['▷ refactorize - module to package            (pymode-rope)   ⌘ C-C r 1 p',
         \'PymodeRopeModuleToPackage'],
+    \['▷ Sort python import using isort             (vim-isort)     ⌘ <Leader>rI',
+        \'Isort'],
     \['▷ list virtualenvs                           (virtualenv)',
         \'Unite output:VirtualEnvList'],
     \['▷ activate virtualenv                        (virtualenv)',
