@@ -359,7 +359,8 @@ layers configuration. You are free to put any user code."
             (org-agenda-sorting-strategy
              '(todo-state-down effort-up category-keep))))))
 
-
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate)
 
   ;; org capture settings
   (setq org-capture-templates
@@ -437,12 +438,6 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; mobile setup
   (setq org-mobile-directory "~/Dropbox/Notes/mobile")
   (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
-
-  ;; configuration for org and google calendar synchronization
-  (setq org-caldav-calendars
-        '((:calendar-id "iu5alt927aue6hsjis25qhsark@group.calendar.google.com"
-                        :files ("~/Dropbox/Notes/work.org")
-                        :inbox "~/Dropbox/Notes/fromwork.org")))
 
   ;; configure org-journal
   (setq org-journal-dir "~/Dropbox/Notes/journal")
