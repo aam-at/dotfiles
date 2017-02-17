@@ -581,7 +581,9 @@ SCHEDULED: %^{When should we stop?}t +1d
 
   ;; email configuration
   (setq mu4e-maildir "~/.mail"
+        mu4e-sent-folder "/sent"
         mu4e-refile-folder "/archive"
+        mu4e-drafts-folder "/drafts"
         mu4e-trash-folder "/trash"
         mu4e-attachment-dir "~/Downloads"
         mu4e-get-mail-command "mbsync -a"
@@ -622,6 +624,12 @@ SCHEDULED: %^{When should we stop?}t +1d
            (:flags         .   6)
            (:from          .  22)
            (:subject       .  nil)))
+  (setq mu4e-bookmarks
+        `( ("flag:unread AND NOT flag:trashed" "Unread messages"      ?u)
+           ("date:today..now"                  "Today's messages"     ?t)
+           ("date:7d..now"                     "Last 7 days"          ?w)
+           ("maildir:\"/INBOX\" and flag:flagged" "Flagged in INBOX"  ?f)
+           ("mime:image/*"                     "Messages with images" ?p)))
 
   ;; mail account list
   (setq mu4e-account-alist
