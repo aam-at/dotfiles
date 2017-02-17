@@ -67,7 +67,7 @@ end
 if test -e ~/.aliases
   source ~/.aliases
 end
-alias -="cd -"
+abbr -a -- - 'cd -'
 
 function reload
   source ~/.config/fish/config.fish
