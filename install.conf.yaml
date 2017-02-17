@@ -17,6 +17,7 @@
         create: true
         path: config/python/pudb.cfg
     ~/.authinfo.gpg: ../Dropbox/Sync/authinfo.gpg
+    ~/.twittering-mode.gpg: ../Dropbox/Sync/twittering-mode.gpg
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
     ~/.gitconfig: git/gitconfig
     ~/.tmux.conf: tmux/tmux.conf
