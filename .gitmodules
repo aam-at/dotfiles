@@ -25,3 +25,9 @@
 [submodule "spacemacs/org-journal"]
 	path = spacemacs/org-journal
 	url = https://github.com/borgnix/spacemacs-journal
+[submodule "fonts/powerline"]
+	path = general/fonts/powerline
+	url = https://github.com/powerline/fonts
+[submodule "fonts/emacs-icons"]
+	path = general/fonts/emacs-icons
+	url = https://github.com/domtronn/all-the-icons.el

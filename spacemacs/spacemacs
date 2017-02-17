@@ -87,6 +87,7 @@ values."
      habitrpg
      org-extras journal
      python-extras
+     emacs-icons
      realgud ;; enhanced emacs debugging
      )
    ;; List of additional packages that will be installed without being

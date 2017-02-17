@@ -1,6 +1,7 @@
 - clean: ['~']
 - shell:
     - [git submodule update --depth 1 --init --recursive, Installing submodules]
+    - [cd general/fonts && ./install_all.sh, Install powerline and emacs fonts]
     - [curl -L github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish, Installing oh-my-fish]
     - [curl -L github.com/techwizrd/fishmarks/raw/master/install.fish | fish, Installing fishmarks]
     - [cd bash/bashmarks && make install, Install bashmarks]
@@ -32,6 +33,7 @@
     ~/.emacs.d/.cache/bookmarks: ../Dropbox/Sync/bookmarks
     ~/.emacs.d/core/secure-config.el.gpg: spacemacs/secure-config.el.gpg
     ~/.emacs.d/private/aam: spacemacs/aam
+    ~/.emacs.d/private/emacs-icons: spacemacs/emacs-icons
     ~/.emacs.d/private/writing: spacemacs/writing
     ~/.emacs.d/private/notmuch: spacemacs/notmuch
     ~/.emacs.d/private/habitrpg: spacemacs/habitrpg
