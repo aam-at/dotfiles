@@ -44,7 +44,9 @@
 (defun emacs-icons/init-all-the-icons-dired ()
   :defer t
   :init
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  :config
+  (spacemacs|diminish all-the-icons-dired-mode))
 
 (defun emacs-icons/init-spaceline-all-the-icons ()
   (use-package spaceline-all-the-icons
