@@ -30,7 +30,7 @@ if test -d $HOME/.autojump/share/autojump;
 end
 
 # use vi-mode by default
-set -U fish_key_bindings fish_vi_key_bindings
+set -U fish_key_bindings fish_default_key_bindings
 
 # colorscheme for fish
 source ~/dotfiles/fish/solarized.fish
