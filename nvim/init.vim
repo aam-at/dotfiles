@@ -14,7 +14,7 @@
     let g:my_settings.autocomplete_method = 'neocomplcache'
     let g:my_settings.enable_cursorcolumn = 0
     let g:my_settings.colorscheme = 'solarized'
-    let g:my_settings.background = 'light'
+    let g:my_settings.background = 'dark'
     if has('lua')
         let g:my_settings.autocomplete_method = 'neocomplete'
     elseif filereadable($NVIM_HOME."./bundle/YouCompleteMe/python/ycm_core.*")
