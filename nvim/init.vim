@@ -13,7 +13,7 @@
     let g:my_settings.max_column = 120
     let g:my_settings.autocomplete_method = 'neocomplcache'
     let g:my_settings.enable_cursorcolumn = 0
-    let g:my_settings.colorscheme = 'solarized'
+    let g:my_settings.colorscheme = 'molokai256'
     let g:my_settings.background = 'dark'
     if has('lua')
         let g:my_settings.autocomplete_method = 'neocomplete'
