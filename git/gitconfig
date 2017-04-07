@@ -1,5 +1,6 @@
 [core]
     editor = /usr/bin/vim
+    filemode = false
 [user]
     email = alexander.matyasko@gmail.com
     name = Alexander Matyasko
