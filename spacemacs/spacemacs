@@ -78,6 +78,7 @@ values."
      (mu4e :variables mu4e-account-alist t) erc ;; email & irc
      chrome search-engine ;; web
      (org :variables org-enable-reveal-js-support t) evernote ;; note-taking and organizer
+     org-brain
      ;; FIXME: disabled. emoji clobbers org-mode match data
      ;; emoji
      xkcd ;; something for fun
