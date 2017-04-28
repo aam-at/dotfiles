@@ -58,6 +58,9 @@ function export --description 'Set global variable. Alias for set -gx, made for 
 end
 # sources environment variables
 if test -e ~/.env
+  if test -z "$PATH_BK"
+    set -x PATH_BK $PATH
+  end
   source ~/.env
 end
 

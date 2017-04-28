@@ -77,7 +77,12 @@ if ! shopt -oq posix; then
 fi
 
 # source environement variables
-. ~/.env
+if [ -f ~/.env ]; then
+    if [ -z $PATH_BK ]; then
+        export PATH_BK=$PATH
+    fi
+    . ~/.env
+fi
 
 # conifgure fucks
 eval "$(thefuck --alias)"
