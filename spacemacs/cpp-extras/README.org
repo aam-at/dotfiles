@@ -1,0 +1,54 @@
+#+TITLE: cpp-extras layer
+
+# The maximum height of the logo should be 200 pixels.
+[[img/cpp-extras.png]]
+
+# TOC links should be GitHub style anchors.
+* Table of Contents                                        :TOC_4_gh:noexport:
+ - [[#description][Description]]
+ - [[#install][Install]]
+ - [[#key-bindings][Key bindings]]
+
+* Description
+This layer improves c/c++ support for spacemacs:
+- rtags
+- cmake-ide
+
+* Install
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =cpp-extras= to the existing =dotspacemacs-configuration-layers= list in this
+file.
+
+* Key bindings
+
+| Key Binding | Description                            |
+|-------------+----------------------------------------|
+| ~SPC g .~   | 'rtags-find-symbol-at-point            |
+| ~SPC g ,~   | 'rtags-find-references-at-point        |
+| ~SPC g v~   | 'rtags-find-virtuals-at-point          |
+| ~SPC g V~   | 'rtags-print-enum-value-at-point       |
+| ~SPC g /~   | 'rtags-find-all-references-at-point    |
+| ~SPC g Y~   | 'rtags-cycle-overlays-on-screen        |
+| ~SPC g >~   | 'rtags-find-symbol                     |
+| ~SPC g <~   | 'rtags-find-references                 |
+| ~SPC g [~   | 'rtags-location-stack-back             |
+| ~SPC g ]~   | 'rtags-location-stack-forward          |
+| ~SPC g D~   | 'rtags-diagnostics                     |
+| ~SPC g G~   | 'rtags-guess-function-at-point         |
+| ~SPC g p~   | 'rtags-set-current-project             |
+| ~SPC g P~   | 'rtags-print-dependencies              |
+| ~SPC g e~   | 'rtags-reparse-file                    |
+| ~SPC g E~   | 'rtags-preprocess-file                 |
+| ~SPC g R~   | 'rtags-rename-symbol                   |
+| ~SPC g M~   | 'rtags-symbol-info                     |
+| ~SPC g S~   | 'rtags-display-summary                 |
+| ~SPC g O~   | 'rtags-goto-offset                     |
+| ~SPC g ;~   | 'rtags-find-file                       |
+| ~SPC g F~   | 'rtags-fixit                           |
+| ~SPC g L~   | 'rtags-copy-and-print-current-location |
+| ~SPC g X~   | 'rtags-fix-fixit-at-point              |
+| ~SPC g B~   | 'rtags-show-rtags-buffer               |
+| ~SPC g I~   | 'rtags-imenu                           |
+| ~SPC g T~   | 'rtags-taglist                         |
+| ~SPC g h~   | 'rtags-print-class-hierarchy           |
+| ~SPC g a~   | 'rtags-print-source-arguments))        |

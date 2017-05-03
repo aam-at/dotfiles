@@ -70,7 +70,7 @@ values."
      shell-scripts windows-scripts vimscript autohotkey
      rebox ;; text boxes
      ;; Auto-completion & tags
-     auto-completion ycmd cscope
+     auto-completion ycmd cscope gtags
      ;; ----------------------------------------------------------------
      ;; Tools
      ;; ----------------------------------------------------------------
@@ -101,7 +101,7 @@ values."
      aam writing notmuch
      emms habitrpg
      org-extras journal
-     python-extras
+     python-extras cpp-extras
      emacs-icons
      realgud ;; enhanced emacs debugging
      )
@@ -673,7 +673,6 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; C++ development
   (setq ycmd-server-command (list "python" (file-truename "~/local/tools/YouCompleteMe/third_party/ycmd/ycmd")))
   (setq ycmd-force-semantic-completion t)
-
 
   ;; Python development
   (setq ropemacs-confirm-saving 'nil)

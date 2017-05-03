@@ -12,14 +12,14 @@
 
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
-(setq python-extras-packages
+(defconst python-extras-packages
       '(
         py-autopep8
         (ropemacs :location local)
         ))
 
 ;; List of packages to exclude.
-(setq python-extras-excluded-packages '())
+(defconst python-extras-excluded-packages '())
 
 ;; For each package, define a function python-extras/init-<package-name>
 ;;

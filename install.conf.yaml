@@ -43,6 +43,7 @@
     ~/.emacs.d/private/journal: spacemacs/org-journal
     ~/.emacs.d/private/realgud: spacemacs/realgud
     ~/.emacs.d/private/python-extras: spacemacs/python-extras
+    ~/.emacs.d/private/cpp-extras: spacemacs/cpp-extras
     ~/.elfeed: ../Dropbox/Sync/elfeed
     ~/.password-store: ../Dropbox/Sync/pass
     ~/.taskrc: task/taskrc
