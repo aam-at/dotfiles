@@ -673,6 +673,8 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; C++ development
   (setq ycmd-server-command (list "python" (file-truename "~/local/tools/YouCompleteMe/third_party/ycmd/ycmd")))
   (setq ycmd-force-semantic-completion t)
+  (add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.cuh\\'" . c++-mode))
 
   ;; Python development
   (setq ropemacs-confirm-saving 'nil)
