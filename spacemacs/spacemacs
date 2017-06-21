@@ -572,17 +572,19 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq org-doing-file (concat org-directory "/todo.org"))
 
   ;; org-ref configuration
-  (setq reftex-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib"))
+  (setq my-bibtex-files '("~/Dropbox/Research/Bibliography/references.bib"
+                          "~/Dropbox/Research/Bibliography/myref.bib"))
+  (setq reftex-default-bibliography my-bibtex-files)
   (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
-        org-ref-default-bibliography '("~/Dropbox/Research/Bibliography/references.bib")
+        org-ref-default-bibliography my-bibtex-files
         org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers/")
   (setq org-ref-note-title-format "** TODO %y - %t\n :PROPERTIES:\n  :Custom_ID: %k\n  :AUTHOR: %9a\n  :JOURNAL: %j\n  :Year: %y\n  :VOLUME: %v\n  :PAGES: %p\n  :DOI: %D\n  :URL: %U\n :END:\n[[cite:%k]] [[file:%F][pdf]]\n")
   (setq org-ref-create-notes-hook nil)
   ;; helm-bibtex
-  (setq bibtex-completion-bibliography "~/Dropbox/Research/Bibliography/references.bib")
+  (setq bibtex-completion-bibliography my-bibtex-files)
   (setq bibtex-completion-library-path "~/Dropbox/Research/Bibliography/Papers/")
   ;; ebib settings
-  (setq ebib-preload-bib-files '("~/Dropbox/Research/Bibliography/references.bib"))
+  (setq ebib-preload-bib-files my-bibtex-files)
   (evil-set-initial-state 'ebib-index-mode 'emacs)
   (evil-set-initial-state 'ebib-entry-mode 'emacs)
   (evil-set-initial-state 'ebib-log-mode 'emacs)
