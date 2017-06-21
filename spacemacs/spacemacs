@@ -553,6 +553,7 @@ SCHEDULED: %^{When should we stop?}t +1d
 
   ;; configure org-journal
   (setq org-journal-dir "~/Dropbox/Notes/journal")
+  (setq org-journal-date-prefix "#+TODO: TODO(t) STARTED(s) | DONE(d) POSTPONED(p) CANCELED(c) FAILED(f)\n* ")
   (setq org-journal-file-format "%Y%m%d.org")
   (setq org-journal-carryover-items "TODO=\"POSTPONED\"")
   (setq org-journal-enable-encryption t)
