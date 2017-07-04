@@ -436,6 +436,7 @@ you should place your code here."
   ;; org settings
   (setq org-directory "~/Dropbox/Notes")
   (setq org-default-notes-file (concat org-directory "/refile.org"))
+  (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
 
   ;; sync buffers
   (add-hook 'org-mode-hook 'auto-revert-mode)
@@ -594,8 +595,6 @@ SCHEDULED: %^{When should we stop?}t +1d
   (defun my-latex-settings()
     (add-to-list 'TeX-output-view-style
                  '("^pdf$" "." "okular --unique %o#src:%n%b"))
-    ;; disable annoying wrapping
-    (spacemacs/toggle-auto-fill-mode-off)
     ;; turn on visual line wrapping and visual line navigation
     (spacemacs/toggle-visual-line-navigation-on)
     ;; set manually docset for zeal
