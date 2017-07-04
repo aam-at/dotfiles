@@ -51,6 +51,8 @@
 (defun writing/init-writeroom-mode ()
   "Initialize writeroom-mode"
   :defer t
+  :config
+  (setq writeroom-width 90)
   :init
   (spacemacs/set-leader-keys "xW" #'writeroom-mode))
 
