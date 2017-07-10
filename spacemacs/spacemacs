@@ -522,7 +522,6 @@ SCHEDULED: %^{When should we stop?}t +1d
      (python . t)
      (ruby . t)
      (screen . nil)
-     (sh . t)
      (sql . nil)
      (sqlite . t)))
 
