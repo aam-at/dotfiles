@@ -16,6 +16,7 @@
     ~/.config/pudb/pudb.cfg:
         create: true
         path: config/python/pudb.cfg
+    ~/.config/ranger/commands.py: config/ranger/commands.py
     ~/.authinfo.gpg: ../Dropbox/Sync/authinfo.gpg
     ~/.twittering-mode.gpg: ../Dropbox/Sync/twittering-mode.gpg
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
