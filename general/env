@@ -20,16 +20,22 @@ export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CUDA_HOME/lib64:$LIBRARY_PATH"
 
 # Configure cudnn
-export CUDNN_HOME="~/.local/lib/cudnn"
+export CUDNN_HOME="$HOME/.local/lib/cudnn"
 export CPATH="$CUDNN_HOME/include:$CPATH"
 export LD_LIBRARY_PATH="$CUDNN_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CUDNN_HOME/lib64:$LIBRARY_PATH"
 
 # Configure cnmem
-export CNMEM_HOME="/.local/lib/cnmem"
+export CNMEM_HOME="$HOME/.local/lib/cnmem"
 export CPATH="$CNMEM_HOME/include:$CPATH"
 export LD_LIBRARY_PATH="$CNMEM_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CNMEM_HOME/lib64:$LIBRARY_PATH"
+
+# Configure local directory
+export LOCAL_PATH="$HOME/.local"
+export CPATH="$LOCAL_PATH/include:$CPATH"
+export LD_LIBRARY_PATH="$LOCAL_PATH/lib:$LD_LIBRARY_PATH"
+export LIBRARY_PATH="$LIBRARY_PATH/lib:$LIBRARY_PATH"
 
 export GOPATH="$HOME/local/go_packages"
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
