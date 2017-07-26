@@ -20,16 +20,28 @@ export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CUDA_HOME/lib64:$LIBRARY_PATH"
 
 # Configure cudnn
-export CUDNN_HOME="$HOME/.local/lib/cudnn"
+export CUDNN_HOME="/usr/local/cudnn"
 export CPATH="$CUDNN_HOME/include:$CPATH"
 export LD_LIBRARY_PATH="$CUDNN_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CUDNN_HOME/lib64:$LIBRARY_PATH"
 
 # Configure cnmem
-export CNMEM_HOME="$HOME/.local/lib/cnmem"
+export CNMEM_HOME="/usr/local/cnmem"
 export CPATH="$CNMEM_HOME/include:$CPATH"
 export LD_LIBRARY_PATH="$CNMEM_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CNMEM_HOME/lib64:$LIBRARY_PATH"
+
+# Configure nccl
+export NCCL_HOME="/usr/local/nccl"
+export CPATH="$NCCL_HOME/include:$CPATH"
+export LD_LIBRARY_PATH="$NCCL_HOME/lib64:$LD_LIBRARY_PATH"
+export LIBRARY_PATH="$NCCL_HOME/lib64:$LIBRARY_PATH"
+
+# Configure cupti
+export CUPTI_HOME="/usr/local/cuda/extras/CUPTI"
+export CPATH="$CUPTI_HOME/include:$CPATH"
+export LD_LIBRARY_PATH="$CUPTI_HOME/lib64:$LD_LIBRARY_PATH"
+export LIBRARY_PATH="$CUPTI_HOME/lib64:$LIBRARY_PATH"
 
 # Configure local directory
 export LOCAL_PATH="$HOME/.local"
