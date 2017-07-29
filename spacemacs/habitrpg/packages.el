@@ -66,7 +66,7 @@ Each entry is either:
 (defun habitrpg/init-habitrpg()
   (use-package habitrpg
     :defer t
-    :commands (habitrpg-add)
+    :commands (habitrpg-add habitrpg-clock-in habitrpg-clock-out)
     :init
     (spacemacs/set-leader-keys "oh" 'habitrpg-status)
     (spacemacs/set-leader-keys-for-major-mode 'org-mode "oha" 'habitrpg-add)
