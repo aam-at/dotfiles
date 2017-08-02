@@ -75,6 +75,7 @@ values."
      ;; Tools
      ;; ----------------------------------------------------------------
      pdf-tools
+     csv
      imenu-list
      (mu4e :variables mu4e-account-alist t) erc ;; email & irc
      chrome search-engine ;; web
