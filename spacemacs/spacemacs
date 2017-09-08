@@ -378,6 +378,8 @@ you should place your code here."
 
   ;; FIXME: Which key fix for master emacs 26.0.50
   (defalias 'display-buffer-in-major-side-window 'window--make-major-side-window)
+  ;; FIXME: issue https://github.com/syl20bnr/spacemacs/issues/9549
+  (require 'helm-bookmark)
 
   ;; startup
   (setq spacemacs-buffer-startup-lists-length nil)
