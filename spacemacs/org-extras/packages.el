@@ -84,11 +84,14 @@
 
 (defun org-extras/init-org-gcal()
   :init
-  (require 'org-gcal)
-  (spacemacs/set-leader-keys "aCs" 'org-gcal-sync)
-  (spacemacs/set-leader-keys "aCf" 'org-gcal-fetch)
-  (spacemacs/set-leader-keys "aCp" 'org-gcal-post-at-point)
-  (spacemacs/set-leader-keys "aCr" 'org-gcal-refresh-token))
+  (progn
+    (require 'org-gcal)
+    (setq org-gcal-dir (concat spacemacs-cache-directory "org-gcal"))
+    (spacemacs/set-leader-keys "aCs" 'org-gcal-sync)
+    (spacemacs/set-leader-keys "aCf" 'org-gcal-fetch)
+    (spacemacs/set-leader-keys "aCp" 'org-gcal-post-at-point)
+    (spacemacs/set-leader-keys "aCr" 'org-gcal-refresh-token))
+  )
 
 (defun org-extras/init-emacs-calfw()
   :init
