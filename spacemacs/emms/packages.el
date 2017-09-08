@@ -37,6 +37,8 @@
 (defun emms/init-emms()
   :init
   (progn
+    (setq emms-directory (concat spacemacs-cache-directory "emms"))
+
     (require 'emms-setup)
     (require 'emms-history)
     (require 'emms-playlist-sort)
@@ -67,7 +69,6 @@
     )
   :config
   (progn
-    (setq emms-directory (concat spacemacs-cache-directory "emms"))
     (setq emms-source-file-default-directory "~/Music")
     (setq emms-player-mpd-music-directory "~/Music")
     (evil-set-initial-state 'emms-playlist-mode 'emacs)
