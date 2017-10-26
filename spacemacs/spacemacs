@@ -566,6 +566,7 @@ SCHEDULED: %^{When should we stop?}t +1d
 
   ;; org-crypt
   (setq org-crypt-key "alexander.matyasko@gmail.com")
+  (org-crypt-use-before-save-magic)
 
   ;; show images inline (only works in GUI)
   (when (window-system)
