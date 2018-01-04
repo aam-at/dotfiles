@@ -27,6 +27,7 @@
     call add(g:my_packages, 'vim')
     call add(g:my_packages, 'dev')
     call add(g:my_packages, 'autocomplete')
+    call add(g:my_packages, 'cplusplus')
     call add(g:my_packages, 'python')
     call add(g:my_packages, 'lua')
     call add(g:my_packages, 'git')
