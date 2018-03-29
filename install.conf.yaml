@@ -6,6 +6,7 @@
     - [curl -L github.com/techwizrd/fishmarks/raw/master/install.fish | fish, Installing fishmarks]
     - [cd bash/bashmarks && make install, Install bashmarks]
     - [mkdir -p ~/.local/bin && ln -frs scripts/* ~/.local/bin/, Link scripts]
+    - ["curl -o ~/.local/bin/tldr https://raw.githubusercontent.com/raylee/tldr/master/tldr && chmod +x ~/.local/bin/tldr", Install tldr]
 - link:
     ~/.ssh/config: config/ssh/config
     ~/.mbsyncrc: config/mbsyncrc
