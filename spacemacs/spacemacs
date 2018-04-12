@@ -58,6 +58,7 @@ values."
      ;; ----------------------------------------------------------------
      ;; Programming languages
      ;; ----------------------------------------------------------------
+     semantic
      c-c++ python lua haskell go
      html javascript markdown ipython-notebook
      emacs-lisp
@@ -567,6 +568,7 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; org-crypt
   (setq org-crypt-key "alexander.matyasko@gmail.com")
   (org-crypt-use-before-save-magic)
+  (setq org-tags-exclude-from-inheritance (quote ("crypt")))
 
   ;; show images inline (only works in GUI)
   (when (window-system)
