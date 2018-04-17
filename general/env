@@ -43,6 +43,12 @@ export CPATH="$CUPTI_HOME/include:$CPATH"
 export LD_LIBRARY_PATH="$CUPTI_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CUPTI_HOME/lib64:$LIBRARY_PATH"
 
+# Configure TensorRT
+export TENSORRT_HOME="/usr/local/TensorRT"
+export CPATH="$TENSORRT_HOME/include:$CPATH"
+export LD_LIBRARY_PATH="$TENSORRT_HOME/lib:$LD_LIBRARY_PATH"
+export LIBRARY_PATH="$TENSORRT_HOME/lib:$LIBRARY_PATH"
+
 # Configure local directory
 export LOCAL_PATH="$HOME/.local"
 export CPATH="$LOCAL_PATH/include:$CPATH"
