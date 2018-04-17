@@ -27,7 +27,14 @@ call neobundle#append()
       imap <expr><S-TAB> pumvisible() ? "\<C-p>" : ""
       smap <expr><S-TAB> pumvisible() ? "\<C-p>" : ""
     "}}}
-    NeoBundle 'Shougo/deoplete.nvim' "{{{
+    if has('nvim')
+        NeoBundle 'Shougo/deoplete.nvim'
+    else
+        NeoBundle 'Shougo/deoplete.nvim'
+        NeoBundle 'roxma/nvim-yarp'
+        NeoBundle 'roxma/vim-hug-neovim-rpc'
+    endif
+    "{{{
       let g:deoplete#enable_at_startup = 1   "enable deoplete at vim startup
       let g:deoplete#enable_ignore_case = 1  "let matcher ignore case
       let g:deoplete#enable_smart_case = 1   "smart case
