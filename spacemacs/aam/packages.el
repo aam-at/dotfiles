@@ -25,7 +25,12 @@
     ;; Twitter hackernews stackexchange
     twittering-mode hackernews sx
     ;; for viewsing log files
-    syslog-mode
+    (hide-lines :location (recipe
+                           :fetcher github
+                           :repo "emacsmirror/hide-lines"))
+    (syslog-mode :location (recipe
+                            :fetcher github
+                            :repo "vapniks/syslog-mode"))
     protobuf-mode
     password-store
     ewmctrl
@@ -145,6 +150,9 @@
   (setq sx-cache-directory (concat spacemacs-cache-directory "sx"))
   (when (not (file-directory-p sx-cache-directory))
     (make-directory sx-cache-directory)))
+
+(defun aam/init-hide-lines()
+  :defer t)
 
 (defun aam/init-syslog-mode()
   :defer t)

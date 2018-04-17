@@ -21,10 +21,13 @@
       (write-or-die :location local)
       langtool
       ;; synonyms and thesaurus
+      (thesaurus :location (recipe
+                            :fetcher github
+                            :repo "emacsmirror/thesaurus"))
       (synosaurus :location (recipe
                              :fetcher github
                              :repo "rootzlevel/synosaurus"))
-      thesaurus synonymous
+      synonymous
       (words :location local)
       (textlint :location local)))
 
@@ -86,6 +89,12 @@
     "x44" #'langtool-show-message-at-point
     "x4c" #'langtool-correct-buffer))
 
+(defun writing/init-thesaurus()
+  :defer t
+  :init
+  (spacemacs/set-leader-keys
+    "St" 'thesaurus-choose-synonym-and-replace))
+
 (defun writing/init-synosaurus()
   (use-package synosaurus
     :defer t
@@ -99,12 +108,6 @@
         "Sr" 'synosaurus-choose-and-replace))
     :config
     (setq synosaurus-choose-method 'default)))
-
-(defun writing/init-thesaurus()
-  :defer t
-  :init
-  (spacemacs/set-leader-keys
-    "St" 'thesaurus-choose-synonym-and-replace))
 
 (defun writing/init-synonymous()
   :defer t
