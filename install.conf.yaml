@@ -61,7 +61,6 @@
     ~/.bash_aliases: bash/bash_aliases
     ~/.bash_logout: bash/bash_logout
     ~/.dircolors: bash/dircolors-solarized/dircolors.ansi-light
-    ~/.profile: general/profile
     ~/.env: general/env
     ~/.xmodmap: general/x/Xmodmap
     ~/.xinitrc: general/x/xinitrc

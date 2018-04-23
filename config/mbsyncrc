@@ -3,7 +3,7 @@ IMAPAccount gmail
 Host imap.gmail.com
 User alexander.matyasko@gmail.com
 # PassCmd "pass show gmail.com"
-PassCmd "echo ${PASSWORD:-$(gpg --no-tty -qd ~/.authinfo.gpg | sed -n 's,^machine smtp.gmail.com .*password \\([^ ]*\\).*,\\1,p')}"
+PassCmd "echo ${PASSWORD:-$(copy_password.sh alexander.matyasko@gmail.com)}"
 Port 993
 SSLType IMAPS
 AuthMechs Login
@@ -26,12 +26,12 @@ Sync All
 Expunge Both
 SyncState *
 
-# office account
+# student account
 IMAPAccount office
 Host outlook.office365.com
 User Aliaksan001@e.ntu.edu.sg
 # PassCmd "pass show outlook.office.com"
-PassCmd "echo ${PASSWORD:-$(gpg --no-tty -qd ~/.authinfo.gpg | sed -n 's,^machine smtp.office365.com .*password \\([^ ]*\\).*,\\1,p')}"
+PassCmd "echo ${PASSWORD:-$(copy_password.sh aliaksan001@e.ntu.edu.sg)}"
 Port 993
 SSLType IMAPS
 AuthMechs Login
