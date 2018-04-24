@@ -33,7 +33,8 @@
   '(
     company
     rtags helm-rtags
-    company-rtags))
+    company-rtags
+    (doxymacs :location local)))
 
 (defun cpp-extras/post-init-company ()
   (push 'company-rtags company-backends-c-mode-common))
@@ -135,3 +136,11 @@
   (define-key global-map (kbd "C-,") (function tags-find-references))
   (define-key global-map (kbd "C-<") (function rtags-find-virtuals-at-point))
   (define-key global-map (kbd "M-i") (function tags-imenu)))
+
+(defun cpp-extras/init-doxymacs ()
+  (use-package doxymacs
+    :commands doxymacs-mode
+    :init
+    (add-hook 'c++-mode-hook #'doxymacs-mode)
+    :config
+    (spacemacs|diminish doxymacs-mode)))

@@ -64,6 +64,7 @@ values."
      emacs-lisp
      (latex :variables
             latex-build-command "LatexMk"
+            latex-enable-auto-fill t
             latex-enable-folding t)
      bibtex
      extra-langs
