@@ -31,15 +31,26 @@
 
 (defconst emacs-icons-packages
   '(
-    all-the-icons all-the-icons-dired
-    (spaceline-all-the-icons :location local)
-    neotree spaceline))
+    (font-lock+ :location (recipe
+                           :fetcher github
+                           :repo "emacsmirror/font-lock-plus"))
+    all-the-icons
+    all-the-icons-dired
+    all-the-icons-ivy
+    spaceline-all-the-icons
+    neotree
+    spaceline))
 
 
 ;;; packages.el ends here
 
-(defun emacs-icons/init-all-the-icons ()
+(defun emacs-icons/init-font-lock+ ()
   :defer t)
+
+(defun emacs-icons/init-all-the-icons ()
+  :defer t
+  :init
+  (require 'font-lock+))
 
 (defun emacs-icons/init-all-the-icons-dired ()
   :defer t
@@ -48,9 +59,13 @@
   :config
   (spacemacs|diminish all-the-icons-dired-mode))
 
+(defun emacs-icons/init-all-the-icons-ivy ()
+  :defer t
+  :config
+  (all-the-icons-ivy-setup))
+
 (defun emacs-icons/init-spaceline-all-the-icons ()
-  (use-package spaceline-all-the-icons
-    :after spaceline))
+  :defer t)
 
 (defun emacs-icons/post-init-neotree()
   (setq neo-theme 'icons))
@@ -58,5 +73,6 @@
 (defun emacs-icons/post-init-spaceline()
   ;; NOTE: disable for now
   ;; (with-eval-after-load 'powerline
-  ;;   (setq-default mode-line-format '("%e" (:eval (spaceline-ml-ati)))))
-  )
+  ;; (setq-default mode-line-format '("%e" (:eval (spaceline-ml-ati))))
+  ;;   (spaceline-all-the-icons-theme))
+)
