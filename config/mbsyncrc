@@ -15,6 +15,7 @@ Account gmail
 MaildirStore gmail-local
 Path ~/.mail/gmail/
 Inbox ~/.mail/gmail/INBOX
+SubFolders Verbatim
 
 Channel gmail
 Master :gmail-remote:
@@ -43,10 +44,67 @@ Account office
 MaildirStore office-local
 Path ~/.mail/office/
 Inbox ~/.mail/office/INBOX
+SubFolders Verbatim
 
 Channel office
 Master :office-remote:
 Slave :office-local:
+Patterns *
+Create Slave
+Sync All
+Expunge Both
+SyncState *
+
+# work account
+IMAPAccount work
+# use localhost davmail
+Host localhost
+User STAFF\\amatyasko
+# PassCmd "pass show outlook.work.com"
+PassCmd "echo ${PASSWORD:-$(copy_password.sh amatyasko@e.ntu.edu.sg)}"
+Port 1143
+SSLType None
+AuthMechs Login
+
+IMAPStore work-remote
+Account work
+
+MaildirStore work-local
+Path ~/.mail/work/
+Inbox ~/.mail/work/INBOX
+SubFolders Verbatim
+
+Channel work
+Master :work-remote:
+Slave :work-local:
+Patterns *
+Create Slave
+Sync All
+Expunge Both
+SyncState *
+
+# yandex account
+IMAPAccount yandex
+Host imap.yandex.com
+User alexander.matyasko@yandex.com
+# PassCmd "pass show yandex.com"
+PassCmd "echo ${PASSWORD:-$(copy_password.sh alexander.matyasko@yandex.com)}"
+Port 993
+SSLType IMAPS
+AuthMechs Login
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore yandex-remote
+Account yandex
+
+MaildirStore yandex-local
+Path ~/.mail/yandex/
+Inbox ~/.mail/yandex/INBOX
+
+Channel yandex
+Master :yandex-remote:
+Slave :yandex-local:
+# Patterns * ![Yandex]* "[Yandex]/Sent Mail" "[Yandex]/Starred" "[Yandex]/All Mail"
 Patterns *
 Create Slave
 Sync All

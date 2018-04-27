@@ -79,8 +79,15 @@ values."
      pdf-tools
      csv
      imenu-list
-     (mu4e :variables mu4e-account-alist t) erc ;; email & irc
-     chrome search-engine ;; web
+     ;; email & irc
+     (mu4e :variables
+           mu4e-account-alist t
+           mu4e-enable-mode-line t
+           mu4e-enable-notifications t
+           mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e")
+     erc
+     ;; web
+     chrome search-engine
      (org :variables org-enable-reveal-js-support t) evernote ;; note-taking and organizer
      org-brain
      ;; FIXME: disabled. emoji clobbers org-mode match data
@@ -555,6 +562,9 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; mobile setup
   (setq org-mobile-directory "~/Dropbox/Notes/mobile")
   (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
+  ;; org-contacts
+  (require 'org-contacts)
+  (setq org-contacts-files "~/Dropbox/Notes/contacts.org")
 
   ;; configure org-journal
   (setq org-journal-dir "~/Dropbox/Notes/journal")
@@ -706,11 +716,19 @@ SCHEDULED: %^{When should we stop?}t +1d
         mu4e-attachment-dir "~/Downloads"
         mu4e-get-mail-command "mbsync -a"
         mu4e-update-interval 600
+        ;; give me ISO(ish) format date-time stamps in the header list
+        mu4e-headers-date-format "%Y-%m-%d %H:%M"
+        mu4e-compose-signature t
         mu4e-compose-signature-auto-include nil
+        mu4e-compose-dont-reply-to-self t
         mu4e-view-show-images t
+        mu4e-show-images t
+        mu4e-view-image-max-width 800
         mu4e-view-show-addresses t
-        message-kill-buffer-on-exit t
-        mu4e-enable-notifications t)
+        ;; setup queue mail dir
+        smtpmail-queue-dir (concat mu4e-maildir "/queue")
+        message-kill-buffer-on-exit t)
+
   ;; See: http://emacs.stackexchange.com/questions/3051/how-can-i-use-eww-as-a-renderer-for-mu4e
   (defun my-render-html-message ()
     "Replacement for standard html2text using shr."
@@ -725,9 +743,6 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; org-mu4e settings
   (setq org-mu4e-convert-to-html t)
 
-  ;; give me ISO(ish) format date-time stamps in the header list
-  (setq  mu4e-headers-date-format "%Y-%m-%d %H:%M")
-
   ;; customize the reply-quote-string
   ;; M-x find-function RET message-citation-line-format for docs
   (setq message-citation-line-format "%N @ %Y-%m-%d %H:%M %Z:\n")
@@ -738,80 +753,140 @@ SCHEDULED: %^{When should we stop?}t +1d
   ;; (better only use that for the last field.
   ;; These are the defaults:
   (setq mu4e-headers-fields
-        '( (:date          .  25)
-           (:flags         .   6)
-           (:from          .  22)
-           (:subject       .  nil)))
+        '((:date          .  25)
+          (:flags         .   6)
+          (:from          .  22)
+          (:subject       .  nil)))
   (setq mu4e-bookmarks
-        `( ("flag:unread AND NOT flag:trashed" "Unread messages"      ?u)
-           ("date:today..now"                  "Today's messages"     ?t)
-           ("date:7d..now"                     "Last 7 days"          ?w)
-           ("maildir:\"/INBOX\" and flag:flagged" "Flagged in INBOX"  ?f)
-           ("mime:image/*"                     "Messages with images" ?p)))
-
-  ;; mail account list
-  (setq mu4e-account-alist
-        '(("gmail"
-           ;; Under each account, set the account-specific variables you want.
-           (mu4e-sent-messages-behavior delete)
-           (mu4e-sent-folder "/gmail/[Gmail]/.Sent Mail")
-           (mu4e-drafts-folder "/gmail/[Gmail]/.Drafts")
-           (mu4e-trash-folder "/gmail/[Gmail]/.Trash")
-           (user-mail-address "alexander.matyasko@gmail.com")
-           (user-full-name "Alexander Matyasko")
-           (message-send-mail-function smtpmail-send-it)
-           (starttls-use-gnutls t)
-           (smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
-           (smtpmail-auth-credentials
-            '(("smtp.gmail.com" 587 "yi.tang.uni@gmail.com" nil)))
-           (smtpmail-default-smtp-server "smtp.gmail.com")
-           (smtpmail-smtp-server "smtp.gmail.com")
-           (smtpmail-smtp-service 587)
-           (smtpmail-smtp-user "alexander.matyasko@gmail.com")
-           (mu4e-compose-signature (concat
-                                    "Best,\n"
-                                    "Alexander Matyasko")))
-          ("office"
-           (mu4e-sent-messages-behavior sent)
-           (mu4e-sent-folder "/office/Sent Items")
-           (mu4e-drafts-folder "/office/Drafts")
-           (mu4e-trash-folder "/office/Deleted Items")
-           (user-mail-address "aliaksan001@e.ntu.edu.sg")
-           (user-full-name "Alexander Matyasko")
-           (message-send-mail-function smtpmail-send-it)
-           (smtpmail-stream-type starttls)
-           (smtpmail-default-smtp-server "smtp.office365.com")
-           (smtpmail-smtp-server "smtp.office365.com")
-           (smtpmail-smtp-service 587)
-           (smtpmail-smtp-user "aliaksan001@e.ntu.edu.sg")
-                 ;; account info
-           (user-mail-address "aliaksan001@e.ntu.edu.sg")
-           (user-full-name  "Alexander Matyasko")
-                 ;; mu4e
-           (mu4e-drafts-folder "/office/Drafts")
-           (mu4e-sent-folder   "/office/Sent Items")
-           (mu4e-trash-folder  "/office/Trash")
-           (mu4e-maildir-shortcuts  '(("/office/INBOX"       . ?i)
-                                      ("/office/Sent Items"  . ?s)
-                                      ("/office/Trash"       . ?t)))
-           (mu4e-compose-signature (concat
-                                    "Alexander Matyasko\n"
-                                    "PhD Student")))))
-  (mu4e/mail-account-reset)
-  (setq mu4e-compose-dont-reply-to-self t)
+        `(("flag:unread AND NOT flag:trashed and NOT maildir:\"/*Spam*\""       "Unread messages"      ?u)
+          ("date:today..now"                                                    "Today's messages"     ?t)
+          ("date:7d..now"                                                       "Last 7 days"          ?w)
+          ("flag:new and NOT flag:trashed and NOT maildir:\"/*Trash*\" and NOT maildir:\"/*Spam*\"" "New in INBOX"         ?n)
+          ("maildir:\"/INBOX\" and flag:flagged"                                "Flagged in INBOX"     ?f)
+          ("mime:image/*"                                                       "Messages with images" ?p)
+          ("maildir:\"/*Spam*\""                                                "Spam messages"        ?s)))
   (setq mu4e-user-mail-address-list '("alexander.matyasko@gmail.com"
-                                     "aliaksan001@e.ntu.edu.sg"))
+                                      "aliaksan001@e.ntu.edu.sg"
+                                      "amatyasko@e.ntu.edu.sg"
+                                      "alexander.matyasko@yandex.ru"))
+
+  ;; mu4e-maildir
   (setq mu4e-maildir-shortcuts
-        '(("/gmail/INBOX" . ?g)
-          ("/office/INBOX" . ?c)))
+        '(("/gmail/INBOX"  . ?g)
+          ("/office/INBOX" . ?c)
+          ("/work/INBOX"   . ?w)
+          ("/yandex/INBOX" . ?y)))
   (setq mu4e-maildirs-extension-maildir-separator    "*"
         mu4e-maildirs-extension-submaildir-separator "✉"
         mu4e-maildirs-extension-action-text          nil)
-  (setq smtpmail-queue-dir "~/.mail/queued-mail/")
+
+  ;; mail account list
+  (setq mu4e-contexts
+        `( ,(make-mu4e-context
+             :name "Gmail"
+             :enter-func
+             (lambda () (mu4e-message "Switching to Gmail"))
+             ;; we match based on the contact-fields of the message
+             :match-func
+             (lambda (msg)
+               (when msg
+                 (mu4e-message-contact-field-matches msg
+                                                     :to "alexander.matyasko@gmail.com")))
+             :vars
+             '((user-mail-address            . "alexander.matyasko@gmail.com")
+               (user-full-name               . "Alexander Matyasko")
+               (mu4e-sent-folder             . "/gmail/[Gmail]/Sent Mail")
+               (mu4e-drafts-folder           . "/gmail/[Gmail]/Drafts")
+               (mu4e-trash-folder            . "/gmail/[Gmail]/Trash")
+               (mu4e-compose-signature       . (concat
+                                                "Best regards,\n"
+                                                "Alexander Matyasko\n"))
+               (message-send-mail-function   . smtpmail-send-it)
+               (smtpmail-stream-type         . starttls)
+               (smtpmail-default-smtp-server . "smtp.gmail.com")
+               (smtpmail-smtp-server         . "smtp.gmail.com")
+               (smtpmail-smtp-service        . 587)))
+           ,(make-mu4e-context
+             :name "Ntu"
+             :enter-func
+             (lambda () (mu4e-message "Switching to Ntu mail"))
+             :match-func
+             (lambda (msg)
+               (when msg
+                 (mu4e-message-contact-field-matches msg
+                                                     :to "aliaksan001@e.ntu.edu.sg")))
+             :vars
+             '((user-mail-address            . "aliaksan001@e.ntu.edu.sg")
+               (user-full-name               . "Alexander Matyasko")
+               (mu4e-sent-folder             . "/office/Sent Items")
+               (mu4e-drafts-folder           . "/office/Drafts")
+               (mu4e-trash-folder            . "/office/Deleted Items")
+               (mu4e-compose-signature       . (concat
+                                                "Best regards,\n"
+                                                "Alexander Matyasko\n"))
+               (message-send-mail-function   . smtpmail-send-it)
+               (smtpmail-stream-type         . starttls)
+               (smtpmail-default-smtp-server . "smtp.office365.com")
+               (smtpmail-smtp-server         . "smtp.office365.com")
+               (smtpmail-smtp-service        . 587)))
+           ,(make-mu4e-context
+             :name "Work"
+             :enter-func
+             (lambda () (mu4e-message "Switching to work mail"))
+             :match-func
+             (lambda (msg)
+               (when msg
+                 (mu4e-message-contact-field-matches msg
+                                                     :to "amatyasko@e.ntu.edu.sg")))
+             :vars
+             '((user-mail-address            . "amatyasko@e.ntu.edu.sg")
+               (user-full-name               . "Alexander Matyasko")
+               (mu4e-sent-folder             . "/work/Sent")
+               (mu4e-drafts-folder           . "/work/Drafts")
+               (mu4e-trash-folder            . "/work/Trash")
+               (mu4e-compose-signature       . (concat
+                                                "Best regards,\n"
+                                                "Alexander Matyasko\n"))
+               (message-send-mail-function   . smtpmail-send-it)
+               (smtpmail-stream-type         . starttls)
+               ;; use localhost davmail
+               (smtpmail-default-smtp-server . "localhost")
+               (smtpmail-smtp-server         . "localhost")
+               (smtpmail-smtp-service        . 1025)))
+           ,(make-mu4e-context
+             :name "Yandex"
+             :enter-func
+             (lambda () (mu4e-message "Switching to Yandex mail"))
+                ;; ;; this matches maildir /Arkham and its sub-directories
+                ;; :match-func (lambda (msg)
+                ;;               (when msg
+                ;;                 (string-match-p "^/yandex" (mu4e-message-field msg :maildir))))
+             :match-func
+             (lambda (msg)
+               (when msg
+                 (mu4e-message-contact-field-matches msg
+                                                     :to "alexander.matyasko@yandex.ru")))
+             :vars
+             '((user-mail-address            . "alexander.matyasko@yandex.ru")
+               (user-full-name               . "Alexander Matyasko")
+               (mu4e-sent-folder             . "/yandex/Sent")
+               (mu4e-drafts-folder           . "/yandex/Drafts")
+               (mu4e-trash-folder            . "/yandex/Trash")
+               (mu4e-compose-signature       . (concat
+                                                "Best regards,\n"
+                                                "Alexander Matyasko\n"))
+               (message-send-mail-function   . smtpmail-send-it)
+               (smtpmail-stream-type         . starttls)
+               (smtpmail-default-smtp-server . "smtp.yandex.com")
+               (smtpmail-smtp-server         . "smtp.yandex.com")
+               (smtpmail-smtp-service        . 465)))
+           ))
+  (setq mu4e-compose-context-policy 'ask-if-none
+        mu4e-context-policy 'pick-first)
+  ;; (mu4e/mail-account-reset)
 
   ;; email org-contacts
-  (setq org-contacts-files "~/Dropbox/Notes/contacts.org")
-  (setq mu4e-org-contacts-file  "~/Dropbox/Notes/contacts.org")
+  (setq mu4e-org-contacts-file org-contacts-files)
   (add-to-list 'mu4e-headers-actions
                '("org-contact-add" . mu4e-action-add-org-contact) t)
   (add-to-list 'mu4e-view-actions
