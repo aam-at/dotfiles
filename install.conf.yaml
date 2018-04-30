@@ -40,17 +40,6 @@
     ~/.spacemacs: spacemacs/spacemacs
     ~/.emacs.d/.cache/bookmarks: ../Dropbox/Sync/bookmarks
     ~/.emacs.d/core/secure-config.el.gpg: spacemacs/secure-config.el.gpg
-    ~/.emacs.d/private/aam: spacemacs/aam
-    ~/.emacs.d/private/emacs-icons: spacemacs/emacs-icons
-    ~/.emacs.d/private/emms: spacemacs/emms
-    ~/.emacs.d/private/writing: spacemacs/writing
-    ~/.emacs.d/private/notmuch: spacemacs/notmuch
-    ~/.emacs.d/private/habitrpg: spacemacs/habitrpg
-    ~/.emacs.d/private/org-extras: spacemacs/org-extras
-    ~/.emacs.d/private/journal: spacemacs/org-journal
-    ~/.emacs.d/private/realgud: spacemacs/realgud
-    ~/.emacs.d/private/python-extras: spacemacs/python-extras
-    ~/.emacs.d/private/cpp-extras: spacemacs/cpp-extras
     ~/.elfeed: ../Dropbox/Sync/elfeed
     ~/.password-store: ../Dropbox/Sync/pass
     ~/.taskrc: task/taskrc

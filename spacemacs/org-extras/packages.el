@@ -27,7 +27,6 @@
       (ebib :location (recipe
                        :fetcher github
                        :repo "joostkremers/ebib"))
-      ob-ipython
       org-ref
     ))
 
@@ -103,11 +102,6 @@
   (evil-set-initial-state 'cfw:calendar-mode 'emacs))
 
 (defun org-extras/init-ebib() :defer t)
-
-(defun org-extras/init-ob-ipython ()
-  :defer t
-  :init
-  (org-babel-do-load-languages 'org-babel-load-languages '((ipython . t))))
 
 (defun org-extras/post-init-org()
     ;; add a hook function to check if this is trello file, then activate the org-trello minor mode.
