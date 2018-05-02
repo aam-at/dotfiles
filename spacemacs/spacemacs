@@ -920,12 +920,16 @@ SCHEDULED: %^{When should we stop?}t +1d
              :name "Gmail"
              :enter-func
              (lambda () (mu4e-message "Switching to Gmail"))
-             ;; we match based on the contact-fields of the message
+             ;; ;; we match based on the contact-fields of the message
+             ;; :match-func
+             ;; (lambda (msg)
+             ;;   (when msg
+             ;;     (mu4e-message-contact-field-matches msg
+             ;;                                         :to "alexander.matyasko@gmail.com")))
              :match-func
              (lambda (msg)
                (when msg
-                 (mu4e-message-contact-field-matches msg
-                                                     :to "alexander.matyasko@gmail.com")))
+                 (string-match-p "^/gmail" (mu4e-message-field msg :maildir))))
              :vars
              '((user-mail-address            . "alexander.matyasko@gmail.com")
                (user-full-name               . "Alexander Matyasko")
@@ -944,11 +948,15 @@ SCHEDULED: %^{When should we stop?}t +1d
              :name "Ntu"
              :enter-func
              (lambda () (mu4e-message "Switching to Ntu mail"))
+             ;; :match-func
+             ;; (lambda (msg)
+             ;;   (when msg
+             ;;     (mu4e-message-contact-field-matches msg
+             ;;                                         :to "aliaksan001@e.ntu.edu.sg")))
              :match-func
              (lambda (msg)
                (when msg
-                 (mu4e-message-contact-field-matches msg
-                                                     :to "aliaksan001@e.ntu.edu.sg")))
+                 (string-match-p "^/office" (mu4e-message-field msg :maildir))))
              :vars
              '((user-mail-address            . "aliaksan001@e.ntu.edu.sg")
                (user-full-name               . "Alexander Matyasko")
@@ -967,11 +975,15 @@ SCHEDULED: %^{When should we stop?}t +1d
              :name "Work"
              :enter-func
              (lambda () (mu4e-message "Switching to work mail"))
+             ;; :match-func
+             ;; (lambda (msg)
+             ;;   (when msg
+             ;;     (mu4e-message-contact-field-matches msg
+             ;;                                         :to "amatyasko@e.ntu.edu.sg")))
              :match-func
              (lambda (msg)
                (when msg
-                 (mu4e-message-contact-field-matches msg
-                                                     :to "amatyasko@e.ntu.edu.sg")))
+                 (string-match-p "^/work" (mu4e-message-field msg :maildir))))
              :vars
              '((user-mail-address            . "amatyasko@e.ntu.edu.sg")
                (user-full-name               . "Alexander Matyasko")
@@ -991,15 +1003,15 @@ SCHEDULED: %^{When should we stop?}t +1d
              :name "Yandex"
              :enter-func
              (lambda () (mu4e-message "Switching to Yandex mail"))
-                ;; ;; this matches maildir /Arkham and its sub-directories
-                ;; :match-func (lambda (msg)
-                ;;               (when msg
-                ;;                 (string-match-p "^/yandex" (mu4e-message-field msg :maildir))))
+             ;; :match-func
+             ;; (lambda (msg)
+             ;;   (when msg
+             ;;     (mu4e-message-contact-field-matches msg
+             ;;                                         :to "alexander.matyasko@yandex.ru")))
              :match-func
              (lambda (msg)
                (when msg
-                 (mu4e-message-contact-field-matches msg
-                                                     :to "alexander.matyasko@yandex.ru")))
+                 (string-match-p "^/yandex" (mu4e-message-field msg :maildir))))
              :vars
              '((user-mail-address            . "alexander.matyasko@yandex.ru")
                (user-full-name               . "Alexander Matyasko")
