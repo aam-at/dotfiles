@@ -1,3 +1,7 @@
+################
+# Basic config #
+################
+
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
@@ -48,6 +52,33 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
+fi
+
+##############################
+# Load environment variables #
+##############################
+
+# source environement variables
+if [ -f ~/.env ]; then
+    if [ -z $PATH_BK ]; then
+        export PATH_BK=$PATH
+    fi
+    . ~/.env
+fi
+
+################################
+# Custom aliases and functions #
+################################
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -61,36 +92,24 @@ if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
 
-if [ -f ~/.local/bin/bashmarks.sh ]; then
-    . ~/.local/bin/bashmarks.sh
-fi
-
 # Functions definitions.
 function copy_password() {
     copy_password.sh $1
 }
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+function command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# configure fucks
+if command_exists thefuck; then
+  eval "$(thefuck --alias)"
 fi
 
-# source environement variables
-if [ -f ~/.env ]; then
-    if [ -z $PATH_BK ]; then
-        export PATH_BK=$PATH
-    fi
-    . ~/.env
+# configure fasd
+if command_exists fasd; then
+  eval "$(fasd --init auto)"
 fi
-
-# conifgure fucks
-eval "$(thefuck --alias)"
 
 # configure autojump
 if [ -f /usr/share/autojump/autojump.sh ]; then
