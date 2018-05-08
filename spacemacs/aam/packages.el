@@ -14,7 +14,6 @@
 ;; which require an initialization must be listed explicitly in the list.
 (setq aam-packages
   '(
-    clang-format
     ;; FIXME disable for now as it clobbers match data in org-mode buffers
     ;; key-chord key-seq
     ;; citations
@@ -48,25 +47,6 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
-(defun aam/post-init-clang-format()
-  (spacemacs/set-leader-keys-for-major-mode 'c-mode
-    "=" 'c-c++/format-region-or-buffer)
-  (spacemacs/set-leader-keys-for-major-mode 'c++-mode
-    "=" 'c-c++/format-region-or-buffer))
-
-(defun c-c++/format-region-or-buffer ()
-  "Indent a region if selected, otherwise the whole buffer."
-  (interactive)
-  (save-excursion
-    (if (region-active-p)
-        (progn
-          (clang-format-region (region-beginning) (region-end))
-          (message "Formatted selected region."))
-      (progn
-        (clang-format-buffer)
-        (message "Formatted buffer.")))
-    (whitespace-cleanup)))
-
 (defun aam/init-key-chord()
   :defer t
   :init
