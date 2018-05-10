@@ -891,13 +891,13 @@ SCHEDULED: %^{When should we stop?}t +1d
           (:from          .  22)
           (:subject       .  nil)))
   (setq mu4e-bookmarks
-        `(("flag:unread AND NOT flag:trashed and NOT maildir:\"/*Spam*\""       "Unread messages"      ?u)
-          ("date:today..now"                                                    "Today's messages"     ?t)
-          ("date:7d..now"                                                       "Last 7 days"          ?w)
-          ("flag:new and NOT flag:trashed and NOT maildir:\"/*Trash*\" and NOT maildir:\"/*Spam*\"" "New in INBOX"         ?n)
-          ("maildir:\"/INBOX\" and flag:flagged"                                "Flagged in INBOX"     ?f)
-          ("mime:image/*"                                                       "Messages with images" ?p)
-          ("maildir:\"/*Spam*\""                                                "Spam messages"        ?s)))
+        `(("flag:unread AND NOT flag:trashed and NOT maildir:\"/*Trash*\" and NOT maildir:\"/*Delete*\" and NOT maildir:\"/*Spam*\" and NOT maildir:\"/*Junk*\"" "Unread messages" ?u)
+          ("flag:new and NOT flag:trashed and NOT maildir:\"/*Trash*\" and NOT maildir:\"/*Delete*\" and NOT maildir:\"/*Spam*\" and NOT maildir:\"/*Junk*\""    "New messages"    ?n)
+          ("date:today..now"                            "Today's messages"     ?t)
+          ("date:7d..now"                               "Last 7 days"          ?w)
+          ("maildir:\"/INBOX\" and flag:flagged"        "Flagged in INBOX"     ?f)
+          ("mime:image/*"                               "Messages with images" ?p)
+          ("maildir:\"/*Spam*\" or maildir:\"/*Junk*\"" "Spam messages"        ?s)))
   (setq mu4e-user-mail-address-list '("alexander.matyasko@gmail.com"
                                       "aliaksan001@e.ntu.edu.sg"
                                       "amatyasko@e.ntu.edu.sg"
