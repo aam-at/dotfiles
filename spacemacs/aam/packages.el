@@ -21,8 +21,7 @@
     ;; provide djvu support
     djvu
     sr-speedbar
-    ;; Twitter hackernews stackexchange
-    twittering-mode hackernews sx
+    hackernews sx
     ;; for viewsing log files
     (hide-lines :location (recipe
                            :fetcher github
@@ -98,26 +97,6 @@
 
 (defun aam/init-sr-speedbar ()
   :defer t)
-
-(defun aam/init-twittering-mode ()
-  (use-package twittering-mode
-    :defer t
-    :commands twit
-    :init
-    (spacemacs/set-leader-keys "at" 'twit)
-    (when (configuration-layer/package-usedp 'flyspell)
-      (add-hook 'twittering-edit-mode-hook (lambda () (flyspell-mode 1))))
-    (push 'twittering-edit-mode evil-insert-state-modes)
-    :config
-    (setq twitter-images-directory
-          (expand-file-name
-           (concat spacemacs-cache-directory "twitter-images")))
-    (unless (file-exists-p twitter-images-directory)
-      (make-directory twitter-images-directory))
-    (setq twittering-icon-mode t)
-    (setq twittering-url-show-status nil)
-    (setq twittering-use-master-password t)
-    (setq twittering-use-icon-storage 1)))
 
 (defun aam/init-hackernews()
   :defer t

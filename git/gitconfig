@@ -129,3 +129,5 @@
 	textconv = gpg --no-tty --decrypt
 [push]
 	default = simple
+[github]
+	user = alexander.matyasko@gmail.com
