@@ -61,9 +61,12 @@ This function should only modify configuration layer settings."
      ;; Programming languages
      ;; ----------------------------------------------------------------
      semantic
-     c-c++ python lua haskell go
-     html javascript markdown ipython-notebook
+     python ipython-notebook
+     c-c++ go
+     lua haskell
      emacs-lisp
+     (javascript :variables javascript-disable-tern-port-files nil)
+     html markdown
      csv
      (latex :variables
             latex-build-command "LatexMk"

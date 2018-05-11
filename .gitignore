@@ -3,3 +3,4 @@ atom/
 /nvim/bundle/*
 /nvim/.cache
 /nvim/.netrwhist
+*.pyo

@@ -21,6 +21,7 @@
         create:
         path: config/ranger/rc.conf
     ~/.config/ranger/commands.py: config/ranger/commands.py
+    ~/.config/ranger/plugins: config/ranger/plugins
     ~/.authinfo.gpg: ../Dropbox/Sync/authinfo.gpg
     ~/.twittering-mode.gpg: ../Dropbox/Sync/twittering-mode.gpg
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
