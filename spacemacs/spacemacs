@@ -64,6 +64,7 @@ This function should only modify configuration layer settings."
      c-c++ python lua haskell go
      html javascript markdown ipython-notebook
      emacs-lisp
+     csv
      (latex :variables
             latex-build-command "LatexMk"
             latex-enable-auto-fill t
@@ -79,7 +80,6 @@ This function should only modify configuration layer settings."
      ;; Tools
      ;; ----------------------------------------------------------------
      pdf-tools
-     csv
      imenu-list
      ;; email & irc
      (mu4e :variables
@@ -104,6 +104,8 @@ This function should only modify configuration layer settings."
              shell-default-height 30
              shell-default-position 'bottom)
      tmux ranger
+     ;; neotree
+     treemacs
      (dash :variables ;; offline help search with zeal/dash on linux/osx
            dash-helm-dash-docset-path "~/.local/share/Zeal/Zeal/docsets")
      smex finance
@@ -837,7 +839,7 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq lua-default-command-switches (quote ("-ltorch" "-lenv" "-i")))
 
   ;; default elfeed search
-  (setq-default elfeed-search-filter "@1-week-ago +unread ")
+  (setq-default elfeed-search-filter "@1-week-ago +unread")
 
   ;; email configuration
   (setq mu4e-maildir "~/.mail"
@@ -871,6 +873,8 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq mu4e-html2text-command 'my-render-html-message)
   ;; (setq mu4e-html2text-command "w3m -dump -T text/html")
   (setq mu4e-view-prefer-html t)
+  (add-to-list 'mu4e-view-actions
+               '("xView with xwidget" . mu4e-action-view-with-xwidget))
 
   ;; org-mu4e settings
   (setq org-mu4e-convert-to-html t)
