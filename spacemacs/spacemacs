@@ -107,8 +107,7 @@ This function should only modify configuration layer settings."
      (dash :variables ;; offline help search with zeal/dash on linux/osx
            dash-helm-dash-docset-path "~/.local/share/Zeal/Zeal/docsets")
      smex finance
-     ;; FIXME: disabled. I am having problems across machine with this plugin
-     ;; wakatime ;; tracking coding time
+     wakatime ;; tracking coding time
      fasd ;; like autojump but better. TODO: try to use it with fish shell
      pandoc ;; pandoc the most extensive file document conversion tool
 
@@ -557,9 +556,9 @@ you should place your code here."
   (add-hook 'edit-server-done-hook (lambda () (shell-command "wmctrl -a \"Google Chrome\"")))
 
   ;; Wakatime settings
-  ;; (setq wakatime-api-key "api-key")
-  ;; (setq wakatime-python-path "/usr/bin/python")
-  ;; (setq wakatime-cli-path "/usr/local/bin/wakatime")
+  (setq wakatime-api-key "api-key")
+  (setq wakatime-python-path "/usr/bin/python")
+  (setq wakatime-cli-path "/usr/local/bin/wakatime")
 
   ;; habitica settings
   (setq habitrpg-api-url "https://habitica.com/api/v3")
