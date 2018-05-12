@@ -1089,6 +1089,12 @@ SCHEDULED: %^{When should we stop?}t +1d
         twittering-bitly-login "login"
         twittering-bitly-api-key "api-key")
 
+  ;; xwidgets
+  (evil-set-initial-state 'xwidget-webkit-mode 'emacs)
+  (with-eval-after-load 'xwidget
+    (define-key xwidget-webkit-mode-map [mouse-4] 'xwidget-webkit-scroll-down)
+    (define-key xwidget-webkit-mode-map [mouse-5] 'xwidget-webkit-scroll-up))
+
   ;; load encrypted part of config
   (load-library "secure-config")
 )
