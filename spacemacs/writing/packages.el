@@ -29,7 +29,8 @@
                              :repo "rootzlevel/synosaurus"))
       synonymous
       (words :location local)
-      (textlint :location local)))
+      (textlint :location local)
+      academic-phrases))
 
 ;; List of packages to exclude.
 (setq writing-excluded-packages '())
@@ -130,3 +131,6 @@
   :init
   (spacemacs/set-leader-keys
     "S!" 'textlint-run))
+
+(defun writing/init-academic-phrases()
+  :defer t)

@@ -123,7 +123,9 @@ This function should only modify configuration layer settings."
      pandoc ;; pandoc the most extensive file document conversion tool
 
      ;; My private layers
-     aam writing notmuch
+     aam
+     notmuch
+     writing
      emms habitrpg
      org-extras
      python-extras cpp-extras
