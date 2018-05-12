@@ -13,28 +13,26 @@
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
 (setq aam-packages
-  '(
-    ;; FIXME disable for now as it clobbers match data in org-mode buffers
-    ;; key-chord key-seq
-    ;; citations
-    helm-bibtex gscholar-bibtex
-    ;; provide djvu support
-    djvu
-    sr-speedbar
-    hackernews sx
-    magit-org-todos
-    org-projectile
-    ;; for viewsing log files
-    (hide-lines :location (recipe
-                           :fetcher github
-                           :repo "emacsmirror/hide-lines"))
-    (syslog-mode :location (recipe
-                            :fetcher github
-                            :repo "vapniks/syslog-mode"))
-    protobuf-mode
-    password-store
-    ewmctrl
-    cloc))
+      '(
+        ;; FIXME disable for now as it clobbers match data in org-mode buffers
+        ;; key-chord key-seq
+        ;; citations
+        helm-bibtex gscholar-bibtex
+        ;; provide djvu support
+        djvu
+        sr-speedbar
+        hackernews sx
+        magit-org-todos
+        org-projectile
+        ;; for viewsing log files
+        (hide-lines :location (recipe
+                               :fetcher github
+                               :repo "emacsmirror/hide-lines"))
+        (syslog-mode :location (recipe
+                                :fetcher github
+                                :repo "vapniks/syslog-mode"))
+        ewmctrl
+        cloc))
 
 ;; List of packages to exclude.
 (setq aam-excluded-packages '())
@@ -126,24 +124,6 @@
 (defun aam/init-syslog-mode()
   :defer t)
 
-(defun aam/init-protobuf-mode()
-  :defer t)
-
-(defun aam/init-password-store()
-  :defer t
-  :config
-  (spacemacs/declare-prefix "op" "password store")
-  (spacemacs/set-leader-keys
-    "opy" 'password-store-copy
-    "opg" 'password-store-generate
-    "ops" 'password-store-url
-    "opi" 'password-store-insert
-    "ope" 'password-store-edit
-    "opr" 'password-store-rename
-    "opI" 'password-store-init
-    "opc" 'password-store-clear
-    "opD" 'password-store-remove))
-
 (defun aam/init-ewmctrl()
   :defer t
   :init
@@ -174,8 +154,8 @@
       "SN" 'ewmctrl-sort-by-name-reversed
       "Sp" 'ewmctrl-sort-by-pid
       "SP" 'ewmctrl-sort-by-pid-reversed
-      ";" 'ewmctrl-toggle-single-key-to-focus)
-    ))
+      ";" 'ewmctrl-toggle-single-key-to-focus)))
+
 
 (defun aam/init-cloc()
   :defer t)

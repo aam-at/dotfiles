@@ -44,17 +44,19 @@ This function should only modify configuration layer settings."
      ;; General
      ;; ----------------------------------------------------------------
      better-defaults
+     helm
      (colors :variables colors-enable-rainbow-identifiers t)
      (ibuffer :variables ibuffer-group-buffers-by 'projects)
      spell-checking
      syntax-checking
      version-control git github
-     themes-megapack
+     themes-megapack unicode-fonts
      (chinese :variables
               ;; chinese-enable-fcitx t
               ;; chinese-default-input-method 'wubi
               chinese-enable-youdao-dict t
               chinese-enable-avy-pinyin nil)
+     parinfer
      ;; More VIM sugar in emacs
      evil-snipe vinegar
      ;; ----------------------------------------------------------------
@@ -78,6 +80,7 @@ This function should only modify configuration layer settings."
      bibtex
      major-modes
      yaml
+     protobuf
      shell-scripts windows-scripts vimscript autohotkey
      rebox ;; text boxes
      ;; Auto-completion & tags
@@ -86,30 +89,43 @@ This function should only modify configuration layer settings."
      ;; Tools
      ;; ----------------------------------------------------------------
      pdf-tools
+     pass
      imenu-list
      ;; email & irc
      (mu4e :variables
+           mu4e-spacemacs-layout-name "@Mu4e"
+           mu4e-spacemacs-layout-binding "m"
            mu4e-account-alist t
            mu4e-enable-mode-line t
            mu4e-enable-notifications t
            mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e")
+     (notmuch :variables
+              notmuch-spacemacs-layout-name "@Notmuch"
+              notmuch-spacemacs-layout-binding "n")
      erc
      ;; web
      chrome search-engine
      (org :variables
-          org-enable-reveal-js-support t
-          org-enable-org-journal-support t)
+          org-want-todo-bindings t
+          org-enable-org-journal-support t
+          org-enable-bootstrap-support t
+          org-enable-reveal-js-support t)
      evernote
      twitter
      ;; FIXME: disabled. emoji clobbers org-mode match data
      ;; emoji
      xkcd ;; something for fun
-     (elfeed :variables rmh-elfeed-org-files (list "~/Dropbox/Notes/feeds.org"))
+     (elfeed :variables
+             elfeed-spacemacs-layout-name "@Elfeed"
+             elfeed-spacemacs-layout-binding "f"
+             rmh-elfeed-org-files (list "~/Dropbox/Notes/feeds.org")
+             elfeed-goodies/entry-pane-position 'bottom
+             url-queue-timeout 10)
      speed-reading
      selectric typography ;; writing
      (shell :variables
-             shell-default-height 30
-             shell-default-position 'bottom)
+            shell-default-height 30
+            shell-default-position 'bottom)
      tmux ranger
      xclipboard systemd
      ;; neotree
@@ -124,13 +140,11 @@ This function should only modify configuration layer settings."
 
      ;; My private layers
      aam
-     notmuch
      writing
      emms habitrpg
      org-extras
      python-extras cpp-extras
-     emacs-icons
-     )
+     emacs-icons)
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -554,8 +568,8 @@ you should place your code here."
   (defun my-prog-settings()
     (spacemacs/toggle-fill-column-indicator-on)
     (spacemacs/toggle-line-numbers-on)
-    (linum-relative-on)
-    )
+    (linum-relative-on))
+
   (add-hook 'prog-mode-hook 'my-prog-settings)
   ;; basic text settings
   (add-hook 'text-mode-hook 'visual-line-mode)
@@ -816,8 +830,8 @@ SCHEDULED: %^{When should we stop?}t +1d
     ;; Automatic update for pdf
     (auto-revert-mode)
     ;; Emacs freezes with linum-mode
-    (linum-mode -1)
-    )
+    (linum-mode -1))
+
   (add-hook 'doc-view-mode-hook 'my-doc-view-settings)
   (defadvice doc-view-display (after fit-width activate)
     (doc-view-fit-width-to-window))
@@ -1037,8 +1051,8 @@ SCHEDULED: %^{When should we stop?}t +1d
                (smtpmail-stream-type         . starttls)
                (smtpmail-default-smtp-server . "smtp.yandex.com")
                (smtpmail-smtp-server         . "smtp.yandex.com")
-               (smtpmail-smtp-service        . 465)))
-           ))
+               (smtpmail-smtp-service        . 465)))))
+
   (setq mu4e-compose-context-policy 'ask-if-none
         mu4e-context-policy 'pick-first)
   ;; (mu4e/mail-account-reset)
