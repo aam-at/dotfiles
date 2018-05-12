@@ -22,6 +22,8 @@
     djvu
     sr-speedbar
     hackernews sx
+    magit-org-todos
+    org-projectile
     ;; for viewsing log files
     (hide-lines :location (recipe
                            :fetcher github
@@ -109,6 +111,14 @@
   (setq sx-cache-directory (concat spacemacs-cache-directory "sx"))
   (when (not (file-directory-p sx-cache-directory))
     (make-directory sx-cache-directory)))
+
+(defun aam/init-magit-org-todos()
+  :defer t
+  :config
+  (magit-org-todos-autoinsert))
+
+(defun aam/post-init-org-projectile()
+  (setq magit-org-todos-filename org-projectile-file))
 
 (defun aam/init-hide-lines()
   :defer t)
