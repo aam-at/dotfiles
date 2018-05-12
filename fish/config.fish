@@ -8,6 +8,14 @@ set -U fish_key_bindings fish_default_key_bindings
 # colorscheme for fish
 source ~/dotfiles/fish/solarized.fish
 
+if test -n "$EMACS"
+    set -x TERM eterm-color
+
+    function fish_title
+        true
+    end
+end
+
 ##############################
 # Load environment variables #
 ##############################
