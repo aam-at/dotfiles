@@ -524,10 +524,6 @@ you should place your code here."
   ;; Emacs configuration
   (setq vc-follow-symlinks t)
   (desktop-save-mode t)
-  (setq projectile-tags-command "ctags-exuberant -Re -f \"%s\" %s")
-  (require 'server)
-  (or (server-running-p)
-      (server-start))
 
   ;; FIXME: Which key fix for master emacs 26.0.50
   (defalias 'display-buffer-in-major-side-window 'window--make-major-side-window)
@@ -761,6 +757,8 @@ SCHEDULED: %^{When should we stop?}t +1d
     ;; set manually docset for zeal
     (setq zeal-at-point-docset "latex"))
   (add-hook 'LaTeX-mode-hook 'my-latex-settings)
+  ;; company-reftex: eqref, autoref and cref
+  (setq company-reftex-labels-regexp "\\\\\\(?:eq\\|auto\\|c\\)?ref{\\([^}]*\\)\\=")
 
   ;; Auctex settings
   (setq-default TeX-master nil) ; Query for master file.
@@ -811,7 +809,7 @@ SCHEDULED: %^{When should we stop?}t +1d
     (add-to-list 'TeX-command-list '("View Evince" "evince %o" TeX-run-command nil t
                                      :help "Open document using evince"))
     (add-to-list 'TeX-command-list '("View Zathura" "zathura %o" TeX-run-command nil t
-                                      :help "Open document using zathura")))
+                                     :help "Open document using zathura")))
 
   ;; Doc-view settings
   (defun my-doc-view-settings ()
@@ -1093,7 +1091,11 @@ SCHEDULED: %^{When should we stop?}t +1d
   (evil-set-initial-state 'xwidget-webkit-mode 'emacs)
   (with-eval-after-load 'xwidget
     (define-key xwidget-webkit-mode-map [mouse-4] 'xwidget-webkit-scroll-down)
-    (define-key xwidget-webkit-mode-map [mouse-5] 'xwidget-webkit-scroll-up))
+    (define-key xwidget-webkit-mode-map [mouse-5] 'xwidget-webkit-scroll-up)
+    (define-key xwidget-webkit-mode-map (kbd "k") 'xwidget-webkit-scroll-down)
+    (define-key xwidget-webkit-mode-map (kbd "j") 'xwidget-webkit-scroll-up)
+    (define-key xwidget-webkit-mode-map (kbd "l") 'xwidget-webkit-scroll-forward)
+    (define-key xwidget-webkit-mode-map (kbd "h") 'xwidget-webkit-scroll-backward))
 
   ;; load encrypted part of config
   (load-library "secure-config")
