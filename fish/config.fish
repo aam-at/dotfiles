@@ -41,43 +41,9 @@ if test -e ~/.env
     source ~/.env
 end
 
-################################
-# Custom aliases and functions #
-################################
-if test -e ~/.aliases
-    source ~/.aliases
-end
-abbr -a -- - 'cd -'
-
-function reload
-    source ~/.config/fish/config.fish
-end
-
-# configure fucks
-function fuck -d 'Correct your previous console command'
-    set -l exit_code $status
-    set -l eval_script (mktemp 2>/dev/null ; or mktemp -t 'thefuck')
-    set -l fucked_up_commandd $history[1]
-    thefuck $fucked_up_commandd >$eval_script
-    . $eval_script
-    rm $eval_script
-    if test $exit_code -ne 0
-        history --delete $fucked_up_commandd
-    end
-end
-
-# configure autojump
-if test -d /usr/share/autojump
-  source /usr/share/autojump/autojump.fish
-end
-
-# configure pyenv
-if test -d ~/.pyenv
-    set -gx PYENV_ROOT $HOME/.pyenv
-    set -x PATH $HOME/.pyenv/bin $PATH
-    pyenv init - | source
-    pyenv virtualenv-init - | source
-end
+#####################
+# Configure plugins #
+#####################
 
 # Path to Oh My Fish install.
 set -gx OMF_PATH $HOME/.local/share/omf
@@ -94,4 +60,47 @@ if test -d $OMF_PATH # Customize Oh My Fish configuration path.
     set fish_themes agnoster batman krisleech zish toaster ocean syl20bnr
     # select theme
     set fish_theme agnoster
+end
+
+# configure autojump
+if test -d /usr/share/autojump
+    source /usr/share/autojump/autojump.fish
+end
+
+# configure pyenv
+if test -d ~/.pyenv
+    set -gx PYENV_ROOT $HOME/.pyenv
+    set -x PATH $HOME/.pyenv/bin $PATH
+    pyenv init - | source
+    pyenv virtualenv-init - | source
+end
+
+# configure icons-in-terminal
+if test -d ~/.local/share/icons-in-terminal
+    source ~/.local/share/icons-in-terminal/icons.fish
+end
+
+# configure fucks
+function fuck -d 'Correct your previous console command'
+    set -l exit_code $status
+    set -l eval_script (mktemp 2>/dev/null ; or mktemp -t 'thefuck')
+    set -l fucked_up_commandd $history[1]
+    thefuck $fucked_up_commandd >$eval_script
+    . $eval_script
+    rm $eval_script
+    if test $exit_code -ne 0
+        history --delete $fucked_up_commandd
+    end
+end
+
+################################
+# Custom aliases and functions #
+################################
+if test -e ~/.aliases
+    source ~/.aliases
+end
+abbr -a -- - 'cd -'
+
+function reload
+    source ~/.config/fish/config.fish
 end

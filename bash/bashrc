@@ -15,12 +15,12 @@ fi
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 
@@ -33,11 +33,11 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
+    xterm*|rxvt*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+        ;;
+    *)
+        ;;
 esac
 
 # enable color support of ls and also add handy aliases
@@ -75,6 +75,46 @@ if [ -f ~/.env ]; then
     . ~/.env
 fi
 
+#####################
+# Configure plugins #
+#####################
+
+# configure fasd
+function command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+if command_exists fasd; then
+    eval "$(fasd --init auto)"
+fi
+
+# configure autojump
+if [ -f /usr/share/autojump/autojump.sh ]; then
+    . /usr/share/autojump/autojump.sh
+fi
+
+# configure pyenv
+if [ -d $HOME/.pyenv ]; then
+    export PYENV_ROOT=$HOME/.pyenv
+    export PATH=$HOME/.pyenv/bin:$PATH
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+fi
+
+if [ -f ~/.local/share/icons-in-terminal/icons_bash.sh ]; then
+    . ~/.local/share/icons-in-terminal/icons_bash.sh
+fi
+
+# configure fucks
+if command_exists thefuck; then
+    eval "$(thefuck --alias)"
+fi
+
+# add custom completions
+for f in ~/.bash_completion.d/*; do
+    . $f
+done
+
 ################################
 # Custom aliases and functions #
 ################################
@@ -96,35 +136,3 @@ fi
 function copy_password() {
     copy_password.sh $1
 }
-
-function command_exists() {
-    command -v "$1" >/dev/null 2>&1
-}
-
-# configure fucks
-if command_exists thefuck; then
-  eval "$(thefuck --alias)"
-fi
-
-# configure fasd
-if command_exists fasd; then
-  eval "$(fasd --init auto)"
-fi
-
-# configure autojump
-if [ -f /usr/share/autojump/autojump.sh ]; then
-    . /usr/share/autojump/autojump.sh
-fi
-
-# configure pyenv
-if [ -d $HOME/.pyenv ]; then
-  export PYENV_ROOT=$HOME/.pyenv
-  export PATH=$HOME/.pyenv/bin:$PATH
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
-
-# add custom completions
-for f in ~/.bash_completion.d/*; do
-    . $f
-done
