@@ -93,6 +93,114 @@ if [ -f /usr/share/autojump/autojump.sh ]; then
     . /usr/share/autojump/autojump.sh
 fi
 
+# configure fzf
+if [ -f ~/.fzf.bash ]; then
+    . ~/.fzf.bash
+
+    # fe [FUZZY PATTERN] - Open the selected file with the default editor
+    #   - Bypass fuzzy finder if there's only one match (--select-1)
+    #   - Exit if there's no match (--exit-0)
+    fe() {
+        local files
+        files="$(fzf-tmux --query="$1" --multi --select-1 --exit-0)"
+        [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+    }
+
+    # Modified version where you can press
+    #   - CTRL-O to open with `open` command,
+    #   - CTRL-E or Enter key to open with the $EDITOR
+    fo() {
+        local out file key
+        out="$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)"
+        key=$(head -1 <<< "$out")
+        file=$(head -2 <<< "$out" | tail -1)
+        if [ -n "$file" ]; then
+            [ "$key" = ctrl-o ] && xdg-open "$file" || ${EDITOR:-vim} "$file"
+        fi
+    }
+
+    # fd - cd to selected directory
+    fd() {
+        local dir
+        dir=$(find -L ${1:-.} -path '*/\.*' -prune \
+                   -o -type d -print 2> /dev/null | fzf-tmux +m) &&
+            cd "$dir"
+    }
+
+    # cfe - fuzzy open file from anywhere
+    # ex: cfe word1 word2 ... (even part of a file name)
+    cfe() {
+        local file
+
+        file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf-tmux --read0 -0 -1)"
+
+        if [[ -n $file ]]
+        then
+            if [[ -d $file ]]
+            then
+                $EDITOR $file
+            else
+                $EDITOR -- ${file:h}
+            fi
+        fi
+    }
+
+    # cdf - cd into the directory of the selected file
+    cdf() {
+        local file
+        local dir
+        file=$(fzf-tmux +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+    }
+
+    # fkill - kill process
+    fkill() {
+        local pid
+        pid=$(ps -ef | sed 1d | fzf-tmux -m | awk '{print $2}')
+
+        if [ "x$pid" != "x" ]
+        then
+            echo $pid | xargs kill -${1:-9}
+        fi
+    }
+
+    # p - search for academic PDFs by author, title, journal, institution
+    p () {
+        local DIR open
+        declare -A already
+        DIR="${HOME}/.cache/pdftotext"
+        mkdir -p "${DIR}"
+        if [ "$(uname)" = "Darwin" ]; then
+            open=open
+        else
+            open="gio open"
+        fi
+
+        {
+            ag -g ".pdf$"; # fast, without pdftotext
+            ag -g ".pdf$" \
+                | while read -r FILE; do
+                local EXPIRY HASH CACHE
+                HASH=$(md5sum "$FILE" | cut -c 1-32)
+                # Remove duplicates (file that has same hash as already seen file)
+                [ ${already[$HASH]+abc} ] && continue # see https://stackoverflow.com/a/13221491
+                already[$HASH]=$HASH
+                EXPIRY=$(( 86400 + $RANDOM * 20 )) # 1 day (86400 seconds) plus some random
+                CMD="pdftotext -f 1 -l 1 '$FILE' - 2>/dev/null | tr \"\n\" \"_\" "
+                CACHE="$DIR/$HASH"
+                test -f "${CACHE}" && [ $(expr $(date +%s) - $(date -r "$CACHE" +%s)) -le $EXPIRY ] || eval "$CMD" > "${CACHE}"
+                echo -e "$FILE\t$(cat ${CACHE})"
+            done
+        } | fzf -e  -d '\t' \
+                --preview-window up:75% \
+                --preview '
+                v=$(echo {q} | tr " " "|");
+                echo {1} | grep -E "^|$v" -i --color=always;
+                pdftotext -f 1 -l 1 {1} - | grep -E "^|$v" -i --color=always' \
+                    | awk 'BEGIN {FS="\t"; OFS="\t"}; {print "\""$1"\""}' \
+                    | xargs $open > /dev/null 2> /dev/null
+    }
+fi
+
 # configure pyenv
 if [ -d $HOME/.pyenv ]; then
     export PYENV_ROOT=$HOME/.pyenv

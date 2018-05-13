@@ -844,7 +844,7 @@ SCHEDULED: %^{When should we stop?}t +1d
 
   ;; configure langtool
   (setq langtool-java-classpath
-        "/usr/share/languagetool:/usr/share/java/languagetool/*")
+        "/usr/share/languagetool/*:/usr/share/java/languagetool/*")
   (setq langtool-default-language "en-US")
   ;; thesaurus api-key
   (setq thesaurus-bhl-api-key "api-key")
