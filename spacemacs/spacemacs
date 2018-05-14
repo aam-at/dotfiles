@@ -66,6 +66,7 @@ This function should only modify configuration layer settings."
      python ipython-notebook
      c-c++
      (cmake :variables cmake-enable-cmake-ide-support t)
+     debug
      go
      haskell
      lua
