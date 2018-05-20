@@ -604,7 +604,7 @@ you should place your code here."
   (setq calendar-date-style "european")
 
   ;; org settings
-  (setq org-directory "~/Dropbox/Notes")
+  (setq org-directory (expand-file-name "~/Dropbox/Notes"))
   (setq org-default-notes-file (concat org-directory "/refile.org"))
   (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
 
@@ -647,38 +647,38 @@ you should place your code here."
 
   ;; org capture settings
   (setq org-capture-templates
-        '(
-          ("i" "Idea" entry (file (concat org-directory "/ideas.org"))
-           "* %^{Short description of the idea}
-:PROPERTIES:
-:CREATED:%U
-:END:
-%i\n%?\n
-Link: %a\n")
-          ("h" "Habit" entry (file (concat org-directory "/personal.org"))
+        `(
+          ("t" "Todo" entry (file+headline ,(concat org-directory "/todo.org") "Unfilled")
            "* TODO %?
-SCHEDULED: %^{When should we stop?}t +1d
-:PROPERTIES:
-:STYLE: habit
-:CREATED:%U
-:END:
-%i\n")
-          ("n" "Note" entry (file (concat org-directory "/personal.org"))
+  :PROPERTIES:
+  :CREATED:%U
+  :END:
+  %i\n Link: %a\n")
+          ("i" "Idea" entry (file+headline ,(concat org-directory "/ideas.org") "Unfilled")
+           "* %^{Short description of the idea}
+  :PROPERTIES:
+  :CREATED:%U
+  :END:
+  %i\n%?\n
+  Link: %a\n")
+          ("n" "Note" entry (file+headline ,(concat org-directory "/personal.org") "Unfilled notes")
            "* %^{Select note title}
-:PROPERTIES:
-:CREATED:%U
-:END:
-%i\n%?\n")
-          ("t" "Todo" entry (file (concat org-directory "/todo.org"))
-"* TODO %?
-:PROPERTIES:
-:CREATED:%U
-:END:
-%i\n Link: %a\n")
-          ("l" "Read later" entry (file (concat org-directory "/bookmarks.org"))
+  :PROPERTIES:
+  :CREATED:%U
+  :END:
+  %i\n%?\n")
+          ("h" "Habit" entry (file+headline ,(concat org-directory "/personal.org") "Unfilled habits")
+           "* TODO %?
+  SCHEDULED: %^{When should we stop?}t +1d
+  :PROPERTIES:
+  :STYLE: habit
+  :CREATED:%U
+  :END:
+  %i\n")
+          ("l" "Read later" entry (file+headline ,(concat org-directory "/bookmarks.org") "Unfilled")
            "* %?%:description :readlater:
-- %:link
-%(when (< 0 (length \"%:elfeed-entry-link\")) (concat \"- web link: \" \"%:elfeed-entry-link\"))")))
+  - %:link
+  %(when (< 0 (length \"%:elfeed-entry-link\")) (concat \"- web link: \" \"%:elfeed-entry-link\"))")))
 
   ;; org babel languages
   (org-babel-do-load-languages
