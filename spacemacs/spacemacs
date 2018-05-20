@@ -117,6 +117,7 @@ This function should only modify configuration layer settings."
      ;; emoji
      xkcd ;; something for fun
      (elfeed :variables
+             elfeed-search-filter "@1-months-ago +unread"
              elfeed-spacemacs-layout-name "@Elfeed"
              elfeed-spacemacs-layout-binding "f"
              rmh-elfeed-org-files (list "~/Dropbox/Notes/feeds.org")
@@ -673,7 +674,11 @@ SCHEDULED: %^{When should we stop?}t +1d
 :PROPERTIES:
 :CREATED:%U
 :END:
-%i\n Link: %a\n")))
+%i\n Link: %a\n")
+          ("l" "Read later" entry (file (concat org-directory "/bookmarks.org"))
+           "* %?%:description :readlater:
+- %:link
+%(when (< 0 (length \"%:elfeed-entry-link\")) (concat \"- web link: \" \"%:elfeed-entry-link\"))")))
 
   ;; org babel languages
   (org-babel-do-load-languages
@@ -864,9 +869,6 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq lua-default-application "qlua")
   (setq lua-default-command-switches (quote ("-ltorch" "-lenv" "-i")))
 
-  ;; default elfeed search
-  (setq-default elfeed-search-filter "@1-week-ago +unread")
-
   ;; email configuration
   (setq mu4e-maildir "~/.mail"
         mu4e-sent-folder "/sent"
@@ -922,6 +924,7 @@ SCHEDULED: %^{When should we stop?}t +1d
   (setq mu4e-bookmarks
         `(("flag:unread AND NOT flag:trashed and NOT maildir:\"/*Trash*\" and NOT maildir:\"/*Delete*\" and NOT maildir:\"/*Spam*\" and NOT maildir:\"/*Junk*\"" "Unread messages" ?u)
           ("flag:new and NOT flag:trashed and NOT maildir:\"/*Trash*\" and NOT maildir:\"/*Delete*\" and NOT maildir:\"/*Spam*\" and NOT maildir:\"/*Junk*\""    "New messages"    ?n)
+          ("maildir:\"/*INBOX*\""                       "Inbox's messages"     ?i)
           ("date:today..now"                            "Today's messages"     ?t)
           ("date:7d..now"                               "Last 7 days"          ?w)
           ("maildir:\"/INBOX\" and flag:flagged"        "Flagged in INBOX"     ?f)
