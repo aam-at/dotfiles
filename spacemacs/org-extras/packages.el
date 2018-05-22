@@ -13,21 +13,21 @@
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
 (defconst org-extras-packages
-    '(
-      org-dashboard
-      org-doing
-      org-trello
-      ;; provides synchronization with google calendar.
-      (org-gcal :location (recipe
-                             :fetcher github
-                             :repo "myuhe/org-gcal.el"))
-      (emacs-calfw :location (recipe
-                              :fetcher github
-                              :repo "kiwanami/emacs-calfw"))
-      (ebib :location (recipe
-                       :fetcher github
-                       :repo "joostkremers/ebib"))
-      org-ref
+  '(
+    org-dashboard
+    org-doing
+    org-trello
+    ;; provides synchronization with google calendar.
+    (org-gcal :location (recipe
+                         :fetcher github
+                         :repo "myuhe/org-gcal.el"))
+    (emacs-calfw :location (recipe
+                            :fetcher github
+                            :repo "kiwanami/emacs-calfw"))
+    (ebib :location (recipe
+                     :fetcher github
+                     :repo "joostkremers/ebib"))
+    org-ref
     ))
 
 ;; List of packages to exclude.

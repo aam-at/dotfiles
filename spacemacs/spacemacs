@@ -679,6 +679,12 @@ you should place your code here."
            "* %?%:description :readlater:
   - %:link
   %(when (< 0 (length \"%:elfeed-entry-link\")) (concat \"- web link: \" \"%:elfeed-entry-link\"))")))
+  ;; template for org-calendar
+  (setq cfw:org-capture-template
+        `("c" "calfw2org" entry (file+headline ,(concat org-directory "/todo.org") "Unfilled")  "* %?
+%(cfw:org-capture-day)"))
+  (setq org-capture-templates
+        (append org-capture-templates (list cfw:org-capture-template)))
 
   ;; org babel languages
   (org-babel-do-load-languages
@@ -1118,8 +1124,7 @@ you should place your code here."
     (define-key xwidget-webkit-mode-map (kbd "h") 'xwidget-webkit-scroll-backward))
 
   ;; load encrypted part of config
-  (load-library "secure-config")
-)
+  (load-library "secure-config"))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
