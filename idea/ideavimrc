@@ -101,9 +101,11 @@ vmap ]] :action MethodDown<CR>
 " project navigation {
   nnoremap <Space>c :action GotoClass<CR>
   nnoremap <Space>f :action GotoFile<CR>
+  nnoremap <Space>/ :action SearchEverywhere<CR>
+  nnoremap <Space>' :action ActivatePythonConsoleToolWindow<CR>
+  nnoremap <Space>r :action RecentFiles<CR>
   nnoremap <Space>s :action GotoSymbol<CR>
   nnoremap <Space>x :action CloseContent<CR>
-  nnoremap <Space>r :action RecentFiles<CR>
   nnoremap <Space>t :action FileStructurePopup<CR>
   nnoremap <Space>h :action QuickJavaDoc<CR>
 " }
