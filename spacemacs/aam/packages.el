@@ -24,6 +24,7 @@
         hackernews sx
         magit-org-todos
         org-projectile
+        helm-system-packages
         ;; for viewsing log files
         (hide-lines :location (recipe
                                :fetcher github
@@ -117,6 +118,9 @@
 
 (defun aam/post-init-org-projectile()
   (setq magit-org-todos-filename org-projectile-file))
+
+(defun aam/init-helm-system-packages()
+  :defer t)
 
 (defun aam/init-hide-lines()
   :defer t)
