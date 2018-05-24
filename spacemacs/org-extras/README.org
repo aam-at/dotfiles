@@ -9,18 +9,21 @@
 * Table of Contents                                        :TOC_4_org:noexport:
 - [[Description][Description]]
 - [[Install][Install]]
-  - [[org-journal][org-journal]]
-  - [[org-caldav][org-caldav]]
 - [[Key bindings][Key bindings]]
-  - [[org-caldav][org-caldav]]
-  - [[org-eww][org-eww]]
+  - [[Applications][Applications]]
+  - [[Org-mode][Org-mode]]
+  - [[Pdf-view-mode][Pdf-view-mode]]
+- [[TODOs][TODOs]]
+  - [[Add ob-ipython][Add ob-ipython]]
+  - [[Compare org-gcal and org-caldav][Compare org-gcal and org-caldav]]
 
 * Description
 This layer provides following goodies for org:
   - org-dashboard
-  - org-caldav (google calendar sync)
-  - ob-ipython (better ipython for org)
-  - org-eww (live preview for org)
+  - org-doing
+  - emacs-calfw (emacs calendar framework)
+  - org-noter
+  - org-trello
 
 * Install
 To use this contribution add it to your =~/.spacemacs=
@@ -29,29 +32,82 @@ To use this contribution add it to your =~/.spacemacs=
   (setq-default dotspacemacs-configuration-layers '(org-extras))
 #+end_src
 
-** org-journal
-#+BEGIN_SRC emacs-lisp
-(setq org-journal-dir "~/Dropbox/Notes/journal")
-#+END_SRC
-** org-caldav
+* Key bindings
+** Applications
+| Key Binding                                | Description            |
+|--------------------------------------------+------------------------|
+| @@html:<kbd>@@ SPC-a-o-D @@html:</kbd>@@   | org-dashboard-display  |
+| @@html:<kbd>@@ SPC-a-o-d @@html:</kbd>@@   | org-doing              |
+| @@html:<kbd>@@ SPC-a-o-C @@html:</kbd>@@   | cfw:open-org-calendar  |
+| @@html:<kbd>@@ SPC-a-o-n @@html:</kbd>@@   | org-noter              |
+| @@html:<kbd>@@ SPC-a-o-g-s @@html:</kbd>@@ | org-gcal-sync          |
+| @@html:<kbd>@@ SPC-a-o-g-f @@html:</kbd>@@ | org-gcal-fetch         |
+| @@html:<kbd>@@ SPC-a-o-g-p @@html:</kbd>@@ | org-gcal-post-at-point |
+| @@html:<kbd>@@ SPC-a-o-g-r @@html:</kbd>@@ | org-gcal-refresh-token |
+
+** Org-mode
+Adds the following key-bindings to =org-mode=:
+
+-org-dashboard
+| Key Binding                              | Description              |
+|------------------------------------------+--------------------------|
+| @@html:<kbd>@@ SPC-m-D @@html:</kbd>@@   | org-dashboard-display    |
+
+- org-doing
+| Key Binding                              | Description              |
+|------------------------------------------+--------------------------|
+| @@html:<kbd>@@ SPC-m-C-d @@html:</kbd>@@ | org-doing                |
+
+- org-gcal
+| Key Binding                              | Description              |
+|------------------------------------------+--------------------------|
+| @@html:<kbd>@@ SPC-m-g-s @@html:</kbd>@@ | org-gcal-sync            |
+| @@html:<kbd>@@ SPC-m-g-f @@html:</kbd>@@ | org-gcal-fetch           |
+| @@html:<kbd>@@ SPC-m-g-p @@html:</kbd>@@ | org-gcal-post-at-point   |
+| @@html:<kbd>@@ SPC-m-g-r @@html:</kbd>@@ | org-gcal-refresh-token)) |
+
+- org-trello
+| Key Binding                               | Description                                  |
+|-------------------------------------------+----------------------------------------------|
+| @@html:<kbd>@@ SPC-o-t-v @@html:</kbd>@@ | org-trello-version                           |
+| @@html:<kbd>@@ SPC-o-t-i @@html:</kbd>@@ | org-trello-install-key-and-token             |
+| @@html:<kbd>@@ SPC-o-t-I @@html:</kbd>@@ | org-trello-install-board-metadata            |
+| @@html:<kbd>@@ SPC-o-t-c @@html:</kbd>@@ | org-trello-sync-card                         |
+| @@html:<kbd>@@ SPC-o-t-s @@html:</kbd>@@ | org-trello-sync-buffer                       |
+| @@html:<kbd>@@ SPC-o-t-a @@html:</kbd>@@ | org-trello-assign-me                         |
+| @@html:<kbd>@@ SPC-o-t-d @@html:</kbd>@@ | org-trello-check-setup                       |
+| @@html:<kbd>@@ SPC-o-t-D @@html:</kbd>@@ | org-trello-delete-setup                      |
+| @@html:<kbd>@@ SPC-o-t-b @@html:</kbd>@@ | org-trello-create-board-and-install-metadata |
+| @@html:<kbd>@@ SPC-o-t-k @@html:</kbd>@@ | org-trello-kill-entity                       |
+| @@html:<kbd>@@ SPC-o-t-K @@html:</kbd>@@ | org-trello-kill-cards                        |
+| @@html:<kbd>@@ SPC-o-t-a @@html:</kbd>@@ | org-trello-archive-card                      |
+| @@html:<kbd>@@ SPC-o-t-A @@html:</kbd>@@ | org-trello-archive-cards                     |
+| @@html:<kbd>@@ SPC-o-t-j @@html:</kbd>@@ | org-trello-jump-to-trello-card               |
+| @@html:<kbd>@@ SPC-o-t-J @@html:</kbd>@@ | org-trello-jump-to-trello-board              |
+| @@html:<kbd>@@ SPC-o-t-C @@html:</kbd>@@ | org-trello-add-card-comments                 |
+| @@html:<kbd>@@ SPC-o-t-c @@html:</kbd>@@ | org-trello-show-card-comments                |
+| @@html:<kbd>@@ SPC-o-t-l @@html:</kbd>@@ | org-trello-show-card-labels                  |
+| @@html:<kbd>@@ SPC-o-t-u @@html:</kbd>@@ | org-trello-update-board-metadata             |
+| @@html:<kbd>@@ SPC-o-t-h @@html:</kbd>@@ | org-trello-help-describing-bindings))        |
+
+- org-ref
+| Key Binding                            | Description                    |
+|----------------------------------------+--------------------------------|
+| @@html:<kbd>@@ SPC-i-L @@html:</kbd>@@ | org-ref-helm-insert-label-link |
+| @@html:<kbd>@@ SPC-i-r @@html:</kbd>@@ | org-ref-helm-insert-ref-link   |
+
+** Pdf-view-mode
+Adds the following key-bindings to =pdf-view-mode=:
+| Key Binding                            | Description |
+|----------------------------------------+-------------|
+| @@html:<kbd>@@ SPC-m-N @@html:</kbd>@@ | org-noter   |
+
+* TODOs
+** Add ob-ipython
+** Compare org-gcal and org-caldav
 #+BEGIN_SRC emacs-lisp
 (setq org-caldav-calendars
         '((:calendar-id "iu5alt927aue6hsjis25qhsark@group.calendar.google.com"
                         :files ("~/Dropbox/Notes/work.org")
                         :inbox "~/Dropbox/Notes/fromwork.org")))
 #+END_SRC
-
-* Key bindings
-
-** org-caldav
-
-| Key Binding       | Description                   |
-|-------------------+-------------------------------|
-| ~SPC o S~         | Sync org with google calendar |
-
-** org-eww
-
-| Key Binding | Description                                |
-|-------------+--------------------------------------------|
-| ~<SPC> o p~ | Enable org-eww preview for current buffer |
-| ~<SPC> o P~ | Disable org-eww preview for current buffer |

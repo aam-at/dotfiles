@@ -85,6 +85,7 @@ file.
 | @@html:<kbd>@@ SPC-m-S-N @@html:</kbd>@@ | ewmctrl-sort-by-name-reversed           |
 | @@html:<kbd>@@ SPC-m-S-p @@html:</kbd>@@ | ewmctrl-sort-by-pid                     |
 | @@html:<kbd>@@ SPC-m-S-P @@html:</kbd>@@ | ewmctrl-sort-by-pid-reversed)))         |
+
 * TODOs
 ** TODO Configure hackernews package
 

@@ -16,14 +16,16 @@
   '(
     org-dashboard
     org-doing
+    (emacs-calfw :location (recipe
+                            :fetcher github
+                            :repo "kiwanami/emacs-calfw"))
+    org-noter
+    pdf-tools
     org-trello
     ;; provides synchronization with google calendar.
     (org-gcal :location (recipe
                          :fetcher github
                          :repo "myuhe/org-gcal.el"))
-    (emacs-calfw :location (recipe
-                            :fetcher github
-                            :repo "kiwanami/emacs-calfw"))
     (ebib :location (recipe
                      :fetcher github
                      :repo "joostkremers/ebib"))
@@ -42,16 +44,38 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
-(defun org-extras/init-org-dashboard()
+(defun org-extras/init-org-dashboard ()
   :defer t
   :init
-  (spacemacs/set-leader-keys "oD" 'org-dashboard-display))
+  (spacemacs/set-leader-keys "aoD" 'org-dashboard-display)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "D" 'org-dashboard-display))
 
-(defun org-extras/init-org-doing()
+(defun org-extras/init-org-doing ()
   :defer t
   :init
   (progn
-    (spacemacs/set-leader-keys "od" 'org-doing)))
+    (spacemacs/set-leader-keys "aod" 'org-doing)
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "Cd" 'org-doing)))
+
+(defun org-extras/init-emacs-calfw ()
+  :init
+  (progn
+    (require 'calfw-ical)
+    (require 'calfw-org)
+    (spacemacs/set-leader-keys "aoC" 'cfw:open-org-calendar))
+  :config
+  (evil-set-initial-state 'cfw:calendar-mode 'emacs))
+
+(defun org-extras/init-org-noter ()
+  :defer t
+  :commands (org-noter)
+  :init
+  (spacemacs/set-leader-keys "aon" 'org-noter))
+
+(defun org-extras/post-init-pdf-tools ()
+  (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "N" 'org-noter))
 
 (defun org-extras/init-org-trello ()
   :defer t
@@ -81,50 +105,45 @@
     "otu" 'org-trello-update-board-metadata
     "oth" 'org-trello-help-describing-bindings))
 
-(defun org-extras/init-org-gcal()
+(defun org-extras/init-org-gcal ()
+  :defer t
   :init
   (progn
     (require 'org-gcal)
-    (setq org-gcal-dir (concat spacemacs-cache-directory "org-gcal"))
-    (spacemacs/set-leader-keys "aCs" 'org-gcal-sync)
-    (spacemacs/set-leader-keys "aCf" 'org-gcal-fetch)
-    (spacemacs/set-leader-keys "aCp" 'org-gcal-post-at-point)
-    (spacemacs/set-leader-keys "aCr" 'org-gcal-refresh-token))
-  )
-
-(defun org-extras/init-emacs-calfw()
-  :init
-  (progn
-    (require 'calfw-ical)
-    (require 'calfw-org)
-    (spacemacs/set-leader-keys "aCo" 'cfw:open-org-calendar))
+    (spacemacs/declare-prefix "aog" "gcal")
+    (spacemacs/set-leader-keys
+      "aogs" 'org-gcal-sync
+      "aogf" 'org-gcal-fetch
+      "aogp" 'org-gcal-post-at-point
+      "aogr" 'org-gcal-refresh-token)
+    (spacemacs/declare-prefix-for-mode 'org-mode "mg" "gcal")
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "mgs" 'org-gcal-sync
+      "mgf" 'org-gcal-fetch
+      "mgp" 'org-gcal-post-at-point
+      "mgr" 'org-gcal-refresh-token))
   :config
-  (evil-set-initial-state 'cfw:calendar-mode 'emacs))
+  (setq org-gcal-dir (concat spacemacs-cache-directory "org-gcal")))
 
-(defun org-extras/init-ebib() :defer t)
+(defun org-extras/init-ebib ()
+  :defer t)
 
-(defun org-extras/post-init-org()
-    ;; add a hook function to check if this is trello file, then activate the org-trello minor mode.
-    (add-hook 'org-mode-hook
-              (lambda ()
-                (let ((filename (buffer-file-name (current-buffer))))
-                  (when (and filename (string= "trello" (file-name-extension filename)))
-                    (org-trello-mode)))))
-    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
-  )
+(defun org-extras/post-init-org ()
+  ;; add a hook function to check if this is trello file, then activate the org-trello minor mode.
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (let ((filename (buffer-file-name (current-buffer))))
+                (when (and filename
+                           (string= "trello"
+                                    (file-name-extension filename)))
+                  (org-trello-mode)))))
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images
+            'append))
 
-(defun org-extras/post-init-org-ref()
-  (require 'org)
-  (require 'hydra)
-  (setq hydra-is-helpful t)
-
-  (defhydra org-ref-hydra ()
-    "org-ref"
-    ("c" org-ref-helm-insert-cite-link "cite")
-    ("r" org-ref-helm-insert-ref-link "ref")
-    ("l" org-ref-helm-insert-label-link "label")
-    ("R" org-ref "org-ref"))
-  (spacemacs/set-leader-keys "or" 'org-ref-hydra/body)
+(defun org-extras/post-init-org-ref ()
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "iL" 'org-ref-helm-insert-label-link
+    "ir" 'org-ref-helm-insert-ref-link)
   ;; optional but very useful libraries from org-ref
   (require 'doi-utils)
   (require 'org-ref-pdf)
