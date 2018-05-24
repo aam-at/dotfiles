@@ -68,8 +68,7 @@ Each entry is either:
     :defer t
     :commands (habitrpg-add habitrpg-clock-in habitrpg-clock-out)
     :init
-    (spacemacs/set-leader-keys "oh" 'habitrpg-status)
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode "oha" 'habitrpg-add)
+    (spacemacs/set-leader-keys "Ah" 'habitrpg-status)
     :config
     (evil-set-initial-state 'habitrpg-status-mode 'emacs)
     (define-key habitrpg-status-mode-map
@@ -87,8 +86,7 @@ Each entry is either:
       "t" 'habitrpg-key-mode-popup-manage
       "g" 'habitrpg-refresh
       "G" 'habitrpg-refresh-all)
-    (evil-set-initial-state 'habitrpg-key-mode 'emacs)
-  ))
+    (evil-set-initial-state 'habitrpg-key-mode 'emacs)))
 
 (defun habitrpg/post-init-org()
   (defun my-habitrpg-add()
