@@ -91,7 +91,9 @@
 (defun aam/init-hackernews()
   :defer t
   :init
-  (spacemacs/set-leader-keys "ah" 'hackernews))
+  (spacemacs/set-leader-keys "AH" 'hackernews)
+  :config
+  (evil-set-initial-state 'hackernews-mode 'emacs))
 
 (defun aam/init-sx()
   :defer t
