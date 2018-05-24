@@ -50,23 +50,21 @@
 
     (spacemacs/declare-prefix "am" "music")
     (spacemacs/set-leader-keys
-      "amb" 'emms-browser
-      "amB" 'emms-smart-browse
-      "amp" 'emms-playlist-mode-go
-      "ams" 'emms-streams
-      "amo" 'emms-show
-      "amO" 'emms-show-all
-      "am ." 'emms-next
-      "am ," 'emms-previous
+      "amb"    'emms-browser
+      "amB"    'emms-smart-browse
+      "amp"    'emms-playlist-mode-go
+      "ams"    'emms-streams
+      "amo"    'emms-show
+      "amO"    'emms-show-all
+      "am ."   'emms-next
+      "am ,"   'emms-previous
       "am SPC" 'emms-pause
-      "am r" 'emms-random
+      "am r"   'emms-random
       "am RET" 'emms-smart-browse
-      "am+" 'emms-volume-mode-plus
-      "am-" 'emms-volume-mode-minus
-      )
+      "am+"    'emms-volume-mode-plus
+      "am-"    'emms-volume-mode-minus)
     (add-hook 'emms-browser-show-display-hook 'evil-initialize)
-    (add-hook 'emms-stream-hook 'evil-initialize)
-    )
+    (add-hook 'emms-stream-hook 'evil-initialize))
   :config
   (progn
     (setq emms-source-file-default-directory "~/Music")
@@ -82,8 +80,7 @@
       (kbd dotspacemacs-leader-key) spacemacs-default-map)
     (evil-set-initial-state 'emms-stream-mode 'emacs)
     (define-key emms-stream-mode-map
-      (kbd dotspacemacs-leader-key) spacemacs-default-map)
-    ))
+      (kbd dotspacemacs-leader-key) spacemacs-default-map)))
 
 (defun emms/init-helm-emms()
   :defer t)
