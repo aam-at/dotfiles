@@ -7,22 +7,18 @@
 # [[img/org-extras.png]]
 
 * Table of Contents                                        :TOC_4_org:noexport:
- - [[Description][Description]]
- - [[Install][Install]]
-   - [[org-journal][org-journal]]
-   - [[org-caldav][org-caldav]]
- - [[Key bindings][Key bindings]]
-   - [[org-journal][org-journal]]
-   - [[org-caldav][org-caldav]]
-   - [[org-ref][org-ref]]
-   - [[org-eww][org-eww]]
+- [[Description][Description]]
+- [[Install][Install]]
+  - [[org-journal][org-journal]]
+  - [[org-caldav][org-caldav]]
+- [[Key bindings][Key bindings]]
+  - [[org-caldav][org-caldav]]
+  - [[org-eww][org-eww]]
 
 * Description
 This layer provides following goodies for org:
   - org-dashboard
-  - org-journal (daily journal)
   - org-caldav (google calendar sync)
-  - org-ref (reference management)
   - ob-ipython (better ipython for org)
   - org-eww (live preview for org)
 
@@ -47,29 +43,11 @@ To use this contribution add it to your =~/.spacemacs=
 
 * Key bindings
 
-** org-journal
-
-| Key Binding       | Description                   |
-|-------------------+-------------------------------|
-| ~SPC o j~         | New entry in org journal      |
-| ~SPC m j~         | New entry in org journal      |
-| ~SPC m n~         | Next entry in org journal     |
-| ~SPC m p~         | Previous entry in org journal |
-
 ** org-caldav
 
 | Key Binding       | Description                   |
 |-------------------+-------------------------------|
 | ~SPC o S~         | Sync org with google calendar |
-
-** org-ref
-
-| Key Binding       | Description                   |
-|-------------------+-------------------------------|
-| ~z z~ (key-chord) | org-ref-hydra menu            |
-| ~SPC o c~         | org-ref-cite-hydra/body       |
-| ~SPC o b~         | org-ref-bibtex-hydra/body     |
-| ~SPC m n~         | Open org-ref bibtex notes     |
 
 ** org-eww
 
