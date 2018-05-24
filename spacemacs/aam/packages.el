@@ -17,7 +17,7 @@
         ;; FIXME disable for now as it clobbers match data in org-mode buffers
         ;; key-chord key-seq
         ;; citations
-        helm-bibtex gscholar-bibtex
+        gscholar-bibtex
         ;; provide djvu support
         djvu
         sr-speedbar
@@ -70,21 +70,6 @@
   (key-seq-define evil-normal-state-map "kf" 'delete-frame)
   (key-seq-define evil-normal-state-map "kw" 'evil-quit)
   (key-seq-define evil-normal-state-map "kb" 'kill-this-buffer))
-
-(defun aam/post-init-helm-bibtex()
-  (spacemacs/set-leader-keys "hc" 'helm-bibtex)
-  (setq bibtex-completion-pdf-symbol "⌘")
-  (setq bibtex-completion-notes-symbol "✎")
-  (setq bibtex-completion-additional-search-fields '(keywords tags))
-
-  (setq bibtex-completion-pdf-open-function
-        (lambda (fpath)
-          (start-process "xournal" "*helm-bibtex-xournal*" "/usr/bin/xournal" fpath)))
-  (setq bibtex-completion-format-citation-functions
-        '((org-mode      . bibtex-completion-format-citation-org-link-to-PDF)
-          (latex-mode    . bibtex-completion-format-citation-cite)
-          (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
-          (default       . bibtex-completion-format-citation-default))))
 
 (defun aam/init-gscholar-bibtex()
   :defer t

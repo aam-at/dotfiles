@@ -124,8 +124,7 @@
     ("r" org-ref-helm-insert-ref-link "ref")
     ("l" org-ref-helm-insert-label-link "label")
     ("R" org-ref "org-ref"))
-  (spacemacs/set-leader-keys
-    "or" 'org-ref-hydra/body)
+  (spacemacs/set-leader-keys "or" 'org-ref-hydra/body)
   ;; optional but very useful libraries from org-ref
   (require 'doi-utils)
   (require 'org-ref-pdf)
