@@ -1,0 +1,93 @@
+#+TITLE: Personal layer
+
+# The maximum height of the logo should be 200 pixels.
+[[img/cpp-extras.png]]
+
+# TOC links should be GitHub style anchors.
+* Table of Contents                                        :TOC_4_gh:noexport:
+- [[#description][Description]]
+- [[#install][Install]]
+- [[#key-bindings][Key bindings]]
+  - [[#scholar-keys][Scholar keys]]
+  - [[#hackenews][Hackenews]]
+  - [[#ewmctrl][Ewmctrl]]
+- [[#todos][TODOs]]
+  - [[#configure-hackernews-package][Configure hackernews package]]
+  - [[#configure-sx-packages][Configure sx packages]]
+  - [[#configure-djvu-document-view][Configure djvu document view]]
+
+* Description
+This layer adds some packages to customize spacemacs for my personal preference:
+- gscholar (bibtex lookup)
+- djvu
+- sr-speedbar
+- hackernews
+- sx
+- magit-org-todos
+- org-projectile
+- helm-system-packages
+- hide-lines
+- syslog-mode (system-packages)
+- ewmctrl
+- cloc (count number of code lines)
+
+* Install
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =aam= to the existing =dotspacemacs-configuration-layers= list in this
+file.
+
+* Key bindings
+** Scholar keys
+| Key Binding                              | Description     |
+|------------------------------------------+-----------------|
+| @@html:<kbd>@@ SPC-A-s-g @@html:</kbd>@@ | gscholar-bibtex |
+| @@html:<kbd>@@ SPC-A-s-b @@html:</kbd>@@ | biblio-lookup   |
+
+** Hackenews
+| Key Binding                            | Description |
+|----------------------------------------+-------------|
+| @@html:<kbd>@@ SPC-A-H @@html:</kbd>@@ | hackernews  |
+
+** Ewmctrl
+- General
+| Key Binding                            | Description                        |
+|----------------------------------------+------------------------------------|
+| @@html:<kbd>@@ SPC-m-n @@html:</kbd>@@ | next-line                          |
+| @@html:<kbd>@@ SPC-m-p @@html:</kbd>@@ | previous-line                      |
+| @@html:<kbd>@@ SPC-m-g @@html:</kbd>@@ | ewmctrl-refresh                    |
+| @@html:<kbd>@@ SPC-m-; @@html:</kbd>@@ | ewmctrl-toggle-single-key-to-focus |
+- Window actions
+| Key Binding                              | Description                                      |
+|------------------------------------------+--------------------------------------------------|
+| @@html:<kbd>@@ SPC-m-RET @@html:</kbd>@@ | ewmctrl-focus-window                             |
+| @@html:<kbd>@@ SPC-m-D @@html:</kbd>@@   | ewmctrl-delete-window                            |
+| @@html:<kbd>@@ SPC-m-I @@html:</kbd>@@   | ewmctrl-change-window-icon-name                  |
+| @@html:<kbd>@@ SPC-m-m @@html:</kbd>@@   | ewmctrl-move-window-to-other-desktop             |
+| @@html:<kbd>@@ SPC-m-M @@html:</kbd>@@   | ewmctrl-move-window-to-current-desktop-and-focus |
+| @@html:<kbd>@@ SPC-m-N @@html:</kbd>@@   | ewmctrl-change-window-name                       |
+| @@html:<kbd>@@ SPC-m-r @@html:</kbd>@@   | ewmctrl-resize-window                            |
+- Filtering
+| Key Binding                             | Description                         |
+|-----------------------------------------+-------------------------------------|
+| @@html:<kbd>@@ SPC-m-f-c @@html:</kbd>@@ | ewmctrl-filters-clear               |
+| @@html:<kbd>@@ SPC-m-f-d @@html:</kbd>@@ | ewmctrl-filter-by-desktop-number    |
+| @@html:<kbd>@@ SPC-m-f-D @@html:</kbd>@@ | ewmctrl-filter-desktop-number-clear |
+| @@html:<kbd>@@ SPC-m-f-n @@html:</kbd>@@ | ewmctrl-filter-by-name              |
+| @@html:<kbd>@@ SPC-m-f-N @@html:</kbd>@@ | ewmctrl-filter-name-clear           |
+| @@html:<kbd>@@ SPC-m-f-p @@html:</kbd>@@ | ewmctrl-filter-by-pid               |
+| @@html:<kbd>@@ SPC-m-f-P @@html:</kbd>@@ | ewmctrl-filter-pid-clear            |
+- Sorting
+| Key Binding                             | Description                             |
+|-----------------------------------------+-----------------------------------------|
+| @@html:<kbd>@@ SPC-m-S-d @@html:</kbd>@@ | ewmctrl-sort-by-desktop-number          |
+| @@html:<kbd>@@ SPC-m-S-D @@html:</kbd>@@ | ewmctrl-sort-by-desktop-number-reversed |
+| @@html:<kbd>@@ SPC-m-S-n @@html:</kbd>@@ | ewmctrl-sort-by-name                    |
+| @@html:<kbd>@@ SPC-m-S-N @@html:</kbd>@@ | ewmctrl-sort-by-name-reversed           |
+| @@html:<kbd>@@ SPC-m-S-p @@html:</kbd>@@ | ewmctrl-sort-by-pid                     |
+| @@html:<kbd>@@ SPC-m-S-P @@html:</kbd>@@ | ewmctrl-sort-by-pid-reversed)))         |
+* TODOs
+** TODO Configure hackernews package
+
+** TODO Configure sx packages
+
+** TODO Configure djvu document view
