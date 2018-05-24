@@ -529,8 +529,7 @@ It should only modify the values of Spacemacs settings."
 This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
-If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  )
+If you are unsure, try setting them in `dotspacemacs/user-config' first.")
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -581,6 +580,9 @@ you should place your code here."
 
   ;; Chrome settings
   (add-hook 'edit-server-done-hook (lambda () (shell-command "wmctrl -a \"Google Chrome\"")))
+
+  ;; Magit settings
+  (setq magit-org-todos-filename org-projectile-file)
 
   ;; Wakatime settings
   (setq wakatime-api-key "api-key")

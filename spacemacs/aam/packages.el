@@ -17,13 +17,12 @@
         ;; FIXME disable for now as it clobbers match data in org-mode buffers
         ;; key-chord key-seq
         ;; citations
-        gscholar-bibtex
+        gscholar-bibtex biblio
         ;; provide djvu support
         djvu
         sr-speedbar
         hackernews sx
         magit-org-todos
-        org-projectile
         helm-system-packages
         ;; for viewsing log files
         (hide-lines :location (recipe
@@ -74,9 +73,14 @@
 (defun aam/init-gscholar-bibtex()
   :defer t
   :init
-  (spacemacs/set-leader-keys "ol" 'gscholar-bibtex)
+  (spacemacs/declare-prefix "As" "scholar")
+  (spacemacs/set-leader-keys "Asg" 'gscholar-bibtex)
   :config
   (evil-set-initial-state 'gscholar-bibtex-mode 'emacs))
+
+(defun aam/post-init-biblio ()
+  (spacemacs/set-leader-keys "Asb" 'biblio-lookup)
+  (evil-set-initial-state 'biblio-selection-mode 'emacs))
 
 (defun aam/init-djvu()
   :defer t)
@@ -100,9 +104,6 @@
   :defer t
   :config
   (magit-org-todos-autoinsert))
-
-(defun aam/post-init-org-projectile()
-  (setq magit-org-todos-filename org-projectile-file))
 
 (defun aam/init-helm-system-packages()
   :defer t)
