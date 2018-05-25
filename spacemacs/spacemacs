@@ -652,39 +652,39 @@ you should place your code here."
         `(
           ("t" "Todo" entry (file+headline ,(concat org-directory "/todo.org") "Unfilled")
            "* TODO %?
-  :PROPERTIES:
-  :CREATED:%U
-  :END:
-  %i\n Link: %a\n")
+:PROPERTIES:
+:CREATED:%U
+:END:
+%i\n Link: %a\n")
           ("i" "Idea" entry (file+headline ,(concat org-directory "/ideas.org") "Unfilled")
            "* %^{Short description of the idea}
-  :PROPERTIES:
-  :CREATED:%U
-  :END:
-  %i\n%?\n
-  Link: %a\n")
+:PROPERTIES:
+:CREATED:%U
+:END:
+%i\n%?\n
+Link: %a\n")
           ("n" "Note" entry (file+headline ,(concat org-directory "/personal.org") "Unfilled notes")
            "* %^{Select note title}
-  :PROPERTIES:
-  :CREATED:%U
-  :END:
-  %i\n%?\n")
+:PROPERTIES:
+:CREATED:%U
+:END:
+%i\n%?\n")
           ("h" "Habit" entry (file+headline ,(concat org-directory "/personal.org") "Unfilled habits")
            "* TODO %?
-  SCHEDULED: %^{When should we stop?}t +1d
-  :PROPERTIES:
-  :STYLE: habit
-  :CREATED:%U
-  :END:
-  %i\n")
+SCHEDULED: %^{When should we stop?}t +1d
+:PROPERTIES:
+:STYLE: habit
+:CREATED:%U
+:END:
+%i\n")
           ("l" "Read later" entry (file+headline ,(concat org-directory "/bookmarks.org") "Unfilled")
            "* %?%:description :readlater:
-  - %:link
-  %(when (< 0 (length \"%:elfeed-entry-link\")) (concat \"- web link: \" \"%:elfeed-entry-link\"))")))
+- %:link
+%(when (< 0 (length \"%:elfeed-entry-link\")) (concat \"- web link: \" \"%:elfeed-entry-link\"))")))
   ;; template for org-calendar
   (setq cfw:org-capture-template
         `("c" "calfw2org" entry (file+headline ,(concat org-directory "/todo.org") "Unfilled")  "* %?
-%(cfw:org-capture-day)"))
+SCHEDULED: %(cfw:org-capture-day)"))
   (setq org-capture-templates
         (append org-capture-templates (list cfw:org-capture-template)))
 
