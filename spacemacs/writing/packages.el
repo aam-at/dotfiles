@@ -18,6 +18,7 @@
       ;; general writing
       writeroom-mode
       writegood-mode
+      flycheck-vale
       (write-or-die :location local)
       langtool
       ;; synonyms and thesaurus
@@ -65,6 +66,13 @@
   :defer t
   :init
   (spacemacs/set-leader-keys "xG" #'writegood-mode))
+
+(defun writing/init-flycheck-vale ()
+  "Initialize flycheck-vale"
+  :defer t
+  :confi
+  (setq flycheck-vale-modes '(text-mode markdown-mode rst-mode org-mode latex-mode))
+  (flycheck-vale-setup))
 
 (defun writing/init-write-or-die ()
   (use-package write-or-die
