@@ -22,7 +22,6 @@
         djvu
         sr-speedbar
         hackernews sx
-        magit-org-todos
         helm-system-packages
         (hide-lines :location (recipe
                                :fetcher github
@@ -101,11 +100,6 @@
   (setq sx-cache-directory (concat spacemacs-cache-directory "sx"))
   (when (not (file-directory-p sx-cache-directory))
     (make-directory sx-cache-directory)))
-
-(defun aam/init-magit-org-todos()
-  :defer t
-  :config
-  (magit-org-todos-autoinsert))
 
 (defun aam/init-helm-system-packages()
   :defer t)

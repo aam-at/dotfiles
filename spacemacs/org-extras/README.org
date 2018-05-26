@@ -21,6 +21,7 @@
 This layer provides following goodies for org:
   - org-dashboard
   - org-doing
+  - magit-org-todos
   - emacs-calfw (emacs calendar framework)
   - org-noter
   - org-trello

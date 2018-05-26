@@ -16,6 +16,7 @@
   '(
     org-dashboard
     org-doing
+    magit-org-todos
     (emacs-calfw :location (recipe
                             :fetcher github
                             :repo "kiwanami/emacs-calfw"))
@@ -58,6 +59,11 @@
     (spacemacs/set-leader-keys "aod" 'org-doing)
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "Cd" 'org-doing)))
+
+(defun org-extras/init-magit-org-todos()
+  :defer t
+  :config
+  (magit-org-todos-autoinsert))
 
 (defun org-extras/init-emacs-calfw ()
   :init

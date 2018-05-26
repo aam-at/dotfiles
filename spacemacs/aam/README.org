@@ -23,7 +23,6 @@ This layer adds some packages to customize spacemacs for my personal preference:
 - sr-speedbar
 - hackernews
 - sx
-- magit-org-todos
 - org-projectile
 - helm-system-packages
 - hide-lines
