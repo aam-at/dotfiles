@@ -10,6 +10,7 @@
 - link:
     ~/.ssh/config: config/ssh/config
     ~/.mbsyncrc: config/mbsyncrc
+    ~/.vale: config/vale/vale
     ~/.sbclrc: config/sbclrc
     ~/.config/redshift.conf: config/redshift.conf
     ~/.theanorc: config/python/theanorc

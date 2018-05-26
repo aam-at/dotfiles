@@ -622,6 +622,7 @@ you should place your code here."
 
   ;; agenda settings
   (setq org-agenda-files (list (concat org-directory "/work.org")
+                               (concat org-directory "/omron.org")
                                (concat org-directory "/personal.org")
                                ;; File so sync with google calendar
                                (concat org-directory "/fromwork.org")
