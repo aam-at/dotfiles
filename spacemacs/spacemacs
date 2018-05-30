@@ -182,6 +182,25 @@ It should only modify the values of Spacemacs settings."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
+   ;; If non-nil then enable support for the portable dumper. You'll need
+   ;; to compile Emacs 27 from source following the instructions in file
+   ;; EXPERIMENTAL.org at to root of the git repository.
+   ;; (default nil)
+   dotspacemacs-enable-emacs-pdumper nil
+
+   ;; File path pointing to emacs 27.1 executable compiled with support
+   ;; for the portable dumper (this is currently the branch pdumper).
+   ;; (default "emacs")
+   dotspacemacs-emacs-pdumper-executable-file "emacs"
+
+   ;; Name of the Spacemacs dump file. This is the file will be created by the
+   ;; portable dumper in the cache directory under dumps sub-directory.
+   ;; To load it when starting Emacs add the parameter `--dump-file'
+   ;; when invoking Emacs 27.1 executable on the command line, for instance:
+   ;;   ./emacs --dump-file=~/.emacs.d/.cache/dumps/spacemacs.pdmp
+   ;; (default spacemacs.pdmp)
+   dotspacemacs-emacs-dumper-dump-file "spacemacs.pdmp"
+
    ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
    ;; possible. Set it to nil if you have no way to use HTTPS in your
    ;; environment, otherwise it is strongly recommended to let it set to t.
@@ -416,6 +435,7 @@ It should only modify the values of Spacemacs settings."
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
    dotspacemacs-maximized-at-startup t
+
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -474,6 +494,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-highlight-delimiters 'all
 
    ;; If non-nil, start an Emacs server if one is not already running.
+   ;; (default nil)
    dotspacemacs-enable-server t
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
@@ -531,13 +552,19 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first.")
 
+(defun dotspacemacs/user-load ()
+  "Library to load while dumping.
+This function is called while dumping Spacemacs configuration. You can
+`require' or `load' the libraries of your choice that will be included
+in the dump.")
+
 (defun dotspacemacs/user-config ()
-  "Configuration function for user code.
-This function is called at the very end of Spacemacs initialization after
-layers configuration.
-This is the place where most of your configurations should be done. Unless it is
-explicitly specified that a variable should be set before a package is loaded,
-you should place your code here."
+  "Configuration for user code:
+This function is called at the very end of Spacemacs startup, after layer
+configuration.
+Put your configuration code here, except for variables that should be set
+before packages are loaded."
+
   ;; Emacs configuration
   (setq vc-follow-symlinks t)
   (desktop-save-mode t)
@@ -567,13 +594,12 @@ you should place your code here."
   (define-key evil-visual-state-map "j" 'evil-next-visual-line)
   (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
-  ;; programming settings
+  ;; basic programming settings
   (defun my-prog-settings()
     (spacemacs/toggle-fill-column-indicator-on)
-    (spacemacs/toggle-line-numbers-on)
-    (linum-relative-on))
-
+    (spacemacs/toggle-relative-line-numbers-on))
   (add-hook 'prog-mode-hook 'my-prog-settings)
+
   ;; basic text settings
   (add-hook 'text-mode-hook 'visual-line-mode)
   (spacemacs/set-leader-keys "C-t l" 'visual-line-mode)
