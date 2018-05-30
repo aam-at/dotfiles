@@ -90,6 +90,7 @@ This function should only modify configuration layer settings."
      ;; Tools
      ;; ----------------------------------------------------------------
      pdf-tools
+     epub
      pass
      imenu-list
      ;; email & irc
