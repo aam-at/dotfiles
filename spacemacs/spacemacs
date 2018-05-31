@@ -582,8 +582,8 @@ before packages are loaded."
   (setq layouts-enable-autosave t)
 
   ;; epa encryption
-  (setq epa-file-select-keys 0)
-  (setq epa-file-cache-passphrase-for-symmetric-encryption t)
+  (setq epa-file-select-keys 0
+        epa-file-cache-passphrase-for-symmetric-encryption t)
   (add-to-list 'load-suffixes ".el.gpg")
 
   ;; tramp configuration

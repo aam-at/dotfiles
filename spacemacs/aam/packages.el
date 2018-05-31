@@ -26,6 +26,7 @@
         (hide-lines :location (recipe
                                :fetcher github
                                :repo "emacsmirror/hide-lines"))
+        fish-completion
         ;; for viewsing log files
         (syslog-mode :location (recipe
                                 :fetcher github
@@ -106,6 +107,14 @@
 
 (defun aam/init-hide-lines()
   :defer t)
+
+(defun aam/init-fish-completion()
+  :defer t
+  :config
+  (progn
+    (when (and (executable-find "fish")
+               (require 'fish-completion nil t))
+      (global-fish-completion-mode))))
 
 (defun aam/init-syslog-mode()
   :defer t)
