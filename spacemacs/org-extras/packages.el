@@ -14,6 +14,7 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst org-extras-packages
   '(
+    helm-org-rifle
     org-dashboard
     org-doing
     magit-org-todos
@@ -30,8 +31,8 @@
     (ebib :location (recipe
                      :fetcher github
                      :repo "joostkremers/ebib"))
-    org-ref
-    ))
+    org-ref))
+
 
 ;; List of packages to exclude.
 (defconst org-extras-excluded-packages '())
@@ -45,6 +46,34 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
+(defun org-extras/init-helm-org-rifle ()
+  :defer t
+  :init
+  (spacemacs/declare-prefix "aor" "rifle")
+  (spacemacs/set-leader-keys
+    "aorr" 'helm-org-rifle
+    "aorR" 'helm-org-rifle-occur
+    "aorc" 'helm-org-rifle-current-buffer
+    "aorC" 'helm-org-rifle-occur-current-buffer
+    "aord" 'helm-org-rifle-directories
+    "aorD" 'helm-org-rifle-occur-directories
+    "aorf" 'helm-org-rifle-files
+    "aorF" 'helm-org-rifle-occur-files
+    "aora" 'helm-org-rifle-agenda-files
+    "aorA" 'helm-org-rifle-occur-agenda-files)
+  (spacemacs/declare-prefix-for-mode 'org-mode "aor" "rifle")
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "rr" 'helm-org-rifle
+    "rR" 'helm-org-rifle-occur
+    "rc" 'helm-org-rifle-current-buffer
+    "rC" 'helm-org-rifle-occur-current-buffer
+    "rd" 'helm-org-rifle-directories
+    "rD" 'helm-org-rifle-occur-directories
+    "rf" 'helm-org-rifle-files
+    "rF" 'helm-org-rifle-occur-files
+    "ra" 'helm-org-rifle-agenda-files
+    "rA" 'helm-org-rifle-occur-agenda-files))
+
 (defun org-extras/init-org-dashboard ()
   :defer t
   :init
@@ -124,10 +153,10 @@
       "aogr" 'org-gcal-refresh-token)
     (spacemacs/declare-prefix-for-mode 'org-mode "mg" "gcal")
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "mgs" 'org-gcal-sync
-      "mgf" 'org-gcal-fetch
-      "mgp" 'org-gcal-post-at-point
-      "mgr" 'org-gcal-refresh-token))
+      "gs" 'org-gcal-sync
+      "gf" 'org-gcal-fetch
+      "gp" 'org-gcal-post-at-point
+      "gr" 'org-gcal-refresh-token))
   :config
   (setq org-gcal-dir (concat spacemacs-cache-directory "org-gcal")))
 
