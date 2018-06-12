@@ -1,1 +1,1 @@
-(configuration-layer/declare-layers '(org pdf-tools))
+(configuration-layer/declare-layers '(org pdf))

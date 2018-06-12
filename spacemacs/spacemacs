@@ -89,7 +89,7 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      ;; Tools
      ;; ----------------------------------------------------------------
-     pdf-tools
+     pdf
      epub
      pass
      imenu-list
