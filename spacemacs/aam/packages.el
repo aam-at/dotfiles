@@ -31,6 +31,9 @@
         (syslog-mode :location (recipe
                                 :fetcher github
                                 :repo "vapniks/syslog-mode"))
+        (declutter :location (recipe
+                              :fetcher github
+                              :repo "sanel/declutter"))
         ewmctrl
         cloc))
 
@@ -117,6 +120,9 @@
       (global-fish-completion-mode))))
 
 (defun aam/init-syslog-mode()
+  :defer t)
+
+(defun aam/init-declutter()
   :defer t)
 
 (defun aam/init-ewmctrl()
