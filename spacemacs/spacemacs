@@ -85,7 +85,12 @@ This function should only modify configuration layer settings."
      shell-scripts windows-scripts vimscript autohotkey
      rebox ;; text boxes
      ;; Auto-completion & tags
-     auto-completion ycmd cscope gtags
+     (auto-completion :variables
+                      auto-completion-enable-help-tooltip 'manual
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-private-snippets-directory "~/dotfiles/spacemacs/snippets")
+     ycmd cscope gtags
      ;; ----------------------------------------------------------------
      ;; Tools
      ;; ----------------------------------------------------------------
