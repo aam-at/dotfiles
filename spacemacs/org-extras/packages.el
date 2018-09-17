@@ -112,44 +112,40 @@
 (defun org-extras/post-init-pdf-tools ()
   (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "N" 'org-noter))
 
-(defun org-extras/init-org-trello ()
-  (use-package org-trello
-    :defer t
-    :mode (("\\.trello\\'" . org-mode))
-    :init
-    (add-hook 'org-mode-hook
-              (lambda ()
-                (let ((filename (buffer-file-name (current-buffer))))
-                  (when (and filename (string= "trello" (file-name-extension filename)))
-                    (org-trello-mode)))))
-    :config
-    (setq org-trello--config-dir (concat spacemacs-cache-directory "trello")
-          org-trello--config-file (concat org-trello--config-dir "/%s.el"))
-    (spacemacs/declare-prefix-for-mode 'org-mode "mot" "trello")
-    (spacemacs/set-leader-keys-for-minor-mode 'org-trello-mode
-      "otv" 'org-trello-version
-      "oti" 'org-trello-install-key-and-token
-      "otI" 'org-trello-install-board-metadata
-      "otu" 'org-trello-update-board-metadata
-      "otb" 'org-trello-create-board-and-install-metadata
-      "otd" 'org-trello-check-setup
-      "otD" 'org-trello-delete-setup
-      "otc" 'org-trello-sync-card
-      "ots" 'org-trello-sync-buffer
-      "ota" 'org-trello-archive-card
-      "otA" 'org-trello-archive-cards
-      "otg" 'org-trello-abort-sync
-      "otk" 'org-trello-kill-entity
-      "otK" 'org-trello-kill-cards
-      "ota" 'org-trello-toggle-assign-me
-      "ott" 'org-trello-toggle-assign-user
-      "otC" 'org-trello-add-card-comment
-      "otU" 'org-trello-sync-comment
-      "otl" 'org-trello-show-board-labels
-      "otj" 'org-trello-jump-to-trello-card
-      "otJ" 'org-trello-jump-to-trello-board
-      "otB" 'org-trello-bug-report
-      "oth" 'org-trello-help-describing-bindings)))
+(defun org-extras/post-init-org-trello ()
+  (add-to-list 'auto-mode-alist '("\\.trello\\'" . org-mode))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (let ((filename (buffer-file-name (current-buffer))))
+                (when (and filename (string= "trello" (file-name-extension filename)))
+                  (org-trello-mode)))))
+  (setq org-trello--config-dir (concat spacemacs-cache-directory "trello")
+        org-trello--config-file (concat org-trello--config-dir "/%s.el"))
+  (spacemacs/declare-prefix-for-mode 'org-mode "mot" "trello")
+  (spacemacs/set-leader-keys-for-minor-mode 'org-trello-mode
+    "otv" 'org-trello-version
+    "oti" 'org-trello-install-key-and-token
+    "otI" 'org-trello-install-board-metadata
+    "otu" 'org-trello-update-board-metadata
+    "otb" 'org-trello-create-board-and-install-metadata
+    "otd" 'org-trello-check-setup
+    "otD" 'org-trello-delete-setup
+    "otc" 'org-trello-sync-card
+    "ots" 'org-trello-sync-buffer
+    "ota" 'org-trello-archive-card
+    "otA" 'org-trello-archive-cards
+    "otg" 'org-trello-abort-sync
+    "otk" 'org-trello-kill-entity
+    "otK" 'org-trello-kill-cards
+    "ota" 'org-trello-toggle-assign-me
+    "ott" 'org-trello-toggle-assign-user
+    "otC" 'org-trello-add-card-comment
+    "otU" 'org-trello-sync-comment
+    "otl" 'org-trello-show-board-labels
+    "otj" 'org-trello-jump-to-trello-card
+    "otJ" 'org-trello-jump-to-trello-board
+    "otB" 'org-trello-bug-report
+    "oth" 'org-trello-help-describing-bindings))
 
 (defun org-extras/init-org-gcal ()
   :defer t

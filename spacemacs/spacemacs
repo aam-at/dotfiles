@@ -114,6 +114,7 @@ This function should only modify configuration layer settings."
      chrome search-engine
      (org :variables
           org-want-todo-bindings t
+          org-enable-trello-support t
           org-enable-org-journal-support t
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t)
