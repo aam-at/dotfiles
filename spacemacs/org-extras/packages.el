@@ -14,7 +14,6 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst org-extras-packages
   '(
-    helm-org-rifle
     org-dashboard
     org-doing
     magit-org-todos
@@ -46,34 +45,6 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
-(defun org-extras/init-helm-org-rifle ()
-  :defer t
-  :init
-  (spacemacs/declare-prefix "aor" "rifle")
-  (spacemacs/set-leader-keys
-    "aorr" 'helm-org-rifle
-    "aorR" 'helm-org-rifle-occur
-    "aorc" 'helm-org-rifle-current-buffer
-    "aorC" 'helm-org-rifle-occur-current-buffer
-    "aord" 'helm-org-rifle-directories
-    "aorD" 'helm-org-rifle-occur-directories
-    "aorf" 'helm-org-rifle-files
-    "aorF" 'helm-org-rifle-occur-files
-    "aora" 'helm-org-rifle-agenda-files
-    "aorA" 'helm-org-rifle-occur-agenda-files)
-  (spacemacs/declare-prefix-for-mode 'org-mode "aor" "rifle")
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "rr" 'helm-org-rifle
-    "rR" 'helm-org-rifle-occur
-    "rc" 'helm-org-rifle-current-buffer
-    "rC" 'helm-org-rifle-occur-current-buffer
-    "rd" 'helm-org-rifle-directories
-    "rD" 'helm-org-rifle-occur-directories
-    "rf" 'helm-org-rifle-files
-    "rF" 'helm-org-rifle-occur-files
-    "ra" 'helm-org-rifle-agenda-files
-    "rA" 'helm-org-rifle-occur-agenda-files))
-
 (defun org-extras/init-org-dashboard ()
   :defer t
   :init
@@ -99,7 +70,7 @@
   (progn
     (require 'calfw-ical)
     (require 'calfw-org)
-    (spacemacs/set-leader-keys "aoC" 'cfw:open-org-calendar))
+    (spacemacs/set-leader-keys "aoK" 'cfw:open-org-calendar))
   :config
   (evil-set-initial-state 'cfw:calendar-mode 'emacs))
 
