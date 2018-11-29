@@ -591,6 +591,9 @@ before packages are loaded."
   (setq wakatime-api-key "api-key")
   (setq wakatime-python-path "/usr/bin/python")
   (setq wakatime-cli-path "/usr/local/bin/wakatime")
+  (when (eq system-type 'windows-nt)
+    (progn (setq wakatime-python-path "C:\\Program Files\\Python37\\python.exe")
+           (setq wakatime-cli-path "C:\\Program Files\\Python37\\Scripts\\wakatime.exe")))
 
   ;; habitica settings
   (setq habitrpg-api-url "https://habitica.com/api/v3")
