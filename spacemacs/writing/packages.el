@@ -53,12 +53,8 @@
     :init
     (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)))
 
-(defun writing/init-writeroom-mode ()
-  "Initialize writeroom-mode"
-  :defer t
-  :config
+(defun writing/post-init-writeroom-mode ()
   (setq writeroom-width 90)
-  :init
   (spacemacs/set-leader-keys "xW" #'writeroom-mode))
 
 (defun writing/init-writegood-mode ()

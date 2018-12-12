@@ -1,6 +1,7 @@
 [core]
     editor = /usr/bin/vim
     filemode = false
+    autocrlf = input
 [user]
     email = alexander.matyasko@gmail.com
     name = Alexander Matyasko
