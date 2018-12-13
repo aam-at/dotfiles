@@ -930,6 +930,7 @@ SCHEDULED: %(cfw:org-capture-day)"))
   (setq mu4e-html2text-command 'my-render-html-message)
   ;; (setq mu4e-html2text-command "w3m -dump -T text/html")
   (setq mu4e-view-prefer-html t)
+  (require 'mu4e-view)
   (add-to-list 'mu4e-view-actions
                '("xView with xwidget" . mu4e-action-view-with-xwidget))
 

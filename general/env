@@ -12,6 +12,7 @@ export ALTERNATE_EDITOR=vim
 export EDITOR="emacsclient -t"
 
 # Configure cuda
+export CUDA_DEVICE_ORDER=PCI_BUS_ID
 export CUDA_HOME="/usr/local/cuda"
 export PATH="$CUDA_HOME/bin:$PATH"
 export CPATH="$CUDA_HOME/include:$CPATH"
@@ -24,30 +25,13 @@ export CUDNN_HOME="/usr/local/cudnn"
 export CPATH="$CUDNN_HOME/include:$CPATH"
 export LD_LIBRARY_PATH="$CUDNN_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CUDNN_HOME/lib64:$LIBRARY_PATH"
-
-# Configure cnmem
-export CNMEM_HOME="/usr/local/cnmem"
-export CPATH="$CNMEM_HOME/include:$CPATH"
-export LD_LIBRARY_PATH="$CNMEM_HOME/lib64:$LD_LIBRARY_PATH"
-export LIBRARY_PATH="$CNMEM_HOME/lib64:$LIBRARY_PATH"
-
-# Configure nccl
-export NCCL_HOME="/usr/local/nccl"
-export CPATH="$NCCL_HOME/include:$CPATH"
-export LD_LIBRARY_PATH="$NCCL_HOME/lib64:$LD_LIBRARY_PATH"
-export LIBRARY_PATH="$NCCL_HOME/lib64:$LIBRARY_PATH"
+export CUDNN_ROOT_DIR=$CUDNN_HOME
 
 # Configure cupti
 export CUPTI_HOME="/usr/local/cuda/extras/CUPTI"
 export CPATH="$CUPTI_HOME/include:$CPATH"
 export LD_LIBRARY_PATH="$CUPTI_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CUPTI_HOME/lib64:$LIBRARY_PATH"
-
-# Configure TensorRT
-export TENSORRT_HOME="/usr/local/TensorRT"
-export CPATH="$TENSORRT_HOME/include:$CPATH"
-export LD_LIBRARY_PATH="$TENSORRT_HOME/lib:$LD_LIBRARY_PATH"
-export LIBRARY_PATH="$TENSORRT_HOME/lib:$LIBRARY_PATH"
 
 # Configure local directory
 export LOCAL_PATH="$HOME/.local"
