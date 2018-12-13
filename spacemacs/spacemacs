@@ -545,6 +545,7 @@ before packages are loaded."
   ;; Emacs configuration
   (setq vc-follow-symlinks t)
   (desktop-save-mode t)
+  (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
 
   ;; FIXME: Which key fix for master emacs 26.0.50
   (defalias 'display-buffer-in-major-side-window 'window--make-major-side-window)

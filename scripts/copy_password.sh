@@ -8,4 +8,4 @@ fi
 
 login="$1"
 
-echo $(gpg2 -q --for-your-eyes-only --no-tty -d ~/.authinfo.gpg | awk '/login '$1' .*password/ {print $NF}')
+echo $(gpg2 -q --for-your-eyes-only --no-tty -d ~/.authinfo.gpg | awk '/login\s+'$1'\s+.*password/ {print $NF}')
