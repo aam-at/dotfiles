@@ -39,6 +39,9 @@
     ~/.SpaceVim.d/init.toml:
         create: true
         path: nvim/init.toml
+    ~/.SpaceVim.d/autoload/myconfig.vim:
+        create: true
+        path: nvim/myconfig.vim
     ~/.ideavimrc: idea/ideavimrc
     ~/.atom: atom
     ~/.spacemacs: spacemacs/spacemacs
