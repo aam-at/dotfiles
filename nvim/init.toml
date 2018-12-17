@@ -1,0 +1,219 @@
+#=============================================================================
+# dark_powered.toml --- dark powered configuration example for SpaceVim
+# Copyright (c) 2016-2017 Wang Shidong & Contributors
+# Author: Wang Shidong < wsdjeg at 163.com >
+# URL: https://spacevim.org
+# License: GPLv3
+#=============================================================================
+
+# All SpaceVim option below [option] section
+[options]
+    # set spacevim theme. by default colorscheme layer is not loaded,
+    # if you want to use more colorscheme, please load the colorscheme
+    # layer
+    colorscheme = "gruvbox"
+    background = "dark"
+    filemanager = "nerdtree"
+    # Disable guicolors in basic mode, many terminal do not support 24bit
+    # true colors
+    enable_guicolors = true
+    # Disable statusline separator, if you want to use other value, please
+    # install nerd fonts
+    statusline_separator = "arrow"
+    statusline_inactive_separator = "arrow"
+    buffer_index_type = 4
+    enable_tabline_filetype_icon = true
+    enable_statusline_display_mode = false
+
+
+[[layers]]
+name = 'colorscheme'
+
+[[layers]]
+name = 'edit'
+
+[[layers]]
+name = 'incsearch.vim'
+
+[[layers]]
+name = 'unite'
+
+[[layers]]
+name = 'fzf'
+
+[[layers]]
+name = "checkers"
+
+[[layers]]
+name = 'shell'
+default_position = 'top'
+default_height = 30
+
+[[layers]]
+name = 'sudo'
+
+[[layers]]
+name = 'autocomplete'
+auto-completion-return-key-behavior = "complete"
+auto-completion-tab-key-behavior = "smart"
+
+[[layers]]
+name = 'tags'
+
+[[layers]]
+name = 'tmux'
+
+[[layers]]
+name = 'cscope'
+
+[[layers]]
+name = 'debug'
+
+[[layers]]
+name = 'tools'
+
+[[layers]]
+name = 'VersionControl'
+
+[[layers]]
+name = 'git'
+
+[[layers]]
+name = 'github'
+
+[[layers]]
+name = 'lang#python'
+format-on-save = 1
+
+[[layers]]
+name = 'lang#latex'
+
+[[layers]]
+name = 'lang#lua'
+
+[[layers]]
+name = 'lang#markdown'
+
+[[layers]]
+name = 'lang#vim'
+
+[[layers]]
+name = 'lang#sh'
+
+[[layers]]
+name = 'lang#extra'
+
+## c++ plugins
+[[custom_plugins]]
+# generate config for YCMD
+name = 'rdnetto/YCM-Generator'
+on_cmd = 'YcmGenerateConfig'
+merged = 0
+
+[[custom_plugins]]
+# enhanced highlight
+name = 'octol/vim-cpp-enhanced-highlight'
+on_ft = 'c'
+hook_add= """
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_concepts_highlight = 1
+let g:cpp_experimental_simple_template_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+"""
+merged = 0
+
+## writing plugins
+[[custom_plugins]]
+# uncover usage problems in your writing
+name = 'reedes/vim-wordy'
+on_ft = ['txt', 'tex', 'org']
+merged = 0
+
+[[custom_plugins]]
+# lightweight auto-correction for Vim
+name = 'reedes/vim-litecorrect'
+hook_add = """
+augroup litecorrect
+  autocmd!
+  autocmd FileType markdown,mkd call litecorrect#init()
+  autocmd FileType textile      call litecorrect#init()
+  autocmd FileType text         call litecorrect#init()
+augroup END
+"""
+merged = 0
+
+[[custom_plugins]]
+# rethinking Vim as a tool for writers
+name = 'reedes/vim-pencil'
+hook_add = """
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType texfile      call pencil#init()
+  autocmd FileType text         call pencil#init()
+augroup END
+"""
+
+[[custom_plugins]]
+# correct common typos and misspellings as you type in vim
+name = 'panozzaj/vim-autocorrect'
+hook_add = """
+augroup autocorrect
+  autocmd filetype markdown,mkd call AutoCorrect()
+  autocmd filetype text         call AutoCorrect()
+  autocmd filetype texfile      call AutoCorrect()
+augroup END
+"""
+merged = 0
+
+[[custom_plugins]]
+# stop repeating yourself
+name = 'dbmrq/vim-ditto'
+on_cmd = 'ToggleDitto'
+merged = 0
+
+[[custom_plugins]]
+# look up words in an online thesaurus
+name = 'beloglazov/vim-online-thesaurus'
+merged = 0
+
+## misc plugins
+[[custom_plugins]]
+name = 'joedicastro/DirDiff.vim'
+on_cmd = 'DirDiff'
+merged = 0
+
+[[custom_plugins]]
+name = 'nathanaelkane/vim-indent-guides'
+on_cmd = ['IndentGuidesEnable', 'IndentGuidesToggle']
+hook_add = '''
+let g:indent_guides_start_level=1
+let g:indent_guides_guide_size=1
+let g:indent_guides_enable_on_vim_startup=0
+let g:indent_guides_color_change_percent=3
+if !has('gui_running')
+  let g:indent_guides_auto_colors=0
+  function! s:indent_set_console_colors()
+    hi IndentGuidesOdd ctermbg=235
+    hi IndentGuidesEven ctermbg=236
+  endfunction
+endif
+'''
+merged = 0
+
+[[custom_plugins]]
+# protobuf highlighting
+name = 'uarun/vim-protobuf'
+merged = 0
+
+[[custom_plugins]]
+# protobuf highlighting
+name = 'tpope/vim-vinegar'
+merged = 0
+
+# # plugin to toggle, display and navigate marks
+# TODO: configure
+# name = 'kshenoy/vim-signature'
+# # on_cmd = 'SignatureToggle'
