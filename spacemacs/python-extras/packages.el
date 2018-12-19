@@ -13,10 +13,11 @@
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
 (defconst python-extras-packages
-      '(
-        py-autopep8
-        (ropemacs :location local)
-        ))
+  '(
+    py-autopep8
+    sphinx-doc
+    (ropemacs :location local)
+    ))
 
 ;; List of packages to exclude.
 (defconst python-extras-excluded-packages '())
@@ -32,6 +33,13 @@
 ;; https://github.com/jwiegley/use-package
 (defun python-extras/init-py-autopep8()
   :defer t)
+
+(defun python-extras/init-sphinx-doc()
+  :defer t
+  :config
+  (add-hook 'python-mode-hook (lambda ()
+                                (require 'sphinx-doc)
+                                (sphinx-doc-mode t))))
 
 (defun python-extras/init-ropemacs()
   ;; Configure ropemacs
