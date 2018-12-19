@@ -107,6 +107,14 @@ name = 'lang#sh'
 [[layers]]
 name = 'lang#extra'
 
+## python plugins
+[[custom_plugins]]
+name = 'tmhedberg/SimpylFold'
+on_ft = 'python'
+hook_add = """
+let g:SimpylFold_docstring_preview = 1
+"""
+
 ## c++ plugins
 [[custom_plugins]]
 # generate config for YCMD
@@ -118,7 +126,7 @@ merged = 0
 # enhanced highlight
 name = 'octol/vim-cpp-enhanced-highlight'
 on_ft = 'c'
-hook_add= """
+hook_add = """
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
