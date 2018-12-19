@@ -65,6 +65,7 @@ This function should only modify configuration layer settings."
      semantic
      python ipython-notebook
      c-c++
+     rust
      (cmake :variables cmake-enable-cmake-ide-support t)
      debug
      go
@@ -274,7 +275,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-startup-lists '((recents . 5)
                                 (projects . 7)
                                 agenda
-                                (todos . 10))
+                                (todos . 10)
+                                bookmarks)
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -289,7 +291,9 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
+   dotspacemacs-themes '(gruvbox-dark-medium
+                         spacemacs-dark
+                         gruvbox-light-medium
                          spacemacs-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
