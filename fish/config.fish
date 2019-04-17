@@ -63,7 +63,7 @@ if test -d $OMF_PATH # Customize Oh My Fish configuration path.
     source $OMF_PATH/init.fish
 
     # Oh My Fish plugins
-    set fish_plugins vi-mode python pyenv gi git-flow emacs thefuck weather fasd
+    set fish_plugins vi-mode python pyenv gi git-flow emacs weather fasd
     # Oh My Fish themes
     set fish_themes agnoster batman krisleech zish toaster ocean syl20bnr
     # select theme
@@ -86,19 +86,6 @@ end
 # configure icons-in-terminal
 if test -d ~/.local/share/icons-in-terminal
     source ~/.local/share/icons-in-terminal/icons.fish
-end
-
-# configure fucks
-function fuck -d 'Correct your previous console command'
-    set -l exit_code $status
-    set -l eval_script (mktemp 2>/dev/null ; or mktemp -t 'thefuck')
-    set -l fucked_up_commandd $history[1]
-    thefuck $fucked_up_commandd >$eval_script
-    . $eval_script
-    rm $eval_script
-    if test $exit_code -ne 0
-        history --delete $fucked_up_commandd
-    end
 end
 
 ################################

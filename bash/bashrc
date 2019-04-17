@@ -213,11 +213,6 @@ if [ -f ~/.local/share/icons-in-terminal/icons_bash.sh ]; then
     . ~/.local/share/icons-in-terminal/icons_bash.sh
 fi
 
-# configure fucks
-if command_exists thefuck; then
-    eval "$(thefuck --alias)"
-fi
-
 # add custom completions
 for f in ~/.bash_completion.d/*; do
     . $f
