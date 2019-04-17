@@ -33,114 +33,137 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
+   (append '(
+             ;; ----------------------------------------------------------------
+             ;; Example of useful layers you may want to use right away.
+             ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
+             ;; `M-m f e R' (Emacs style) to install them.
+             ;; ----------------------------------------------------------------
 
-     ;; ----------------------------------------------------------------
-     ;; General
-     ;; ----------------------------------------------------------------
-     better-defaults
-     helm
-     (colors :variables colors-enable-rainbow-identifiers t)
-     (ibuffer :variables ibuffer-group-buffers-by 'projects)
-     spell-checking
-     syntax-checking
-     version-control git github
-     themes-megapack unicode-fonts
-     (chinese :variables
-              ;; chinese-enable-fcitx t
-              ;; chinese-default-input-method 'wubi
-              chinese-enable-youdao-dict t
-              chinese-enable-avy-pinyin nil)
-     parinfer
-     ;; More VIM sugar in emacs
-     evil-snipe vinegar
-     ;; ----------------------------------------------------------------
-     ;; Programming languages
-     ;; ----------------------------------------------------------------
-     semantic
-     python ipython-notebook
-     c-c++
-     rust
-     (cmake :variables cmake-enable-cmake-ide-support t)
-     debug
-     go
-     haskell
-     lua
-     emacs-lisp
-     (javascript :variables javascript-disable-tern-port-files nil)
-     html markdown
-     csv
-     (latex :variables
-            latex-build-command "LatexMk"
-            latex-enable-auto-fill t
-            latex-enable-folding t)
-     bibtex
-     major-modes
-     yaml
-     protobuf
-     shell-scripts windows-scripts vimscript autohotkey
-     rebox ;; text boxes
-     ;; Auto-completion
-     (auto-completion :variables
-                      auto-completion-enable-help-tooltip 'manual
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-sort-by-usage t
-                      auto-completion-private-snippets-directory "~/dotfiles/spacemacs/snippets")
-     ;; ----------------------------------------------------------------
-     ;; Tools
-     ;; ----------------------------------------------------------------
-     pdf
-     epub
-     imenu-list
-     erc
-     ;; web
-     chrome search-engine
-     (org :variables
-          org-want-todo-bindings t
-          org-enable-trello-support t
-          org-enable-org-journal-support t
-          org-enable-bootstrap-support t
-          org-enable-reveal-js-support t)
-     twitter
-     ;; FIXME: disabled. emoji clobbers org-mode match data
-     ;; emoji
-     xkcd ;; something for fun
-     (elfeed :variables
-             elfeed-search-filter "@1-months-ago +unread"
-             elfeed-spacemacs-layout-name "@Elfeed"
-             elfeed-spacemacs-layout-binding "f"
-             rmh-elfeed-org-files (list "~/Dropbox/Notes/feeds.org")
-             elfeed-goodies/entry-pane-position 'bottom
-             url-queue-timeout 10)
-     speed-reading
-     selectric typography ;; writing
-     (shell :variables
-            shell-default-term-shell "/usr/bin/fish"
-            shell-enable-smart-eshell t
-            shell-default-height 30
-            shell-default-position 'bottom)
-     ranger
-     ;; neotree
-     treemacs
-     (dash :variables ;; offline help search with zeal/dash on linux/osx
-           dash-helm-dash-docset-path "~/.local/share/Zeal/Zeal/docsets")
-     bm smex
-     finance
-     wakatime ;; tracking coding time
-     pandoc ;; pandoc the most extensive file document conversion tool
+             ;; ----------------------------------------------------------------
+             ;; General
+             ;; ----------------------------------------------------------------
+             better-defaults
+             helm
+             (colors :variables colors-enable-rainbow-identifiers t)
+             (ibuffer :variables ibuffer-group-buffers-by 'projects)
+             spell-checking
+             syntax-checking
+             version-control git github
+             themes-megapack unicode-fonts
+             (chinese :variables
+                      ;; chinese-enable-fcitx t
+                      ;; chinese-default-input-method 'wubi
+                      chinese-enable-youdao-dict t
+                      chinese-enable-avy-pinyin nil)
+             parinfer
+             ;; More VIM sugar in emacs
+             evil-snipe vinegar
+             ;; ----------------------------------------------------------------
+             ;; Programming languages
+             ;; ----------------------------------------------------------------
+             semantic
+             python ipython-notebook
+             c-c++
+             rust
+             (cmake :variables cmake-enable-cmake-ide-support t)
+             debug
+             go
+             haskell
+             lua
+             emacs-lisp
+             (javascript :variables javascript-disable-tern-port-files nil)
+             html markdown
+             csv
+             (latex :variables
+                    latex-build-command "LatexMk"
+                    latex-enable-auto-fill t
+                    latex-enable-folding t)
+             bibtex
+             major-modes
+             yaml
+             protobuf
+             shell-scripts windows-scripts vimscript autohotkey
+             rebox ;; text boxes
+             ;; Auto-completion
+             (auto-completion :variables
+                              auto-completion-enable-help-tooltip 'manual
+                              auto-completion-enable-snippets-in-popup t
+                              auto-completion-enable-sort-by-usage t
+                              auto-completion-private-snippets-directory "~/dotfiles/spacemacs/snippets")
+             ;; ----------------------------------------------------------------
+             ;; Tools
+             ;; ----------------------------------------------------------------
+             pdf
+             epub
+             imenu-list
+             erc
+             ;; web
+             chrome search-engine
+             (org :variables
+                  org-want-todo-bindings t
+                  org-enable-trello-support t
+                  org-enable-org-journal-support t
+                  org-enable-bootstrap-support t
+                  org-enable-reveal-js-support t)
+             twitter
+             ;; FIXME: disabled. emoji clobbers org-mode match data
+             ;; emoji
+             xkcd ;; something for fun
+             (elfeed :variables
+                     elfeed-search-filter "@1-months-ago +unread"
+                     elfeed-spacemacs-layout-name "@Elfeed"
+                     elfeed-spacemacs-layout-binding "f"
+                     rmh-elfeed-org-files (list "~/Dropbox/Notes/feeds.org")
+                     elfeed-goodies/entry-pane-position 'bottom
+                     url-queue-timeout 10)
+             speed-reading
+             selectric typography ;; writing
+             (shell :variables
+                    shell-default-term-shell "/usr/bin/fish"
+                    shell-enable-smart-eshell t
+                    shell-default-height 30
+                    shell-default-position 'bottom)
+             ranger
+             ;; neotree
+             treemacs
+             (dash :variables ;; offline help search with zeal/dash on linux/osx
+                   dash-helm-dash-docset-path "~/.local/share/Zeal/Zeal/docsets")
+             bm smex
+             finance
+             wakatime ;; tracking coding time
+             pandoc ;; pandoc the most extensive file document conversion tool
 
-     ;; My private layers
-     aam
-     writing
-     emms habitrpg
-     org-extras
-     python-extras cpp-extras
-     emacs-icons)
+             ;; My private layers
+             aam
+             writing
+             emms habitrpg
+             org-extras
+             python-extras cpp-extras
+             emacs-icons)
+
+           ;; OS-specific layers
+           (when (spacemacs/system-is-linux)
+             '(
+               ;; email
+               (mu4e :variables
+                     mu4e-spacemacs-layout-name "@Mu4e"
+                     mu4e-spacemacs-layout-binding "m"
+                     mu4e-account-alist t
+                     mu4e-enable-mode-line t
+                     mu4e-enable-notifications t
+                     mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e")
+               (notmuch :variables
+                        notmuch-spacemacs-layout-name "@Notmuch"
+                        notmuch-spacemacs-layout-binding "n")
+               ;; programming completion
+               ycmd cscope gtags
+               ;; some utilities
+               evernote
+               pass
+               fasd ;; like autojump but better. TODO: try to use it with fish shell
+               tmux
+               xclipboard systemd)))
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -165,30 +188,6 @@ This function should only modify configuration layer settings."
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
    dotspacemacs-install-packages 'used-only))
-
-;; OS-specific layers
-(when (spacemacs/system-is-linux)
-  (append dotspacemacs-configuration-layers
-          '(
-            ;; email
-            (mu4e :variables
-                  mu4e-spacemacs-layout-name "@Mu4e"
-                  mu4e-spacemacs-layout-binding "m"
-                  mu4e-account-alist t
-                  mu4e-enable-mode-line t
-                  mu4e-enable-notifications t
-                  mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e")
-            (notmuch :variables
-                     notmuch-spacemacs-layout-name "@Notmuch"
-                     notmuch-spacemacs-layout-binding "n")
-            ;; programming completion
-            ycmd cscope gtags
-            ;; some utilities
-            evernote
-            pass
-            fasd ;; like autojump but better. TODO: try to use it with fish shell
-            tmux
-            xclipboard systemd)))
 
 (defun dotspacemacs/init ()
   "Initialization:
