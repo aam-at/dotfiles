@@ -675,7 +675,8 @@ before packages are loaded."
 :PROPERTIES:
 :CREATED:%U
 :END:
-%i\n Link: %a\n")
+%i\n
+Link: %a\n")
           ("i" "Idea" entry (file+headline ,(concat org-directory "/ideas.org") "Unfilled")
            "* %^{Short description of the idea}
 :PROPERTIES:

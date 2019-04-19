@@ -35,6 +35,7 @@
                               :fetcher github
                               :repo "sanel/declutter"))
         ewmctrl
+        chronometer
         cloc))
 
 ;; List of packages to exclude.
@@ -160,6 +161,11 @@
       "SN"  'ewmctrl-sort-by-name-reversed
       "Sp"  'ewmctrl-sort-by-pid
       "SP"  'ewmctrl-sort-by-pid-reversed)))
+
+(defun aam/init-chronometer()
+  :defer t
+  :init
+  (spacemacs/set-leader-keys "Ac" 'chronometer))
 
 (defun aam/init-cloc()
   :defer t)
