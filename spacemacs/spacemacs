@@ -787,7 +787,7 @@ SCHEDULED: %(cfw:org-capture-day)"))
   (setq reftex-default-bibliography my-bibtex-files)
   (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
         org-ref-default-bibliography my-bibtex-files
-        org-ref-pdf-directory "~/Dropbox/Research/Bibliography/Papers/")
+        org-ref-pdf-directory "~/Dropbox/Research/Bibliography/papers/")
   (setq org-ref-note-title-format "** TODO %y - %t\n:PROPERTIES:\n:Custom_ID: %k\n:AUTHOR: %9a\n:JOURNAL: %j\n:Year: %y\n:VOLUME: %v\n:PAGES: %p\n:DOI: %D\n:URL: %U\n:NOTER_DOCUMENT: %F\n:END:\n[[cite:%k]] [[file:%F][pdf]]\n")
   (setq org-ref-create-notes-hook nil)
   ;; helm-bibtex
@@ -804,7 +804,7 @@ SCHEDULED: %(cfw:org-capture-day)"))
           (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
           (default       . bibtex-completion-format-citation-default)))
   (setq bibtex-completion-bibliography my-bibtex-files)
-  (setq bibtex-completion-library-path "~/Dropbox/Research/Bibliography/Papers/")
+  (setq bibtex-completion-library-path "~/Dropbox/Research/Bibliography/papers/")
 
   ;; ebib settings
   (setq ebib-preload-bib-files my-bibtex-files)
