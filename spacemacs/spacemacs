@@ -98,6 +98,7 @@ This function should only modify configuration layer settings."
              epub
              imenu-list
              erc
+             multiple-cursors
              ;; web
              chrome search-engine
              (org :variables
