@@ -678,6 +678,10 @@ before packages are loaded."
 :END:
 %i\n
 Link: %a\n")
+          ("e" "Event" entry
+           (file+headline ,(concat org-directory "/todo.org") "Unfilled")
+           "** %?
+SCHEDULED: %^{When?}T")
           ("i" "Idea" entry (file+headline ,(concat org-directory "/ideas.org") "Unfilled")
            "* %^{Short description of the idea}
 :PROPERTIES:
