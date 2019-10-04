@@ -2,7 +2,7 @@
 # Basic config #
 ################
 
-# use vi-mode by default
+# use emacs keybindgins by default
 set -U fish_key_bindings fish_default_key_bindings
 
 # colorscheme for fish
@@ -63,7 +63,7 @@ if test -d $OMF_PATH # Customize Oh My Fish configuration path.
     source $OMF_PATH/init.fish
 
     # Oh My Fish plugins
-    set fish_plugins vi-mode python pyenv gi git-flow emacs weather fasd
+    set fish_plugins python pyenv gi git-flow emacs weather fasd
     # Oh My Fish themes
     set fish_themes agnoster batman krisleech zish toaster ocean syl20bnr
     # select theme
