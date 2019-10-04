@@ -62,8 +62,12 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              ;; Programming languages
              ;; ----------------------------------------------------------------
+             dap
              semantic
-             python ipython-notebook
+             (python :variables
+                     python-backend 'anaconda
+                     python-lsp-server 'pyls)
+             ipython-notebook
              c-c++
              rust
              (cmake :variables cmake-enable-cmake-ide-support t)
