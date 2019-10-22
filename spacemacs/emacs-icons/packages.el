@@ -31,19 +31,12 @@
 
 (defconst emacs-icons-packages
   '(
-    all-the-icons
     all-the-icons-dired
     all-the-icons-ivy
     neotree))
 
 
 ;;; packages.el ends here
-
-(defun emacs-icons/init-all-the-icons ()
-  :defer t
-  :init
-  (require 'font-lock+))
-
 (defun emacs-icons/init-all-the-icons-dired ()
   :defer t
   :init
