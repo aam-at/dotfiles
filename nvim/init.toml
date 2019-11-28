@@ -29,6 +29,11 @@
     statusline_unicode_symbols = true
     bootstrap_before = "myconfig#before"
 
+[[layers]]
+name = 'default'
+
+[[layers]]
+name = 'ui'
 
 [[layers]]
 name = 'colorscheme'
@@ -41,6 +46,12 @@ name = 'incsearch.vim'
 
 [[layers]]
 name = 'unite'
+
+[[layers]]
+name = 'ctrlspace'
+
+[[layers]]
+name = 'leaderf'
 
 [[layers]]
 name = 'fzf'
