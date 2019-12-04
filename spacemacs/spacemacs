@@ -789,8 +789,8 @@ SCHEDULED: %(cfw:org-capture-day)"))
   (setq org-doing-file (concat org-directory "/todo.org"))
 
   ;; org-ref configuration
-  (setq my-bibtex-files '("~/Dropbox/Research/Bibliography/references.bib"
-                          "~/Dropbox/Research/Bibliography/myref.bib"))
+  (setq my-bibtex-files '("~/Dropbox/Research/Bibliography/refs.bib"
+                          "~/Dropbox/Research/Bibliography/myrefs.bib"))
   (setq reftex-default-bibliography my-bibtex-files)
   (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
         org-ref-default-bibliography my-bibtex-files
