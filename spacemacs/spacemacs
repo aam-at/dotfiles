@@ -163,7 +163,7 @@ This function should only modify configuration layer settings."
                         notmuch-spacemacs-layout-name "@Notmuch"
                         notmuch-spacemacs-layout-binding "n")
                ;; programming completion
-               ycmd cscope gtags
+               cscope gtags
                ;; some utilities
                evernote
                pass
@@ -910,7 +910,7 @@ SCHEDULED: %(cfw:org-capture-day)"))
   (setq thesaurus-bhl-api-key "api-key")
 
   ;; C++ development
-  (setq ycmd-server-command (list "python" (file-truename "~/local/tools/YouCompleteMe/third_party/ycmd/ycmd")))
+  (setq ycmd-server-command (list "python" (file-truename "~/local/tools/ycmd/ycmd")))
   (setq ycmd-force-semantic-completion t)
   (add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.cuh\\'" . c++-mode))
