@@ -744,10 +744,7 @@ SCHEDULED: %(cfw:org-capture-day)"))
 
   ;; additional org-modules
   ;; anki like functionality
-  (require 'org-drill)
-  (add-to-list 'org-modules 'org-drill t)
   (setq org-learn-always-reschedule t)
-  (setq org-drill-add-random-noise-to-intervals-p t)
   ;; tracking habits
   (require 'org-habit)
   (add-to-list 'org-modules 'org-habit t)
