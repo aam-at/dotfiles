@@ -101,6 +101,7 @@ This function should only modify configuration layer settings."
              pdf
              epub
              imenu-list
+             helpful
              erc
              multiple-cursors
              ;; web
