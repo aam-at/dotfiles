@@ -17,19 +17,14 @@
     org-dashboard
     org-doing
     magit-org-todos
-    (emacs-calfw :location (recipe
-                            :fetcher github
-                            :repo "kiwanami/emacs-calfw"))
     org-noter
     pdf-tools
     org-trello
     ;; provides synchronization with google calendar.
     (org-gcal :location (recipe
                          :fetcher github
-                         :repo "myuhe/org-gcal.el"))
-    (ebib :location (recipe
-                     :fetcher github
-                     :repo "joostkremers/ebib"))
+                         :repo "kidd/org-gcal.el"))
+    ebib
     org-ref))
 
 

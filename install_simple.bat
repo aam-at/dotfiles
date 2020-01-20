@@ -1,6 +1,3 @@
-mklink /H ..\_vimrc vim\vimrc
-mklink /J ..\.vim\bundle\neobundle.vim vim\bundle\neobundle.vim
-mklink /H ..\_gvimrc vim\gvimrc
 mklink /H ..\.ideavimrc idea\ideavimrc
 mklink /H ..\.gitconfig git\gitconfig
 mklink /H ..\.spacemacs spacemacs\spacemacs

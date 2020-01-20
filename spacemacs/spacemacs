@@ -138,13 +138,11 @@ This function should only modify configuration layer settings."
                    dash-helm-dash-docset-path "~/.local/share/Zeal/Zeal/docsets")
              bm smex
              finance
-             wakatime ;; tracking coding time
              pandoc ;; pandoc the most extensive file document conversion tool
 
              ;; My private layers
              aam
              writing
-             habitrpg
              org-extras
              python-extras cpp-extras
              emacs-icons)
@@ -605,24 +603,6 @@ before packages are loaded."
 
   ;; Magit settings
   (setq magit-org-todos-filename org-projectile-file)
-
-  ;; Wakatime settings
-  (setq wakatime-api-key "api-key")
-  (when (spacemacs/system-is-linux)
-    (setq wakatime-python-path "/usr/bin/python"
-          wakatime-cli-path "/usr/local/bin/wakatime"))
-  (when (spacemacs/system-is-mswindows)
-    (setq wakatime-python-path "C:\\Program Files\\Python37\\python.exe"
-          wakatime-cli-path "C:\\Program Files\\Python37\\Scripts\\wakatime.exe"))
-
-  ;; habitica settings
-  (setq habitrpg-api-url "https://habitica.com/api/v3")
-  (setq habitrpg-api-user "api-user")
-  (setq habitrpg-api-token "api-token")
-  (with-eval-after-load 'habitrpg
-    (add-to-list 'hrpg-tags-list "research")
-    (add-to-list 'hrpg-tags-list "writing")
-    (add-to-list 'hrpg-tags-list "programming"))
 
   ;; password-store settings
   (setq password-store-password-length 18)

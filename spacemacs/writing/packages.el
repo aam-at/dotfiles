@@ -25,9 +25,7 @@
       (thesaurus :location (recipe
                             :fetcher github
                             :repo "emacsmirror/thesaurus"))
-      (synosaurus :location (recipe
-                             :fetcher github
-                             :repo "rootzlevel/synosaurus"))
+      synosaurus
       synonymous
       (words :location local)
       (textlint :location local)
