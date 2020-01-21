@@ -8,7 +8,7 @@ sudo apt-get install -y autojump automake build-essential checkinstall cmake \
      tig tk-dev tmux wget xz-utils zlib1g-dev zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
-sudo add-apt-repository ppa:apt-fast/stable
+sudo add-apt-repository ppa:apt-fast/stable -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
 sudo add-apt-repository ppa:fish-shell/release-3 -y
 
@@ -24,11 +24,11 @@ git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/py
 git clone git://github.com/pyenv/pyenv-doctor.git $(pyenv root)/plugins/pyenv-doctor
 git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
 
-CONFIGURE_OPTS=--enable-shared pyenv install 2.7.9
+CONFIGURE_OPTS=--enable-shared pyenv install 2.7.17
 CONFIGURE_OPTS=--enable-shared pyenv install 3.8.1
 
 # configure neovim
-pyenv virtualenv 2.7.9 neovim2
+pyenv virtualenv 2.7.17 neovim2
 pyenv activate neovim2
 pip install pynvim
 
