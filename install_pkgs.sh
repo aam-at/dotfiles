@@ -1,18 +1,24 @@
 #!/bin/sh
 
-sudo apt-get install -y autojump automake build-essential checkinstall cmake \
+# install apt-fast first
+sudo add-apt-repository ppa:apt-fast/stable -y
+sudo apt-get install apt-fast
+
+# install other packages
+sudo apt-fast install -y autojump automake build-essential checkinstall cmake \
      cscope curl fasd fish git libbz2-dev libevent1-dev libffi-dev \
      libgmime-3.0-dev liblzma-dev libncurses5-dev libncursesw5-dev libpng-dev \
      libpoppler-glib-dev libpoppler-private-dev libreadline-dev \
-     libsqlite3-dev libssl-dev libxapian-dev llvm make python-openssl texinfo \
-     tig tk-dev tmux wget xz-utils zlib1g-dev zlib1g-dev
+     libsqlite3-dev libssl-dev libxapian-dev llvm make pass python-openssl \
+     rtv texinfo tig tk-dev wget xz-utils zlib1g-dev zlib1g-dev \
+     guile-2.0-dev html2text xdg-utils libwebkitgtk-3.0-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
-sudo add-apt-repository ppa:apt-fast/stable -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
 sudo add-apt-repository ppa:fish-shell/release-3 -y
+sudo add-apt-repository ppa:linrunner/tlp -y
 
-sudo apt-get isntall git apt-fast neovim fish
+sudo apt-fast install -y git neovim fish tlp
 
 # compile and install tmux
 mkdir ~/local/tools
@@ -41,3 +47,10 @@ curl -sLf https://spacevim.org/install.sh | bash
 
 # configure fish
 curl -L https://get.oh-my.fish | fish
+
+# snap packages
+sudo snap install --classic emacs
+sudo snap install --classic skype
+sudo snap install opera
+sudo snap install spotify
+sudo snap install tusk
