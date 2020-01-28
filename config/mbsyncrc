@@ -29,14 +29,14 @@ SyncState *
 
 # student account
 IMAPAccount office
-Host outlook.office365.com
-User Aliaksan001@e.ntu.edu.sg
-# PassCmd "pass show outlook.office.com"
+Host localhost
+Port 1143
+User aliaksan001@e.ntu.edu.sg
 PassCmd "echo ${PASSWORD:-$(copy_password.sh aliaksan001@e.ntu.edu.sg)}"
-Port 993
-SSLType IMAPS
+Timeout 1000
+SSLType None
 AuthMechs Login
-CertificateFile /etc/ssl/certs/ca-certificates.crt
+
 
 IMAPStore office-remote
 Account office
@@ -59,10 +59,10 @@ SyncState *
 IMAPAccount work
 # use localhost davmail
 Host localhost
-User STAFF\\amatyasko
-# PassCmd "pass show outlook.work.com"
-PassCmd "echo ${PASSWORD:-$(copy_password.sh amatyasko@e.ntu.edu.sg)}"
 Port 1143
+User amatyasko@staff.main.ntu.edu.sg
+PassCmd "echo ${PASSWORD:-$(copy_password.sh amatyasko@ntu.edu.sg)}"
+Timeout 1000
 SSLType None
 AuthMechs Login
 
