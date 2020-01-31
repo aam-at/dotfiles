@@ -6,7 +6,7 @@ sudo apt-get install apt-fast
 
 # install other packages
 sudo apt-fast install -y \
-    autojump automake build-essential checkinstall cmake cscope curl fasd fish \
+    autojump automake bibtool build-essential checkinstall cmake cscope curl fasd fish \
     git gnome-tweak-tool guile-2.0-dev html2text isync libbz2-dev libevent1-dev \
     libffi-dev libgif-dev libgmime-3.0-dev libgnutls28-dev libjpeg-dev \
     liblzma-dev libncurses5-dev libncursesw5-dev libpng-dev libpoppler-glib-dev \
