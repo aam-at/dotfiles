@@ -5,13 +5,15 @@ sudo add-apt-repository ppa:apt-fast/stable -y
 sudo apt-get install apt-fast
 
 # install other packages
-sudo apt-fast install -y autojump automake build-essential checkinstall cmake \
-     cscope curl fasd fish git libbz2-dev libevent1-dev libffi-dev \
-     libgmime-3.0-dev liblzma-dev libncurses5-dev libncursesw5-dev libpng-dev \
-     libpoppler-glib-dev libpoppler-private-dev libreadline-dev \
-     libsqlite3-dev libssl-dev libxapian-dev llvm make pass python-openssl \
-     rtv texinfo tig tk-dev wget xz-utils zlib1g-dev zlib1g-dev \
-     guile-2.0-dev html2text xdg-utils libwebkitgtk-3.0-dev
+sudo apt-fast install -y \
+    autojump automake build-essential checkinstall cmake cscope curl fasd fish \
+    git gnome-tweak-tool guile-2.0-dev html2text isync libbz2-dev libevent1-dev \
+    libffi-dev libgif-dev libgmime-3.0-dev libgnutls28-dev libjpeg-dev \
+    liblzma-dev libncurses5-dev libncursesw5-dev libpng-dev libpoppler-glib-dev \
+    libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev libtiff-dev \
+    libwebkit2gtk-4.0-dev libwebkitgtk-3.0-dev libxapian-dev libxpm-dev llvm \
+    make mc ncdu nnn pass pydf python-openssl rtv rtv texinfo tig tk-dev wget \
+    xdg-utils xz-utils zlib1g-dev zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
@@ -49,7 +51,6 @@ curl -sLf https://spacevim.org/install.sh | bash
 curl -L https://get.oh-my.fish | fish
 
 # snap packages
-sudo snap install --classic emacs
 sudo snap install --classic skype
 sudo snap install opera
 sudo snap install spotify
