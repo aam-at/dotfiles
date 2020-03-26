@@ -731,9 +731,6 @@ SCHEDULED: %(cfw:org-capture-day)"))
   (add-to-list 'org-modules 'org-habit t)
   (setq org-habit-graph-column 80)
   (setq org-log-into-drawer "LOGBOOK")
-  ;; eww buffer preview
-  (require 'org-eww)
-  (add-to-list 'org-modules 'org-eww t)
   ;; pomodoro and timer
   (add-to-list 'org-modules 'org-timer t)
   ;; org-effectiveness
