@@ -42,3 +42,21 @@
         (org-indirect-buffer-display 'current-window))
     (kill-buffer)
     (switch-to-buffer above-buffer)))
+
+(defun org-extras/org-pdfview-open (link)
+  "Open LINK in pdf-view-mode."
+  (cond ((string-match "\\(.*\\)::\\([0-9]*\\)\\+\\+\\([[0-9]\\.*[0-9]*\\)"  link)
+         (let* ((path (match-string 1 link))
+                (page (string-to-number (match-string 2 link)))
+                (height (string-to-number (match-string 3 link))))
+           (org-open-file path 1)
+           (pdf-view-goto-page page)
+           (image-set-window-vscroll
+            (round (/ (* height (cdr (pdf-view-image-size))) (frame-char-height))))))
+        ((string-match "\\(.*\\)::\\([0-9]+\\)$"  link)
+         (let* ((path (match-string 1 link))
+                (page (string-to-number (match-string 2 link))))
+           (org-open-file path 1)
+           (pdf-view-goto-page page)))
+        (t
+         (org-open-file link 1))))
