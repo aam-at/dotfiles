@@ -18,6 +18,9 @@
         ;; key-chord key-seq
         ;; citations
         gscholar-bibtex biblio
+        ;; history for pdf-tools
+        pdf-view-restore
+        pdf-tools
         ;; provide djvu support
         djvu
         sr-speedbar
@@ -85,6 +88,15 @@
 (defun aam/post-init-biblio ()
   (spacemacs/set-leader-keys "Asb" 'biblio-lookup)
   (evil-set-initial-state 'biblio-selection-mode 'emacs))
+
+(defun aam/init-pdf-view-restore ()
+  :defer t
+  :config
+  (setq pdf-view-restore-filename (concat spacemacs-cache-directory
+                                          "pdf-view-restore")))
+
+(defun aam/post-init-pdf-tools ()
+  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
 
 (defun aam/init-djvu()
   :defer t)
