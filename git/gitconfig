@@ -20,6 +20,10 @@
     type = cat-file -t
     change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
 
+    # pull with stash and rebase
+    spull = "!f() { git stash; git pull; git stash pop; }; f "
+    srpull = "!f() { git stash; git pull; git stash pop; }; f "
+
     dump = cat-file -p
     # }}}
     # tweak defaults {{{
@@ -108,7 +112,7 @@
     lap = "!f() { git --git-dir=$1 format-patch -k -1 --stdout $2 | git am -3 -k; }; f"
 
     #open files edited in last commit
-    last = "!gvim $(git show HEAD --format="" --name-only | xargs)"
+    last = "!nvim $(git show HEAD --format="" --name-only | xargs)"
 
     # initial empty commit
     empty = "!git commit -am\"[empty] Initial commit\" --allow-empty"
@@ -132,3 +136,8 @@
 	default = simple
 [github]
 	user = alexander.matyasko@gmail.com
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
