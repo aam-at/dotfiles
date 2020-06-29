@@ -20,6 +20,7 @@
     org-noter
     pdf-tools
     org-trello
+    ob-async
     ;; provides synchronization with google calendar.
     (org-gcal :location (recipe
                          :fetcher github
@@ -119,6 +120,12 @@
     "otJ" 'org-trello-jump-to-trello-board
     "otB" 'org-trello-bug-report
     "oth" 'org-trello-help-describing-bindings))
+
+(defun org-extras/init-ob-async ()
+  :defer t
+  :config
+  (setq ob-async-no-async-languages-alist '("ipython")))
+
 
 (defun org-extras/init-org-gcal ()
   :defer t
