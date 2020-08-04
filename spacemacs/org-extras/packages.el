@@ -74,7 +74,8 @@
   :defer t
   :commands (org-noter)
   :init
-  (spacemacs/set-leader-keys "aon" 'org-noter))
+  (spacemacs/set-leader-keys "aon" 'org-noter)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "n" 'org-noter))
 
 (defun org-extras/post-init-pdf-tools ()
   (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "N" 'org-noter)

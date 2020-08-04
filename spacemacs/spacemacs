@@ -108,6 +108,7 @@ This function should only modify configuration layer settings."
              chrome search-engine
              (org :variables
                   org-want-todo-bindings t
+                  org-enable-sticky-header t
                   org-enable-trello-support t
                   org-enable-org-journal-support t
                   org-enable-bootstrap-support t
@@ -144,6 +145,7 @@ This function should only modify configuration layer settings."
              aam
              writing
              org-extras
+             org-roam
              python-extras cpp-extras
              emacs-icons)
 
@@ -744,6 +746,47 @@ SCHEDULED: %(cfw:org-capture-day)"))
   ;; org-contacts
   (require 'org-contacts)
   (setq org-contacts-files "~/Dropbox/Notes/contacts.org")
+
+  ;; org-roam settings
+  (setq org-roam-directory (expand-file-name "~/Dropbox/Notes"))
+  (setq org-roam-capture-templates
+        '(("d" "default" plain #'org-roam-capture--get-point "%?"
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :head "#+title: ${title}\n" :unnarrowed t)
+
+          ("r" "reference" plain (function org-roam-capture--get-point)
+           "#+ROAM_KEY: %^{citekey}%? fullcite: %\1
+          #+ROAM_TAGS: %^{type}
+          This %\2 deals with ..."
+           :file-name "papers/%<%Y-%m-%d-%H%M%S>_${title}"
+           :head "#+TITLE: ${title}"
+           :unnarrowed t)))
+  ;; org-roam-bibtex settings
+  (setq orb-preformat-keywords
+        '("citekey" "date" "year" "type" "pdf?" "note?" "author" "editor"
+          "journal" "url" "doi" "keywords"
+          "author-abbrev" "editor-abbrev" "author-or-editor-abbrev"))
+  (setq orb-templates
+        '(("r" "ref" plain (function org-roam-capture--get-point)
+           ""
+           :file-name "${citekey}"
+           :head "#+TITLE: ${title}
+  #+ROAM_KEY: ${ref}
+
+  - tags ::
+  - keywords :: ${keywords}
+
+  * ${year} - ${title}
+  :PROPERTIES:
+  :Custom_ID: ${citekey}
+  :AUTHOR: ${author}
+  :JOURNAL: ${journal}
+  :YEAR: ${year}
+  :DOI: ${doi}
+  :URL: ${url}
+  :NOTER_DOCUMENT: %(org-ref-get-pdf-filename \"${citekey}\")
+  :END:
+  [[cite:${citekey}]] [[file:%(orb-ref-get-pdf-filename \"${citekey}\")][pdf]]\n")))
 
   ;; configure org-journal
   (setq org-journal-dir "~/Dropbox/Notes/journal")
