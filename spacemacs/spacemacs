@@ -748,7 +748,7 @@ SCHEDULED: %(cfw:org-capture-day)"))
   (setq org-contacts-files "~/Dropbox/Notes/contacts.org")
 
   ;; org-roam settings
-  (setq org-roam-directory (expand-file-name "~/Dropbox/Notes"))
+  (setq org-roam-directory (expand-file-name "~/Dropbox/Notes/"))
   (setq org-roam-capture-templates
         '(("d" "default" plain #'org-roam-capture--get-point "%?"
            :file-name "%<%Y%m%d%H%M%S>-${slug}"
@@ -766,27 +766,31 @@ SCHEDULED: %(cfw:org-capture-day)"))
         '("citekey" "date" "year" "type" "pdf?" "note?" "author" "editor"
           "journal" "url" "doi" "keywords"
           "author-abbrev" "editor-abbrev" "author-or-editor-abbrev"))
+  (with-eval-after-load 'orb-note-actions
+    (add-to-list 'orb-note-actions-user (cons "Open PDF file(s) externally" #'aam-open-pdf-external)))
   (setq orb-templates
         '(("r" "ref" plain (function org-roam-capture--get-point)
            ""
-           :file-name "${citekey}"
+           :file-name "papers/${citekey}"
            :head "#+TITLE: ${title}
-  #+ROAM_KEY: ${ref}
+#+ROAM_KEY: ${ref}
+#+ROAM_TAGS:
 
-  - tags ::
-  - keywords :: ${keywords}
+- tags ::
+- keywords :: ${keywords}
+- backlinks ::
 
-  * ${year} - ${title}
-  :PROPERTIES:
-  :Custom_ID: ${citekey}
-  :AUTHOR: ${author}
-  :JOURNAL: ${journal}
-  :YEAR: ${year}
-  :DOI: ${doi}
-  :URL: ${url}
-  :NOTER_DOCUMENT: %(org-ref-get-pdf-filename \"${citekey}\")
-  :END:
-  [[cite:${citekey}]] [[file:%(orb-ref-get-pdf-filename \"${citekey}\")][pdf]]\n")))
+* ${year} - ${title}
+:PROPERTIES:
+:Custom_ID: ${citekey}
+:AUTHOR: ${author}
+:JOURNAL: ${journal}
+:YEAR: ${year}
+:DOI: ${doi}
+:URL: ${url}
+:NOTER_DOCUMENT: %(aam-get-cite-pdf-filename \"${citekey}\")
+:END:
+cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]\n")))
 
   ;; configure org-journal
   (setq org-journal-dir "~/Dropbox/Notes/journal")
@@ -827,9 +831,6 @@ SCHEDULED: %(cfw:org-capture-day)"))
   (setq bibtex-completion-pdf-symbol "⌘")
   (setq bibtex-completion-notes-symbol "✎")
   (setq bibtex-completion-additional-search-fields '(keywords tags))
-  (setq bibtex-completion-pdf-open-function
-        (lambda (fpath)
-          (start-process "xournal" "*helm-bibtex-xournal*" "/usr/bin/xournal" fpath)))
   (setq bibtex-completion-format-citation-functions
         '((org-mode      . bibtex-completion-format-citation-org-link-to-PDF)
           (latex-mode    . bibtex-completion-format-citation-cite)
