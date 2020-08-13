@@ -13,7 +13,7 @@ sudo apt-fast install -y \
     libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev libtiff-dev \
     libwebkit2gtk-4.0-dev libwebkitgtk-3.0-dev libxapian-dev libxpm-dev llvm \
     make mc ncdu nnn pass pydf python-openssl rtv rtv texinfo tig tk-dev wget \
-    xdg-utils xz-utils zlib1g-dev zlib1g-dev \
+    xdg-utils xz-utils zlib1g-dev zlib1g-dev wmctrl \
     libsystemd-dev libmagick++-dev libmagickcore-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
