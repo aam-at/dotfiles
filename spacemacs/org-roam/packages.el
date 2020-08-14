@@ -54,6 +54,8 @@
 (defun org-roam/init-org-roam-server ()
   (use-package org-roam-server
     :after org-roam
+    :hook
+    (org-roam-mode . org-roam-server-mode)
     :ensure t))
 
 (defun org-roam/init-company-org-roam ()
