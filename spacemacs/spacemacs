@@ -548,7 +548,10 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; FIXME: recursive load for emacs version >= 27
   ;; https://github.com/syl20bnr/spacemacs/issues/12843
-  (require 'semantic/db-file))
+  (require 'semantic/db-file)
+  ;; fixes font when emacs started in daemon mode
+  (spacemacs|do-after-display-system-init
+   (spacemacs/set-default-font dotspacemacs-default-font)))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -749,6 +752,7 @@ SCHEDULED: %(cfw:org-capture-day)"))
 
   ;; org-roam settings
   (setq org-roam-directory (expand-file-name "~/Dropbox/Notes/"))
+  (setq org-roam-graph-exclude-matcher '("journal"))
   (setq org-roam-capture-templates
         '(("d" "default" plain #'org-roam-capture--get-point "%?"
            :file-name "%<%Y%m%d%H%M%S>-${slug}"
