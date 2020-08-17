@@ -617,8 +617,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   "Library to load while dumping.
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
-dump."
-  )
+dump.")
+
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -629,7 +629,9 @@ before packages are loaded."
 
   ;; Emacs configuration
   (setq vc-follow-symlinks t)
-  (setq epa-pinentry-mode 'loopback)
+  (unless (display-graphic-p)
+    ;; in terminal when asking for gpg password
+    (setq epa-pinentry-mode 'loopback))
   (desktop-save-mode t)
   (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
 
