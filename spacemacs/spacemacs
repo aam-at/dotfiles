@@ -629,6 +629,7 @@ before packages are loaded."
 
   ;; Emacs configuration
   (setq vc-follow-symlinks t)
+  (setq epa-pinentry-mode 'loopback)
   (desktop-save-mode t)
   (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
 
