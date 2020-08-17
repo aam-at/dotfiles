@@ -11,9 +11,10 @@
     ~/.mbsyncrc: config/mbsyncrc
     ~/.vale: config/vale/vale
     ~/.sbclrc: config/sbclrc
+    ~/.config/systemd/user:
+        create: true
+        path: config/systemd
     ~/.config/redshift.conf: config/redshift.conf
-    ~/.theanorc: config/python/theanorc
-    ~/.fuelrc: config/python/fuelrc
     ~/.config/pudb/pudb.cfg:
         create: true
         path: config/python/pudb.cfg

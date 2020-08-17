@@ -12,7 +12,7 @@ alias lsd="ls -d */"
 alias D="cd ~/Downloads"
 alias d="cd ~/Dropbox"
 alias e="emacsclient -t"
-alias ec="emacsclient -c"
+alias ec="emacsclient -c -a emacs"
 
 ################################
 ###  Program ShortCut        ###

@@ -700,7 +700,6 @@ before packages are loaded."
                                (concat org-directory "/omron.org")
                                (concat org-directory "/personal.org")
                                ;; File so sync with google calendar
-                               (concat org-directory "/fromwork.org")
                                (concat org-directory "/todo.org")
                                (concat org-directory "/bookmarks.org")
                                (concat org-directory "/ideas.org")
