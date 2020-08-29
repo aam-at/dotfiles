@@ -11,7 +11,7 @@
 (defun org-extras/org-journal-file-for-date-before (n)
   "Return journal entry path for date n-days before"
   (require 'org-journal)
-  (org-journal-get-entry-path (org-extras/days-before-today n)))
+  (org-journal--get-entry-path (org-extras/days-before-today n)))
 
 (defun org-extras/org-journal-list-agenda-files (n)
   "Add journal entries for the past n days"
