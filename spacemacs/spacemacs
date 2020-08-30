@@ -629,9 +629,11 @@ before packages are loaded."
 
   ;; Emacs configuration
   (setq vc-follow-symlinks t)
-  (unless (display-graphic-p)
-    ;; in terminal when asking for gpg password
-    (setq epa-pinentry-mode 'loopback))
+  (with-system gnu/linux
+               (unless (display-graphic-p)
+                 ;; in terminal when asking for gpg password
+                 (setq epa-pinentry-mode 'loopback)))
+
   (desktop-save-mode t)
   (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
 
