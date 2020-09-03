@@ -17,6 +17,9 @@
     org-dashboard
     (calfw :toggle (spacemacs/system-is-linux))
     (calfw-org :toggle (spacemacs/system-is-linux))
+    (org-protocol-capture-html :location (recipe
+                                          :fetcher github
+                                          :repo "alphapapa/org-protocol-capture-html"))
     org-doing
     magit-org-todos
     org-noter
@@ -48,6 +51,13 @@
   (spacemacs/set-leader-keys "aoD" 'org-dashboard-display)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "D" 'org-dashboard-display))
+
+(defun org-extras/init-org-protocol-capture-html ()
+  (use-package org-protocol-capture-html
+    :after org))
+
+(defun org-extras/post-init-org-protocol-capture-html ()
+  (require 'org-protocol-capture-html))
 
 (defun org-extras/init-org-doing ()
   :defer t
