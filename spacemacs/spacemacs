@@ -106,6 +106,8 @@ This function should only modify configuration layer settings."
              multiple-cursors
              ;; web
              chrome search-engine
+             ;; note taking
+             deft
              (org :variables
                   org-want-todo-bindings t
                   org-enable-sticky-header t
@@ -688,6 +690,9 @@ before packages are loaded."
 
   ;; org settings
   (setq org-directory (expand-file-name "~/Dropbox/Notes"))
+  (setq deft-directory org-directory
+        deft-recursive t
+        deft-recursive-ignore-dir-regexp "\\(?:\\.\\|\\.\\.\\|journal\\|data\\)$")
   ;; set org-roam directory before loading agenda
   (setq org-roam-directory (expand-file-name "~/Dropbox/Notes/"))
   (setq org-default-notes-file (concat org-directory "/refile.org"))
