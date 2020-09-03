@@ -6,15 +6,15 @@ sudo apt-get install apt-fast
 
 # install other packages
 sudo apt-fast install -y \
-    autojump automake bibtool build-essential checkinstall cmake cscope curl fasd fish \
-    git gnome-tweak-tool guile-2.0-dev html2text isync libbz2-dev libevent-dev \
-    libffi-dev libgif-dev libgmime-3.0-dev libgnutls28-dev libjpeg-dev \
-    liblzma-dev libncurses5-dev libncursesw5-dev libpng-dev libpoppler-glib-dev \
-    libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev libtiff-dev \
-    libwebkit2gtk-4.0-dev libwebkitgtk-3.0-dev libxapian-dev libxpm-dev llvm \
-    make mc ncdu net-tools nnn pass pydf python-openssl rtv rtv texinfo tig tk-dev wget \
-    xdg-utils xz-utils zlib1g-dev zlib1g-dev wmctrl \
-    libsystemd-dev libmagick++-dev libmagickcore-dev
+     autojump automake bibtool build-essential checkinstall cmake cscope curl ditaa fasd \
+     fish git gnome-tweak-tool guile-2.0-dev graphviz html2text isync libbz2-dev \
+     libevent-dev libffi-dev libgif-dev libgmime-3.0-dev libgnutls28-dev libjpeg-dev \
+     liblzma-dev libncurses5-dev libncursesw5-dev libpng-dev libpoppler-glib-dev \
+     libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev libtiff-dev \
+     libwebkit2gtk-4.0-dev libwebkitgtk-3.0-dev libxapian-dev libxpm-dev llvm \
+     make mc ncdu net-tools nnn pass plantuml pydf python-openssl rtv rtv texinfo tig \
+     tk-dev wget xdg-utils xz-utils zlib1g-dev zlib1g-dev wmctrl \
+     libsystemd-dev libmagick++-dev libmagickcore-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
