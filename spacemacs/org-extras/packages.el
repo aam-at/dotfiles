@@ -167,8 +167,8 @@
 
 (defun org-extras/post-init-org-ref ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "iL" 'org-ref-helm-insert-label-link
-    "ir" 'org-ref-helm-insert-ref-link)
+    "ir" 'org-ref-helm-insert-ref-link
+    "iR" 'org-ref-helm-insert-label-link)
   ;; optional but very useful libraries from org-ref
   (require 'doi-utils)
   (require 'org-ref-pdf)
