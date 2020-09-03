@@ -15,6 +15,8 @@
 (defconst org-extras-packages
   '(
     org-dashboard
+    (calfw :toggle (spacemacs/system-is-linux))
+    (calfw-org :toggle (spacemacs/system-is-linux))
     org-doing
     magit-org-todos
     org-noter
@@ -27,7 +29,6 @@
                          :repo "kidd/org-gcal.el"))
     ebib
     org-ref))
-
 
 ;; List of packages to exclude.
 (defconst org-extras-excluded-packages '())
@@ -61,14 +62,15 @@
   :config
   (magit-org-todos-autoinsert))
 
-(defun org-extras/init-emacs-calfw ()
+(defun org-extras/init-calfw ()
   :init
-  (progn
-    (require 'calfw-ical)
-    (require 'calfw-org)
-    (spacemacs/set-leader-keys "aoK" 'cfw:open-org-calendar))
+  (spacemacs/set-leader-keys "aC" 'cfw:open-org-calendar)
   :config
   (evil-set-initial-state 'cfw:calendar-mode 'emacs))
+
+(defun org-extras/init-calfw-org ()
+  :init
+    (require 'calfw-org))
 
 (defun org-extras/init-org-noter ()
   :defer t
