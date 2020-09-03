@@ -688,8 +688,13 @@ before packages are loaded."
 
   ;; org settings
   (setq org-directory (expand-file-name "~/Dropbox/Notes"))
+  ;; set org-roam directory before loading agenda
+  (setq org-roam-directory (expand-file-name "~/Dropbox/Notes/"))
   (setq org-default-notes-file (concat org-directory "/refile.org"))
   (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
+  ;; latex preview for org-mode
+  (setq org-preview-latex-image-directory "/tmp/ltximg"
+        org-latex-preview-ltxpng-directory "/tmp/ltxpng")
 
   ;; sync buffers
   (add-hook 'org-mode-hook 'auto-revert-mode)
@@ -817,7 +822,6 @@ SCHEDULED: %(cfw:org-capture-day)"))
   (setq org-contacts-files "~/Dropbox/Notes/contacts.org")
 
   ;; org-roam settings
-  (setq org-roam-directory (expand-file-name "~/Dropbox/Notes/"))
   (setq org-roam-file-exclude-regexp "data/*")
   (setq org-roam-graph-exclude-matcher '("journal"))
   (setq org-roam-capture-templates
