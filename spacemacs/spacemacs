@@ -124,7 +124,7 @@ This function should only modify configuration layer settings."
                      elfeed-search-filter "@1-months-ago +unread"
                      elfeed-spacemacs-layout-name "@Elfeed"
                      elfeed-spacemacs-layout-binding "f"
-                     rmh-elfeed-org-files (list "~/Dropbox/Notes/feeds.org")
+                     rmh-elfeed-org-files (list "~/Dropbox/Org/feeds.org")
                      elfeed-goodies/entry-pane-position 'bottom
                      url-queue-timeout 10)
              speed-reading
@@ -689,14 +689,15 @@ before packages are loaded."
   (setq calendar-date-style "european")
 
   ;; org settings
-  (setq org-directory (expand-file-name "~/Dropbox/Notes"))
-  (setq aam/org-inbox (concat org-directory "/inbox.org"))
+  (setq org-directory (expand-file-name "~/Dropbox/Org"))
+  (defun aam/org-path (path) (concat org-directory "/" path))
+  (setq aam/org-inbox (aam/org-path "inbox.org"))
   (setq deft-directory org-directory
         deft-recursive t
         deft-recursive-ignore-dir-regexp "\\(?:\\.\\|\\.\\.\\|journal\\|data\\)$")
   ;; set org-roam directory before loading agenda
-  (setq org-roam-directory (expand-file-name "~/Dropbox/Notes/"))
-  (setq org-default-notes-file (concat org-directory "/refile.org"))
+  (setq org-roam-directory org-directory)
+  (setq org-default-notes-file (aam/org-path "refile.org"))
   (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
   ;; latex preview for org-mode
   (setq org-preview-latex-image-directory "/tmp/ltximg"
@@ -713,16 +714,16 @@ before packages are loaded."
           ("POSTPONED" . (:foreground "blue" :weight bold))))
 
   ;; agenda settings
-  (setq org-agenda-files (list (concat org-directory "/work.org")
-                               (concat org-directory "/omron.org")
-                               (concat org-directory "/personal.org")
+  (setq org-agenda-files (list (aam/org-path "work.org")
+                               (aam/org-path "projects")
+                               (aam/org-path "personal.org")
                                ;; File so sync with google calendar
-                               (concat org-directory "/todo.org")
-                               (concat org-directory "/bookmarks.org")
-                               (concat org-directory "/ideas.org")
-                               (concat org-directory "/papers.org")
+                               (aam/org-path "todo.org")
+                               (aam/org-path "bookmarks.org")
+                               (aam/org-path "ideas.org")
+                               (aam/org-path "papers.org")
                                ;; (concat org-directory "/drills.org")
-                               (concat org-directory "/books.org")))
+                               (aam/org-path "books.org")))
   (setq org-agenda-skip-scheduled-if-done t)
   (setq org-agenda-skip-deadline-if-done t)
   (setq org-agenda-custom-commands
@@ -803,7 +804,7 @@ SCHEDULED: %(cfw:org-capture-day)
      (sql . nil)
      (sqlite . t)))
   (setq org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
-        org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar",)
+        org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
 
   ;; cdlatex for org-mode
   (spacemacs|diminish org-cdlatex-mode)
@@ -823,7 +824,7 @@ SCHEDULED: %(cfw:org-capture-day)
   (add-to-list 'org-modules 'org-effectiveness t)
   ;; org-contacts
   (require 'org-contacts)
-  (setq org-contacts-files "~/Dropbox/Notes/contacts.org")
+  (setq org-contacts-files (aam/org-path "contacts.org"))
 
   ;; org-roam settings
   (setq org-roam-file-exclude-regexp "data/*")
@@ -872,7 +873,7 @@ SCHEDULED: %(cfw:org-capture-day)
 cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]\n")))
 
   ;; configure org-journal
-  (setq org-journal-dir "~/Dropbox/Notes/journal")
+  (setq org-journal-dir (aam/org-path "journal"))
   (setq org-journal-date-prefix "#+TODO: TODO(t) STARTED(s) | DONE(d) POSTPONED(p) CANCELED(c) FAILED(f)\n* ")
   (setq org-journal-file-format "%Y%m%d.org")
   (setq org-journal-carryover-items "TODO=\"POSTPONED\"")
@@ -893,20 +894,22 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]\n")))
   ;; limit images width
   (setq org-image-actual-width '(800))
   ;; org-doing settings
-  (setq org-doing-file (concat org-directory "/todo.org"))
+  (setq org-doing-file (aam/org-path "todo.org"))
 
   ;; org-ref configuration
-  (setq my-bibtex-files '("~/Dropbox/Research/Bibliography/refs.bib"
-                          "~/Dropbox/Research/Bibliography/myrefs.bib"))
+  (setq aam/bib-dir (expand-file-name "~/Dropbox/Research/Bibliography"))
+  (defun aam/bib-path (path) (concat aam/bib-dir "" path))
+  (setq my-bibtex-files (list (aam/bib-path "refs.bib")
+                              (aam/bib-path "/myrefs.bib")))
   (setq reftex-default-bibliography my-bibtex-files)
-  (setq org-ref-bibliography-notes "~/Dropbox/Notes/papers.org"
+  (setq org-ref-bibliography-notes (aam/org-path "papers.org")
         org-ref-default-bibliography my-bibtex-files
-        org-ref-pdf-directory "~/Dropbox/Research/Bibliography/papers/")
+        org-ref-pdf-directory (aam/bib-path "/papers"))
   (setq org-ref-note-title-format "** TODO %y - %t\n:PROPERTIES:\n:Custom_ID: %k\n:AUTHOR: %9a\n:JOURNAL: %j\n:Year: %y\n:VOLUME: %v\n:PAGES: %p\n:DOI: %D\n:URL: %U\n:NOTER_DOCUMENT: %F\n:END:\n[[cite:%k]] [[file:%F][pdf]]\n")
   (setq org-ref-create-notes-hook nil)
   ;; helm-bibtex
   (spacemacs/set-leader-keys "hc" 'helm-bibtex)
-  (setq bibtex-completion-notes-path "~/Dropbox/Notes/papers.org")
+  (setq bibtex-completion-notes-path (aam/org-path "/papers.org"))
   (setq bibtex-completion-pdf-symbol "⌘")
   (setq bibtex-completion-notes-symbol "✎")
   (setq bibtex-completion-additional-search-fields '(keywords tags))
@@ -916,7 +919,7 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]\n")))
           (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
           (default       . bibtex-completion-format-citation-default)))
   (setq bibtex-completion-bibliography my-bibtex-files)
-  (setq bibtex-completion-library-path "~/Dropbox/Research/Bibliography/papers/")
+  (setq bibtex-completion-library-path org-ref-pdf-directory)
 
   ;; ebib settings
   (setq ebib-preload-bib-files my-bibtex-files)
