@@ -690,6 +690,7 @@ before packages are loaded."
 
   ;; org settings
   (setq org-directory (expand-file-name "~/Dropbox/Notes"))
+  (setq aam/org-inbox (concat org-directory "/inbox.org"))
   (setq deft-directory org-directory
         deft-recursive t
         deft-recursive-ignore-dir-regexp "\\(?:\\.\\|\\.\\.\\|journal\\|data\\)$")
@@ -741,48 +742,46 @@ before packages are loaded."
   ;; org capture settings
   (setq org-capture-templates
         `(
-          ("t" "Todo" entry (file+headline ,(concat org-directory "/todo.org") "Unfilled")
+          ("t" "Toto" entry (file ,aam/org-inbox)
+           "* TODO %?
+:PROPERTIES:
+:CREATED:%U
+:END:\n")
+          ("T" "Todo with context" entry (file ,aam/org-inbox)
            "* TODO %?
 :PROPERTIES:
 :CREATED:%U
 :END:
-%i\n
+%c
+%i
 Link: %a\n")
-          ("e" "Event" entry
-           (file+headline ,(concat org-directory "/todo.org") "Unfilled")
-           "** %?
-SCHEDULED: %^{When?}T")
-          ("i" "Idea" entry (file+headline ,(concat org-directory "/ideas.org") "Unfilled")
-           "* %^{Short description of the idea}
-:PROPERTIES:
-:CREATED:%U
-:END:
-%i\n%?\n
-Link: %a\n")
-          ("n" "Note" entry (file+headline ,(concat org-directory "/personal.org") "Unfilled notes")
-           "* %^{Select note title}
-:PROPERTIES:
-:CREATED:%U
-:END:
-%i\n%?\n")
-          ("h" "Habit" entry (file+headline ,(concat org-directory "/personal.org") "Unfilled habits")
+          ;; todo template for calfw calendar
+          ("c" "calfw2org" entry (file ,aam/org-inbox)
            "* TODO %?
-SCHEDULED: %^{When should we stop?}t +1d
+SCHEDULED: %(cfw:org-capture-day)
 :PROPERTIES:
-:STYLE: habit
 :CREATED:%U
-:END:
-%i\n")
-          ("l" "Read later" entry (file+headline ,(concat org-directory "/bookmarks.org") "Unfilled")
+:END:\n")
+          ("e" "Email" entry
+           (file ,(concat org-directory "/inbox.org"))
+           "* TODO [#A] Reply: %a :@home:@work:"
+           :immediate-finish t)
+          ("l" "Web link" entry (file ,aam/org-inbox)
+           "* TODO %(org-cliplink-capture) :readlater:
+:PROPERTIES:
+:CREATED:%U
+:END:\n" :immediate-finish t)
+          ("f" "Elfeed link" entry (file ,aam/org-inbox)
            "* %?%:description :readlater:
+:PROPERTIES:
+:CREATED:%U
+:END:
 - %:link
-%(when (< 0 (length \"%:elfeed-entry-link\")) (concat \"- web link: \" \"%:elfeed-entry-link\"))")))
-  ;; template for org-calendar
-  (setq cfw:org-capture-template
-        `("c" "calfw2org" entry (file+headline ,(concat org-directory "/todo.org") "Unfilled")  "* %?
-SCHEDULED: %(cfw:org-capture-day)"))
-  (setq org-capture-templates
-        (append org-capture-templates (list cfw:org-capture-template)))
+%(when (< 0 (length \"%:elfeed-entry-link\")) (concat \"- web link: \" \"%:elfeed-entry-link\"))"
+           :immidiate-finish t)
+          ;; template for org-protocol-capture-html
+          ("w" "Web site" entry (file "")
+           "* %a :website:\n\n%U %?\n\n%:initial")))
 
   ;; org babel languages
   (org-babel-do-load-languages
@@ -819,9 +818,6 @@ SCHEDULED: %(cfw:org-capture-day)"))
   (add-to-list 'org-modules 'org-timer t)
   ;; org-effectiveness
   (add-to-list 'org-modules 'org-effectiveness t)
-  ;; mobile setup
-  (setq org-mobile-directory "~/Dropbox/Notes/mobile")
-  (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
   ;; org-contacts
   (require 'org-contacts)
   (setq org-contacts-files "~/Dropbox/Notes/contacts.org")
