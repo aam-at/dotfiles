@@ -796,11 +796,14 @@ SCHEDULED: %(cfw:org-capture-day)
      (ledger . t)
      (ocaml . nil)
      (octave . t)
+     (plantuml . t)
      (python . t)
      (ruby . t)
      (screen . nil)
      (sql . nil)
      (sqlite . t)))
+  (setq org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
+        org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar",)
 
   ;; cdlatex for org-mode
   (spacemacs|diminish org-cdlatex-mode)
