@@ -28,7 +28,7 @@ export LIBRARY_PATH="$CUDNN_HOME/lib64:$LIBRARY_PATH"
 export CUDNN_ROOT_DIR=$CUDNN_HOME
 
 # Configure cupti
-export CUPTI_HOME="/usr/local/cuda/extras/CUPTI"
+export CUPTI_HOME="$CUDA_HOME/extras/CUPTI"
 export CPATH="$CUPTI_HOME/include:$CPATH"
 export LD_LIBRARY_PATH="$CUPTI_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CUPTI_HOME/lib64:$LIBRARY_PATH"
