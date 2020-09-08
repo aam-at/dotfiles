@@ -65,8 +65,11 @@ This function should only modify configuration layer settings."
              dap
              semantic
              (python :variables
-                     python-backend 'anaconda
-                     python-lsp-server 'pyls)
+                     python-backend 'lsp
+                     python-lsp-server 'mspyls
+                     python-lsp-git-root (getenv "PYTHON_LSP_GIT_ROOT")
+                     python-format-on-save t
+                     python-sort-imports-on-save t)
              ipython-notebook
              c-c++
              rust
@@ -800,6 +803,7 @@ SCHEDULED: %(cfw:org-capture-day)
      (python . t)
      (ruby . t)
      (screen . nil)
+     (shell .t)
      (sql . nil)
      (sqlite . t)))
   (setq org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
