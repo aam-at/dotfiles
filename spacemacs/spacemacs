@@ -827,6 +827,7 @@ SCHEDULED: %(cfw:org-capture-day)
   (setq org-contacts-files (aam/org-path "contacts.org"))
 
   ;; org-roam settings
+  (setq org-roam-tag-sources '(prop last-directory))
   (setq org-roam-file-exclude-regexp "data/*")
   (setq org-roam-graph-exclude-matcher '("journal"))
   (setq org-roam-capture-templates
@@ -836,8 +837,8 @@ SCHEDULED: %(cfw:org-capture-day)
 
           ("r" "reference" plain (function org-roam-capture--get-point)
            "#+ROAM_KEY: %^{citekey}%? fullcite: %\1
-          #+ROAM_TAGS: %^{type}
-          This %\2 deals with ..."
+#+ROAM_TAGS: %^{type}
+This %\2 deals with ..."
            :file-name "papers/%<%Y-%m-%d-%H%M%S>_${title}"
            :head "#+TITLE: ${title}"
            :unnarrowed t)))
