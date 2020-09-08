@@ -110,7 +110,7 @@ This function should only modify configuration layer settings."
              deft
              (org :variables
                   org-want-todo-bindings t
-                  org-enable-sticky-header t
+                  org-enable-sticky-header nil
                   org-enable-trello-support t
                   org-enable-org-journal-support t
                   org-enable-bootstrap-support t
@@ -721,9 +721,8 @@ before packages are loaded."
                                (aam/org-path "todo.org")
                                (aam/org-path "bookmarks.org")
                                (aam/org-path "ideas.org")
-                               (aam/org-path "papers.org")
                                ;; (concat org-directory "/drills.org")
-                               (aam/org-path "books.org")))
+                               (aam/org-path "papers.org")))
   (setq org-agenda-skip-scheduled-if-done t)
   (setq org-agenda-skip-deadline-if-done t)
   (setq org-agenda-custom-commands

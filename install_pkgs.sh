@@ -39,11 +39,19 @@ CONFIGURE_OPTS=--enable-shared pyenv install 3.8.1
 # configure neovim
 pyenv virtualenv 2.7.17 neovim2
 pyenv activate neovim2
-pip install pynvim
+pip2 install pynvim
 
 pyenv virtualenv 3.8.1 neovim3
 pyenv activate neovim3
-pip install pynvim
+
+# configure emacs
+pyenv virtualenv 3.8.1 tensor3
+pyenv activate tensor3
+pip3 install --upgrade "jedi>=0.13.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"
+pip3 install python-language-server[all] pyls-isort
+pip3 install flake8 yapf autoflake isort autopep8
+pip3 install "ptvsd>=4.2"
+pip3 install importmagic epc
 
 # install spacevim
 curl -sLf https://spacevim.org/install.sh | bash
