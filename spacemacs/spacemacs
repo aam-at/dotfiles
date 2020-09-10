@@ -692,8 +692,8 @@ before packages are loaded."
   (setq calendar-date-style "european")
 
   ;; org settings
-  (setq org-directory (expand-file-name "~/Dropbox/Org"))
-  (defun aam/org-path (path) (concat org-directory "/" path))
+  (setq org-directory (expand-file-name "~/Dropbox/Org/"))
+  (defun aam/org-path (path) (concat org-directory path))
   (setq aam/org-inbox (aam/org-path "inbox.org"))
   (setq deft-directory org-directory
         deft-recursive t
@@ -877,7 +877,7 @@ This %\2 deals with ..."
 cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]\n")))
 
   ;; configure org-journal
-  (setq org-journal-dir (aam/org-path "journal"))
+  (setq org-journal-dir (aam/org-path "journal/"))
   (setq org-journal-date-prefix "#+TODO: TODO(t) STARTED(s) | DONE(d) POSTPONED(p) CANCELED(c) FAILED(f)\n* ")
   (setq org-journal-file-format "%Y%m%d.org")
   (setq org-journal-carryover-items "TODO=\"POSTPONED\"")
@@ -901,14 +901,14 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]\n")))
   (setq org-doing-file (aam/org-path "todo.org"))
 
   ;; org-ref configuration
-  (setq aam/bib-dir (expand-file-name "~/Dropbox/Research/Bibliography"))
-  (defun aam/bib-path (path) (concat aam/bib-dir "" path))
+  (setq aam/bib-dir (expand-file-name "~/Dropbox/Research/Bibliography/"))
+  (defun aam/bib-path (path) (concat aam/bib-dir path))
   (setq my-bibtex-files (list (aam/bib-path "refs.bib")
-                              (aam/bib-path "/myrefs.bib")))
+                              (aam/bib-path "myrefs.bib")))
   (setq reftex-default-bibliography my-bibtex-files)
   (setq org-ref-bibliography-notes (aam/org-path "papers.org")
         org-ref-default-bibliography my-bibtex-files
-        org-ref-pdf-directory (aam/bib-path "/papers"))
+        org-ref-pdf-directory (aam/bib-path "papers/"))
   (setq org-ref-note-title-format "** TODO %y - %t\n:PROPERTIES:\n:Custom_ID: %k\n:AUTHOR: %9a\n:JOURNAL: %j\n:Year: %y\n:VOLUME: %v\n:PAGES: %p\n:DOI: %D\n:URL: %U\n:NOTER_DOCUMENT: %F\n:END:\n[[cite:%k]] [[file:%F][pdf]]\n")
   (setq org-ref-create-notes-hook nil)
   ;; helm-bibtex
