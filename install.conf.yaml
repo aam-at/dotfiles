@@ -6,6 +6,7 @@
     - [cd bash/bashmarks && make install, Install bashmarks]
     - [mkdir -p ~/.local/bin && ln -frs scripts/* ~/.local/bin/, Link scripts]
     - ["curl -o ~/.local/bin/tldr https://raw.githubusercontent.com/raylee/tldr/master/tldr && chmod +x ~/.local/bin/tldr", Install tldr]
+    - [tic -x -o ~/.terminfo general/xterm/xterm-24bit.terminfo, Configure Truecolor]
 - link:
     ~/.ssh/config: config/ssh/config
     ~/.mbsyncrc: config/mbsyncrc
