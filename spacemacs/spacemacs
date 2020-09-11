@@ -875,15 +875,14 @@ This %\2 deals with ..."
 :NOTER_DOCUMENT: %(aam-get-cite-pdf-filename \"${citekey}\")
 :END:
 cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
-
+%?
 * COMMENT Local variables
 # Local Variables:
 # org-download-heading-lvl: nil
 # org-use-property-inheritance: t
 # org-download-image-dir: \"data\"
 # org-attach-directory: \"data\"
-# End:
-")))
+# End:")))
 
   ;; configure org-journal
   (setq org-journal-dir (aam/org-path "journal/"))
