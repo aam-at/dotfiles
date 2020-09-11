@@ -874,7 +874,16 @@ This %\2 deals with ..."
 :URL: ${url}
 :NOTER_DOCUMENT: %(aam-get-cite-pdf-filename \"${citekey}\")
 :END:
-cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]\n")))
+cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
+
+* COMMENT Local variables
+# Local Variables:
+# org-download-heading-lvl: nil
+# org-use-property-inheritance: t
+# org-download-image-dir: \"data\"
+# org-attach-directory: \"data\"
+# End:
+")))
 
   ;; configure org-journal
   (setq org-journal-dir (aam/org-path "journal/"))
@@ -901,7 +910,7 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]\n")))
   (setq org-doing-file (aam/org-path "todo.org"))
 
   ;; org-ref configuration
-  (setq aam/bib-dir (expand-file-name "~/Dropbox/Research/Bibliography/"))
+  (setq aam/bib-dir "~/Dropbox/Research/Bibliography/")
   (defun aam/bib-path (path) (concat aam/bib-dir path))
   (setq my-bibtex-files (list (aam/bib-path "refs.bib")
                               (aam/bib-path "myrefs.bib")))
