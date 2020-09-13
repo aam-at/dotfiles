@@ -62,6 +62,7 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              ;; Programming languages
              ;; ----------------------------------------------------------------
+             lsp
              dap
              semantic
              (python :variables
@@ -71,6 +72,7 @@ This function should only modify configuration layer settings."
                      python-format-on-save t
                      python-sort-imports-on-save t)
              ipython-notebook
+             gpu
              c-c++
              rust
              (cmake :variables cmake-enable-cmake-ide-support t)
@@ -82,6 +84,7 @@ This function should only modify configuration layer settings."
              (javascript :variables javascript-disable-tern-port-files nil)
              html markdown
              csv
+             json
              (latex :variables
                     latex-build-command "LatexMk"
                     latex-enable-auto-fill t

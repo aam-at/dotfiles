@@ -13,7 +13,7 @@ sudo apt-fast install -y \
      libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev libtiff-dev \
      libwebkit2gtk-4.0-dev libwebkitgtk-3.0-dev libxapian-dev libxpm-dev llvm \
      make mc ncdu net-tools nnn openssh-server pass plantuml pydf python-openssl \
-     rtv rtv texinfo tig tk-dev wget xdg-utils xz-utils zlib1g-dev zlib1g-dev \
+     rtv rtv shellcheck texinfo tig tk-dev wget xdg-utils xz-utils zlib1g-dev zlib1g-dev \
      wmctrl libsystemd-dev libmagick++-dev libmagickcore-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
@@ -22,6 +22,13 @@ sudo add-apt-repository ppa:fish-shell/release-3 -y
 sudo add-apt-repository ppa:linrunner/tlp -y
 
 sudo apt-fast install -y git neovim fish tlp
+
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
+# bash lsp
+sudo npm i -g bash-language-server prettier
+#json lsp
+sudo npm i -g vscode-json-languageserver
 
 # compile and install tmux
 mkdir ~/local/tools
