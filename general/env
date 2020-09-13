@@ -10,8 +10,6 @@ export LIBRARY_PATH=""
 
 export ALTERNATE_EDITOR=vim
 export EDITOR="emacsclient -t"
-# See https://github.com/syl20bnr/spacemacs/wiki/Terminal
-export TERM=xterm-24bit
 
 # Configure cuda
 export CUDA_DEVICE_ORDER=PCI_BUS_ID

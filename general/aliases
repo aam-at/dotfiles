@@ -11,6 +11,7 @@ alias lsd="ls -d */"
 ################################
 alias D="cd ~/Downloads"
 alias d="cd ~/Dropbox"
+# See https://github.com/syl20bnr/spacemacs/wiki/Terminal
 alias e="emacsclient -t"
 alias ec="emacsclient -c -a emacs"
 

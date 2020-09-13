@@ -239,3 +239,9 @@ fi
 function copy_password() {
     copy_password.sh $1
 }
+
+function emacs () {
+    # https://github.com/syl20bnr/spacemacs/wiki/Terminal
+    local TERM=xterm-24bit
+    eval "$(which emacs) $@"
+}

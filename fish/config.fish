@@ -99,3 +99,9 @@ abbr -a -- - 'cd -'
 function reload
     source ~/.config/fish/config.fish
 end
+
+function emacs
+    # https://github.com/syl20bnr/spacemacs/wiki/Terminal
+    set -lx TERM xterm-24bit
+    eval (which emacs) $argv
+end
