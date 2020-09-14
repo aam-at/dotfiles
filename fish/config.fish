@@ -96,6 +96,11 @@ if test -e ~/.aliases
 end
 abbr -a -- - 'cd -'
 
+# configure fzf
+if test -d ~/.fzf/bin
+    set -x PATH $HOME/.fzf/bin $PATH
+end
+
 function reload
     source ~/.config/fish/config.fish
 end
