@@ -9,8 +9,8 @@ sudo apt-get install apt-fast
 # install other packages
 sudo apt-fast install -y \
     autojump automake bibtool build-essential checkinstall clang cmake cscope curl \
-    ditaa fasd fbreader fish fzy git gnome-tweak-tool graphviz guile-2.0-dev html2text \
-    isync libbz2-dev libevent-dev libffi-dev libgif-dev libgmime-3.0-dev \
+    ditaa fasd fbreader fd-find fish fzy git gnome-tweak-tool graphviz guile-2.0-dev \
+    html2text isync libbz2-dev libevent-dev libffi-dev libgif-dev libgmime-3.0-dev \
     libgnutls28-dev libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev \
     libncurses5-dev libncursesw5-dev libpng-dev libpoppler-glib-dev \
     libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev libsystemd-dev \

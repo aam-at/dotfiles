@@ -1,6 +1,7 @@
 import os
-from ranger.core.loader import CommandLoader
+
 from ranger.api.commands import *
+from ranger.core.loader import CommandLoader
 
 
 class empty(Command):
