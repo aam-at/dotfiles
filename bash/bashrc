@@ -89,9 +89,10 @@ if command_exists fasd; then
 fi
 
 # configure enhancd
-if [ -d $HOME/local/tools/enhancd-bash ]; then
-    . $HOME/local/tools/enhancd-bash/init.sh
-fi
+# FIXME: enhancd autoremoves sources; disable it for bash
+# if [ -d $HOME/local/tools/enhancd-bash ]; then
+#     . $HOME/local/tools/enhancd-bash/init.sh
+# fi
 
 # configure autojump
 if [ -f /usr/share/autojump/autojump.sh ]; then
