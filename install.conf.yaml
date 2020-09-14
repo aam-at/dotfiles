@@ -2,10 +2,9 @@
 - shell:
     - [git submodule update --depth 1 --init --recursive, Installing submodules]
     - [cd general/fonts && ./install_all.sh, Install powerline and emacs fonts]
-    - [curl -L github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish, Installing oh-my-fish]
     - [cd bash/bashmarks && make install, Install bashmarks]
     - [mkdir -p ~/.local/bin && ln -frs scripts/* ~/.local/bin/, Link scripts]
-    - ["curl -o ~/.local/bin/tldr https://raw.githubusercontent.com/raylee/tldr/master/tldr && chmod +x ~/.local/bin/tldr", Install tldr]
+    - [curl -o ~/.local/bin/tldr https://raw.githubusercontent.com/raylee/tldr/master/tldr && chmod +x ~/.local/bin/tldr, Install tldr]
     - [tic -x -o ~/.terminfo general/xterm/xterm-24bit.terminfo, Configure Truecolor]
 - link:
     ~/.ssh/config: config/ssh/config

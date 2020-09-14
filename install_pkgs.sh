@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+. ~/.bashrc
 
 # install apt-fast first
 sudo add-apt-repository ppa:apt-fast/stable -y
@@ -6,15 +8,16 @@ sudo apt-get install apt-fast
 
 # install other packages
 sudo apt-fast install -y \
-     autojump automake bibtool build-essential checkinstall cmake cscope curl ditaa fasd \
-     fbreader fish git gnome-tweak-tool guile-2.0-dev graphviz html2text isync libbz2-dev \
-     libevent-dev libffi-dev libgif-dev libgmime-3.0-dev libgnutls28-dev libjpeg-dev \
-     liblzma-dev libncurses5-dev libncursesw5-dev libpng-dev libpoppler-glib-dev \
-     libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev libtiff-dev \
-     libwebkit2gtk-4.0-dev libwebkitgtk-3.0-dev libxapian-dev libxpm-dev llvm \
-     make mc ncdu net-tools nnn openssh-server pass plantuml pydf python-openssl \
-     rtv rtv shellcheck texinfo tig tk-dev wget xdg-utils xz-utils zlib1g-dev zlib1g-dev \
-     wmctrl libsystemd-dev libmagick++-dev libmagickcore-dev
+    autojump automake bibtool build-essential checkinstall clang cmake cscope curl \
+    ditaa fasd fbreader fish fzy git gnome-tweak-tool graphviz guile-2.0-dev html2text \
+    isync libbz2-dev libevent-dev libffi-dev libgif-dev libgmime-3.0-dev \
+    libgnutls28-dev libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev \
+    libncurses5-dev libncursesw5-dev libpng-dev libpoppler-glib-dev \
+    libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev libsystemd-dev \
+    libtiff-dev libwebkit2gtk-4.0-dev libwebkitgtk-3.0-dev libxapian-dev libxpm-dev \
+    llvm make mc ncdu net-tools nnn openssh-server pass plantuml pydf python-openssl \
+    rtv rtv shellcheck texinfo tig tk-dev wget wmctrl xdg-utils xz-utils zlib1g-dev \
+    zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
@@ -26,45 +29,78 @@ sudo apt-fast install -y git neovim fish tlp
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 # bash lsp
-sudo npm i -g bash-language-server prettier
-#json lsp
-sudo npm i -g vscode-json-languageserver
-
-# compile and install tmux
-mkdir ~/local/tools
-wget https://github.com/tmux/tmux/archive/3.0a.tar.gz -P ~/local/tools
+sudo npm i -g bash-language-server
+# json lsp
+sudo npm i -g vscode-json-languageserver prettier
+# vim lsp
+sudo npm i -g vim-language-server
 
 # install pyenv
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
-git clone git://github.com/pyenv/pyenv-doctor.git $(pyenv root)/plugins/pyenv-doctor
-git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
+if [ ! -d $HOME/.pyenv ]; then
+    git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+    git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+    git clone git://github.com/pyenv/pyenv-doctor.git $(pyenv root)/plugins/pyenv-doctor
+    git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
+fi
 
-CONFIGURE_OPTS=--enable-shared pyenv install 2.7.17
-CONFIGURE_OPTS=--enable-shared pyenv install 3.8.1
+if [ ! -d $HOME/.pyenv/versions/2.7.17 ]; then
+    CONFIGURE_OPTS=--enable-shared pyenv install 2.7.17
+    # configure neovim
+    pyenv virtualenv 2.7.17 neovim2
+    pyenv activate neovim2
+    pip2 install pynvim
+fi
 
-# configure neovim
-pyenv virtualenv 2.7.17 neovim2
-pyenv activate neovim2
-pip2 install pynvim
+if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
+    # CONFIGURE_OPTS=--enable-shared pyenv install 3.8.1
 
-pyenv virtualenv 3.8.1 neovim3
-pyenv activate neovim3
+    # pyenv virtualenv 3.8.1 neovim3
+    pyenv activate neovim3
+    pip3 install pynvim
 
-# configure emacs
-pyenv virtualenv 3.8.1 tensor3
-pyenv activate tensor3
-pip3 install --upgrade "jedi>=0.13.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"
-pip3 install python-language-server[all] pyls-isort
-pip3 install flake8 yapf autoflake isort autopep8
-pip3 install "ptvsd>=4.2"
-pip3 install importmagic epc
+    # configure emacs
+    pyenv virtualenv 3.8.1 tensor3
+    pyenv activate tensor3
+    pip3 install -U "jedi>=0.13.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"
+    pip3 install -U python-language-server[all] pyls-isort pudb
+    pip3 install -U flake8 yapf autoflake isort autopep8
+    pip3 install -U "ptvsd>=4.2"
+    pip3 install -U importmagic epc
+fi
 
 # install spacevim
-curl -sLf https://spacevim.org/install.sh | bash
+if [ ! -d $HOME/.SpaceVim ]; then
+    curl -sLf https://spacevim.org/install.sh | bash
+fi
 
-# configure fish
-curl -L https://get.oh-my.fish | fish
+mkdir -p ~/local/tools
+
+# download tmux
+if [ ! -f $HOME/local/tools/3.1b.tar.gz ]; then
+    wget https://github.com/tmux/tmux/archive/3.1b.tar.gz -P ~/local/tools
+fi
+
+# download fish
+if [ ! -f $HOME/local/tools/fish-3.1.2.tar.gz ]; then
+    wget https://github.com/fish-shell/fish-shell/releases/download/3.1.2/fish-3.1.2.tar.gz -P ~/local/tools
+fi
+
+# install enhancd for bash
+if [ ! -d $HOME/local/tools/enhancd-bash ]; then
+    git clone https://github.com/b4b4r07/enhancd $HOME/local/tools/enhancd-bash
+fi
+
+# install fzf
+if [ ! -d $HOME/.fzf ]; then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+fi
+
+# install omf
+if [ ! -d $HOME/.config/omf ]; then
+    curl -L https://get.oh-my.fish | fish
+    omf install https://github.com/b4b4r07/enhancd
+fi
 
 # snap packages
 sudo snap install --classic skype

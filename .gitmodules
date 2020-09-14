@@ -22,9 +22,9 @@
 [submodule "spacemacs/writing/local/textlint"]
 	path = spacemacs/writing/local/textlint
 	url = https://github.com/DamienCassou/textlint
-[submodule "fonts/powerline"]
+[submodule "general/fonts/powerline"]
 	path = general/fonts/powerline
 	url = https://github.com/powerline/fonts
-[submodule "fonts/emacs-icons"]
+[submodule "general/fonts/emacs-icons"]
 	path = general/fonts/emacs-icons
 	url = https://github.com/domtronn/all-the-icons.el
