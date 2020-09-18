@@ -66,3 +66,14 @@
   (or path (setq path (read-directory-name "Path: " org-directory)))
   (setq aam-org-note--name (read-string "Name: "))
   (expand-file-name (format "%s.org" aam-org-note--name) path))
+
+(defun aam/org-update-attach-properties ()
+  "Change properties for Org-Attach."
+  (interactive)
+  (org-with-point-at 1
+    (while (outline-next-heading)
+      (let ((DIR (org--property-local-values "ATTACH_DIR" nil)))
+        (when DIR
+          (org-set-property "DIR" (car DIR))
+          (org-delete-property "ATTACH_DIR"))))
+    (org-delete-property-globally "ATTACH_DIR_INHERIT")))
