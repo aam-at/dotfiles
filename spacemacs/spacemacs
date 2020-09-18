@@ -743,6 +743,10 @@ before packages are loaded."
   (org-clock-persistence-insinuate)
 
   ;; org capture settings
+  (defun aam/get-org-capture-name (&optional path)
+    (aam/generate-org-note-name (aam/org-path path)))
+  (defun aam/get-org-capture-name--note () (funcall (-partial 'aam/get-org-capture-name "notes")))
+  (defun aam/get-org-capture-name--project () (funcall (-partial 'aam/get-org-capture-name "projects")))
   (setq org-capture-templates
         `(
           ("t" "Toto" entry (file ,aam/org-inbox)
@@ -766,7 +770,7 @@ SCHEDULED: %(cfw:org-capture-day)
 :CREATED:%U
 :END:\n")
           ("e" "Email" entry
-           (file ,(concat org-directory "/inbox.org"))
+           (file ,aam/org-inbox)
            "* TODO [#A] Reply: %a :@home:@work:"
            :immediate-finish t)
           ("l" "Web link" entry (file ,aam/org-inbox)
@@ -784,7 +788,15 @@ SCHEDULED: %(cfw:org-capture-day)
            :immidiate-finish t)
           ;; template for org-protocol-capture-html
           ("w" "Web site" entry (file "")
-           "* %a :website:\n\n%U %?\n\n%:initial")))
+           "* %a :website:\n\n%U %?\n\n%:initial")
+          ;; Snippets
+          ("s" "Snippets")
+          ("sn" "Note" plain
+           (file aam/get-org-capture-name--note)
+           (file ,(aam/org-path "templates/note.org")))
+          ("sp" "Project" plain
+           (file aam/get-org-capture-name--project)
+           (file ,(aam/org-path "templates/project.org")))))
 
   ;; org babel languages
   (org-babel-do-load-languages

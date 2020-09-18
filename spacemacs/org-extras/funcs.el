@@ -60,3 +60,9 @@
            (pdf-view-goto-page page)))
         (t
          (org-open-file link 1))))
+
+(defun aam/generate-org-note-name (&optional path)
+  (interactive)
+  (or path (setq path (read-directory-name "Path: " org-directory)))
+  (setq aam-org-note--name (read-string "Name: "))
+  (expand-file-name (format "%s.org" aam-org-note--name) path))
