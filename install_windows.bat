@@ -1,8 +1,6 @@
-choco install 7zip adb ag adobereader autohotkey calibre curl ^
-              dropbox emacs evernote ffmpeg firefox ^
-              git gnupg google-backup-and-sync ^
-              googlechrome gpg4win handbrake jre8 msys2 ^
-              notepadplusplus pandoc python python3 ^
-              qtpass sqlite skype spotify sysinternals telegram ^
-              totalcommander utorrent viber vim ^
-              virtualbox vlc wget winrar WinFsp youtube-dl
+choco install ^
+7zip adb adobereader ag anki autohotkey calibre conemu curl dropbox emacs ^
+evernote evince far ffmpeg firefox git gnupg google-backup-and-sync googlechrome ^
+gpg4win handbrake jabref jre8 latexdraw msys2 notepadplusplus pandoc python ^
+python3 qtpass ripgrep skype spotify sqlite sysinternals telegram totalcommander ^
+utorrent viber vim virtualbox vlc wget WinFsp winrar youtube-dl
