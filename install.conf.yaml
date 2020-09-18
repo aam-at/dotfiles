@@ -23,8 +23,8 @@
         path: config/ranger/rc.conf
     ~/.config/ranger/commands.py: config/ranger/commands.py
     ~/.config/ranger/plugins: config/ranger/plugins
-    ~/.authinfo.gpg: ../Dropbox/Sync/authinfo.gpg
-    ~/.twittering-mode.gpg: ../Dropbox/Sync/twittering-mode.gpg
+    ~/.authinfo.gpg: ../Dropbox/Software/authinfo.gpg
+    ~/.twittering-mode.gpg: ../Dropbox/Software/emacs/twittering-mode.gpg
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
     ~/.gitconfig: git/gitconfig
     ~/.tmux.conf: tmux/tmux.conf
@@ -45,11 +45,10 @@
     ~/.ideavimrc: idea/ideavimrc
     ~/.atom: atom
     ~/.spacemacs: spacemacs/spacemacs
-    ~/.emacs.d/.cache/bookmarks: ../Dropbox/Sync/bookmarks
+    ~/.emacs.d/.cache/bookmarks: ../Dropbox/Software/emacs/bookmarks
     ~/.emacs.d/core/secure-config.el.gpg: spacemacs/secure-config.el.gpg
-    ~/.elfeed: ../Dropbox/Sync/elfeed
-    ~/.password-store: ../Dropbox/Sync/pass
-    ~/.taskrc: task/taskrc
+    ~/.elfeed: ../Dropbox/Software/elfeed
+    ~/.password-store: ../Dropbox/Software/pass
     ~/.bash_profile: bash/bash_profile
     ~/.bashrc: bash/bashrc
     ~/.aliases: general/aliases

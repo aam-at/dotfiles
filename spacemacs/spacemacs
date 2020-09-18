@@ -720,15 +720,12 @@ before packages are loaded."
           ("POSTPONED" . (:foreground "blue" :weight bold))))
 
   ;; agenda settings
-  (setq org-agenda-files (list (aam/org-path "work.org")
+  (setq org-agenda-files (list (aam/org-path "inbox.org")
                                (aam/org-path "projects")
+                               (aam/org-path "work.org")
                                (aam/org-path "personal.org")
-                               ;; File so sync with google calendar
-                               (aam/org-path "todo.org")
                                (aam/org-path "bookmarks.org")
-                               (aam/org-path "ideas.org")
-                               ;; (concat org-directory "/drills.org")
-                               (aam/org-path "papers.org")))
+                               (aam/org-path "ideas.org")))
   (setq org-agenda-skip-scheduled-if-done t)
   (setq org-agenda-skip-deadline-if-done t)
   (setq org-agenda-custom-commands
