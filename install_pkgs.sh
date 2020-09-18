@@ -8,15 +8,16 @@ sudo apt-get install apt-fast
 
 # install other packages
 sudo apt-fast install -y \
-    autojump automake bibtool build-essential checkinstall clang cmake cscope curl \
-    ditaa fasd fbreader fd-find fish fzy git gnome-tweak-tool graphviz guile-2.0-dev \
-    html2text isync libbz2-dev libevent-dev libffi-dev libgif-dev libgmime-3.0-dev \
-    libgnutls28-dev libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev \
-    libncurses5-dev libncursesw5-dev libpng-dev libpoppler-glib-dev \
-    libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev libsystemd-dev \
-    libtiff-dev libwebkit2gtk-4.0-dev libwebkitgtk-3.0-dev libxapian-dev libxpm-dev \
-    llvm make mc ncdu net-tools nnn openssh-server pass plantuml pydf python-openssl \
-    rtv rtv shellcheck texinfo tig tk-dev wget wmctrl xdg-utils xz-utils zlib1g-dev \
+    anki autojump automake bibtool build-essential checkinstall clang cmake cscope \
+    curl ditaa fasd fbreader fd-find fish fzy git glances gnome-tweak-tool graphviz \
+    guile-2.0-dev html2text iotop isync libbz2-dev libevent-dev libffi-dev \
+    libgif-dev libgmime-3.0-dev libgnutls28-dev libjpeg-dev liblzma-dev \
+    libmagick++-dev libmagickcore-dev libncurses5-dev libncursesw5-dev libpng-dev \
+    libpoppler-glib-dev libpoppler-private-dev libreadline-dev libsqlite3-dev \
+    libssl-dev libsystemd-dev libtiff-dev libwebkit2gtk-4.0-dev libwebkitgtk-3.0-dev \
+    libxapian-dev libxpm-dev llvm make mc ncdu net-tools nnn openssh-server pass \
+    plantuml pydf python-openssl ripgrep rtv rtv shellcheck texinfo tig tk-dev wget \
+    wmctrl xdg-utils xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev \
     zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
