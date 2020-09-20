@@ -31,7 +31,8 @@
                          :fetcher github
                          :repo "kidd/org-gcal.el"))
     ebib
-    org-ref))
+    org-ref
+    org-fragtog))
 
 ;; List of packages to exclude.
 (defconst org-extras-excluded-packages '())
@@ -192,3 +193,9 @@
   (require 'x2bib)
   (require 'org-ref-scifinder)
   (require 'org-ref-worldcat))
+
+(defun org-extras/init-org-fragtog ()
+  (use-package org-fragtog-mode
+    :diminish org-fragtog-mode
+    :after org
+    :hook (org-mode . org-fragtog-mode)))
