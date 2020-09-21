@@ -77,3 +77,13 @@
           (org-set-property "DIR" (car DIR))
           (org-delete-property "ATTACH_DIR"))))
     (org-delete-property-globally "ATTACH_DIR_INHERIT")))
+
+(defun org-id-remove-entry ()
+  "Remove/delete the ID entry and update the databases.
+Update the `org-id-locations' global hash-table, and update the
+`org-id-locations-file'.  `org-id-track-globally' must be `t`."
+  (interactive)
+  (save-excursion
+    (org-back-to-heading t)
+    (when (org-entry-delete (point) "ID")
+      (org-id-update-id-locations nil 'silent))))
