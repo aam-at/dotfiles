@@ -752,12 +752,12 @@ before packages are loaded."
           ("t" "Toto" entry (file ,aam/org-inbox)
            "* TODO %?
 :PROPERTIES:
-:CREATED:%U
+:CREATED: %U
 :END:\n")
           ("T" "Todo with context" entry (file ,aam/org-inbox)
            "* TODO %?
 :PROPERTIES:
-:CREATED:%U
+:CREATED: %U
 :END:
 %c
 %i
@@ -767,7 +767,7 @@ Link: %a\n")
            "* TODO %?
 SCHEDULED: %(cfw:org-capture-day)
 :PROPERTIES:
-:CREATED:%U
+:CREATED: %U
 :END:\n")
           ("e" "Email" entry
            (file ,aam/org-inbox)
@@ -776,12 +776,12 @@ SCHEDULED: %(cfw:org-capture-day)
           ("l" "Web link" entry (file ,aam/org-inbox)
            "* TODO %(org-cliplink-capture) :readlater:
 :PROPERTIES:
-:CREATED:%U
+:CREATED: %U
 :END:\n" :immediate-finish t)
           ("f" "Elfeed link" entry (file ,aam/org-inbox)
            "* %?%:description :readlater:
 :PROPERTIES:
-:CREATED:%U
+:CREATED: %U
 :END:
 - %:link
 %(when (< 0 (length \"%:elfeed-entry-link\")) (concat \"- web link: \" \"%:elfeed-entry-link\"))"

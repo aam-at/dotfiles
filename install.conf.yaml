@@ -46,6 +46,7 @@
     ~/.atom: atom
     ~/.spacemacs: spacemacs/spacemacs
     ~/.emacs.d/.cache/bookmarks: ../Dropbox/Software/emacs/bookmarks
+    ~/.emacs.d/.cache/.org-id-locations: ../Dropbox/Software/emacs/org-id-locations
     ~/.emacs.d/core/secure-config.el.gpg: spacemacs/secure-config.el.gpg
     ~/.elfeed: ../Dropbox/Software/elfeed
     ~/.password-store: ../Dropbox/Software/pass
