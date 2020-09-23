@@ -923,30 +923,31 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
   ;; org-ref configuration
   (setq aam/bib-dir "~/Dropbox/Research/Bibliography/")
   (defun aam/bib-path (path) (concat aam/bib-dir path))
-  (setq my-bibtex-files (list (aam/bib-path "refs.bib")
-                              (aam/bib-path "myrefs.bib")))
-  (setq reftex-default-bibliography my-bibtex-files)
+  (setq aam/bibtex-files (list (aam/bib-path "refs.bib")
+                               (aam/bib-path "myrefs.bib")))
+  (setq reftex-default-bibliography aam/bibtex-files)
   (setq org-ref-bibliography-notes (aam/org-path "papers.org")
-        org-ref-default-bibliography my-bibtex-files
-        org-ref-pdf-directory (aam/bib-path "papers/"))
-  (setq org-ref-note-title-format "** TODO %y - %t\n:PROPERTIES:\n:Custom_ID: %k\n:AUTHOR: %9a\n:JOURNAL: %j\n:Year: %y\n:VOLUME: %v\n:PAGES: %p\n:DOI: %D\n:URL: %U\n:NOTER_DOCUMENT: %F\n:END:\n[[cite:%k]] [[file:%F][pdf]]\n")
-  (setq org-ref-create-notes-hook nil)
+        org-ref-notes-directory (aam/org-path "papers")
+        org-ref-default-bibliography aam/bibtex-files
+        org-ref-pdf-directory (aam/bib-path "papers/")
+        org-ref-notes-function 'orb-edit-notes
+        org-ref-note-title-format "** TODO %y - %t\n:PROPERTIES:\n:Custom_ID: %k\n:AUTHOR: %9a\n:JOURNAL: %j\n:Year: %y\n:VOLUME: %v\n:PAGES: %p\n:DOI: %D\n:URL: %U\n:NOTER_DOCUMENT: %F\n:END:\n[[cite:%k]] [[file:%F][pdf]]\n")
   ;; helm-bibtex
   (spacemacs/set-leader-keys "hc" 'helm-bibtex)
-  (setq bibtex-completion-notes-path (aam/org-path "/papers.org"))
-  (setq bibtex-completion-pdf-symbol "⌘")
-  (setq bibtex-completion-notes-symbol "✎")
+  (setq bibtex-completion-notes-path (aam/org-path "/papers.org")
+        bibtex-completion-bibliography aam/bibtex-files
+        bibtex-completion-library-path org-ref-pdf-directory
+        bibtex-completion-pdf-symbol "⌘"
+        bibtex-completion-notes-symbol "✎")
   (setq bibtex-completion-additional-search-fields '(keywords tags))
   (setq bibtex-completion-format-citation-functions
         '((org-mode      . bibtex-completion-format-citation-org-link-to-PDF)
           (latex-mode    . bibtex-completion-format-citation-cite)
           (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
           (default       . bibtex-completion-format-citation-default)))
-  (setq bibtex-completion-bibliography my-bibtex-files)
-  (setq bibtex-completion-library-path org-ref-pdf-directory)
 
   ;; ebib settings
-  (setq ebib-preload-bib-files my-bibtex-files)
+  (setq ebib-preload-bib-files aam/bibtex-files)
   (evil-set-initial-state 'ebib-index-mode 'emacs)
   (evil-set-initial-state 'ebib-entry-mode 'emacs)
   (evil-set-initial-state 'ebib-log-mode 'emacs)
