@@ -61,13 +61,7 @@
         (t
          (org-open-file link 1))))
 
-(defun aam/generate-org-note-name (&optional path)
-  (interactive)
-  (or path (setq path (read-directory-name "Path: " org-directory)))
-  (setq aam-org-note--name (read-string "Name: "))
-  (expand-file-name (format "%s.org" aam-org-note--name) path))
-
-(defun aam/org-update-attach-properties ()
+(defun org-extras/org-update-attach-properties ()
   "Change properties for Org-Attach."
   (interactive)
   (org-with-point-at 1
@@ -87,3 +81,38 @@ Update the `org-id-locations' global hash-table, and update the
     (org-back-to-heading t)
     (when (org-entry-delete (point) "ID")
       (org-id-update-id-locations nil 'silent))))
+
+(defun org-extras/org-title-to-slug (title)
+  "Convert TITLE to a filename-suitable slug."
+  (cl-flet* ((nonspacing-mark-p (char)
+                                (eq 'Mn (get-char-code-property char 'general-category)))
+             (strip-nonspacing-marks (s)
+                                     (apply #'string (seq-remove #'nonspacing-mark-p
+                                                                 (ucs-normalize-NFD-string s))))
+             (cl-replace (title pair)
+                         (replace-regexp-in-string (car pair) (cdr pair) title)))
+    (let* ((pairs `(("[^[:alnum:][:digit:]]" . "-")  ;; convert anything not alphanumeric
+                    ("__*" . "_")  ;; remove sequential underscores
+                    ("^_" . "")  ;; remove starting underscore
+                    ("_$" . "")))  ;; remove ending underscore
+           (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
+      (downcase slug))))
+
+(defun org-extras/org-get-filepath-for-title (&optional path template)
+  "Return the filepath to the note with the specified title"
+  (interactive)
+  (or path (setq path (read-directory-name "Path: " org-directory)))
+  (or template (setq template "%s.org"))
+  (setq org-extras/org-capture-title (read-string "Title: "))
+  (let ((org-extras/org-capture--slug
+         (read-string "Slug: " (org-extras/org-title-to-slug org-extras/org-capture-title))))
+    (expand-file-name
+     (if (functionp template)
+         (funcall template org-extras/org-capture--slug)
+       (format template org-extras/org-capture--slug))
+     path)))
+
+(defun org-extras/org-get-datetime-filepath (slug)
+  "Return the filepath with datetime prefix"
+  (let ((datetime (format-time-string "%Y%m%d-%H%M")))
+    (s-lex-format "${datetime}_${slug}.org")))

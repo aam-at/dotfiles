@@ -743,10 +743,19 @@ before packages are loaded."
   (org-clock-persistence-insinuate)
 
   ;; org capture settings
-  (defun aam/get-org-capture-name (&optional path)
-    (aam/generate-org-note-name (aam/org-path path)))
-  (defun aam/get-org-capture-name--note () (funcall (-partial 'aam/get-org-capture-name "notes")))
-  (defun aam/get-org-capture-name--project () (funcall (-partial 'aam/get-org-capture-name "projects")))
+  (defun aam/org-capture-note-filepath (&optional with-date)
+    "Return path to note with datetime prefix or without it"
+    (funcall (-partial 'org-extras/org-get-filepath-for-title
+                       (aam/org-path "notes")
+                       (when (eq with-date t)
+                         'org-extras/org-get-datetime-filepath))))
+  (defun aam/org-capture-note-filepath-with-date ()
+    (funcall (-partial 'aam/org-capture-note-filepath t)))
+  (defun aam/org-capture-project-filepath ()
+    "Return path to structured note"
+    (funcall (-partial 'org-extras/org-get-filepath-for-title
+                       (aam/org-path "projects"))))
+
   (setq org-capture-templates
         `(
           ("t" "Toto" entry (file ,aam/org-inbox)
@@ -791,11 +800,14 @@ SCHEDULED: %(cfw:org-capture-day)
            "* %a :website:\n\n%U %?\n\n%:initial")
           ;; Snippets
           ("s" "Snippets")
-          ("sn" "Note" plain
-           (file aam/get-org-capture-name--note)
+          ("sn" "Simple (Zottel) Note" plain
+           (file aam/org-capture-note-filepath-with-date)
+           (file ,(aam/org-path "templates/note.org")))
+          ("sN" "Named (Structured) Note" plain
+           (file aam/org-capture-note-filepath)
            (file ,(aam/org-path "templates/note.org")))
           ("sp" "Project" plain
-           (file aam/get-org-capture-name--project)
+           (file aam/org-capture-project-filepath)
            (file ,(aam/org-path "templates/project.org")))))
 
   ;; org babel languages
