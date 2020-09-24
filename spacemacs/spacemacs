@@ -1306,10 +1306,13 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
   (with-eval-after-load 'xwidget
     (define-key xwidget-webkit-mode-map [mouse-4] 'xwidget-webkit-scroll-down)
     (define-key xwidget-webkit-mode-map [mouse-5] 'xwidget-webkit-scroll-up)
+    (define-key xwidget-webkit-mode-map (kbd "-") 'xwidget-webkit-zoom-out)
+    (define-key xwidget-webkit-mode-map (kbd "+") 'xwidget-webkit-zoom-in)
     (define-key xwidget-webkit-mode-map (kbd "k") 'xwidget-webkit-scroll-down)
     (define-key xwidget-webkit-mode-map (kbd "j") 'xwidget-webkit-scroll-up)
     (define-key xwidget-webkit-mode-map (kbd "l") 'xwidget-webkit-scroll-forward)
-    (define-key xwidget-webkit-mode-map (kbd "h") 'xwidget-webkit-scroll-backward))
+    (define-key xwidget-webkit-mode-map (kbd "h") 'xwidget-webkit-scroll-backward)
+    (define-key xwidget-webkit-mode-map (kbd "W") 'xwidget-webkit-fit-width))
 
   ;; load encrypted part of config
   (load-library "secure-config"))
