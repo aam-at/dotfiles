@@ -22,6 +22,7 @@
                                           :repo "alphapapa/org-protocol-capture-html"))
     org-doing
     magit-org-todos
+    org
     org-noter
     pdf-tools
     ob-async

@@ -72,6 +72,27 @@
           (org-delete-property "ATTACH_DIR"))))
     (org-delete-property-globally "ATTACH_DIR_INHERIT")))
 
+;; https://github.com/munen/emacs.d#convenience-functions-when-working-with-pdf-exports
+(defun update-other-buffer ()
+  (interactive)
+  (other-window 1)
+  (revert-buffer nil t)
+  (other-window -1))
+
+(defun org-compile-beamer-and-update-other-buffer ()
+  "Has as a premise that it's run from an org-mode buffer and the
+   other buffer already has the PDF open"
+  (interactive)
+  (org-beamer-export-to-pdf)
+  (update-other-buffer))
+
+(defun org-compile-latex-and-update-other-buffer ()
+  "Has as a premise that it's run from an org-mode buffer and the
+   other buffer already has the PDF open"
+  (interactive)
+  (org-latex-export-to-pdf)
+  (update-other-buffer))
+
 (defun org-id-remove-entry ()
   "Remove/delete the ID entry and update the databases.
 Update the `org-id-locations' global hash-table, and update the
