@@ -43,5 +43,3 @@ export GOPATH="$HOME/local/go_packages"
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
-# environment variables for EMACS
-export PYTHON_LSP_GIT_ROOT="/path/to/lsp"

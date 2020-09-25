@@ -67,8 +67,6 @@ This function should only modify configuration layer settings."
              semantic
              (python :variables
                      python-backend 'lsp
-                     python-lsp-server 'mspyls
-                     python-lsp-git-root (getenv "PYTHON_LSP_GIT_ROOT")
                      python-format-on-save t
                      python-sort-imports-on-save t)
              ipython-notebook

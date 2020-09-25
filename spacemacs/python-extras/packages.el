@@ -29,12 +29,14 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
-(defun python-extras/init-py-autopep8()
+(defun python-extras/init-py-autopep8 ()
   :defer t)
 
-(defun python-extras/init-sphinx-doc()
-  :defer t
-  :config
-  (add-hook 'python-mode-hook (lambda ()
-                                (require 'sphinx-doc)
-                                (sphinx-doc-mode t))))
+(defun python-extras/init-sphinx-doc ()
+  (use-package sphinx-doc
+    :diminish sphinx-doc-mode
+    :defer t
+    :config
+    (add-hook 'python-mode-hook (lambda ()
+                                  (require 'sphinx-doc)
+                                  (sphinx-doc-mode t)))))
