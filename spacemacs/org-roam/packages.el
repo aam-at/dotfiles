@@ -11,7 +11,7 @@
   (use-package org-roam
     :after org
     :hook
-    (org-mode . org-roam-mode)
+    (org-load . org-roam-mode)
     :init
     (progn
       (spacemacs/declare-prefix "aoR" "org-roam")
@@ -46,6 +46,7 @@
 (defun org-roam/init-org-roam-bibtex ()
   (use-package org-roam-bibtex
     :after org-roam
+    :diminish org-roam-bibtex-mode
     :hook
     (org-roam-mode . org-roam-bibtex-mode)
     :init

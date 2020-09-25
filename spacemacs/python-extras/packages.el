@@ -14,7 +14,6 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst python-extras-packages
   '(
-    py-autopep8
     sphinx-doc))
 
 ;; List of packages to exclude.
@@ -29,14 +28,12 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
-(defun python-extras/init-py-autopep8 ()
-  :defer t)
 
 (defun python-extras/init-sphinx-doc ()
   (use-package sphinx-doc
     :diminish sphinx-doc-mode
     :defer t
-    :config
+    :init
     (add-hook 'python-mode-hook (lambda ()
                                   (require 'sphinx-doc)
                                   (sphinx-doc-mode t)))))
