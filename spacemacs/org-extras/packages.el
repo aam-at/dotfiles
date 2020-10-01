@@ -32,7 +32,9 @@
                          :repo "kidd/org-gcal.el"))
     ebib
     org-ref
-    org-fragtog))
+    org-fragtog
+    org-pdftools
+    org-noter-pdftools))
 
 ;; List of packages to exclude.
 (defconst org-extras-excluded-packages '())
@@ -157,3 +159,15 @@
     :diminish org-fragtog-mode
     :after org
     :hook (org-mode . org-fragtog-mode)))
+
+(defun org-extras/init-org-pdftools ()
+  (use-package org-pdftools
+    :after org
+    :hook (org-load . org-pdftools-setup-link)))
+
+(defun org-extras/init-org-noter-pdftools ()
+  (use-package org-noter-pdftools
+    :after org-noter
+    :config
+    (with-eval-after-load 'pdf-annot
+      (add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note))))
