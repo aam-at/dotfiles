@@ -137,3 +137,30 @@ Update the `org-id-locations' global hash-table, and update the
   "Return the filepath with datetime prefix"
   (let ((datetime (format-time-string "%Y%m%d-%H%M")))
     (s-lex-format "${datetime}_${slug}.org")))
+
+(defun org-extras/org-all-files (&optional directory)
+  "List the .org files in DIRECTORY and in its sub-directories."
+  (let (org-files-list
+        (current-directory-list
+         (directory-files-and-attributes directory t)))
+    (while current-directory-list
+      (cond
+       ((equal ".org" (substring (car (car current-directory-list)) -4))
+        (setq org-files-list
+              (cons (car (car current-directory-list)) org-files-list)))
+       ((eq t (car (cdr (car current-directory-list))))
+        (if
+            (equal "."
+                   (substring (car (car current-directory-list)) -1))
+            ()
+          (setq org-files-list
+                (append
+                 (org-extras/org-all-files
+                  (car (car current-directory-list)))
+                 org-files-list))))
+       )
+      (setq current-directory-list (cdr current-directory-list)))
+    org-files-list))
+
+(defun org-extras/org-id-update-all-files ()
+  (org-id-update-id-locations (org-extras/org-all-files org-directory)))
