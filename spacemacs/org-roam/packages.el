@@ -11,7 +11,7 @@
   (use-package org-roam
     :after org
     :hook
-    (org-load . org-roam-mode)
+    (org-mode . org-roam-mode)
     :init
     (progn
       (spacemacs/declare-prefix "aoR" "org-roam")

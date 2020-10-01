@@ -138,14 +138,22 @@ Update the `org-id-locations' global hash-table, and update the
   (let ((datetime (format-time-string "%Y%m%d-%H%M")))
     (s-lex-format "${datetime}_${slug}.org")))
 
-(defun org-extras/org-all-files (&optional directory)
-  "List the .org files in DIRECTORY and in its sub-directories."
+(defun org-extras/org-id-in-file (file)
+  "Check if the file contains :ID: property"
+  (let ((file-contents (with-temp-buffer
+                         (insert-file-contents file)
+                         (buffer-string))))
+    (s-contains-p ":ID:" file-contents)))
+
+(defun org-extras/org-id-list-files (&optional directory)
+  "List the .org files with :ID: in DIRECTORY and in its sub-directories."
   (let (org-files-list
         (current-directory-list
          (directory-files-and-attributes directory t)))
     (while current-directory-list
       (cond
-       ((equal ".org" (substring (car (car current-directory-list)) -4))
+       ((and (equal ".org" (substring (car (car current-directory-list)) -4))
+             (equal (org-extras/org-id-in-file (car (car current-directory-list))) t))
         (setq org-files-list
               (cons (car (car current-directory-list)) org-files-list)))
        ((eq t (car (cdr (car current-directory-list))))
@@ -162,5 +170,8 @@ Update the `org-id-locations' global hash-table, and update the
       (setq current-directory-list (cdr current-directory-list)))
     org-files-list))
 
-(defun org-extras/org-id-update-all-files ()
-  (org-id-update-id-locations (org-extras/org-all-files org-directory)))
+
+(defun org-extras/org-id-update-all ()
+  "Update id locations for all files in org-directory"
+  (interactive)
+  (org-id-update-id-locations (org-extras/org-id-list-files org-directory)))
