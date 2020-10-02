@@ -19,6 +19,14 @@ set smartcase                                       "do case-sensitive if there'
 " it is next to ``m`` and ``n`` which I use for navigating between tabs.
 let mapleader = ","
 
+" emulate vim plugins
+set easymotion
+set surround
+set commentary
+set argtextobj
+set textobj-entire
+set highlightedyank
+
 " Learn vim hard way
 noremap <Up> <NOP>
 noremap <Down> <NOP>
