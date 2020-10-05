@@ -152,7 +152,9 @@ This function should only modify configuration layer settings."
              writing
              org-extras
              org-roam
-             python-extras cpp-extras
+             latex-extras
+             python-extras
+             cpp-extras
              emacs-icons)
 
            ;; OS-specific layers
@@ -722,7 +724,6 @@ before packages are loaded."
                                (aam/org-path "projects")
                                (aam/org-path "work.org")
                                (aam/org-path "personal.org")
-                               (aam/org-path "bookmarks.org")
                                (aam/org-path "ideas.org")))
   (setq org-agenda-skip-scheduled-if-done t)
   (setq org-agenda-skip-deadline-if-done t)
