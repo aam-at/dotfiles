@@ -115,9 +115,12 @@ This function should only modify configuration layer settings."
              (org :variables
                   org-want-todo-bindings t
                   org-enable-sticky-header nil
-                  org-enable-trello-support t
                   org-enable-org-journal-support t
+                  org-enable-roam-support t
+                  org-enable-trello-support t
+                  org-enable-epub-support t
                   org-enable-bootstrap-support t
+                  org-enable-github-support t
                   org-enable-reveal-js-support t)
              spotify
              twitter
@@ -153,7 +156,6 @@ This function should only modify configuration layer settings."
              org-extras
              org-roam
              latex-extras
-             python-extras
              cpp-extras
              emacs-icons)
 
