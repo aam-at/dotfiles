@@ -1164,6 +1164,7 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
                  (user-full-name               . "Alexander Matyasko")
                  (mu4e-sent-folder             . "/gmail/[Gmail]/Sent Mail")
                  (mu4e-drafts-folder           . "/gmail/[Gmail]/Drafts")
+                 (mu4e-refile-folder           . "/gmail/[Gmail]/All Mail")
                  (mu4e-trash-folder            . "/gmail/[Gmail]/Trash")
                  (mu4e-compose-signature       . (concat
                                                   "Best regards,\n"
