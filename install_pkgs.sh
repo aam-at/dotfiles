@@ -53,9 +53,9 @@ if [ ! -d $HOME/.pyenv/versions/2.7.17 ]; then
 fi
 
 if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
-    # CONFIGURE_OPTS=--enable-shared pyenv install 3.8.1
+    CONFIGURE_OPTS=--enable-shared pyenv install 3.8.1
 
-    # pyenv virtualenv 3.8.1 neovim3
+    pyenv virtualenv 3.8.1 neovim3
     pyenv activate neovim3
     pip3 install pynvim
 
