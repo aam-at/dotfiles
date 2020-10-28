@@ -14,7 +14,7 @@ sudo apt-fast install -y \
     libgif-dev libgmime-3.0-dev libgnutls28-dev libjpeg-dev liblzma-dev \
     libmagick++-dev libmagickcore-dev libncurses5-dev libncursesw5-dev libpng-dev \
     libpoppler-glib-dev libpoppler-private-dev libreadline-dev libsqlite3-dev \
-    libssl-dev libsystemd-dev libtiff-dev libwebkit2gtk-4.0-dev libwebkitgtk-3.0-dev \
+    libssl-dev libsystemd-dev libtiff-dev libwebkit2gtk-4.0-dev \
     libxapian-dev libxpm-dev llvm make mc mosh ncdu net-tools nnn openssh-server \
     pass plantuml pydf python-openssl ripgrep rtv rtv shellcheck texinfo tig tk-dev \
     trash-cli wget wmctrl xdg-utils xz-utils zathura zathura-djvu \
