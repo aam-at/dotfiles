@@ -9,7 +9,7 @@ sudo apt-get install apt-fast
 # install other packages
 sudo apt-fast install -y \
     anki autojump automake bibtool build-essential checkinstall clang cmake cscope \
-    curl ditaa fasd fbreader fd-find fish fzy git glances gnome-tweak-tool graphviz \
+    curl ditaa fasd fbreader fd-find fish fzy git glances global gnome-tweak-tool graphviz \
     guile-2.0-dev html2text iotop isync libbz2-dev libevent-dev libffi-dev \
     libgif-dev libgmime-3.0-dev libgnutls28-dev libjpeg-dev liblzma-dev \
     libmagick++-dev libmagickcore-dev libncurses5-dev libncursesw5-dev libpng-dev \
