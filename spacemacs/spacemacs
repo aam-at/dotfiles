@@ -86,7 +86,8 @@ This function should only modify configuration layer settings."
              (latex :variables
                     latex-build-command "LatexMk"
                     latex-enable-auto-fill t
-                    latex-enable-folding t)
+                    latex-enable-folding t
+                    latex-backend 'lsp)
              bibtex
              major-modes
              yaml
@@ -155,7 +156,6 @@ This function should only modify configuration layer settings."
              writing
              org-extras
              org-roam
-             latex-extras
              cpp-extras
              emacs-icons)
 
