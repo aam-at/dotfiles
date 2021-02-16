@@ -3,8 +3,7 @@
 (defconst org-roam-packages
   '(
     org-roam-bibtex
-    org-roam-server
-    company-org-roam))
+    org-roam-server))
 
 (defun org-roam/init-org-roam-bibtex ()
   (use-package org-roam-bibtex
@@ -21,13 +20,6 @@
     :hook
     (org-roam-mode . org-roam-server-mode)
     :ensure t))
-
-(defun org-roam/init-company-org-roam ()
-  (use-package company-org-roam
-    :after org-roam
-    :init
-    (progn
-      (spacemacs|add-company-backends :backends 'company-org-roam :modes org-mode))))
 
 (defun org-roam/post-init-org ()
   (require 'org-protocol)
