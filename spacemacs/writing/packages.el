@@ -22,9 +22,9 @@
       (write-or-die :location local)
       langtool
       ;; synonyms and thesaurus
-      (thesaurus :location (recipe
-                            :fetcher github
-                            :repo "emacsmirror/thesaurus"))
+      (mw-thesaurus :location (recipe)
+                    :fetcher github
+                    :repo "agzam/mw-thesaurus.el")
       synosaurus
       synonymous
       (words :location local)
@@ -92,11 +92,11 @@
     "x44" #'langtool-show-message-at-point
     "x4c" #'langtool-correct-buffer))
 
-(defun writing/init-thesaurus()
+(defun writing/init-mw-thesaurus()
   :defer t
   :init
   (spacemacs/set-leader-keys
-    "St" 'thesaurus-choose-synonym-and-replace))
+    "St" 'mw-thesaurus-lookup-dwim))
 
 (defun writing/init-synosaurus()
   (use-package synosaurus
