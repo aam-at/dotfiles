@@ -622,6 +622,11 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (require 'semantic/db-file)
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
+   (when (> (x-display-pixel-width) 3000)
+     (setq dotspacemacs-default-font '("Source Code Pro"
+                                       :size 20
+                                       :weight normal
+                                       :width normal)))
    (spacemacs/set-default-font dotspacemacs-default-font)))
 
 (defun dotspacemacs/user-load ()
