@@ -17,6 +17,7 @@
       cdlatex
       ;; general writing
       flycheck
+      flycheck-grammarly
       writeroom-mode
       writegood-mode
       flycheck-vale
@@ -96,6 +97,14 @@
               line-end))
     :modes (text-mode latex-mode org-mode markdown-mode gfm-mode))
   (add-to-list 'flycheck-checkers 'textlint))
+
+(defun writing/init-flycheck-grammarly ()
+  :defer t
+  :init
+  (require 'flycheck-grammarly)
+  :config
+  (setq flycheck-grammarly-check-time 0.8))
+
 (defun writing/post-init-writeroom-mode ()
   (setq writeroom-width 90)
   (spacemacs/set-leader-keys "xW" #'writeroom-mode))
