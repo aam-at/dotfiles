@@ -35,6 +35,15 @@ sudo npm i -g bash-language-server
 sudo npm i -g vscode-json-languageserver prettier
 # vim lsp
 sudo npm i -g vim-language-server
+# text linting
+sudo npm i -g textlint
+sudo npm i -g write-good textlint-plugin-latex textlint-rule-write-good \
+     textlint-rule-no-start-duplicated-conjunction textlint-rule-max-comma \
+     textlint-rule-terminology textlint-rule-period-in-list-item \
+     textlint-rule-unexpanded-acronym textlint-rule-abbr-within-parentheses \
+     textlint-rule-alex textlint-rule-common-misspellings \
+     textlint-rule-en-max-word-count textlint-rule-diacritics \
+     textlint-rule-stop-words
 
 # install pyenv
 if [ ! -d $HOME/.pyenv ]; then
@@ -68,6 +77,7 @@ if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
     pip3 install -U flake8 pylint yapf autoflake isort autopep8
     pip3 install -U "ptvsd>=4.2"
     pip3 install -U importmagic epc
+    pip3 install -U proselint
 fi
 
 # install spacevim
