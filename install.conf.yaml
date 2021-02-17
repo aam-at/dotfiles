@@ -10,6 +10,7 @@
     ~/.ssh/config: config/ssh/config
     ~/.mbsyncrc: config/mbsyncrc
     ~/.vale: config/vale/vale
+    ~/.textlintrc: config/textlintrc
     ~/.sbclrc: config/sbclrc
     ~/.config/systemd/user:
         create: true
