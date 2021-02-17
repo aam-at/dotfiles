@@ -45,7 +45,10 @@
 
 (setq hydra-is-helpful t)
 
-;;** Dictionary/thesaurus/grammar
+;; to quiet byte-compile error
+(defvar url-http-end-of-headers)
+
+;; * Dictionary/thesaurus/grammar
 (defun words-dictionary ()
   "Look up word at point in an online dictionary."
   (interactive)
@@ -69,10 +72,13 @@
   (interactive)
 
   (let* ((url-request-method "POST")
+	 (text (if (region-active-p)
+		   (buffer-substring (region-beginning) (region-end))
+		 (thing-at-point 'paragraph)))
 	 (url-request-data (format
 			    "key=some-random-text-&data=%s"
 			    (url-hexify-string
-			     (thing-at-point 'paragraph))))
+			     text)))
 	 (xml  (with-current-buffer
 		   (url-retrieve-synchronously
 		    "http://service.afterthedeadline.com/checkDocument")
@@ -80,7 +86,7 @@
 	 (results (car xml))
 	 (errors (xml-get-children results 'error)))
 
-    (switch-to-buffer-other-frame "*ATD*")
+    (pop-to-buffer "*ATD*")
     (erase-buffer)
     (dolist (err errors)
       (let* ((children (xml-node-children err))
@@ -106,7 +112,7 @@ Suggestions: %s
 " s type desc opt-string))))))
 
 
-;;** Web functions
+;; * Web functions
 (defun words-google ()
   "Google the word at point or selection."
   (interactive)
@@ -130,7 +136,7 @@ Suggestions: %s
       (thing-at-point 'word)))))
 
 
-;;** Scientific search functions
+;; * Scientific search functions
 (defun words-google-scholar ()
   "Google scholar the word at point or selection."
   (interactive)
@@ -219,9 +225,9 @@ Suggestions: %s
 			    (region-beginning)
 			    (region-end)))
       (thing-at-point 'word)))))
-;; #+end_src
 
-;;** Convenience functions for scientific queries
+
+;; ** Convenience functions for scientific queries
 ;; These just open websites, with no search queries.
 
 (defun wos ()
@@ -248,7 +254,7 @@ Suggestions: %s
   (browse-url "http://search.crossref.org"))
 
 
-;;** Bibtex search
+;; * Bibtex search
 
 (defun words-bibtex ()
   "Find selected region or word at point in variable `reftex-default-bibliography'."
@@ -262,13 +268,14 @@ Suggestions: %s
 	(region-end))
      (thing-at-point 'word))))
 
-;;** Search functions for Mac
-(defvar words-voice "Vicki"
+;; * Search functions for Mac
+(defvar words-voice "Samantha"
   "Mac voice to use for speaking.")
 
-(defun words-speak (&optional text)
+(defun words-speak (&optional text speed)
   "Speak word at point or region or TEXT.  Mac only."
   (interactive)
+  (setq speed (number-to-string (or speed 180)))
   (unless text
     (setq text (if (use-region-p)
 		   (buffer-substring
@@ -277,11 +284,14 @@ Suggestions: %s
   ;; escape some special applescript chars
   (setq text (replace-regexp-in-string "\\\\" "\\\\\\\\" text))
   (setq text (replace-regexp-in-string "\"" "\\\\\"" text))
-  (do-applescript
-   (format
-    "say \"%s\" using \"%s\""
-    text
-    words-voice)))
+  ;; (do-applescript
+  ;;  (format
+  ;;   "say \"%s\" using \"%s\""
+  ;;   text
+  ;;   words-voice))
+  ;; (start-process "my-thing" "foo" "say" "-v" words-voice text "-r" speed)
+  ;; (call-process "say" nil nil nil (mapconcat 'identity (list "-v" words-voice text "-r" speed) " "))
+  (shell-command (format "say -v %s \"%s\" -r %s" words-voice text speed)))
 
 (defvar words-languages
   '()
@@ -351,6 +361,18 @@ Opens an org-buffer with links to results.  Mac only."
       "\n"))
     (org-mode)))
 
+(defun words-swiper-all ()
+  "Run swiper-all on the word at point or region."
+  (interactive)
+  (let ((query (if (use-region-p)
+		   (buffer-substring
+		    (region-beginning)
+		    (region-end))
+		 (thing-at-point 'word))))
+    (let ((ivy-initial-inputs-alist `((swiper-multi . ,query))))
+      (swiper-all))))
+
+
 
 (defun words-finder ()
   "Open Mac Finder with search of word at point or selection."
@@ -375,51 +397,7 @@ end tell")))
     (do-applescript applescript)))
 
 
-
-;;** words menu
-
-;; A keystroke driven menu to access words functions. I favor the hydra
-;; interface now. One advantage of this interface is that it is user extendable,
-;; by adding entries to the words-funcs variable. It would take some work to get
-;; that to work in hydra.
-
-(defvar words-funcs '()
- "Functions to run in `words'.  Each entry is a list of (char menu-name function).")
-
-(setq words-funcs
-  '(("d" "ictionary" words-dictionary)
-    ("t" "hesaurus" words-thesaurus)
-    ("g" "oogle" words-google)
-    ("c" "CrossRef" words-crossref)
-    ("s" "Scopus" words-scopus)
-    ("b" "ibtex" words-bibtex)
-    ("f" "inder" words-finder)
-    ("m" "dfind" words-mdfind)
-    ("G" "google-scholar" words-google-scholar)
-    ("S" "spell/grammar" words-atd)
-    ("w" "twitter" words-twitter)
-    ("T" "alk" words-speak)))
-
-
-(defun words ()
-  "Offer menu of functions to run defined in `words-funcs'."
-  (interactive)
-   (message
-   (concat
-    (mapconcat
-     (lambda (tup)
-       (concat "[" (elt tup 0) "]"
-	       (elt tup 1) " "))
-     words-funcs "") ": "))
-   (let ((input (read-char-exclusive)))
-     (funcall
-      (elt
-       (assoc
-	(char-to-string input) words-funcs)
-       2))))
-
-
-;;** A hydra interface to words
+;; * A hydra interface to words
 
 ;; hydra (http://oremacs.com/2015/01/20/introducing-hydra/) is a relatively new
 ;; menu type interface to select actions with single key strokes. It is a nicer
@@ -427,26 +405,38 @@ end tell")))
 
 ;; https://github.com/abo-abo/hydra
 
-(defhydra words-hydra (:color blue)
-   "words"
-   ("d" words-dictionary "dictionary")
-   ("t" words-thesaurus "thesaurus")
-   ("S" words-atd "spell/grammar")
-   ("g" words-google "google")
-   ("T" words-twitter "Twitter")
-   ("w" words-wos "Web of Science")
-   ("G" words-google-scholar "Google scholar")
-   ("c" words-crossref "CrossRef")
-   ("s" words-scopus "Scopus")
-   ("o" words-semantic-scholar "Semantic Scholar")
-   ("p" words-pubmed "Pubmed")
-   ("a" words-arxiv "Arxiv")
-   ("b" words-bibtex "bibtex")
-   ("f" words-finder "Mac Finder")
-   ("m" words-mdfind "mdfind")
-   ("k" words-speak "Speak")
-   ("r" words-translate "Translate")
-   ("q" nil "cancel"))
+(defhydra words-hydra (:color blue :hint nil)
+  "
+words
+_d_: Dictionary  _g_: Google           _T_: Twitter _b_: Bibtex      _k_: Speak
+_t_: Thesaurus   _G_: Google Scholar   ^ ^          _f_: Mac finder  _r_: Translate
+_s_: Spell       _c_: Crossref         ^ ^          _w_: swiper-all
+^ ^              _S_: Scopus           ^ ^          _M_: Mac mdfind
+^ ^              _W_: Web Of Science
+^ ^              _p_: Pubmed
+^ ^              _a_: Arxiv
+^ ^              _o_: Semantic Scholar
+_q_: quit
+"
+  ("d" words-dictionary "dictionary")
+  ("t" words-thesaurus "thesaurus")
+  ("s" words-atd "spell/grammar")
+  ("g" words-google "google")
+  ("T" words-twitter "Twitter")
+  ("W" words-wos "Web of Science")
+  ("G" words-google-scholar "Google scholar")
+  ("c" words-crossref "CrossRef")
+  ("S" words-scopus "Scopus")
+  ("o" words-semantic-scholar "Semantic Scholar")
+  ("p" words-pubmed "Pubmed")
+  ("a" words-arxiv "Arxiv")
+  ("b" words-bibtex "bibtex")
+  ("f" words-finder "Mac Finder")
+  ("w" words-swiper-all "swiper-all")
+  ("M" words-mdfind "mdfind")
+  ("k" words-speak "Speak")
+  ("r" words-translate "Translate")
+  ("q" nil "cancel"))
 
 
 ;;; End:
