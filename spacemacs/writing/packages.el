@@ -16,6 +16,7 @@
     '(
       cdlatex
       ;; general writing
+      flycheck
       writeroom-mode
       writegood-mode
       flycheck-vale
@@ -28,7 +29,6 @@
       synosaurus
       synonymous
       (words :location local)
-      (textlint :location local)
       academic-phrases))
 
 ;; List of packages to exclude.
@@ -51,6 +51,51 @@
     :init
     (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)))
 
+(defun writing/post-init-flycheck ()
+
+  ;; proselint checker
+  (flycheck-define-checker proselint
+    "A linter for prose."
+    :command ("proselint" source-inplace)
+    :error-patterns
+    ((warning line-start (file-name) ":" line ":" column ": "
+              (id (one-or-more (not (any " "))))
+              (message (one-or-more not-newline)
+                       (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+              line-end))
+    :modes (text-mode latext-model org-mode markdown-mode gfm-mode))
+  (add-to-list 'flycheck-checkers 'proselint)
+
+  ;; textlint checker
+  (flycheck-define-checker textlint
+    "A linter for textlint."
+    :command ("npx" "textlint"
+              "--config" "/home/amatyasko/.textlintrc"
+              "--format" "unix"
+              "--rule" "write-good"
+              "--rule" "no-start-duplicated-conjunction"
+              "--rule" "max-comma"
+              "--rule" "terminology"
+              "--rule" "period-in-list-item"
+              "--rule" "abbr-within-parentheses"
+              "--rule" "alex"
+              "--rule" "common-misspellings"
+              "--rule" "en-max-word-count"
+              "--rule" "diacritics"
+              "--rule" "stop-words"
+              "--plugin"
+              (eval
+               (if (derived-mode-p 'tex-mode)
+                   "latex"
+                 "@textlint/text"))
+              source-inplace)
+    :error-patterns
+    ((warning line-start (file-name) ":" line ":" column ": "
+              (message (one-or-more not-newline)
+                       (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+              line-end))
+    :modes (text-mode latex-mode org-mode markdown-mode gfm-mode))
+  (add-to-list 'flycheck-checkers 'textlint))
 (defun writing/post-init-writeroom-mode ()
   (setq writeroom-width 90)
   (spacemacs/set-leader-keys "xW" #'writeroom-mode))

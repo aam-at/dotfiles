@@ -140,6 +140,7 @@
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "ir" 'org-ref-helm-insert-ref-link
     "iR" 'org-ref-helm-insert-label-link)
+  (require 'org-ref)
   ;; optional but very useful libraries from org-ref
   (require 'doi-utils)
   (require 'org-ref-pdf)
