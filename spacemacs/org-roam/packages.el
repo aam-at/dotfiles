@@ -2,6 +2,8 @@
 
 (defconst org-roam-packages
   '(
+    org
+    org-roam
     org-roam-bibtex
     org-roam-server))
 
