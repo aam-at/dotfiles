@@ -78,6 +78,7 @@ if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
     pip3 install -U "ptvsd>=4.2"
     pip3 install -U importmagic epc
     pip3 install -U proselint
+    pip3 install -U cmake-language-server
 fi
 
 # install spacevim
