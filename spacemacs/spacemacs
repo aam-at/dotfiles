@@ -166,8 +166,7 @@ This function should only modify configuration layer settings."
              writing
              org-extras
              org-roam
-             cpp-extras
-             emacs-icons)
+             cpp-extras)
 
            ;; OS-specific layers
            (when (spacemacs/system-is-linux)
@@ -645,6 +644,9 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  ;; configure org before anything
+  (setq org-directory (expand-file-name "~/Dropbox/Org/"))
+  (setq org-roam-directory org-directory)
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
    (when (> (x-display-pixel-width) 3000)
@@ -722,14 +724,12 @@ before packages are loaded."
   (setq calendar-date-style "european")
 
   ;; org settings
-  (setq org-directory (expand-file-name "~/Dropbox/Org/"))
   (defun aam/org-path (path) (concat org-directory path))
   (setq aam/org-inbox (aam/org-path "inbox.org"))
   (setq deft-directory org-directory
         deft-recursive t
         deft-recursive-ignore-dir-regexp "\\(?:\\.\\|\\.\\.\\|journal\\|data\\)$")
   ;; set org-roam directory before loading agenda
-  (setq org-roam-directory org-directory)
   (setq org-default-notes-file (aam/org-path "refile.org"))
   (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
   ;; latex preview for org-mode
