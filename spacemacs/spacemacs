@@ -34,99 +34,111 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layers
    (append '(
              ;; ----------------------------------------------------------------
-             ;; Example of useful layers you may want to use right away.
-             ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-             ;; `M-m f e R' (Emacs style) to install them.
-             ;; ----------------------------------------------------------------
-
-             ;; ----------------------------------------------------------------
-             ;; General
+             ;; Emacs
              ;; ----------------------------------------------------------------
              better-defaults
+             bm
+             git
+             github
              helm
-             (colors :variables colors-enable-rainbow-identifiers t)
+             helpful
              (ibuffer :variables ibuffer-group-buffers-by 'projects)
-             spell-checking
-             syntax-checking
-             version-control git github
-             themes-megapack unicode-fonts
-             (chinese :variables
-                      ;; chinese-enable-fcitx t
-                      ;; chinese-default-input-method 'wubi
-                      chinese-enable-youdao-dict t
-                      chinese-enable-avy-pinyin nil)
-             parinfer
-             ;; More VIM sugar in emacs
-             evil-snipe vinegar
-             ;; ----------------------------------------------------------------
-             ;; Programming languages
-             ;; ----------------------------------------------------------------
-             lsp
-             dap
+             multiple-cursors
+             outshine
+             selectric
              semantic
+             (spell-checking :variables enable-flyspell-auto-completion t)
+             (shell :variables
+                    shell-default-term-shell "/usr/bin/fish"
+                    shell-enable-smart-eshell t
+                    shell-default-height 30
+                    shell-default-position 'bottom)
+             smex
+             syntax-checking
+             (tabs :variables
+                   tabs-auto-hide t
+                   tabs-auto-hide-delay 3)
+             (treemacs :variables treemacs-use-filewatch-mode t)
+             unicode-fonts
+             version-control
+             ;; More VIM sugar in emacs
+             evil-commentary
+             evil-snipe
+             vinegar
+             ;; ----------------------------------------------------------------
+             ;; Themes
+             ;; ----------------------------------------------------------------
+             (colors :variables colors-enable-rainbow-identifiers t)
+             themes-megapack
+             ;; ----------------------------------------------------------------
+             ;; Programming and programming languages
+             ;; ----------------------------------------------------------------
+             c-c++
+             emacs-lisp
+             lsp
              (python :variables
                      python-backend 'lsp
+                     python-lsp-server 'pyright
                      python-format-on-save t
+                     python-formatter 'yapf
                      python-sort-imports-on-save t)
-             ipython-notebook
-             gpu
-             c-c++
-             rust
-             (cmake :variables cmake-enable-cmake-ide-support t)
-             debug
-             go
-             haskell
-             lua
-             emacs-lisp
-             (javascript :variables javascript-disable-tern-port-files nil)
-             html markdown
+             ;; Scripting & other languages
+             autohotkey
+             (cmake :variables
+                    cmake-backend 'lsp
+                    cmake-enable-cmake-ide-support t)
              csv
+             gpu
              json
-             (latex :variables
-                    latex-build-command "LatexMk"
-                    latex-enable-auto-fill t
-                    latex-enable-folding t
-                    latex-backend 'lsp)
-             bibtex
-             major-modes
-             yaml
              protobuf
-             shell-scripts windows-scripts vimscript autohotkey
-             rebox ;; text boxes
-             ;; Auto-completion
+             shell-scripts
+             vimscript
+             windows-scripts
+             yaml
+             ;; ----------------------------------------------------------------
+             ;; Programming tools
+             ;; ----------------------------------------------------------------
              (auto-completion :variables
                               auto-completion-enable-help-tooltip 'manual
                               auto-completion-enable-snippets-in-popup t
                               auto-completion-enable-sort-by-usage t
                               auto-completion-private-snippets-directory "~/dotfiles/spacemacs/snippets")
-             ;; ----------------------------------------------------------------
-             ;; Tools
-             ;; ----------------------------------------------------------------
-             pdf
-             epub
+             dap
+             debug
              imenu-list
-             helpful
-             erc
-             multiple-cursors
-             ;; web
-             chrome search-engine
-             ;; note taking
+             ipython-notebook
+             parinfer
+             ;; ----------------------------------------------------------------
+             ;; Writing and note taking
+             ;; ----------------------------------------------------------------
+             bibtex
              deft
+             markdown
+             (latex :variables
+                    latex-backend 'company-auctex
+                    latex-build-command "LatexMk"
+                    latex-enable-auto-fill t
+                    latex-enable-folding t
+                    latex-enable-magic t)
              (org :variables
-                  org-want-todo-bindings t
-                  org-enable-sticky-header nil
-                  org-enable-org-journal-support t
-                  org-enable-roam-support t
-                  org-enable-trello-support t
-                  org-enable-epub-support t
+                  org-enable-appear-support t
                   org-enable-bootstrap-support t
+                  org-enable-epub-support t
                   org-enable-github-support t
-                  org-enable-reveal-js-support t)
-             spotify
-             twitter
-             ;; FIXME: disabled. emoji clobbers org-mode match data
-             ;; emoji
-             xkcd ;; something for fun
+                  org-enable-notifications t
+                  org-enable-org-journal-support t
+                  org-enable-reveal-js-support t
+                  org-enable-roam-support t
+                  org-enable-roam-support t
+                  org-enable-sticky-header nil
+                  org-enable-trello-support t
+                  org-enable-valign t
+                  org-start-notification-daemon-on-startup t
+                  org-want-todo-bindings t)
+             ;; ----------------------------------------------------------------
+             ;; Readers
+             ;; ----------------------------------------------------------------
+             dash
              (elfeed :variables
                      elfeed-search-filter "@1-months-ago +unread"
                      elfeed-spacemacs-layout-name "@Elfeed"
@@ -134,23 +146,22 @@ This function should only modify configuration layer settings."
                      rmh-elfeed-org-files (list "~/Dropbox/Org/feeds.org")
                      elfeed-goodies/entry-pane-position 'bottom
                      url-queue-timeout 10)
+             epub
+             pdf
              speed-reading
-             selectric typography ;; writing
-             (shell :variables
-                    shell-default-term-shell "/usr/bin/fish"
-                    shell-enable-smart-eshell t
-                    shell-default-height 30
-                    shell-default-position 'bottom)
-             ranger
-             ;; neotree
-             treemacs
-             (dash :variables ;; offline help search with zeal/dash on linux/osx
-                   dash-helm-dash-docset-path "~/.local/share/Zeal/Zeal/docsets")
-             bm smex
+             ;; ----------------------------------------------------------------
+             ;; Misc tools
+             ;; ----------------------------------------------------------------
+             chrome
              finance
-             pandoc ;; pandoc the most extensive file document conversion tool
-
+             pandoc
+             ranger
+             rebox
+             search-engine
+             twitter
+             ;; ----------------------------------------------------------------
              ;; My private layers
+             ;; ----------------------------------------------------------------
              aam
              writing
              org-extras
@@ -161,7 +172,10 @@ This function should only modify configuration layer settings."
            ;; OS-specific layers
            (when (spacemacs/system-is-linux)
              '(
-               ;; email
+               eaf
+               cscope
+               fasd
+               gtags
                (mu4e :variables
                      mu4e-spacemacs-layout-name "@Mu4e"
                      mu4e-spacemacs-layout-binding "m"
@@ -173,14 +187,10 @@ This function should only modify configuration layer settings."
                (notmuch :variables
                         notmuch-spacemacs-layout-name "@Notmuch"
                         notmuch-spacemacs-layout-binding "n")
-               ;; programming completion
-               cscope gtags
-               ;; some utilities
-               evernote
                pass
-               fasd ;; like autojump but better. TODO: try to use it with fish shell
                tmux
-               xclipboard systemd)))
+               systemd
+               xclipboard)))
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -671,11 +681,6 @@ before packages are loaded."
   (desktop-save-mode t)
   (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
 
-  ;; FIXME: Which key fix for master emacs 26.0.50
-  (defalias 'display-buffer-in-major-side-window 'window--make-major-side-window)
-  ;; FIXME: issue https://github.com/syl20bnr/spacemacs/issues/9549
-  (require 'helm-bookmark)
-
   ;; startup
   (setq spacemacs-buffer-startup-lists-length nil)
 
@@ -942,6 +947,9 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
   (setq org-journal-agenda-files (org-extras/org-journal-list-agenda-files org-journal-agenda-days))
   (setq org-agenda-files (append org-journal-agenda-files org-agenda-files))
 
+  ;; PDF
+  (setq pdf-view-restore-filename (concat spacemacs-cache-directory "pdf-view-restore"))
+
   ;; org-crypt
   (require 'org-crypt)
   (setq org-crypt-key "alexander.matyasko@gmail.com")
@@ -997,8 +1005,6 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
     ;; set manually docset for zeal
     (setq zeal-at-point-docset "latex"))
   (add-hook 'LaTeX-mode-hook 'my-latex-settings)
-  ;; company-reftex: eqref, autoref and cref
-  (setq company-reftex-labels-regexp "\\\\\\(?:eq\\|auto\\|c\\)?ref{\\([^}]*\\)\\=")
 
   ;; Auctex settings
   (setq-default TeX-master nil) ; Query for master file.
@@ -1033,7 +1039,7 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
                             (TeX-current-line)
                             (TeX-current-file-name-master-relative))))
       (start-process "zathura-synctex" zathura-launch-buf "zathura" "--synctex-forward" synctex pdfname)))
-  ;; Pdf syncing
+  ;; PDF syncing
   (setq TeX-view-program-list
         '(("Skim" "displayline -b -g %n %o %b")
           ("Evince" "evince --page-index=%(outpage) %o")
@@ -1079,10 +1085,6 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
   (setq ycmd-force-semantic-completion t)
   (add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.cuh\\'" . c++-mode))
-
-  ;; Python development
-  (setq ropemacs-confirm-saving 'nil)
-  (setq ropemacs-enable-autoimport 't)
 
   ;; Lua development
   (setq lua-default-application "qlua")
