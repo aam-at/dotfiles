@@ -995,10 +995,6 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
 
   ;; Latex/Tex settings
   (defun my-latex-settings()
-    (add-to-list 'TeX-output-view-style
-                 '("^pdf$" "." "okular --unique %o#src:%n%b"))
-    ;; turn on visual line wrapping and visual line navigation
-    (spacemacs/toggle-visual-line-navigation-on)
     ;; set manually docset for zeal
     (setq zeal-at-point-docset "latex"))
   (add-hook 'LaTeX-mode-hook 'my-latex-settings)
