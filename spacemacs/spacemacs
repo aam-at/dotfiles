@@ -56,7 +56,7 @@ This function should only modify configuration layer settings."
              smex
              syntax-checking
              (tabs :variables
-                   tabs-auto-hide t
+                   tabs-auto-hide nil
                    tabs-auto-hide-delay 3)
              (treemacs :variables treemacs-use-filewatch-mode t)
              unicode-fonts
@@ -645,9 +645,6 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  ;; FIXME: recursive load for emacs version >= 27
-  ;; https://github.com/syl20bnr/spacemacs/issues/12843
-  (require 'semantic/db-file)
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
    (when (> (x-display-pixel-width) 3000)
@@ -1068,10 +1065,6 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
   (defadvice doc-view-display (after fit-width activate)
     (doc-view-fit-width-to-window))
 
-  ;; Epub reading
-  (setq auto-mode-alist (append (list '("\\.epub$" . archive-mode)) auto-mode-alist))
-  (setq auto-coding-alist (append (list '("\\.epub$" . no-conversion)) auto-coding-alist))
-
   ;; configure langtool
   (when (spacemacs/system-is-linux)
     (setq langtool-java-classpath
@@ -1079,16 +1072,6 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
     (setq langtool-default-language "en-US"))
   ;; thesaurus api-key
   (setq thesaurus-bhl-api-key "api-key")
-
-  ;; C++ development
-  (setq ycmd-server-command (list "python" (file-truename "~/local/tools/ycmd/ycmd")))
-  (setq ycmd-force-semantic-completion t)
-  (add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
-  (add-to-list 'auto-mode-alist '("\\.cuh\\'" . c++-mode))
-
-  ;; Lua development
-  (setq lua-default-application "qlua")
-  (setq lua-default-command-switches (quote ("-ltorch" "-lenv" "-i")))
 
   ;; email configuration
   (when (spacemacs/system-is-linux)

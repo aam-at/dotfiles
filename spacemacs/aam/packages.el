@@ -12,118 +12,25 @@
 
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
-(setq aam-packages
+(defconst aam-packages
       '(
-        ;; FIXME disable for now as it clobbers match data in org-mode buffers
-        ;; key-chord key-seq
-        ;; citations
-        gscholar-bibtex biblio
-        ;; provide djvu support
-        djvu
-        sr-speedbar
-        hackernews sx
-        helm-system-packages
-        (hide-lines :location (recipe
-                               :fetcher github
-                               :repo "emacsmirror/hide-lines"))
-        fish-completion
-        ;; for viewsing log files
-        (syslog-mode :location (recipe
-                                :fetcher github
-                                :repo "vapniks/syslog-mode"))
-        (declutter :location (recipe
-                              :fetcher github
-                              :repo "sanel/declutter"))
+        biblio
+        cloc
         ewmctrl
-        chronometer
-        cloc))
+        fish-completion
+        gscholar-bibtex
+        helm-system-packages
+        key-chord
+        key-seq))
 
-;; List of packages to exclude.
-(setq aam-excluded-packages '())
-
-;; For each package, define a function aam/init-<package-name>
-;;
-;; (defun aam/init-my-package ()
-;;   "Initialize my package"
-;;   )
-;;
-;; Often the body of an initialize function uses `use-package'
-;; For more info on `use-package', see readme:
-;; https://github.com/jwiegley/use-package
-(defun aam/init-key-chord()
+(defun aam/init-biblio ()
   :defer t
   :init
-  (key-chord-mode 1))
-
-(defun aam/init-key-seq ()
-  :defer t
-  :config
-  ;; easy window navigation
-  (key-seq-define evil-normal-state-map "wh" 'evil-window-left)
-  (key-seq-define evil-normal-state-map "wj" 'evil-window-down)
-  (key-seq-define evil-normal-state-map "wk" 'evil-window-up)
-  (key-seq-define evil-normal-state-map "wl" 'evil-window-right)
-  ;; ;; easy window splitting
-  (key-seq-define evil-normal-state-map "wy" 'split-window-right)
-  (key-seq-define evil-normal-state-map "wu" 'split-window-below-and-focus)
-  (key-seq-define evil-normal-state-map "wi" 'split-window-below)
-  (key-seq-define evil-normal-state-map "wo" 'split-window-right-and-focus)
-  (key-seq-define evil-normal-state-map "wm" 'toggle-maximize-buffer)
-  ;; easy kill
-  (key-seq-define evil-normal-state-map "kf" 'delete-frame)
-  (key-seq-define evil-normal-state-map "kw" 'evil-quit)
-  (key-seq-define evil-normal-state-map "kb" 'kill-this-buffer))
-
-(defun aam/init-gscholar-bibtex()
-  :defer t
-  :init
-  (spacemacs/declare-prefix "As" "scholar")
-  (spacemacs/set-leader-keys "Asg" 'gscholar-bibtex)
-  :config
-  (evil-set-initial-state 'gscholar-bibtex-mode 'emacs))
-
-(defun aam/post-init-biblio ()
   (spacemacs/set-leader-keys "Asb" 'biblio-lookup)
+  :config
   (evil-set-initial-state 'biblio-selection-mode 'emacs))
 
-(defun aam/init-djvu()
-  :defer t)
-
-(defun aam/init-sr-speedbar ()
-  :defer t)
-
-(defun aam/init-hackernews()
-  :defer t
-  :init
-  (spacemacs/set-leader-keys "AH" 'hackernews)
-  :config
-  (evil-set-initial-state 'hackernews-mode 'emacs))
-
-(defun aam/init-sx()
-  :defer t
-  :config
-  (setq sx-cache-directory (concat spacemacs-cache-directory "sx"))
-  (when (not (file-directory-p sx-cache-directory))
-    (make-directory sx-cache-directory)))
-
-(defun aam/init-helm-system-packages()
-  :defer t)
-
-(defun aam/init-hide-lines()
-  :defer t)
-
-(defun aam/init-fish-completion()
-  :defer t
-  :config
-  (progn
-    (when (and (executable-find "fish")
-               (require 'fish-completion nil t))
-      (global-fish-completion-mode))))
-
-(defun aam/init-syslog-mode()
-  :defer t)
-
-(defun aam/init-declutter()
+(defun aam/init-cloc()
   :defer t)
 
 (defun aam/init-ewmctrl()
@@ -162,10 +69,45 @@
       "Sp"  'ewmctrl-sort-by-pid
       "SP"  'ewmctrl-sort-by-pid-reversed)))
 
-(defun aam/init-chronometer()
+(defun aam/init-fish-completion()
+  :defer t
+  :config
+  (progn
+    (when (and (executable-find "fish")
+               (require 'fish-completion nil t))
+      (global-fish-completion-mode))))
+
+(defun aam/init-gscholar-bibtex()
   :defer t
   :init
-  (spacemacs/set-leader-keys "Ac" 'chronometer))
+  (spacemacs/declare-prefix "As" "scholar")
+  (spacemacs/set-leader-keys "Asg" 'gscholar-bibtex)
+  :config
+  (evil-set-initial-state 'gscholar-bibtex-mode 'emacs))
 
-(defun aam/init-cloc()
+(defun aam/init-helm-system-packages()
   :defer t)
+
+(defun aam/init-key-chord()
+  :defer t
+  :init
+  (key-chord-mode 1))
+
+(defun aam/init-key-seq ()
+  :defer t
+  :config
+  ;; easy window navigation
+  (key-seq-define evil-normal-state-map "wh" 'evil-window-left)
+  (key-seq-define evil-normal-state-map "wj" 'evil-window-down)
+  (key-seq-define evil-normal-state-map "wk" 'evil-window-up)
+  (key-seq-define evil-normal-state-map "wl" 'evil-window-right)
+  ;; ;; easy window splitting
+  (key-seq-define evil-normal-state-map "wy" 'split-window-right)
+  (key-seq-define evil-normal-state-map "wu" 'split-window-below-and-focus)
+  (key-seq-define evil-normal-state-map "wi" 'split-window-below)
+  (key-seq-define evil-normal-state-map "wo" 'split-window-right-and-focus)
+  (key-seq-define evil-normal-state-map "wm" 'toggle-maximize-buffer)
+  ;; easy kill
+  (key-seq-define evil-normal-state-map "kf" 'delete-frame)
+  (key-seq-define evil-normal-state-map "kw" 'evil-quit)
+  (key-seq-define evil-normal-state-map "kb" 'kill-this-buffer))
