@@ -171,7 +171,6 @@ This function should only modify configuration layer settings."
            ;; OS-specific layers
            (when (spacemacs/system-is-linux)
              '(
-               eaf
                cscope
                fasd
                gtags
@@ -645,8 +644,8 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; configure org before anything
-  (setq org-directory (expand-file-name "~/Dropbox/Org/"))
-  (setq org-roam-directory org-directory)
+  (setq org-root (expand-file-name "~/Dropbox/Org/"))
+  (setq org-roam-directory org-root)
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
    (when (> (x-display-pixel-width) 3000)
@@ -724,6 +723,7 @@ before packages are loaded."
   (setq calendar-date-style "european")
 
   ;; org settings
+  (setq org-directory org-root)
   (defun aam/org-path (path) (concat org-directory path))
   (setq aam/org-inbox (aam/org-path "inbox.org"))
   (setq deft-directory org-directory
