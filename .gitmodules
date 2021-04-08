@@ -28,3 +28,7 @@
 [submodule "general/fonts/emacs-icons"]
 	path = general/fonts/emacs-icons
 	url = https://github.com/domtronn/all-the-icons.el
+[submodule "general/fonts/source-code-pro"]
+	path = general/fonts/source-code-pro
+	url = https://github.com/adobe-fonts/source-code-pro
+	branch = release
