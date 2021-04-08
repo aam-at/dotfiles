@@ -61,8 +61,6 @@ set -gx OMF_PATH $HOME/.local/share/omf
 if test -d $OMF_PATH # Customize Oh My Fish configuration path.
     set -gx OMF_CONFIG $HOME/.config/omf
 
-    source $OMF_PATH/init.fish
-
     # Oh My Fish plugins
     set fish_plugins python pyenv gi git-flow emacs weather fasd
     # Oh My Fish themes
