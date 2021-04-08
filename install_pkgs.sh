@@ -8,17 +8,18 @@ sudo apt-get install apt-fast
 
 # install other packages
 sudo apt-fast install -y \
-    anki autojump automake bibtool build-essential checkinstall clang cmake code cscope \
-    curl ditaa fasd fbreader fd-find fish fzy git glances global gnome-tweak-tool graphviz \
-    guile-2.0-dev html2text iotop isync libbz2-dev libevent-dev libffi-dev \
-    libgif-dev libgmime-3.0-dev libgnutls28-dev libjpeg-dev liblzma-dev \
-    libmagick++-dev libmagickcore-dev libncurses5-dev libncursesw5 libncursesw5-dev libpng-dev \
-    libpoppler-glib-dev libpoppler-private-dev libreadline-dev libsqlite3-dev \
-    libssl-dev libsystemd-dev libtiff-dev libwebkit2gtk-4.0-dev \
-    libxapian-dev libxpm-dev llvm make mc mosh ncdu net-tools nnn openssh-server \
-    pass plantuml pydf python-openssl ripgrep rtv rtv shellcheck texinfo tig tk-dev \
-    tmux trash-cli wget wmctrl xdg-utils xz-utils zathura zathura-djvu \
-    zathura-pdf-poppler zlib1g-dev zlib1g-dev
+    anki autojump automake bibtool build-essential checkinstall chrome-gnome-shell \
+    clang cmake cscope curl curl ditaa fasd fbreader fd-find fish fzy git glances \
+    global gnome-tweak-tool graphviz guake guile-2.0-dev html2text htop iotop isync \
+    libbz2-dev libevent-dev libffi-dev libgif-dev libgmime-3.0-dev libgnutls28-dev \
+    libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev libncurses5-dev \
+    libncursesw5 libncursesw5-dev libpng-dev libpoppler-glib-dev \
+    libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev libsystemd-dev \
+    libtiff-dev libwebkit2gtk-4.0-dev libxapian-dev libxpm-dev llvm make mc mosh \
+    nautilus-dropbox ncdu net-tools nnn openssh-server p7zip-full p7zip-rar pass \
+    plantuml pydf python-openssl ranger ripgrep rtv rtv shellcheck sqlite3 texinfo \
+    tig tk-dev tmux trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils \
+    xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
@@ -48,10 +49,13 @@ sudo npm i -g write-good textlint-plugin-latex textlint-rule-write-good \
 # install pyenv
 if [ ! -d $HOME/.pyenv ]; then
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+    # install pyenv plugins
     git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+    git clone git://github.com/pyenv/pyenv-pip-migrate.git $(pyenv root)/plugins/pyenv-pip-migrate
     git clone git://github.com/pyenv/pyenv-doctor.git $(pyenv root)/plugins/pyenv-doctor
     git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
 fi
+
 
 if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
     CONFIGURE_OPTS=--enable-shared pyenv install 3.8.1
@@ -116,7 +120,9 @@ fi
 # snap packages
 sudo snap refresh
 sudo snap install --classic skype
+sudo snap install --classic slack
 sudo snap install --classic pycharm-professional
+sudo snap install --classic code
 sudo snap install opera
 sudo snap install spotify
 sudo snap install tusk
