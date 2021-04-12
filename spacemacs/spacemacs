@@ -93,7 +93,6 @@ This function should only modify configuration layer settings."
              protobuf
              shell-scripts
              vimscript
-             windows-scripts
              yaml
              ;; ----------------------------------------------------------------
              ;; Programming tools
@@ -188,7 +187,9 @@ This function should only modify configuration layer settings."
                pass
                tmux
                systemd
-               xclipboard)))
+               xclipboard))
+           (when (spacemacs/system-is-mswindows)
+             '(windows-scripts)))
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
