@@ -30,6 +30,8 @@ sudo apt-fast install -y git neovim fish tlp
 
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
+# force npm upgrade
+sudo npm i -g npm
 # bash lsp
 sudo npm i -g bash-language-server
 # json lsp
