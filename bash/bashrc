@@ -73,6 +73,7 @@ if [ -f ~/.env ]; then
         export PATH_BK=$PATH
     fi
     . ~/.env
+    unset PATH_BK
 fi
 
 #####################

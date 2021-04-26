@@ -47,6 +47,7 @@ if test -e ~/.env
         set -x PATH_BK $PATH
     end
     source ~/.env
+    set --erase PATH_BK
 end
 
 #####################
