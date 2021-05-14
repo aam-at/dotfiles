@@ -64,6 +64,7 @@ This function should only modify configuration layer settings."
              unicode-fonts
              version-control
              ;; More VIM sugar in emacs
+             evil-better-jumper
              evil-commentary
              evil-snipe
              vinegar
