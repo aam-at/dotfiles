@@ -38,7 +38,9 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              better-defaults
              bm
-             git
+             (git :variables
+                  git-enable-magit-delta-plugin t
+                  git-enable-magit-gitflow-plugin t)
              github
              helm
              helpful
