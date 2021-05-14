@@ -1,7 +1,16 @@
+[include]
+    path = ~/dotfiles/git/themes.gitconfig
 [core]
     editor = /usr/bin/vim
     filemode = false
     autocrlf = input
+    pager = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    features = woolly-mammoth
+    navigate = true
+    side-by-side = true
 [user]
     email = alexander.matyasko@gmail.com
     name = Alexander Matyasko
