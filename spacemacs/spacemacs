@@ -36,6 +36,7 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              ;; Emacs
              ;; ----------------------------------------------------------------
+             all-the-icons
              better-defaults
              bm
              (git :variables
