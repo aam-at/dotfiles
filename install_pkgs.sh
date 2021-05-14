@@ -58,6 +58,13 @@ if [ ! -d $HOME/.pyenv ]; then
     git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
 fi
 
+# install delta
+if [ -x "$(command -v delta)" ]; then
+    curl -s https://api.github.com/repos/dandavison/delta/releases/latest | jq -r ".assets[] | select(.name | contains(\"amd64.deb\")) | .browser_download_url" | grep -E "musl" | wget -O /tmp/delta.deb -i -
+    sudo dpkg -i /tmp/delta.deb
+    rm /tmp/delta.deb
+fi
+
 
 if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
     CONFIGURE_OPTS=--enable-shared pyenv install 3.8.1
