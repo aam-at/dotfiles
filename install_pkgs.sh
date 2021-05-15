@@ -18,8 +18,8 @@ sudo apt-fast install -y \
     libtiff-dev libwebkit2gtk-4.0-dev libxapian-dev libxpm-dev llvm make mc mosh \
     nautilus-dropbox ncdu net-tools nnn openssh-server p7zip-full p7zip-rar pass \
     plantuml pydf python-openssl ranger ripgrep rtv rtv shellcheck sqlite3 texinfo \
-    tig tk-dev tmux trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils \
-    xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev zlib1g-dev
+    tig tk-dev tmux trash-cli ubuntu-restricted-extras unrar wget wmctrl \
+    xdg-utils xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
@@ -48,6 +48,20 @@ sudo npm i -g write-good textlint-plugin-latex textlint-rule-write-good \
      textlint-rule-en-max-word-count textlint-rule-diacritics \
      textlint-rule-stop-words
 
+TOOLS_DIR=$HOME/local/tools
+mkdir -p $TOOLS_DIR
+
+# install tmux
+if ! [ -f "/usr/local/bin/tmux" ]; then
+    curl -s https://api.github.com/repos/tmux/tmux/releases/latest | jq -r ".assets[] | select(.name) | .browser_download_url" | grep -E ".tar.gz" | wget -O $TOOLS_DIR/tmux.tar.gz -i -
+    mkdir $TOOLS_DIR/tmux
+    tar -xzvf $TOOLS_DIR/tmux.tar.gz -C $TOOLS_DIR/tmux --strip-components=1
+    cd $TOOLS_DIR/tmux
+    ./configure
+    sudo checkinstall
+    cd -
+fi
+
 # install pyenv
 if [ ! -d $HOME/.pyenv ]; then
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
@@ -59,7 +73,7 @@ if [ ! -d $HOME/.pyenv ]; then
 fi
 
 # install delta
-if [ -x "$(command -v delta)" ]; then
+if ! [ -x "$(command -v delta)" ]; then
     curl -s https://api.github.com/repos/dandavison/delta/releases/latest | jq -r ".assets[] | select(.name | contains(\"amd64.deb\")) | .browser_download_url" | grep -E "musl" | wget -O /tmp/delta.deb -i -
     sudo dpkg -i /tmp/delta.deb
     rm /tmp/delta.deb
@@ -91,16 +105,9 @@ if [ ! -d $HOME/.SpaceVim ]; then
     curl -sLf https://spacevim.org/install.sh | bash
 fi
 
-mkdir -p ~/local/tools
-
-# download tmux
-if [ ! -f $HOME/local/tools/3.1.tar.gz ]; then
-    wget https://github.com/tmux/tmux/archive/refs/tags/3.1.tar.gz -P ~/local/tools
-fi
-
 # install enhancd for bash
 if [ ! -d $HOME/local/tools/enhancd-bash ]; then
-    git clone https://github.com/b4b4r07/enhancd $HOME/local/tools/enhancd-bash
+    git clone https://github.com/b4b4r07/enhancd $TOOLS_DIR/enhancd-bash
 fi
 
 # install pathpicker
