@@ -89,12 +89,6 @@ if command_exists fasd; then
     eval "$(fasd --init auto)"
 fi
 
-# configure enhancd
-# FIXME: enhancd autoremoves sources; disable it for bash
-# if [ -d $HOME/local/tools/enhancd-bash ]; then
-#     . $HOME/local/tools/enhancd-bash/init.sh
-# fi
-
 # configure autojump
 if [ -f /usr/share/autojump/autojump.sh ]; then
     . /usr/share/autojump/autojump.sh
@@ -206,6 +200,13 @@ if [ -f ~/.fzf.bash ]; then
                     | awk 'BEGIN {FS="\t"; OFS="\t"}; {print "\""$1"\""}' \
                     | xargs $open > /dev/null 2> /dev/null
     }
+fi
+
+# configure enhancd
+if [ -d $HOME/local/tools/enhancd-bash ]; then
+    ENHANCD_FILTER=fzf:peco
+    export ENHANCD_FILTER
+    . $HOME/local/tools/enhancd-bash/init.sh
 fi
 
 # configure pyenv
