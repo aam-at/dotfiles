@@ -28,6 +28,9 @@ sudo add-apt-repository ppa:linrunner/tlp -y
 
 sudo apt-fast install -y git neovim fish tlp
 
+sudo gem install tmuxinator
+
+# install nodejs
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 # force npm upgrade
