@@ -94,7 +94,7 @@ if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
     pyenv virtualenv 3.8.1 tensor3
     pyenv activate tensor3
     pip3 install -U "jedi>=0.13.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"
-    pip3 install -U python-language-server[all] pyls-isort pyls-black
+    pip3 install -U python-language-server[all] pyls-isort pyls-mypy pyls-black pyls-memestra
     pip3 install -U pudb
     pip3 install -U flake8 pylint yapf autoflake isort autopep8
     pip3 install -U "ptvsd>=4.2"
