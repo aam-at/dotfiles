@@ -9,17 +9,18 @@ sudo apt-get install apt-fast
 # install other packages
 sudo apt-fast install -y \
     anki autojump automake bibtool build-essential checkinstall chrome-gnome-shell \
-    clang cmake cscope curl curl ditaa fasd fbreader fd-find fish fzy git glances \
-    global gnome-tweak-tool graphviz guake guile-2.0-dev html2text htop iotop isync \
-    libbz2-dev libevent-dev libffi-dev libgif-dev libgmime-3.0-dev libgnutls28-dev \
+    clang cmake cscope curl curl ditaa fasd fbreader fd-find fish fzy gcc-10 git \
+    glances global gnome-tweak-tool graphviz guake guile-2.0-dev html2text htop \
+    iotop isync libbz2-dev libevent-dev libffi-dev libgccjit-10-dev libgccjit0 \
+    libgif-dev libgmime-3.0-dev libgnutls28-dev libjansson-dev libjansson4 \
     libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev libncurses5-dev \
     libncursesw5 libncursesw5-dev libpng-dev libpoppler-glib-dev \
     libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev libsystemd-dev \
     libtiff-dev libwebkit2gtk-4.0-dev libxapian-dev libxpm-dev llvm make mc mosh \
-    ncdu net-tools nnn openssh-server p7zip-full p7zip-rar pass \
-    peco plantuml pydf python-openssl ranger ripgrep rtv rtv shellcheck sqlite3 texinfo \
-    tig tk-dev tmux trash-cli ubuntu-restricted-extras unrar wget wmctrl \
-    xdg-utils xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev zlib1g-dev
+    ncdu net-tools nnn openssh-server p7zip-full p7zip-rar pass peco plantuml pydf \
+    python-openssl ranger ripgrep rtv rtv shellcheck sqlite3 texinfo tig tk-dev tmux \
+    trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zathura \
+    zathura-djvu zathura-pdf-poppler zlib1g-dev zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
