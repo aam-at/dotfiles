@@ -82,9 +82,9 @@ This function should only modify configuration layer settings."
              lsp
              (python :variables
                      python-backend 'lsp
-                     python-lsp-server 'pyright
-                     python-format-on-save t
+                     python-lsp-server 'pyls
                      python-formatter 'yapf
+                     python-format-on-save t
                      python-sort-imports-on-save t)
              ;; Scripting & other languages
              autohotkey
