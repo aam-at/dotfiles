@@ -648,6 +648,15 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (if (and (fboundp 'native-comp-available-p)
+           (native-comp-available-p))
+      (progn (message "Native compilation is available")
+             (setq package-native-compile t)
+             (setq native-comp-deferred-compilation t))
+    (error "Native complation is *not* available"))
+  (if (functionp 'json-serialize)
+      (message "Native JSON is available")
+    (error "Native JSON is *not* available"))
   ;; configure org before anything
   (setq org-root (expand-file-name "~/Dropbox/Org/"))
   (setq org-roam-directory org-root)
