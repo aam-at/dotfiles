@@ -51,6 +51,7 @@
     ~/.emacs.d/core/secure-config.el.gpg: spacemacs/secure-config.el.gpg
     ~/.elfeed: ../Dropbox/Software/elfeed
     ~/.password-store: ../Dropbox/Software/pass
+    ~/.profile: bash/profile
     ~/.bash_profile: bash/bash_profile
     ~/.bashrc: bash/bashrc
     ~/.aliases: general/aliases
