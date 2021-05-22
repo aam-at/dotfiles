@@ -77,7 +77,7 @@ end
 # configure pyenv
 if test -d ~/.pyenv
     set -gx PYENV_ROOT $HOME/.pyenv
-    set -x PATH $HOME/.pyenv/bin $PATH
+    set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
     pyenv init - | source
     pyenv virtualenv-init - | source
 end
