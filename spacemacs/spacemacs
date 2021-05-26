@@ -653,10 +653,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       (progn (message "Native compilation is available")
              (setq package-native-compile t)
              (setq native-comp-deferred-compilation t))
-    (error "Native complation is *not* available"))
+    (warn "Native complation is *not* available"))
   (if (functionp 'json-serialize)
       (message "Native JSON is available")
-    (error "Native JSON is *not* available"))
+    (warn "Native JSON is *not* available"))
   ;; configure org before anything
   (setq org-root (expand-file-name "~/Dropbox/Org/"))
   (setq org-roam-directory org-root)
