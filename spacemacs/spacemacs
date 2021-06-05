@@ -799,6 +799,8 @@ before packages are loaded."
     (funcall (-partial 'org-extras/org-get-filepath-for-title
                        (aam/org-path "projects"))))
 
+  ;; configure org-capture
+  (add-hook 'org-capture-mode-hook #'org-align-all-tags)
   (setq org-capture-templates
         `(
           ("t" "Toto" entry (file ,aam/org-inbox)
