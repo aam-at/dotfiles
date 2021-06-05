@@ -50,7 +50,7 @@ This function should only modify configuration layer settings."
              outshine
              selectric
              semantic
-             (spell-checking :variables enable-flyspell-auto-completion t)
+             (spell-checking :variables enable-flyspell-auto-completion nil)
              (shell :variables
                     shell-default-term-shell "/usr/bin/fish"
                     shell-enable-smart-eshell t
