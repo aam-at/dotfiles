@@ -165,11 +165,10 @@ Update the `org-id-locations' global hash-table, and update the
                 (append
                  (org-extras/org-all-files
                   (car (car current-directory-list)))
-                 org-files-list))))
-       )
+                 org-files-list)))))
+
       (setq current-directory-list (cdr current-directory-list)))
     org-files-list))
-
 
 (defun org-extras/org-id-update-all ()
   "Update id locations for all files in org-directory"

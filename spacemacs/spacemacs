@@ -798,6 +798,8 @@ before packages are loaded."
     "Return path to structured note"
     (funcall (-partial 'org-extras/org-get-filepath-for-title
                        (aam/org-path "projects"))))
+  (defun aam/org-capture-org-roam-link (file)
+    (format "[[roam:%s]]" (car (with-current-buffer (get-file-buffer file) (org-roam--extract-titles-title)))))
 
   ;; configure org-capture
   (add-hook 'org-capture-mode-hook #'org-align-all-tags)
@@ -816,6 +818,12 @@ before packages are loaded."
 %c
 %i
 Link: %a\n")
+          ("r" "Read it later" entry (file, aam/org-inbox)
+           "* TODO Read %(aam/org-capture-org-roam-link (org-capture-get :original-file)) :readlater:
+DEADLINE: %^{Deadline}t
+:PROPERTIES:
+:CREATED: %U
+:END:\n")
           ;; todo template for calfw calendar
           ("c" "calfw2org" entry (file ,aam/org-inbox)
            "* TODO %?
