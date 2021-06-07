@@ -14,25 +14,23 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst org-extras-packages
   '(
-    org-dashboard
     (calfw :toggle (spacemacs/system-is-linux))
     (calfw-org :toggle (spacemacs/system-is-linux))
     (org-protocol-capture-html :location (recipe
                                           :fetcher github
                                           :repo "alphapapa/org-protocol-capture-html"))
-    org-doing
     magit-org-todos
     org
-    org-noter
-    pdf-tools
     ob-async
-    ;; provides synchronization with google calendar.
     (org-gcal :location (recipe
                          :fetcher github
                          :repo "kidd/org-gcal.el"))
     ebib
     org-ref
     org-fragtog
+    ;; pdf and pdf annotation
+    org-noter
+    pdf-tools
     org-pdftools
     org-noter-pdftools))
 
@@ -48,33 +46,6 @@
 ;; Often the body of an initialize function uses `use-package'
 ;; For more info on `use-package', see readme:
 ;; https://github.com/jwiegley/use-package
-(defun org-extras/init-org-dashboard ()
-  :defer t
-  :init
-  (spacemacs/set-leader-keys "aoD" 'org-dashboard-display)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "D" 'org-dashboard-display))
-
-(defun org-extras/init-org-protocol-capture-html ()
-  (use-package org-protocol-capture-html
-    :after org))
-
-(defun org-extras/post-init-org-protocol-capture-html ()
-  (require 'org-protocol-capture-html))
-
-(defun org-extras/init-org-doing ()
-  :defer t
-  :init
-  (progn
-    (spacemacs/set-leader-keys "aod" 'org-doing)
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "Cd" 'org-doing)))
-
-(defun org-extras/init-magit-org-todos()
-  :defer t
-  :config
-  (magit-org-todos-autoinsert))
-
 (defun org-extras/init-calfw ()
   :init
   (spacemacs/set-leader-keys "aC" 'cfw:open-org-calendar)
@@ -83,25 +54,23 @@
 
 (defun org-extras/init-calfw-org ()
   :init
-    (require 'calfw-org))
+  (require 'calfw-org))
 
-(defun org-extras/init-org-noter ()
+(defun org-extras/init-org-protocol-capture-html ()
+  (use-package org-protocol-capture-html
+    :after org))
+
+(defun org-extras/post-init-org-protocol-capture-html ()
+  (require 'org-protocol-capture-html))
+
+(defun org-extras/init-magit-org-todos()
   :defer t
-  :commands (org-noter)
-  :init
-  (spacemacs/set-leader-keys "aon" 'org-noter)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "n" 'org-noter))
+  :config
+  (magit-org-todos-autoinsert))
 
-(defun org-extras/post-init-pdf-tools ()
-  (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "N" 'org-noter)
-  ;; https://lists.gnu.org/archive/html/emacs-orgmode/2016-11/msg00169.html
-  ;; Before adding, remove it (to avoid clogging)
-  (delete '("\\.pdf\\'" . default) org-file-apps)
-  ;; https://lists.gnu.org/archive/html/emacs-orgmode/2016-11/msg00176.html
-  (add-to-list 'org-file-apps
-               '("\\.pdf\\'" . (lambda (file link)
-                                 (org-extras/org-pdfview-open link)))))
-
+(defun org-extras/post-init-org ()
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images
+            'append))
 
 (defun org-extras/init-ob-async ()
   :defer t
@@ -132,10 +101,6 @@
 (defun org-extras/init-ebib ()
   :defer t)
 
-(defun org-extras/post-init-org ()
-  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images
-            'append))
-
 (defun org-extras/post-init-org-ref ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "ir" 'org-ref-helm-insert-ref-link
@@ -160,6 +125,23 @@
     :diminish org-fragtog-mode
     :after org
     :hook (org-mode . org-fragtog-mode)))
+
+(defun org-extras/init-org-noter ()
+  :defer t
+  :commands (org-noter)
+  :init
+  (spacemacs/set-leader-keys "aon" 'org-noter)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "n" 'org-noter))
+
+(defun org-extras/post-init-pdf-tools ()
+  (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "N" 'org-noter)
+  ;; https://lists.gnu.org/archive/html/emacs-orgmode/2016-11/msg00169.html
+  ;; Before adding, remove it (to avoid clogging)
+  (delete '("\\.pdf\\'" . default) org-file-apps)
+  ;; https://lists.gnu.org/archive/html/emacs-orgmode/2016-11/msg00176.html
+  (add-to-list 'org-file-apps
+               '("\\.pdf\\'" . (lambda (file link)
+                                 (org-extras/org-pdfview-open link)))))
 
 (defun org-extras/init-org-pdftools ()
   (use-package org-pdftools
