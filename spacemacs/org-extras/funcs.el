@@ -72,6 +72,29 @@
           (org-delete-property "ATTACH_DIR"))))
     (org-delete-property-globally "ATTACH_DIR_INHERIT")))
 
+(defun org-extras/org-get-active-headline-files (file)
+  (let ((value)
+        (dir (file-name-directory file)))
+    (dolist (element
+             (with-current-buffer (get-file-buffer file)
+               (let ((parsetree (org-element-parse-buffer 'element)))
+                 (org-element-map parsetree 'headline
+                   (lambda (hl)
+                     (let (
+                           (title (org-element-property :title hl))
+                           (level (org-element-property :level hl))
+                           (type (org-element-property :type hl))
+                           (parent (org-element-property :parent hl)))
+                       (and (eq level 2)
+                            (let ((archived (org-element-property :archivedp parent)))
+                              (not archived)) title))))))
+             value)
+      (setq value (cons
+                   (concat
+                    (file-name-as-directory dir)
+                    (replace-regexp-in-string "\\[\\[.*:\\(.*\\\)\]\\[\\(.*\\)\\]\\]" "\\1" element))
+                   value)))))
+
 ;; https://github.com/munen/emacs.d#convenience-functions-when-working-with-pdf-exports
 (defun update-other-buffer ()
   (interactive)
