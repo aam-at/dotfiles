@@ -753,6 +753,13 @@ before packages are loaded."
   (setq org-preview-latex-image-directory "/tmp/ltximg"
         org-latex-preview-ltxpng-directory "/tmp/ltxpng")
 
+  ;; org safe-variables
+  (put 'org-download-image-dir 'safe-local-variable (lambda (_) t))
+  (put 'org-download-heading-lvl 'safe-local-variable (lambda (_) t))
+  (put 'org-attach-id-dir 'safe-local-variable (lambda (_) t))
+  (put 'org-use-property-inheritance 'safe-local-variable (lambda (_) t))
+  (put 'org-archive-location 'safe-local-variable (lambda (_) t))
+
   ;; sync buffers
   (add-hook 'org-mode-hook 'auto-revert-mode)
 
@@ -765,10 +772,13 @@ before packages are loaded."
 
   ;; agenda settings
   (setq org-agenda-files (list (aam/org-path "inbox.org")
-                               (aam/org-path "projects")
+                               (aam/org-path "someday.org")
                                (aam/org-path "work.org")
                                (aam/org-path "personal.org")
                                (aam/org-path "ideas.org")))
+  (setq aam/org-agenda-projects (org-extras/org-get-active-headline-files (aam/org-path "projects/index.org")))
+  (setq org-agenda-files (append aam/org-agenda-projects org-agenda-files))
+
   (setq org-agenda-skip-scheduled-if-done t)
   (setq org-agenda-skip-deadline-if-done t)
   (setq org-agenda-custom-commands
@@ -968,8 +978,8 @@ cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
   (setq org-journal-carryover-items "TODO=\"POSTPONED\"")
   (setq org-journal-enable-encryption t)
   (setq org-journal-agenda-days 7)
-  (setq org-journal-agenda-files (org-extras/org-journal-list-agenda-files org-journal-agenda-days))
-  (setq org-agenda-files (append org-journal-agenda-files org-agenda-files))
+  (setq aam/journal-agenda-files (org-extras/org-journal-list-agenda-files org-journal-agenda-days))
+  (setq org-agenda-files (append aam/journal-agenda-files org-agenda-files))
 
   ;; PDF
   (setq pdf-view-restore-filename (concat spacemacs-cache-directory "pdf-view-restore"))

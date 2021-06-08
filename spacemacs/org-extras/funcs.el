@@ -76,7 +76,7 @@
   (let ((value)
         (dir (file-name-directory file)))
     (dolist (element
-             (with-current-buffer (get-file-buffer file)
+             (with-current-buffer (find-file-noselect file)
                (let ((parsetree (org-element-parse-buffer 'element)))
                  (org-element-map parsetree 'headline
                    (lambda (hl)
