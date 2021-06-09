@@ -792,7 +792,11 @@ before packages are loaded."
             (org-agenda-sorting-strategy
              '(todo-state-down effort-up category-keep))))))
 
-  (setq org-clock-persist 'history)
+  (setq org-clock-history-length 23
+        org-clock-in-resume t
+        org-clock-out-remove-zero-time-clocks t
+        org-clock-out-when-done t
+        org-clock-persist 'history)
   (org-clock-persistence-insinuate)
 
   ;; org capture settings
@@ -932,6 +936,7 @@ This %\2 deals with ..."
            :file-name "papers/%<%Y-%m-%d-%H%M%S>_${title}"
            :head "#+TITLE: ${title}"
            :unnarrowed t)))
+
   ;; org-roam-bibtex settings
   (setq orb-preformat-keywords
         '("citekey" "date" "year" "type" "pdf?" "note?" "author" "editor"
