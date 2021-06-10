@@ -16,6 +16,7 @@
   '(
     (calfw :toggle (spacemacs/system-is-linux))
     (calfw-org :toggle (spacemacs/system-is-linux))
+    org-super-agenda
     (org-protocol-capture-html :location (recipe
                                           :fetcher github
                                           :repo "alphapapa/org-protocol-capture-html"))
@@ -55,6 +56,9 @@
 (defun org-extras/init-calfw-org ()
   :init
   (require 'calfw-org))
+
+(defun org-extras/init-org-super-agenda()
+  :config (org-super-agenda-mode))
 
 (defun org-extras/init-org-protocol-capture-html ()
   (use-package org-protocol-capture-html
