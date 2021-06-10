@@ -779,18 +779,108 @@ before packages are loaded."
   (setq aam/org-agenda-projects (org-extras/org-get-active-headline-files (aam/org-path "projects/index.org")))
   (setq org-agenda-files (append aam/org-agenda-projects org-agenda-files))
 
-  (setq org-agenda-skip-scheduled-if-done t)
-  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-tag-alist '(("important" . ?i)
+                        ("urgent"    . ?u)))
+  (setq org-use-fast-tag-selection 'expert
+        org-use-fast-todo-selection 'expert)
+  (setq org-agenda-time-grid '((daily today require-timed) "----------------------" nil)
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t
+        org-agenda-include-deadlines t
+        org-agenda-include-diary t
+        org-agenda-block-separator nil
+        org-agenda-compact-blocks t
+        org-agenda-start-with-log-mode t)
   (setq org-agenda-custom-commands
-        '(("f" occur-tree "FIXME")
-          ("w" "Weekly tasks" tags "+weekly")
-          ("W" "Waiting tasks" todo-tree "WAITING")
-          ("c" "Cleaning tasks" tags "+cleaning")
-          ("d" "Daily tasks" tags "+daily")
-          ("h" "Habits" tags-todo "STYLE=\"habit\""
-           ((org-agenda-overriding-header "Habits")
-            (org-agenda-sorting-strategy
-             '(todo-state-down effort-up category-keep))))))
+        '(
+          ;; Daily overview agenda
+          ("d" "Daily overview"
+           ((agenda "" ((org-agenda-span 'day)
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                                  :time-grid t
+                                  :todo "TODAY"
+                                  :scheduled today
+                                  :order 0)
+                           (:habit t)
+                           (:name "Due Today"
+                                  :deadline today
+                                  :order 2)
+                           (:name "Due Soon"
+                                  :deadline future
+                                  :order 8)
+                           (:name "Overdue"
+                                  :deadline past
+                                  :order 7)))))
+            (alltodo "" ((org-agenda-overriding-header "")
+                      (org-super-agenda-groups
+                       '((:name "Inbox" :file-path "inbox" :order 0)
+                         (:auto-property "PROJECT_ID" :order 9)))))))
+          ;; Another daily overview agenda
+          ("D" "Another daily overview"
+           ((agenda "" ((org-agenda-span 'day)
+                        (org-super-agenda-groups
+                         '((:name "Today"
+                                  :time-grid t
+                                  :date today
+                                  :todo "TODAY"
+                                  :scheduled today
+                                  :order 1)))))
+            (alltodo "" ((org-agenda-overriding-header "")
+                         (org-super-agenda-groups
+                          '((:name "Next to do"
+                                   :todo "NEXT"
+                                   :order 1)
+                            (:name "Due Today"
+                                   :deadline today
+                                   :order 2)
+                            (:name "Due Soon"
+                                   :deadline future
+                                   :order 8)
+                            (:name "Overdue"
+                                   :deadline past
+                                   :order 7)))))))
+          ;; Projects overview agenda
+          ("p" "Projects overview"
+           ((alltodo ""
+                  ((org-super-agenda-groups
+                    '((:auto-property "PROJECT_ID")))))))
+          ;; GTD agenda
+          ("g" "Get Things Done (GTD)"
+           ((agenda ""
+                    ((org-agenda-skip-function
+                      '(org-agenda-skip-entry-if 'deadline))
+                     (org-deadline-warning-days 0)))
+            (todo "NEXT"
+                  ((org-agenda-skip-function
+                    '(org-agenda-skip-entry-if 'deadline))
+                   (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                   (org-agenda-overriding-header "\nTasks\n")))
+            (agenda nil
+                    ((org-agenda-entry-types '(:deadline))
+                     (org-agenda-format-date "")
+                     (org-deadline-warning-days 7)
+                     (org-agenda-skip-function
+                      '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
+                     (org-agenda-overriding-header "\nDeadlines")))
+            (tags-todo "inbox"
+                       ((org-agenda-prefix-format "  %?-12t% s")
+                        (org-agenda-overriding-header "\nInbox\n")))
+            (tags "CLOSED>=\"<today>\""
+                  ((org-agenda-overriding-header "\nCompleted today\n")))))
+          ;; Eisenhower matrix agenda
+          ("e" "Eisenhower matrix"
+           ((todo ""
+                     ((org-agenda-overriding-header "Eisenhower matrix")
+                      (org-super-agenda-groups
+                       '((:name "Do (urgent and important)"
+                                :and (:tag "important" :tag "urgent"))
+                         (:name "Schedule (important but not urgent)"
+                                :and (:tag "important" :not (:tag "urgent")))
+                         (:name "Delegate (urgent but not important)"
+                                :and (:tag "urgent" :not (:tag "important")))
+                         (:name "Declutter (not urgent and not important)"
+                                :and (:not (:tag "important") :not (:tag "urgent")))))))))))
 
   (setq org-clock-history-length 23
         org-clock-in-resume t
@@ -816,7 +906,7 @@ before packages are loaded."
     (format "[[roam:%s]]" (car (with-current-buffer (get-file-buffer file) (org-roam--extract-titles-title)))))
 
   ;; configure org-capture
-  (add-hook 'org-capture-mode-hook #'org-align-all-tags)
+  (add-hook 'org-capture-mode-hook #'org-align-tags)
   (setq org-capture-templates
         `(
           ("t" "Toto" entry (file ,aam/org-inbox)
@@ -833,7 +923,7 @@ before packages are loaded."
 %i
 Link: %a\n")
           ("r" "Read it later" entry (file, aam/org-inbox)
-           "* TODO Read %(aam/org-capture-org-roam-link (org-capture-get :original-file)) :readlater:
+           "* TODO Read %(aam/org-capture-org-roam-link (org-capture-get :original-file)) :readlater:important:
 DEADLINE: %^{Deadline}t
 :PROPERTIES:
 :CREATED: %U
