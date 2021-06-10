@@ -813,9 +813,9 @@ before packages are loaded."
                                   :deadline past
                                   :order 7)))))
             (alltodo "" ((org-agenda-overriding-header "")
-                      (org-super-agenda-groups
-                       '((:name "Inbox" :file-path "inbox" :order 0)
-                         (:auto-property "PROJECT_ID" :order 9)))))))
+                         (org-super-agenda-groups
+                          '((:name "Inbox" :file-path "inbox" :order 0)
+                            (:auto-property "PROJECT_ID" :order 9)))))))
           ;; Another daily overview agenda
           ("D" "Another daily overview"
            ((agenda "" ((org-agenda-span 'day)
@@ -1057,14 +1057,7 @@ This %\2 deals with ..."
 :NOTER_DOCUMENT: %(aam-get-cite-pdf-filename \"${citekey}\")
 :END:
 cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
-%?
-* COMMENT Local variables
-# Local Variables:
-# org-download-heading-lvl: nil
-# org-use-property-inheritance: t
-# org-download-image-dir: \"data\"
-# org-attach-directory: \"data\"
-# End:")))
+%?")))
 
   ;; configure org-journal
   (setq org-journal-dir (aam/org-path "journal/"))
