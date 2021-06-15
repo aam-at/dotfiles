@@ -759,6 +759,7 @@ before packages are loaded."
   (put 'org-attach-id-dir 'safe-local-variable (lambda (_) t))
   (put 'org-use-property-inheritance 'safe-local-variable (lambda (_) t))
   (put 'org-archive-location 'safe-local-variable (lambda (_) t))
+  (put 'org-current-tag-alist 'safe-local-variable (lambda (_) t))
 
   ;; sync buffers
   (add-hook 'org-mode-hook 'auto-revert-mode)
@@ -957,7 +958,7 @@ SCHEDULED: %(cfw:org-capture-day)
            "* %a :website:\n\n%U %?\n\n%:initial")
           ;; Snippets
           ("s" "Snippets")
-          ("sn" "Simple (Zottel) Note" plain
+          ("sn" "Simple (Atomic) Note" plain
            (file aam/org-capture-note-filepath-with-date)
            (file ,(aam/org-path "templates/note.org")))
           ("sN" "Named (Structured) Note" plain
@@ -1012,7 +1013,7 @@ SCHEDULED: %(cfw:org-capture-day)
 
   ;; org-roam settings
   (setq org-roam-tag-sources '(prop last-directory))
-  (setq org-roam-file-exclude-regexp "data/*")
+  (setq org-roam-file-exclude-regexp "archived")
   (setq org-roam-graph-exclude-matcher '("journal" "templates"))
   (setq org-roam-capture-templates
         '(("d" "default" plain #'org-roam-capture--get-point "%?"
@@ -1056,7 +1057,7 @@ This %\2 deals with ..."
 :URL: ${url}
 :NOTER_DOCUMENT: %(aam-get-cite-pdf-filename \"${citekey}\")
 :END:
-cite:${citekey} [[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
+[[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
 %?")))
 
   ;; configure org-journal
