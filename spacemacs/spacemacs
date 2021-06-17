@@ -82,7 +82,7 @@ This function should only modify configuration layer settings."
              lsp
              (python :variables
                      python-backend 'lsp
-                     python-lsp-server 'pyls
+                     python-lsp-server 'pylsp
                      python-formatter 'yapf
                      python-format-on-save t
                      python-sort-imports-on-save t)
