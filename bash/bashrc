@@ -72,7 +72,11 @@ if [ -f ~/.env ]; then
     if [ -z $PATH_BK ]; then
         export PATH_BK=$PATH
     fi
-    . ~/.env
+    if [ -z "${PATH_INIT+x}" ]; then
+        . ~/.env
+    fi
+    # avoid reloading of environement variables
+    export PATH_INIT=1
     unset PATH_BK
 fi
 
