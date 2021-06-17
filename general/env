@@ -3,7 +3,6 @@
 # http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
 
 # avoid duplication of the entries after reloading this file
-export PATH="$PATH_BK"
 export CPATH=""
 export LD_LIBRARY_PATH=""
 export LIBRARY_PATH=""

@@ -2,6 +2,9 @@
 # Basic config #
 ################
 
+# reset user paths
+set -e fish_user_paths
+
 # use emacs keybindgins by default
 set -U fish_key_bindings fish_default_key_bindings
 
@@ -43,11 +46,11 @@ function export --description 'Set global variable. Alias for set -gx, made for 
 end
 
 if test -e ~/.env
-    if test -z "$PATH_BK"
-        set -x PATH_BK $PATH
-    end
+    set -x PATH_BK $PATH
     source ~/.env
-    set --erase PATH_BK
+    set -U fish_user_paths $PATH $fish_user_paths
+    set -gx PATH $PATH_BK
+    set -e PATH_BK
 end
 
 #####################
@@ -97,7 +100,7 @@ abbr -a -- - 'cd -'
 
 # configure fzf
 if test -d ~/.fzf/bin
-    set -x PATH $HOME/.fzf/bin $PATH
+    set -U fish_user_paths $HOME/.fzf/bin $fish_user_paths
 end
 
 function reload
