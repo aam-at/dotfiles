@@ -215,10 +215,14 @@ fi
 
 # configure pyenv
 if [ -d $HOME/.pyenv ]; then
-    export PYENV_ROOT=$HOME/.pyenv
-    export PATH=$HOME/.pyenv/bin:$PATH
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
+    # avoid re-initialisation
+    if [ -z "${PYENV_ROOT+x}" ]; then
+        # init pyenv
+        export PYENV_ROOT=$HOME/.pyenv
+        export PATH=$HOME/.pyenv/bin:$PATH
+        eval "$(pyenv init -)"
+        eval "$(pyenv virtualenv-init -)"
+    fi
 fi
 
 if [ -f ~/.local/share/icons-in-terminal/icons_bash.sh ]; then
