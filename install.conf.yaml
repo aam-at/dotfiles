@@ -1,6 +1,7 @@
 - clean: ['~']
 - shell:
     - [git submodule update --depth 1 --init --recursive, Installing submodules]
+    - [env > ~/.bash_env, Environment variables]
     - [cd general/fonts && ./install_all.sh, Install powerline and emacs fonts]
     - [cd bash/bashmarks && make install, Install bashmarks]
     - [mkdir -p ~/.local/bin && ln -frs scripts/* ~/.local/bin/, Link scripts]
