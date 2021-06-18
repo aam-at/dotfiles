@@ -10,8 +10,8 @@
 
 # reuse ssh between logins
 type keychain >&/dev/null \
-    && keychain --agents ssh $HOME/.ssh/id_rsa
-    && keychain --agents gpg C1E56A68AE1A8A7D92B88B2AB2FE6C77CC4B6C4A
+    && keychain --agents ssh $HOME/.ssh/id_ed25519 \
+    && keychain --agents gpg B2FE6C77CC4B6C4A
 
 # configure pyenv
 if [ -d $HOME/.pyenv ]; then
