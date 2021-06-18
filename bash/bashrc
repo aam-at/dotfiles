@@ -67,6 +67,11 @@ fi
 # Load environment variables #
 ##############################
 
+# source ssh
+[ -f $HOME/.keychain/$HOSTNAME-sh ] \
+    && . $HOME/.keychain/$HOSTNAME-sh
+
+
 # source environement variables
 if [ -f ~/.env ]; then
     if [ -z "${PATH_INIT+x}" ]; then
@@ -211,11 +216,8 @@ fi
 
 # configure pyenv
 if [ -d $HOME/.pyenv ]; then
-    # avoid re-initialisation
     if [ -z "${PYENV_ROOT+x}" ]; then
-        # init pyenv
-        export PYENV_ROOT=$HOME/.pyenv
-        export PATH=$HOME/.pyenv/bin:$PATH
+        # init pyenv autocompletion
         eval "$(pyenv init -)"
         eval "$(pyenv virtualenv-init -)"
     fi
