@@ -778,7 +778,8 @@ before packages are loaded."
                                (aam/org-path "someday.org")
                                (aam/org-path "work.org")
                                (aam/org-path "personal.org")
-                               (aam/org-path "ideas.org")))
+                               (aam/org-path "ideas.org")
+                               (aam/org-path "archived.org")))
   (setq aam/org-agenda-projects (org-extras/org-get-active-headline-files (aam/org-path "projects/index.org")))
   (setq org-agenda-files (append aam/org-agenda-projects org-agenda-files))
 
@@ -786,7 +787,9 @@ before packages are loaded."
                         ("urgent"    . ?u)))
   (setq org-use-fast-tag-selection 'expert
         org-use-fast-todo-selection 'expert)
-  (setq org-agenda-time-grid '((daily today require-timed) "----------------------" nil)
+  (setq org-agenda-time-grid '((daily today require-timed)
+                               (800 1000 1200 1400 1600 1800 2000)
+                               "......" "----------------------")
         org-agenda-skip-scheduled-if-done t
         org-agenda-skip-deadline-if-done t
         org-agenda-include-deadlines t
@@ -1016,7 +1019,7 @@ SCHEDULED: %(cfw:org-capture-day)
   ;; org-roam settings
   (setq org-roam-tag-sources '(prop last-directory))
   (setq org-roam-file-exclude-regexp "archived")
-  (setq org-roam-graph-exclude-matcher '("journal" "templates"))
+  (setq org-roam-graph-exclude-matcher '("journal" "templates" "inbox.org"))
   (setq org-roam-capture-templates
         '(("d" "default" plain #'org-roam-capture--get-point "%?"
            :file-name "%<%Y%m%d%H%M%S>-${slug}"
