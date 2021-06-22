@@ -197,3 +197,17 @@ Update the `org-id-locations' global hash-table, and update the
   "Update id locations for all files in org-directory"
   (interactive)
   (org-id-update-id-locations (org-extras/org-id-list-files org-directory)))
+
+(defun org-extras/org-sort-by-year ()
+  (string-to-number (org-entry-get nil "YEAR")))
+
+(defun org-extras/org-sort-papers ()
+  (interactive)
+  (org-sort-entries nil ?F #'org-extras/org-sort-by-year))
+
+(defun org-extras/org-sort-by-impact-factor ()
+  (string-to-number (org-entry-get nil "IMPACT_FACTOR")))
+
+(defun org-extras/org-sort-journals ()
+  (interactive)
+  (org-sort-entries nil ?F #'org-extras/org-sort-by-impact-factor))
