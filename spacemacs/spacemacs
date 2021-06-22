@@ -896,6 +896,14 @@ before packages are loaded."
   (org-clock-persistence-insinuate)
 
   ;; org capture settings
+  (defun org-journal-find-location ()
+    ;; Open today's journal, but specify a non-nil prefix argument in order to
+    ;; inhibit inserting the heading; org-capture will insert the heading.
+    (org-journal-new-entry t)
+    (unless (eq org-journal-file-type 'daily)
+      (org-narrow-to-subtree))
+    (goto-char (point-max)))
+
   (defun aam/org-capture-note-filepath (&optional with-date)
     "Return path to note with datetime prefix or without it"
     (funcall (-partial 'org-extras/org-get-filepath-for-title
@@ -945,6 +953,9 @@ SCHEDULED: %(cfw:org-capture-day)
            (file ,aam/org-inbox)
            "* TODO [#A] Reply: %a :@home:@work:"
            :immediate-finish t)
+          ("j" "Journal entry" plain (function org-journal-find-location)
+           "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
+           :jump-to-captured t :immediate-finish t)
           ("l" "Web link" entry (file ,aam/org-inbox)
            "* TODO %(org-cliplink-capture) :readlater:
 :PROPERTIES:
@@ -1068,9 +1079,10 @@ This %\2 deals with ..."
   ;; configure org-journal
   (setq org-journal-dir (aam/org-path "journal/"))
   (setq org-journal-date-prefix "#+TODO: TODO(t) STARTED(s) | DONE(d) POSTPONED(p) CANCELED(c) FAILED(f)\n* ")
-  (setq org-journal-file-format "%Y%m%d.org")
-  (setq org-journal-carryover-items "TODO=\"POSTPONED\"")
-  (setq org-journal-enable-encryption t)
+  (setq org-journal-file-format "%Y%m%d.org"
+        org-journal-carryover-items "TODO=\"POSTPONED\""
+        org-journal-enable-encryption nil
+        org-journal-enable-cache t)
   (setq org-journal-agenda-days 7)
   (setq aam/journal-agenda-files (org-extras/org-journal-list-agenda-files org-journal-agenda-days))
   (setq org-agenda-files (append aam/journal-agenda-files org-agenda-files))
