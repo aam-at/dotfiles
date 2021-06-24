@@ -23,6 +23,14 @@ end
 # Load environment variables #
 ##############################
 
+if test -f ~/.keychain/$hostname-fish
+    source ~/.keychain/$hostname-fish
+end
+if test -f ~/.keychain/$hostname-fish-gpg
+    source ~/.keychain/$hostname-fish-gpg
+end
+
+
 # Source environement variables shared between different shells.
 # http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
 function export --description 'Set global variable. Alias for set -gx, made for bash compatibility'
