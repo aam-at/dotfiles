@@ -18,10 +18,12 @@ sudo apt-fast install -y \
     libncursesw5-dev libpng-dev libpoppler-glib-dev libpoppler-private-dev \
     libreadline-dev libsqlite3-dev libssl-dev libsystemd-dev libtiff-dev \
     libwebkit2gtk-4.0-dev libxapian-dev libxpm-dev llvm make mc mosh ncdu \
-    net-tools nnn openssh-server p7zip-full p7zip-rar pass peco plantuml pydf \
-    python-openssl ranger ripgrep rtv rtv shellcheck sqlite3 stow texinfo tig \
-    tk-dev tmux trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils \
-    xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev zlib1g-dev
+    net-tools nnn openssh-server p7zip-full p7zip-rar pass peco plantuml postfix \
+    pydf python-openssl ranger ripgrep rtv rtv shellcheck sqlite3 stow texinfo \
+    tig tk-dev tmux trash-cli ubuntu-restricted-extras unrar wget wmctrl \
+    xdg-utils xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev \
+    zlib1g-dev
+
 
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
