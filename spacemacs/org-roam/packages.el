@@ -25,4 +25,8 @@
 
 (defun org-roam/post-init-org-roam ()
   (require 'org-roam-protocol)
-  (add-to-list 'org-modules 'org-roam-protocol))
+  (add-to-list 'org-modules 'org-roam-protocol)
+  (spacemacs/set-leader-keys
+    "aorT" 'org-roam/org-toggle-properties)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "rT" 'org-roam/org-toggle-properties))
