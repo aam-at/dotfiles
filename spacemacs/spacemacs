@@ -132,7 +132,7 @@ This function should only modify configuration layer settings."
                   org-enable-org-journal-support t
                   org-enable-reveal-js-support t
                   org-enable-roam-support t
-                  org-enable-roam-server t
+                  org-enable-roam-server nil
                   org-enable-sticky-header nil
                   org-enable-trello-support t
                   org-enable-valign t
