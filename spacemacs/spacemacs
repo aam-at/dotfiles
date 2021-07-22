@@ -1032,16 +1032,26 @@ SCHEDULED: %(cfw:org-capture-day)
   (setq org-roam-file-exclude-regexp "archived")
   (setq org-roam-graph-exclude-matcher '("journal" "templates" "inbox.org"))
   (setq org-roam-capture-templates
-        '(("d" "default" plain #'org-roam-capture--get-point "%?"
-           :file-name "%<%Y%m%d%H%M%S>-${slug}"
-           :head "#+title: ${title}\n" :unnarrowed t)
+        '(("r" "Notes for bibliography reference" plain
+           "
+- tags ::
+- keywords :: %^{keywords}
+- backlinks ::
 
-          ("r" "reference" plain (function org-roam-capture--get-point)
-           "#+ROAM_KEY: %^{citekey}%? fullcite: %\1
-#+ROAM_TAGS: %^{type}
-This %\2 deals with ..."
-           :file-name "papers/%<%Y-%m-%d-%H%M%S>_${title}"
-           :head "#+TITLE: ${title}"
+* %^{year} - ${title}
+:PROPERTIES:
+:Custom_ID: %^{citekey}
+:AUTHOR: %^{author}
+:JOURNAL: %^{journal}
+:YEAR: %^{year}
+:DOI: %^{doi}
+:URL: %^{url}
+:NOTER_DOCUMENT: %(aam-get-cite-pdf-filename \"%^{citekey}\")
+:END:
+[[file:%(aam-get-cite-pdf-filename \"%^{citekey}\")][pdf]]
+%?"
+           :if-new
+           (file+head "papers/${citekey}.org" "#+TITLE: ${title}\n")
            :unnarrowed t)))
 
   ;; org-roam-bibtex settings
@@ -1051,30 +1061,6 @@ This %\2 deals with ..."
           "author-abbrev" "editor-abbrev" "author-or-editor-abbrev"))
   (with-eval-after-load 'orb-note-actions
     (add-to-list 'orb-note-actions-user (cons "Open PDF file(s) externally" #'aam-open-pdf-external)))
-  (setq orb-templates
-        '(("r" "ref" plain (function org-roam-capture--get-point)
-           ""
-           :file-name "papers/${citekey}"
-           :head "#+TITLE: ${title}
-#+ROAM_KEY: ${ref}
-#+ROAM_TAGS:
-
-- tags ::
-- keywords :: ${keywords}
-- backlinks ::
-
-* ${year} - ${title}
-:PROPERTIES:
-:Custom_ID: ${citekey}
-:AUTHOR: ${author}
-:JOURNAL: ${journal}
-:YEAR: ${year}
-:DOI: ${doi}
-:URL: ${url}
-:NOTER_DOCUMENT: %(aam-get-cite-pdf-filename \"${citekey}\")
-:END:
-[[file:%(aam-get-cite-pdf-filename \"${citekey}\")][pdf]]
-%?")))
 
   ;; configure org-journal
   (setq org-journal-dir (aam/org-path "journal/"))
@@ -1114,8 +1100,7 @@ This %\2 deals with ..."
         org-ref-notes-directory (aam/org-path "papers")
         org-ref-default-bibliography aam/bibtex-files
         org-ref-pdf-directory (aam/bib-path "papers/")
-        org-ref-notes-function 'orb-edit-notes
-        org-ref-note-title-format "** TODO %y - %t\n:PROPERTIES:\n:Custom_ID: %k\n:AUTHOR: %9a\n:JOURNAL: %j\n:Year: %y\n:VOLUME: %v\n:PAGES: %p\n:DOI: %D\n:URL: %U\n:NOTER_DOCUMENT: %F\n:END:\n[[cite:%k]] [[file:%F][pdf]]\n")
+        org-ref-notes-function 'orb-edit-note)
   ;; helm-bibtex
   (spacemacs/set-leader-keys "hc" 'helm-bibtex)
   (setq bibtex-completion-notes-path (aam/org-path "/papers.org")
