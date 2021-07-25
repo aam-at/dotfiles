@@ -917,7 +917,11 @@ before packages are loaded."
     (funcall (-partial 'org-extras/org-get-filepath-for-title
                        (aam/org-path "projects"))))
   (defun aam/org-capture-org-roam-link (file)
-    (format "[[roam:%s]]" (car (with-current-buffer (get-file-buffer file) (org-roam--extract-titles-title)))))
+    (let ((node (with-current-buffer
+                    (get-file-buffer file)
+                 (org-roam-node-at-point))))
+      (format "[[id:%s][%s]]" (org-roam-node-id node)
+                               (org-roam-node-title node))))
 
   ;; configure org-capture
   (add-hook 'org-capture-mode-hook #'org-align-tags)
