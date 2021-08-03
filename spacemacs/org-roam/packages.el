@@ -5,7 +5,11 @@
     org
     org-roam
     org-roam-bibtex
-    org-roam-server))
+    websocket
+    (org-roam-ui :requires org-roam
+                 :location (recipe :repo "org-roam/org-roam-ui"
+                                   :fetcher github
+                                   :files ("*.el" "out")))))
 
 (defun org-roam/init-org-roam-bibtex ()
   (use-package org-roam-bibtex
@@ -22,6 +26,20 @@
 (defun org-roam/post-init-org ()
   (require 'org-protocol)
   (add-to-list 'org-modules 'org-protocol))
+
+(defun org-roam/init-websocket ()
+  (use-package websocket
+    :after org-roam))
+
+(defun org-roam/init-org-roam-ui ()
+  (use-package org-roam-ui
+    :after org-roam
+    :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t)))
 
 (defun org-roam/post-init-org-roam ()
   (require 'org-roam-protocol)
