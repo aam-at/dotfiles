@@ -73,8 +73,8 @@
     (org-delete-property-globally "ATTACH_DIR_INHERIT")))
 
 (defun org-extras/org-get-active-headline-files (file)
-  (let ((value)
-        (dir (file-name-directory file)))
+  "Get all active projects from the index file."
+  (let ((value))
     (dolist (element
              (with-current-buffer (find-file-noselect file)
                (let ((parsetree (org-element-parse-buffer 'element)))
@@ -90,9 +90,9 @@
                               (not archived)) title))))))
              value)
       (setq value (cons
-                   (concat
-                    (file-name-as-directory dir)
-                    (replace-regexp-in-string "\\[\\[.*:\\(.*\\\)\]\\[\\(.*\\)\\]\\]" "\\1" element))
+                    (car
+                     (org-id-find
+                      (replace-regexp-in-string "\\[\\[.*:\\(.*\\\)\]\\[\\(.*\\)\\]\\]" "\\1" element)))
                    value)))))
 
 ;; https://github.com/munen/emacs.d#convenience-functions-when-working-with-pdf-exports
