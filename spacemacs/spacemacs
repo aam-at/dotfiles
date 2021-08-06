@@ -40,7 +40,7 @@ This function should only modify configuration layer settings."
              better-defaults
              bm
              (git :variables
-                  git-enable-magit-delta-plugin nil
+                  git-enable-magit-delta-plugin t
                   git-enable-magit-gitflow-plugin t)
              github
              helm
@@ -919,9 +919,10 @@ before packages are loaded."
   (defun aam/org-capture-org-roam-link (file)
     (let ((node (with-current-buffer
                     (get-file-buffer file)
-                 (org-roam-node-at-point))))
-      (format "[[id:%s][%s]]" (org-roam-node-id node)
-                               (org-roam-node-title node))))
+                  (org-roam-node-at-point))))
+      (format "[[id:%s][%s]]"
+              (org-roam-node-id node)
+              (org-roam-node-title node))))
 
   ;; configure org-capture
   (add-hook 'org-capture-mode-hook #'org-align-tags)
