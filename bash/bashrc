@@ -226,6 +226,11 @@ if [ -d $HOME/.pyenv ]; then
     fi
 fi
 
+# configure direnv
+if command_exists direnv; then
+    eval "$(direnv hook bash)"
+fi
+
 if [ -f ~/.local/share/icons-in-terminal/icons_bash.sh ]; then
     . ~/.local/share/icons-in-terminal/icons_bash.sh
 fi
