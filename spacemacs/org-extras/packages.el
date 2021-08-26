@@ -26,7 +26,6 @@
     (org-gcal :location (recipe
                          :fetcher github
                          :repo "kidd/org-gcal.el"))
-    ebib
     org-ref
     org-fragtog
     ;; pdf and pdf annotation
@@ -101,9 +100,6 @@
       "gr" 'org-gcal-refresh-token))
   :config
   (setq org-gcal-dir (concat spacemacs-cache-directory "org-gcal")))
-
-(defun org-extras/init-ebib ()
-  :defer t)
 
 (defun org-extras/post-init-org-ref ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode

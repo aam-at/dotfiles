@@ -14,7 +14,6 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst aam-packages
       '(
-        biblio
         cloc
         ewmctrl
         fish-completion
@@ -23,12 +22,6 @@
         key-chord
         key-seq))
 
-(defun aam/init-biblio ()
-  :defer t
-  :init
-  (spacemacs/set-leader-keys "Asb" 'biblio-lookup)
-  :config
-  (evil-set-initial-state 'biblio-selection-mode 'emacs))
 
 (defun aam/init-cloc()
   :defer t)
