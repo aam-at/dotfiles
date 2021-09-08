@@ -14,6 +14,9 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst aam-packages
       '(
+        (unicode-math-input :location (recipe
+                                       :fetcher github
+                                       :repo "astoff/unicode-math-input.el"))
         cloc
         ewmctrl
         fish-completion
@@ -22,6 +25,7 @@
         key-chord
         key-seq))
 
+(defun aam/init-unicode-math-input ())
 
 (defun aam/init-cloc()
   :defer t)
