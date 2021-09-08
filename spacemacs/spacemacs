@@ -114,7 +114,7 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              ;; Writing and note taking
              ;; ----------------------------------------------------------------
-             bibtex
+             (bibtex :variables bibtex-enable-ebib-support t)
              deft
              markdown
              (latex :variables
