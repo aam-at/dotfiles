@@ -186,7 +186,7 @@ Update the `org-id-locations' global hash-table, and update the
             ()
           (setq org-files-list
                 (append
-                 (org-extras/org-all-files
+                 (org-extras/org-id-list-files
                   (car (car current-directory-list)))
                  org-files-list)))))
 
