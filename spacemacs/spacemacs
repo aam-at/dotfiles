@@ -134,7 +134,7 @@ This function should only modify configuration layer settings."
                   org-enable-roam-support t
                   org-enable-roam-server nil
                   org-enable-sticky-header nil
-                  org-enable-trello-support t
+                  org-enable-trello-support nil
                   org-enable-valign t
                   org-start-notification-daemon-on-startup t
                   org-want-todo-bindings t)
