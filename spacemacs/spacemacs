@@ -663,6 +663,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; configure org before anything
   (setq org-root (expand-file-name "~/Dropbox/Org/"))
   (setq org-roam-directory org-root)
+  (setq org-roam-v2-ack t)
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
    (when (> (x-display-pixel-width) 3000)
