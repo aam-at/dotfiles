@@ -1102,20 +1102,25 @@ SCHEDULED: %(cfw:org-capture-day)
   (defun aam/bib-path (path) (concat aam/bib-dir path))
   (setq aam/bibtex-files (list (aam/bib-path "refs.bib")
                                (aam/bib-path "myrefs.bib")))
-  (setq reftex-default-bibliography aam/bibtex-files)
+  ;; org-ref
   (setq org-ref-bibliography-notes (aam/org-path "papers.org")
         org-ref-notes-directory (aam/org-path "papers")
         org-ref-default-bibliography aam/bibtex-files
-        org-ref-pdf-directory (aam/bib-path "papers/")
-        org-ref-notes-function 'orb-edit-note)
+        org-ref-pdf-directory (aam/bib-path "papers/"))
   ;; helm-bibtex
   (spacemacs/set-leader-keys "hc" 'helm-bibtex)
-  (setq bibtex-completion-notes-path (aam/org-path "/papers.org")
+  (setq bibtex-completion-notes-path (aam/org-path "papers")
         bibtex-completion-bibliography aam/bibtex-files
-        bibtex-completion-library-path org-ref-pdf-directory
+        bibtex-completion-library-path (aam/bib-path "/papers")
+        bibtex-completion-additional-search-fields '(keywords tags)
         bibtex-completion-pdf-symbol "⌘"
         bibtex-completion-notes-symbol "✎")
-  (setq bibtex-completion-additional-search-fields '(keywords tags))
+  (setq bibtex-completion-display-formats
+        '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+          (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+          (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+          (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+          (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}")))
   (setq bibtex-completion-format-citation-functions
         '((org-mode      . bibtex-completion-format-citation-org-link-to-PDF)
           (latex-mode    . bibtex-completion-format-citation-cite)
