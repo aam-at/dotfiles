@@ -132,7 +132,7 @@ Update the `org-id-locations' global hash-table, and update the
                                 (eq 'Mn (get-char-code-property char 'general-category)))
              (strip-nonspacing-marks (s)
                                      (apply #'string (seq-remove #'nonspacing-mark-p
-                                                                 (ucs-normalize-NFD-string s))))
+                                                                 (string-glyph-compose s))))
              (cl-replace (title pair)
                          (replace-regexp-in-string (car pair) (cdr pair) title)))
     (let* ((pairs `(("[^[:alnum:][:digit:]]" . "-")  ;; convert anything not alphanumeric

@@ -14,9 +14,8 @@
 (defun org-roam/init-org-roam-bibtex ()
   (use-package org-roam-bibtex
     :after org-roam
+    :hook (after-init . org-roam-bibtex-mode)
     :diminish org-roam-bibtex-mode
-    :hook
-    (org-roam-mode . org-roam-bibtex-mode)
     :init
     (spacemacs/set-leader-keys-for-major-mode 'org-mode "N" 'orb-note-actions)))
 
@@ -35,6 +34,7 @@
   (use-package org-roam-ui
     :after org-roam
     :hook (after-init . org-roam-ui-mode)
+    :diminish org-roam-ui-mode
     :config
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
