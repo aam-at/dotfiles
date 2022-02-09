@@ -30,6 +30,7 @@
     ~/.twittering-mode.gpg: ../Dropbox/Software/emacs/twittering-mode.gpg
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
     ~/.gitconfig: git/gitconfig
+    ~/.screenrc: screen/screenrc
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux/plugins/tpm:
         create: true

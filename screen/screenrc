@@ -1,0 +1,52 @@
+# turn off the welcome message
+startup_message off
+
+# disable visual bell
+vbell off
+
+# set scrollback buffer to 10000
+defscrollback 10000
+termcapinfo xterm* ti@:te@
+
+# the following two lines give a two-line status, with the current window highlighted
+hardstatus alwayslastline
+hardstatus string '%{= kG}[%{G}%H%? %1`%?%{g}][%= %{= kw}%-w%{+b yk} %n*%t%?(%u)%? %{-}%+w %=%{g}][%{B}%m/%d %{W}%C%A%{g}]'
+
+# disable lockscreen
+bind x remove
+bind X kill
+bind ^X
+
+# window list
+bind s windowlist
+
+# splitting windows
+bind b   split
+bind v   split -v
+
+# navigating regions
+bind j  focus down
+bind ^j focus down
+bind k  focus up
+bind ^k focus up
+bind h  focus left
+bind l  focus right
+
+# resizing regions
+bind + resize +5
+bind - resize -5
+bind = resize =
+
+# selecting windows
+bind `  select 0
+bind 0  select 10
+bind !  select 11
+bind @  select 12
+bind \# select 13
+bind \$ select 14
+bind %  select 15
+bind \^ select 16
+bind &  select 17
+bind *  select 18
+bind (  select 19
+bind )  select 20
