@@ -1037,13 +1037,12 @@ SCHEDULED: %(cfw:org-capture-day)
   (setq org-roam-tag-sources '(prop last-directory))
   (setq org-roam-file-exclude-regexp "archived")
   (setq org-roam-graph-exclude-matcher '("journal" "templates" "inbox.org"))
+  (setq org-roam-node-display-template
+        (concat "${title:*} "
+                (propertize "${tags:10}" 'face 'org-tag)))
   (setq org-roam-capture-templates
         '(("r" "Notes for bibliography reference" plain
            "
-- tags ::
-- keywords :: %^{keywords}
-- backlinks ::
-
 * %^{year} - ${title}
 :PROPERTIES:
 :Custom_ID: %^{citekey}
@@ -1125,6 +1124,7 @@ SCHEDULED: %(cfw:org-capture-day)
           (latex-mode    . bibtex-completion-format-citation-cite)
           (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
           (default       . bibtex-completion-format-citation-default)))
+  (setq bibtex-completion-pdf-open-function 'find-file)
 
   ;; ebib settings
   (setq ebib-preload-bib-files aam/bibtex-files)
