@@ -242,6 +242,12 @@ merged = 0
 name = 'tpope/vim-vinegar'
 merged = 0
 
+[[custom_plugins]]
+# openai copilot
+name = 'github/copilot.vim'
+on_cmd = 'Copilot'
+merged = 0
+
 # # plugin to toggle, display and navigate marks
 # TODO: configure
 # name = 'kshenoy/vim-signature'
