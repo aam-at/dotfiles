@@ -125,6 +125,7 @@ This function should only modify configuration layer settings."
              (org :variables
                   org-enable-appear-support t
                   org-enable-bootstrap-support t
+                  org-enable-org-contacts-support t
                   org-enable-epub-support t
                   org-enable-github-support t
                   org-enable-notifications t
@@ -1031,8 +1032,10 @@ SCHEDULED: %(cfw:org-capture-day)
   ;; org-effectiveness
   (add-to-list 'org-modules 'org-effectiveness t)
   ;; org-contacts
-  (require 'org-contacts)
-  (setq org-contacts-files (aam/org-path "contacts.org"))
+  (unless org-enable-org-contacts-support
+    (progn
+      (require 'org-contacts)
+      (setq org-contacts-files (aam/org-path "contacts.org"))))
 
   ;; org-roam settings
   (setq org-roam-tag-sources '(prop last-directory))
