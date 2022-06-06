@@ -31,40 +31,44 @@
   :defer t)
 
 (defun aam/init-ewmctrl()
-  :defer t
-  :init
-  (spacemacs/set-leader-keys "Aw" 'ewmctrl)
-  :config
-  (progn
-    (evilified-state-evilify ewmctrl-mode ewmctrl-mode-map
-      ;; General
-      "n"   'next-line
-      "p"   'previous-line
-      "g"   'ewmctrl-refresh
-      ";"   'ewmctrl-toggle-single-key-to-focus
-      ;; Window actions
-      "RET" 'ewmctrl-focus-window
-      "D"   'ewmctrl-delete-window
-      "I"   'ewmctrl-change-window-icon-name
-      "m"   'ewmctrl-move-window-to-other-desktop
-      "M"   'ewmctrl-move-window-to-current-desktop-and-focus
-      "N"   'ewmctrl-change-window-name
-      "r"   'ewmctrl-resize-window
-      ;; Filtering
-      "fc"  'ewmctrl-filters-clear
-      "fd"  'ewmctrl-filter-by-desktop-number
-      "fD"  'ewmctrl-filter-desktop-number-clear
-      "fn"  'ewmctrl-filter-by-name
-      "fN"  'ewmctrl-filter-name-clear
-      "fp"  'ewmctrl-filter-by-pid
-      "fP"  'ewmctrl-filter-pid-clear
-      ;; Sorting
-      "Sd"  'ewmctrl-sort-by-desktop-number
-      "SD"  'ewmctrl-sort-by-desktop-number-reversed
-      "Sn"  'ewmctrl-sort-by-name
-      "SN"  'ewmctrl-sort-by-name-reversed
-      "Sp"  'ewmctrl-sort-by-pid
-      "SP"  'ewmctrl-sort-by-pid-reversed)))
+  (use-package ewmctrl
+    :defer t
+    :init
+    (spacemacs/set-leader-keys "Aw" 'ewmctrl)
+    :config
+    (progn
+      (evilified-state-evilify-map ewmctrl-mode-map
+        :mode ewmctrl-mode
+        :bindings
+        ;; General
+        "n"   'next-line
+        "p"   'previous-line
+        "g"   'ewmctrl-refresh
+        ";"   'ewmctrl-toggle-single-key-to-focus
+        ;; Window actions
+        "RET" 'ewmctrl-focus-window
+        "D"   'ewmctrl-delete-window
+        "I"   'ewmctrl-change-window-icon-name
+        "m"   'ewmctrl-move-window-to-other-desktop
+        "M"   'ewmctrl-move-window-to-current-desktop-and-focus
+        "N"   'ewmctrl-change-window-name
+        "r"   'ewmctrl-resize-window
+        ;; Filtering
+        "fc"  'ewmctrl-filters-clear
+        "fd"  'ewmctrl-filter-by-desktop-number
+        "fD"  'ewmctrl-filter-desktop-number-clear
+        "fn"  'ewmctrl-filter-by-name
+        "fN"  'ewmctrl-filter-name-clear
+        "fp"  'ewmctrl-filter-by-pid
+        "fP"  'ewmctrl-filter-pid-clear
+        ;; Sorting
+        "Sd"  'ewmctrl-sort-by-desktop-number
+        "SD"  'ewmctrl-sort-by-desktop-number-reversed
+        "Sn"  'ewmctrl-sort-by-name
+        "SN"  'ewmctrl-sort-by-name-reversed
+        "Sp"  'ewmctrl-sort-by-pid
+        "SP"  'ewmctrl-sort-by-pid-reversed))
+    ))
 
 (defun aam/init-fish-completion()
   :defer t
