@@ -118,8 +118,18 @@ if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
 fi
 
 # install spacevim
+if [ ! -d $HOME/.emacs.d ]; then
+    git clone https://github.com/aam-at/spacemacs ~/.emacs.d
+fi
+
+# install spacevim
 if [ ! -d $HOME/.SpaceVim ]; then
     curl -sLf https://spacevim.org/install.sh | bash
+fi
+
+# install intellimacs
+if [ ! -d $HOME/.intellimacs ]; then
+    git clone https://github.com/MarcoIeni/intellimacs ~/.intellimacs
 fi
 
 # install enhancd for bash
