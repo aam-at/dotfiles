@@ -92,6 +92,10 @@ if [ ! -d $TOOLS_DIR/nerd-fonts ]; then
     ./install.sh
 fi
 
+# install oh-my-fish
+if [ ! -d $HOME/.local/share/omf ]; then
+    curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+fi
 
 if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
     CONFIGURE_OPTS=--enable-shared pyenv install 3.8.1
