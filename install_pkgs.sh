@@ -8,22 +8,20 @@ sudo apt-get install apt-fast
 
 # install other packages
 sudo apt-fast install -y \
-    anki autojump automake bibtool build-essential checkinstall \
-    chrome-gnome-shell clang cmake cscope curl curl ditaa fasd fbreader fd-find \
-    fish fzy gcc-10 git git-lfs glances global gnome-tweak-tool graphviz guake \
-    guile-3.0-dev html2text htop iotop iputils-arping isync jq keychain \
-    libbz2-dev libevent-dev libffi-dev libgccjit-10-dev libgccjit0 libgif-dev \
-    libgmime-3.0-dev libgnutls28-dev libjansson-dev libjansson4 libjpeg-dev \
-    liblzma-dev libmagick++-dev libmagickcore-dev libncurses5-dev libncursesw5 \
-    libncursesw5-dev libpng-dev libpoppler-glib-dev libpoppler-private-dev \
-    libreadline-dev libsqlite3-dev libssl-dev libsystemd-dev libtiff-dev \
-    libwebkit2gtk-4.0-dev libxapian-dev libxpm-dev llvm make mc mosh ncdu \
-    net-tools nnn openssh-server p7zip-full p7zip-rar pass peco plantuml postfix \
-    pydf python-openssl ranger ripgrep rtv rtv screen shellcheck sqlite3 stow texinfo \
-    tig tk-dev tmux trash-cli ubuntu-restricted-extras unrar wget wmctrl \
-    xdg-utils xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev \
-    zlib1g-dev
-
+    anki autojump automake bibtool build-essential checkinstall chrome-gnome-shell \
+    clang cmake cscope curl curl ditaa fasd fbreader fd-find fish fzy gcc-10 git \
+    git-lfs glances global gnome-tweaks graphviz guake guile-3.0-dev html2text htop \
+    iotop iputils-arping isync jq keychain libbz2-dev libevent-dev libffi-dev \
+    libgccjit-10-dev libgccjit0 libgif-dev libgmime-3.0-dev libgnutls28-dev \
+    libjansson-dev libjansson4 libjpeg-dev liblzma-dev libmagick++-dev \
+    libmagickcore-dev libncurses5-dev libncursesw5 libncursesw5-dev libpng-dev \
+    libpoppler-glib-dev libpoppler-private-dev libreadline-dev libsqlite3-dev \
+    libssl-dev libsystemd-dev libtiff-dev libwebkit2gtk-4.0-dev libxapian-dev \
+    libxpm-dev llvm make mc mosh mu ncdu net-tools nnn notmuch openssh-server \
+    p7zip-full p7zip-rar pandoc pass peco plantuml postfix pydf python3-openssl \
+    ranger ripgrep rtv rtv screen shellcheck sqlite3 stow texinfo tig tk-dev tmux \
+    trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zathura \
+    zathura-djvu zathura-pdf-poppler zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
@@ -36,7 +34,7 @@ sudo gem install tmuxinator
 sudo gem install anystyle-cli
 
 # install nodejs
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
 # force npm upgrade
 sudo npm i -g npm
