@@ -77,7 +77,7 @@ if test -d $OMF_PATH # Customize Oh My Fish configuration path.
     # Oh My Fish themes
     set fish_themes agnoster batman krisleech zish toaster ocean syl20bnr
     # select theme
-    set fish_theme agnoster
+    set fish_theme batman
 end
 
 # configure autojump
