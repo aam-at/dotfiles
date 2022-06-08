@@ -85,6 +85,13 @@ if ! [ -x "$(command -v delta)" ]; then
     rm /tmp/delta.deb
 fi
 
+# install nerd-fonts
+if [ ! -d $TOOLS_DIR/nerd-fonts ]; then
+    git clone --depth=1 https://github.com/ryanoasis/nerd-fonts $TOOLS_DIR/nerd-fonts
+    cd $TOOLS_DIR/nerd-fonts
+    ./install.sh
+fi
+
 
 if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
     CONFIGURE_OPTS=--enable-shared pyenv install 3.8.1
