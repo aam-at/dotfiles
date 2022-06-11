@@ -10,6 +10,7 @@
     - [tic -x -o ~/.terminfo general/xterm/xterm-24bit.terminfo, Configure Truecolor]
 - link:
     ~/.ssh/config: config/ssh/config
+    ~/.davmail.properties: config/davmail.properties
     ~/.mbsyncrc: config/mbsyncrc
     ~/.vale: config/vale/vale
     ~/.textlintrc: config/textlintrc
