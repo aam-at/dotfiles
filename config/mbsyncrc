@@ -27,7 +27,7 @@ Sync All
 Expunge Both
 SyncState *
 
-# student account
+# ntu-student account
 IMAPAccount office
 Host localhost
 Port 1143
@@ -55,7 +55,7 @@ Sync All
 Expunge Both
 SyncState *
 
-# work account
+# ntu-work account
 IMAPAccount work
 # use localhost davmail
 Host localhost
@@ -81,6 +81,66 @@ Patterns *
 Create Slave
 Sync All
 Expunge Both
+SyncState *
+
+# icl account
+IMAPAccount icl
+# use localhost davmail
+Host localhost
+User amatyask@ic.ac.uk
+Port 1143
+PassCmd "echo ${PASSWORD:-$(copy_password.sh amatyask@ic.ac.uk)}"
+SSLType None
+AuthMechs Login
+# Increase timeout to avoid o365 IMAP hiccups
+Timeout 120
+PipelineDepth 50
+
+IMAPStore icl-remote
+Account icl
+
+MaildirStore icl-local
+Path ~/.mail/icl/
+Inbox ~/.mail/icl/INBOX
+SubFolders Legacy
+
+Channel icl
+Master :icl-remote:
+Slave :icl-local:
+# Include everything
+Patterns "INBOX" "*"
+Create Both
+Sync All
+SyncState *
+
+# nus account
+IMAPAccount nus
+# use localhost davmail
+Host localhost
+User alex.m@nus.edu.sg
+Port 1143
+PassCmd "echo ${PASSWORD:-$(copy_password.sh alex.m@ntu.edu.sg)}"
+SSLType None
+AuthMechs Login
+# Increase timeout to avoid o365 IMAP hiccups
+Timeout 120
+PipelineDepth 50
+
+IMAPStore nus-remote
+Account nus
+
+MaildirStore nus-local
+Path ~/.mail/nus/
+Inbox ~/.mail/nus/INBOX
+SubFolders Legacy
+
+Channel nus
+Master :nus-remote:
+Slave :nus-local:
+# Include everything
+Patterns "INBOX" "*"
+Create Both
+Sync All
 SyncState *
 
 # yandex account
