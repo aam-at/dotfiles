@@ -14,6 +14,11 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst aam-packages
       '(
+        (copilot :requires company
+                 :location (recipe
+                            :fetcher github
+                            :repo "zerolfx/copilot.el"
+                            :files ("*.el" "dist")))
         (unicode-math-input :location (recipe
                                        :fetcher github
                                        :repo "astoff/unicode-math-input.el"))
@@ -24,6 +29,26 @@
         helm-system-packages
         key-chord
         key-seq))
+
+(defun aam/init-copilot ()
+  (use-package copilot
+    :defer t
+    :init
+    (defun my-tab ()
+      (interactive)
+      (or (copilot-accept-completion)
+          (company-indent-or-complete-common nil)))
+    (with-eval-after-load 'company
+                                        ; disable inline previews
+      (delq 'company-preview-if-just-one-frontend company-frontends)
+                                        ; enable tab completion
+      (define-key company-mode-map (kbd "<tab>") 'my-tab)
+      (define-key company-mode-map (kbd "TAB") 'my-tab)
+      (define-key company-active-map (kbd "<tab>") 'my-tab)
+      (define-key company-active-map (kbd "TAB") 'my-tab))
+    (add-hook 'prog-mode-hook 'copilot-mode)
+    (define-key evil-insert-state-map (kbd "C-<tab>") 'copilot-accept-completion-by-word)
+    (define-key evil-insert-state-map (kbd "C-TAB") 'copilot-accept-completion-by-word)))
 
 (defun aam/init-unicode-math-input ())
 
@@ -67,8 +92,7 @@
         "Sn"  'ewmctrl-sort-by-name
         "SN"  'ewmctrl-sort-by-name-reversed
         "Sp"  'ewmctrl-sort-by-pid
-        "SP"  'ewmctrl-sort-by-pid-reversed))
-    ))
+        "SP"  'ewmctrl-sort-by-pid-reversed))))
 
 (defun aam/init-fish-completion()
   :defer t
