@@ -17,7 +17,8 @@
     (spacemacs/set-leader-keys-for-major-mode 'org-mode "N" 'orb-note-actions)))
 
 (defun org-roam/post-init-org-roam-ui ()
-  (add-hook 'org-mode-hook (lambda () (org-roam-ui-mode))))
+  (with-eval-after-load 'org
+    (org-roam-ui-mode)))
 
 (defun org-roam/post-init-org ()
   (require 'org-protocol)
