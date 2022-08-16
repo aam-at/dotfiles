@@ -25,4 +25,6 @@ if [ -f "$HOME/.bashrc" ]; then
     source "$HOME/.bashrc"
 fi
 
-eval "$(pyenv init --path)"
+if [ -d $HOME/.pyenv ]; then
+    eval "$(pyenv init --path)"
+fi

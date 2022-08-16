@@ -219,9 +219,12 @@ fi
 
 # configure pyenv
 if [ -d $HOME/.pyenv ]; then
-    if [ -z "${PYENV_ROOT+x}" ]; then
+    if [ -z "${PYENV_SHELL}" ]; then
         # init pyenv autocompletion
         eval "$(pyenv init -)"
+    fi
+    if [ -z "${PYENV_VIRTUALENV_INIT}" ]; then
+        export PYENV_VIRTUALENV_DISABLE_PROMPT=1
         eval "$(pyenv virtualenv-init -)"
     fi
 fi

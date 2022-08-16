@@ -32,4 +32,6 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-eval "$(pyenv init --path)"
+if [ -d $HOME/.pyenv ]; then
+    eval "$(pyenv init --path)"
+fi
