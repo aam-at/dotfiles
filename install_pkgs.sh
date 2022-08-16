@@ -17,11 +17,11 @@ sudo apt-fast install -y \
     libmagickcore-dev libncurses5-dev libncursesw5 libncursesw5-dev libpng-dev \
     libpoppler-glib-dev libpoppler-private-dev libreadline-dev libsqlite3-dev \
     libssl-dev libsystemd-dev libtiff-dev libwebkit2gtk-4.0-dev libxapian-dev \
-    libxpm-dev llvm make mc mosh mu ncdu net-tools nnn notmuch openssh-server \
+    libxpm-dev llvm make mc mosh ncdu net-tools nnn notmuch openssh-server \
     p7zip-full p7zip-rar pandoc pass peco plantuml postfix pydf python3-openssl \
-    ranger ripgrep rtv rtv screen shellcheck sqlite3 stow texinfo tig tk-dev tmux \
-    trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zathura \
-    zathura-djvu zathura-pdf-poppler zlib1g-dev
+    ranger ripgrep rtv rtv ruby screen shellcheck sqlite3 stow texinfo tig tk-dev \
+    tmux trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils \
+    zathura zathura-djvu zathura-pdf-poppler zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
@@ -73,9 +73,9 @@ if [ ! -d $HOME/.pyenv ]; then
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
     # install pyenv plugins
     git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
-    git clone git://github.com/pyenv/pyenv-pip-migrate.git $(pyenv root)/plugins/pyenv-pip-migrate
-    git clone git://github.com/pyenv/pyenv-doctor.git $(pyenv root)/plugins/pyenv-doctor
-    git clone git://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
+    git clone https://github.com/pyenv/pyenv-pip-migrate.git $(pyenv root)/plugins/pyenv-pip-migrate
+    git clone https://github.com/pyenv/pyenv-doctor.git $(pyenv root)/plugins/pyenv-doctor
+    git clone https://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
 fi
 
 # install delta
@@ -92,15 +92,10 @@ if [ ! -d $TOOLS_DIR/nerd-fonts ]; then
     ./install.sh
 fi
 
-# install oh-my-fish
-if [ ! -d $HOME/.local/share/omf ]; then
-    curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
-fi
-
 if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
-    CONFIGURE_OPTS=--enable-shared pyenv install 3.8.1
+    CONFIGURE_OPTS=--enable-shared pyenv install 3.8.13
 
-    pyenv virtualenv 3.8.1 neovim3
+    pyenv virtualenv 3.8.13 neovim3
     pyenv activate neovim3
     pip3 install pynvim
 
@@ -157,7 +152,7 @@ fi
 # install omf
 if [ ! -d $HOME/.config/omf ]; then
     curl -L https://get.oh-my.fish | fish
-    omf install https://github.com/b4b4r07/enhancd
+    omf install enhancd
 fi
 
 # snap packages
