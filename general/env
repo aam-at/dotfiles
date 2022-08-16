@@ -44,7 +44,7 @@ export PATH="$GOPATH/bin:$PATH"
 export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
 # texlive
-export TEXLIVE_ROOT="/usr/local/texlive/2021"
+export TEXLIVE_ROOT="/usr/local/texlive/2022"
 export MANPATH="$TEXLIVE_ROOT/texmf-dist/doc/man:$MANPATH"
 export INFOPATH="$TEXLIVE_ROOT/texmf-dist/doc/info:$INFOPATH"
 export PATH="$TEXLIVE_ROOT/bin/x86_64-linux:$PATH"
