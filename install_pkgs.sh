@@ -10,8 +10,8 @@ sudo apt-get install apt-fast
 sudo apt-fast install -y \
     anki autojump automake bibtool build-essential checkinstall chrome-gnome-shell \
     clang cmake cscope curl curl ditaa fasd fbreader fd-find fish fzy gcc-10 git \
-    git-lfs glances global gnome-tweaks graphviz guake guile-3.0-dev html2text htop \
-    iotop iputils-arping isync jq keychain libbz2-dev libevent-dev libffi-dev \
+    git-lfs glances global gnome-tweaks gnupg2 graphviz guake guile-3.0-dev html2text \
+    htop iotop iputils-arping isync jq keychain libbz2-dev libevent-dev libffi-dev \
     libgccjit-10-dev libgccjit0 libgif-dev libgmime-3.0-dev libgnutls28-dev \
     libjansson-dev libjansson4 libjpeg-dev liblzma-dev libmagick++-dev \
     libmagickcore-dev libncurses5-dev libncursesw5 libncursesw5-dev libpng-dev \

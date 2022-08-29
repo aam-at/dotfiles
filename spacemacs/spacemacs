@@ -57,8 +57,7 @@ This function should only modify configuration layer settings."
              smex
              syntax-checking
              (tabs :variables
-                   tabs-auto-hide nil
-                   tabs-auto-hide-delay 3)
+                   tabs-auto-hide nil)
              (treemacs :variables treemacs-use-filewatch-mode t)
              unicode-fonts
              version-control
