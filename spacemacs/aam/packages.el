@@ -14,11 +14,11 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst aam-packages
       '(
-        (copilot :requires company
-                 :location (recipe
-                            :fetcher github
-                            :repo "zerolfx/copilot.el"
-                            :files ("*.el" "dist")))
+        ;; (copilot :requires company
+        ;;          :location (recipe
+        ;;                     :fetcher github
+        ;;                     :repo "zerolfx/copilot.el"
+        ;;                     :files ("*.el" "dist")))
         (unicode-math-input :location (recipe
                                        :fetcher github
                                        :repo "astoff/unicode-math-input.el"))
