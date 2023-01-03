@@ -13,4 +13,9 @@
                  (expand-file-name (aam-get-cite-pdf-filename (car key)))))
 
 (defun aam-get-cite-pdf-filename (key)
-  (concat org-ref-pdf-directory (format "%s.pdf" key)))
+  (let ((pdf-files (-filter #'file-exists-p
+                            (-map (lambda (pdf-path) (concat pdf-path (format "%s.pdf" key)))
+                                  bibtex-completion-library-path))))
+    (when (> (length pdf-files) 1)
+      (warn (format "Multiple files detected for key %s" key)))
+    (car pdf-files)))
