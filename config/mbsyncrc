@@ -28,7 +28,7 @@ Expunge Both
 SyncState *
 
 # ntu-student account
-IMAPAccount office
+IMAPAccount student
 Host localhost
 Port 1143
 User aliaksan001@e.ntu.edu.sg
@@ -38,17 +38,17 @@ SSLType None
 AuthMechs Login
 
 
-IMAPStore office-remote
-Account office
+IMAPStore student-remote
+Account student
 
-MaildirStore office-local
-Path ~/.mail/office/
-Inbox ~/.mail/office/INBOX
+MaildirStore student-local
+Path ~/.mail/student/
+Inbox ~/.mail/student/INBOX
 SubFolders Verbatim
 
-Channel office
-Master :office-remote:
-Slave :office-local:
+Channel student
+Master :student-remote:
+Slave :student-local:
 Patterns *
 Create Slave
 Sync All
@@ -56,7 +56,7 @@ Expunge Both
 SyncState *
 
 # ntu-work account
-IMAPAccount work
+IMAPAccount ntu
 # use localhost davmail
 Host localhost
 Port 1143
@@ -66,17 +66,17 @@ Timeout 1000
 SSLType None
 AuthMechs Login
 
-IMAPStore work-remote
-Account work
+IMAPStore ntu-remote
+Account ntu
 
-MaildirStore work-local
-Path ~/.mail/work/
-Inbox ~/.mail/work/INBOX
+MaildirStore ntu-local
+Path ~/.mail/ntu/
+Inbox ~/.mail/ntu/INBOX
 SubFolders Verbatim
 
-Channel work
-Master :work-remote:
-Slave :work-local:
+Channel ntu
+Master :ntu-remote:
+Slave :ntu-local:
 Patterns *
 Create Slave
 Sync All
