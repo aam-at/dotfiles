@@ -980,15 +980,25 @@ SCHEDULED: %(cfw:org-capture-day)
            "* %a :website:\n\n%U %?\n\n%:initial")
           ;; Snippets
           ("s" "Snippets")
+          ("sm" "Morning Pages Note" plain
+           (function org-journal-find-location)
+           (file ,(aam/org-path "templates/daily_review.org")))
+          ("sr" "Daily Review Note" plain
+           (function org-journal-find-location)
+           (file ,(aam/org-path "templates/daily_review.org"))
+           :jump-to-captured t)
           ("sn" "Simple (Atomic) Note" plain
            (file aam/org-capture-note-filepath-with-date)
-           (file ,(aam/org-path "templates/note.org")))
+           (file ,(aam/org-path "templates/note.org"))
+           :jump-to-captured t)
           ("sN" "Named (Structured) Note" plain
            (file aam/org-capture-note-filepath)
-           (file ,(aam/org-path "templates/note.org")))
+           (file ,(aam/org-path "templates/note.org"))
+           :jump-to-captured t)
           ("sp" "Project" plain
            (file aam/org-capture-project-filepath)
-           (file ,(aam/org-path "templates/project.org")))))
+           (file ,(aam/org-path "templates/project.org"))
+           :jump-to-captured t)))
 
   ;; org babel languages
   (org-babel-do-load-languages
