@@ -76,9 +76,9 @@ fi
 
 
 # source environement variables
-if [ -f ~/.env ]; then
+if [ -f $HOME/.env ]; then
     if [ -z "${PATH_INIT+x}" ]; then
-        . ~/.env
+        . $HOME/.env
         # avoid reloading of environement variables
         export PATH_INIT=1
     fi
