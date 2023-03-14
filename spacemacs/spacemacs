@@ -123,16 +123,16 @@ This function should only modify configuration layer settings."
              (org :variables
                   org-enable-appear-support t
                   org-enable-bootstrap-support t
-                  org-enable-org-contacts-support t
                   org-enable-epub-support t
                   org-enable-github-support t
                   org-enable-notifications t
+                  org-enable-org-contacts-support t
                   org-enable-org-journal-support t
                   org-enable-reveal-js-support t
-                  org-enable-roam-support t
+                  org-enable-roam-protocol t
                   org-enable-roam-ui t
-                  org-enable-roam-server nil
                   org-enable-sticky-header nil
+                  org-enable-transclusion-support t
                   org-enable-trello-support nil
                   org-enable-valign t
                   org-start-notification-daemon-on-startup t
@@ -986,7 +986,8 @@ SCHEDULED: %(cfw:org-capture-day)
           ("s" "Snippets")
           ("sm" "Morning Pages Note" plain
            (function org-journal-find-location)
-           (file ,(aam/org-path "templates/morning_pages.org")))
+           (file ,(aam/org-path "templates/morning_pages.org"))
+           :jump-to-captured t)
           ("sr" "Daily Review Note" plain
            (function org-journal-find-location)
            (file ,(aam/org-path "templates/daily_review.org"))
