@@ -746,6 +746,17 @@ before packages are loaded."
   (evil-set-initial-state 'calendar-mode 'emacs)
   (setq calendar-date-style "european")
 
+  ;; bibtex settings
+  (setq bibtex-autokey-name-year-separator ""
+        bibtex-autokey-name-separator ""
+        bibtex-autokey-name-case-convert 'downcase
+        bibtex-autokey-year-length 4
+        bibtex-autokey-year-title-separator ""
+        bibtex-autokey-titleword-length nil
+        bibtex-autokey-titlewords 1
+        bibtex-autokey-titleword-separator ""
+        bibtex-autokey-titlewords-stretch 1)
+
   ;; org settings
   (setq org-directory org-root)
   (defun aam/org-path (path) (concat org-directory path))
