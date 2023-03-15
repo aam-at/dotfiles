@@ -944,7 +944,7 @@ before packages are loaded."
   (add-hook 'org-capture-mode-hook #'org-align-tags)
   (setq org-capture-templates
         `(
-          ("t" "Toto" entry (file ,aam/org-inbox)
+          ("t" "Todo" entry (file ,aam/org-inbox)
            "* TODO %?
 :PROPERTIES:
 :CREATED: %U
@@ -958,6 +958,11 @@ before packages are loaded."
 %i
 Link: %a\n")
           ("r" "Read it later" entry (file, aam/org-inbox)
+           "* TODO Read %(aam/org-capture-org-roam-link (org-capture-get :original-file)) :readlater:
+:PROPERTIES:
+:CREATED: %U
+:END:\n")
+          ("R" "Read it later" entry (file, aam/org-inbox)
            "* TODO Read %(aam/org-capture-org-roam-link (org-capture-get :original-file)) :readlater:important:
 DEADLINE: %^{Deadline}t
 :PROPERTIES:
@@ -1085,6 +1090,7 @@ SCHEDULED: %(cfw:org-capture-day)
 %?"
            :if-new
            (file+head "papers/${citekey}.org" "#+TITLE: ${title}\n")
+           :empty-lines 1
            :unnarrowed t)))
 
   ;; org-roam-bibtex settings
