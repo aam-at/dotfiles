@@ -67,3 +67,6 @@
     ~/.xmodmap: general/x/Xmodmap
     ~/.xinitrc: general/x/xinitrc
     ~/.latexmkrc: general/latexmkrc
+    ~/.local/share/applications/:
+        path: general/applications/*
+        glob: true
