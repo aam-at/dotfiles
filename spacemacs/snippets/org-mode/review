@@ -2,24 +2,25 @@
 # name: review
 # key: review_
 # --
-+ Summary
++ Summary:
   [What is the research question / objective / idea of the paper?]
-+ Contributions
++ Related work:
++ Contributions:
   [Does the paper present new or original research findings? What are those
   findings?]
   1. 
   2. 
   3. 
-+ Pros
++ Pros:
   [Is the submission clear, technically correct, experimentally rigorous,
   reproducible, does it present novel findings (e.g. theoretically,
   algorithmically, etc.)?]
-+ Cons
++ Cons:
   [Is it weak in any aspect related to pros?]
-+ Notes and questions
++ Notes and questions:
   [What are the interesting tricks that the authors used? What are the follow-up
   questions / ideas based on this work?]
-+ Future work
++ Future work:
   [How can I use ideas from this work in my work?]
-+ Conclusion
++ Conclusion:
   [A summary which combines all of the above in few sentences]
