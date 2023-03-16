@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: transclusion
+# key: transclude_
+# --
+#+transclude: ${1:file}

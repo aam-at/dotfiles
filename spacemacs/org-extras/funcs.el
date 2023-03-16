@@ -212,6 +212,25 @@ Update the `org-id-locations' global hash-table, and update the
   (interactive)
   (org-sort-entries nil ?F #'org-extras/org-sort-by-impact-factor))
 
+(defun org-extras/org-convert-org-id-link-to-file-link ()
+  "Replace org-id link with corresponding file link. Useful with
+  org-roam and org-transclude."
+  (interactive)
+  (when (org-in-regexp "\\[\\[\\(.+\\):\\(.+\\)\\]\\[\\(.+\\)\\]\\]" 1)
+    (let ((link (org-link-unescape (match-string-no-properties 0)))
+          (type (match-string-no-properties 1))
+          (target (match-string-no-properties 2))
+          (text (match-string-no-properties 3)))
+      (when (string-equal type "id")
+        (goto-char (match-beginning 1))
+        (delete-region (match-beginning 1) (match-end 2))
+        (let* ((path (car (org-id-find target)))
+               ;; Remove any prefix from the path that appears before Dropbox,
+               ;; as the Dropbox folder is always located in user home dir.
+               copy-               (index (string-match-p "Dropbox" path))
+               (path (substring path index)))
+          (insert (s-lex-format "file:~/${path}")))))))
+
 (defun org-extras/org-remark-notes-file ()
   (interactive)
   (let* ((path (buffer-file-name))

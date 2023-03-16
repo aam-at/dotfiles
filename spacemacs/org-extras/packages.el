@@ -22,6 +22,7 @@
                                           :repo "alphapapa/org-protocol-capture-html"))
     magit-org-todos
     org
+    org-transclusion
     ob-async
     (org-gcal :location (recipe
                          :fetcher github
@@ -74,6 +75,10 @@
 (defun org-extras/post-init-org ()
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images
             'append))
+
+(defun org-extras/post-init-org-transclusion ()
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "uf" #'org-extras/org-convert-org-id-link-to-file-link))
 
 (defun org-extras/init-ob-async ()
   :defer t
