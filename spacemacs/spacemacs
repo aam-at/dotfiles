@@ -132,6 +132,7 @@ This function should only modify configuration layer settings."
                   org-enable-roam-protocol t
                   org-enable-roam-ui t
                   org-enable-sticky-header nil
+                  org-enable-remark-support t
                   org-enable-transclusion-support t
                   org-enable-trello-support nil
                   org-enable-valign t
@@ -735,6 +736,13 @@ before packages are loaded."
 
   ;; Chrome settings
   (add-hook 'edit-server-done-hook (lambda () (shell-command "wmctrl -a \"Google Chrome\"")))
+  ;; Patch org-remark to work according to the following rules:
+  ;; Rule 1: if the buffer is org file, keep notes in the same file. Otherwise,
+  ;; create new file in the same directory. Rule 2: store the highlights in the
+  ;; same file if the file is org buffer, otherwise put the highlights in the
+  ;; separate file.
+  (setq org-remark-notes-file-name #'org-extras/org-remark-notes-file)
+  (advice-add 'org-remark-highlight-save :override #'org-extras/org-remark-highlight-save)
 
   ;; Magit settings
   (setq magit-org-todos-filename org-projectile-file)
