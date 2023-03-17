@@ -950,6 +950,7 @@ before packages are loaded."
 
   ;; configure org-capture
   (add-hook 'org-capture-mode-hook #'org-align-tags)
+  (add-hook 'org-capture-after-finalize-hook (lambda () (if (org-roam-file-p) (org-roam-db-sync))))
   (setq org-capture-templates
         `(
           ("t" "Todo" entry (file ,aam/org-inbox)
