@@ -22,3 +22,28 @@
   (if (eq (get 'org-toggle-properties-hide-state 'state) 'hidden)
       (org-roam/org-show-properties)
     (org-roam/org-hide-properties)))
+
+(defun org-roam/org-orphan-nodes-by-id ()
+  "Return a list of all orphan nodes in `org-roam`."
+  (org-roam-db-query "SELECT
+id, title
+FROM nodes
+WHERE id NOT IN (
+                  SELECT DISTINCT n.id
+                  FROM nodes n
+                  LEFT OUTER JOIN links l ON n.id = l.source OR n.id = l.dest
+                  WHERE l.type LIKE '%%id%%'
+                  )"))
+
+(defun org-roam/org-insert-orphan-nodes ()
+  "Insert all orphan nodes in `org-roam' in the current buffer."
+  (interactive)
+  (let* ((orphans (org-roam/org-orphan-nodes-by-id)))
+    (dolist (orphan orphans)
+      (let ((id (car orphan))
+            (title (cadr orphan)))
+        (insert "* ")
+        (insert (org-link-make-string
+                 (concat "id:" id)
+                 title))
+        (insert "\n")))))

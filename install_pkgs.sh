@@ -31,7 +31,7 @@ sudo add-apt-repository ppa:linrunner/tlp -y
 sudo apt-fast install -y git neovim fish tlp
 
 sudo gem install tmuxinator
-sudo gem install anystyle-cli
+sudo gem install anystyle anystyle-cli
 
 # install nodejs
 curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
