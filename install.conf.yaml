@@ -15,9 +15,6 @@
     ~/.vale: config/vale/vale
     ~/.textlintrc: config/textlintrc
     ~/.sbclrc: config/sbclrc
-    ~/.config/systemd/user:
-        create: true
-        path: config/systemd
     ~/.config/redshift.conf: config/redshift.conf
     ~/.config/pudb/pudb.cfg:
         create: true
@@ -27,6 +24,12 @@
         path: config/ranger/rc.conf
     ~/.config/ranger/commands.py: config/ranger/commands.py
     ~/.config/ranger/plugins: config/ranger/plugins
+    ~/.config/systemd/user:
+        create: true
+        path: config/systemd
+    ~/.config/zathura:
+        create: true
+        path: config/zathura
     ~/.authinfo.gpg: ../Dropbox/Software/authinfo.gpg
     ~/.twittering-mode.gpg: ../Dropbox/Software/emacs/twittering-mode.gpg
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
