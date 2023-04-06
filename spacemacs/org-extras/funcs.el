@@ -198,36 +198,6 @@ Update the `org-id-locations' global hash-table, and update the
   (interactive)
   (org-id-update-id-locations (org-extras/org-id-list-files org-directory)))
 
-(defun org-extras/org-sort-entries-by-year ()
-  "Sort Org-mode entries by the YEAR property."
-  (interactive)
-  (org-sort-entries nil ?f
-                    (lambda ()
-                      (let ((year (org-entry-get (point) "YEAR")))
-                        (if year
-                            (string-to-number year)
-                          0)))))
-
-(defun org-extras/org-sort-entries-by-citations ()
-  "Sort Org-mode entries by the CITATION_COUNT property."
-  (interactive)
-  (org-sort-entries nil ?f
-                    (lambda ()
-                      (let ((year (org-entry-get (point) "CITATION_COUNT")))
-                        (if year
-                            (string-to-number year)
-                          0)))))
-
-(defun org-extras/org-sort-entries-by-impact ()
-  "Sort Org-mode entries by the IMPACT_FACTOR property."
-  (interactive)
-  (org-sort-entries nil ?f
-                    (lambda ()
-                      (let ((factor (org-entry-get (point) "IMPACT_FACTOR")))
-                        (if factor
-                            (string-to-number factor)
-                          0)))))
-
 (defun org-extras/org-convert-org-id-link-to-file-link ()
   "Replace org-id link with corresponding file link. Useful with
   org-roam and org-transclude."
@@ -325,3 +295,134 @@ Update the `org-id-locations' global hash-table, and update the
        ((buffer-modified-p)
         (save-buffer)))
       t)))
+
+(defvar scholarly-citations-output nil
+  "Holds the output from the `scholarly-citations-process-sentinel` function.")
+
+(defun scholarly-citations-process-sentinel (process event)
+  "Sentinel function to process the output from the Python script
+  when it finishes."
+  (when (string= event "finished\n")
+    (with-current-buffer (process-buffer process)
+      (setq scholarly-citations-output (string-to-number (buffer-string)))
+      (kill-buffer))))
+
+(defun scholarly-citations (title &optional callback)
+  "Find the number of citations for a paper given its TITLE using the `scholarly` Python library.
+  When the process finishes, call CALLBACK with the number of
+  citations as its argument."
+  (let ((output-buffer (generate-new-buffer "*scholarly-citations-output*")))
+    (setq scholarly-citations-output nil)
+    (set-process-sentinel
+     (start-process "scholarly-citations-process" output-buffer "scholarly_citations.py" (shell-quote-argument title))
+     #'scholarly-citations-process-sentinel)
+    (while (not scholarly-citations-output)
+      (accept-process-output nil 0.1))
+    (when callback
+      (funcall callback scholarly-citations-output))
+    scholarly-citations-output))
+
+(defun org-extras/remove-year-prefix (str)
+  "Remove the 'YEAR - ' prefix from STR using a regular expression."
+  (let ((year-prefix-regexp "^\\([0-9]\\{4\\}\\)\\s-*-\\s-*"))
+    (if (string-match year-prefix-regexp str)
+        (replace-match "" nil nil str)
+      str)))
+
+(defun org-extras/org-update-citations-for-heading ()
+  "Fetch the number of citations for the current Org-mode heading
+  and set the CITATION_COUNT property."
+  (interactive)
+  (unless (org-at-heading-p)
+    (error "Not at an Org-mode heading"))
+  (let* ((heading (substring-no-properties (org-get-heading t t)))
+         (heading-no-link (org-extras/remove-year-prefix
+                           (if (string-match org-link-bracket-re heading)
+                               (or (match-string-no-properties 2 heading)
+                                   (match-string-no-properties 1 heading))
+                             heading))))
+    (message "Fetching citations for heading: %s" heading-no-link)
+    (let ((citations (scholarly-citations heading-no-link)))
+      (message "Citations: %d" citations)
+      (org-entry-put (point) "CITATION_COUNT" (number-to-string citations))
+      (org-entry-put (point) "CITATION_LAST_UPDATED" (format-time-string "%Y-%m-%d")))))
+
+(defun org-extras/org-extract-property-from-org-link (property)
+  "Extract the specified PROPERTY from the first org-heading in the
+  org-link target file."
+  (save-excursion
+    (let (link-id target-heading-marker target-heading-property)
+      ;; Find the org-link
+      (when (re-search-forward org-link-bracket-re (line-end-position) t)
+        (setq link-id (org-element-property :path (org-element-context))))
+      ;; Use org-id-find to navigate to the target heading
+      (when link-id
+        (setq target-heading-marker (org-id-find link-id 'marker)))
+      ;; Extract the specified property from the first heading in the target file
+      (when target-heading-marker
+        (with-current-buffer (marker-buffer target-heading-marker)
+          (save-excursion
+            (goto-char (point-min))
+            (org-next-visible-heading 1)
+            (setq target-heading-property (org-entry-get nil property)))))
+      target-heading-property)))
+
+(defun org-extras/org-extract-year-from-org-link ()
+  (string-to-number (org-extras/org-extract-property-from-org-link "YEAR")))
+
+(defun org-extras/org-extract-citations-from-org-link ()
+  (string-to-number (org-extras/org-extract-property-from-org-link "CITATION_COUNT")))
+
+(defun org-extras/org-set-year-from-org-link ()
+  "Automatically extract the YEAR property from the linked org file
+  and set the YEAR property of the current heading."
+  (interactive)
+  (let ((year (string-trim
+               (org-extras/org-extract-property-from-org-link "YEAR"))))
+    (when year
+      (org-entry-put (point) "YEAR" year)
+      (message "YEAR property set to %s" year))))
+
+(defun org-extras/org-set-year-from-org-link ()
+  "Automatically extract the CITATION_COUNT and
+  CITATION_LAST_UPDATED property from the linked org file and set
+  these properties of the current heading."
+  (interactive)
+  (let ((citation-count (string-trim
+                         (org-extras/org-extract-property-from-org-link "CITATION_COUNT")))
+        (citation-date (string-trim
+                        (org-extras/org-extract-property-from-org-link "CITATION_LAST_UPDATED"))))
+    (when citation-count
+      (org-entry-put (point) "CITATION_COUNT" citation-count)
+      (org-entry-put (point) "CITATION_LAST_UPDATED" citation-date)
+      (message "Citations updated!"))))
+
+(defun org-extras/org-sort-entries-by-year ()
+  "Sort Org-mode entries by the YEAR property."
+  (interactive)
+  (org-sort-entries nil ?f
+                    (lambda ()
+                      (let ((year (org-entry-get (point) "YEAR")))
+                        (if year
+                            (string-to-number year)
+                          0)))))
+
+(defun org-extras/org-sort-entries-by-citations ()
+  "Sort Org-mode entries by the CITATION_COUNT property."
+  (interactive)
+  (org-sort-entries nil ?f
+                    (lambda ()
+                      (let ((citations (org-entry-get (point) "CITATION_COUNT")))
+                        (if citations
+                            (string-to-number citations)
+                          0)))))
+
+(defun org-extras/org-sort-entries-by-impact ()
+  "Sort Org-mode entries by the IMPACT_FACTOR property."
+  (interactive)
+  (org-sort-entries nil ?f
+                    (lambda ()
+                      (let ((factor (org-entry-get (point) "IMPACT_FACTOR")))
+                        (if factor
+                            (string-to-number factor)
+                          0)))))
