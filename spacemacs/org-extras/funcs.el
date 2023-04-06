@@ -198,19 +198,35 @@ Update the `org-id-locations' global hash-table, and update the
   (interactive)
   (org-id-update-id-locations (org-extras/org-id-list-files org-directory)))
 
-(defun org-extras/org-sort-by-year ()
-  (string-to-number (org-entry-get nil "YEAR")))
-
-(defun org-extras/org-sort-papers ()
+(defun org-extras/org-sort-entries-by-year ()
+  "Sort Org-mode entries by the YEAR property."
   (interactive)
-  (org-sort-entries nil ?F #'org-extras/org-sort-by-year))
+  (org-sort-entries nil ?f
+                    (lambda ()
+                      (let ((year (org-entry-get (point) "YEAR")))
+                        (if year
+                            (string-to-number year)
+                          0)))))
 
-(defun org-extras/org-sort-by-impact-factor ()
-  (string-to-number (org-entry-get nil "IMPACT_FACTOR")))
-
-(defun org-extras/org-sort-journals ()
+(defun org-extras/org-sort-entries-by-citations ()
+  "Sort Org-mode entries by the CITATION_COUNT property."
   (interactive)
-  (org-sort-entries nil ?F #'org-extras/org-sort-by-impact-factor))
+  (org-sort-entries nil ?f
+                    (lambda ()
+                      (let ((year (org-entry-get (point) "CITATION_COUNT")))
+                        (if year
+                            (string-to-number year)
+                          0)))))
+
+(defun org-extras/org-sort-entries-by-impact ()
+  "Sort Org-mode entries by the IMPACT_FACTOR property."
+  (interactive)
+  (org-sort-entries nil ?f
+                    (lambda ()
+                      (let ((factor (org-entry-get (point) "IMPACT_FACTOR")))
+                        (if factor
+                            (string-to-number factor)
+                          0)))))
 
 (defun org-extras/org-convert-org-id-link-to-file-link ()
   "Replace org-id link with corresponding file link. Useful with
