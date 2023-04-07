@@ -18,6 +18,15 @@ def get_citations(title):
         return 0
 
 
-title = sys.argv[1]
-citations = get_citations(title)
-print(citations)
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python scholarly_citations.py <title>")
+        sys.exit(1)
+
+    title = sys.argv[1]
+    citations = get_citations(title)
+    print(citations)
+
+
+if __name__ == "__main__":
+    main()
