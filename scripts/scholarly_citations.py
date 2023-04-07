@@ -1,15 +1,39 @@
 #!/usr/bin/env python
-import sys
+import argparse
+import getpass
+from enum import Enum
 
+import keyring
 from scholarly import ProxyGenerator, scholarly
 
 
-def get_citations(title):
-    # NOTE: enable this to use proxy
-    # pg = ProxyGenerator()
-    # success = pg.FreeProxies()
-    # success = pg.ScraperAPI("API_KEY")
-    # scholarly.use_proxy(pg)
+class ProxyType(Enum):
+    Noproxy = "Noproxy"
+    Freeproxy = "Freeproxy"
+    Scrapper = "Scrapper"
+
+
+def proxy_type(value):
+    try:
+        return ProxyType[value.strip().title()]
+    except KeyError:
+        raise argparse.ArgumentTypeError(
+            f"Invalid proxy type: '{value}'. Allowed values are {', '.join([e.name for e in ProxyType])}"
+        )
+
+
+def get_citations(title, proxy_type):
+    pg = ProxyGenerator()
+
+    if proxy_type == ProxyType.Freeproxy:
+        success = pg.FreeProxies()
+    elif proxy_type == ProxyType.Scrapper:
+        success = pg.ScraperAPI(
+            keyring.get_password("scrapperapi", getpass.getuser()))
+
+    if proxy_type != ProxyType.Noproxy:
+        scholarly.use_proxy(pg)
+
     search_query = scholarly.search_pubs(title)
     try:
         pub = next(search_query)
@@ -19,12 +43,22 @@ def get_citations(title):
 
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python scholarly_citations.py <title>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        description="Get the number of citations for a given publication title."
+    )
+    parser.add_argument("--proxy",
+                        type=proxy_type,
+                        choices=list(ProxyType),
+                        default=ProxyType.Noproxy,
+                        help="The proxy type to use (default: Noproxy)")
+    parser.add_argument("title", help="The title of the publication")
 
-    title = sys.argv[1]
-    citations = get_citations(title)
+    args = parser.parse_args()
+
+    title = args.title
+    proxy = args.proxy
+
+    citations = get_citations(title, proxy)
     print(citations)
 
 
