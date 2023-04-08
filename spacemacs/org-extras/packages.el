@@ -73,12 +73,20 @@
   (magit-org-todos-autoinsert))
 
 (defun org-extras/post-init-org ()
+  (spacemacs/declare-prefix-for-mode 'org-mode "S" "Scholar")
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "Sr" 'org-extras/remove-all-overlays
+    "Sy" 'org-extras/sort-entries-by-year
+    "SY" 'org-extras/filter-entries-by-year
+    "Sc" 'org-extras/sort-entries-by-citations
+    "SC" 'org-extras/filter-entries-by-citations
+    "Su" 'org-extras/citations-update-at-point)
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images
             'append))
 
 (defun org-extras/post-init-org-transclusion ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "uf" #'org-extras/org-convert-org-id-link-to-file-link))
+    "uf" #'org-extras/convert-org-id-link-to-file-link))
 
 (defun org-extras/init-ob-async ()
   :defer t
@@ -146,7 +154,7 @@
   ;; https://lists.gnu.org/archive/html/emacs-orgmode/2016-11/msg00176.html
   (add-to-list 'org-file-apps
                '("\\.pdf\\'" . (lambda (file link)
-                                 (org-extras/org-pdfview-open link)))))
+                                 (org-extras/pdfview-open link)))))
 
 (defun org-extras/init-org-pdftools ()
   (use-package org-pdftools
