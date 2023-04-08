@@ -44,6 +44,8 @@ sudo npm i -g bash-language-server
 sudo npm i -g vscode-json-languageserver prettier
 # vim lsp
 sudo npm i -g vim-language-server
+# json beautify
+sudo npm i -g js-beautify
 # text linting
 sudo npm i -g textlint
 sudo npm i -g write-good textlint-plugin-latex textlint-rule-write-good \
