@@ -22,6 +22,7 @@
                                           :repo "alphapapa/org-protocol-capture-html"))
     magit-org-todos
     org
+    org-modern
     org-transclusion
     ob-async
     (org-gcal :location (recipe
@@ -83,6 +84,23 @@
     "Su" 'org-extras/citations-update-at-point)
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images
             'append))
+
+(defun org-extras/init-org-modern ()
+  (use-package org-modern
+    :defer t
+    :after org
+    :init
+    (add-hook 'org-mode-hook #'org-modern-mode)
+    (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+    :config
+    (setq org-modern-table nil)
+    (setq org-modern-todo-faces
+          '(("TODO" . (:background "#ff6347" :foreground "#ffffff" :weight bold))
+            ("NEXT" . (:background "#4169e1" :foreground "#ffffff" :weight bold))
+            ("DONE" . (:background "#32cd32" :foreground "#000000" :weight bold))
+            ("FAILED" . (:background "#ff0000" :foreground "#ffffff" :weight bold :strike-through t))))
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "Tm" 'org-modern-mode)))
 
 (defun org-extras/post-init-org-transclusion ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
