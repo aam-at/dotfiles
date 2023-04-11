@@ -125,14 +125,15 @@ This function should only modify configuration layer settings."
                   org-enable-bootstrap-support t
                   org-enable-epub-support t
                   org-enable-github-support t
+                  org-enable-modern-support t
                   org-enable-notifications t
                   org-enable-org-contacts-support t
                   org-enable-org-journal-support t
+                  org-enable-remark-support t
                   org-enable-reveal-js-support t
                   org-enable-roam-protocol t
                   org-enable-roam-ui t
                   org-enable-sticky-header nil
-                  org-enable-remark-support t
                   org-enable-transclusion-support t
                   org-enable-trello-support nil
                   org-enable-valign t
@@ -797,6 +798,13 @@ before packages are loaded."
           ("NEXT" . (:foreground "#4169e1" :weight bold))
           ("DONE" . (:foreground "#32cd32" :weight bold))
           ("FAILED" . (:foreground "#ff0000" :weight bold :strike-through t))))
+  ;; org-modern
+  (setq org-modern-table nil)
+  (setq org-modern-todo-faces
+        '(("TODO" . (:background "#ff6347" :foreground "#ffffff" :weight bold))
+          ("NEXT" . (:background "#4169e1" :foreground "#ffffff" :weight bold))
+          ("DONE" . (:background "#32cd32" :foreground "#000000" :weight bold))
+          ("FAILED" . (:background "#ff0000" :foreground "#ffffff" :weight bold :strike-through t))))
   ;; agenda settings
   (setq org-agenda-files (list (aam/org-path "inbox.org")
                                (aam/org-path "someday.org")
