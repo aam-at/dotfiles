@@ -159,6 +159,11 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              chrome
              finance
+             (languagetool :variables
+                           languagetool-show-error-on-jump t
+                           langtool-default-language "en-US"
+                           langtool-http-server-host "localhost"
+                           langtool-http-server-port 8088)
              pandoc
              ranger
              rebox
@@ -1253,14 +1258,6 @@ SCHEDULED: %(cfw:org-capture-day)
   (add-hook 'doc-view-mode-hook 'my-doc-view-settings)
   (defadvice doc-view-display (after fit-width activate)
     (doc-view-fit-width-to-window))
-
-  ;; configure langtool
-  (when (spacemacs/system-is-linux)
-    (setq langtool-java-classpath
-          "/usr/share/languagetool/*:/usr/share/java/languagetool/*")
-    (setq langtool-default-language "en-US"))
-  ;; thesaurus api-key
-  (setq thesaurus-bhl-api-key "api-key")
 
   ;; email configuration
   (when (spacemacs/system-is-linux)

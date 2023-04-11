@@ -21,7 +21,6 @@
       writegood-mode
       flycheck-vale
       (write-or-die :location local)
-      langtool
       ;; synonyms and thesaurus
       (mw-thesaurus :location (recipe)
                     :fetcher github
@@ -127,16 +126,6 @@
       :off (write-or-die-stop)
       :documentation "Activate `Write or Die!'"
       :evil-leader "C-t d")))
-
-(defun writing/init-langtool ()
-  :defer t
-  :init
-  (spacemacs/set-leader-keys
-    "x4w" #'langtool-check
-    "x4W" #'langtool-check-done
-    "x4l" #'langtool-switch-default-language
-    "x44" #'langtool-show-message-at-point
-    "x4c" #'langtool-correct-buffer))
 
 (defun writing/init-mw-thesaurus()
   :defer t
