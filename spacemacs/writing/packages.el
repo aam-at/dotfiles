@@ -22,6 +22,8 @@
       flycheck-vale
       (write-or-die :location local)
       ;; synonyms and thesaurus
+      powerthesaurus
+      le-thesaurus
       (mw-thesaurus :location (recipe)
                     :fetcher github
                     :repo "agzam/mw-thesaurus.el")
@@ -126,6 +128,22 @@
       :off (write-or-die-stop)
       :documentation "Activate `Write or Die!'"
       :evil-leader "C-t d")))
+
+(defun writing/init-powerthesaurus()
+  :defer t
+  :init
+  (spacemacs/declare-prefix "St" "Thesaurus")
+  (spacemacs/set-leader-keys "Sts" 'powerthesaurus-lookup-synonyms-dwim
+                             "Sta" 'powerthesaurus-lookup-antonyms-dwim
+                             "Str" 'powerthesaurus-lookup-related-dwim
+                             "Std" 'powerthesaurus-lookup-definitions-dwim
+                             "Ste" 'powerthesaurus-lookup-sentences-dwim))
+
+(defun writing/init-le-thesaurus()
+  :defer t
+  :init
+  (spacemacs/set-leader-keys "Stl" 'le-thesaurus-get-synonyms
+                             "StL" 'le-thesaurus-get-antonyms))
 
 (defun writing/init-mw-thesaurus()
   :defer t
