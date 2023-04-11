@@ -27,7 +27,6 @@
                     :fetcher github
                     :repo "agzam/mw-thesaurus.el")
       synosaurus
-      synonymous
       (words :location local)
       academic-phrases))
 
@@ -142,29 +141,19 @@
 (defun writing/init-mw-thesaurus()
   :defer t
   :init
-  (spacemacs/set-leader-keys
-    "St" 'mw-thesaurus-lookup-dwim))
+  (add-hook 'variable-pitch-mode 'mw-thesaurus-mode)
+  (spacemacs/set-leader-keys "Stm" 'mw-thesaurus-lookup-dwim))
 
 (defun writing/init-synosaurus()
   (use-package synosaurus
     :defer t
     :diminish synosaurus-mode
     :init
-    (progn
-      (add-hook 'markdown-mode-hook 'synosaurus-mode)
-      (add-hook 'text-mode-hook 'synosaurus-mode)
-      (spacemacs/set-leader-keys
-        "Sl" 'synosaurus-lookup
-        "Sr" 'synosaurus-choose-and-replace))
+    (add-hook 'text-mode-hook 'synosaurus-mode)
+    (add-hook 'markdown-mode-hook 'synosaurus-mode)
+    (spacemacs/set-leader-keys "Stw" 'synosaurus-lookup)
     :config
     (setq synosaurus-choose-method 'default)))
-
-(defun writing/init-synonymous()
-  :defer t
-  :init
-  (spacemacs/set-leader-keys
-    "Ss" 'synonymous-synonyms
-    "Sa" 'synonymous-antonyms))
 
 (defun writing/init-words()
   (use-package words
