@@ -805,6 +805,10 @@ before packages are loaded."
           ("FAILED" . (:foreground "#ff0000" :weight bold :strike-through t))))
   ;; org-modern
   (setq org-modern-table nil)
+  (setq org-modern-priority
+        (quote ((?A . "💥")
+                (?B . "🌟")
+                (?C . "💤"))))
   (setq org-modern-todo-faces
         '(("TODO" . (:background "#ff6347" :foreground "#ffffff" :weight bold))
           ("NEXT" . (:background "#4169e1" :foreground "#ffffff" :weight bold))
