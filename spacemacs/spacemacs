@@ -670,6 +670,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (if (functionp 'json-serialize)
       (message "Native JSON is available")
     (warn "Native JSON is *not* available"))
+  ;; open true file when opening any new file
+  (setq find-file-visit-truename t)
   ;; configure org before anything
   (setq org-root (expand-file-name "~/Dropbox/Org/"))
   (setq org-roam-directory org-root)

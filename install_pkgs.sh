@@ -48,6 +48,7 @@ sudo npm i -g vim-language-server
 sudo npm i -g js-beautify
 # typescript
 sudo npm i -g typescript tslint
+sudo npm i -g typescript-language-server
 sudo npm i -g typescript-formatter
 # text linting
 sudo npm i -g textlint
