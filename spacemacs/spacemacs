@@ -83,6 +83,10 @@ This function should only modify configuration layer settings."
                      python-formatter 'yapf
                      python-format-on-save t
                      python-sort-imports-on-save t)
+             (typescript :variables
+                         typescript-fmt-on-save t
+                         typescript-fmt-tool 'typescript-formatter
+                         typescript-linter 'tslint)
              ;; Scripting & other languages
              autohotkey
              (cmake :variables
@@ -782,8 +786,8 @@ before packages are loaded."
   (setq org-default-notes-file (aam/org-path "refile.org"))
   (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
   ;; latex preview for org-mode
-  (setq org-preview-latex-image-directory "/tmp/ltximg"
-        org-latex-preview-ltxpng-directory "/tmp/ltxpng")
+  (setq org-latex-create-formula-image-program 'dvipng
+        org-preview-latex-image-directory "ltximg/")
 
   ;; org safe-variables
   (put 'org-download-image-dir 'safe-local-variable (lambda (_) t))
