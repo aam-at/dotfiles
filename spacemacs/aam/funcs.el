@@ -19,3 +19,12 @@
     (when (> (length pdf-files) 1)
       (warn (format "Multiple files detected for key %s" key)))
     (car pdf-files)))
+
+(defun aam-reopen-file-as-real ()
+  "Reopen the current file if it is a symbolic link."
+  (interactive)
+  (let ((file-name (buffer-file-name))
+        (real-file-name (file-truename (buffer-file-name))))
+    (when (and file-name (not (string= file-name real-file-name)))
+      (find-alternate-file real-file-name)
+      (message "Reopened '%s' as '%s'." file-name real-file-name))))
