@@ -8,19 +8,20 @@ sudo apt-get install apt-fast
 
 # install other packages
 sudo apt-fast install -y \
-    anki autojump automake bibtool build-essential checkinstall chrome-gnome-shell \
-    clang cmake cscope curl curl ditaa fasd fbreader fd-find fish fzy gcc-10 git \
-    git-lfs glances global gnome-tweaks gnupg2 graphviz guake guile-3.0-dev html2text \
-    htop iotop iputils-arping isync jq keychain libbz2-dev libevent-dev libffi-dev \
-    libgccjit-10-dev libgccjit0 libgif-dev libgmime-3.0-dev libgnutls28-dev \
-    libjansson-dev libjansson4 libjpeg-dev liblzma-dev libmagick++-dev \
-    libmagickcore-dev libncurses5-dev libncursesw5 libncursesw5-dev libpng-dev \
-    libpoppler-glib-dev libpoppler-private-dev libreadline-dev libsqlite3-dev \
-    libssl-dev libsystemd-dev libtiff-dev libwebkit2gtk-4.0-dev libxapian-dev \
-    libxpm-dev llvm make mc mosh ncdu net-tools nnn notmuch openssh-server \
-    p7zip-full p7zip-rar pandoc pass peco plantuml postfix pydf python3-openssl \
-    ranger ripgrep rtv rtv ruby screen shellcheck sqlite3 stow texinfo tig tk-dev \
-    tmux trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils \
+    anki autojump automake bibtool build-essential checkinstall \
+    chrome-gnome-shell clang cmake cscope curl curl ditaa fasd fbreader fd-find \
+    fish fzy gcc-10 git git-lfs glances global gnome-tweaks gnupg2 graphviz \
+    guake guile-3.0-dev html2text meson htop iotop iputils-arping isync jq \
+    keychain libbz2-dev libevent-dev libffi-dev libgccjit-10-dev libgccjit0 \
+    libgif-dev libgmime-3.0-dev libgnutls28-dev libjansson-dev libjansson4 \
+    libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev libncurses5-dev \
+    libncursesw5 libncursesw5-dev libpng-dev libpoppler-glib-dev \
+    libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev \
+    libsystemd-dev libtiff-dev libwebkit2gtk-4.0-dev libxapian-dev libxpm-dev \
+    llvm make mc mosh ncdu net-tools nnn notmuch openssh-server p7zip-full \
+    p7zip-rar pandoc pass peco plantuml postfix pydf python3-openssl ranger \
+    ripgrep rtv rtv ruby screen shellcheck sqlite3 stow texinfo tig tk-dev tmux \
+    trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils \
     zathura zathura-djvu zathura-pdf-poppler zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
@@ -98,15 +99,15 @@ if [ ! -d $TOOLS_DIR/nerd-fonts ]; then
     ./install.sh
 fi
 
-if [ ! -d $HOME/.pyenv/versions/3.8.1 ]; then
-    CONFIGURE_OPTS=--enable-shared pyenv install 3.8.13
+if [ ! -d $HOME/.pyenv/versions/3.10.11 ]; then
+    CONFIGURE_OPTS=--enable-shared pyenv install 3.10.11
 
-    pyenv virtualenv 3.8.13 neovim3
+    pyenv virtualenv 3.10.11 neovim3
     pyenv activate neovim3
     pip3 install pynvim
 
     # configure emacs
-    pyenv virtualenv 3.8.1 tensor3
+    pyenv virtualenv 3.10.11 tensor3
     pyenv activate tensor3
     pip3 install -U "jedi>=0.13.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"
     pip3 install -U python-language-server[all] pyls-isort pyls-mypy pyls-black pyls-memestra
