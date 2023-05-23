@@ -166,7 +166,6 @@ fi
 # install omf
 if [ ! -d $HOME/.config/omf ]; then
     curl -L https://get.oh-my.fish | fish
-    omf install enhancd
 fi
 
 # snap packages

@@ -73,9 +73,10 @@ if test -d $OMF_PATH # Customize Oh My Fish configuration path.
     set -gx OMF_CONFIG $HOME/.config/omf
 
     # Oh My Fish plugins
-    set fish_plugins python pyenv gi git-flow emacs weather fasd
+    set fish_plugins emacs enhancd fasd gi git-flow pyenv python weather
     # Oh My Fish themes
-    set fish_themes agnoster batman krisleech zish toaster ocean syl20bnr
+    set fish_themes agnoster batman krisleech ocean syl20bnr toaster zish
+    set -gx ENHANCD_ROOT "$OMF_PATH/pkg/enhancd/functions/enhancd"
     # select theme
     set fish_theme batman
 end
