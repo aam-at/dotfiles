@@ -20,9 +20,9 @@ sudo apt-fast install -y \
     libsystemd-dev libtiff-dev libwebkit2gtk-4.0-dev libxapian-dev libxpm-dev \
     llvm make mc meson mosh ncdu net-tools nnn notmuch openssh-server p7zip-full \
     p7zip-rar pandoc pass peco plantuml postfix pydf python3-openssl python3-pip \
-    ranger ripgrep rtv rtv ruby screen shellcheck sqlite3 stow texinfo tig \
-    tk-dev tmux trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils \
-    xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev
+    python3-pip ranger ripgrep rtv rtv ruby screen shellcheck sqlite3 stow \
+    texinfo tig tk-dev tmux trash-cli ubuntu-restricted-extras unrar wget wmctrl \
+    xdg-utils xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
@@ -80,10 +80,10 @@ fi
 if [ ! -d $HOME/.pyenv ]; then
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
     # install pyenv plugins
-    git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
-    git clone https://github.com/pyenv/pyenv-pip-migrate.git $(pyenv root)/plugins/pyenv-pip-migrate
-    git clone https://github.com/pyenv/pyenv-doctor.git $(pyenv root)/plugins/pyenv-doctor
-    git clone https://github.com/pyenv/pyenv-update.git $(pyenv root)/plugins/pyenv-update
+    git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
+    git clone https://github.com/pyenv/pyenv-pip-migrate.git ~/.pyenv/plugins/pyenv-pip-migrate
+    git clone https://github.com/pyenv/pyenv-doctor.git ~/.pyenv/plugins/pyenv-doctor
+    git clone https://github.com/pyenv/pyenv-update.git ~/.pyenv/plugins/pyenv-update
 fi
 
 # install delta
@@ -118,6 +118,12 @@ if [ ! -d $HOME/.pyenv/versions/3.10.11 ]; then
     pip3 install -U importmagic epc
     pip3 install -U proselint
     pip3 install -U cmake-language-server
+    # install pipx
+    pyenv deactivate
+    python3 -m pip install --user pipx
+    python3 -m pipx ensurepath
+    pipx install nvitop
+    pipx install gpustat
 fi
 
 # install spacevim
