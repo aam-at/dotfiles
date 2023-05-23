@@ -17,14 +17,11 @@ type keychain >&/dev/null \
 if [ -d $HOME/.pyenv ]; then
     # init pyenv
     export PYENV_ROOT=$HOME/.pyenv
-    export PATH=$HOME/.pyenv/bin:$PATH
+    command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
 fi
 
 # include .bashrc if it exists
 if [ -f "$HOME/.bashrc" ]; then
     source "$HOME/.bashrc"
-fi
-
-if [ -d $HOME/.pyenv ]; then
-    eval "$(pyenv init --path)"
 fi
