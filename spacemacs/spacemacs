@@ -56,11 +56,11 @@ This function should only modify configuration layer settings."
                     shell-default-position 'bottom)
              smex
              syntax-checking
-             (tabs :variables
-                   tabs-auto-hide nil)
+             (tabs :variables tabs-auto-hide nil)
              (treemacs :variables treemacs-use-filewatch-mode t)
              unicode-fonts
-             version-control
+             (version-control :variables
+                              version-control-diff-tool 'diff-hl)
              ;; More VIM sugar in emacs
              evil-better-jumper
              evil-commentary
