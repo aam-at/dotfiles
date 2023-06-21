@@ -36,12 +36,15 @@ set ignorecase                                      "ignore case for searching
 set smartcase                                       "do case-sensitive if there's a capital letter
 
 " emulate vim plugins
+set sneak
 set easymotion
 set surround
 set commentary
 set argtextobj
 set textobj-entire
 set highlightedyank
+set quickscope
+set NERDTree
 
 " Learn vim hard way
 noremap <Up> <NOP>
