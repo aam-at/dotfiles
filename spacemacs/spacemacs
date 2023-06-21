@@ -74,6 +74,10 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              ;; Programming and programming languages
              ;; ----------------------------------------------------------------
+             (tree-sitter :variables
+                          tree-sitter-syntax-highlight-enable t
+                          tree-sitter-fold-enable t
+                          tree-sitter-fold-indicators-enable t)
              c-c++
              emacs-lisp
              lsp
