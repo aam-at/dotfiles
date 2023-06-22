@@ -14,11 +14,11 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst aam-packages
       '(
-        ;; (copilot :requires company
-        ;;          :location (recipe
-        ;;                     :fetcher github
-        ;;                     :repo "zerolfx/copilot.el"
-        ;;                     :files ("*.el" "dist")))
+        (copilot :requires company
+                 :location (recipe
+                            :fetcher github
+                            :repo "zerolfx/copilot.el"
+                            :files ("*.el" "dist")))
         (unicode-math-input :location (recipe
                                        :fetcher github
                                        :repo "astoff/unicode-math-input.el"))
@@ -34,7 +34,7 @@
   (use-package copilot
     :defer t
     :init
-    (defun my-tab ()
+    (defun aam/my-tab ()
       (interactive)
       (or (copilot-accept-completion)
           (company-indent-or-complete-common nil)))
@@ -42,10 +42,10 @@
                                         ; disable inline previews
       (delq 'company-preview-if-just-one-frontend company-frontends)
                                         ; enable tab completion
-      (define-key company-mode-map (kbd "<tab>") 'my-tab)
-      (define-key company-mode-map (kbd "TAB") 'my-tab)
-      (define-key company-active-map (kbd "<tab>") 'my-tab)
-      (define-key company-active-map (kbd "TAB") 'my-tab))
+      (define-key company-mode-map (kbd "<tab>") 'aam/my-tab)
+      (define-key company-mode-map (kbd "TAB") 'aam/my-tab)
+      (define-key company-active-map (kbd "<tab>") 'aam/my-tab)
+      (define-key company-active-map (kbd "TAB") 'aam/my-tab))
     (add-hook 'prog-mode-hook 'copilot-mode)
     (define-key evil-insert-state-map (kbd "C-<tab>") 'copilot-accept-completion-by-word)
     (define-key evil-insert-state-map (kbd "C-TAB") 'copilot-accept-completion-by-word)))
