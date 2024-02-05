@@ -123,6 +123,7 @@ name = 'lang#extra'
 [[custom_plugins]]
 name = 'tmhedberg/SimpylFold'
 on_ft = 'python'
+enabled_linters = ['python', 'pylint']
 hook_add = """
 let g:SimpylFold_docstring_preview = 1
 """

@@ -1,9 +1,11 @@
+(require 'cl-lib)
+
 (defun org-extras/days-before-today (n)
   (let ((time-in-question (decode-time)))
     ;; time-in-question is the current time, decoded into convenient fields
 
     ;; decrease the field by one which represents the day -- make it "yesterday"
-    (decf (nth 3 time-in-question) n)
+    (cl-decf (nth 3 time-in-question) n)
 
     ;; now, re-encode that time
     (setq time-in-question (apply 'encode-time time-in-question))))

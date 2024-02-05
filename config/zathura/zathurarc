@@ -1,1 +1,13 @@
+# clipboard
 set selection-clipboard clipboard
+# apperance
+set window-height 2000
+set window-width 2000
+set default-bg "#282c34"
+set default-fg "#abb2bf"
+# gui
+set smooth-scroll true
+# search
+set highlight-search true
+# bookmarks
+set bookmarkfile "~/.config/zathura/bookmarks"
