@@ -12,3 +12,6 @@
     ("serpapi_scrapper" . "serpapi_citations.py"))
   "Association list of methods to automatically fetch citations and
   corresponding python scripts.")
+
+(defvar org-enable-calfw nil
+  "If non-nil, calfw and org-calfw (https://github.com/kiwanami/emacs-calfw/) are configured")

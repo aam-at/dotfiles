@@ -27,7 +27,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-ask-for-lazy-installation t
 
    ;; List of additional paths where to look for configuration layers.
-   ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
+   ;; Paths must have a trailing slash (i.e. "~/.mycontribs/")
    dotspacemacs-configuration-layer-path '("~/dotfiles/spacemacs/")
 
    ;; List of configuration layers to load.
@@ -75,9 +75,10 @@ This function should only modify configuration layer settings."
              ;; Programming and programming languages
              ;; ----------------------------------------------------------------
              (tree-sitter :variables
+                          spacemacs-tree-sitter-hl-black-list '(org-mode latex-mode)
                           tree-sitter-syntax-highlight-enable t
                           tree-sitter-fold-enable t
-                          tree-sitter-fold-indicators-enable t)
+                          tree-sitter-fold-indicators-enable nil)
              c-c++
              emacs-lisp
              lsp
@@ -218,6 +219,7 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(magit-annex
+                                      gcmh
                                       exec-path-from-shell
                                       keychain-environment)
 
@@ -234,7 +236,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -724,11 +726,13 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq org-root (expand-file-name "~/Dropbox/Org/"))
   (setq org-roam-directory org-root)
   (setq org-roam-v2-ack t)
+  ;; Garbage Collector Magic Hack
+  (gcmh-mode 1)
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
    (if (> (x-display-pixel-width) 3000)
        (setq dotspacemacs-default-font '("Source Code Pro"
-                                         :size 20
+                                         :size 22
                                          :weight normal
                                          :width normal))
      (setq dotspacemacs-default-font '("Source Code Pro"

@@ -14,8 +14,12 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst org-extras-packages
   '(
-    (calfw :toggle (spacemacs/system-is-linux))
-    (calfw-org :toggle (spacemacs/system-is-linux))
+    (calfw :toggle (and
+                    (spacemacs/system-is-linux)
+                    org-enable-calfw))
+    (calfw-org :toggle (and
+                        (spacemacs/system-is-linux)
+                        org-enable-calfw))
     org-super-agenda
     (org-protocol-capture-html :location (recipe
                                           :fetcher github
