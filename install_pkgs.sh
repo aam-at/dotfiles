@@ -12,12 +12,12 @@ sudo apt-fast install -y \
     chrome-gnome-shell clang cmake cscope curl curl ditaa fasd fbreader fd-find \
     fish fzy gcc-10 gettext git git-lfs glances global gnome-tweaks gnupg2 \
     graphviz guile-3.0-dev html2text htop iotop iputils-arping isync jq \
-    keychain libbz2-dev libevent-dev libffi-dev libgccjit-10-dev libgccjit0 \
+    keychain libbz2-dev libevent-dev libffi-dev libgccjit-14-dev libgccjit0 \
     libgif-dev libgmime-3.0-dev libgnutls28-dev libjansson-dev libjansson4 \
-    libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev libncurses5-dev \
-    libncursesw5 libncursesw5-dev libpng-dev libpoppler-glib-dev \
+    libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev libncurses6 \
+    libncursesw6 libncurses-dev libpng-dev libpoppler-glib-dev \
     libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev \
-    libsystemd-dev libtiff-dev libwebkit2gtk-4.0-dev libxapian-dev libxpm-dev \
+    libsystemd-dev libtiff-dev libwebkit2gtk-4.1-dev libxapian-dev libxpm-dev \
     llvm make mc meson mosh ncdu net-tools nnn notmuch openssh-server p7zip-full \
     p7zip-rar pandoc pass peco plantuml postfix pydf python3-openssl python3-pip \
     python3-pip ranger ripgrep rtv rtv ruby screen shellcheck sqlite3 stow \
