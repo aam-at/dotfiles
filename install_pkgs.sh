@@ -36,7 +36,7 @@ sudo gem install tmuxinator
 sudo gem install anystyle anystyle-cli
 
 # install nodejs
-curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt-get install -y nodejs
 # force npm upgrade
 sudo npm i -g npm
