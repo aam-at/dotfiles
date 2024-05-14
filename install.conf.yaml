@@ -52,10 +52,16 @@
         path: nvim/myconfig.vim
     ~/.ideavimrc: idea/ideavimrc
     ~/.atom: atom
-    ~/.spacemacs: spacemacs/spacemacs
+    ~/.spacemacs.d/init.el:
+        create: true
+        path: spacemacs/spacemacs_full
+    ~/.spacemacs.d/config: spacemacs/config
+    ~/.spacemacs_writing.d/init.el:
+        create: true
+        path: spacemacs/spacemacs_writing
+    ~/.spacemacs_writing.d/config: spacemacs/config
     ~/.emacs.d/.cache/bookmarks: ../Dropbox/Software/emacs/bookmarks
     ~/.emacs.d/.cache/.org-id-locations: ../Dropbox/Software/emacs/org-id-locations
-    ~/.emacs.d/core/secure-config.el.gpg: spacemacs/secure-config.el.gpg
     ~/.elfeed: ../Dropbox/Software/elfeed
     ~/.password-store: ../Dropbox/Software/pass
     ~/.profile: bash/profile
