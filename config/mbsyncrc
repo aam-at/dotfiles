@@ -55,6 +55,34 @@ Sync All
 Expunge Both
 SyncState *
 
+# sit-work account
+IMAPAccount sit
+# use localhost davmail
+Host localhost
+Port 1143
+User a103596@singaporetech.edu.sg
+PassCmd "echo ${PASSWORD:-$(copy_password.sh a103596@singaporetech.edu.sg)}"
+Timeout 1000
+SSLType None
+AuthMechs Login
+
+IMAPStore sit-remote
+Account sit
+
+MaildirStore sit-local
+Path ~/.mail/sit/
+Inbox ~/.mail/sit/INBOX
+SubFolders Verbatim
+
+Channel sit
+Master :sit-remote:
+Slave :sit-local:
+Patterns *
+Create Slave
+Sync All
+Expunge Both
+SyncState *
+
 # ntu-work account
 IMAPAccount ntu
 # use localhost davmail

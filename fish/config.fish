@@ -130,3 +130,8 @@ function emacs
     set -lx TERM xterm-24bit
     eval (which emacs) $argv
 end
+
+bind --erase --all \cf
+bind -M insert \cf forward-char
+bind --erase --all \ef
+bind -M insert \ef forward-word
