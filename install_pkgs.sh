@@ -100,10 +100,10 @@ if [ ! -d $TOOLS_DIR/nerd-fonts ]; then
     ./install.sh
 fi
 
-if [ ! -d $HOME/.pyenv/versions/3.10.11 ]; then
-    CONFIGURE_OPTS=--enable-shared pyenv install 3.10.11
+if [ ! -d $HOME/.pyenv/versions/3.11.9 ]; then
+    CONFIGURE_OPTS=--enable-shared pyenv install 3.11.9
 
-    pyenv virtualenv 3.10.11 neovim3
+    pyenv virtualenv 3.11.9 neovim3
     pyenv activate neovim3
     pip3 install pynvim
 
