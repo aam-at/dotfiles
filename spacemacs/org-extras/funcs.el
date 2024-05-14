@@ -92,9 +92,7 @@
                               (not archived)) title))))))
              value)
       (setq value (cons
-                    (car
-                     (org-id-find
-                      (replace-regexp-in-string "\\[\\[.*:\\(.*\\\)\]\\[\\(.*\\)\\]\\]" "\\1" element)))
+                   (car (org-id-find (org-extras/id--extract-uuid element)))
                    value)))))
 
 ;; https://github.com/munen/emacs.d#convenience-functions-when-working-with-pdf-exports
@@ -129,6 +127,13 @@
     (org-back-to-heading t)
     (when (org-entry-delete (point) "ID")
       (org-id-update-id-locations nil 'silent))))
+
+(defun org-extras/id--extract-uuid (input-string)
+  "Extract UUID from INPUT-STRING."
+  (let ((uuid-regexp "\\[\\[id:\\([0-9a-fA-F-]+\\)\\]\\[.*?\\]\\]"))
+    (if (string-match uuid-regexp input-string)
+        (match-string 1 input-string)
+      nil)))
 
 (defun org-extras/id--in-file (file)
   "Check if the file contains :ID: property"
