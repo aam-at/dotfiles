@@ -39,9 +39,9 @@
       (or (copilot-accept-completion)
           (company-indent-or-complete-common nil)))
     (with-eval-after-load 'company
-                                        ; disable inline previews
+      ; disable inline previews
       (delq 'company-preview-if-just-one-frontend company-frontends)
-                                        ; enable tab completion
+      ; enable tab completion
       (define-key company-mode-map (kbd "<tab>") 'aam/my-tab)
       (define-key company-mode-map (kbd "TAB") 'aam/my-tab)
       (define-key company-active-map (kbd "<tab>") 'aam/my-tab)
