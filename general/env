@@ -38,10 +38,15 @@ export CPATH="$LOCAL_PATH/include:$CPATH"
 export LD_LIBRARY_PATH="$LOCAL_PATH/lib:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$LIBRARY_PATH/lib:$LIBRARY_PATH"
 
+# Configure go programs
 export GOPATH="$HOME/local/go_packages"
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+
+# Configure rust/cargo programs
+export CARGOPATH="$HOME/.cargo"
+export PATH="$CARGOPATH/bin:$PATH"
 
 # texlive
 export TEXLIVE_ROOT="/usr/local/texlive/2024"
