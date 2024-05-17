@@ -62,7 +62,6 @@
 
   ;; calendar settings
   (evil-set-initial-state 'calendar-mode 'emacs)
-  (setq calendar-date-style "european")
-  )
+  (setq calendar-date-style "european"))
 
 (provide 'config-common)
