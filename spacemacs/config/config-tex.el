@@ -8,7 +8,25 @@
 
   ;; Auctex settings
   (setq-default TeX-master nil) ; Query for master file.
-  (setq TeX-auto-untabify t)
+  (setq TeX-parse-self t ; parse on load
+        TeX-auto-save t  ; parse on save
+        TeX-auto-untabify t ; untabify when saving
+        ;; Use hidden directories for AUCTeX files.
+        TeX-auto-local ".auctex-auto"
+        TeX-style-local ".auctex-style"
+        TeX-source-correlate-mode t
+        TeX-source-correlate-method 'synctex
+        ;; Don't start the Emacs server when correlating sources.
+        TeX-source-correlate-start-server nil
+        ;; Automatically insert braces after sub/superscript in `LaTeX-math-mode'.
+        TeX-electric-sub-and-superscript t
+        ;; Just save, don't ask before each compilation.
+        TeX-save-query nil)
+  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+  ;; pdf-tools settings
+  (with-eval-after-load 'pdf-tools
+    (add-hook 'pdf-view-mode-hook #'pdf-sync-minor-mode))
+
   ;; zathura for emacs
   (setq zathura-procs ())
   (defun zathura-forward-search ()
@@ -48,9 +66,6 @@
           ("PDF Tools" TeX-pdf-tools-sync-view)))
   (setq TeX-view-program-selection '((output-pdf "PDF Tools")
                                      (output-dvi "xdvi")))
-  (setq TeX-source-correlate-method 'synctex
-        TeX-source-correlate-mode t
-        TeX-source-correlate-start-server t)
   (with-eval-after-load 'tex
     (add-to-list 'TeX-command-list '("View Evince" "evince %o" TeX-run-command nil t
                                      :help "Open document using evince"))
