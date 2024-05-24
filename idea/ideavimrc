@@ -45,6 +45,7 @@ set textobj-entire
 set highlightedyank
 set quickscope
 set NERDTree
+set ideajoin
 
 " Learn vim hard way
 noremap <Up> <NOP>
