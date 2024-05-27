@@ -727,11 +727,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; open true file when opening any new file
   (setq find-file-visit-truename t)
   ;; configure org before anything
-  (setq org-root (expand-file-name "~/Dropbox/Org/"))
+  (setq org-root (file-truename (expand-file-name "~/Dropbox/Org/")))
   (setq org-roam-directory org-root)
   (setq org-roam-v2-ack t)
   ;; Garbage Collector Magic Hack
-  (gcmh-mode 1)
+  (with-eval-after-load 'gcmh
+    (gcmh-mode 1))
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
    (if (> (x-display-pixel-width) 3000)
