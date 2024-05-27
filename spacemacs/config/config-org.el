@@ -193,6 +193,9 @@
       (format "[[id:%s][%s]]"
               (org-roam-node-id node)
               (org-roam-node-title node))))
+  ;; configure org-roam
+  (setq org-roam-database-connector 'sqlite-builtin)
+  (org-roam-db-autosync-mode)
 
   ;; configure org-capture
   (add-hook 'org-capture-mode-hook #'org-align-tags)
