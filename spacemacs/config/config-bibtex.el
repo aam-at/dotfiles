@@ -9,7 +9,9 @@
         bibtex-autokey-titleword-length nil
         bibtex-autokey-titlewords 1
         bibtex-autokey-titleword-separator ""
-        bibtex-autokey-titlewords-stretch 1)
+        bibtex-autokey-titlewords-stretch 1
+        bibtex-dialect 'biblatex
+        bibtex-align-at-equal-sign t)
 
   (setq aam/bib-dir "~/Dropbox/Research/Bibliography/")
   (defun aam/bib-path (path) (concat aam/bib-dir path))
@@ -37,14 +39,35 @@
   (setq bibtex-completion-format-citation-functions
         '((org-mode      . bibtex-completion-format-citation-org-link-to-PDF)
           (latex-mode    . bibtex-completion-format-citation-cite)
+          (LaTeX-mode    . bibtex-completion-format-citation-cite)
           (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
           (default       . bibtex-completion-format-citation-default)))
   (setq bibtex-completion-pdf-open-function 'find-file)
+
+  ;; generate autokey
+  (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "g" 'aam/bibtex-generate-autokey)
+
+  ;; orb-autokey
+  (with-eval-after-load 'org-roam-bibtex
+    (setq orb-autokey-format "%a%y%t"))
 
   ;; ebib settings
   (setq ebib-preload-bib-files aam/bibtex-files)
   (evil-set-initial-state 'ebib-index-mode 'emacs)
   (evil-set-initial-state 'ebib-entry-mode 'emacs)
   (evil-set-initial-state 'ebib-log-mode 'emacs))
+
+(defun aam/bibtex-generate-autokey ()
+  "Generate a BibTeX key for the current BibTeX entry."
+  (interactive)
+  (save-excursion
+    (bibtex-beginning-of-entry)
+    (let* ((entry-start (point))
+           (bibtex-key (bibtex-generate-autokey)))
+      (goto-char entry-start)
+      (search-forward "{")
+      (delete-region (point) (line-end-position))
+      (insert (concat bibtex-key ","))
+      (message "Generated BibTeX key: %s" bibtex-key))))
 
 (provide 'config-bibtex)
