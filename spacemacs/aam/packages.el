@@ -14,6 +14,7 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst aam-packages
       '(
+        biblio
         (copilot :requires company
                  :location (recipe
                             :fetcher github
@@ -29,6 +30,10 @@
         helm-system-packages
         key-chord
         key-seq))
+
+(defun aam/post-init-biblio ()
+  (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "lb" 'biblio-lookup)
+  (evil-set-initial-state 'biblio-selection-mode 'emacs))
 
 (defun aam/init-copilot ()
   (use-package copilot
@@ -105,8 +110,7 @@
 (defun aam/init-gscholar-bibtex()
   :defer t
   :init
-  (spacemacs/declare-prefix "As" "scholar")
-  (spacemacs/set-leader-keys "Asg" 'gscholar-bibtex)
+  (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "ls" 'gscholar-bibtex)
   :config
   (evil-set-initial-state 'gscholar-bibtex-mode 'emacs))
 
