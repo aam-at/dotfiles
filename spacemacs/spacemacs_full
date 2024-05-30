@@ -58,7 +58,8 @@ This function should only modify configuration layer settings."
              syntax-checking
              (tabs :variables tabs-auto-hide nil)
              (treemacs :variables treemacs-use-filewatch-mode t)
-             unicode-fonts
+             (unicode-fonts :variables
+                            unicode-fonts-enable-ligatures t)
              (version-control :variables
                               version-control-diff-tool 'diff-hl)
              ;; More VIM sugar in emacs
@@ -419,7 +420,7 @@ It should only modify the values of Spacemacs settings."
    ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("Fira Code"
                                :size 20
                                :weight normal
                                :width normal)
@@ -736,11 +737,11 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
    (if (> (x-display-pixel-width) 3000)
-       (setq dotspacemacs-default-font '("Source Code Pro"
+       (setq dotspacemacs-default-font '("Fira Code"
                                          :size 20
                                          :weight normal
                                          :width normal))
-     (setq dotspacemacs-default-font '("Source Code Pro"
+     (setq dotspacemacs-default-font '("Fira Code"
                                        :size 12
                                        :weight normal
                                        :width normal)))

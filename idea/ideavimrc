@@ -37,7 +37,6 @@ set smartcase                                       "do case-sensitive if there'
 
 " emulate vim plugins
 set sneak
-set easymotion
 set surround
 set commentary
 set argtextobj
