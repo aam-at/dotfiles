@@ -32,3 +32,6 @@
 	path = general/fonts/source-code-pro
 	url = https://github.com/adobe-fonts/source-code-pro
 	branch = release
+[submodule "config/alacritty/catppuccin"]
+	path = config/alacritty/catppuccin
+	url = https://github.com/catppuccin/alacritty
