@@ -17,6 +17,7 @@
     ~/.sbclrc: config/sbclrc
     ~/.config/redshift.conf: config/redshift.conf
     ~/.config/alacritty: config/alacritty
+    ~/.config/gitui: config/gitui
     ~/.config/pudb/pudb.cfg:
         create: true
         path: config/python/pudb.cfg
