@@ -4,14 +4,15 @@ from ranger.api.commands import *
 from ranger.core.loader import CommandLoader
 
 
-class empty(Command):
+class emptytrash(Command):
     """:empty
 
-    Empties the trash directory ~/.Trash
+    Empties the trash
     """
 
     def execute(self):
-        self.fm.run("rm -rf ~/.Trash/{*,.[^.]*}")
+        HOME = os.environ['HOME']
+        self.fm.run(f'trash-empty')
 
 
 class extracthere(Command):
