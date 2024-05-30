@@ -18,6 +18,7 @@
     ~/.config/redshift.conf: config/redshift.conf
     ~/.config/alacritty: config/alacritty
     ~/.config/gitui: config/gitui
+    ~/.config/fish: config/fish
     ~/.config/pudb/pudb.cfg:
         create: true
         path: config/python/pudb.cfg
@@ -41,11 +42,6 @@
     ~/.tmux/plugins/tpm:
         create: true
         path: tmux/plugins/tpm
-    ~/.config/fish/config.fish:
-        create: true
-        path: fish/config.fish
-    ~/.config/fish/completions: fish/completions
-    ~/.config/fish/functions: fish/functions
     ~/.SpaceVim.d/init.toml:
         create: true
         path: nvim/init.toml
