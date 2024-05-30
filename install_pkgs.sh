@@ -8,29 +8,30 @@ sudo apt-get install apt-fast
 
 # install other packages
 sudo apt-fast install -y \
-    anki autojump automake bibtool build-essential checkinstall \
-    chrome-gnome-shell clang cmake cscope curl curl ditaa fasd fbreader fd-find \
-    fish fzy gcc-10 gettext git git-lfs glances global gnome-tweaks gnupg2 \
-    graphviz guile-3.0-dev html2text htop iotop iputils-arping isync jq keychain \
-    libbz2-dev libevent-dev libffi-dev libgccjit-14-dev libgccjit0 libgif-dev \
-    libgmime-3.0-dev libgnutls28-dev libjansson-dev libjansson4 libjpeg-dev \
-    liblzma-dev libmagick++-dev libmagickcore-dev libncurses-dev libncurses6 \
-    libncursesw6 libpng-dev libpoppler-glib-dev libpoppler-private-dev \
-    libreadline-dev libsqlite3-dev libssl-dev libsystemd-dev libtiff-dev \
-    libwebkit2gtk-4.1-dev libxapian-dev libxpm-dev llvm make mc meson mosh ncdu \
-    net-tools nnn notmuch openssh-server p7zip-full p7zip-rar pandoc pass peco \
-    plantuml postfix pydf python3-openssl python3-pip python3-pip ranger ripgrep \
-    rtv rtv ruby screen shellcheck sqlite3 stow tabbed texinfo tig tk-dev tmux \
-    trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils xdotool \
-    xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev
+     alacritty anki autojump automake bibtool build-essential checkinstall \
+     chrome-gnome-shell clang cmake cmake cscope curl curl ditaa fasd fbreader \
+     fd-find fish fzy gcc-10 gettext git git-lfs glances global gnome-tweaks \
+     gnupg2 graphviz guile-3.0-dev html2text htop iotop iputils-arping isync jq \
+     keychain libbz2-dev libevent-dev libffi-dev libfontconfig1-dev \
+     libfreetype6-dev libgccjit-14-dev libgccjit0 libgif-dev libgmime-3.0-dev \
+     libgnutls28-dev libjansson-dev libjansson4 libjpeg-dev liblzma-dev \
+     libmagick++-dev libmagickcore-dev libncurses-dev libncurses6 libncursesw6 \
+     libpng-dev libpoppler-glib-dev libpoppler-private-dev libreadline-dev \
+     libsqlite3-dev libssl-dev libsystemd-dev libtiff-dev libwebkit2gtk-4.1-dev \
+     libxapian-dev libxcb-xfixes0-dev libxkbcommon-dev libxpm-dev llvm make mc \
+     meson mosh ncdu net-tools nnn notmuch openssh-server p7zip-full p7zip-rar \
+     pandoc pass peco pkg-config plantuml postfix pydf python3 python3-openssl \
+     python3-pip python3-pip ranger ripgrep rtv rtv ruby screen shellcheck \
+     sqlite3 stow tabbed texinfo tig tk-dev tmux trash-cli \
+     ubuntu-restricted-extras unrar wget wmctrl xdg-utils xdotool xz-utils \
+     zathura zathura-djvu zathura-pdf-poppler zlib1g-dev
 
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
 sudo add-apt-repository ppa:fish-shell/release-3 -y
-sudo add-apt-repository ppa:linuxuprising/guake
 sudo add-apt-repository ppa:linrunner/tlp -y
 
-sudo apt-fast install -y git neovim fish guake tlp
+sudo apt-fast install -y git neovim fish tlp
 
 sudo gem install tmuxinator
 sudo gem install anystyle anystyle-cli
@@ -126,7 +127,14 @@ if [ ! -d $HOME/.pyenv/versions/3.11.9 ]; then
     pipx install gpustat
 fi
 
-# install spacevim
+# install cargo
+if ! [ -x "$(command -v cargo)" ]; then
+    curl https://sh.rustup.rs -sSf | sh
+fi
+cargo install gitui
+cargo install texlab
+
+# install spacemacs
 if [ ! -d $HOME/.emacs.d ]; then
     git clone https://github.com/aam-at/spacemacs ~/.emacs.d
 fi
