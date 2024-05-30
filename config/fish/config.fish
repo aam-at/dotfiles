@@ -8,9 +8,6 @@ set -e fish_user_paths
 # use emacs keybindgins by default
 set -U fish_key_bindings fish_default_key_bindings
 
-# colorscheme for fish
-source ~/dotfiles/config/fish/solarized.fish
-
 if test -n "$EMACS"
     set -x TERM eterm-color
 
