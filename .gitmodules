@@ -33,8 +33,14 @@
 	url = https://github.com/adobe-fonts/source-code-pro
 	branch = release
 [submodule "catppuccin/alacritty"]
-	path = config/alacritty/catppuccin
+	path = config/catppuccin/alacritty
 	url = https://github.com/catppuccin/alacritty
 [submodule "catppuccin/gitui"]
-	path = config/gitui/catppuccin
+	path = config/catppuccin/gitui
 	url = https://github.com/catppuccin/gitui
+[submodule "catppuccin/fish"]
+	path = config/catppuccin/fish
+	url = https://github.com/catppuccin/fish
+[submodule "catppuccin/delta"]
+	path = config/catppuccin/delta
+	url = https://github.com/catppuccin/delta

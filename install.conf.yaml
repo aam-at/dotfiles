@@ -16,6 +16,7 @@
     ~/.textlintrc: config/textlintrc
     ~/.sbclrc: config/sbclrc
     ~/.config/redshift.conf: config/redshift.conf
+    ~/.config/catppuccin: config/catppuccin
     ~/.config/alacritty: config/alacritty
     ~/.config/gitui: config/gitui
     ~/.config/fish: config/fish
