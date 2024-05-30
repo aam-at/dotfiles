@@ -35,3 +35,6 @@
 [submodule "catppuccin/alacritty"]
 	path = config/alacritty/catppuccin
 	url = https://github.com/catppuccin/alacritty
+[submodule "catppuccin/gitui"]
+	path = config/gitui/catppuccin
+	url = https://github.com/catppuccin/gitui
