@@ -1,10 +1,12 @@
-/fish/functions/fish_prompt.fish
 atom/
 /nvim/bundle/*
 /nvim/.cache
 /nvim/.netrwhist
 *.pyo
-/fish/functions/fish_user_key_bindings.fish
-/fish/functions/fzf_key_bindings.fish
 /config/systemd/*
 **/__pycache__/*
+/config/fish/functions/fish_prompt.fish
+/config/fish/functions/fish_user_key_bindings.fish
+/config/fish/functions/fzf_key_bindings.fish
+/config/fish/fish_variables
+/config/fish/conf.d/
