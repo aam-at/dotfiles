@@ -420,7 +420,7 @@ It should only modify the values of Spacemacs settings."
    ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
-   dotspacemacs-default-font '("Fira Code"
+   dotspacemacs-default-font '("JetBrains Mono"
                                :size 20
                                :weight normal
                                :width normal)
@@ -737,12 +737,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
    (if (> (x-display-pixel-width) 3000)
-       (setq dotspacemacs-default-font '("Fira Code"
+       (setq dotspacemacs-default-font '("JetBrains Mono"
                                          :size 20
                                          :weight normal
                                          :width normal))
-     (setq dotspacemacs-default-font '("Fira Code"
-                                       :size 12
+     (setq dotspacemacs-default-font '("JetBrains Mono"
+                                       :size 13
                                        :weight normal
                                        :width normal)))
    (spacemacs/set-default-font dotspacemacs-default-font)))

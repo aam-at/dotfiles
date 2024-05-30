@@ -18,6 +18,7 @@
     # true colors
     enable_guicolors = true
     enable_powerline_fonts = 1
+    guifont = "JetBrains Mono:h11"
     # Disable statusline separator, if you want to use other value, please
     # install nerd fonts
     statusline_separator = "arrow"
