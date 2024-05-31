@@ -21,14 +21,10 @@
     ~/.config/gitui: config/gitui
     ~/.config/fish: config/fish
     ~/.config/btop: config/btop
+    ~/.config/ranger: config/ranger
     ~/.config/pudb/pudb.cfg:
         create: true
         path: config/python/pudb.cfg
-    ~/.config/ranger/rc.conf:
-        create:
-        path: config/ranger/rc.conf
-    ~/.config/ranger/commands.py: config/ranger/commands.py
-    ~/.config/ranger/plugins: config/ranger/plugins
     ~/.config/systemd/user:
         create: true
         path: config/systemd
