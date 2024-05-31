@@ -10,3 +10,4 @@ atom/
 /config/fish/functions/fzf_key_bindings.fish
 /config/fish/fish_variables
 /config/fish/conf.d/
+btop
