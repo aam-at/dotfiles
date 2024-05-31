@@ -1,6 +1,7 @@
 [include]
     path = ~/dotfiles/git/aliases.gitconfig
     path = ~/dotfiles/git/themes.gitconfig
+    path = ~/dotfiles/config/catppuccin/delta/catppuccin.gitconfig
 [core]
     editor = /usr/bin/vim
     filemode = false
@@ -9,7 +10,7 @@
 [interactive]
     diffFilter = delta --color-only
 [delta]
-    features = woolly-mammoth
+    features = gruvbox-dark
     navigate = true
     side-by-side = true
 [user]
