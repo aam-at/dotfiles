@@ -22,6 +22,7 @@
     ~/.config/fish: config/fish
     ~/.config/btop: config/btop
     ~/.config/ranger: config/ranger
+    ~/.config/kitty: config/kitty
     ~/.config/pudb/pudb.cfg:
         create: true
         path: config/python/pudb.cfg
