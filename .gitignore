@@ -11,3 +11,4 @@ atom/
 /config/fish/fish_variables
 /config/fish/conf.d/
 /config/btop/*.log
+/config/tmux/plugins/*

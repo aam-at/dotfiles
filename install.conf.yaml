@@ -22,6 +22,7 @@
     ~/.config/fish: config/fish
     ~/.config/btop: config/btop
     ~/.config/ranger: config/ranger
+    ~/.config/tmux: config/tmux
     ~/.config/kitty: config/kitty
     ~/.config/pudb/pudb.cfg:
         create: true
@@ -37,10 +38,6 @@
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
     ~/.gitconfig: git/gitconfig
     ~/.screenrc: screen/screenrc
-    ~/.tmux.conf: tmux/tmux.conf
-    ~/.tmux/plugins/tpm:
-        create: true
-        path: tmux/plugins/tpm
     ~/.SpaceVim.d/init.toml:
         create: true
         path: nvim/init.toml
