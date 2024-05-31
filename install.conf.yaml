@@ -20,6 +20,7 @@
     ~/.config/alacritty: config/alacritty
     ~/.config/gitui: config/gitui
     ~/.config/fish: config/fish
+    ~/.config/btop: config/btop
     ~/.config/pudb/pudb.cfg:
         create: true
         path: config/python/pudb.cfg
