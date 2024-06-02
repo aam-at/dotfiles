@@ -67,8 +67,9 @@
     ~/.bash_logout: bash/bash_logout
     ~/.dircolors: bash/dircolors-solarized/dircolors.ansi-light
     ~/.env: general/env
-    ~/.xmodmap: general/x/Xmodmap
+    ~/.Xmodmap: general/x/Xmodmap
     ~/.xinitrc: general/x/xinitrc
+    ~/.xbindkeysrc: general/x/xbindkeysrc
     ~/.latexmkrc: general/latexmkrc
     ~/.local/share/applications/:
         path: general/applications/*
