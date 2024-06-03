@@ -50,3 +50,6 @@
 [submodule "ranger/archives"]
 	path = config/ranger/plugins/archives
 	url = https://github.com/maximtrp/ranger-archives
+[submodule "ranger/fzf_filter"]
+	path = config/ranger/plugins/fzf_filter
+	url = https://github.com/MuXiu1997/ranger-fzf-filter
