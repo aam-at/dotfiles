@@ -147,7 +147,7 @@ if ! command -v cargo &> /dev/null; then
     curl https://sh.rustup.rs -sSf | sh -s -- -y
     source $HOME/.cargo/env
 fi
-cargo install gitui texlab yazi-fm yazi-cli
+cargo install gitui ouch texlab yazi-fm yazi-cli
 
 # Install Spacemacs
 if [ ! -d "$HOME/.emacs.d" ]; then

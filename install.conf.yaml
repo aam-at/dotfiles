@@ -24,6 +24,7 @@
     ~/.config/ranger: config/ranger
     ~/.config/tmux: config/tmux
     ~/.config/kitty: config/kitty
+    ~/.config/yazi: config/yazi
     ~/.config/pudb/pudb.cfg:
         create: true
         path: config/python/pudb.cfg
