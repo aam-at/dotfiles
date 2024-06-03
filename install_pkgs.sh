@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
-. ~/.bashrc
+# Source .bashrc
+source ~/.bashrc
 
-# install apt-fast first
+# Install apt-fast first
 sudo add-apt-repository ppa:apt-fast/stable -y
-sudo apt-get install apt-fast
+sudo apt-get update
+sudo apt-get install -y apt-fast
 
-# install other packages
+# Install other packages
 sudo apt-fast install -y \
      alacritty anki apt-file autojump automake bibtool btop build-essential checkinstall \
      chrome-gnome-shell clang cmake cmake cscope curl curl ditaa fasd fbreader \
@@ -27,17 +29,21 @@ sudo apt-fast install -y \
      wget wmctrl xbindkeys xdg-utils xdotool xz-utils zathura zathura-djvu \
      zathura-pdf-poppler zlib1g-dev
 
+# Add repositories
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
 sudo add-apt-repository ppa:fish-shell/release-3 -y
 sudo add-apt-repository ppa:linrunner/tlp -y
 
+# Install packages from added repositories
+sudo apt-fast update
 sudo apt-fast install -y git neovim fish tlp
 
+# Install Ruby gems
 sudo gem install tmuxinator
 sudo gem install anystyle anystyle-cli
 
-# install nodejs
+# Install Node.js
 curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt-get install -y nodejs
 # force npm upgrade
@@ -64,12 +70,15 @@ sudo npm i -g write-good textlint-plugin-latex textlint-rule-write-good \
      textlint-rule-en-max-word-count textlint-rule-diacritics \
      textlint-rule-stop-words
 
+
+# Define tools directory
 TOOLS_DIR=$HOME/local/tools
 mkdir -p $TOOLS_DIR
 
-# install tmux
-if ! [ -f "/usr/local/bin/tmux" ]; then
-    curl -s https://api.github.com/repos/tmux/tmux/releases/latest | jq -r ".assets[] | select(.name) | .browser_download_url" | grep -E ".tar.gz" | wget -O $TOOLS_DIR/tmux.tar.gz -i -
+# Install tmux
+if ! command -v tmux &> /dev/null; then
+    echo "Installing tmux..."
+    curl -s https://api.github.com/repos/tmux/tmux/releases/latest | jq -r ".assets[] | select(.name | endswith(\".tar.gz\")).browser_download_url" | wget -O $TOOLS_DIR/tmux.tar.gz -i -
     mkdir $TOOLS_DIR/tmux
     tar -xzvf $TOOLS_DIR/tmux.tar.gz -C $TOOLS_DIR/tmux --strip-components=1
     cd $TOOLS_DIR/tmux
@@ -78,54 +87,52 @@ if ! [ -f "/usr/local/bin/tmux" ]; then
     cd -
 fi
 
-# install pyenv
-if [ ! -d $HOME/.pyenv ]; then
+# Install pyenv and plugins
+if [ ! -d "$HOME/.pyenv" ]; then
+    echo "Installing pyenv and plugins..."
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-    # install pyenv plugins
     git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
     git clone https://github.com/pyenv/pyenv-pip-migrate.git ~/.pyenv/plugins/pyenv-pip-migrate
     git clone https://github.com/pyenv/pyenv-doctor.git ~/.pyenv/plugins/pyenv-doctor
     git clone https://github.com/pyenv/pyenv-update.git ~/.pyenv/plugins/pyenv-update
 fi
 
-# install delta
-if ! [ -x "$(command -v delta)" ]; then
-    curl -s https://api.github.com/repos/dandavison/delta/releases/latest | jq -r ".assets[] | select(.name | contains(\"amd64.deb\")) | .browser_download_url" | grep -E "musl" | wget -O /tmp/delta.deb -i -
+# Install delta
+if ! command -v delta &> /dev/null; then
+    echo "Installing delta..."
+    curl -s https://api.github.com/repos/dandavison/delta/releases/latest | jq -r ".assets[] | select(.name | endswith(\"amd64.deb\") and contains(\"musl\")).browser_download_url" | wget -O /tmp/delta.deb -i -
     sudo dpkg -i /tmp/delta.deb
     rm /tmp/delta.deb
 fi
 
-# install nerd-fonts
-if [ ! -d $TOOLS_DIR/nerd-fonts ]; then
+# Install nerd-fonts
+if [ ! -d "$TOOLS_DIR/nerd-fonts" ]; then
+    echo "Installing nerd-fonts..."
     git clone --depth=1 https://github.com/ryanoasis/nerd-fonts $TOOLS_DIR/nerd-fonts
     cd $TOOLS_DIR/nerd-fonts
     ./install.sh
+    cd -
 fi
 
 if ! fc-list | grep -qi "JetBrains Mono"; then
     echo "Installing JetBrains Mono..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
 fi
-
-if [ ! -d $HOME/.pyenv/versions/3.11.9 ]; then
+# Install Python 3.11.9 with pyenv and set up virtual environments
+if [ ! -d "$HOME/.pyenv/versions/3.11.9" ]; then
+    echo "Installing Python 3.11.9 with pyenv..."
     CONFIGURE_OPTS=--enable-shared pyenv install 3.11.9
 
     pyenv virtualenv 3.11.9 neovim3
     pyenv activate neovim3
-    pip3 install pynvim
+    pip install pynvim
 
-    # configure emacs
     pyenv virtualenv 3.10.11 tensor3
     pyenv activate tensor3
-    pip3 install -U "jedi>=0.13.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"
-    pip3 install -U python-language-server[all] pyls-isort pyls-mypy pyls-black pyls-memestra
-    pip3 install -U pudb
-    pip3 install -U flake8 pylint yapf autoflake isort autopep8
-    pip3 install -U "ptvsd>=4.2"
-    pip3 install -U importmagic epc
-    pip3 install -U proselint
-    pip3 install -U cmake-language-server
-    # install pipx
+    pip install -U "jedi>=0.13.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"
+    pip install -U python-language-server[all] pyls-isort pyls-mypy pyls-black pyls-memestra
+    pip install -U pudb flake8 pylint yapf autoflake isort autopep8 "ptvsd>=4.2" importmagic epc proselint cmake-language-server
+
     pyenv deactivate
     python3 -m pip install --user pipx
     python3 -m pipx ensurepath
@@ -133,56 +140,64 @@ if [ ! -d $HOME/.pyenv/versions/3.11.9 ]; then
     pipx install gpustat
 fi
 
-# install cargo
-if ! [ -x "$(command -v cargo)" ]; then
-    curl https://sh.rustup.rs -sSf | sh
+# Install Rust and cargo packages
+if ! command -v cargo &> /dev/null; then
+    echo "Installing Rust and cargo..."
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
+    source $HOME/.cargo/env
 fi
-cargo install gitui
-cargo install texlab
+cargo install gitui texlab
 
-# install spacemacs
-if [ ! -d $HOME/.emacs.d ]; then
+# Install Spacemacs
+if [ ! -d "$HOME/.emacs.d" ]; then
+    echo "Installing Spacemacs..."
     git clone https://github.com/aam-at/spacemacs ~/.emacs.d
 fi
 
-# install spacevim
-if [ ! -d $HOME/.SpaceVim ]; then
+# Install SpaceVim
+if [ ! -d "$HOME/.SpaceVim" ]; then
+    echo "Installing SpaceVim..."
     curl -sLf https://spacevim.org/install.sh | bash
 fi
 
-# install intellimacs
-if [ ! -d $HOME/.intellimacs ]; then
+# Install Intellimacs
+if [ ! -d "$HOME/.intellimacs" ]; then
+    echo "Installing Intellimacs..."
     git clone https://github.com/MarcoIeni/intellimacs ~/.intellimacs
 fi
 
-# install enhancd for bash
-if [ ! -d $HOME/local/tools/enhancd-bash ]; then
+# Install enhancd for bash
+if [ ! -d "$TOOLS_DIR/enhancd-bash" ]; then
+    echo "Installing enhancd for bash..."
     git clone https://github.com/b4b4r07/enhancd $TOOLS_DIR/enhancd-bash
 fi
 
-# install pathpicker
-if ! [ -x "$(command -v fpp)" ]; then
+# Install pathpicker
+if ! command -v fpp &> /dev/null; then
+    echo "Installing pathpicker..."
     git clone https://github.com/facebook/PathPicker.git /tmp/PathPicker
     cd /tmp/PathPicker/debian
     ./package.sh
     cd ..
-    sudo dpkg -i "$(ls *.deb)"
+    sudo dpkg -i *.deb
     cd ..
     rm -rf PathPicker
 fi
 
-# install fzf
-if [ ! -d $HOME/.fzf ]; then
+# Install fzf
+if [ ! -d "$HOME/.fzf" ]; then
+    echo "Installing fzf..."
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install
+    ~/.fzf/install --all
 fi
 
-# install omf
-if [ ! -d $HOME/.config/omf ]; then
+# Install oh-my-fish (omf)
+if [ ! -d "$HOME/.config/omf" ]; then
+    echo "Installing oh-my-fish (omf)..."
     curl -L https://get.oh-my.fish | fish
 fi
 
-# snap packages
+# Install snap packages
 sudo snap refresh
 sudo snap install --classic skype
 sudo snap install --classic slack
@@ -192,5 +207,5 @@ sudo snap install opera
 sudo snap install spotify
 sudo snap install tusk
 
-# restore dir
+# Restore to initial directory
 cd ~/dotfiles
