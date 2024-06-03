@@ -47,3 +47,6 @@
 [submodule "ranger/devicons"]
 	path = config/ranger/plugins/devicons
 	url = https://github.com/alexanderjeurissen/ranger_devicons
+[submodule "ranger/archives"]
+	path = config/ranger/plugins/archives
+	url = https://github.com/maximtrp/ranger-archives
