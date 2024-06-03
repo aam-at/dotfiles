@@ -10,7 +10,7 @@ sudo apt-get install apt-fast
 sudo apt-fast install -y \
      alacritty anki apt-file autojump automake bibtool btop build-essential checkinstall \
      chrome-gnome-shell clang cmake cmake cscope curl curl ditaa fasd fbreader \
-     fd-find fish fonts-firacode fonts-jetbrains-mono fzy gcc-10 gettext git \
+     fd-find fish fonts-firacode fonts-jetbrains-mono fzy gawk gcc-10 gettext git \
      git-lfs glances global gnome-tweaks gnupg2 graphviz guile-3.0-dev html2text \
      htop iotop iputils-arping isync jq keychain kitty libbz2-dev libevent-dev \
      libffi-dev libfontconfig1-dev libfreetype6-dev libgccjit-14-dev libgccjit0 \
@@ -100,6 +100,11 @@ if [ ! -d $TOOLS_DIR/nerd-fonts ]; then
     git clone --depth=1 https://github.com/ryanoasis/nerd-fonts $TOOLS_DIR/nerd-fonts
     cd $TOOLS_DIR/nerd-fonts
     ./install.sh
+fi
+
+if ! fc-list | grep -qi "JetBrains Mono"; then
+    echo "Installing JetBrains Mono..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
 fi
 
 if [ ! -d $HOME/.pyenv/versions/3.11.9 ]; then
