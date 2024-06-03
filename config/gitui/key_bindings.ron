@@ -1,0 +1,53 @@
+(
+    move_left: Some(( code: Char('h'), modifiers: "")),
+    move_right: Some(( code: Char('l'), modifiers: "")),
+    move_up: Some(( code: Char('k'), modifiers: "")),
+    move_down: Some(( code: Char('j'), modifiers: "")),
+    scroll_up: Some(( code: Char('K'), modifiers: "SHIFT")),
+    scroll_down: Some(( code: Char('J'), modifiers: "SHIFT")),
+    move_first: Some(( code: Char('g'), modifiers: "")),
+    move_last: Some(( code: Char('G'), modifiers: "")),
+
+    commit_open: Some(( code: Char('c'), modifiers: "")),
+    commit_amend: Some(( code: Char('A'), modifiers: "SHIFT")),
+    commit_history: Some(( code: Char('H'), modifiers: "SHIFT")),
+    commit_revert: Some(( code: Char('v'), modifiers: "")),
+
+    stash_open: Some(( code: Char('z'), modifiers: "")),
+    stash_save: Some(( code: Char('Z'), modifiers: "SHIFT")),
+    stash_pop: Some(( code: Char('P'), modifiers: "SHIFT")),
+    stash_drop: Some(( code: Char('D'), modifiers: "SHIFT")),
+
+    status_reset_item: Some(( code: Char('U'), modifiers: "SHIFT")),
+    status_stage_all: Some(( code: Char('S'), modifiers: "SHIFT")),
+    status_unstage_all: Some(( code: Char('u'), modifiers: "")),
+    status_commit: Some(( code: Char('c'), modifiers: "")),
+    status_push: Some(( code: Char('p'), modifiers: "")),
+    status_pull: Some(( code: Char('f'), modifiers: "")),
+
+    diff_open: Some(( code: Char('d'), modifiers: "")),
+    diff_stage: Some(( code: Char('s'), modifiers: "")),
+    diff_unstage: Some(( code: Char('u'), modifiers: "")),
+    diff_discard: Some(( code: Char('x'), modifiers: "")),
+
+    log_open: Some(( code: Char('l'), modifiers: "")),
+    log_tag_commit: Some(( code: Char('t'), modifiers: "")),
+    log_checkout_commit: Some(( code: Char('o'), modifiers: "")),
+    log_create_branch: Some(( code: Char('n'), modifiers: "")),
+    log_cherry_pick: Some(( code: Char('y'), modifiers: "")),
+
+    file_open: Some(( code: Char('o'), modifiers: "")),
+    file_stage: Some(( code: Char('s'), modifiers: "")),
+    file_unstage: Some(( code: Char('u'), modifiers: "")),
+    file_discard: Some(( code: Char('x'), modifiers: "")),
+
+    branch_select: Some(( code: Char('b'), modifiers: "")),
+    branch_merge: Some(( code: Char('m'), modifiers: "")),
+    branch_delete: Some(( code: Char('D'), modifiers: "SHIFT")),
+
+    open_help: Some(( code: F(1), modifiers: "")),
+    quit: Some(( code: Char('q'), modifiers: "")),
+    refresh: Some(( code: Char('r'), modifiers: "")),
+    confirm: Some(( code: Char('\r'), modifiers: "")),
+    abort: Some(( code: Char('\x1b'), modifiers: "")),
+)
