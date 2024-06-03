@@ -44,3 +44,6 @@
 [submodule "catppuccin/delta"]
 	path = config/catppuccin/delta
 	url = https://github.com/catppuccin/delta
+[submodule "ranger/devicons"]
+	path = config/ranger/plugins/devicons
+	url = https://github.com/alexanderjeurissen/ranger_devicons
