@@ -210,11 +210,9 @@ if [ -f ~/.fzf.bash ]; then
     }
 fi
 
-# configure enhancd
-if [ -d $HOME/local/tools/enhancd-bash ]; then
-    ENHANCD_FILTER=fzf:peco
-    export ENHANCD_FILTER
-    . $HOME/local/tools/enhancd-bash/init.sh
+# configure zoxide
+if command_exists zoxide; then
+  eval "$(zoxide init bash)"
 fi
 
 # configure pyenv

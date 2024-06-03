@@ -28,7 +28,7 @@ sudo apt-fast install -y \
      python3-pip ranger ripgrep rtv rtv ruby screen shellcheck sqlite3 stow \
      tabbed texinfo tig tk-dev tmux trash-cli ubuntu-restricted-extras unrar \
      wget wmctrl xbindkeys xdg-utils xdotool xz-utils zathura zathura-djvu \
-     zathura-pdf-poppler zlib1g-dev
+     zathura-pdf-poppler zlib1g-dev zoxide
 
 # Add repositories
 sudo add-apt-repository ppa:git-core/ppa -y
@@ -165,12 +165,6 @@ fi
 if [ ! -d "$HOME/.intellimacs" ]; then
     echo "Installing Intellimacs..."
     git clone https://github.com/MarcoIeni/intellimacs ~/.intellimacs
-fi
-
-# Install enhancd for bash
-if [ ! -d "$TOOLS_DIR/enhancd-bash" ]; then
-    echo "Installing enhancd for bash..."
-    git clone https://github.com/b4b4r07/enhancd $TOOLS_DIR/enhancd-bash
 fi
 
 # Install pathpicker

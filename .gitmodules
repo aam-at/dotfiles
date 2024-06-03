@@ -53,3 +53,6 @@
 [submodule "ranger/fzf_filter"]
 	path = config/ranger/plugins/fzf_filter
 	url = https://github.com/MuXiu1997/ranger-fzf-filter
+[submodule "ranger/zoxide"]
+	path = config/ranger/plugins/zoxide
+	url = https://github.com/jchook/ranger-zoxide
