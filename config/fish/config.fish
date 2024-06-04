@@ -78,7 +78,7 @@ if test -d $OMF_PATH # Customize Oh My Fish configuration path.
 end
 
 # configure zoxide
-if type -q direnv
+if type -q zoxide
   zoxide init fish | source
 end
 
