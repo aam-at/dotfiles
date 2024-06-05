@@ -25,10 +25,10 @@ sudo apt-fast install -y \
      meson mosh ncdu net-tools network-manager-openconnect \
      network-manager-openconnect-gnome nnn notmuch openconnect openssh-server \
      p7zip-full p7zip-rar pandoc pass peco pkg-config plantuml postfix pydf \
-     python3 python3-openssl python3-pip python3-pip ranger ripgrep rtv rtv ruby \
-     screen shellcheck sqlite3 stow tabbed texinfo tig tk-dev tmux trash-cli \
-     ubuntu-restricted-extras unrar wget wmctrl xbindkeys xdg-utils xdotool \
-     xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev zoxide
+     python3 python3-openssl python3-pip python-dev-is-python3 ranger ripgrep \
+     rtv rtv ruby screen shellcheck sqlite3 stow tabbed texinfo tig tk-dev tmux \
+     trash-cli ubuntu-restricted-extras unrar wget wmctrl xbindkeys xdg-utils \
+     xdotool xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev zoxide
 
 # Add repositories
 sudo add-apt-repository ppa:git-core/ppa -y
@@ -191,6 +191,11 @@ fi
 if [ ! -d "$HOME/.config/omf" ]; then
     echo "Installing oh-my-fish (omf)..."
     curl -L https://get.oh-my.fish | fish
+fi
+
+# Install ollama
+if ! command -v ollama &> /dev/null; then
+    curl -fsSL https://ollama.com/install.sh | sh
 fi
 
 # Install snap packages
