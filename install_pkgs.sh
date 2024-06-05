@@ -119,6 +119,7 @@ if ! fc-list | grep -qi "JetBrains Mono"; then
     echo "Installing JetBrains Mono..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
 fi
+
 # Install Python 3.11.9 with pyenv and set up virtual environments
 if [ ! -d "$HOME/.pyenv/versions/3.11.9" ]; then
     echo "Installing Python 3.11.9 with pyenv..."

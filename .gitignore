@@ -12,3 +12,4 @@ atom/
 /config/fish/conf.d/
 /config/btop/*.log
 /config/tmux/plugins/*
+/config/broot/launcher/

@@ -15,16 +15,17 @@
     ~/.vale: config/vale/vale
     ~/.textlintrc: config/textlintrc
     ~/.sbclrc: config/sbclrc
-    ~/.config/redshift.conf: config/redshift.conf
-    ~/.config/catppuccin: config/catppuccin
     ~/.config/alacritty: config/alacritty
-    ~/.config/gitui: config/gitui
-    ~/.config/fish: config/fish
+    ~/.config/broot: config/broot
     ~/.config/btop: config/btop
+    ~/.config/catppuccin: config/catppuccin
+    ~/.config/fish: config/fish
+    ~/.config/gitui: config/gitui
+    ~/.config/kitty: config/kitty
     ~/.config/ranger: config/ranger
     ~/.config/tmux: config/tmux
-    ~/.config/kitty: config/kitty
     ~/.config/yazi: config/yazi
+    ~/.config/redshift.conf: config/redshift.conf
     ~/.config/pudb/pudb.cfg:
         create: true
         path: config/python/pudb.cfg
