@@ -7,9 +7,9 @@
 # should be on the output of commands, not on the prompt
 #force_color_prompt=yes
 
-if [[ -z $TMUX ]]; then
-    export TERM='xterm-256color'
-else
+if [[ -n $KITTY_PID ]]; then
+    export TERM='xterm-kitty'
+elif [[ -n $TMUX ]]; then
     export TERM='screen-256color'
 fi
 
