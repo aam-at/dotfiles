@@ -467,6 +467,7 @@ set -g @continuum-boot 'on'
 set -g @continuum-restore 'on'
 set -g @plugin 'tmuxinator/tmuxinator'
 set -g @plugin 'fcsonline/tmux-thumbs'
+set -g @plugin 'Freed-Wu/tmux-digit'
 
 
 # -- custom variables ----------------------------------------------------------

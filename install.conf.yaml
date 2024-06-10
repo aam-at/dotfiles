@@ -47,7 +47,6 @@
         create: true
         path: nvim/myconfig.vim
     ~/.ideavimrc: idea/ideavimrc
-    ~/.atom: atom
     ~/.spacemacs.d/init.el:
         create: true
         path: spacemacs/spacemacs_full
