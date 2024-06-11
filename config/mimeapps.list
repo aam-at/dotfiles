@@ -1,0 +1,17 @@
+[Default Applications]
+x-scheme-handler/http=microsoft-edge.desktop
+application/xhtml+xml=microsoft-edge.desktop
+text/html=microsoft-edge.desktop
+x-scheme-handler/https=microsoft-edge.desktop
+application/pdf=zathura.desktop
+text/org=emacsclient.desktop
+text/org_archive=emacsclient.desktop;
+
+[Added Associations]
+x-scheme-handler/http=microsoft-edge.desktop;
+application/xhtml+xml=microsoft-edge.desktop;
+text/html=microsoft-edge.desktop;
+x-scheme-handler/https=microsoft-edge.desktop;
+application/pdf=zathura.desktop;
+text/org=emacsclient.desktop;
+text/org_archive=emacsclient.desktop;

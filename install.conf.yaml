@@ -22,6 +22,7 @@
     ~/.config/fish: config/fish
     ~/.config/gitui: config/gitui
     ~/.config/kitty: config/kitty
+    ~/.config/mimeapps.list: config/mimeapps.list
     ~/.config/ranger: config/ranger
     ~/.config/tmux: config/tmux
     ~/.config/yazi: config/yazi
