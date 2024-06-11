@@ -764,6 +764,7 @@ before packages are loaded."
   ;; load configs
   (require 'config-common)
   (require 'config-org)
+  (require 'config-ai)
   (require 'config-tex)
   (require 'config-bibtex)
   (require 'config-mail)
@@ -775,6 +776,7 @@ before packages are loaded."
   (load-library "config-secure.el.gpg")
 
   (my-common-setup)
+  (my-ai-setup)
   (my-org-setup)
   (my-tex-setup)
   (my-bibtex-setup)
