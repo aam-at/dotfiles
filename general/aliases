@@ -1,10 +1,49 @@
-alias ..="cd .."
-alias ...="cd ../.."
+##################################
+###  Ubuntu package management ###
+##################################
+alias upgradepkg="sudo apt-fast update && sudo apt-fast upgrade -y" # Update all packages
+alias installpkg="sudo apt-fast install"                            # Install a package
+alias removepkg="sudo apt-get remove"                               # Remove a package
+alias searchpkg="apt-get search"                                    # Search for a package
 
-alias la="ls -lahG"
-alias ll="ls -lhG"
-# List only directories
-alias lsd="ls -d */"
+###################
+###  Navigation ###
+###################
+alias ..="cd .."        # Go up one directory
+alias ...="cd ../.."    # Go up two directories
+alias ....="cd ../../.." # Go up three directories
+alias .....="cd ../../../.." # Go up four directories
+
+###################
+###  Disk usage ###
+###################
+alias duh="du -h --max-depth=1" # Human-readable disk usage of the current directory
+alias dfh="df -h"               # Human-readable disk free space
+
+####################
+###  System info ###
+####################
+alias meminfo="free -m -l -t"         # Memory info
+alias cpuinfo="lscpu"                 # CPU info
+alias psmem="ps auxf | sort -nr -k 4" # Memory usage by processes
+alias pscpu="ps auxf | sort -nr -k 3" # CPU usage by processes
+
+########################
+###  Search and find ###
+########################
+alias grep="grep --color=auto"             # Grep with color
+alias f="find . -name"                     # Find files by name
+alias ag="ag --path-to-ignore ~/.agignore" # Silver searcher with ignore file
+alias rg="rg --files"                      # Ripgrep for searching files
+
+#################
+###  Archives ###
+#################
+alias untar="tar -xvf"           # Untar files
+alias targz="tar -cvzf"          # Create tar.gz archives
+alias untargz="tar -xvzf"        # Extract tar.gz archives
+alias zip="zip -r"               # Zip directories
+alias unzip="unzip -d"           # Unzip directories
 
 ################################
 ###  File ShortCut           ###
@@ -18,85 +57,92 @@ alias ec="emacsclient -c -a emacs"
 ################################
 ###  Program ShortCut        ###
 ################################
+# Define base alias for eza with common options
+alias eza="eza --icons --hyperlink"
+# Aliases using eza with specific options
+alias l="eza --classify --grid"                         # Grid view with file type indicators
+alias ls="eza"                                          # Basic listing with icons
+alias ll="eza -l"                                       # Long listing with icons
+alias lld="eza -l --group-directories-first"            # Long listing with directories first
+alias lt="eza --tree"                                   # Tree view of directories with icons
+alias la="eza -a"                                       # List all files, including hidden
+alias lla="eza -la"                                     # Long listing of all files, including hidden
+alias lst="eza --sort=new"                              # Sort by modified time, newest first
+alias lss="eza --sort=size"                             # Sort by file size, largest first
+alias lsi="eza"                                         # List with icons
+alias lg="eza --git"                                    # Show git status alongside files
+alias lsg="eza --grid"                                  # Grid view of files with icons
+alias lh="eza -lh"                                      # Long listing with human-readable file sizes
+alias ld="eza -l --group-directories-first --only-dirs" # Long listing of directories only
 
-# git related shortcut
-alias gcl='git clone'
-alias undopush="git push -f origin HEAD^:master"
-alias gd="git diff"
-alias gdc="git diff --cached"
-alias ga="git add"
-alias gall='git add -A'
-alias gf='git fetch --all --prune'
-alias gft='git fetch --all --prune --tags'
-alias gfv='git fetch --all --prune --verbose'
-alias gftv='git fetch --all --prune --tags --verbose'
-alias gs="git status -sb --ignore-submodules"
-alias gss="git status -sb --ignore-submodules"
-alias gst="git status -sb --ignore-submodules"
-alias gsu='git submodule update --init --recursive'
-alias gl='git pull'
-alias gpr='git pull --rebase'
-# alias gpom="git pull origin master"
-alias gp="git push"
-alias gpo='git push origin'
-alias gpt="git push --tags"
-alias gpu='git push --set-upstream'
-alias gpom='git push origin master'
-# alias gdv='git diff -w "$@" | vim -R -'
-alias gc='git commit -v'
-alias gca='git commit -v -a'
-alias gcm='git commit -v -m'
-alias gci='git commit --interactive'
-alias gb='git branch'
-alias gba='git branch -a'
-alias gbt='git branch --track'
-alias gbd="git branch -D"
-alias gm="git merge --no-ff"
-alias grs="git reset --soft"
-alias grh="git reset --hard"
-alias gb="git branch"
-alias gcob="git checkout -b"
-alias gco="git checkout"
-alias gba="git branch -a"
-alias gcp="git cherry-pick"
-alias gl="git lg"
-alias gt="git tag"
-alias gta="git tag -a"
-alias gtd="git tag -d"
-alias gtl="git tag -l"
-# turn on coloring on grep
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+# Git related shortcuts
+alias gcl="git clone"                                      # Clone a repository
+alias undopush="git push -f origin HEAD^:master"           # Undo the last push to master
+alias gd="git diff"                                        # Show changes between commits, commit and working tree, etc.
+alias gdc="git diff --cached"                              # Show changes between index and HEAD
+alias ga="git add"                                         # Add file contents to the index
+alias gall="git add -A"                                    # Add all changes to the index
+alias gf="git fetch --all --prune"                         # Fetch all branches and prune deleted branches
+alias gft="git fetch --all --prune --tags"                 # Fetch all branches, prune deleted branches, and fetch tags
+alias gfv="git fetch --all --prune --verbose"              # Verbosely fetch all branches and prune deleted branches
+alias gftv="git fetch --all --prune --tags --verbose"      # Verbosely fetch all branches, prune deleted branches, and fetch tags
+alias gs="git status -sb --ignore-submodules"              # Show short status, ignoring submodules
+alias gss="gs"
+alias gst="gs"
+alias gsu="git submodule update --init --recursive"        # Initialize, fetch and checkout submodules
+alias gl="git pull"                                        # Fetch and merge changes from the remote repository
+alias gpr="git pull --rebase"                              # Fetch and rebase changes from the remote repository
+alias gp="git push"                                        # Update remote refs along with associated objects
+alias gpo="git push origin"                                # Push to origin
+alias gpt="git push --tags"                                # Push tags to the remote repository
+alias gpu="git push --set-upstream"                        # Push and set upstream branch
+alias gpom="git push origin master"                        # Push to master branch on origin
+alias gc="git commit -v"                                   # Commit changes verbosely
+alias gca="git commit -v -a"                               # Commit all changes verbosely
+alias gcm="git commit -v -m"                               # Commit with message verbosely
+alias gci="git commit --interactive"                       # Commit changes interactively
+alias gb="git branch"                                      # List, create, or delete branches
+alias gba="git branch -a"                                  # List all branches
+alias gbt="git branch --track"                             # Track a remote branch
+alias gbd="git branch -D"                                  # Delete a branch forcefully
+alias gm="git merge --no-ff"                               # Merge branches without fast-forward
+alias grs="git reset --soft"                               # Soft reset HEAD to a specific state
+alias grh="git reset --hard"                               # Hard reset HEAD to a specific state
+alias gcob="git checkout -b"                               # Create and switch to a new branch
+alias gco="git checkout"                                   # Switch branches or restore working tree files
+alias gcp="git cherry-pick"                                # Apply changes introduced by existing commits
+alias gl="git lg"                                          # Show commit logs in a graphical way
+alias gt="git tag"                                         # List, create, delete or verify a tag object signed with GPG
+alias gta="git tag -a"                                     # Create an annotated tag
+alias gtd="git tag -d"                                     # Delete a tag
+alias gtl="git tag -l"                                     # List tags matching a pattern
+# Turn on coloring on grep
+alias fgrep="fgrep --color=auto"
+alias egrep="egrep --color=auto"
 
-# xclip
-alias pbcopy="xclip -selection clipboard"
-alias pbpaste="xclip -selection clipboard -o"
+# xclip aliases for clipboard operations
+alias pbcopy="xclip -selection clipboard"          # Copy to clipboard
+alias pbpaste="xclip -selection clipboard -o"      # Paste from clipboard
 
-# vim -> neovim
-alias v='nvim'
-alias vim='nvim'
+# vim -> neovim aliases
+alias v="nvim"                                     # Alias 'v' to open nvim
+alias vim="nvim"                                   # Alias 'vim' to open nvim
 
-# emacs
-alias em='emacs'
-alias en='emacs -nw'
-alias e='emacsclient -n'
-alias et='emacsclient -t'
-alias ed='emacs --daemon'
-alias E='SUDO_EDITOR=emacsclient sudo -e'
+# emacs aliases
+alias em="emacs"                                   # Open Emacs
+alias en="emacs -nw"                               # Open Emacs in terminal mode
+alias e="emacsclient -n"                           # Open file with emacsclient in non-blocking mode
+alias et="emacsclient -t"                          # Open file with emacsclient in terminal mode
+alias ed="emacs --daemon"                          # Start Emacs as a daemon
+alias E="SUDO_EDITOR=emacsclient sudo -e"          # Open file with sudo using emacsclient
 
-# quick check running state of a process
-alias ps="ps -Sa -o 'uid,pid,ppid,time,rss,command'"
+# Start local markdown wiki for notes
+alias md="gollum --host localhost --port 4567 ~/Dropbox/Notes/" # Start Gollum wiki
 
-# start local markdown wiki for my notes
-alias md='gollum --host localhost --port 4567 ~/Dropbox/Notes/'
-
-# launch vim with geeknote
-alias vim-geeknote='vim -c Geeknote'
-
-# from http://news.ycombinator.com/item?id=4492682
-alias tree1='tree --dirsfirst -ChFLQ 1'
-alias tree2='tree --dirsfirst -ChFLQ 2'
-alias tree3='tree --dirsfirst -ChFLQ 3'
-alias tree4='tree --dirsfirst -ChFLQ 4'
-alias tree5='tree --dirsfirst -ChFLQ 5'
-alias tree6='tree --dirsfirst -ChFLQ 6'
+# Tree view aliases with depth control
+alias tree1="tree --dirsfirst -ChFLQ 1"            # Tree view with depth 1
+alias tree2="tree --dirsfirst -ChFLQ 2"            # Tree view with depth 2
+alias tree3="tree --dirsfirst -ChFLQ 3"            # Tree view with depth 3
+alias tree4="tree --dirsfirst -ChFLQ 4"            # Tree view with depth 4
+alias tree5="tree --dirsfirst -ChFLQ 5"            # Tree view with depth 5
+alias tree6="tree --dirsfirst -ChFLQ 6"            # Tree view with depth 6

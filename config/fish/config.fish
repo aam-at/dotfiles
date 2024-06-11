@@ -115,7 +115,9 @@ end
 if test -e ~/.aliases
     source ~/.aliases
 end
-abbr -a -- - 'cd -'
+if test -e ~/.config/fish/aliases.fish
+    source ~/.config/fish/aliases.fish
+end
 
 # configure fzf
 if test -d ~/.fzf/bin
