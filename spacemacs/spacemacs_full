@@ -776,6 +776,7 @@ before packages are loaded."
   (load-library "config-secure.el.gpg")
 
   (my-common-setup)
+  (my-secure-setup)
   (my-ai-setup)
   (my-org-setup)
   (my-tex-setup)
@@ -783,8 +784,7 @@ before packages are loaded."
   (when (spacemacs/system-is-linux)
     (my-mail-setup))
   (my-twitter-setup)
-  (my-xwidget-setup)
-  (my-secure-setup))
+  (my-xwidget-setup))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
