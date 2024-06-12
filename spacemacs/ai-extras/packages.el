@@ -35,7 +35,10 @@
 
 (defun ai-extras/init-magit-gptcommit ()
   (use-package magit-gptcommit
-    :defer t
-    :after magit
+    :demand t
+    :after magit llm
     :config
-    (magit-gptcommit-status-buffer-setup)))
+    (if ai-extras-autostart-gptcommit-mode
+        (progn
+          (magit-gptcommit-mode 1)
+          (magit-gptcommit-status-buffer-setup)))))

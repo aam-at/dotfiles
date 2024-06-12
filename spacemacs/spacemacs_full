@@ -191,7 +191,8 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              aam
              writing
-             ai-extras
+             (ai-extras :variables
+                        ai-extras-autostart-gptcommit-mode t)
              org-extras
              org-roam
              cpp-extras)
