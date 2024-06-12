@@ -1,6 +1,13 @@
 ;; This file configures llms for use.
 (defun my-ai-setup ()
   ;; gptel settings
+  (setq gptel-model "llama3:8b"
+        gptel-backend (gptel-make-ollama "Ollama"
+                        :host "localhost:11434"
+                        :stream t
+                        :models '("llama3:8b"))
+        gptel-default-mode 'org-mode
+        gptel-expert-commands t)
   (gptel-make-ollama "Ollama"
     :host "localhost:11434"
     :stream t
