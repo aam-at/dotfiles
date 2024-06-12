@@ -34,7 +34,7 @@
     org-ref
     (org-similarity :location (recipe
                                :fetcher github
-                               :repo "brunoarine/org-similarity"))
+                               :repo "aam-at/org-similarity"))
     org-fragtog
     ;; pdf and pdf annotation
     org-noter
@@ -141,23 +141,29 @@
   (require 'org-ref-worldcat))
 
 (defun org-extras/init-org-similarity ()
-  :defer t
-  :config
-  (setq org-similarity-directory org-directory
-        org-similarity-file-extension-pattern "*.org"
-        org-similarity-language "english"
-        org-similarity-algorithm "tfidf"
-        org-similarity-number-of-documents 10
-        org-similarity-min-chars 0
-        org-similarity-show-scores nil
-        org-similarity-threshold 0.05
-        org-similarity-use-id-links nil
-        org-similarity-recursive-search nil
-        org-similarity-custom-python-interpreter nil
-        org-similarity-remove-first nil
-        org-similarity-heading "** Related notes"
-        org-similarity-prefix "- "
-        org-similarity-ignore-frontmatter nil))
+  (use-package org-similarity
+               :after org
+               :commands (org-similarity-sidebuffer org-similarity-query)
+               :init
+               (spacemacs/set-leader-keys-for-major-mode 'org-mode
+                 "Ss" 'org-similarity-sidebuffer
+                 "Sq" 'org-similarity-query)
+               :config
+               (setq org-similarity-directory org-directory
+                     org-similarity-file-extension-pattern "*.org"
+                     org-similarity-language "english"
+                     org-similarity-algorithm "tfidf"
+                     org-similarity-number-of-documents 10
+                     org-similarity-min-chars 0
+                     org-similarity-show-scores t
+                     org-similarity-threshold 0.05
+                     org-similarity-use-id-links t
+                     org-similarity-recursive-search t
+                     org-similarity-custom-python-interpreter nil
+                     org-similarity-remove-first t
+                     org-similarity-heading "** Related notes"
+                     org-similarity-prefix "- "
+                     org-similarity-ignore-frontmatter nil)))
 
 (defun org-extras/init-org-fragtog ()
   (use-package org-fragtog-mode
