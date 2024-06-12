@@ -191,6 +191,7 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              aam
              writing
+             ai-extras
              org-extras
              org-roam
              cpp-extras)
