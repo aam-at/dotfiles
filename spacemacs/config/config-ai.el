@@ -35,9 +35,16 @@
     :models '("deepseek-chat"
               "deepseek-coder"))
   ;; llm settings
-  (require 'llm-ollama)
+  ;; (require 'llm-ollama)
+  ;; (setq magit-gptcommit-llm-provider
+  ;;       (make-llm-ollama :embedding-model "nomic-embed-text:latest"
+  ;;                        :chat-model "llama3:latest"
+  ;;                        :default-chat-temperature 0.1))
+  (require 'llm-openai)
   (setq magit-gptcommit-llm-provider
-        (make-llm-ollama :embedding-model "nomic-embed-text:latest" :chat-model "llama3:latest" :default-chat-temperature 0.1)))
-
+        (make-llm-openai-compatible :default-chat-temperature 1.0
+                                    :key deepseek-api-key
+                                    :chat-model "deepseek-coder"
+                                    :url "https://api.deepseek.com/v1")))
 
 (provide 'config-ai)
