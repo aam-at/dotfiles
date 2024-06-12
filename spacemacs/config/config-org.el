@@ -14,6 +14,14 @@
   (setq org-latex-create-formula-image-program 'dvipng
         org-preview-latex-image-directory "ltximg/")
 
+  (setq org-clock-idle-time 30
+        org-deadline-warning-days 4
+        org-edit-src-content-indentation 0
+        org-enforce-todo-dependencies t
+        org-hide-emphasis-markers t
+        org-startup-indented t
+        org-use-speed-commands t)
+
   ;; org safe-variables
   (put 'org-download-image-dir 'safe-local-variable (lambda (_) t))
   (put 'org-download-heading-lvl 'safe-local-variable (lambda (_) t))
@@ -60,13 +68,17 @@
   (setq org-agenda-time-grid '((daily today require-timed)
                                (800 1000 1200 1400 1600 1800 2000)
                                "......" "----------------------")
-        org-agenda-skip-scheduled-if-done t
-        org-agenda-skip-deadline-if-done t
-        org-agenda-include-deadlines t
-        org-agenda-include-diary t
         org-agenda-block-separator nil
         org-agenda-compact-blocks t
-        org-agenda-start-with-log-mode t)
+        org-agenda-include-deadlines t
+        org-agenda-include-diary t
+        org-agenda-include-diary t
+        org-agenda-skip-deadline-if-done t
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-span 'day
+        org-agenda-start-with-clockreport-mode t
+        org-agenda-start-with-log-mode t
+        org-agenda-sticky t)
   (setq org-agenda-custom-commands
         '(
           ;; Daily overview agenda
