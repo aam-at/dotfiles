@@ -13,9 +13,9 @@ sudo apt-fast install -y \
     alacritty anki apt-file autojump automake bibtool btop build-essential \
     checkinstall chrome-gnome-shell clang cmake cmake cscope curl curl ditaa \
     fasd fbreader fd-find fish fonts-firacode fonts-jetbrains-mono fzy gawk \
-    gcc-10 gettext git git-lfs glances global gnome-tweaks gnupg2 graphviz \
-    guile-3.0-dev html2text htop iotop iputils-arping isync jq keychain kitty \
-    libbz2-dev libevent-dev libffi-dev libfontconfig1-dev libfreetype6-dev \
+    gcc-10 gettext git git-lfs glances global gnome-tweaks gnupg2 gpustat \
+    graphviz guile-3.0-dev html2text htop iotop iputils-arping isync jq keychain \
+    kitty libbz2-dev libevent-dev libffi-dev libfontconfig1-dev libfreetype6-dev \
     libfuse-dev libgccjit-14-dev libgccjit0 libgif-dev libgmime-3.0-dev \
     libgnutls28-dev libjansson-dev libjansson4 libjpeg-dev liblzma-dev \
     libmagick++-dev libmagickcore-dev libncurses-dev libncurses6 libncursesw6 \
@@ -24,10 +24,10 @@ sudo apt-fast install -y \
     libwebkit2gtk-4.1-dev libxapian-dev libxcb-xfixes0-dev libxkbcommon-dev \
     libxpm-dev llvm make mc meson mosh ncdu net-tools \
     network-manager-openconnect network-manager-openconnect-gnome nnn notmuch \
-    openconnect openssh-server p7zip-full p7zip-rar pandoc pass pdfpc peco \
-    pkg-config plantuml postfix protobuf-compiler pydf python-dev-is-python3 \
-    python3 python3-openssl python3-pip ranger ripgrep ruby screen shellcheck \
-    sqlite3 stow tabbed texinfo tig tk-dev tmux trash-cli \
+    nvitop openconnect openssh-server p7zip-full p7zip-rar pandoc pass pdfpc \
+    peco pkg-config plantuml postfix protobuf-compiler pydf \
+    python-dev-is-python3 python3 python3-openssl python3-pip ranger ripgrep \
+    ruby screen shellcheck sqlite3 stow tabbed texinfo tig tk-dev tmux trash-cli \
     ubuntu-restricted-extras unrar wget wmctrl xbindkeys xdg-utils xdotool \
     xz-utils zathura zathura-djvu zathura-pdf-poppler zlib1g-dev zoxide
 
@@ -139,8 +139,6 @@ if [ ! -d "$HOME/.pyenv/versions/3.11.9" ]; then
     pyenv deactivate
     python3 -m pip install --user pipx
     python3 -m pipx ensurepath
-    pipx install nvitop
-    pipx install gpustat
 fi
 
 # Install Rust and cargo packages
