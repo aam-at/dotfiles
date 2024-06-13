@@ -40,7 +40,9 @@
   (use-package whisper
     :defer t
     :init
-    (spacemacs/set-leader-keys "acw" 'whisper-run)
+    (spacemacs/set-leader-keys
+      "$w" 'whisper-run
+      "$W" 'whisper-file-run)
     :config
     (setq whisper-install-directory "/tmp/"
           whisper-model "base"
