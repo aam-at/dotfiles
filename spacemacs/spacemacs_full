@@ -79,6 +79,7 @@ This function should only modify configuration layer settings."
                           spacemacs-tree-sitter-hl-black-list '(org-mode latex-mode)
                           tree-sitter-syntax-highlight-enable t
                           tree-sitter-fold-enable t
+                          tree-sitter-indent-enable t
                           tree-sitter-fold-indicators-enable nil)
              c-c++
              emacs-lisp
