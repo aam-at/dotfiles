@@ -62,6 +62,12 @@
 
   ;; calendar settings
   (evil-set-initial-state 'calendar-mode 'emacs)
-  (setq calendar-date-style "european"))
+  (setq calendar-date-style "european")
+
+  ;; status line
+  (with-eval-after-load 'tree-sitter
+    (spacemacs|diminish tree-sitter-mode " " " T"))
+  (with-eval-after-load 'ts-fold
+    (spacemacs|diminish ts-fold-mode)))
 
 (provide 'config-common)
