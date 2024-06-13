@@ -11,7 +11,7 @@ sudo apt-get install -y apt-fast
 # Install other packages
 sudo apt-fast install -y \
     alacritty anki apt-file autojump automake bibtool btop build-essential \
-    checkinstall chrome-gnome-shell clang cmake cmake cscope curl curl ditaa \
+    checkinstall chrome-gnome-shell clang cmake cmake cscope curl curl eza ditaa \
     fasd fbreader fd-find ffmpeg fish fonts-firacode fonts-jetbrains-mono fzy \
     gawk gcc-10 gettext git git-lfs glances global gnome-tweaks gnupg2 golang-go \
     gpustat graphviz guile-3.0-dev html2text htop iotop iputils-arping isync jq \
