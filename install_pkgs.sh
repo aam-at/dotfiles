@@ -194,6 +194,16 @@ if [ ! -d "$HOME/.config/omf" ]; then
     curl -L https://get.oh-my.fish | fish
 fi
 
+# Install icons-in-terminal
+if [ ! -d "$HOME/.local/share/icons-in-terminal" ]; then
+    echo "Installing icons-in-terminal..."
+    git clone https://github.com/sebastiencs/icons-in-terminal /tmp/icons-in-terminal
+    cd /tmp/icons-in-terminal
+    ./install.sh
+    rm -rf /tmp/icons-in-terminal
+    cd -
+fi
+
 # Install ollama
 if ! command -v ollama &> /dev/null; then
     curl -fsSL https://ollama.com/install.sh | sh
