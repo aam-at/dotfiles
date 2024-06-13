@@ -213,6 +213,7 @@ sudo snap install --classic skype
 sudo snap install --classic slack
 sudo snap install --classic pycharm-professional
 sudo snap install --classic code
+sudo snap install --classic helix
 sudo snap install --classic obsidian
 sudo snap install --classic zellij
 sudo snap install logseq
