@@ -387,6 +387,7 @@ SCHEDULED: %(cfw:org-capture-day)
   ;; status line
   (spacemacs|diminish org-roam-ui-mode)
   (spacemacs|diminish org-roam-ui-follow-mode)
+  (spacemacs|diminish org-remark-mode "" "Or")
   (spacemacs|diminish org-remark-global-tracking-mode))
 
 (defun my-org-setup/modules()
