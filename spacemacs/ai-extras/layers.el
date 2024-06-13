@@ -1,1 +1,1 @@
-(configuration-layer/declare-layers '(llm-client))
+(configuration-layer/declare-layers '(llm-client git))
