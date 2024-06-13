@@ -72,6 +72,7 @@
     ~/.dircolors: bash/dircolors-solarized/dircolors.ansi-light
     ~/.env: general/env
     ~/.Xmodmap: general/x/Xmodmap
+    ~/.Xresources: general/x/Xresources
     ~/.xinitrc: general/x/xinitrc
     ~/.xbindkeysrc: general/x/xbindkeysrc
     ~/.latexmkrc: general/latexmkrc
