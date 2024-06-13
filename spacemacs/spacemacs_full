@@ -175,6 +175,7 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              ;; Misc tools
              ;; ----------------------------------------------------------------
+             all-the-icons
              chrome
              finance
              (languagetool :variables
