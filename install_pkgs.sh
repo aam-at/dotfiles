@@ -202,6 +202,17 @@ if [ ! -d "$HOME/.local/share/icons-in-terminal" ]; then
     cd -
 fi
 
+# Install NoiseTorch
+if ! command -v noisetorch &> /dev/null; then
+    git clone https://github.com/noisetorch/NoiseTorch $TOOLS_DIR/NoiseTorch
+    cd $TOOLS_DIR/NoiseTorch
+    make -j
+    mkdir -p  ~/.local/bin
+    cp ./bin/noisetorch ~/.local/bin/
+    cp ./assets/noisetorch.desktop ~/.local/share/applications
+    cp ./assets/icon/noisetorch.png ~/.local/share/icons/hicolor/256x256/apps
+fi
+
 # Install ollama
 if ! command -v ollama &> /dev/null; then
     curl -fsSL https://ollama.com/install.sh | sh
