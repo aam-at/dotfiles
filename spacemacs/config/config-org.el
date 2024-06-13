@@ -382,7 +382,12 @@ SCHEDULED: %(cfw:org-capture-day)
           org-ref-pdf-directory (aam/bib-path "papers/")))
 
   ;; setup org modules
-  (my-org-setup/modules))
+  (my-org-setup/modules)
+
+  ;; status line
+  (spacemacs|diminish org-roam-ui-mode)
+  (spacemacs|diminish org-roam-ui-follow-mode)
+  (spacemacs|diminish org-remark-global-tracking-mode))
 
 (defun my-org-setup/modules()
   ;; additional org-modules
