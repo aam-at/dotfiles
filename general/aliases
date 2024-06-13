@@ -4,7 +4,7 @@
 alias upgradepkg="sudo apt-fast update && sudo apt-fast upgrade -y" # Update all packages
 alias installpkg="sudo apt-fast install"                            # Install a package
 alias removepkg="sudo apt-get remove"                               # Remove a package
-alias searchpkg="apt-get search"                                    # Search for a package
+alias searchpkg="apt-cache search"                                    # Search for a package
 
 ###################
 ###  Navigation ###

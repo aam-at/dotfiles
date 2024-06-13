@@ -404,7 +404,7 @@ SCHEDULED: %(cfw:org-capture-day)
   ;; org-effectiveness
   (add-to-list 'org-modules 'org-effectiveness t)
   ;; org-contacts
-  (unless org-enable-org-contacts-support
+  (if org-enable-org-contacts-support
     (progn
       (require 'org-contacts)
       (setq org-contacts-files (aam/org-path "contacts.org"))))
