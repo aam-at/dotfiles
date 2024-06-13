@@ -21,6 +21,7 @@
     ~/.config/catppuccin: config/catppuccin
     ~/.config/fish: config/fish
     ~/.config/gitui: config/gitui
+    ~/.config/helix: config/helix
     ~/.config/kitty: config/kitty
     ~/.config/mimeapps.list: config/mimeapps.list
     ~/.config/ranger: config/ranger
