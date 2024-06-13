@@ -25,6 +25,9 @@
 (defconst ai-extras-packages
   '(
     llm
+    (whisper :location (recipe
+                        :fetcher github
+                        :repo "natrys/whisper.el"))
     (magit-gptcommit :location (recipe
                                 :fetcher github
                                 :repo "avishefi/magit-gptcommit"
@@ -32,6 +35,18 @@
 
 
 (defun ai-extras/init-llm ())
+
+(defun ai-extras/init-whisper ()
+  (use-package whisper
+    :defer t
+    :init
+    (spacemacs/set-leader-keys "acw" 'whisper-run)
+    :config
+    (setq whisper-install-directory "/tmp/"
+          whisper-model "base"
+          whisper-language "en"
+          whisper-translate nil
+          whisper-use-threads (/ (num-processors) 2))))
 
 (defun ai-extras/init-magit-gptcommit ()
   (use-package magit-gptcommit
