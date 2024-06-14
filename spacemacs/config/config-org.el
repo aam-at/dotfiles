@@ -238,13 +238,6 @@ DEADLINE: %^{Deadline}t
 :PROPERTIES:
 :CREATED: %U
 :END:\n")
-          ;; todo template for calfw calendar
-          ("c" "calfw2org" entry (file ,aam/org-inbox)
-           "* TODO %?
-SCHEDULED: %(cfw:org-capture-day)
-:PROPERTIES:
-:CREATED: %U
-:END:\n")
           ("e" "Email" entry
            (file ,aam/org-inbox)
            "* TODO [#A] Reply: %a :@home:@work:"
@@ -290,6 +283,16 @@ SCHEDULED: %(cfw:org-capture-day)
            (file aam/org-capture-project-filepath)
            (file ,(aam/org-path "templates/project.org"))
            :jump-to-captured t)))
+  ;; todo template for calfw calendar
+  (if (eq org-enable-calfw-support t)
+      (setq org-capture-templates
+            (append org-capture-templates
+                    '("c" "calfw2org" entry (file ,aam/org-inbox)
+                      "* TODO %?
+SCHEDULED: %(cfw:org-capture-day)
+:PROPERTIES:
+:CREATED: %U
+:END:\n"))))
 
   ;; org babel languages
   (org-babel-do-load-languages
@@ -405,9 +408,9 @@ SCHEDULED: %(cfw:org-capture-day)
   (add-to-list 'org-modules 'org-effectiveness t)
   ;; org-contacts
   (if org-enable-org-contacts-support
-    (progn
-      (require 'org-contacts)
-      (setq org-contacts-files (aam/org-path "contacts.org"))))
+      (progn
+        (require 'org-contacts)
+        (setq org-contacts-files (aam/org-path "contacts.org"))))
   ;; org-crypt
   (require 'org-crypt)
   (setq org-crypt-key "alexander.matyasko@gmail.com")
