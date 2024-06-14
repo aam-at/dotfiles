@@ -33,6 +33,9 @@
                          :fetcher github
                          :repo "kidd/org-gcal.el"))
     org-ref
+    (delve :location (recipe
+                      :fetcher github
+                      :repo "publicimageltd/delve"))
     (org-similarity :location (recipe
                                :fetcher github
                                :repo "aam-at/org-similarity"))
@@ -140,6 +143,66 @@
   (require 'x2bib)
   (require 'org-ref-scifinder)
   (require 'org-ref-worldcat))
+
+(defun org-extras/init-delve ()
+  (use-package delve
+    :defer t
+    :after org-roam
+    :commands
+    (delve delve-minor-mode-collect-actions delve-minor-mode-edit-actions delve-minor-mode-inspect-actions)
+    :hook
+    (delve-mode . delve-compact-view) ; turn on compact view per default
+    (delve-mode . hl-line-mode)   ; nicer to use with hl-line
+    :init
+    (require 'delve-minor-mode)
+    (evilified-state-evilify-map delve-mode-map
+      :mode delve-mode
+      :bindings
+      (kbd "RET") 'delve--key--toggle-preview
+      (kbd "+") 'delve--key--add-tags
+      (kbd "-") 'delve--key--remove-tags
+      (kbd "T") 'delve--key--insert-node-by-tags
+      (kbd "b") 'delve--key--backlinks
+      (kbd "c") 'delve--key--collect-into-buffer
+      (kbd "f") 'delve--key--fromlinks
+      (kbd "g") 'delve--key--refresh
+      (kbd "h") 'delve--key--insert-heading
+      (kbd "i") 'delve--key--insert-query-or-pile
+      (kbd "n") 'delve--node-transient-key
+      (kbd "o") 'delve--key--open-zettel
+      (kbd "p") 'delve--key--collect-into-pile
+      (kbd "q") 'bury-buffer
+      (kbd "s") 'delve--key--sort
+      (kbd "t") 'delve--key--insert-tagged
+      (kbd "v") 'delve-compact-view-mode
+      (kbd "C-<left>") 'delve--key--backlinks
+      (kbd "C-<return>") 'delve--key--open-zettel
+      (kbd "C-<right>") 'delve--key--fromlinks
+      (kbd "<delete>") 'delve--key--multi-delete)
+    (spacemacs/set-leader-keys-for-major-mode 'delve-mode
+      "+" 'delve--key--add-tags
+      "-" 'delve--key--remove-tags
+      "T" 'delve--key--insert-node-by-tags
+      "b" 'delve--key--backlinks
+      "c" 'delve--key--collect-into-buffer
+      "f" 'delve--key--fromlinks
+      "g" 'delve--key--refresh
+      "h" 'delve--key--insert-heading
+      "i" 'delve--key--insert-query-or-pile
+      "n" 'delve--node-transient-key
+      "o" 'delve--key--open-zettel
+      "p" 'delve--key--collect-into-pile
+      "q" 'bury-buffer
+      "s" 'delve--key--sort
+      "t" 'delve--key--insert-tagged
+      "v" 'delve-compact-view-mode)
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "Dd" 'delve
+      "Dc" 'delve-minor-mode-collect-actions
+      "De" 'delve-minor-mode-edit-actions
+      "Di" 'delve-minor-mode-inspect-actions)
+    :config
+    (delve-global-minor-mode +1)))
 
 (defun org-extras/init-org-similarity ()
   (use-package org-similarity
