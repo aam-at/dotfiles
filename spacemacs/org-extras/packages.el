@@ -28,7 +28,8 @@
     org
     org-transclusion
     ob-async
-    (org-gcal :location (recipe
+    (org-gcal :toggle org-enable-gcal
+              :location (recipe
                          :fetcher github
                          :repo "kidd/org-gcal.el"))
     org-ref
@@ -142,28 +143,28 @@
 
 (defun org-extras/init-org-similarity ()
   (use-package org-similarity
-               :after org
-               :commands (org-similarity-sidebuffer org-similarity-query)
-               :init
-               (spacemacs/set-leader-keys-for-major-mode 'org-mode
-                 "Ss" 'org-similarity-sidebuffer
-                 "Sq" 'org-similarity-query)
-               :config
-               (setq org-similarity-directory org-directory
-                     org-similarity-file-extension-pattern "*.org"
-                     org-similarity-language "english"
-                     org-similarity-algorithm "tfidf"
-                     org-similarity-number-of-documents 10
-                     org-similarity-min-chars 0
-                     org-similarity-show-scores t
-                     org-similarity-threshold 0.05
-                     org-similarity-use-id-links t
-                     org-similarity-recursive-search t
-                     org-similarity-custom-python-interpreter nil
-                     org-similarity-remove-first t
-                     org-similarity-heading "** Related notes"
-                     org-similarity-prefix "- "
-                     org-similarity-ignore-frontmatter nil)))
+    :after org
+    :commands (org-similarity-sidebuffer org-similarity-query)
+    :init
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "Ss" 'org-similarity-sidebuffer
+      "Sq" 'org-similarity-query)
+    :config
+    (setq org-similarity-directory org-directory
+          org-similarity-file-extension-pattern "*.org"
+          org-similarity-language "english"
+          org-similarity-algorithm "tfidf"
+          org-similarity-number-of-documents 10
+          org-similarity-min-chars 0
+          org-similarity-show-scores t
+          org-similarity-threshold 0.05
+          org-similarity-use-id-links t
+          org-similarity-recursive-search t
+          org-similarity-custom-python-interpreter nil
+          org-similarity-remove-first t
+          org-similarity-heading "** Related notes"
+          org-similarity-prefix "- "
+          org-similarity-ignore-frontmatter nil)))
 
 (defun org-extras/init-org-fragtog ()
   (use-package org-fragtog-mode
