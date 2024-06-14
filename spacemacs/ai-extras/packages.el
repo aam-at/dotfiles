@@ -44,8 +44,8 @@
       "$w" 'whisper-run
       "$W" 'whisper-file-run)
     :config
-    (setq whisper-install-directory "/tmp/"
-          whisper-model "base"
+    (setq whisper-install-directory "~/local/tools/"
+          whisper-model "small"
           whisper-language "en"
           whisper-translate nil
           whisper-use-threads (/ (num-processors) 2))))
