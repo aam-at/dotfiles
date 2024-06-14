@@ -284,7 +284,7 @@ DEADLINE: %^{Deadline}t
            (file ,(aam/org-path "templates/project.org"))
            :jump-to-captured t)))
   ;; todo template for calfw calendar
-  (if (eq org-enable-calfw-support t)
+  (if (eq org-enable-calfw t)
       (setq org-capture-templates
             (append org-capture-templates
                     '("c" "calfw2org" entry (file ,aam/org-inbox)
