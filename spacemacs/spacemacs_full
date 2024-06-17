@@ -195,7 +195,8 @@ This function should only modify configuration layer settings."
              writing
              (ai-extras :variables
                         ai-extras-autostart-gptcommit-mode t)
-             org-extras
+             (org-extras :variables
+                         org-enable-delve t)
              org-roam
              cpp-extras)
 
@@ -747,9 +748,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (spacemacs|do-after-display-system-init
    (let ((font-size (if (> (x-display-pixel-width) 3000) 20 14)))
      (setq dotspacemacs-default-font `("JetBrains Mono"
-                                        :size ,font-size
-                                        :weight normal
-                                        :width normal))
+                                       :size ,font-size
+                                       :weight normal
+                                       :width normal))
      (spacemacs/set-default-font dotspacemacs-default-font))))
 
 (defun dotspacemacs/user-load ()

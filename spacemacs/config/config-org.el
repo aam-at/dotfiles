@@ -376,6 +376,10 @@ SCHEDULED: %(cfw:org-capture-day)
   ;; org-doing settings
   (setq org-doing-file (aam/org-path "todo.org"))
 
+  ;; delve
+  (if (eq org-enable-delve t)
+      (setq delve-storage-paths (aam/org-path "delve")))
+
   ;; org-ref
   (with-eval-after-load 'helm-bibtex
     ;; org-ref configuration

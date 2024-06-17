@@ -33,7 +33,8 @@
                          :fetcher github
                          :repo "kidd/org-gcal.el"))
     org-ref
-    (delve :location (recipe
+    (delve :toggle org-enable-delve
+           :location (recipe
                       :fetcher github
                       :repo "publicimageltd/delve"))
     (org-similarity :location (recipe
@@ -151,7 +152,7 @@
     :commands
     (delve delve-minor-mode-collect-actions delve-minor-mode-edit-actions delve-minor-mode-inspect-actions)
     :hook
-    (delve-mode . delve-compact-view) ; turn on compact view per default
+    (delve-mode . delve-compact-view-mode) ; turn on compact view per default
     (delve-mode . hl-line-mode)   ; nicer to use with hl-line
     :init
     (require 'delve-minor-mode)
@@ -202,6 +203,7 @@
       "De" 'delve-minor-mode-edit-actions
       "Di" 'delve-minor-mode-inspect-actions)
     :config
+    (spacemacs|diminish delve-minor-mode " ⓓ" " D")
     (delve-global-minor-mode +1)))
 
 (defun org-extras/init-org-similarity ()
