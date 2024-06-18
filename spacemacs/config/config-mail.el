@@ -74,9 +74,6 @@
           ("/student/INBOX" . ?c)
           ("/sit/INBOX"   . ?w)
           ("/yandex/INBOX" . ?y)))
-  (setq mu4e-maildirs-extension-maildir-separator    "*"
-        mu4e-maildirs-extension-submaildir-separator "✉"
-        mu4e-maildirs-extension-action-text          nil)
 
   ;; mail account list
   (setq mu4e-contexts
@@ -237,8 +234,9 @@
               (unless (yes-or-no-p "Sure you want to send this?")
                 (signal 'quit nil))))
   (with-eval-after-load 'org
-    (add-hook 'message-mode-hook 'turn-on-orgstruct)
-    (add-hook 'message-mode-hook 'turn-on-orgstruct++)
+    ;; TODO: replace orgstruct++
+    ;; (add-hook 'message-mode-hook 'turn-on-orgstruct)
+    ;; (add-hook 'message-mode-hook 'turn-on-orgstruct++)
     (add-hook 'message-mode-hook 'orgtbl-mode)
     (require 'org-mime)
     (setq org-mime-library 'mml)
