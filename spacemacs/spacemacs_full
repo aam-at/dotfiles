@@ -160,7 +160,8 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              ;; Readers
              ;; ----------------------------------------------------------------
-             dash
+             (dash :variables
+                   dash-docs-docset-newpath "~/.local/share/Zeal/docsets")
              (elfeed :variables
                      elfeed-search-filter "@1-months-ago +unread"
                      elfeed-spacemacs-layout-name "@Elfeed"
@@ -207,13 +208,14 @@ This function should only modify configuration layer settings."
                fasd
                gtags
                (mu4e :variables
+                     mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e"
                      mu4e-spacemacs-layout-name "@Mu4e"
                      mu4e-spacemacs-layout-binding "m"
-                     mu4e-account-alist t
-                     mu4e-use-maildirs-extension t
-                     mu4e-enable-mode-line t
+                     mu4e-enable-async-operations t
                      mu4e-enable-notifications t
-                     mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e")
+                     mu4e-enable-mode-line t
+                     mu4e-org-compose-support t
+                     mu4e-use-maildirs-extension t)
                (notmuch :variables
                         notmuch-spacemacs-layout-name "@Notmuch"
                         notmuch-spacemacs-layout-binding "n")
