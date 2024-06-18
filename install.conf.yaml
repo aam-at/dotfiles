@@ -24,6 +24,7 @@
     ~/.config/helix: config/helix
     ~/.config/kitty: config/kitty
     ~/.config/mimeapps.list: config/mimeapps.list
+    ~/.notmuch-config: config/notmuch/config
     ~/.config/ranger: config/ranger
     ~/.config/tmux: config/tmux
     ~/.config/yazi: config/yazi
