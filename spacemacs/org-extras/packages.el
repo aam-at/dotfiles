@@ -132,6 +132,7 @@
     "iR" 'org-ref-helm-insert-label-link)
   (require 'org-ref)
   ;; optional but very useful libraries from org-ref
+  (require 'openalex)
   (require 'doi-utils)
   (require 'org-ref-pdf)
   (require 'org-ref-url-utils)

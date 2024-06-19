@@ -1,4 +1,6 @@
 ;; This file configures llms for use.
+
+;;;###autoload
 (defun my-ai-setup ()
   ;; gptel settings
   (setq gptel-model "llama3:8b"
