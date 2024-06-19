@@ -1,4 +1,6 @@
 ;; This file configures bibtex for use.
+
+;;;###autoload
 (defun my-bibtex-setup ()
   ;; bibtex settings
   (setq bibtex-autokey-name-year-separator ""
@@ -13,12 +15,6 @@
         bibtex-dialect 'biblatex
         bibtex-align-at-equal-sign t)
 
-  (setq aam/bib-dir "~/Dropbox/Research/Bibliography/")
-  (defun aam/bib-path (path) (concat aam/bib-dir path))
-  (setq aam/bibtex-files (list (aam/bib-path "refs.bib")
-                               (aam/bib-path "review.bib")
-                               (aam/bib-path "books.bib")
-                               (aam/bib-path "myrefs.bib")))
   ;; helm-bibtex
   (spacemacs/set-leader-keys "hc" 'helm-bibtex)
   (setq bibtex-completion-notes-path (aam/org-path "papers")

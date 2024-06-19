@@ -1,4 +1,6 @@
 ;; This file configures common for use.
+
+;;;###autoload
 (defun my-common-setup ()
   (when (and (daemonp) (memq window-system '(mac ns x)))
     (exec-path-from-shell-initialize)

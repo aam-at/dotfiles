@@ -1,13 +1,15 @@
 ;; This file configures email for use.
+
+;;;###autoload
 (defun my-org-setup ()
   ;; org settings
-  (setq org-directory org-root)
-  (defun aam/org-path (path) (concat org-directory path))
+  (setq org-directory aam/org-root)
   (setq aam/org-inbox (aam/org-path "inbox.org"))
   (setq deft-directory org-directory
         deft-recursive t
         deft-recursive-ignore-dir-regexp "\\(?:\\.\\|\\.\\.\\|journal\\|data\\)$")
   ;; set org-roam directory before loading agenda
+  (setq org-roam-directory aam/org-root)
   (setq org-default-notes-file (aam/org-path "refile.org"))
   (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
   ;; latex preview for org-mode
@@ -380,13 +382,13 @@ SCHEDULED: %(cfw:org-capture-day)
   (if (eq org-enable-delve t)
       (setq delve-storage-paths (aam/org-path "delve")))
 
-  ;; org-ref
-  (with-eval-after-load 'helm-bibtex
-    ;; org-ref configuration
-    (setq org-ref-bibliography-notes (aam/org-path "papers.org")
-          org-ref-notes-directory (aam/org-path "papers")
-          org-ref-default-bibliography aam/bibtex-files
-          org-ref-pdf-directory (aam/bib-path "papers/")))
+  ;; org-ref configuration
+  (setq org-ref-bibliography-notes (aam/org-path "papers.org")
+        org-ref-notes-directory (aam/org-path "papers")
+        org-ref-default-bibliography aam/bibtex-files
+        org-ref-pdf-directory (aam/bib-path "papers/"))
+  ;; org-cite configuration
+  (setq org-cite-global-bibliography aam/bibtex-files)
 
   ;; setup org modules
   (my-org-setup/modules)

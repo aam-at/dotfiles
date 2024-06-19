@@ -1,4 +1,6 @@
 ;; This file configures tex for use.
+
+;;;###autoload
 (defun my-tex-setup ()
   ;; Latex/Tex settings
   (defun zeal-latex-settings()

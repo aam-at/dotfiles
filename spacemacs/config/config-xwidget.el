@@ -1,4 +1,6 @@
 ;; This file configures xwidgets for use.
+
+;;;###autoload
 (defun my-xwidget-setup ()
   (evil-set-initial-state 'xwidget-webkit-mode 'emacs)
   (with-eval-after-load 'xwidget

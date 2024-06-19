@@ -1,4 +1,6 @@
 ;; This file configures email for use.
+
+;;;###autoload
 (defun my-mail-setup ()
   (setq mu4e-mu-home "~/.cache/mu"
         mu4e-sent-folder "/sent"

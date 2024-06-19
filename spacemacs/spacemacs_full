@@ -740,9 +740,15 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; open true file when opening any new file
   (setq find-file-visit-truename t)
   ;; configure org before anything
-  (setq org-root (file-truename (expand-file-name "~/Dropbox/Org/")))
-  (setq org-roam-directory org-root)
-  (setq org-roam-v2-ack t)
+  (setq aam/org-root (file-truename (expand-file-name "~/Dropbox/Org/")))
+  (defun aam/org-path (path) (concat aam/org-root path))
+  ;; configure bibtex
+  (setq aam/bib-root "~/Dropbox/Research/Bibliography/")
+  (defun aam/bib-path (path) (concat aam/bib-root path))
+  (setq aam/bibtex-files (list (aam/bib-path "refs.bib")
+                               (aam/bib-path "review.bib")
+                               (aam/bib-path "books.bib")
+                               (aam/bib-path "myrefs.bib")))
   ;; Garbage Collector Magic Hack
   (with-eval-after-load 'gcmh
     (gcmh-mode 1))
@@ -768,30 +774,31 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; load configs
-  (require 'config-common)
-  (require 'config-org)
-  (require 'config-ai)
-  (require 'config-tex)
-  (require 'config-bibtex)
-  (require 'config-mail)
-  (require 'config-twitter)
-  (require 'config-xwidget)
-  ;; load encrypted config
+  ;; setup keychain
   (when (require 'keychain-environment nil 'noerror)
     (keychain-refresh-environment))
-  (load-library "config-secure.el.gpg")
-
+  ;; auto load configs
+  (autoload 'my-ai-setup "config-ai" "Setup AI configurations" t)
+  (autoload 'my-bibtex-setup "config-bibtex" "Setup bibtex configurations" t)
+  (autoload 'my-common-setup "config-common" "Setup common configurations" t)
+  (autoload 'my-org-setup "config-org" "Setup org-mode configurations" t)
+  (autoload 'my-secure-setup "config-secure" "Setup secure configurations" t)
+  (autoload 'my-tex-setup "config-tex" "Setup TeX configurations" t)
+  (autoload 'my-twitter-setup "config-twitter" "Setup twitter configurations" t)
+  (autoload 'my-xwidget-setup "config-xwidget" "Setup xwidget configurations" t)
+  ;; load configs
   (my-common-setup)
   (my-secure-setup)
   (my-ai-setup)
   (my-org-setup)
   (my-tex-setup)
   (my-bibtex-setup)
-  (when (spacemacs/system-is-linux)
-    (my-mail-setup))
   (my-twitter-setup)
-  (my-xwidget-setup))
+  (my-xwidget-setup)
+  ;; linux specific
+  (when (spacemacs/system-is-linux)
+    (autoload 'my-mail-setup "config-mail" "Setup mail configurations" t)
+    (my-mail-setup)))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
