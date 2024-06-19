@@ -797,8 +797,8 @@ before packages are loaded."
   (my-xwidget-setup)
   ;; linux specific
   (when (spacemacs/system-is-linux)
-    (autoload 'my-mail-setup "config-mail" "Setup mail configurations" t)
-    (my-mail-setup)))
+    (progn (autoload 'my-mail-setup "config-mail" "Setup mail configurations" t)
+           (my-mail-setup))))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
