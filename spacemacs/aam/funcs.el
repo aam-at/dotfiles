@@ -28,3 +28,10 @@
     (when (and file-name (not (string= file-name real-file-name)))
       (find-alternate-file real-file-name)
       (message "Reopened '%s' as '%s'." file-name real-file-name))))
+
+(defun aam-sort-selected-words (beg end)
+  "Sort words in the selected region alphabetically."
+  (interactive "r")
+  (let ((words (split-string (buffer-substring-no-properties beg end))))
+    (delete-region beg end)
+    (insert (mapconcat 'identity (sort words 'string<) " "))))
