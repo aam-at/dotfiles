@@ -29,23 +29,24 @@ sudo apt-get install -y apt-fast
 # Install other packages
 echo "Installing packages..."
 sudo apt-fast install -y \
-    apt-file autojump automake btop build-essential checkinstall clang cmake \
-    cscope curl eza fasd fd-find ffmpeg fish fonts-firacode fonts-jetbrains-mono \
-    fzy gawk gcc-10 gettext git git-lfs glances global gnupg2 golang-go gpustat \
-    guile-3.0-dev htop iotop iputils-arping jq keychain kitty libbz2-dev \
-    libevent-dev libffi-dev libfontconfig1-dev libfreetype6-dev libfuse-dev \
-    libgccjit-14-dev libgccjit0 libgif-dev libgmime-3.0-dev libgnutls28-dev \
-    libjansson-dev libjansson4 libjpeg-dev liblzma-dev libmagick++-dev \
-    libmagickcore-dev libncurses-dev libncurses6 libncursesw6 libopenblas-dev \
-    libpng-dev libpoppler-glib-dev libpoppler-private-dev libreadline-dev \
-    libsqlite3-dev libssl-dev libsystemd-dev libtiff-dev libwebkit2gtk-4.1-dev \
-    libxapian-dev libxcb-xfixes0-dev libxkbcommon-dev libxpm-dev llvm make mc \
-    meson mosh ncdu net-tools nnn nvitop openconnect openssh-server p7zip-full \
-    p7zip-rar pandoc pass pdfpc peco pkg-config postfix protobuf-compiler pydf \
-    python-dev-is-python3 python3 python3-openssl python3-pip ranger ripgrep \
-    ruby ruby-dev screen shellcheck sqlite3 stow texinfo tig tk-dev tmux \
-    tmuxinator trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils \
-    xz-utils zlib1g-dev zoxide
+
+    apt-file autojump automake bison btop build-essential checkinstall clang \
+    cmake cscope curl eza fasd fd-find ffmpeg fish fonts-firacode \
+    fonts-jetbrains-mono fzy gawk gcc-10 gettext git git-lfs glances global \
+    gnupg2 golang-go gpustat guile-3.0-dev htop iotop iputils-arping jq keychain \
+    kitty libbz2-dev libevent-dev libffi-dev libfontconfig1-dev libfreetype6-dev \
+    libfuse-dev libgccjit-14-dev libgccjit0 libgif-dev libgmime-3.0-dev \
+    libgnutls28-dev libjansson-dev libjansson4 libjpeg-dev liblzma-dev \
+    libmagick++-dev libmagickcore-dev libncurses-dev libncurses6 libncursesw6 \
+    libopenblas-dev libpng-dev libpoppler-glib-dev libpoppler-private-dev \
+    libreadline-dev libsqlite3-dev libssl-dev libsystemd-dev libtiff-dev \
+    libwebkit2gtk-4.1-dev libxapian-dev libxcb-xfixes0-dev libxkbcommon-dev \
+    libxpm-dev llvm make mc meson mosh ncdu net-tools nnn nvitop openconnect \
+    openssh-server p7zip-full p7zip-rar pandoc pass pdfpc peco pkg-config \
+    postfix protobuf-compiler pydf python-dev-is-python3 python3 python3-openssl \
+    python3-pip ranger ripgrep ruby ruby-dev screen shellcheck sqlite3 stow \
+    texinfo tig tk-dev tmux tmuxinator trash-cli ubuntu-restricted-extras unrar \
+    wget wmctrl xdg-utils xz-utils zlib1g-dev zoxide
 
 # Add repositories
 sudo add-apt-repository ppa:git-core/ppa -y
@@ -109,6 +110,7 @@ if ! command -v tmux &>/dev/null; then
     tar -xzvf $TOOLS_DIR/tmux.tar.gz -C $TOOLS_DIR/tmux --strip-components=1
     cd $TOOLS_DIR/tmux
     ./configure
+    make -j $(nproc)
     sudo checkinstall
     cd -
 fi
