@@ -3,13 +3,11 @@
 ;;;###autoload
 (defun my-org-setup ()
   ;; org settings
-  (setq org-directory aam/org-root)
   (setq aam/org-inbox (aam/org-path "inbox.org"))
   (setq deft-directory org-directory
         deft-recursive t
         deft-recursive-ignore-dir-regexp "\\(?:\\.\\|\\.\\.\\|journal\\|data\\)$")
   ;; set org-roam directory before loading agenda
-  (setq org-roam-directory aam/org-root)
   (setq org-default-notes-file (aam/org-path "refile.org"))
   (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
   ;; latex preview for org-mode
