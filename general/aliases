@@ -136,6 +136,9 @@ alias et="emacsclient -t"                          # Open file with emacsclient 
 alias ed="emacs --daemon"                          # Start Emacs as a daemon
 alias E="SUDO_EDITOR=emacsclient sudo -e"          # Open file with sudo using emacsclient
 
+# bottom alias
+alias btm="btm --enable_gpu_memory"
+
 # Start local markdown wiki for notes
 alias md="gollum --host localhost --port 4567 ~/Dropbox/Notes/" # Start Gollum wiki
 
