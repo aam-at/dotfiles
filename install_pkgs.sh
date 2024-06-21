@@ -29,7 +29,6 @@ sudo apt-get install -y apt-fast
 # Install other packages
 echo "Installing packages..."
 sudo apt-fast install -y \
-
     apt-file autojump automake bison btop build-essential checkinstall clang \
     cmake cscope curl eza fasd fd-find ffmpeg fish fonts-firacode \
     fonts-jetbrains-mono fzy gawk gcc-10 gettext git git-lfs glances global \
@@ -44,9 +43,10 @@ sudo apt-fast install -y \
     libxpm-dev llvm make mc meson mosh ncdu net-tools nnn nvitop openconnect \
     openssh-server p7zip-full p7zip-rar pandoc pass pdfpc peco pkg-config \
     postfix protobuf-compiler pydf python-dev-is-python3 python3 python3-openssl \
-    python3-pip ranger ripgrep ruby ruby-dev screen shellcheck sqlite3 stow \
-    texinfo tig tk-dev tmux tmuxinator trash-cli ubuntu-restricted-extras unrar \
-    wget wmctrl xdg-utils xz-utils zlib1g-dev zoxide
+    python3-pip ranger ripgrep ruby ruby-dev screen shellcheck silversearcher-ag \
+    sqlite3 stow texinfo tig tk-dev tmux tmuxinator trash-cli \
+    ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zlib1g-dev \
+    zoxide
 
 # Add repositories
 sudo add-apt-repository ppa:git-core/ppa -y
