@@ -70,6 +70,11 @@
   (with-eval-after-load 'tree-sitter
     (spacemacs|diminish tree-sitter-mode " " " T"))
   (with-eval-after-load 'ts-fold
-    (spacemacs|diminish ts-fold-mode)))
+    (spacemacs|diminish ts-fold-mode))
+  (with-eval-after-load 'lsp
+    (spacemacs|diminish lsp-mode " " " L")
+    (spacemacs|diminish lsp-lens-mode))
+  (with-eval-after-load 'helm-gtags
+    (spacemacs|diminish helm-gtags-mode " ⓖ" " (g)")))
 
 (provide 'config-common)
