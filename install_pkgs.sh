@@ -254,11 +254,12 @@ sudo snap refresh
 sudo snap install --classic helix
 sudo snap install --classic zellij
 if [ $GUI -eq 1 ]; then
-    sudo snap install --classic skype
-    sudo snap install --classic slack
-    sudo snap install --classic pycharm-professional
     # sudo snap install --classic code
     sudo snap install --classic obsidian
+    sudo snap install --classic pycharm-professional
+    sudo snap install --classic skype
+    sudo snap install --classic slack
+    sudo snap install discord
     sudo snap install logseq
     sudo snap install opera
     sudo snap install spotify
