@@ -7,7 +7,7 @@
 # should be on the output of commands, not on the prompt
 #force_color_prompt=yes
 
-if [ -n "$KITTY_PID" ] || [ -n "$(tmux showenv -g KITTY_PID 2>/dev/null | awk -F= '{print $2}')" ]; then
+if [ -n "$KITTY_PID" ] || [ -n "$(tmux showenv KITTY_PID 2>/dev/null | awk -F= '{print $2}')" ]; then
     export TERM='xterm-kitty'
 elif [[ -n $TMUX ]]; then
     export TERM='screen-256color'
