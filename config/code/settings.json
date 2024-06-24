@@ -88,9 +88,17 @@
     },
     "redhat.telemetry.enabled": true,
     "[python]": {
-        "editor.defaultFormatter": "eeyore.yapf",
-        "editor.formatOnType": true
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+        "editor.formatOnType": true,
     },
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
     "vim.handleKeys": {
         "<C-f>": true,
         "<C-b>": true,
