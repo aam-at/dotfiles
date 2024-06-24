@@ -19,6 +19,10 @@
     ~/.config/broot: config/broot
     ~/.config/btop: config/btop
     ~/.config/catppuccin: config/catppuccin
+    ~/.config/Code/User/:
+        create: true
+        glob: true
+        path: config/code/*
     ~/.config/fish: config/fish
     ~/.config/gitui: config/gitui
     ~/.config/helix: config/helix

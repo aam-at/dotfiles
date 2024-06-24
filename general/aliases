@@ -48,8 +48,9 @@ alias unzip="unzip -d"           # Unzip directories
 ################################
 ###  File ShortCut           ###
 ################################
-alias D="cd ~/Downloads"
 alias d="cd ~/Dropbox"
+alias D="cd ~/Downloads"
+alias H="cd ~"
 # See https://github.com/syl20bnr/spacemacs/wiki/Terminal
 alias e="emacsclient -t"
 alias ec="emacsclient -c -a emacs"
