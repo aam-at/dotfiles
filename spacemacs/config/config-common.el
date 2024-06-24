@@ -71,7 +71,7 @@
     (spacemacs|diminish tree-sitter-mode " " " T"))
   (with-eval-after-load 'ts-fold
     (spacemacs|diminish ts-fold-mode))
-  (with-eval-after-load 'lsp
+  (with-eval-after-load 'lsp-ui
     (spacemacs|diminish lsp-mode " " " L")
     (spacemacs|diminish lsp-lens-mode))
   (with-eval-after-load 'helm-gtags

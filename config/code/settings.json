@@ -1,0 +1,203 @@
+{
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "keyboard.dispatch": "keyCode",
+    "editor.fontFamily": "'JetBrains Mono'",
+    "editor.fontSize": 13,
+    "editor.fontLigatures": true,
+    "editor.smoothScrolling": true,
+    "python.languageServer": "Pylance",
+    "vim.easymotion": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        },
+        {
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ]
+        },
+        {
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ]
+        }
+    ],
+    "explorer.confirmDelete": false,
+    "grammarly.audience": "expert",
+    "grammarly.dialect": "british",
+    "grammarly.domain": "academic",
+    "grammarly.emotions": [
+        "confident", "analytical"
+    ],
+    "grammarly.showExamples": true,
+    "editor.lineNumbers": "relative",
+    "latex-workshop.view.pdf.viewer": "tab",
+    "editor.inlineSuggest.enabled": true,
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "redhat.telemetry.enabled": true,
+    "[python]": {
+        "editor.defaultFormatter": "eeyore.yapf",
+        "editor.formatOnType": true
+    },
+    "vim.handleKeys": {
+        "<C-f>": true,
+        "<C-b>": true,
+        "<C-a>": true,
+        "<C-e>": true,
+        "<C-d>": true,
+    },
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "<C-f>"
+            ],
+            "after": [
+                "<right>"
+            ]
+        },
+        {
+            "before": [
+                "<C-b>"
+            ],
+            "after": [
+                "<left>"
+            ]
+        },
+        {
+            "before": [
+                "alt-b"
+            ],
+            "after": [
+                "<left>"
+            ]
+        },
+        {
+            "before": [
+                "<C-a>"
+            ],
+            "commands": [
+                {
+                    "command": "cursorHome",
+                    "when": "editorTextFocus"
+                }
+            ]
+        },
+        {
+            "before": [
+                "<C-e>"
+            ],
+            "commands": [
+                {
+                    "command": "cursorEnd",
+                    "when": "editorTextFocus"
+                }
+            ]
+        },
+        {
+            "before": [
+                "<C-d>"
+            ],
+            "commands": [
+                {
+                    "command": "deleteRight",
+                    "when": "editorTextFocus && !editorReadonly"
+                }
+            ]
+        }
+    ],
+    "workbench.colorTheme": "Gruvbox Dark Medium",
+    "workbench.iconTheme": "vscode-icons",
+    "python.analysis.completeFunctionParens": true,
+    "syntax.highlightLanguages": [
+        "c",
+        "cpp",
+        "python",
+        "typescript",
+        "typescriptreact",
+        "javascript",
+        "go",
+        "rust",
+        "php",
+        "ruby",
+        "shellscript",
+        "ocaml",
+        "lua"
+    ],
+    "files.exclude": {
+        "**/.trunk/*actions/": true,
+        "**/.trunk/*logs/": true,
+        "**/.trunk/*notifications/": true,
+        "**/.trunk/*out/": true,
+        "**/.trunk/*plugins/": true
+    },
+    "trunk.trunkGrayOutNonBlockingIssues": false,
+    "files.watcherExclude": {
+        "**/.trunk/*actions/": true,
+        "**/.trunk/*logs/": true,
+        "**/.trunk/*notifications/": true,
+        "**/.trunk/*out/": true,
+        "**/.trunk/*plugins/": true
+    },
+    "editor.defaultFormatter": "trunk.io",
+    "cloudcode.duetAI.project": "cpgd-301214",
+    "files.autoSave": "onWindowChange",
+    "[latex]": {
+        "editor.defaultFormatter": "James-Yu.latex-workshop"
+    },
+    "diffEditor.codeLens": true,
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+}
