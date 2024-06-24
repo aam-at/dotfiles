@@ -4,6 +4,17 @@ alias -- -="cd -"
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+# ruff alias
+function ruff_format() {
+    local file_to_format=$1
+
+    # Sort imports and fix issues
+    ruff check --select I --fix $file_to_format
+
+    # Format the file
+    ruff format $file_to_format
+}
+
 # If inside a kitty terminal, add aliases for kitty's icat, ssh, diff, and hg
 if [[ -n $KITTY_PID ]]; then
   alias icat="kitten icat"
