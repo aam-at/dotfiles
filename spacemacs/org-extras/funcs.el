@@ -182,8 +182,8 @@ DAYS must be a positive integer greater than 1."
          (t (org-link-search search)))))))
 
 ;; Add Advice around id open functions
-(advice-add 'org-id-open :around #'org-id-open--support-search)
-(advice-add 'org-roam-id-open :around #'org-id-open--support-search)
+(advice-add 'org-id-open :around #'org-extras/org-id-open--support-search)
+(advice-add 'org-roam-id-open :around #'org-extras/org-id-open--support-search)
 
 
 ;; Customization for org-roam
