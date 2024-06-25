@@ -66,6 +66,11 @@
   (evil-set-initial-state 'calendar-mode 'emacs)
   (setq calendar-date-style "european")
 
+  ;; unfill paragraph
+  (add-hook 'text-mode-hook
+            (lambda ()
+              (local-set-key (kbd "M-Q") 'unfill-paragraph)))
+
   ;; status line
   (with-eval-after-load 'tree-sitter
     (spacemacs|diminish tree-sitter-mode " " " T"))
