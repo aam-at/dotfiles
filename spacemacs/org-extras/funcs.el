@@ -1,27 +1,22 @@
 (require 'cl-lib)
 
-(defun org-extras/days-before-today (n)
-  (let ((time-in-question (decode-time)))
-    ;; time-in-question is the current time, decoded into convenient fields
+(defun org-extras/days-before-today (days)
+  "Return the time DAYS days before today."
+  (time-subtract (current-time) (days-to-time days)))
 
-    ;; decrease the field by one which represents the day -- make it "yesterday"
-    (cl-decf (nth 3 time-in-question) n)
-
-    ;; now, re-encode that time
-    (setq time-in-question (apply 'encode-time time-in-question))))
-
-(defun org-extras/org-journal-file-for-date-before (n)
-  "Return journal entry path for date n-days before"
+(defun org-extras/org-journal-file-for-date-before (days)
+  "Return journal entry path for date DAYS days before."
   (require 'org-journal)
-  (org-journal--get-entry-path (org-extras/days-before-today n)))
+  (org-journal--get-entry-path (org-extras/days-before-today days)))
 
-(defun org-extras/org-journal-list-agenda-files (n)
-  "Add journal entries for the past n days"
-  (if n
-      (seq-filter
-       'file-exists-p
-       (mapcar 'org-extras/org-journal-file-for-date-before (number-sequence 1 n)))
-    (eval org-journal-dir)))
+(defun org-extras/org-journal-list-agenda-files (days)
+  "Add journal entries for the past DAYS days.
+DAYS must be a positive integer greater than 1."
+  (if (and (integerp days) (>= days 1))
+      (seq-filter #'file-exists-p
+                  (mapcar #'org-extras/org-journal-file-for-date-before
+                          (number-sequence 1 days)))
+    (user-error "DAYS must be a positive integer greater or equal than 1")))
 
 (defun org-extras/narrow-to-subtree ()
   (interactive)
@@ -76,24 +71,20 @@
 
 (defun org-extras/get-active-headline-files (file)
   "Get all active projects from the index file."
-  (let ((value))
-    (dolist (element
-             (with-current-buffer (find-file-noselect file)
-               (let ((parsetree (org-element-parse-buffer 'element)))
-                 (org-element-map parsetree 'headline
-                   (lambda (hl)
-                     (let (
-                           (title (org-element-property :title hl))
-                           (level (org-element-property :level hl))
-                           (type (org-element-property :type hl))
-                           (parent (org-element-property :parent hl)))
-                       (and (eq level 2)
-                            (let ((archived (org-element-property :archivedp parent)))
-                              (not archived)) title))))))
-             value)
-      (setq value (cons
-                   (car (org-id-find (org-extras/id--extract-uuid element)))
-                   value)))))
+  (with-current-buffer (find-file-noselect file)
+    (org-with-wide-buffer
+     (let ((parsetree (org-element-parse-buffer 'headline)))
+       (cl-remove-if-not
+        #'identity
+        (org-element-map parsetree 'headline
+          (lambda (headline)
+            (when (and (= (org-element-property :level headline) 2)
+                       (not (member "ARCHIVE" (org-get-tags headline)))
+                       (member "ACTIVE" (org-get-tags headline)))
+              (let ((uuid (org-extras/id--extract-uuid
+                           (org-element-property :raw-value headline))))
+                (when uuid
+                  (car (org-id-find uuid))))))))))))
 
 ;; https://github.com/munen/emacs.d#convenience-functions-when-working-with-pdf-exports
 (defun update-other-buffer ()
@@ -131,9 +122,8 @@
 (defun org-extras/id--extract-uuid (input-string)
   "Extract UUID from INPUT-STRING."
   (let ((uuid-regexp "\\[\\[id:\\([0-9a-fA-F-]+\\)\\]\\[.*?\\]\\]"))
-    (if (string-match uuid-regexp input-string)
-        (match-string 1 input-string)
-      nil)))
+    (when (string-match uuid-regexp input-string)
+      (match-string 1 input-string))))
 
 (defun org-extras/id--in-file (file)
   "Check if the file contains :ID: property"
@@ -178,12 +168,12 @@
 (defun org-extras/roam--title-to-slug (title)
   "Convert TITLE to a filename-suitable slug."
   (cl-flet* ((nonspacing-mark-p (char)
-                                (eq 'Mn (get-char-code-property char 'general-category)))
+               (eq 'Mn (get-char-code-property char 'general-category)))
              (strip-nonspacing-marks (s)
-                                     (apply #'string (seq-remove #'nonspacing-mark-p
-                                                                 (string-glyph-compose s))))
+               (apply #'string (seq-remove #'nonspacing-mark-p
+                                           (string-glyph-compose s))))
              (cl-replace (title pair)
-                         (replace-regexp-in-string (car pair) (cdr pair) title)))
+               (replace-regexp-in-string (car pair) (cdr pair) title)))
     (let* ((pairs `(("[^[:alnum:][:digit:]]" . "-")  ;; convert anything not alphanumeric
                     ("__*" . "_")  ;; remove sequential underscores
                     ("^_" . "")  ;; remove starting underscore
@@ -327,7 +317,7 @@
            (insert (concat "** " text "\n"))
            (org-remark-notes-set-properties beg end props)
            (when (and orgid org-remark-use-org-id)
-               (insert (concat "[[id:" orgid "]" "[" title "]]"))))))
+             (insert (concat "[[id:" orgid "]" "[" title "]]"))))))
       (cond
        ;; fix GH issue #19
        ;; Temporarily remove `org-remark-save' from the `after-save-hook'
@@ -399,10 +389,10 @@
 (defun org-extras/citations--get-title-from-heading ()
   (let* ((heading (substring-no-properties (org-get-heading t t)))
          (title (org-extras/citations--trim-year-prefix
-                           (if (string-match org-link-bracket-re heading)
-                               (or (match-string-no-properties 2 heading)
-                                   (match-string-no-properties 1 heading))
-                             heading))))
+                 (if (string-match org-link-bracket-re heading)
+                     (or (match-string-no-properties 2 heading)
+                         (match-string-no-properties 1 heading))
+                   heading))))
     title))
 
 (defun org-extras/citations-update-at-point (&optional method)
@@ -527,7 +517,7 @@
              (headline-end (org-entry-end-position))
              overlay)
          (if (null entry-prop)
-           (setq entry-prop -1)
+             (setq entry-prop -1)
            (setq entry-prop (string-to-number entry-prop)))
          (when (and entry-prop (>= entry-prop min-citations))
            ;; Create a new overlay to highlighted matched entries

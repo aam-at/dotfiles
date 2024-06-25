@@ -3,6 +3,7 @@
 ;;;###autoload
 (defun my-org-setup ()
   ;; org settings
+  (setq org-directory aam/org-root)
   (setq aam/org-inbox (aam/org-path "inbox.org"))
   (setq deft-directory org-directory
         deft-recursive t
