@@ -69,6 +69,16 @@
         "command": "-magit.show-refs"
     },
     {
+        "key": "1",
+        "command": "magit.toggle-fold",
+        "when": "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/"
+    },
+    {
+        "key": "2",
+        "command": "magit.toggle-all-folds-for-change-views",
+        "when": "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/"
+    },
+    {
         "key": "y",
         "command": "vspacecode.showMagitRefMenu",
         "when": "editorTextFocus && editorLangId == 'magit' && vim.mode == 'Normal'"
@@ -177,6 +187,16 @@
     },
     {
         "key": "ctrl+k",
+        "command": "selectPrevCodeAction",
+        "when": "codeActionMenuVisible"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "selectNextCodeAction",
+        "when": "codeActionMenuVisible"
+    },
+    {
+        "key": "ctrl+p",
         "command": "selectPrevCodeAction",
         "when": "codeActionMenuVisible"
     },
