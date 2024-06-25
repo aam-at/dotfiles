@@ -749,9 +749,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                                (aam/bib-path "review.bib")
                                (aam/bib-path "books.bib")
                                (aam/bib-path "myrefs.bib")))
-  ;; set org and org-roam directories before post-init hook
-  (setq org-directory aam/org-root
-        org-roam-directory aam/org-root)
+  ;; set org-roam directories before post-init hook
+  (setq org-roam-directory aam/org-root)
   ;; Garbage Collector Magic Hack
   (with-eval-after-load 'gcmh
     (gcmh-mode 1))
