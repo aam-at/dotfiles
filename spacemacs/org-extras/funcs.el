@@ -162,6 +162,28 @@ DAYS must be a positive integer greater than 1."
   (interactive)
   (org-id-update-id-locations (org-extras/id--list-files org-directory)))
 
+(defun org-extras/org-id-open--support-search (fn link &optional arg)
+  "Support ::SEARCH syntax for id: links."
+  (save-match-data
+    (let* ((parts (split-string link "::"))
+           (id (car parts))
+           (search (cadr parts)))
+      (funcall fn id arg)
+      (when search
+        (cond
+         ((string-match-p "\\`[0-9]+\\'" search)
+          (forward-line (string-to-number search)))
+         ((string-match "^/\\([^/]+\\)/$" search)
+          (let ((regex (match-string 1 search)))
+            (save-excursion
+              (org-link-search (concat "//" regex)))
+            (when (re-search-forward regex nil t)
+              (goto-char (match-beginning 0)))))
+         (t (org-link-search search)))))))
+
+;; Add Advice around id open functions
+(advice-add 'org-id-open :around #'org-id-open--support-search)
+(advice-add 'org-roam-id-open :around #'org-id-open--support-search)
 
 
 ;; Customization for org-roam
