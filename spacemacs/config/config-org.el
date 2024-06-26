@@ -61,6 +61,7 @@
                                (aam/org-path "archived.org")))
   (setq aam/org-agenda-projects (org-extras/get-active-headline-files (aam/org-path "projects/index.org")))
   (setq org-agenda-files (append aam/org-agenda-projects org-agenda-files))
+  (setq org-columns-default-format "%50ITEM(Title) %SCHEDULED(Date) %TAGS(Tags) %PRIORITY(P) %TODO(Todo)")
 
   (setq org-tag-alist '(("important" . ?i)
                         ("urgent"    . ?u)))
