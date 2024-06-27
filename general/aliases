@@ -59,22 +59,23 @@ alias ec="emacsclient -c -a emacs"
 ###  Program ShortCut        ###
 ################################
 # Define base alias for eza with common options
-alias eza="eza --icons --hyperlink"
+alias _ls="eza --icons --hyperlink"
 # Aliases using eza with specific options
-alias l="eza --classify --grid"                         # Grid view with file type indicators
-alias ls="eza"                                          # Basic listing with icons
-alias ll="eza -l"                                       # Long listing with icons
-alias lld="eza -l --group-directories-first"            # Long listing with directories first
-alias lt="eza --tree"                                   # Tree view of directories with icons
-alias la="eza -a"                                       # List all files, including hidden
-alias lla="eza -la"                                     # Long listing of all files, including hidden
-alias lst="eza --sort=new"                              # Sort by modified time, newest first
-alias lss="eza --sort=size"                             # Sort by file size, largest first
-alias lsi="eza"                                         # List with icons
-alias lg="eza --git"                                    # Show git status alongside files
-alias lsg="eza --grid"                                  # Grid view of files with icons
-alias lh="eza -lh"                                      # Long listing with human-readable file sizes
-alias ld="eza -l --group-directories-first --only-dirs" # Long listing of directories only
+alias l="_ls --classify --grid"                         # Grid view with file type indicators
+alias ls="_ls"                                          # Basic listing with icons
+alias ll="_ls -l"                                       # Long listing with icons
+alias lld="_ls -l --group-directories-first"            # Long listing with directories first
+alias lt="_ls --tree"                                   # Tree view of directories with icons
+alias la="_ls -a"                                       # List all files, including hidden
+alias lla="_ls -la"                                     # Long listing of all files, including hidden
+alias lsh="ls --hyperlink=auto"                         # Ls with hyperlinks which works over ssh for kitty
+alias lst="_ls --sort=new"                              # Sort by modified time, newest first
+alias lss="_ls --sort=size"                             # Sort by file size, largest first
+alias lsi="_ls"                                         # List with icons
+alias lg="_ls --git"                                    # Show git status alongside files
+alias lsg="_ls --grid"                                  # Grid view of files with icons
+alias lh="_ls -lh"                                      # Long listing with human-readable file sizes
+alias ld="_ls -l --group-directories-first --only-dirs" # Long listing of directories only
 
 # Git related shortcuts
 alias gcl="git clone"                                      # Clone a repository
