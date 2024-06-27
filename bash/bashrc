@@ -93,6 +93,12 @@ function command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# configure bash-preexec
+if [ -f ~/.bash-preexec.sh ]; then
+    . ~/.bash-preexec.sh
+fi
+
+# configure fasd
 if command_exists fasd; then
     eval "$(fasd --init auto)"
 fi

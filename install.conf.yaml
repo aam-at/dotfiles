@@ -67,14 +67,16 @@
     ~/.emacs.d/.cache/.org-id-locations: ../Dropbox/Software/emacs/org-id-locations
     ~/.elfeed: ../Dropbox/Software/elfeed
     ~/.password-store: ../Dropbox/Software/pass
+    # bash settings
     ~/.profile: bash/profile
+    ~/.bash-preexec.sh: bash/bash-preexec.sh
     ~/.bash_profile: bash/bash_profile
     ~/.bashrc: bash/bashrc
-    ~/.aliases: general/aliases
     ~/.bash_completion.d: bash/completions
     ~/.bash_aliases: bash/bash_aliases
     ~/.bash_logout: bash/bash_logout
     ~/.dircolors: bash/dircolors-solarized/dircolors.ansi-light
+    ~/.aliases: general/aliases
     ~/.env: general/env
     ~/.Xmodmap: general/x/Xmodmap
     ~/.Xresources: general/x/Xresources
