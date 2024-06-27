@@ -7,7 +7,7 @@ from collections import defaultdict
 import six.moves.xmlrpc_client as xmlrpclib
 import logging
 
-from pip.commands import SearchCommand
+from pip._internal.commands.search import SearchCommand
 
 
 logger = logging.getLogger('pip')
@@ -45,7 +45,7 @@ class VeryORM:
         logger.debug("index id: {}".format(self.index_id))
 
     def init_db(self):
-        self.conn = sqlite3.connect(self.db_path)
+        self.conn = sqlite3.connect(self.db_path, isolation_level=None)
         self.conn.row_factory = sqlite3.Row
         try:
             self.conn.executescript(SCHEMA)
@@ -136,7 +136,7 @@ class VeryORM:
 class SearchCache:
 
     def __init__(self, db_path, index=None):
-        defaults = SearchCommand().parse_args([])[0]
+        defaults = SearchCommand("some", "command").parse_args([])[0]
         self.index = index or defaults.index
         self.db_path = db_path.format(pip_dir=defaults.cache_dir)
 
@@ -157,7 +157,7 @@ class SearchCache:
 
     def get_changes_since(self, timestamp):
         changes_dict = defaultdict(set)
-        changes = self.client.changelog(timestamp)
+        changes = self.client.changelog_since_serial(timestamp)
         create_remove = [(name, action) for (name, _, _, action) in changes
                          if action in ('create', 'remove')]
         for name, action in create_remove:
