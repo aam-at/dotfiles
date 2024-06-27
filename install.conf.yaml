@@ -16,6 +16,7 @@
     ~/.textlintrc: config/textlintrc
     ~/.sbclrc: config/sbclrc
     ~/.config/alacritty: config/alacritty
+    ~/.config/atuin: config/atuin
     ~/.config/broot: config/broot
     ~/.config/btop: config/btop
     ~/.config/catppuccin: config/catppuccin

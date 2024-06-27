@@ -221,6 +221,18 @@ if command_exists zoxide; then
   eval "$(zoxide init bash)"
 fi
 
+# configure atuin
+if command_exists atuin; then
+    eval "$(atuin init bash --disable-ctrl-r --disable-up-arrow)"
+    bind -m emacs -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=emacs'
+    bind -m emacs -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=emacs'
+    bind -m vi-insert -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-insert'
+    bind -m vi-insert -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-insert'
+    bind -m vi-command -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-normal'
+    bind -m vi-command -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-normal'
+    bind -m vi-command -x '"k": __atuin_history --shell-up-key-binding --keymap-mode=vim-normal'
+fi
+
 # configure pyenv
 if [ -d $HOME/.pyenv ]; then
     export PYENV_ROOT="$HOME/.pyenv"

@@ -79,7 +79,13 @@ end
 
 # configure zoxide
 if type -q zoxide
-  zoxide init fish | source
+    zoxide init fish | source
+end
+
+# configure atuin
+if type -q atuin
+    set -gx ATUIN_NOBIND "true"
+    atuin init fish | source
 end
 
 # configure autojump
@@ -133,8 +139,3 @@ function emacs
     set -lx TERM xterm-24bit
     eval (which emacs) $argv
 end
-
-bind --erase --all \cf
-bind -M insert \cf forward-char
-bind --erase --all \ef
-bind -M insert \ef forward-word
