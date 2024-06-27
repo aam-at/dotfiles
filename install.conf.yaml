@@ -5,7 +5,6 @@
     - [cd general/fonts && ./install_all.sh, Install powerline and emacs fonts]
     - [cd bash/bashmarks && make install, Install bashmarks]
     - [mkdir -p ~/.local/bin && ln -frs scripts/* ~/.local/bin/, Link scripts]
-    - [curl -o ~/.local/bin/tldr https://raw.githubusercontent.com/raylee/tldr/master/tldr && chmod +x ~/.local/bin/tldr, Install tldr]
     - [curl -sfL https://direnv.net/install.sh | bin_path=~/.local/bin bash, Install direnv]
     - [tic -x -o ~/.terminfo general/xterm/xterm-24bit.terminfo, Configure Truecolor]
 - link:
