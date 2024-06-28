@@ -39,12 +39,12 @@ sudo apt-fast install -y \
     libmagick++-dev libmagickcore-dev libncurses-dev libncurses6 libncursesw6 \
     libopenblas-dev libpng-dev libpoppler-glib-dev libpoppler-private-dev \
     libreadline-dev libsqlite3-dev libssl-dev libsystemd-dev libtiff-dev \
-    libwebkit2gtk-4.1-dev libxapian-dev libxcb-xfixes0-dev libxkbcommon-dev \
-    libxpm-dev llvm make mc meson mosh ncdu net-tools nnn nvitop openconnect \
-    openssh-server p7zip-full p7zip-rar pandoc pass pdfpc peco pkg-config \
-    postfix protobuf-compiler pydf python-dev-is-python3 python3 python3-openssl \
-    python3-pip ranger ripgrep ruby ruby-dev screen shellcheck silversearcher-ag \
-    sqlite3 stow texinfo tig tk-dev tmux tmuxinator trash-cli \
+    libtree-sitter-dev libwebkit2gtk-4.1-dev libxapian-dev libxcb-xfixes0-dev \
+    libxkbcommon-dev libxpm-dev llvm make mc meson mosh ncdu net-tools nnn \
+    nvitop openconnect openssh-server p7zip-full p7zip-rar pandoc pass pdfpc \
+    peco pkg-config postfix protobuf-compiler pydf python-dev-is-python3 python3 \
+    python3-openssl python3-pip ranger ripgrep ruby ruby-dev screen shellcheck \
+    silversearcher-ag sqlite3 stow texinfo tig tk-dev tmux tmuxinator trash-cli \
     ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zlib1g-dev \
     zoxide
 
