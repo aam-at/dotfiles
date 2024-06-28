@@ -1,3 +1,6 @@
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
 ################
 # Basic config #
 ################
@@ -222,7 +225,7 @@ if command_exists zoxide; then
 fi
 
 # configure atuin
-if command_exists atuin; then
+if command_exists atuin && [[ $- == *i* ]]; then
     eval "$(atuin init bash --disable-ctrl-r --disable-up-arrow)"
     bind -m emacs -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=emacs'
     bind -m emacs -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=emacs'
