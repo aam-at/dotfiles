@@ -16,6 +16,8 @@
     features = gruvbox-dark
     navigate = true
     side-by-side = true
+[merge]
+    conflictstyle = diff3
 [difftool]
     prompt = false
     trustExitCode = true
