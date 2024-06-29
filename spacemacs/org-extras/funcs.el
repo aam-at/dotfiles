@@ -273,6 +273,32 @@ DAYS must be a positive integer greater than 1."
                (path (substring path index)))
           (insert (s-lex-format "file:~/${path}")))))))
 
+(defun org-extras/org-transclusion-add-org-id--tofile (link &rest args)
+  (when (string= "id" (org-element-property :type link))
+    (let* ((raw-link (org-element-property :path link))
+           (parts (split-string raw-link "::"))       ; Split the link into parts.
+           (id (car parts))                           ; Extract the ID part.
+           (search (cadr parts))                      ; Extract the search part.
+           (file-path (ignore-errors
+                        (car (org-id-find id))))      ; define file path resolution from id
+           (new-link
+            (with-temp-buffer
+              (insert (format "[[file:%s" file-path))
+              (when search
+                (insert "::" search))
+              (insert "]]")
+              (beginning-of-line)
+              (org-element-link-parser))))
+      (org-transclusion-add-org-file new-link args))))
+
+
+(with-eval-after-load 'org-transclusion
+  (add-to-list 'org-transclusion-add-functions
+               #'org-extras/org-transclusion-add-org-id--tofile)
+  (setq org-transclusion-add-functions
+        (remove #'org-transclusion-add-org-id
+                org-transclusion-add-functions)))
+
 
 ;; Customization for org-remark
 (defun org-extras/remark-notes-file ()
