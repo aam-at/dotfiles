@@ -9,7 +9,8 @@
                         :stream t
                         :models '("llama3:8b"))
         gptel-default-mode 'org-mode
-        gptel-expert-commands t)
+        gptel-expert-commands t
+        gptel-org-branching-context t)
   (gptel-make-ollama "Ollama"
     :host "localhost:11434"
     :stream t
