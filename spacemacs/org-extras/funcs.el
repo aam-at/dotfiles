@@ -252,6 +252,11 @@ DAYS must be a positive integer greater than 1."
       (setq entry-property (org-extras/roam-get-property-from-link property)))
     entry-property))
 
+(defun org-extras/vulpea-memo-refresh ()
+  (memoize-restore #'vulpea-db-query)
+  (memoize         #'vulpea-db-query)
+  (vulpea-db-query nil))
+
 
 ;; Customization for org-transclusion
 (defun org-extras/convert-org-id-link-to-file-link ()

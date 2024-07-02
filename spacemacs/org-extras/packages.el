@@ -27,6 +27,7 @@
     magit-org-todos
     org
     org-transclusion
+    vulpea
     ob-async
     (org-gcal :toggle org-enable-gcal
               :location (recipe
@@ -99,6 +100,16 @@
 (defun org-extras/post-init-org-transclusion ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "uf" #'org-extras/convert-org-id-link-to-file-link))
+
+(defun org-extras/init-vulpea()
+  (use-package vulpea
+    :after org-roam
+    :hook ((org-roam-db-autosync-mode . vulpea-db-autosync-enable))
+    :bind (([remap org-roam-node-find] . vulpea-find)
+           ([remap org-roam-node-insert] . vulpea-insert))
+    :config
+    (memoize #'vulpea-db-query)
+    (advice-add 'org-roam-db-update-file :after #'org-extras/vulpea-memo-refresh)))
 
 (defun org-extras/init-ob-async ()
   :defer t

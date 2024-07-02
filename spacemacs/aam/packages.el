@@ -13,23 +13,25 @@
 ;; List of all packages to install and/or initialize. Built-in packages
 ;; which require an initialization must be listed explicitly in the list.
 (defconst aam-packages
-      '(
-        biblio
-        (copilot :requires company
-                 :location (recipe
-                            :fetcher github
-                            :repo "zerolfx/copilot.el"
-                            :files ("*.el" "dist")))
-        (unicode-math-input :location (recipe
-                                       :fetcher github
-                                       :repo "astoff/unicode-math-input.el"))
-        cloc
-        ewmctrl
-        fish-completion
-        gscholar-bibtex
-        helm-system-packages
-        key-chord
-        key-seq))
+  '(
+    biblio
+    (copilot :requires company
+             :location (recipe
+                        :fetcher github
+                        :repo "zerolfx/copilot.el"
+                        :files ("*.el" "dist")))
+    (unicode-math-input :location (recipe
+                                   :fetcher github
+                                   :repo "astoff/unicode-math-input.el"))
+    cloc
+    ewmctrl
+    fish-completion
+    gscholar-bibtex
+    helm-system-packages
+    key-chord
+    key-seq
+    memoize))
+
 
 (defun aam/post-init-biblio ()
   (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "lb" 'biblio-lookup)
@@ -145,8 +147,11 @@
   (key-seq-define evil-normal-state-map "wu" 'split-window-below-and-focus)
   (key-seq-define evil-normal-state-map "wi" 'split-window-below)
   (key-seq-define evil-normal-state-map "wo" 'split-window-right-and-focus)
-  (key-seq-define evil-normal-state-map "wm" 'toggle-maximize-buffer)
+  (key-seq-define evil-normal-state-map "wm" 'spacemacs/toggle-maximize-buffer)
   ;; easy kill
   (key-seq-define evil-normal-state-map "kf" 'delete-frame)
   (key-seq-define evil-normal-state-map "kw" 'evil-quit)
   (key-seq-define evil-normal-state-map "kb" 'kill-this-buffer))
+
+(defun aam/init-memoize ()
+  (use-package memoize))
