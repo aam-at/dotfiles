@@ -1,1 +1,1 @@
-(configuration-layer/declare-layers '(org git))
+(configuration-layer/declare-layers '(org git pdf))
