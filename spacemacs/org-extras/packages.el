@@ -109,7 +109,11 @@
            ([remap org-roam-node-insert] . vulpea-insert))
     :config
     (memoize #'vulpea-db-query)
-    (advice-add 'org-roam-db-update-file :after #'org-extras/vulpea-memo-refresh)))
+    (advice-add 'org-roam-db-update-file :after #'org-extras/vulpea-memo-refresh)
+    (spacemacs/set-leader-keys
+      "aorb" 'vulpea-find-backlink)
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "rb" 'vulpea-find-backlink)))
 
 (defun org-extras/init-ob-async ()
   :defer t
