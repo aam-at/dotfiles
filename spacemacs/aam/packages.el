@@ -30,7 +30,8 @@
     helm-system-packages
     key-chord
     key-seq
-    memoize))
+    memoize
+    pdf-tools))
 
 
 (defun aam/post-init-biblio ()
@@ -155,3 +156,6 @@
 
 (defun aam/init-memoize ()
   (use-package memoize))
+
+(defun aam/post-init-pdf-tools ()
+  (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "e" 'aam-extract-pdf-text-from-current-buffer))
