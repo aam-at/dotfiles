@@ -45,7 +45,11 @@
       "$W" 'whisper-file-run)
     :config
     (setq whisper-install-directory "~/local/tools/"
-          whisper-model "small"
+          whisper-model
+          (cond
+           ((>= (gpu-memory-gb) 6) "large-v3")
+           ((>= (gpu-memory-gb) 4) "medium")
+           (t "small"))
           whisper-language "en"
           whisper-translate nil
           whisper-use-threads (/ (num-processors) 2))))

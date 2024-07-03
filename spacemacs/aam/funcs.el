@@ -72,3 +72,15 @@
     (unless pdf-file
       (error "No file associated with this buffer"))
     (switch-to-buffer (aam--extract-pdf-text-to-buffer (aam--ensure-pdf-file pdf-file)))))
+
+
+(defun cuda-available-p ()
+  "Check if CUDA is available on the system."
+  (zerop (call-process "nvidia-smi" nil nil nil)))
+
+(defun gpu-memory-gb ()
+  "Get the amount of GPU memory in GB."
+  (when (cuda-available-p)
+    (with-temp-buffer
+      (call-process "nvidia-smi" nil t nil "--query-gpu=memory.total" "--format=csv,noheader,nounits")
+      (/ (string-to-number (buffer-string)) 1024))))
