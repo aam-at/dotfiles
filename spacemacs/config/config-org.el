@@ -15,13 +15,14 @@
   (setq org-latex-create-formula-image-program 'dvipng
         org-preview-latex-image-directory "ltximg/")
 
-  (setq org-clock-idle-time 30
-        org-deadline-warning-days 4
+  (setq org-deadline-warning-days 4
         org-edit-src-content-indentation 0
         org-enforce-todo-dependencies t
         org-hide-emphasis-markers t
+        org-list-allow-alphabetical t
         org-startup-indented t
-        org-use-speed-commands t)
+        org-use-speed-commands t
+        org-clock-idle-time 30)
 
   ;; org safe-variables
   (put 'org-download-image-dir 'safe-local-variable (lambda (_) t))
@@ -337,6 +338,7 @@ SCHEDULED: %(cfw:org-capture-day)
            "
 * %^{year} - ${title}
 :PROPERTIES:
+:CREATED: %U
 :Custom_ID: %^{citekey}
 :AUTHOR: %^{author}
 :JOURNAL: %^{journal}
