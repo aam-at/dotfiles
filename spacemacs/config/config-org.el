@@ -351,6 +351,10 @@ SCHEDULED: %(cfw:org-capture-day)
            (file+head "papers/${citekey}.org" "#+TITLE: ${title}\n")
            :empty-lines 1
            :unnarrowed t)))
+  (setq org-roam-capture-ref-templates
+        '(("r" "ref" plain "%?" :target
+           (file+head "${slug}.org" "#+title: ${title}")
+           :unnarrowed t)))
 
   ;; org-roam-bibtex settings
   (setq orb-preformat-keywords
