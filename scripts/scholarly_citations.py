@@ -30,14 +30,14 @@ def get_citations(title, proxy_type):
     elif proxy_type == ProxyType.Scrapper:
         success = pg.ScraperAPI(
             keyring.get_password("scrapperapi", getpass.getuser()))
-
     if proxy_type != ProxyType.Noproxy:
+        assert success, f"Failed to set up {proxy_type.value} proxy"
         scholarly.use_proxy(pg)
 
     search_query = scholarly.search_pubs(title)
     try:
         pub = next(search_query)
-        return pub['num_citations']
+        return pub["num_citations"]
     except StopIteration:
         return 0
 
@@ -46,11 +46,13 @@ def main():
     parser = argparse.ArgumentParser(
         description="Get the number of citations for a given publication title."
     )
-    parser.add_argument("--proxy",
-                        type=proxy_type,
-                        choices=list(ProxyType),
-                        default=ProxyType.Noproxy,
-                        help="The proxy type to use (default: Noproxy)")
+    parser.add_argument(
+        "--proxy",
+        type=proxy_type,
+        choices=list(ProxyType),
+        default=ProxyType.Noproxy,
+        help="The proxy type to use (default: Noproxy)",
+    )
     parser.add_argument("title", help="The title of the publication")
 
     args = parser.parse_args()
