@@ -61,5 +61,5 @@
     :config
     (if ai-extras-autostart-gptcommit-mode
         (progn
-          (magit-gptcommit-mode 1)
+          (magit-gptcommit-mode -1)
           (magit-gptcommit-status-buffer-setup)))))
