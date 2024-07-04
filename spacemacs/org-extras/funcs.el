@@ -257,6 +257,11 @@ DAYS must be a positive integer greater than 1."
   (memoize         #'vulpea-db-query)
   (vulpea-db-query nil))
 
+(defun org-extras/org-roam-memo-refresh ()
+  (memoize-restore #'org-roam-db-query)
+  (memoize         #'org-roam-db-query)
+  (org-roam-db-query nil))
+
 
 ;; Customization for org-transclusion
 (defun org-extras/convert-org-id-link-to-file-link ()
