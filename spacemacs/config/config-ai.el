@@ -48,6 +48,17 @@
         (make-llm-openai-compatible :default-chat-temperature 1.0
                                     :key deepseek-api-key
                                     :chat-model "deepseek-coder"
-                                    :url "https://api.deepseek.com/v1")))
+                                    :url "https://api.deepseek.com/v1"))
+
+  ;; whisper settings
+  (setq whisper-install-directory "~/local/tools/"
+        whisper-model
+        (cond
+         ((>= (gpu-memory-gb) 6) "large-v3")
+         ((>= (gpu-memory-gb) 4) "medium")
+         (t "small"))
+        whisper-language "en"
+        whisper-translate nil
+        whisper-use-threads (/ (num-processors) 2)))
 
 (provide 'config-ai)
