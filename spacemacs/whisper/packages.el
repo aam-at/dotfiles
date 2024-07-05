@@ -1,4 +1,4 @@
-;;; packages.el --- ai-extras layer packages file for Spacemacs.
+;;; packages.el --- whisper layer packages file for Spacemacs.
 ;;
 ;; Copyright (c) 2012-2024 Sylvain Benner & Contributors
 ;;
@@ -20,26 +20,18 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-;;; Code:
+(defconst whisper-packages
+  '((whisper :location (recipe
+                        :fetcher github
+                        :repo "natrys/whisper.el"))))
 
-(defconst ai-extras-packages
-  '(
-    llm
-    (magit-gptcommit :location (recipe
-                                :fetcher github
-                                :repo "avishefi/magit-gptcommit"
-                                :branch "llm"))))
-
-
-(defun ai-extras/init-llm ())
-
-
-(defun ai-extras/init-magit-gptcommit ()
-  (use-package magit-gptcommit
-    :demand t
-    :after magit llm
-    :config
-    (if ai-extras-autostart-gptcommit-mode
-        (progn
-          (magit-gptcommit-mode -1)
-          (magit-gptcommit-status-buffer-setup)))))
+(defun whisper/init-whisper ()
+  (use-package whisper
+    :defer t
+    :init
+    (spacemacs/declare-prefix "$w" "Whisper")
+    (spacemacs/set-leader-keys
+      "$wr" 'whisper-run ; Start recording and transcribe/translate audio
+      "$wf" 'whisper-file-run ; Transcribe/translate a local file
+      "$wl" 'spacemacs/whisper-select-language ; Select transcription language
+      "$wm" 'spacemacs/whisper-select-model))) ; Select base model for transcription
