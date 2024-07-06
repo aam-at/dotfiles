@@ -5,8 +5,10 @@
   (require 'llm-openai)
   (require 'llm-ollama)
   ;; ellama settings
-  (setopt ellama-keymap-prefix "C-c e"
-          ellama-language "Russian")
+  (setopt ellama-language "Russian"
+          ellama-naming-scheme 'ellama-generate-name-by-llm
+          ellama-sessions-directory (aam/org-path "sessions")
+          ellama-keymap-prefix "C-c e")
   (setopt ellama-provider
           (make-llm-ollama
            ;; this model should be pulled to use it
@@ -59,7 +61,6 @@
            :chat-model "llama3:8b-instruct-q8_0"
            :embedding-model "nomic-embed-text"
            :default-chat-non-standard-params '(("stop" . ("\n")))))
-  (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
   ;; Translation llm provider
   (setopt ellama-translation-provider (make-llm-ollama
                                        :chat-model "phi3:14b-medium-128k-instruct-q6_K"
