@@ -24,7 +24,6 @@
 
 (defconst ai-extras-packages
   '(
-    ellama
     llm
     (magit-gptcommit :location (recipe
                                 :fetcher github
@@ -33,13 +32,6 @@
 
 
 (defun ai-extras/init-llm ())
-
-(defun ai-extras/init-ellama ()
-  :init
-  ;; setup key bindings
-  (setopt ellama-keymap-prefix "C-c e")
-  ;; language you want ellama to translate to
-  (setopt ellama-language "Russian"))
 
 (defun ai-extras/init-magit-gptcommit ()
   (use-package magit-gptcommit

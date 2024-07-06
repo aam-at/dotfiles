@@ -156,7 +156,9 @@ This function should only modify configuration layer settings."
              ;; AI layers
              ;; ----------------------------------------------------------------
              openai
-             llm-client
+             (llm-client :variables
+                         llm-client-enable-gptel t
+                         llm-client-enable-ellama t)
              whisper
              ;; ----------------------------------------------------------------
              ;; Readers
