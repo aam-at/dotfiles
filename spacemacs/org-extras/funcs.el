@@ -256,10 +256,6 @@ DAYS must be a positive integer greater than 1."
   (memoize-restore #'vulpea-db-query)
   (memoize         #'vulpea-db-query))
 
-(defun org-extras/org-roam-memo-refresh ()
-  (memoize-restore #'org-roam-db-query)
-  (memoize         #'org-roam-db-query))
-
 (defun org-extras/org-roam-force-db-sync()
   (interactive)
   (memoize-restore #'org-roam-db-query)
