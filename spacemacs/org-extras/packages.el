@@ -27,7 +27,6 @@
     magit-org-todos
     org
     org-transclusion
-    org-roam
     vulpea
     ob-async
     (org-gcal :toggle org-enable-gcal
@@ -101,10 +100,6 @@
 (defun org-extras/post-init-org-transclusion ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "uf" #'org-extras/convert-org-id-link-to-file-link))
-
-(defun org-extras/post-init-org-roam()
-  (memoize #'org-roam-db-query)
-  (advice-add 'org-roam-db-update-file :after #'org-extras/org-roam-memo-refresh))
 
 (defun org-extras/init-vulpea()
   (use-package vulpea
