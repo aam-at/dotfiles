@@ -7,7 +7,7 @@
   ;; ellama settings
   (setopt ellama-language "Russian"
           ellama-naming-scheme 'ellama-generate-name-by-llm
-          ellama-sessions-directory (aam/org-path "sessions")
+          ellama-sessions-directory (aam/org-path "drafts")
           ellama-keymap-prefix "C-c e")
   (setopt ellama-provider
           (make-llm-ollama

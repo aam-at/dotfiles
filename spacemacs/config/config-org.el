@@ -328,8 +328,8 @@ SCHEDULED: %(cfw:org-capture-day)
 
   ;; org-roam settings
   (setq org-roam-tag-sources '(prop last-directory))
-  (setq org-roam-file-exclude-regexp "archived")
-  (setq org-roam-graph-exclude-matcher '("journal" "templates" "inbox.org"))
+  (setq org-roam-file-exclude-regexp '("data" "templates" "archived" "drafts"))
+  (setq org-roam-graph-exclude-matcher '("journal" "inbox.org"))
   (setq org-roam-node-display-template
         (concat "${title:*} "
                 (propertize "${tags:10}" 'face 'org-tag)))
@@ -418,11 +418,6 @@ SCHEDULED: %(cfw:org-capture-day)
   (add-to-list 'org-modules 'org-timer t)
   ;; org-effectiveness
   (add-to-list 'org-modules 'org-effectiveness t)
-  ;; org-contacts
-  (if org-enable-org-contacts-support
-      (progn
-        (require 'org-contacts)
-        (setq org-contacts-files (aam/org-path "contacts.org"))))
   ;; org-crypt
   (require 'org-crypt)
   (setq org-crypt-key "alexander.matyasko@gmail.com")
