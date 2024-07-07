@@ -141,6 +141,7 @@ This function should only modify configuration layer settings."
                   org-enable-modern-support t
                   org-enable-notifications t
                   org-enable-org-contacts-support t
+                  org-contacts-files (list "~/Dropbox/Org/contacts.org")
                   org-enable-org-journal-support t
                   org-enable-remark-support t
                   org-enable-reveal-js-support t
