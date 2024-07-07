@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=ActivityWatch Kill
+Comment=Kill AW
+Exec="activitywatch_kill.sh"
+Hidden=false
+Terminal=false
+Type=Application
+Version=1.0
+Icon=activitywatch
+Categories=Utility;
