@@ -254,13 +254,17 @@ DAYS must be a positive integer greater than 1."
 
 (defun org-extras/vulpea-memo-refresh ()
   (memoize-restore #'vulpea-db-query)
-  (memoize         #'vulpea-db-query)
-  (vulpea-db-query nil))
+  (memoize         #'vulpea-db-query))
 
 (defun org-extras/org-roam-memo-refresh ()
   (memoize-restore #'org-roam-db-query)
-  (memoize         #'org-roam-db-query)
-  (org-roam-db-query nil))
+  (memoize         #'org-roam-db-query))
+
+(defun org-extras/org-roam-force-db-sync()
+  (interactive)
+  (memoize-restore #'org-roam-db-query)
+  (org-roam-db-sync)
+  (memoize         #'org-roam-db-query))
 
 
 ;; Customization for org-transclusion
