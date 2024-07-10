@@ -1,4 +1,4 @@
-#!/usr/
+#!/usr/bin/env bash
 pacman -Syu
 pacman -Sy
 pacman -Sy --needed \
