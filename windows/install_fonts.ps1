@@ -59,7 +59,7 @@ function Install-Font($fontFile, $isCurrentUser) {
         # If installing for all users, add the font to the system using AddFontResource
         if (-not $isCurrentUser) {
             $fontResource = [System.Runtime.InteropServices.Marshal]::StringToHGlobalUni($fontPath)
-            $result = [FontInstaller]::AddFontResource($fontResource)
+            $result = [NativeMethods]::AddFontResource($fontResource)
             [System.Runtime.InteropServices.Marshal]::FreeHGlobal($fontResource)
 
             if ($result -eq 0) {
@@ -69,7 +69,7 @@ function Install-Font($fontFile, $isCurrentUser) {
             # Notify Windows of the font change
             $HWND_BROADCAST = [IntPtr]0xffff
             $WM_FONTCHANGE = 0x001D
-            $result = [FontInstaller]::SendMessage($HWND_BROADCAST, $WM_FONTCHANGE, [IntPtr]::Zero, [IntPtr]::Zero)
+            $result = [NativeMethods]::SendMessage($HWND_BROADCAST, $WM_FONTCHANGE, [IntPtr]::Zero, [IntPtr]::Zero)
         }
 
         Write-Host "Successfully installed font: $($fontFile.Name)"
@@ -94,7 +94,7 @@ try {
     [DllImport("user32.dll", EntryPoint="SendMessageW", SetLastError=true, CharSet=CharSet.Unicode)]
     public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 "@
-    Add-Type -MemberDefinition $signature -Namespace "FontInstaller" -Name "NativeMethods"
+    Add-Type -MemberDefinition $signature -Name "NativeMethods" -Namespace "FontInstaller"
 
     # Check if running as administrator when installing for all users
     if (-not $CurrentUser) {
