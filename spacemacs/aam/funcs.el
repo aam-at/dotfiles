@@ -31,13 +31,13 @@
 
 (defun aam-sort-selected-words (beg end)
   "Sort words in the selected region alphabetically, ignoring case and treating hyphens as single units."
-  (interactive "r"))
-(let* ((region-text (buffer-substring-no-properties beg end))
-       (words (split-string region-text))
-       (sorted-words (sort words (lambda (a b)
-                                   (string-lessp (downcase a) (downcase b)))))))
-(delete-region beg end)
-(insert (mapconcat 'identity sorted-words " "))
+  (interactive "r")
+  (save-excursion
+    (let* ((region-text (buffer-substring-no-properties beg end))
+           (words (split-string region-text "\\s-+" t))
+           (sorted-words (seq-sort-by #'downcase #'string-lessp words)))
+      (delete-region beg end)
+      (insert (string-join sorted-words " ")))))
 
 (defun aam--extract-pdf-text-to-buffer (pdf-file)
   "Extract text from PDF-FILE and return a buffer with the content."
