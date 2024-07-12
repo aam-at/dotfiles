@@ -15,6 +15,54 @@ function ruff_format() {
     ruff format $file_to_format
 }
 
+# install fonts
+function install_fonts() {
+    local source_dir="$1"
+    local prefix="$2"
+    local subdirectory="$3"
+
+    # Check if source directory is provided
+    if [ -z "$source_dir" ]; then
+        echo "Error: Please provide the source directory as an argument."
+        return 1
+    fi
+
+    # Determine the base font directory based on the OS
+    if [ "$(uname)" = "Darwin" ]; then
+        # macOS
+        base_font_dir="$HOME/Library/Fonts"
+    else
+        # Linux
+        base_font_dir="$HOME/.local/share/fonts"
+    fi
+
+    # Set the target font directory
+    if [ -n "$subdirectory" ]; then
+        font_dir="$base_font_dir/$subdirectory"
+    else
+        font_dir="$base_font_dir"
+    fi
+
+    # Create the target directory if it doesn't exist
+    mkdir -p "$font_dir"
+
+    # Copy fonts to the target directory
+    echo "Copying fonts from $source_dir to $font_dir..."
+    if [ -n "$prefix" ]; then
+        find "$source_dir" \( -name "$prefix*.[ot]tf" -or -name "$prefix*.pcf.gz" \) -type f -print0 | xargs -0 -n1 -I % cp "%" "$font_dir/"
+    else
+        find "$source_dir" \( -name "*.[ot]tf" -or -name "*.pcf.gz" \) -type f -print0 | xargs -0 -n1 -I % cp "%" "$font_dir/"
+    fi
+
+    # Reset font cache on Linux
+    if command -v fc-cache >/dev/null 2>&1; then
+        echo "Resetting font cache, this may take a moment..."
+        fc-cache -f "$font_dir"
+    fi
+
+    echo "Fonts installed to $font_dir"
+}
+
 # If inside a kitty terminal, add aliases for kitty's icat, ssh, diff, and hg
 if [[ -n $KITTY_PID ]]; then
   alias icat="kitten icat"
