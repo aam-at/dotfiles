@@ -42,30 +42,16 @@
   (use-package copilot
     :defer t
     :init
-    ;; Define the custom tab function
-    (defun aam/my-tab ()
-      (interactive)
-      (or (copilot-accept-completion)
-          (company-indent-or-complete-common nil)))
-
-    ;; Configure company-mode key bindings
-    (defun aam/setup-company-key-bindings ()
-      ;; Disable inline previews
-      (setq company-frontends (delq 'company-preview-if-just-one-frontend company-frontends))
-      ;; Enable tab completion
-      (define-key company-mode-map (kbd "<tab>") 'aam/my-tab)
-      (define-key company-mode-map (kbd "TAB") 'aam/my-tab)
-      (define-key company-active-map (kbd "<tab>") 'aam/my-tab)
-      (define-key company-active-map (kbd "TAB") 'aam/my-tab))
-
+    ;; accept completion from copilot and fallback to company
     (with-eval-after-load 'company
-      (aam/setup-company-key-bindings))
-
-    ;; Enable copilot in programming modes
+      ;; disable inline previews
+      (delq 'company-preview-if-just-one-frontend company-frontends))
+    (with-eval-after-load 'copilot
+      (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+      (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+      (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion-by-word)
+      (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion-by-word))
     (add-hook 'prog-mode-hook 'copilot-mode)
-    (define-key evil-insert-state-map (kbd "C-<tab>") 'copilot-accept-completion-by-word)
-    (define-key evil-insert-state-map (kbd "C-TAB") 'copilot-accept-completion-by-word)
-
     (spacemacs|diminish copilot-mode "" "C")))
 
 (defun aam/init-unicode-math-input ())
