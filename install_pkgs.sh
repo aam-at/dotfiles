@@ -186,8 +186,10 @@ if $INSTALL_PYTHON && [ ! -d "$HOME/.pyenv" ]; then
     pyenv virtualenv 3.11.9 tensor3
     pyenv activate tensor3
     pip install -U "jedi>=0.13.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"
-    pip install -U python-language-server[all] pyls-isort pyls-mypy pyls-black pyls-memestra
-    pip install -U pudb flake8 pylint yapf autoflake isort autopep8 "ptvsd>=4.2" importmagic epc proselint cmake-language-server
+    pip install -U pyls-black pyls-isort pyls-memestra pyls-mypy python-language-server[all]
+    pip install -U \
+        "ptvsd>=4.2" autoflake autopep8 cmake-language-server epc flake8 \
+        importmagic isort mupy proselint pudb pylint ruff ruff-lsp semgrep yapf
 
     pyenv deactivate
     python3 -m pip install --user pipx
