@@ -39,7 +39,8 @@
   ;; basic programming settings
   (defun my-prog-settings()
     (spacemacs/toggle-fill-column-indicator-on)
-    (spacemacs/toggle-relative-line-numbers-on))
+    (spacemacs/toggle-relative-line-numbers-on)
+    (face-remap-add-relative 'default '(:family "JetBrains Mono")))
   (add-hook 'prog-mode-hook 'my-prog-settings)
   ;; speed up the lsp-mode using lsp-booster
   (if (executable-find "emacs-lsp-booster")
@@ -78,7 +79,10 @@
     (message "emacs-lsp-booster not found. To install, run: cargo install --git https://github.com/blahgeek/emacs-lsp-booster"))
 
   ;; basic text settings
-  (add-hook 'text-mode-hook 'visual-line-mode)
+  (defun my-text-settings()
+    (visual-line-mode)
+    (face-remap-add-relative 'default '(:family "iA Writer Mono V")))
+  (add-hook 'text-mode-hook 'my-text-settings)
   (spacemacs/set-leader-keys "C-t l" 'visual-line-mode)
 
   ;; Chrome settings
