@@ -5,6 +5,14 @@
   (when (and (daemonp) (memq window-system '(mac ns x)))
     (exec-path-from-shell-initialize)
     (exec-path-from-shell-copy-env "PYTHONPATH"))
+  ;; set the minimum level of messages to be displayed
+  (setq warning-minimum-level :error)
+  ;; nicer looking faces for company
+  (custom-set-faces
+   '(company-tooltip-common
+     ((t (:inherit company-tooltip :weight bold :underline nil))))
+   '(company-tooltip-common-selection
+     ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
 
   ;; Emacs configuration
   (setq vc-follow-symlinks t)
