@@ -1,6 +1,5 @@
 extends: existence
-message: "Don't start a sentence with '%s'"
-ignorecase: true
+message: "Don't start a sentence with '%s'."
 level: error
 raw:
-  - '(?:^[^\w]*|[;-]\s)(so)\s'
+  - '(?:[;-]\s)so[\s,]|\bSo[\s,]'
