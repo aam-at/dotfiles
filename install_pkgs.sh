@@ -204,20 +204,37 @@ if ! command -v delta &>/dev/null; then
     rm /tmp/delta.deb
 fi
 
-# Install nerd-fonts
-if $INSTALL_FONTS && [ ! -d "$TOOLS_DIR/nerd-fonts" ]; then
-    echo "Installing nerd-fonts..."
-    git clone --depth=1 https://github.com/ryanoasis/nerd-fonts "$TOOLS_DIR/nerd-fonts"
-    cd "$TOOLS_DIR/nerd-fonts"
-    ./install.sh
-    cd -
+if $INSTALL_FONTS; then
+    install_font_package() {
+        local repo_url="$1"
+        local dir_name="$2"
+        local font_subdir="$3"
+
+        if [ ! -d "$TOOLS_DIR/$dir_name" ]; then
+            echo "Installing $font_subdir..."
+            git clone --depth=1 "$repo_url" "$TOOLS_DIR/$dir_name"
+            install_fonts "$TOOLS_DIR/$dir_name" "" "$font_subdir"
+        else
+            echo "Skipping $font_subdir installation as it is already installed"
+        fi
+    }
+    # Define font packages
+    font_packages=(
+        "https://github.com/ryanoasis/nerd-fonts|nerd-fonts|NerdFonts"
+        "https://github.com/powerline/fonts|powerline-fonts|PowerlineFonts"
+        "https://github.com/sebastiencs/icons-in-terminal|icons-fonts|IconsFonts"
+        "https://github.com/domtronn/all-the-icons.el|all-icons-fonts|AllIconsFonts"
+        "https://github.com/JetBrains/JetBrainsMono/|jetbrains-fonts|JetBrainsFonts"
+        "https://github.com/iaolo/iA-Fonts|iawriter-fonts|iAWriterFonts"
+    )
+
+    # Install each font package
+    for package in "${font_packages[@]}"; do
+        IFS='|' read -r repo_url dir_name font_subdir <<< "$package"
+        install_font_package "$repo_url" "$dir_name" "$font_subdir"
+    done
 fi
 
-# Install JetBrains Mono font
-if $INSTALL_FONTS && ! fc-list | grep -qi "JetBrains Mono"; then
-    echo "Installing JetBrains Mono..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
-fi
 
 # Install Rust and cargo packages
 if $INSTALL_RUST && ! command -v cargo &>/dev/null; then
