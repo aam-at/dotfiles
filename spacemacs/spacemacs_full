@@ -416,10 +416,20 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(gruvbox-dark-medium
+   dotspacemacs-themes '(;; dark themes
+                         gruvbox-dark-medium
                          spacemacs-dark
+                         material
+                         ;; light themes
+                         adwaita
+                         dichromacy
                          gruvbox-light-medium
-                         spacemacs-light)
+                         leuven
+                         modus-operandi
+                         spacemacs-light
+                         tango
+                         tsdh-light
+                         whiteboard)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -772,8 +782,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   "Library to load while dumping.
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
-dump."
-  )
+dump.")
+
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -806,8 +816,7 @@ before packages are loaded."
   (when (spacemacs/system-is-linux)
     (progn
       (autoload 'my-mail-setup "config-mail" "Setup mail configurations" t)
-      (my-mail-setup)))
-  )
+      (my-mail-setup))))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
