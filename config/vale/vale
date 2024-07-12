@@ -2,4 +2,4 @@ StylesPath = ./dotfiles/config/vale
 MinAlertLevel = suggestion # suggestion, warning or error
 
 [*.{md,txt,org,tex}]
-BasedOnStyles = vale, proselint, write-good
+BasedOnStyles = proselint, write-good, Readability

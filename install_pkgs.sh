@@ -189,7 +189,7 @@ if $INSTALL_PYTHON && [ ! -d "$HOME/.pyenv" ]; then
     pip install -U pyls-black pyls-isort pyls-memestra pyls-mypy python-language-server[all]
     pip install -U \
         "ptvsd>=4.2" autoflake autopep8 cmake-language-server epc flake8 \
-        importmagic isort mupy proselint pudb pylint ruff ruff-lsp semgrep yapf
+        importmagic isort mupy proselint pudb pylint ruff semgrep yapf
 
     pyenv deactivate
     python3 -m pip install --user pipx
@@ -304,6 +304,7 @@ fi
 if command -v snap &>/dev/null; then
     echo "Installing snap packages..."
     sudo snap refresh
+    sudo snap install vale
     sudo snap install --classic helix
     sudo snap install --classic zellij
     if $GUI && ! $WSL; then

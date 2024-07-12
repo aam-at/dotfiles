@@ -2,6 +2,8 @@ extends: substitution
 message: Consider using '%s' instead of '%s'.
 ignorecase: true
 level: error
+action:
+  name: replace
 swap:
   beau ideal: beau idéal
   boutonniere: boutonnière
@@ -77,7 +79,6 @@ swap:
 
   # Names, places, and companies
   Beyonce: Beyoncé
-  Bronte: Brontë
   Bronte: Brontë
   Champs-Elysees: Champs-Élysées
   Citroen: Citroën
