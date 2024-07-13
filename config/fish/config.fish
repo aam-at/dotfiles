@@ -127,7 +127,7 @@ end
 
 # configure fzf
 if test -d ~/.fzf/bin
-    set -U fish_user_paths $HOME/.fzf/bin $fish_user_paths
+    fzf --fish | source
 end
 
 function reload
