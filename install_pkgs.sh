@@ -95,11 +95,12 @@ install_packages \
     libsystemd-dev libtiff-dev libtree-sitter-dev libwebkit2gtk-4.1-dev \
     libxapian-dev libxcb-xfixes0-dev libxkbcommon-dev libxpm-dev llvm make mc \
     meson mosh ncdu net-tools nnn nvitop openconnect openssh-server p7zip-full \
-    p7zip-rar pandoc pass pdfpc peco pkg-config postfix protobuf-compiler pydf \
-    python-dev-is-python3 python3 python3-openssl python3-pip ranger ripgrep \
-    ruby ruby-dev screen shellcheck silversearcher-ag sqlite3 stow texinfo tig \
-    tk-dev tmux tmuxinator trash-cli ubuntu-restricted-extras unrar wget wmctrl \
-    xdg-utils xz-utils zlib1g-dev zoxide
+    p7zip-rar pandoc pass pdfpc peco pkg-config postfix powertop \
+    protobuf-compiler pydf python-dev-is-python3 python3 python3-openssl \
+    python3-pip ranger ripgrep ruby ruby-dev screen shellcheck silversearcher-ag \
+    sqlite3 stow texinfo tig tk-dev tmux tmuxinator trash-cli \
+    ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zlib1g-dev \
+    zoxide
 
 # Add repositories and install upstream packages
 add_ppa_and_install git-core/ppa git
@@ -322,6 +323,7 @@ if command -v snap &>/dev/null; then
     echo "Installing snap packages..."
     sudo snap refresh
     sudo snap install vale
+    sudo snap install dust
     sudo snap install --classic helix
     sudo snap install --classic zellij
     if $GUI && ! $WSL; then
