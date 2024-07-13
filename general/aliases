@@ -76,6 +76,16 @@ alias lg="_ls --git"                                    # Show git status alongs
 alias lsg="_ls --grid"                                  # Grid view of files with icons
 alias lh="_ls -lh"                                      # Long listing with human-readable file sizes
 alias ld="_ls -l --group-directories-first --only-dirs" # Long listing of directories only
+alias realls="/bin/ls"
+
+# Define cat aliases
+alias cat='batcat'
+alias catn='batcat --number'
+alias catA='batcat --show-all'
+alias realcat='/bin/cat'
+
+# Define plocate aliases
+alias locate='plocate -i'
 
 # Git related shortcuts
 alias gcl="git clone"                                      # Clone a repository

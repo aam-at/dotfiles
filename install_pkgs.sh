@@ -82,7 +82,7 @@ sudo apt-get install -y apt-fast
 
 # Install basic packages
 install_packages \
-    apt-file autojump automake bison btop build-essential checkinstall clang \
+    apt-file autojump automake bat bison btop build-essential checkinstall clang \
     cmake cscope curl eza fasd fd-find ffmpeg fish fonts-firacode \
     fonts-jetbrains-mono fonts-powerline fzy gawk gcc-10 gettext git git-lfs \
     glances global gnupg2 golang-go gpustat guile-3.0-dev htop iotop \
@@ -95,12 +95,12 @@ install_packages \
     libsystemd-dev libtiff-dev libtree-sitter-dev libwebkit2gtk-4.1-dev \
     libxapian-dev libxcb-xfixes0-dev libxkbcommon-dev libxpm-dev llvm make mc \
     meson mosh ncdu net-tools nnn nvitop openconnect openssh-server p7zip-full \
-    p7zip-rar pandoc pass pdfpc peco pkg-config postfix powertop \
-    protobuf-compiler pydf python-dev-is-python3 python3 python3-openssl \
-    python3-pip ranger ripgrep ruby ruby-dev screen shellcheck silversearcher-ag \
-    sqlite3 stow texinfo tig tk-dev tmux tmuxinator trash-cli \
-    ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zlib1g-dev \
-    zoxide
+    p7zip-rar pandoc parallel pass pdfgrep pdfpc peco pkg-config plocate postfix \
+    powertop protobuf-compiler pydf python-dev-is-python3 python3 \
+    python3-openssl python3-pip ranger ripgrep ruby ruby-dev screen sd \
+    shellcheck silversearcher-ag sqlite3 stow texinfo tig tk-dev tmux tmuxinator \
+    trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils \
+    zlib1g-dev zoxide
 
 # Add repositories and install upstream packages
 add_ppa_and_install git-core/ppa git
