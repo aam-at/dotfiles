@@ -67,6 +67,7 @@ function install_fonts() {
 if [[ -n $KITTY_PID ]]; then
   alias icat="kitten icat"
   alias ssh="kitty +kitten ssh"
+  alias realssh="/usr/bin/ssh"
   alias diff="kitten diff"
   alias hg="kitten hyperlinked-grep"
 fi
