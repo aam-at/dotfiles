@@ -84,8 +84,11 @@ alias catn='batcat --number'
 alias catA='batcat --show-all'
 alias realcat='/bin/cat'
 
-# Define plocate aliases
+# Define plocate alias
 alias locate='plocate -i'
+
+# Define gping alias
+alias ping='gping'
 
 # Git related shortcuts
 alias gcl="git clone"                                      # Clone a repository
