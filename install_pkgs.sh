@@ -85,7 +85,7 @@ install_packages \
     apt-file autojump automake bat bison btop build-essential checkinstall clang \
     cmake cscope curl eza fasd fd-find ffmpeg fish fonts-firacode \
     fonts-jetbrains-mono fonts-powerline fzy gawk gcc-10 gettext git git-lfs \
-    glances global gnupg2 golang-go gpustat guile-3.0-dev htop iotop \
+    glances global gnupg2 golang-go gping gpustat guile-3.0-dev htop iotop \
     iputils-arping jq keychain kitty libbz2-dev libevent-dev libffi-dev \
     libfontconfig1-dev libfreetype6-dev libfuse-dev libgccjit-14-dev libgccjit0 \
     libgif-dev libgmime-3.0-dev libgnutls28-dev libjansson-dev libjansson4 \
