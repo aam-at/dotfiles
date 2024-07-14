@@ -5,6 +5,7 @@ GUI=${GUI:-false}
 TOOLS_DIR=${TOOLS_DIR:-"$HOME/local/tools"}
 INSTALL_PYTHON=${INSTALL_PYTHON:-true}
 INSTALL_RUST=${INSTALL_RUST:-true}
+INSTALL_GO=${INSTALL_GO:-true}
 INSTALL_NODE=${INSTALL_NODE:-true}
 INSTALL_EMACS=${INSTALL_EMACS:-true}
 INSTALL_NEOVIM=${INSTALL_NEOVIM:-true}
@@ -32,6 +33,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --no-rust)
             INSTALL_RUST=false
+            shift
+            ;;
+        --no-go)
+            INSTALL_GO=false
             shift
             ;;
         --no-node)
@@ -243,6 +248,16 @@ if $INSTALL_RUST && ! command -v cargo &>/dev/null; then
     curl https://sh.rustup.rs -sSf | sh -s -- -y
     source "$HOME/.cargo/env"
     cargo install atuin bottom gitui lsd ouch tealdeer texlab yazi-cli yazi-fm
+fi
+
+# Install go packages
+if $INSTALL_GO && ! command -v go &>/dev/null; then
+    echo "Installing go..."
+    go install github.com/charmbracelet/freeze@latest
+    go install github.com/charmbracelet/glow@latest
+    go install github.com/charmbracelet/mods@latest
+    go install github.com/charmbracelet/vhs@latest
+    go install github.com/stefanlogue/meteor@latest
 fi
 
 # Install Spacemacs
