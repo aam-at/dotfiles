@@ -166,7 +166,7 @@ if [ -f ~/.fzf.bash ]; then
     #   - Exit if there's no match (--exit-0)
     fe() {
         local files
-        files="$(fzf-tmux --query="$1" --multi --select-1 --exit-0)"
+        files="$(fzf-tmux --preview 'fzf-preview.sh {}' --query="$1" --multi --select-1 --exit-0)"
         [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
     }
 
@@ -175,7 +175,7 @@ if [ -f ~/.fzf.bash ]; then
     #   - CTRL-E or Enter key to open with the $EDITOR
     fo() {
         local out file key
-        out="$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)"
+        out="$(fzf-tmux --preview 'fzf-preview.sh {}' --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)"
         key=$(head -1 <<< "$out")
         file=$(head -2 <<< "$out" | tail -1)
         if [ -n "$file" ]; then
@@ -213,7 +213,7 @@ if [ -f ~/.fzf.bash ]; then
     cdf() {
         local file
         local dir
-        file=$(fzf-tmux +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+        file=$(fzf-tmux --preview 'fzf-preview.sh {}' +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
     }
 
     # fkill - kill process
