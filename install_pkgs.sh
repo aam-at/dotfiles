@@ -243,16 +243,19 @@ fi
 
 
 # Install Rust and cargo packages
-if $INSTALL_RUST && ! command -v cargo &>/dev/null; then
-    echo "Installing Rust and cargo..."
-    curl https://sh.rustup.rs -sSf | sh -s -- -y
+if $INSTALL_RUST; then
+    if ! command -v cargo &>/dev/null; then
+        echo "Installing Rust and cargo..."
+        curl https://sh.rustup.rs -sSf | sh -s -- -y
+    fi
+    echo "Installing Rust and cargo packages..."
     source "$HOME/.cargo/env"
     cargo install atuin bottom gitui lsd ouch tealdeer texlab yazi-cli yazi-fm
 fi
 
 # Install go packages
-if $INSTALL_GO && ! command -v go &>/dev/null; then
-    echo "Installing go..."
+if $INSTALL_GO && command -v go &>/dev/null; then
+    echo "Installing go packages..."
     go install github.com/charmbracelet/freeze@latest
     go install github.com/charmbracelet/glow@latest
     go install github.com/charmbracelet/mods@latest
