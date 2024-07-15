@@ -13,3 +13,4 @@ atom/
 /config/btop/*.log
 /config/tmux/plugins/*
 /config/broot/launcher/
+/config/aichat/*.md

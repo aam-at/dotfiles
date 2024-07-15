@@ -14,6 +14,7 @@
     ~/.vale: config/vale/vale
     ~/.textlintrc: config/textlintrc
     ~/.sbclrc: config/sbclrc
+    ~/.config/aichat: config/aichat
     ~/.config/alacritty: config/alacritty
     ~/.config/atuin: config/atuin
     ~/.config/broot: config/broot
