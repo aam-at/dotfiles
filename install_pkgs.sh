@@ -250,8 +250,8 @@ if $INSTALL_RUST; then
     fi
     echo "Installing Rust and cargo packages..."
     source "$HOME/.cargo/env"
-    cargo install atuin bottom gitui lsd ouch tealdeer texlab yazi-cli yazi-fm
-fi
+    cargo install \
+        aichat atuin bottom gitui lsd ouch tealdeer texlab yazi-cli yazi-fmfi
 
 # Install go packages
 if $INSTALL_GO; then
@@ -338,6 +338,9 @@ fi
 if ! command -v ollama &>/dev/null; then
     echo "Installing ollama..."
     curl -fsSL https://ollama.com/install.sh | sh
+    ollama pull gemma2:9b
+    ollama pull llama3:8b
+    ollama pull phi3:3.8b
 fi
 
 # Install snap packages (non-WSL only)
