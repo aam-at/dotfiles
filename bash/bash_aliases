@@ -15,6 +15,13 @@ function ruff_format() {
     ruff format $file_to_format
 }
 
+# aichat alias
+function aichat() {
+    local DEEPSEEK_API_KEY=$(copy_password.sh deepseek)
+    local GEMINI_API_KEY=$(copy_password.sh gemini)
+    env DEEPSEEK_API_KEY="$DEEPSEEK_API_KEY" GEMINI_API_KEY="$GEMINI_API_KEY" aichat "$@"
+}
+
 # install fonts
 function install_fonts() {
     local source_dir="$1"
