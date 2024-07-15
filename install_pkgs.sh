@@ -339,6 +339,7 @@ if ! command -v ollama &>/dev/null; then
     echo "Installing ollama..."
     curl -fsSL https://ollama.com/install.sh | sh
     ollama pull gemma2:9b
+    ollama pull glm4:9b
     ollama pull llama3:8b
     ollama pull phi3:3.8b
 fi
