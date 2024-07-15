@@ -3,6 +3,7 @@
 ;;;###autoload
 (defun my-ai-setup ()
   (require 'llm-openai)
+  (require 'llm-gemini)
   (require 'llm-ollama)
   ;; ellama settings
   (setopt ellama-language "Russian"
@@ -13,7 +14,7 @@
           (make-llm-ollama
            ;; this model should be pulled to use it
            ;; value should be the same as you print in terminal during pull
-           :chat-model "llama3:8b-instruct-q8_0"
+           :chat-model "gemma2:9b"
            :embedding-model "nomic-embed-text"
            :default-chat-non-standard-params '(("num_ctx" . 8192))))
   (setopt ellama-providers
@@ -27,7 +28,23 @@
                                  :key deepseek-api-key
                                  :chat-model "deepseek-coder"
                                  :url "https://api.deepseek.com/v1"))
+            ;; gemini models
+            ("gemini-1.0-pro" . (make-llm-gemini
+                                 :key gemini-api-key
+                                 :chat-model "gemini-1.0-pro"))
+            ("gemini-1.5-pro" . (make-llm-gemini
+                                 :key gemini-api-key
+                                 :chat-model "gemini-1.5-pro"))
+            ("gemini-1.5-flash" . (make-llm-gemini
+                                   :key gemini-api-key
+                                   :chat-model "gemini-1.5-flash"))
             ;; ollama models
+            ("gemma2:9b" . (make-llm-ollama
+                            :chat-model "gemma2:9b"
+                            :embedding-model "nomic-embed-text"))
+            ("glm4:9b" . (make-llm-ollama
+                          :chat-model "glm4:9b"
+                          :embedding-model "nomic-embed-text"))
             ("llama3:8b" . (make-llm-ollama
                             :chat-model "llama3:8b"
                             :embedding-model "nomic-embed-text"))
@@ -67,18 +84,20 @@
                                        :embedding-model "nomic-embed-text"))
 
   ;; gptel settings
-  (setq gptel-model "llama3:8b"
+  (setq gptel-model "gemma2:9b"
         gptel-backend (gptel-make-ollama "Ollama"
                         :host "localhost:11434"
                         :stream t
-                        :models '("llama3:8b"))
+                        :models '("gemma2:9b"))
         gptel-default-mode 'org-mode
         gptel-expert-commands t
         gptel-org-branching-context t)
   (gptel-make-ollama "Ollama"
     :host "localhost:11434"
     :stream t
-    :models '("llama3:8b"
+    :models '("gemma2:9b"
+              "glm4:9b"
+              "llama3:8b"
               "llama3:70b"
               "phi3:3.8b"
               "phi3:14b"
@@ -86,6 +105,12 @@
               "wizardlm2:8x22b"
               "command-r"
               "command-r-plus"))
+  (gptel-make-gemini "Gemini"
+    :key gemini-api-key
+    :stream t
+    :models '("gemini-1.0-pro"
+              "gemini-1.5-pro"
+              "gemini-1.5-flash"))
 
   (gptel-make-openai "TogetherAI"
     :host "api.together.xyz"
