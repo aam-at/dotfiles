@@ -17,67 +17,79 @@
            :chat-model "gemma2:9b"
            :embedding-model "nomic-embed-text"
            :default-chat-non-standard-params '(("num_ctx" . 8192))))
-  (setopt ellama-providers
-          '(
-            ;; deepseek models
-            ("deepseek-chat" . (make-llm-openai-compatible
-                                :key deepseek-api-key
-                                :chat-model "deepseek-chat"
-                                :url "https://api.deepseek.com/v1"))
-            ("deepseek-coder" . (make-llm-openai-compatible
-                                 :key deepseek-api-key
-                                 :chat-model "deepseek-coder"
-                                 :url "https://api.deepseek.com/v1"))
-            ;; gemini models
-            ("gemini-1.0-pro" . (make-llm-gemini
+  (setq ellama-providers
+        '(
+          ;; deepseek models
+          ("deepseek-chat" . (make-llm-openai-compatible
+                              :key deepseek-api-key
+                              :chat-model "deepseek-chat"
+                              :url "https://api.deepseek.com/v1"))
+          ("deepseek-coder" . (make-llm-openai-compatible
+                               :key deepseek-api-key
+                               :chat-model "deepseek-coder"
+                               :url "https://api.deepseek.com/v1"))
+          ;; gemini models
+          ("gemini-1.0-pro" . (make-llm-gemini
+                               :key gemini-api-key
+                               :chat-model "gemini-1.0-pro"))
+          ("gemini-1.5-pro" . (make-llm-gemini
+                               :key gemini-api-key
+                               :chat-model "gemini-1.5-pro"))
+          ("gemini-1.5-flash" . (make-llm-gemini
                                  :key gemini-api-key
-                                 :chat-model "gemini-1.0-pro"))
-            ("gemini-1.5-pro" . (make-llm-gemini
-                                 :key gemini-api-key
-                                 :chat-model "gemini-1.5-pro"))
-            ("gemini-1.5-flash" . (make-llm-gemini
-                                   :key gemini-api-key
-                                   :chat-model "gemini-1.5-flash"))
-            ;; ollama models
-            ("gemma2:9b" . (make-llm-ollama
-                            :chat-model "gemma2:9b"
-                            :embedding-model "nomic-embed-text"))
-            ("glm4:9b" . (make-llm-ollama
-                          :chat-model "glm4:9b"
+                                 :chat-model "gemini-1.5-flash"))
+          ;; ollama models
+          ("gemma2:9b" . (make-llm-ollama
+                          :chat-model "gemma2:9b"
                           :embedding-model "nomic-embed-text"))
-            ("llama3:8b" . (make-llm-ollama
-                            :chat-model "llama3:8b"
-                            :embedding-model "nomic-embed-text"))
-            ("llama3:8b-instruct" . (make-llm-ollama
-                                     :chat-model "llama3:8b-instruct-q8_0"
-                                     :embedding-model "nomic-embed-text"))
-            ("llama3:70b" . (make-llm-ollama
-                             :chat-model "llama3:70b"
-                             :embedding-model "nomic-embed-text"))
-            ("phi3:3.8b" . (make-llm-ollama
-                            :chat-model "phi3:3.8b"
-                            :embedding-model "phi3:3.8b"))
-            ("phi3:14b" . (make-llm-ollama
-                           :chat-model "phi3:14b"
-                           :embedding-model "phi3:14b"))
-            ("wizardlm2:7b" . (make-llm-ollama
-                               :chat-model "wizardlm2:7b"
-                               :embedding-model "wizardlm2:7b"))
-            ("wizardlm2:8x22b" . (make-llm-ollama
-                                  :chat-model "wizardlm2:8x22b"
-                                  :embedding-model "wizardlm2:8x22b"))
-            ("command-r" . (make-llm-ollama
-                            :chat-model "command-r"
-                            :embedding-model "command-r"))
-            ("command-r-plus" . (make-llm-ollama
-                                 :chat-model "command-r-plus"
-                                 :embedding-model "command-r-plus"))))
+          ("glm4:9b" . (make-llm-ollama
+                        :chat-model "glm4:9b"
+                        :embedding-model "nomic-embed-text"))
+          ("llama3:8b" . (make-llm-ollama
+                          :chat-model "llama3:8b"
+                          :embedding-model "nomic-embed-text"))
+          ("llama3:8b-instruct" . (make-llm-ollama
+                                   :chat-model "llama3:8b-instruct-q8_0"
+                                   :embedding-model "nomic-embed-text"))
+          ("llama3:70b" . (make-llm-ollama
+                           :chat-model "llama3:70b"
+                           :embedding-model "nomic-embed-text"))
+          ("phi3:3.8b" . (make-llm-ollama
+                          :chat-model "phi3:3.8b"
+                          :embedding-model "phi3:3.8b"))
+          ("phi3:14b" . (make-llm-ollama
+                         :chat-model "phi3:14b"
+                         :embedding-model "phi3:14b"))
+          ("wizardlm2:7b" . (make-llm-ollama
+                             :chat-model "wizardlm2:7b"
+                             :embedding-model "wizardlm2:7b"))
+          ("wizardlm2:8x22b" . (make-llm-ollama
+                                :chat-model "wizardlm2:8x22b"
+                                :embedding-model "wizardlm2:8x22b"))
+          ("command-r" . (make-llm-ollama
+                          :chat-model "command-r"
+                          :embedding-model "command-r"))
+          ("command-r-plus" . (make-llm-ollama
+                               :chat-model "command-r-plus"
+                               :embedding-model "command-r-plus"))))
   ;; Naming new sessions with llm
   (setopt ellama-naming-provider
           (make-llm-ollama
            :chat-model "llama3:8b-instruct-q8_0"
            :embedding-model "nomic-embed-text"
            :default-chat-non-standard-params '(("stop" . ("\n")))))
+
+  ;; Elisa config
+  (setopt elisa-limit 5
+          elisa-web-search-function 'elisa-search-searxng ;; searxng works better than duckduckgo in my tests
+          elisa-prompt-rewriting-enabled t ;; prompt rewriting may increase quality of answers
+          elisa-reranker-enabled t) ;; reranker increases answer quality
+  (setopt elisa-chat-provider
+          (make-llm-ollama
+           :chat-model "gemma2:9b-instruct-q6_K"
+           :embedding-model "chatfire/bge-m3:q8_0"
+           :default-chat-non-standard-params '(("num_ctx" . 8192))))
+  (setopt elisa-embeddings-provider (make-llm-ollama :embedding-model "chatfire/bge-m3:q8_0"))
   ;; Translation llm provider
   (setopt ellama-translation-provider (make-llm-ollama
                                        :chat-model "phi3:14b-medium-128k-instruct-q6_K"
