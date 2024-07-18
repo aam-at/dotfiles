@@ -251,8 +251,12 @@ if $INSTALL_RUST; then
     echo "Installing Rust and cargo packages..."
     source "$HOME/.cargo/env"
     cargo install \
-        aichat argc atuin bottom gitui lsd ouch tealdeer texlab yazi-cli \
-        yazi-fmfi
+        aichat argc atuin bottom cargo-edit cargo-outdated gitui lsd ouch \
+        tealdeer texlab yazi-cli yazi-fm
+
+    rustup component add rustfmt
+    rustup component add clippy
+    rustup component add rust-analyzer
 fi
 
 # Install go packages
