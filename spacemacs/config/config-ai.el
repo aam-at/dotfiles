@@ -127,7 +127,6 @@
     :models '("deepseek-chat"
               "deepseek-coder"))
   ;; llm settings
-  ;; (require 'llm-ollama)
   ;; (setq magit-gptcommit-llm-provider
   ;;       (make-llm-ollama :embedding-model "nomic-embed-text:latest"
   ;;                        :chat-model "llama3:latest"
