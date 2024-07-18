@@ -19,7 +19,7 @@
   (unless (eq system-type 'gnu/linux)
     (unless (display-graphic-p)
       ;; in terminal when asking for gpg password
-      (setq epa-pinentry-mode 'loopback)))
+      (setq epg-pinentry-mode 'loopback)))
 
   (desktop-save-mode t)
   (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
