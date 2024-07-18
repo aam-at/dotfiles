@@ -344,10 +344,10 @@ fi
 if ! command -v ollama &>/dev/null; then
     echo "Installing ollama..."
     curl -fsSL https://ollama.com/install.sh | sh
-    ollama pull gemma2:9b
-    ollama pull glm4:9b
-    ollama pull llama3:8b
-    ollama pull phi3:3.8b
+    ollama_models=( "gemma2:9b-instruct-q6_K" "chatfire/bge-m3:q8_0" "mxbai-embed-large:latest" "glm4:9b" "gemma2:latest" "llama3:8b-instruct-q8_0" "nomic-embed-text:latest" "llama3:latest" "starcoder2:15b" "starcoder2:7b" "starcoder2:3b" "llama3:8b" "phi3:14b" "phi3:latest" "codestral:latest" )
+    for ollama_model in "${ollama_models[@]}"; do
+        ollama pull "$ollama_model"
+    done
 fi
 
 # Install snap packages (non-WSL only)
