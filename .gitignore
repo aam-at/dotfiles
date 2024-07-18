@@ -14,3 +14,5 @@ atom/
 /config/tmux/plugins/*
 /config/broot/launcher/
 /config/aichat/*.md
+/config/aichat/rags/
+/config/aichat/sessions/
