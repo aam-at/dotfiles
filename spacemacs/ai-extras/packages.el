@@ -24,12 +24,16 @@
 
 (defconst ai-extras-packages
   '(
+    elisa
     llm
     (magit-gptcommit :location (recipe
                                 :fetcher github
                                 :repo "avishefi/magit-gptcommit"
                                 :branch "llm"))))
 
+(defun ai-extras/init-elisa ()
+  (use-package elisa
+    :demand t))
 
 (defun ai-extras/init-llm ())
 
