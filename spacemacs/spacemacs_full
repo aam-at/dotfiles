@@ -82,6 +82,9 @@ This function should only modify configuration layer settings."
                           tree-sitter-indent-enable t
                           tree-sitter-fold-indicators-enable nil)
              c-c++
+             (rust :variables
+                   lsp-rust-analyzer-cargo-auto-reload t
+                   rustic-format-on-save t)
              emacs-lisp
              lsp
              (python :variables
