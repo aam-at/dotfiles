@@ -28,6 +28,7 @@
     ~/.config/gitui: config/gitui
     ~/.config/helix: config/helix
     ~/.config/kitty: config/kitty
+    ~/.config/wezterm: config/wezterm
     ~/.config/mimeapps.list: config/mimeapps.list
     ~/.notmuch-config: config/notmuch/config
     ~/.config/ranger: config/ranger
