@@ -253,6 +253,7 @@ DAYS must be a positive integer greater than 1."
     entry-property))
 
 (defun org-extras/vulpea-memo-refresh ()
+  (interactive)
   (memoize-restore #'vulpea-db-query)
   (memoize         #'vulpea-db-query))
 
