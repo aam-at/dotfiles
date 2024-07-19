@@ -138,14 +138,34 @@ if [ -f ~/.fzf.bash ]; then
       --bind 'alt-j:preview-down,alt-k:preview-up'
       --bind 'ctrl-d:preview-page-down,ctrl-u:preview-page-up'
       --bind 'ctrl-a:select-all'
+      --bind 'ctrl-e:execute-silent(emacsclient -c {+}&)'
       --bind 'ctrl-c:execute(code {+})'
-      --bind 'ctrl-e:execute-silent(emacsclient -c {+})'
+      --bind 'ctrl-r:execute-silent(pycharm-professional {+}&)'
       --bind 'ctrl-o:execute(xdg-open {+})'
       --bind 'ctrl-s:toggle-sort'
       --bind 'ctrl-v:execute(echo {+} | xargs -o vim)'
       --bind 'ctrl-y:execute(echo {+} | pbcopy)'
       --bind 'btab:up'
       --bind 'tab:down'
+      --bind 'ctrl-h:execute(echo \"
+Keybindings Help:
+  ?           : Toggle the preview window.
+  alt + j     : Move the preview window down.
+  alt + k     : Move the preview window up.
+  ctrl + d    : Scroll the preview window page down.
+  ctrl + u    : Scroll the preview window page up.
+  ctrl + a    : Select all items.
+  ctrl + e    : Open the selected file in Emacs (silently).
+  ctrl + c    : Open the selected file in Visual Studio Code.
+  ctrl + r    : Open the selected file in PyCharm (silently).
+  ctrl + o    : Open the selected file or directory with the default application.
+  ctrl + s    : Toggle sorting of the results.
+  ctrl + v    : Open the selected file in Vim.
+  ctrl + y    : Copy the selected file path to the clipboard.
+  shift + tab : Move the selection up.
+  tab         : Move the selection down.
+  ctrl + h    : Show this help message.
+\" | less -R)'
     "
     export FZF_CTRL_T_OPTS="
       --preview 'fzf-preview.sh {}'
@@ -158,6 +178,7 @@ if [ -f ~/.fzf.bash ]; then
     export FZF_ALT_C_OPTS="
       --walker-skip .git,node_modules,target
       --preview 'tree --dirsfirst -L 2 -C {}'
+      --bind 'ctrl-t:execute-silent(gnome-terminal --working-directory=$(pwd)/{})'
     "
     export FZF_COMPLETION_TRIGGER='~~'
 
