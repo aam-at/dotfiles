@@ -252,7 +252,7 @@ if $INSTALL_RUST; then
     source "$HOME/.cargo/env"
     cargo install \
         aichat argc atuin bottom cargo-edit cargo-outdated gitui lsd ouch \
-        tealdeer texlab yazi-cli yazi-fm
+        tealdeer texlab viu yazi-cli yazi-fm
 
     rustup component add rustfmt
     rustup component add clippy
