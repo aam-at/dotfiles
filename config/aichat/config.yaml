@@ -87,12 +87,16 @@ clients:
   - type: ollama
     api_base: http://localhost:11434
     models:
-      - name: gemma2:latest
+      - name: gemma2:9b
+        max_input_tokens: 8192
+      - name: gemma2:9b-instruct-q6_K
         max_input_tokens: 8192
       - name: glm4:9b
         max_input_tokens: 131072
-      - name: llama3
-        max_input_tokens: 8192
+      - name: llama3.1:8b
+        max_input_tokens: 131072
+      - name: llama3.1:8b-instruct-q8_0
+        max_input_tokens: 131072
       - name: nomic-embed-text:latest
         type: embedding
       - name: mxbai-embed-large

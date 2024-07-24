@@ -90,8 +90,8 @@ install_packages \
     apt-file autojump automake bat bison btop build-essential checkinstall clang \
     cmake cscope curl eza fasd fd-find ffmpeg fish fonts-firacode \
     fonts-jetbrains-mono fonts-powerline fzy gawk gcc-10 gettext git git-lfs \
-    glances global gnupg2 gping gpustat guile-3.0-dev htop iotop \
-    iputils-arping jq keychain kitty libbz2-dev libevent-dev libffi-dev \
+    glances global gnupg2 gping gpustat guile-3.0-dev htop iotop iputils-arping \
+    jq keychain kitty libbz2-dev libcld2-dev libevent-dev libffi-dev \
     libfontconfig1-dev libfreetype6-dev libfuse-dev libgccjit-14-dev libgccjit0 \
     libgif-dev libgmime-3.0-dev libgnutls28-dev libjansson-dev libjansson4 \
     libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev libncurses-dev \
@@ -344,7 +344,7 @@ fi
 if ! command -v ollama &>/dev/null; then
     echo "Installing ollama..."
     curl -fsSL https://ollama.com/install.sh | sh
-    ollama_models=( "gemma2:9b-instruct-q6_K" "chatfire/bge-m3:q8_0" "mxbai-embed-large:latest" "glm4:9b" "gemma2:latest" "llama3:8b-instruct-q8_0" "nomic-embed-text:latest" "llama3:latest" "starcoder2:15b" "starcoder2:7b" "starcoder2:3b" "llama3:8b" "phi3:14b" "phi3:latest" "codestral:latest" )
+    ollama_models=( "chatfire/bge-m3:q8_0" "codestral:latest" "gemma2:9b" "gemma2:9b-instruct-q6_K" "glm4:9b" "llama3.1:8b" "llama3.1:8b-instruct-q8_0" "mxbai-embed-large:latest" "nomic-embed-text:latest" "phi3:14b" "phi3:latest" "starcoder2:15b" "starcoder2:3b" "starcoder2:7b" )
     for ollama_model in "${ollama_models[@]}"; do
         ollama pull "$ollama_model"
     done
