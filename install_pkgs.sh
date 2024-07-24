@@ -91,21 +91,21 @@ install_packages \
     cmake cscope curl eza fasd fd-find ffmpeg fish fonts-firacode \
     fonts-jetbrains-mono fonts-powerline fzy gawk gcc-10 gettext git git-lfs \
     glances global gnupg2 gping gpustat guile-3.0-dev htop iotop iputils-arping \
-    jq keychain kitty libbz2-dev libcld2-dev libevent-dev libffi-dev \
-    libfontconfig1-dev libfreetype6-dev libfuse-dev libgccjit-14-dev libgccjit0 \
-    libgif-dev libgmime-3.0-dev libgnutls28-dev libjansson-dev libjansson4 \
-    libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev libncurses-dev \
-    libncurses6 libncursesw6 libopenblas-dev libpng-dev libpoppler-glib-dev \
-    libpoppler-private-dev libreadline-dev libsqlite3-dev libssl-dev \
-    libsystemd-dev libtiff-dev libtree-sitter-dev libwebkit2gtk-4.1-dev \
-    libxapian-dev libxcb-xfixes0-dev libxkbcommon-dev libxpm-dev llvm make mc \
-    meson mosh ncdu net-tools nnn nvitop openconnect openssh-server p7zip-full \
-    p7zip-rar pandoc parallel pass pdfgrep pdfpc peco pkg-config plocate postfix \
-    powertop protobuf-compiler pydf python-dev-is-python3 python3 \
-    python3-openssl python3-pip ranger ripgrep ruby ruby-dev screen sd \
-    shellcheck silversearcher-ag sqlite3 stow texinfo tig tk-dev tmux tmuxinator \
-    trash-cli ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils \
-    zlib1g-dev zoxide
+    jq keychain kitty libbz2-dev libcld2-dev libenchant-2-dev libevent-dev \
+    libffi-dev libfontconfig1-dev libfreetype6-dev libfuse-dev libgccjit-14-dev \
+    libgccjit0 libgif-dev libgmime-3.0-dev libgnutls28-dev libjansson-dev \
+    libjansson4 libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev \
+    libncurses-dev libncurses6 libncursesw6 libopenblas-dev libpng-dev \
+    libpoppler-glib-dev libpoppler-private-dev libreadline-dev libsqlite3-dev \
+    libssl-dev libsystemd-dev libtiff-dev libtree-sitter-dev \
+    libwebkit2gtk-4.1-dev libxapian-dev libxcb-xfixes0-dev libxkbcommon-dev \
+    libxpm-dev llvm make mc meson mosh ncdu net-tools nnn nvitop openconnect \
+    openssh-server p7zip-full p7zip-rar pandoc parallel pass pdfgrep pdfpc peco \
+    pkg-config plocate postfix powertop protobuf-compiler pydf \
+    python-dev-is-python3 python3 python3-openssl python3-pip ranger ripgrep \
+    ruby ruby-dev screen sd shellcheck silversearcher-ag sqlite3 stow texinfo \
+    tig tk-dev tmux tmuxinator trash-cli ubuntu-restricted-extras unrar wget \
+    wmctrl xdg-utils xz-utils zlib1g-dev zoxide
 
 # Add repositories and install upstream packages
 add_ppa_and_install git-core/ppa git
