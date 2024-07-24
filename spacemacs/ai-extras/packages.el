@@ -25,6 +25,7 @@
 (defconst ai-extras-packages
   '(
     elisa
+    khoj
     llm
     (magit-gptcommit :location (recipe
                                 :fetcher github
@@ -33,6 +34,10 @@
 
 (defun ai-extras/init-elisa ()
   (use-package elisa
+    :demand t))
+
+(defun ai-extras/init-khoj ()
+  (use-package khoj
     :demand t))
 
 (defun ai-extras/init-llm ())
