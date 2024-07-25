@@ -108,9 +108,9 @@ clients:
     api_base: https://api.deepseek.com/v1
     models:
     - name: deepseek-coder
-      max_input_tokens: 128000
+      max_input_tokens: 131072
     - name: deepseek-chat
-      max_input_tokens: 128000
+      max_input_tokens: 131072
 
   # See https://ai.google.dev/docs
   - type: gemini
