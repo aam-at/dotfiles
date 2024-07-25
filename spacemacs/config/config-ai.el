@@ -159,6 +159,12 @@
          (t "small"))
         whisper-language "en"
         whisper-translate nil
-        whisper-use-threads (/ (num-processors) 2)))
+        whisper-use-threads (/ (num-processors) 2))
+
+  ;; khoj setings
+  (setq khoj-server-is-local t
+        khoj-server-url "http://localhost:42110"
+        khoj-index-files-batch 2
+        khoj-index-directories (list aam/org-root)))
 
 (provide 'config-ai)
