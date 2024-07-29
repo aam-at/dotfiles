@@ -1,32 +1,7 @@
 # syntax=docker/dockerfile:1
-FROM ubuntu:jammy
+FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04
 LABEL homepage="https://khoj.dev"
 LABEL repository="https://github.com/khoj-ai/khoj"
-LABEL org.opencontainers.image.source="https://github.com/khoj-ai/khoj"
-
-# Install cuda
-ENV NVARCH=x86_64
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gnupg2 curl ca-certificates && \
-    curl -fsSLO https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/${NVARCH}/cuda-keyring_1.1-1_all.deb && \
-    dpkg -i cuda-keyring_1.1-1_all.deb && \
-    apt-get purge --autoremove -y curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-12-1 cuda-toolkit-12-1 \
-    && rm -rf /var/lib/apt/lists/*
-
-# Required for nvidia-docker v1
-RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf \
-    && echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
-
-ENV PATH=/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib:/usr/local/cuda/lib64
 
 # Install System Dependencies
 RUN apt update -y && apt -y install python3-pip swig curl git
@@ -59,5 +34,3 @@ WORKDIR /app
 # but these should be passed in through the docker-compose.yml file.
 ARG PORT
 EXPOSE ${PORT}
-ENTRYPOINT ["python3", "src/khoj/main.py"]
-

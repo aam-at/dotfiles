@@ -24,6 +24,8 @@ services:
     # Uncomment the following line to build from source. This will take a few minutes. Comment the next two lines out if you want to use the offiicial image.
     # build:
       # context: .
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       # If changing the local port (left hand side), no other changes required.
       # If changing the remote port (right hand side),
@@ -45,11 +47,12 @@ services:
       - KHOJ_DEBUG=False
       - KHOJ_ADMIN_EMAIL=${KHOJ_ADMIN_EMAIL}
       - KHOJ_ADMIN_PASSWORD=${KHOJ_ADMIN_PASSWORD}
+      - HOST_SERVICE_URL=http://host.docker.internal:port
       # Uncomment the following lines to make your instance publicly accessible.
       # Replace the domain with your domain. Proceed with caution, especially if you are using anonymous mode.
       # - KHOJ_NO_HTTPS=True
       # - KHOJ_DOMAIN=192.168.0.104
-    command: --host="0.0.0.0" --port=42110 -vv --anonymous-mode
+    command: python3 src/khoj/main.py --host="0.0.0.0" --port=42110 -vv --anonymous-mode
     deploy:
       resources:
         reservations:
