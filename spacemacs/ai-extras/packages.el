@@ -27,10 +27,7 @@
     elisa
     khoj
     llm
-    (magit-gptcommit :location (recipe
-                                :fetcher github
-                                :repo "avishefi/magit-gptcommit"
-                                :branch "llm"))))
+    magit-gptcommit))
 
 (defun ai-extras/init-elisa ()
   (use-package elisa
@@ -38,15 +35,18 @@
 
 (defun ai-extras/init-khoj ()
   (use-package khoj
-    :demand t))
+    :defer t
+    :init
+    (spacemacs/set-leader-keys
+      "$k" 'khoj)))
 
 (defun ai-extras/init-llm ())
 
 (defun ai-extras/init-magit-gptcommit ()
   (use-package magit-gptcommit
-    :demand t
+    :defer t
     :after magit llm
-    :config
+    :init
     (if ai-extras-autostart-gptcommit-mode
         (progn
           (magit-gptcommit-mode -1)
