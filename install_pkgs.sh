@@ -266,11 +266,10 @@ if $INSTALL_GO; then
         add_ppa_and_install longsleep/golang-backports golang-go
     fi
     echo "Installing go packages..."
-    go install github.com/charmbracelet/freeze@latest
-    go install github.com/charmbracelet/glow@latest
-    go install github.com/charmbracelet/mods@latest
-    go install github.com/charmbracelet/vhs@latest
-    go install github.com/stefanlogue/meteor@latest
+    repos=("charmbracelet/freeze" "charmbracelet/glow" "charmbracelet/mods" "charmbracelet/vhs" "stefanlogue/meteor" "jesseduffield/lazydocker")
+    for repo in "${repos[@]}"; do
+        go install "github.com/${repo}@latest"
+    done
 fi
 
 # Install Spacemacs
