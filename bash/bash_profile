@@ -8,6 +8,9 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# change ulimit for the number of open files
+ulimit -n 65536 2>/dev/null
+
 # reuse ssh between logins
 type keychain >&/dev/null \
     && keychain --agents ssh $HOME/.ssh/id_ed25519 \

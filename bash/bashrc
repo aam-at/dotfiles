@@ -1,6 +1,9 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# change ulimit for the number of open files
+ulimit -n 65536 2>/dev/null
+
 ################
 # Basic config #
 ################
