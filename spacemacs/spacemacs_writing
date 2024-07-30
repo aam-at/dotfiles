@@ -51,7 +51,8 @@ This function should only modify configuration layer settings."
              syntax-checking
              (tabs :variables tabs-auto-hide nil)
              (treemacs :variables treemacs-use-filewatch-mode t)
-             unicode-fonts
+             (unicode-fonts :variables
+                            unicode-fonts-enable-ligatures t)
              (version-control :variables
                               version-control-diff-tool 'diff-hl)
              ;; More VIM sugar in emacs
@@ -71,6 +72,7 @@ This function should only modify configuration layer settings."
                           spacemacs-tree-sitter-hl-black-list '(org-mode latex-mode)
                           tree-sitter-syntax-highlight-enable t
                           tree-sitter-fold-enable t
+                          tree-sitter-indent-enable t
                           tree-sitter-fold-indicators-enable nil)
              ;; ----------------------------------------------------------------
              ;; Writing and note taking
@@ -94,6 +96,7 @@ This function should only modify configuration layer settings."
                   org-enable-modern-support t
                   org-enable-notifications t
                   org-enable-org-contacts-support t
+                  org-contacts-files (list "~/Dropbox/Org/contacts.org")
                   org-enable-org-journal-support t
                   org-enable-remark-support t
                   org-enable-reveal-js-support t
@@ -106,13 +109,24 @@ This function should only modify configuration layer settings."
                   org-start-notification-daemon-on-startup t
                   org-want-todo-bindings t)
              ;; ----------------------------------------------------------------
+             ;; AI layers
+             ;; ----------------------------------------------------------------
+             openai
+             (llm-client :variables
+                         llm-client-enable-gptel t
+                         llm-client-enable-ellama t)
+             whisper
+             ;; ----------------------------------------------------------------
              ;; Readers
              ;; ----------------------------------------------------------------
-             dash
+             (dash :variables
+                   dash-docs-docset-newpath "~/.local/share/Zeal/docsets")
              (elfeed :variables
                      elfeed-search-filter "@1-months-ago +unread"
                      elfeed-spacemacs-layout-name "@Elfeed"
                      elfeed-spacemacs-layout-binding "f"
+                     elfeed-enable-goodies t
+                     elfeed-enable-web-interface t
                      rmh-elfeed-org-files (list "~/Dropbox/Org/feeds.org")
                      elfeed-goodies/entry-pane-position 'bottom
                      url-queue-timeout 10)
@@ -125,7 +139,10 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              aam
              writing
-             org-extras
+             (ai-extras :variables
+                        ai-extras-autostart-gptcommit-mode t)
+             (org-extras :variables
+                         org-enable-delve t)
              org-roam)
 
            ;; OS-specific layers
@@ -301,7 +318,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil, show file icons for entries and headings on Spacemacs home buffer.
    ;; This has no effect in terminal or if "all-the-icons" package or the font
    ;; is not installed. (default nil)
-   dotspacemacs-startup-buffer-show-icons nil
+   dotspacemacs-startup-buffer-show-icons t
 
    ;; Default major mode for a new empty buffer. Possible values are mode
    ;; names such as `text-mode'; and `nil' to use Fundamental mode.
@@ -326,10 +343,20 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(gruvbox-dark-medium
+   dotspacemacs-themes '(;; dark themes
+                         gruvbox-dark-medium
                          spacemacs-dark
+                         material
+                         ;; light themes
+                         adwaita
+                         dichromacy
                          gruvbox-light-medium
-                         spacemacs-light)
+                         leuven
+                         modus-operandi
+                         spacemacs-light
+                         tango
+                         tsdh-light
+                         whiteboard)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
@@ -344,10 +371,12 @@ It should only modify the values of Spacemacs settings."
    ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
-   ;; Default font or prioritized list of fonts. The `:size' can be specified as
+   ;; Default font or prioritized list of fonts. This setting has no effect when
+   ;; running Emacs in terminal. The font set here will be used for default and
+   ;; fixed-pitch faces. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("JetBrains Mono"
                                :size 20
                                :weight normal
                                :width normal)
@@ -425,6 +454,10 @@ It should only modify the values of Spacemacs settings."
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
+   ;; It is also possible to use a posframe with the following cons cell
+   ;; `(posframe . position)' where position can be one of `center',
+   ;; `top-center', `bottom-center', `top-left-corner', `top-right-corner',
+   ;; `top-right-corner', `bottom-left-corner' or `bottom-right-corner'
    ;; (default 'bottom)
    dotspacemacs-which-key-position 'bottom
 
@@ -556,6 +589,14 @@ It should only modify the values of Spacemacs settings."
    ;; (default '("rg" "ag" "pt" "ack" "grep"))
    dotspacemacs-search-tools '("rg" "ag" "pt" "ack" "grep")
 
+   ;; The backend used for undo/redo functionality. Possible values are
+   ;; `undo-tree', `undo-fu' and `undo-redo', see also `evil-undo-system'.
+   ;; Note that saved undo history does not get transferred when changing
+   ;; from undo-tree to undo-fu or undo-redo.
+   ;; The default is currently 'undo-tree, but it will likely be changed
+   ;; and at some point removed because undo-tree is not maintained anymore.
+   dotspacemacs-undo-system 'undo-fu
+
    ;; Format specification for setting the frame title.
    ;; %a - the `abbreviated-file-name', or `buffer-name'
    ;; %t - `projectile-project-name'
@@ -655,23 +696,28 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; open true file when opening any new file
   (setq find-file-visit-truename t)
   ;; configure org before anything
-  (setq org-root (expand-file-name "~/Dropbox/Org/"))
-  (setq org-roam-directory org-root)
-  (setq org-roam-v2-ack t)
+  (setq aam/org-root (file-truename (expand-file-name "~/Dropbox/Org/")))
+  (defun aam/org-path (path) (concat aam/org-root path))
+  ;; configure bibtex
+  (setq aam/bib-root "~/Dropbox/Research/Bibliography/")
+  (defun aam/bib-path (path) (concat aam/bib-root path))
+  (setq aam/bibtex-files (list (aam/bib-path "refs.bib")
+                               (aam/bib-path "review.bib")
+                               (aam/bib-path "books.bib")
+                               (aam/bib-path "myrefs.bib")))
+  ;; set org-roam directories before post-init hook
+  (setq org-roam-directory aam/org-root)
   ;; Garbage Collector Magic Hack
-  (gcmh-mode 1)
+  (with-eval-after-load 'gcmh
+    (gcmh-mode 1))
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
-   (if (> (x-display-pixel-width) 3000)
-       (setq dotspacemacs-default-font '("Source Code Pro"
-                                         :size 20
-                                         :weight normal
-                                         :width normal))
-     (setq dotspacemacs-default-font '("Source Code Pro"
-                                       :size 12
+   (let ((font-size (if (> (x-display-pixel-width) 3000) 20 14)))
+     (setq dotspacemacs-default-font `("JetBrains Mono"
+                                       :size ,font-size
                                        :weight normal
-                                       :width normal)))
-   (spacemacs/set-default-font dotspacemacs-default-font)))
+                                       :width normal))
+     (spacemacs/set-default-font dotspacemacs-default-font))))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -686,76 +732,23 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; load configs
-  (require 'config-common)
-  (require 'config-org)
-  (require 'config-tex)
-  (require 'config-bibtex)
-  ;; load encrypted config
+  ;; setup keychain
   (when (require 'keychain-environment nil 'noerror)
     (keychain-refresh-environment))
-  (load-library "config-secure.el.gpg")
-
+  ;; auto load configs
+  (autoload 'my-ai-setup "config-ai" "Setup AI configurations" t)
+  (autoload 'my-bibtex-setup "config-bibtex" "Setup bibtex configurations" t)
+  (autoload 'my-common-setup "config-common" "Setup common configurations" t)
+  (autoload 'my-org-setup "config-org" "Setup org-mode configurations" t)
+  (autoload 'my-secure-setup "config-secure" "Setup secure configurations" t)
+  (autoload 'my-tex-setup "config-tex" "Setup TeX configurations" t)
+  ;; load configs
   (my-common-setup)
+  (my-secure-setup)
+  (my-ai-setup)
   (my-org-setup)
   (my-tex-setup)
-  (my-bibtex-setup)
-  (my-secure-setup))
+  (my-bibtex-setup))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
- (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  '(safe-local-variable-values
-    '((org-download-image-dir . "data/%\2")
-      (org-ditaa-jar-path . "/usr/share/ditaa/ditaa.jar")
-      (org-download-image-dir . "data/inbox")
-      (org-download-image-dir . "data/work")
-      (org-download-heading-lvl . 0)
-      (org-download-image-dir . "data/nips2018")
-      (org-download-image-dir . "data/icml2017")
-      (truncate-lines . "disabled")
-      (org-download-image-dir . "data/gyms")
-      (org-download-image-dir . "data/ijcnn2017")
-      (org-download-image-dir . "data/someday")
-      (org-download-image-dir . "data/fast-at-evt")
-      (org-download-image-dir . "data/msc-math")
-      (org-download-image-dir . "data/cs6216")
-      (org-download-image-dir . "data/consensus_at")
-      (org-download-image-dir . "data/emacs-org-mode")
-      (org-download-image-dir . "data/icl-musketeer")
-      (org-download-image-dir . "data/phd")
-      (org-download-image-dir . "data/lroptimizer")
-      (org-download-image-dir . "data/at-back-gradient")
-      (org-download-image-dir . "data/steng-fire")
-      (org-download-image-dir . "data/driving-license")
-      (org-download-image-dir . "data/multinorm_pgd")
-      (org-download-image-dir . "data/multiple_pgd")
-      (org-download-image-dir . "data/spr")
-      (org-download-image-dir . "data/steng-rain")
-      (org-download-image-dir . "data/langevin-at")
-      (org-download-image-dir . "data/research")
-      (org-download-image-dir . "data/immigration")
-      (org-download-image-dir . "data/omron")
-      (org-download-image-dir . "data/NRF-a-star")
-      (org-download-image-dir . "data/nn2019")
-      (org-download-image-dir . "data/tnnls2020")
-      (org-download-image-dir . "data/jobs")
-      (org-download-image-dir . "data/msca-2021")
-      (org-download-image-dir . "data")
-      (org-archive-location . "::*** Archived Tasks")
-      (org-download-heading-lvl)
-      (org-use-property-inheritance . t))))
- (custom-set-faces))
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
