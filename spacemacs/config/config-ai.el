@@ -163,8 +163,11 @@
 
   ;; khoj setings
   (setq khoj-server-is-local t
+        khoj-auto-index nil
         khoj-server-url "http://localhost:42110"
-        khoj-index-files-batch 2
-        khoj-index-directories (list aam/org-root)))
+        khoj-index-files-batch 1
+        khoj-default-content-type "org"
+        khoj-index-files (directory-files-recursively aam/org-root (rx ".org" eos))
+        khoj-index-directories nil))
 
 (provide 'config-ai)
