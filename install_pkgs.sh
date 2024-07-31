@@ -250,7 +250,7 @@ if $INSTALL_RUST; then
     fi
     echo "Installing Rust and cargo packages..."
     source "$HOME/.cargo/env"
-    cargo install \
+    cargo install --locked \
         aichat argc atuin bottom cargo-edit cargo-outdated gitui lsd ouch \
         tealdeer texlab viu yazi-cli yazi-fm
 
