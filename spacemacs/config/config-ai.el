@@ -19,6 +19,15 @@
            :default-chat-non-standard-params '(("num_ctx" . 131072))))
   (setq ellama-providers
         '(
+          ;; groq models
+          ("groq-llama3.1:8b" . (make-llm-openai-compatible
+                                 :key groq-api-key
+                                 :chat-model "llama-3.1-8b-instant"
+                                 :url "https://api.groq.com/openai/v1/"))
+          ("groq-llama3.1:70b" . (make-llm-openai-compatible
+                                  :key groq-api-key
+                                  :chat-model "llama-3.1-70b-versatile"
+                                  :url "https://api.deepseek.com/openai/v1/"))
           ;; deepseek models
           ("deepseek-chat" . (make-llm-openai-compatible
                               :key deepseek-api-key
@@ -132,6 +141,15 @@
     :models '("meta-llama/Llama-3-8b-chat-hf"
               "meta-llama/Llama-3-70b-chat-hf"
               "microsoft/WizardLM-2-8x22B"))
+
+  (gptel-make-openai "Groq"               ;Any name you want
+    :host "api.groq.com"
+    :endpoint "/openai/v1/chat/completions"
+    :stream t
+    :key groq-api-key
+    :models '("llama-3.1-405b-reasoning"
+              "llama-3.1-70b-versatile"
+              "llama-3.1-8b-instant"))
 
   (gptel-make-openai "Deepseek"
     :host "api.deepseek.com"
