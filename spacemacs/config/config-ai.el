@@ -19,6 +19,19 @@
            :default-chat-non-standard-params '(("num_ctx" . 131072))))
   (setq ellama-providers
         '(
+          ;; deepinfra models
+          ("deepinfra-llama3.1:8b" . (make-llm-openai-compatible
+                                      :key deepinfra-api-key
+                                      :chat-model "meta-llama/Meta-Llama-3.1-8B-Instruct"
+                                      :url "https://api.deepinfra.com/v1/openai"))
+          ("deepinfra-llama3.1:70b" . (make-llm-openai-compatible
+                                       :key deepinfra-api-key
+                                       :chat-model "meta-llama/Meta-Llama-3.1-70B-Instruct"
+                                       :url "https://api.deepinfra.com/v1/openai"))
+          ("deepinfra-llama3.1:405b" . (make-llm-openai-compatible
+                                        :key deepinfra-api-key
+                                        :chat-model "meta-llama/Meta-Llama-3.1-405B-Instruct"
+                                        :url "https://api.deepinfra.com/v1/openai"))
           ;; groq models
           ("groq-llama3.1:8b" . (make-llm-openai-compatible
                                  :key groq-api-key
@@ -110,6 +123,7 @@
                         :host "localhost:11434"
                         :stream t
                         :models '("llama3.1:8b-instruct-q8_0"))
+        gptel-log-level 'nil
         gptel-default-mode 'org-mode
         gptel-expert-commands t
         gptel-org-branching-context t)
@@ -142,7 +156,7 @@
               "meta-llama/Llama-3-70b-chat-hf"
               "microsoft/WizardLM-2-8x22B"))
 
-  (gptel-make-openai "Groq"               ;Any name you want
+  (gptel-make-openai "Groq"
     :host "api.groq.com"
     :endpoint "/openai/v1/chat/completions"
     :stream t
@@ -150,6 +164,15 @@
     :models '("llama-3.1-405b-reasoning"
               "llama-3.1-70b-versatile"
               "llama-3.1-8b-instant"))
+
+  (gptel-make-openai "Deepinfra"
+    :host "api.deepinfra.com"
+    :endpoint "/v1/openai/chat/completions"
+    :stream t
+    :key deepinfra-api-key
+    :models '("meta-llama/Meta-Llama-3.1-405B-Instruct"
+              "meta-llama/Meta-Llama-3.1-70B-Instruct"
+              "meta-llama/Meta-Llama-3.1-8B-Instruct"))
 
   (gptel-make-openai "Deepseek"
     :host "api.deepseek.com"
