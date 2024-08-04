@@ -117,10 +117,7 @@
       "rF" 'org-roam-node-find
       "ri" 'vulpea-insert
       "rI" 'org-roam-node-insert
-      "rb" 'vulpea-find-backlink)
-    :config
-    (memoize #'vulpea-db-query)
-    (advice-add 'org-roam-db-update-file :after #'org-extras/vulpea-memo-refresh)))
+      "rb" 'vulpea-find-backlink)))
 
 (defun org-extras/init-ob-async ()
   :defer t
