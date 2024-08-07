@@ -2,6 +2,12 @@
 FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04
 LABEL homepage="https://khoj.dev"
 LABEL repository="https://github.com/khoj-ai/khoj"
+LABEL org.opencontainers.image.source="https://github.com/khoj-ai/khoj"
+
+# Environment variables
+ENV REPO_URL="https://github.com/khoj-ai/khoj"
+ENV APP_DIR="/app"
+ENV PYTHONPATH="${APP_DIR}/src:${PYTHONPATH}"
 
 # Install System Dependencies
 RUN apt update -y && apt -y install python3-pip swig curl git
@@ -17,12 +23,11 @@ RUN apt update && apt -y install yarn
 RUN apt -y install libgl1 libgl1-mesa-glx libglib2.0-0
 
 # Install Application
-RUN git clone https://github.com/khoj-ai/khoj /app
+RUN git clone ${REPO_URL} ${APP_DIR}
 WORKDIR /app
-RUN CMAKE_ARGS="-DGGML_CUDA=on" pip install --no-cache-dir .
-
-# Set the PYTHONPATH environment variable in order for it to find the Django app.
-ENV PYTHONPATH=/app/src:$PYTHONPATH
+ARG VERSION=0.0.0
+RUN sed -i "s/dynamic = \\[\"version\"\\]/version = \"$VERSION\"/" pyproject.toml && \
+    CMAKE_ARGS="-DGGML_CUDA=on" pip install --no-cache-dir .
 
 # Go to the directory src/interface/web and export the built Next.js assets
 WORKDIR /app/src/interface/web
