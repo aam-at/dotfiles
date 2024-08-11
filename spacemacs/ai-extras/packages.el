@@ -25,7 +25,10 @@
 (defconst ai-extras-packages
   '(
     elisa
-    khoj
+    (khoj :location (recipe
+                     :fetcher github
+                     :repo "aam-at/khoj"
+                     :files ("src/interface/emacs/*.el")))
     llm
     magit-gptcommit))
 
