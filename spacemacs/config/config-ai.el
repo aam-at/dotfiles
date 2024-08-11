@@ -40,7 +40,7 @@
           ("groq-llama3.1:70b" . (make-llm-openai-compatible
                                   :key groq-api-key
                                   :chat-model "llama-3.1-70b-versatile"
-                                  :url "https://api.deepseek.com/openai/v1/"))
+                                  :url "https://api.groq.com/openai/v1"))
           ;; deepseek models
           ("deepseek-chat" . (make-llm-openai-compatible
                               :key deepseek-api-key
