@@ -634,3 +634,73 @@ DAYS must be a positive integer greater than 1."
            (org-fold-show-set-visibility 'nil))
          (unless (and entry-prop (>= entry-prop min-citations))
            (org-fold-subtree t)))))))
+
+
+;;  Misc functions
+(defun org-extras/json-get-list (attribute message)
+  "Get the value of ATTRIBUTE from MESSAGE and convert it to a list if it's a vector."
+  (let ((value (alist-get attribute message)))
+    (if (vectorp value)
+        (append value nil)  ;; Convert vector to list
+      value)))  ;; Return as-is if it's already a list
+
+(defun org-extras/convert-json-to-review (message-string)
+  "Convert JSON string to an my Emacs review template and insert at point."
+  (interactive "sEnter JSON string: ")
+  (let* ((json-object-type 'alist)
+         (message (json-read-from-string message-string))
+         (output ""))
+
+    ;; TLDR
+    (setq output (concat output "+ *TLDR:*\n\n  <<tldr>>" (alist-get 'TLDR message) "\n"))
+
+    ;; Summary
+    (setq output (concat output "+ *Summary:*\n\n  <<summary>>" (alist-get 'Summary message) "\n"))
+
+    ;; Related Work
+    (setq output (concat output "+ *Related work:*\n"))
+    (setq temp (alist-get 'Related_work message))
+    (let ((related-work-list (org-extras/json-get-list 'Related_work message))) ;; Convert vector to list
+      (dolist (rw related-work-list)
+        (setq output (concat output "  * " (alist-get 'citation rw) " - " (alist-get 'relationship rw) "\n"))))
+
+    ;; Contributions
+    (setq output (concat output "+ *Contributions:*\n"))
+    (let ((count 1)
+          (contributions-list (org-extras/json-get-list 'Contributions message)))
+      (dolist (contribution contributions-list)
+        (setq output (concat output (format "  %d. %s\n" count contribution)))
+        (setq count (1+ count))))
+
+    ;; Approach
+    (setq output (concat output "+ *Approach:*\n\n  " (alist-get 'Approach message) "\n"))
+
+    ;; Pros
+    (setq output (concat output "+ *Pros:*\n"))
+    (let ((pros-list (org-extras/json-get-list 'Pros message)))
+      (dolist (pro pros-list)
+        (setq output (concat output "  * " pro "\n"))))
+
+    ;; Cons
+    (setq output (concat output "+ *Cons:*\n"))
+    (let ((cons-list (org-extras/json-get-list 'Cons message)))
+      (dolist (con cons-list)
+        (setq output (concat output "  * " con "\n"))))
+
+    ;; Notes and Questions
+    (setq output (concat output "+ *Notes and questions:*\n"))
+    (let ((nq-list (org-extras/json-get-list 'Notes_and_questions message)))
+      (dolist (nq nq-list)
+        (setq output (concat output "  * " nq "\n"))))
+
+    ;; Future Work
+    (setq output (concat output "+ *Future work:*\n"))
+    (let ((fw-list (org-extras/json-get-list 'Future_work message)))
+      (dolist (fw fw-list)
+        (setq output (concat output "  * " fw "\n"))))
+
+    ;; Conclusion
+    (setq output (concat output "+ *Conclusion:*\n\n  " (alist-get 'Conclusion message)))
+
+    ;; Insert the final output at point
+    (insert output)))
