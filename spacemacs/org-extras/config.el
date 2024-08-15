@@ -4,8 +4,12 @@
 (defvar scholarly-citations-output nil
   "Holds the output from the `scholarly-citations-process-sentinel` function.")
 
+(defvar scholarly-default-method "manual"
+  "Default method to fetch citations.")
+
 (defconst scholarly-methods-alist
-  '(("manual" . "")
+  '(("manual" . scholarly-manual-citations)
+    ("jina" . scholarly-jina-citations)
     ("scholarly_no_proxy" . "scholarly_citations.py --proxy noproxy")
     ("scholarly_freeproxy" . "scholarly_citations.py --proxy freeproxy")
     ("scholarly_scrapper" . "scholarly_citations.py --proxy scrapper")
