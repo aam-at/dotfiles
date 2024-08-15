@@ -1,4 +1,6 @@
 (require 'cl-lib)
+(require 'json)
+(require 'url)
 
 (defun org-extras/days-before-today (days)
   "Return the time DAYS days before today."
@@ -401,11 +403,43 @@ DAYS must be a positive integer greater than 1."
       (setq scholarly-citations-output (string-to-number (buffer-string)))
       (kill-buffer))))
 
-(defun scholarly-search-google-scholar (title)
-  "Search the title on Google Scholar."
+(defun scholarly-manual-citations (title)
+  "Search the title on Google Scholar and manually input the number of citations."
   (let* ((search-url (concat "https://scholar.google.com/scholar?q="
                              (url-hexify-string title))))
-    (browse-url search-url)))
+    (browse-url search-url)
+    (read-number "Enter the number of citations: ")))
+
+(defun scholarly-jina-citations (title)
+  "Fetch the number of citations for a given publication TITLE from
+  Google Scholar using jina.ai Reader API."
+  (let* ((encoded-title (url-encode-url (format "\"%s\"" title)))
+         (url (format "https://r.jina.ai/https://scholar.google.com/scholar?q=%s&hl=en" encoded-title))
+         (url-request-method "GET")
+         (buffer (url-retrieve-synchronously url))
+         citations)
+    (with-current-buffer buffer
+      (goto-char (point-min))
+      (re-search-forward "^$" nil 'move)
+      (delete-region (point-min) (point))
+      (setq citations
+            (save-match-data
+              (let ((case-fold-search t)
+                    (citation-matches 0)
+                    (citation-count nil))
+                (while (re-search-forward "Cited by \\([0-9]+\\)" nil t)
+                  (setq citation-matches (1+ citation-matches))
+                  (when (= citation-matches 1)
+                    (setq citation-count (string-to-number (match-string 1)))))
+                (cond
+                 ((= citation-matches 0) nil)
+                 ((> citation-matches 1)
+                  (display-warning 'scholarly-jina-citations
+                                   (format "Multiple matches found for title '%s'. Returning the first match." title))
+                  citation-count)
+                 (t citation-count))))))
+    (kill-buffer buffer)
+    citations))
 
 (defun scholarly-citations (title &optional method callback)
   "Find the number of citations for a paper given its TITLE using
@@ -414,29 +448,31 @@ DAYS must be a positive integer greater than 1."
   argument is used to look up the corresponding Python script and
   options in `scholarly-methods-alist`. If METHOD is 'manual', read
   the value from the user."
-  (let* ((method (or method "manual")))
-    (if (string= method "manual")
-        (progn
-          (scholarly-search-google-scholar title)
-          (setq scholarly-citations-output (read-number "Enter the number of citations: "))
-          (when callback
-            (funcall callback scholarly-citations-output))
-          scholarly-citations-output)
-      (let* ((output-buffer (generate-new-buffer "*scholarly-citations-output*"))
-             (method-command (or (cdr (assoc method scholarly-methods-alist)) "scholarly_citations.py"))
-             (python-script (car (split-string method-command)))
-             (process-args (list (shell-quote-argument title))))
-        (when method-command
-          (setq process-args (append (cdr (split-string method-command)) process-args)))
-        (setq scholarly-citations-output nil)
-        (set-process-sentinel
-         (apply #'start-process "scholarly-citations-process" output-buffer python-script process-args)
-         #'scholarly-citations-process-sentinel)
-        (while (not scholarly-citations-output)
-          (accept-process-output nil 0.1))
-        (when callback
-          (funcall callback scholarly-citations-output))
-        scholarly-citations-output))))
+  (let* ((method (or method "manual"))
+         (method-info (assoc method scholarly-methods-alist)))
+    (if (not method-info)
+        (error "Unknown method: %s" method)
+      (let ((method-function (cdr method-info)))
+        (if (functionp method-function)
+            (let ((citations (funcall method-function title)))
+              (when callback
+                (funcall callback citations))
+              citations)
+          (let* ((output-buffer (generate-new-buffer "*scholarly-citations-output*"))
+                 (method-command method-function)
+                 (python-script (car (split-string method-command)))
+                 (process-args (list (shell-quote-argument title))))
+            (when method-command
+              (setq process-args (append (cdr (split-string method-command)) process-args)))
+            (setq scholarly-citations-output nil)
+            (set-process-sentinel
+             (apply #'start-process "scholarly-citations-process" output-buffer python-script process-args)
+             #'scholarly-citations-process-sentinel)
+            (while (not scholarly-citations-output)
+              (accept-process-output nil 0.1))
+            (when callback
+              (funcall callback scholarly-citations-output))
+            scholarly-citations-output))))))
 
 (defun org-extras/citations--trim-year-prefix (str)
   "Remove the 'YEAR - ' prefix from STR using a regular expression."
@@ -458,7 +494,10 @@ DAYS must be a positive integer greater than 1."
   "Fetch the number of citations for the current Org-mode heading
   and set the CITATION_COUNT property."
   (interactive
-   (list (completing-read "Select citation method (default: manual): " (mapcar #'car scholarly-methods-alist) nil t "" nil "manual")))
+   (list (completing-read
+          (format "Select citation method (default: %s): " scholarly-default-method)
+          (mapcar #'car scholarly-methods-alist)
+          nil t "" nil scholarly-default-method)))
   (unless (org-at-heading-p)
     (error "Not at an Org-mode heading"))
   (let* ((title (org-extras/citations--get-title-from-heading)))
@@ -466,7 +505,8 @@ DAYS must be a positive integer greater than 1."
     (let ((citations (scholarly-citations title method)))
       (message "Citations: %d" citations)
       (org-entry-put (point) "CITATION_COUNT" (number-to-string citations))
-      (org-entry-put (point) "CITATION_LAST_UPDATED" (format-time-string "%Y-%m-%d")))))
+      (org-entry-put (point) "CITATION_LAST_UPDATED" (format-time-string "%Y-%m-%d"))
+      (setq scholarly-default-method method))))
 
 (defun org-extras/get-year-from-link ()
   (string-to-number (org-extras/roam-get-property-from-link "YEAR")))
