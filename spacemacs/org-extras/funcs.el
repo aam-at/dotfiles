@@ -20,6 +20,14 @@ DAYS must be a positive integer greater than 1."
                           (number-sequence 1 days)))
     (user-error "DAYS must be a positive integer greater or equal than 1")))
 
+(defun org-extras/copy-org-elements-in-buffer ()
+  "Copy the titles of all org-elements in the selected buffer to the clipboard."
+  (interactive)
+  (let ((elements (org-element-map (org-element-parse-buffer 'objects) 'headline
+                    (lambda (hl)
+                      (org-element-property :title hl)))))
+    (kill-new (mapconcat 'identity elements "\n"))))
+
 (defun org-extras/narrow-to-subtree ()
   (interactive)
   (let ((org-indirect-buffer-display 'current-window))
