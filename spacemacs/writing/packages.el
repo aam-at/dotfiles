@@ -1,48 +1,46 @@
 ;;; packages.el --- writing Layer packages File for Spacemacs
 ;;
-;; Copyright (c) 2012-2014 Sylvain Benner
-;; Copyright (c) 2014-2015 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2024 Sylvain Benner & Contributors
 ;;
-;; Author: Sylvain Benner <sylvain.benner@gmail.com>
+;; Author: Alexander Matyasko <amatyasko@amatyasko-PC>
 ;; URL: https://github.com/syl20bnr/spacemacs
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
-;;; License: GPLv3
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-;; List of all packages to install and/or initialize. Built-in packages
-;; which require an initialization must be listed explicitly in the list.
+;;; Code:
 (setq writing-packages
-    '(
-      cdlatex
-      ;; general writing
-      flycheck
-      writeroom-mode
-      writegood-mode
-      flycheck-vale
-      (write-or-die :location local)
-      ;; synonyms and thesaurus
-      powerthesaurus
-      le-thesaurus
-      (mw-thesaurus :location (recipe)
-                    :fetcher github
-                    :repo "agzam/mw-thesaurus.el")
-      synosaurus
-      (words :location local)
-      academic-phrases))
+      '(
+        cdlatex
+        ;; general writing
+        flycheck
+        writeroom-mode
+        writegood-mode
+        flycheck-vale
+        (write-or-die :location local)
+        ;; synonyms and thesaurus
+        jinx
+        powerthesaurus
+        le-thesaurus
+        (mw-thesaurus :location (recipe)
+                      :fetcher github
+                      :repo "agzam/mw-thesaurus.el")
+        synosaurus
+        (words :location local)
+        academic-phrases))
 
-;; List of packages to exclude.
-(setq writing-excluded-packages '())
-
-;; For each package, define a function writing/init-<package-name>
-;;
-;; (defun writing/init-my-package ()
-;;   "Initialize my package"
-;;   )
-;;
-;; Often the body of an initialize function uses `use-package'
-;; For more info on `use-package', see readme:
-;; https://github.com/jwiegley/use-package
 (defun writing/init-cdlatex()
   (use-package cdlatex
     :defer t
@@ -129,27 +127,33 @@
       :documentation "Activate `Write or Die!'"
       :evil-leader "C-t d")))
 
+(defun writing/init-jinx()
+  :defer t)
+
 (defun writing/init-powerthesaurus()
   :defer t
   :init
   (spacemacs/declare-prefix "St" "Thesaurus")
-  (spacemacs/set-leader-keys "Sts" 'powerthesaurus-lookup-synonyms-dwim
-                             "Sta" 'powerthesaurus-lookup-antonyms-dwim
-                             "Str" 'powerthesaurus-lookup-related-dwim
-                             "Std" 'powerthesaurus-lookup-definitions-dwim
-                             "Ste" 'powerthesaurus-lookup-sentences-dwim))
+  (spacemacs/set-leader-keys
+    "Sts" 'powerthesaurus-lookup-synonyms-dwim
+    "Sta" 'powerthesaurus-lookup-antonyms-dwim
+    "Str" 'powerthesaurus-lookup-related-dwim
+    "Std" 'powerthesaurus-lookup-definitions-dwim
+    "Ste" 'powerthesaurus-lookup-sentences-dwim))
 
 (defun writing/init-le-thesaurus()
   :defer t
   :init
-  (spacemacs/set-leader-keys "Stl" 'le-thesaurus-get-synonyms
-                             "StL" 'le-thesaurus-get-antonyms))
+  (spacemacs/set-leader-keys
+    "Stl" 'le-thesaurus-get-synonyms
+    "StL" 'le-thesaurus-get-antonyms))
 
 (defun writing/init-mw-thesaurus()
   :defer t
   :init
   (add-hook 'variable-pitch-mode 'mw-thesaurus-mode)
-  (spacemacs/set-leader-keys "Stm" 'mw-thesaurus-lookup-dwim))
+  (spacemacs/set-leader-keys
+    "Stm" 'mw-thesaurus-lookup-dwim))
 
 (defun writing/init-synosaurus()
   (use-package synosaurus
@@ -169,13 +173,6 @@
     :init
     (spacemacs/set-leader-keys
       "Sw" 'words-hydra/body)))
-
-(defun writing/init-textlint()
-  :config
-  (require 'textlint)
-  :init
-  (spacemacs/set-leader-keys
-    "S!" 'textlint-run))
 
 (defun writing/init-academic-phrases()
   :defer t)
