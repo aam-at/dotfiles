@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-URL = "https://api.openai.com/v1/chat/completions"
+URL = "https://api.deepseek.com/v1/chat/completions"
 
 
 def read_file(file_path: str) -> str:
@@ -54,17 +54,20 @@ def get_openai_response(
 ) -> str:
     """Generate response using OpenAI API via curl."""
     full_system_prompt = prepare_system_prompt(system_prompt, context_files)
-    messages = [
+
+    import pudb
+
+    pudb.set_trace(0)
+    payload = {
+        "model": model,
+    }
+    if response_format:
+        payload["response_format"] = {"type": "json_object"}
+        full_system_prompt += f"\n{response_format}"
+    payload["messages"] = [
         {"role": "system", "content": full_system_prompt},
         {"role": "user", "content": user_prompt},
     ]
-
-    payload = {
-        "model": model,
-        "messages": messages,
-    }
-    if response_format:
-        payload["response_format"] = response_format
 
     curl_command = [
         "curl",
@@ -86,9 +89,9 @@ def parse_arguments() -> argparse.Namespace:
         description="Generate reviews using LLM with OpenAI compatible API."
     )
     parser.add_argument(
-        "--api_key", default=os.getenv("OPENAI_API_KEY"), help="API key"
+        "--api_key", default=os.getenv("DEEPSEEK_API_KEY"), help="API key"
     )
-    parser.add_argument("--model", default="gpt-4o-mini", help="Model to use to use")
+    parser.add_argument("--model", default="deepseek-chat", help="Model to use to use")
     parser.add_argument(
         "--system_prompt",
         default="You are a large language model and a writing assistant. Respond concisely.",
@@ -107,12 +110,7 @@ def main():
 
     response_format = None
     if args.response_format:
-        try:
-            with open(args.response_format, "r") as schema_file:
-                response_format = json.load(schema_file)
-        except (IOError, json.JSONDecodeError) as e:
-            print(f"Error reading response format file: {e}")
-            return
+        response_format = read_file(args.response_format)
 
     try:
         response = get_openai_response(
