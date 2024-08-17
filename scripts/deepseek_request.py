@@ -2,7 +2,9 @@ import argparse
 import json
 import os
 import subprocess
-from typing import List, Dict, Optional
+import tempfile
+from typing import Dict, List, Optional
+
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -65,19 +67,30 @@ def get_deepseek_response(
         {"role": "system", "content": full_system_prompt},
         {"role": "user", "content": user_prompt},
     ]
+    with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_file:
+        json.dump(payload, temp_file)
+        temp_file_path = temp_file.name
 
     curl_command = [
         "curl",
+        "-X",
+        "POST",
         URL,
         "-H",
         f"Authorization: Bearer {api_key}",
         "-H",
         "Content-Type: application/json",
-        "-d",
-        json.dumps(payload),
+        "--data-binary",
+        f"@{temp_file_path}",
     ]
 
-    return execute_curl_command(curl_command)
+    try:
+        response = execute_curl_command(curl_command)
+    finally:
+        # Clean up the temporary file
+        os.unlink(temp_file_path)
+
+    return response
 
 
 def parse_arguments() -> argparse.Namespace:
