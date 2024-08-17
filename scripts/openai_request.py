@@ -64,7 +64,14 @@ def get_openai_response(
         "messages": messages,
     }
     if response_format:
-        payload["response_format"] = response_format
+        payload["response_format"] = {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "json_response",
+                "strict": True,
+                "schema": response_format
+            }
+        }
 
     curl_command = [
         "curl",
@@ -124,15 +131,26 @@ def main():
             response_format,
         )
         response_json = json.loads(response)
-        for choice in response_json.get("choices", []):
-            message_content = choice.get("message", {}).get("content", "{}")
+        choices = response_json.get("choices", [])
+        if len(choices) == 0:
+            print(response)
+        elif len(choices) == 1:
+            message_content = choices[0].get("message", {}).get("content", "{}")
             try:
                 content = json.loads(message_content)
-                print(
-                    f"Message {choice.get('index', 'N/A')}: {json.dumps(content, indent=2)}"
-                )
+                print(json.dumps(content, indent=2))
             except json.JSONDecodeError:
-                print(f"Message {choice.get('index', 'N/A')}: {message_content}")
+                print(message_content)
+        else:
+            for choice in choices:
+                message_content = choice.get("message", {}).get("content", "{}")
+                try:
+                    content = json.loads(message_content)
+                    print(
+                        f"Message {choice.get('index', 'N/A')}: {json.dumps(content, indent=2)}"
+                    )
+                except json.JSONDecodeError:
+                    print(f"Message {choice.get('index', 'N/A')}: {message_content}")
     except Exception as e:
         print(f"An error occurred: {e}")
 

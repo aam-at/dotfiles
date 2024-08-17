@@ -8,7 +8,23 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-URL = "https://api.deepseek.com/v1/chat/completions"
+URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+
+
+def effify(non_f_str: str, **kwargs):
+    return eval(f'f"""{non_f_str}"""', kwargs)
+
+
+def remove_attribute(obj, attr):
+    if isinstance(obj, dict):
+        if attr in obj:
+            del obj[attr]
+        for key, value in obj.items():
+            remove_attribute(value, attr)
+    elif isinstance(obj, list):
+        for item in obj:
+            remove_attribute(item, attr)
+    return obj
 
 
 def read_file(file_path: str) -> str:
@@ -44,7 +60,7 @@ def execute_curl_command(curl_command: List[str]) -> str:
         raise RuntimeError(f"Error executing curl command: {e.stderr}")
 
 
-def get_deepseek_response(
+def get_gemini_response(
     api_key: str,
     model: str,
     system_prompt: str,
@@ -52,25 +68,28 @@ def get_deepseek_response(
     context_files: List[str],
     response_format: Optional[Dict],
 ) -> str:
-    """Generate response using Deepseek API via curl."""
+    """Generate response using Gemini API via curl."""
     full_system_prompt = prepare_system_prompt(system_prompt, context_files)
 
     payload = {
-        "model": model,
+        "contents": [
+            {
+                "role": "user",
+                "parts": [{"text": full_system_prompt}, {"text": user_prompt}],
+            }
+        ]
     }
     if response_format:
-        payload["response_format"] = {"type": "json_object"}
-        full_system_prompt += f"\n{response_format}"
-    payload["messages"] = [
-        {"role": "system", "content": full_system_prompt},
-        {"role": "user", "content": user_prompt},
-    ]
+        payload["generationConfig"] = {
+            "response_mime_type": "application/json",
+            "response_schema": remove_attribute(
+                response_format, "additionalProperties"
+            ),
+        }
 
     curl_command = [
         "curl",
-        URL,
-        "-H",
-        f"Authorization: Bearer {api_key}",
+        f"{effify(URL, model=model, key=api_key)}",
         "-H",
         "Content-Type: application/json",
         "-d",
@@ -83,12 +102,14 @@ def get_deepseek_response(
 def parse_arguments() -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description="Generate reviews using LLM with Deepseek API."
+        description="Generate reviews using LLM with Gemini API."
     )
     parser.add_argument(
-        "--api_key", default=os.getenv("DEEPSEEK_API_KEY"), help="API key"
+        "--api_key", default=os.getenv("GEMINI_API_KEY"), help="API key"
     )
-    parser.add_argument("--model", default="deepseek-chat", help="Model to use to use")
+    parser.add_argument(
+        "--model", default="gemini-1.5-flash", help="Model to use to use"
+    )
     parser.add_argument(
         "--system_prompt",
         default="You are a large language model and a writing assistant. Respond concisely.",
@@ -107,10 +128,15 @@ def main():
 
     response_format = None
     if args.response_format:
-        response_format = read_file(args.response_format)
+        try:
+            with open(args.response_format, "r") as schema_file:
+                response_format = json.load(schema_file)
+        except (IOError, json.JSONDecodeError) as e:
+            print(f"Error reading response format file: {e}")
+            return
 
     try:
-        response = get_deepseek_response(
+        response = get_gemini_response(
             args.api_key,
             args.model,
             args.system_prompt,
@@ -119,19 +145,23 @@ def main():
             response_format,
         )
         response_json = json.loads(response)
-        choices = response_json.get("choices", [])
-        if len(choices) == 0:
+        candidates = response_json.get("candidates", [])
+        if len(candidates) == 0:
             print(response)
-        elif len(choices) == 1:
-            message_content = choices[0].get("message", {}).get("content", "{}")
+        elif len(candidates) == 1:
+            message_content = (
+                candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+            )
             try:
                 content = json.loads(message_content)
                 print(json.dumps(content, indent=2))
             except json.JSONDecodeError:
                 print(message_content)
         else:
-            for choice in choices:
-                message_content = choice.get("message", {}).get("content", "{}")
+            for choice in candidates:
+                message_content = (
+                    choice.get("content", {}).get("parts", [{}])[0].get("text", "")
+                )
                 try:
                     content = json.loads(message_content)
                     print(
