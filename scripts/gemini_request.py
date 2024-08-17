@@ -38,17 +38,17 @@ def read_file(file_path: str) -> str:
         raise IOError(f"Error reading file {file_path}: {e}")
 
 
-def prepare_system_prompt(system_prompt: str, context_files: List[str]) -> str:
+def prepare_context_prompt(context_files: List[str]) -> str:
     """Prepare the full system prompt including context files."""
-    full_prompt = system_prompt
+    context_prompt = ""
     for context_file in context_files:
         file_name = os.path.basename(context_file)
         try:
             file_content = read_file(context_file)
-            full_prompt += f"\n\nRequest context in {file_name}:\n{file_content}"
+            context_prompt += f"\n\nRequest context in {file_name}:\n{file_content}"
         except IOError as e:
             print(f"Warning: {e}")
-    return full_prompt
+    return context_prompt
 
 
 def execute_curl_command(curl_command: List[str]) -> str:
@@ -65,29 +65,36 @@ def execute_curl_command(curl_command: List[str]) -> str:
 def get_gemini_response(
     api_key: str,
     model: str,
+    temperature: float,
     system_prompt: str,
     user_prompt: str,
     context_files: List[str],
     response_format: Optional[Dict],
 ) -> str:
     """Generate response using Gemini API via curl."""
-    full_system_prompt = prepare_system_prompt(system_prompt, context_files)
+    context_prompt = prepare_context_prompt(context_files)
 
     payload = {
+        "system_instruction": {"parts": [{"text": system_prompt}]},
         "contents": [
             {
                 "role": "user",
-                "parts": [{"text": full_system_prompt}, {"text": user_prompt}],
+                "parts": [{"text": context_prompt}, {"text": user_prompt}],
             }
-        ]
+        ],
+        "generationConfig": {
+            "temperature": temperature,
+        },
     }
     if response_format:
-        payload["generationConfig"] = {
-            "response_mime_type": "application/json",
-            "response_schema": remove_attribute(
-                response_format, "additionalProperties"
-            ),
-        }
+        payload["generationConfig"].update(
+            {
+                "response_mime_type": "application/json",
+                "response_schema": remove_attribute(
+                    response_format, "additionalProperties"
+                ),
+            }
+        )
     with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_file:
         json.dump(payload, temp_file)
         temp_file_path = temp_file.name
@@ -124,6 +131,12 @@ def parse_arguments() -> argparse.Namespace:
         "--model", default="gemini-1.5-flash", help="Model to use to use"
     )
     parser.add_argument(
+        "--temperature",
+        type=float,
+        default=0.6,
+        help="Temperature for sampling (default: 0.6 - good for creative writing)",
+    )
+    parser.add_argument(
         "--system_prompt",
         default="You are a large language model and a writing assistant. Respond concisely.",
         help="System prompt",
@@ -152,6 +165,7 @@ def main():
         response = get_gemini_response(
             args.api_key,
             args.model,
+            args.temperature,
             args.system_prompt,
             args.user_prompt,
             args.context_files,
