@@ -2,7 +2,9 @@ import argparse
 import json
 import os
 import subprocess
-from typing import List, Dict, Optional
+import tempfile
+from typing import Dict, List, Optional
+
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -86,17 +88,28 @@ def get_gemini_response(
                 response_format, "additionalProperties"
             ),
         }
+    with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_file:
+        json.dump(payload, temp_file)
+        temp_file_path = temp_file.name
 
     curl_command = [
         "curl",
+        "-X",
+        "POST",
         f"{effify(URL, model=model, key=api_key)}",
         "-H",
         "Content-Type: application/json",
-        "-d",
-        json.dumps(payload),
+        "--data-binary",
+        f"@{temp_file_path}",
     ]
 
-    return execute_curl_command(curl_command)
+    try:
+        response = execute_curl_command(curl_command)
+    finally:
+        # Clean up the temporary file
+        os.unlink(temp_file_path)
+
+    return response
 
 
 def parse_arguments() -> argparse.Namespace:
