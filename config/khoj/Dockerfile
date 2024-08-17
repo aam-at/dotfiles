@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
 FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04
 LABEL homepage="https://khoj.dev"
-LABEL repository="https://github.com/khoj-ai/khoj"
-LABEL org.opencontainers.image.source="https://github.com/khoj-ai/khoj"
+LABEL repository="https://github.com/aam-at/khoj"
+LABEL org.opencontainers.image.source="https://github.com/aam-at/khoj"
 
 # Environment variables
-ENV REPO_URL="https://github.com/khoj-ai/khoj"
+ENV REPO_URL="https://github.com/aam-at/khoj"
 ENV APP_DIR="/app"
 ENV PYTHONPATH="${APP_DIR}/src:${PYTHONPATH}"
 

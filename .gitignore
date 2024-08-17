@@ -16,3 +16,5 @@ atom/
 /config/aichat/*.md
 /config/aichat/rags/
 /config/aichat/sessions/
+**/.python-version
+**/.env
