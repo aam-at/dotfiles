@@ -49,6 +49,7 @@ def execute_curl_command(curl_command: List[str]) -> str:
 def get_openai_response(
     api_key: str,
     model: str,
+    temperature: float,
     system_prompt: str,
     user_prompt: str,
     context_files: List[str],
@@ -64,6 +65,7 @@ def get_openai_response(
     payload = {
         "model": model,
         "messages": messages,
+        "temperature": temperature,
     }
     if response_format:
         payload["response_format"] = {
@@ -71,8 +73,8 @@ def get_openai_response(
             "json_schema": {
                 "name": "json_response",
                 "strict": True,
-                "schema": response_format
-            }
+                "schema": response_format,
+            },
         }
     with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_file:
         json.dump(payload, temp_file)
@@ -110,6 +112,12 @@ def parse_arguments() -> argparse.Namespace:
     )
     parser.add_argument("--model", default="gpt-4o-mini", help="Model to use to use")
     parser.add_argument(
+        "--temperature",
+        type=float,
+        default=0.6,
+        help="Temperature for sampling (default: 0.6 - good for creative writing)",
+    )
+    parser.add_argument(
         "--system_prompt",
         default="You are a large language model and a writing assistant. Respond concisely.",
         help="System prompt",
@@ -138,6 +146,7 @@ def main():
         response = get_openai_response(
             args.api_key,
             args.model,
+            args.temperature,
             args.system_prompt,
             args.user_prompt,
             args.context_files,
