@@ -119,9 +119,9 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--temperature",
         type=float,
-        default=0.6,
+        default=0.7,
         help=
-        "Temperature for sampling (default: 0.6 - good for creative writing)",
+        "Temperature for sampling (default: 0.7 - good for creative writing)",
     )
     parser.add_argument(
         "--system_prompt",
