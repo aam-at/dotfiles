@@ -81,7 +81,16 @@ This function should only modify configuration layer settings."
                           tree-sitter-fold-enable t
                           tree-sitter-indent-enable t
                           tree-sitter-fold-indicators-enable nil)
-             c-c++
+             (c-c++ :variables
+                    c-c++-adopt-subprojects t
+                    c-c++-backend 'lsp-ccls
+                    c-c++-dap-adapters '(dap-lldb dap-cpptools)
+                    c-c++-default-mode-for-headers 'c++-mode
+                    c-c++-enable-clang-format-on-save t
+                    c-c++-enable-google-newline t
+                    c-c++-enable-google-style t
+                    c-c++-enable-organize-includes-on-save t
+                    c-c++-lsp-enable-semantic-highlight 'rainbow)
              (rust :variables
                    lsp-rust-analyzer-cargo-auto-reload t
                    rustic-format-on-save t)
