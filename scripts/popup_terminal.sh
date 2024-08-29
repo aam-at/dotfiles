@@ -4,7 +4,7 @@
 
 # Check if tdrop is installed
 if ! command -v tdrop &> /dev/null; then
-    echo "tdrop could not be found. Please install tdrop."
+    echo "tdrop could not be found. Please install tdrop (https://github.com/noctuid/tdrop)."
     exit 1
 fi
 
