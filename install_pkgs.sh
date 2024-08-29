@@ -349,6 +349,20 @@ if ! command -v ollama &>/dev/null; then
     done
 fi
 
+# Install tdrop
+if ! command -v tdrop &>/dev/null; then
+    echo "Installing tdrop..."
+    temp_dir=$(mktemp -d)
+    git clone --depth 1 https://github.com/noctuid/tdrop "$temp_dir"
+    cd "$temp_dir" || exit
+    sudo make install PREFIX=/usr/local/stow/tdrop
+    cd /usr/local/stow || exit
+    sudo stow -S tdrop
+    cd - || exit
+    rm -rf "$temp_dir"
+    echo "tdrop installation complete."
+fi
+
 # Install snap packages (non-WSL only)
 if command -v snap &>/dev/null; then
     echo "Installing snap packages..."
