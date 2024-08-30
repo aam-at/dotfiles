@@ -72,13 +72,6 @@
         }
     ],
     "explorer.confirmDelete": false,
-    "grammarly.audience": "expert",
-    "grammarly.dialect": "british",
-    "grammarly.domain": "academic",
-    "grammarly.emotions": [
-        "confident", "analytical"
-    ],
-    "grammarly.showExamples": true,
     "editor.lineNumbers": "relative",
     "latex-workshop.view.pdf.viewer": "tab",
     "editor.inlineSuggest.enabled": true,

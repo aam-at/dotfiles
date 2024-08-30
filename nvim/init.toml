@@ -71,7 +71,6 @@ name = 'sudo'
 
 [[layers]]
 name = 'autocomplete'
-auto_completion_return_key_behavior = "nil"
 auto_completion_tab_key_behavior = "smart"
 
 [[layers]]
