@@ -65,6 +65,9 @@ done
 # Source .bashrc
 source ~/.bashrc
 
+# Install Gogh Color theme
+bash -c "$(wget -qO- https://git.io/vQgMr)"
+
 # Function to install packages
 install_packages() {
     echo "Installing packages..."
