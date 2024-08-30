@@ -19,16 +19,6 @@
 [submodule "spacemacs/writing/local/textlint"]
 	path = spacemacs/writing/local/textlint
 	url = https://github.com/DamienCassou/textlint
-[submodule "general/fonts/powerline"]
-	path = general/fonts/powerline
-	url = https://github.com/powerline/fonts
-[submodule "general/fonts/emacs-icons"]
-	path = general/fonts/emacs-icons
-	url = https://github.com/domtronn/all-the-icons.el
-[submodule "general/fonts/source-code-pro"]
-	path = general/fonts/source-code-pro
-	url = https://github.com/adobe-fonts/source-code-pro
-	branch = release
 [submodule "catppuccin/alacritty"]
 	path = config/catppuccin/alacritty
 	url = https://github.com/catppuccin/alacritty
