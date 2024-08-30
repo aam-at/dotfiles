@@ -231,12 +231,13 @@ if $INSTALL_FONTS; then
     }
     # Define font packages
     font_packages=(
-        "https://github.com/ryanoasis/nerd-fonts|nerd-fonts|NerdFonts"
-        "https://github.com/powerline/fonts|powerline-fonts|PowerlineFonts"
-        "https://github.com/sebastiencs/icons-in-terminal|icons-fonts|IconsFonts"
-        "https://github.com/domtronn/all-the-icons.el|all-icons-fonts|AllIconsFonts"
         "https://github.com/JetBrains/JetBrainsMono/|jetbrains-fonts|JetBrainsFonts"
+        "https://github.com/adobe-fonts/source-code-pro|adobe-source-code-pro-fonts|AdobeFonts"
+        "https://github.com/domtronn/all-the-icons.el|all-icons-fonts|AllIconsFonts"
         "https://github.com/iaolo/iA-Fonts|iawriter-fonts|iAWriterFonts"
+        "https://github.com/powerline/fonts|powerline-fonts|PowerlineFonts"
+        "https://github.com/ryanoasis/nerd-fonts|nerd-fonts|NerdFonts"
+        "https://github.com/sebastiencs/icons-in-terminal|icons-fonts|IconsFonts"
     )
 
     # Install each font package
