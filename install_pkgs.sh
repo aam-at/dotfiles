@@ -88,20 +88,20 @@ sudo apt-get install -y apt-fast
 # Install basic packages
 install_packages \
     apt-file autojump automake bat bison btop build-essential checkinstall clang \
-    cmake cscope curl eza fasd fd-find ffmpeg fish fonts-firacode \
+    cmake cscope curl davmail eza fasd fd-find ffmpeg fish fonts-firacode \
     fonts-jetbrains-mono fonts-powerline fzy gawk gcc-10 gettext git git-lfs \
-    glances global gnupg2 gping gpustat guile-3.0-dev htop iotop iputils-arping \
-    jq keychain kitty libbz2-dev libcld2-dev libenchant-2-dev libevent-dev \
-    libffi-dev libfontconfig1-dev libfreetype6-dev libfuse-dev libgccjit-14-dev \
+    glances global gnupg2 gping guile-3.0-dev htop iotop iputils-arping jq \
+    keychain kitty libbz2-dev libcld2-dev libenchant-2-dev libevent-dev \
+    libffi-dev libfontconfig1-dev libfreetype6-dev libfuse-dev libgccjit-13-dev \
     libgccjit0 libgif-dev libgmime-3.0-dev libgnutls28-dev libjansson-dev \
     libjansson4 libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev \
     libncurses-dev libncurses6 libncursesw6 libopenblas-dev libpng-dev \
     libpoppler-glib-dev libpoppler-private-dev libreadline-dev libsqlite3-dev \
-    libssl-dev libsystemd-dev libtiff-dev libtree-sitter-dev \
+    libssl-dev libsystemd-dev libtiff-dev libtree-sitter-dev libvterm-dev \
     libwebkit2gtk-4.1-dev libxapian-dev libxcb-xfixes0-dev libxkbcommon-dev \
-    libxpm-dev llvm make mc meson mosh ncdu net-tools nnn nvitop openconnect \
+    libxpm-dev llvm make mc meson mosh ncdu net-tools nnn openconnect \
     openssh-server p7zip-full p7zip-rar pandoc parallel pass pdfgrep pdfpc peco \
-    pkg-config plocate postfix powertop protobuf-compiler pydf \
+    pipx pkg-config plocate postfix powertop protobuf-compiler pydf \
     python-dev-is-python3 python3 python3-openssl python3-pip ranger ripgrep \
     ruby ruby-dev screen sd shellcheck silversearcher-ag sqlite3 stow texinfo \
     tig tk-dev tmux tmuxinator trash-cli ubuntu-restricted-extras unrar wget \
@@ -198,8 +198,10 @@ if $INSTALL_PYTHON && [ ! -d "$HOME/.pyenv" ]; then
         importmagic isort mupy proselint pudb pylint ruff semgrep yapf
 
     pyenv deactivate
-    python3 -m pip install --user pipx
-    python3 -m pipx ensurepath
+    pipx install uv
+    for tool in gpustat nvitop poetry pre-commit marker-pdf; do
+      uv tool install "$tool"
+    done
 fi
 
 # Install delta
@@ -376,6 +378,7 @@ if command -v snap &>/dev/null; then
         sudo snap install --classic pycharm-professional
         sudo snap install --classic skype
         sudo snap install --classic slack
+        sudo snap install languagetool
         sudo snap install discord
         sudo snap install logseq
         sudo snap install opera
