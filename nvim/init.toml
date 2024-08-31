@@ -102,6 +102,9 @@ name = 'git'
 name = 'github'
 
 [[layers]]
+name = 'format'
+
+[[layers]]
 name = 'lang#python'
 format_on_save = 1
 
