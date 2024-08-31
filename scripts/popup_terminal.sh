@@ -44,7 +44,7 @@ WINDOW_ID=$(get_window_id)
 
 if [ -z "$WINDOW_ID" ]; then
     # If not open, launch the dropdown terminal
-    tdrop -P 'wmctrl -i -r $wid -b add,sticky,above' -am -w "$WIDTH" -h "$HEIGHT" kitty
+    tdrop -P 'wmctrl -i -r $wid -b add,sticky,above' -am -w "$WIDTH" -h "$HEIGHT" -y 0 kitty
     if [ $? -ne 0 ]; then
         echo "Failed to launch dropdown terminal using tdrop."
         exit 1
