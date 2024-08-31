@@ -36,6 +36,7 @@ name = 'default'
 
 [[layers]]
 name = 'ui'
+enable_sidebar = true
 
 [[layers]]
 name = 'colorscheme'
@@ -57,6 +58,9 @@ name = 'leaderf'
 
 [[layers]]
 name = 'fzf'
+
+[[layers]]
+name = "telescope"
 
 [[layers]]
 name = "checkers"
@@ -100,6 +104,10 @@ name = 'github'
 [[layers]]
 name = 'lang#python'
 format_on_save = 1
+
+[[layers]]
+name = 'lang#rust'
+format_on_save=1
 
 [[layers]]
 name = 'lang#latex'
