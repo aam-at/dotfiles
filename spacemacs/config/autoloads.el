@@ -51,6 +51,14 @@
 
 ;;;***
 
+;;;### (autoloads nil "config-secure-stub" "config-secure-stub.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from config-secure-stub.el
+
+(autoload 'my-secure-stub-setup "config-secure-stub")
+
+;;;***
+
 ;;;### (autoloads nil "config-tex" "config-tex.el" (0 0 0 0))
 ;;; Generated autoloads from config-tex.el
 
