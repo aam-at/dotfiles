@@ -111,7 +111,7 @@ install_packages \
     wmctrl xdg-utils xz-utils zlib1g-dev zoxide
 
 # Add repositories and install upstream packages
-add_ppa_and_install git-core/ppa git
+add_ppa_and_install git-core/ppa git git-annex git-flow git-hub git-lfs
 add_ppa_and_install neovim-ppa/stable neovim
 add_ppa_and_install fish-shell/release-3 fish
 
