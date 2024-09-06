@@ -20,6 +20,7 @@
     (calfw-org :toggle (and
                         (spacemacs/system-is-linux)
                         org-enable-calfw))
+    casual-agenda
     org-super-agenda
     (org-protocol-capture-html :location (recipe
                                           :fetcher github
@@ -69,6 +70,15 @@
 (defun org-extras/init-calfw-org ()
   :init
   (require 'calfw-org))
+
+(defun org-extras/init-casual-agenda()
+  (use-package casual-agenda
+    :defer t
+    :after org-agenda
+    :commands casual-agenda-tmenu
+    :init
+    (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+      "A" 'casual-agenda-tmenu)))
 
 (defun org-extras/init-org-super-agenda()
   :config (org-super-agenda-mode))
