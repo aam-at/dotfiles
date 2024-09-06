@@ -202,9 +202,9 @@ if $INSTALL_PYTHON && [ ! -d "$HOME/.pyenv" ]; then
     pyenv deactivate
     pipx install uv
 
-    for tool in autoflake autopep8 black cmake-language-server flake9 gpustat \
-        isort marker-pdf nvitop poetry pre-commit proselint pylint ruff semgrep \
-        yapf; do
+    for tool in autoflake autopep8 basedpyright black cmake-language-server flake9 \
+        gpustat isort marker-pdf nvitop poetry pre-commit proselint pylint ruff \
+        semgrep yapf; do
         uv tool install "$tool"
     done
 fi
