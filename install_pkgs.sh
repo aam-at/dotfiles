@@ -195,15 +195,16 @@ if $INSTALL_PYTHON && [ ! -d "$HOME/.pyenv" ]; then
     pyenv virtualenv 3.11.9 tensor3
     pyenv activate tensor3
     pip install -U "jedi>=0.13.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"
-    pip install -U pyls-black pyls-isort pyls-memestra pyls-mypy python-language-server[all]
-    pip install -U \
-        "ptvsd>=4.2" autoflake autopep8 cmake-language-server epc flake8 \
-        importmagic isort mupy proselint pudb pylint ruff semgrep yapf
+    pip install -U "ptvsd>=4.2" epc importmagic mupy pudb
+    pip install -U pylsp-mypy python-lsp-black python-lsp-ruff python-lsp-server[all]
 
     pyenv deactivate
     pipx install uv
-    for tool in gpustat nvitop poetry pre-commit marker-pdf; do
-      uv tool install "$tool"
+
+    for tool in autoflake autopep8 black cmake-language-server flake9 gpustat \
+        isort marker-pdf nvitop poetry pre-commit proselint pylint ruff semgrep \
+        semgrep yapf; do
+        uv tool install "$tool"
     done
 fi
 
