@@ -6,6 +6,7 @@ TOOLS_DIR=${TOOLS_DIR:-"$HOME/local/tools"}
 INSTALL_PYTHON=${INSTALL_PYTHON:-true}
 INSTALL_RUST=${INSTALL_RUST:-true}
 INSTALL_GO=${INSTALL_GO:-true}
+INSTALL_LUA=${INSTALL_LUA:-true}
 INSTALL_NODE=${INSTALL_NODE:-true}
 INSTALL_EMACS=${INSTALL_EMACS:-true}
 INSTALL_NEOVIM=${INSTALL_NEOVIM:-true}
@@ -277,6 +278,15 @@ if $INSTALL_GO; then
     for repo in "${repos[@]}"; do
         go install "github.com/${repo}@latest"
     done
+fi
+
+# Install lua packages
+if $INSTALL_LUA; then
+    if ! command -v go &>/dev/null; then
+        echo "Installing luarocks..."
+        install_packages luarocks
+    fi
+    luarocks install --local tiktoken_core
 fi
 
 # Install Spacemacs
