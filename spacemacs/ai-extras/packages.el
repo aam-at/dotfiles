@@ -24,6 +24,11 @@
 
 (defconst ai-extras-packages
   '(
+    (copilot :requires company
+             :location (recipe
+                        :fetcher github
+                        :repo "zerolfx/copilot.el"
+                        :files ("*.el" "dist")))
     elisa
     (khoj :location (recipe
                      :fetcher github
@@ -31,6 +36,22 @@
                      :files ("src/interface/emacs/*.el")))
     llm
     magit-gptcommit))
+
+(defun ai-extras/init-copilot ()
+  (use-package copilot
+    :defer t
+    :init
+    ;; accept completion from copilot and fallback to company
+    (with-eval-after-load 'company
+      ;; disable inline previews
+      (delq 'company-preview-if-just-one-frontend company-frontends))
+    (with-eval-after-load 'copilot
+      (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+      (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+      (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion-by-word)
+      (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion-by-word))
+    (add-hook 'prog-mode-hook 'copilot-mode)
+    (spacemacs|diminish copilot-mode "" "C")))
 
 (defun ai-extras/init-elisa ()
   (use-package elisa

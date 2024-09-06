@@ -15,11 +15,6 @@
 (defconst aam-packages
   '(
     biblio
-    (copilot :requires company
-             :location (recipe
-                        :fetcher github
-                        :repo "zerolfx/copilot.el"
-                        :files ("*.el" "dist")))
     (unicode-math-input :location (recipe
                                    :fetcher github
                                    :repo "astoff/unicode-math-input.el"))
@@ -37,22 +32,6 @@
 (defun aam/post-init-biblio ()
   (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "lb" 'biblio-lookup)
   (evil-set-initial-state 'biblio-selection-mode 'emacs))
-
-(defun aam/init-copilot ()
-  (use-package copilot
-    :defer t
-    :init
-    ;; accept completion from copilot and fallback to company
-    (with-eval-after-load 'company
-      ;; disable inline previews
-      (delq 'company-preview-if-just-one-frontend company-frontends))
-    (with-eval-after-load 'copilot
-      (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-      (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-      (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion-by-word)
-      (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion-by-word))
-    (add-hook 'prog-mode-hook 'copilot-mode)
-    (spacemacs|diminish copilot-mode "" "C")))
 
 (defun aam/init-unicode-math-input ())
 
