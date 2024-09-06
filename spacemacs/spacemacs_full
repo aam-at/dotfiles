@@ -97,9 +97,11 @@ This function should only modify configuration layer settings."
              emacs-lisp
              lsp
              (python :variables
+                     lsp-pylsp-plugins-ruff-enabled t
+                     lsp-pylsp-plugins-rope-autoimport-enabled t
                      python-backend 'lsp
                      python-lsp-server 'pylsp
-                     python-formatter 'yapf
+                     python-formatter 'lsp
                      python-format-on-save t
                      python-sort-imports-on-save t)
              (typescript :variables
@@ -759,7 +761,8 @@ This function defines the environment variables for your Emacs session. By
 default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
-  (spacemacs/load-spacemacs-env))
+  (spacemacs/load-spacemacs-env)
+  (setenv "LSP_USE_PLISTS" "true"))
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
