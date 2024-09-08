@@ -64,7 +64,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Source .bashrc
-source ~/.bashrc
+source "$HOME/.bashrc"
 
 # Install Gogh Color theme
 bash -c "$(wget -qO- https://git.io/vQgMr)"
@@ -170,11 +170,11 @@ if ! command -v tmux &>/dev/null; then
     curl -s https://api.github.com/repos/tmux/tmux/releases/latest | jq -r ".assets[] | select(.name | endswith(\".tar.gz\")).browser_download_url" | wget -O "$TOOLS_DIR/tmux.tar.gz" -i -
     mkdir "$TOOLS_DIR/tmux"
     tar -xzvf "$TOOLS_DIR/tmux.tar.gz" -C "$TOOLS_DIR/tmux" --strip-components=1
-    cd "$TOOLS_DIR/tmux"
+    cd "$TOOLS_DIR/tmux" || exit
     ./configure
     make -j "$(nproc)"
     sudo checkinstall
-    cd -
+    cd - || exit
 fi
 
 # Install pyenv and plugins
@@ -202,9 +202,9 @@ if $INSTALL_PYTHON && [ ! -d "$HOME/.pyenv" ]; then
     pyenv deactivate
     pipx install uv
 
-    for tool in autoflake autopep8 basedpyright black cmake-language-server flake9 \
-        gpustat isort marker-pdf nvitop poetry pre-commit proselint pylint ruff \
-        semgrep yapf; do
+    for tool in autoflake autopep8 basedpyright black cmake-language-server \
+        docformatter flake9 gpustat isort marker-pdf nvitop poetry pre-commit \
+        proselint pylint ruff semgrep yapf; do
         uv tool install "$tool"
     done
 fi
@@ -311,9 +311,9 @@ fi
 if ! command -v fpp &>/dev/null; then
     echo "Installing pathpicker..."
     git clone --depth=1 https://github.com/facebook/PathPicker.git /tmp/PathPicker
-    cd /tmp/PathPicker/debian
+    cd /tmp/PathPicker/debian || exit
     ./package.sh
-    cd ..
+    cd .. || exit
     sudo dpkg -i *.deb
     cd ..
     rm -rf PathPicker
@@ -336,24 +336,24 @@ fi
 if [ ! -d "$HOME/.local/share/icons-in-terminal" ]; then
     echo "Installing icons-in-terminal..."
     git clone --depth=1 https://github.com/sebastiencs/icons-in-terminal /tmp/icons-in-terminal
-    cd /tmp/icons-in-terminal
+    cd /tmp/icons-in-terminal || exit
     ./install.sh
     rm -rf /tmp/icons-in-terminal
-    cd -
+    cd - || exit
 fi
 
 # Install NoiseTorch (GUI and non-WSL only)
 if $GUI && ! $WSL && ! command -v noisetorch &>/dev/null; then
     echo "Installing NoiseTorch..."
     git clone --depth=1 https://github.com/noisetorch/NoiseTorch /tmp/NoiseTorch
-    cd /tmp/NoiseTorch
+    cd /tmp/NoiseTorch || exit
     make -j "$(nproc)"
     mkdir -p ~/.local/bin
     cp ./bin/noisetorch ~/.local/bin/
     cp ./assets/noisetorch.desktop ~/.local/share/applications
     cp ./assets/icon/noisetorch.png ~/.local/share/icons/hicolor/256x256/apps
     rm -rf /tmp/NoiseTorch
-    cd -
+    cd - || exit
 fi
 
 # Install ollama

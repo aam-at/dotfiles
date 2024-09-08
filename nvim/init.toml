@@ -14,6 +14,7 @@
     colorscheme = "gruvbox"
     colorscheme_bg = "dark"
     filemanager = "nerdtree"
+    autocomplete_method = "nvim-cmp"
     # Disable guicolors in basic mode, many terminal do not support 24bit
     # true colors
     enable_guicolors = true
@@ -24,12 +25,10 @@
     statusline_separator = "arrow"
     statusline_inactive_separator = "arrow"
     buffer_index_type = 4
-    windows_index_type = 3
-    enable_tabline_filetype_icon = true
-    enable_statusline_mode = true
+    windows_index_type = 1
     statusline_unicode_symbols = true
-    bootstrap_before = "myconfig#before"
-    bootstrap_after = "myconfig#after"
+    bootstrap_before = "myspacevim#before"
+    bootstrap_after = "myspacevim#after"
 
 [[layers]]
 name = 'default'
@@ -37,6 +36,11 @@ name = 'default'
 [[layers]]
 name = 'ui'
 enable_sidebar = true
+enable_tabline_filetype_icon = true
+enable_indentline = false
+enable_statusline_mode = true
+enable_scrollbar = false
+enable_cursorword = false
 
 [[layers]]
 name = 'colorscheme'
@@ -84,6 +88,9 @@ name = 'tags'
 name = 'tmux'
 
 [[layers]]
+name = 'treesitter'
+
+[[layers]]
 name = 'cscope'
 
 [[layers]]
@@ -105,12 +112,26 @@ name = 'github'
 name = 'format'
 
 [[layers]]
+name = 'lsp'
+enabled_clients = ['basedpyright', 'bashls', 'rust_analyzer', 'vimls']
+hook_add = '''
+require'lspconfig'.basedpyright.setup{}
+require'lspconfig'.bashls.setup{}
+require'lspconfig'.rust_analyzer.setup{}
+require'lspconfig'.vimls.setup{}
+'''
+
+[[layers]]
 name = 'lang#python'
 format_on_save = 1
 
 [[layers]]
 name = 'lang#rust'
 format_on_save=1
+hook_add = '''
+let g:neomake_rust_enabled_makers = ['rustc']
+let g:neoformat_enabled_python = ['ruff']
+'''
 
 [[layers]]
 name = 'lang#latex'
@@ -255,12 +276,9 @@ name = 'tpope/vim-vinegar'
 merged = 0
 
 [[custom_plugins]]
-# openai copilot
 name = 'github/copilot.vim'
-on_cmd = 'Copilot'
 merged = 0
 
-# # plugin to toggle, display and navigate marks
-# TODO: configure
-# name = 'kshenoy/vim-signature'
-# # on_cmd = 'SignatureToggle'
+[[custom_plugins]]
+name = 'stevearc/dressing.nvim'
+merged = 0
