@@ -24,6 +24,7 @@
         glob: true
         path: config/code/*
     ~/.config/fish: config/fish
+    ~/.config/git: config/git
     ~/.config/gitui: config/gitui
     ~/.config/helix: config/helix
     ~/.config/kitty: config/kitty
@@ -47,7 +48,6 @@
     ~/.authinfo.gpg: ../Dropbox/Software/authinfo.gpg
     ~/.twittering-mode.gpg: ../Dropbox/Software/emacs/twittering-mode.gpg
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
-    ~/.gitconfig: git/gitconfig
     ~/.screenrc: screen/screenrc
     ~/.SpaceVim.d/init.toml:
         create: true
