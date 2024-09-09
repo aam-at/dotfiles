@@ -1,6 +1,6 @@
 [include]
-    path = ~/dotfiles/git/aliases.gitconfig
-    path = ~/dotfiles/git/themes.gitconfig
+    path = ~/dotfiles/config/git/aliases.gitconfig
+    path = ~/dotfiles/config/git/themes.gitconfig
     path = ~/dotfiles/config/catppuccin/delta/catppuccin.gitconfig
 [core]
     editor = /usr/bin/vim
