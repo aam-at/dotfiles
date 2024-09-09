@@ -29,6 +29,7 @@
     ~/.config/helix: config/helix
     ~/.config/kitty: config/kitty
     ~/.config/lazygit: config/lazygit
+    ~/.config/lvim: config/nvim/lvim
     ~/.config/wezterm: config/wezterm
     ~/.config/mimeapps.list: config/mimeapps.list
     ~/.notmuch-config: config/notmuch/config
@@ -50,15 +51,7 @@
     ~/.twittering-mode.gpg: ../Dropbox/Software/emacs/twittering-mode.gpg
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
     ~/.screenrc: screen/screenrc
-    ~/.SpaceVim.d/init.toml:
-        create: true
-        path: nvim/init.toml
-    ~/.SpaceVim.d/autoload/myspacevim.vim:
-        create: true
-        path: nvim/myspacevim.vim
-    ~/.SpaceVim.d/lua/myspacevim_after.lua:
-        create: true
-        path: nvim/myspacevim_after.lua
+    ~/.SpaceVim.d: config/nvim/spacevim
     ~/.ideavimrc: idea/ideavimrc
     ~/.spacemacs.d/init.el:
         create: true
