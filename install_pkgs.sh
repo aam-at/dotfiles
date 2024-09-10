@@ -87,10 +87,10 @@ sudo apt-get install -y apt-fast
 # Install basic packages
 install_packages \
 	  apt-file autojump automake bat bison btop build-essential ca-certificates \
-	  checkinstall clang cmake cmake cscope curl davmail eza fasd fd-find ffmpeg \
+	  checkinstall clang cmake cmake cscope curl davmail fasd fd-find ffmpeg \
 	  fish fonts-firacode fonts-jetbrains-mono fonts-powerline freeglut3-dev fzy \
 	  g++-multilib gawk gcc-10 gcc-multilib gettext git git git-lfs glances global \
-	  gnupg gnupg2 gping guile-3.0-dev htop iotop iputils-arping jq keychain kitty \
+	  gnupg gnupg2 guile-3.0-dev htop iotop iputils-arping jq keychain kitty \
 	  libasound2-dev libbz2-dev libbz2-dev libcld2-dev libenchant-2-dev \
 	  libevent-dev libexpat1-dev libffi-dev libfontconfig1-dev libfontconfig1-dev \
 	  libfreetype6-dev libfreetype6-dev libfuse-dev libgccjit-13-dev libgccjit0 \
@@ -105,7 +105,7 @@ install_packages \
 	  openssh-server p7zip-full p7zip-rar pandoc parallel pass pdfgrep pdfpc peco \
 	  pipx pkg-config pkg-config plocate postfix powertop protobuf-compiler pydf \
 	  python-dev-is-python3 python3 python3-openssl python3-pip ranger ripgrep \
-	  ruby ruby-dev screen sd shellcheck silversearcher-ag sqlite3 stow texinfo \
+	  ruby ruby-dev screen shellcheck silversearcher-ag sqlite3 stow texinfo \
 	  tig tk-dev tmux tmuxinator trash-cli ubuntu-restricted-extras unrar wget \
 	  wmctrl xdg-utils xz-utils zlib1g-dev zoxide
 
@@ -270,8 +270,8 @@ if $INSTALL_RUST; then
 	  echo "Installing Rust and cargo packages..."
 	  source "$HOME/.cargo/env"
 	  cargo install --locked \
-		      aichat argc atuin bottom cargo-edit cargo-outdated gitui lsd ouch \
-		      tealdeer texlab viu yazi-cli yazi-fm
+          aichat argc atuin bottom cargo-edit cargo-outdated eza gitui gping \
+          lsd ouch sd tealdeer texlab viu yazi-cli yazi-fm
 
     if $GUI; then
         cargo install --git https://github.com/neovide/neovide
