@@ -13,13 +13,47 @@ return {
 		},
 		keys = {
 			{ "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
-			{ "<leader>aC", "", desc = "Codecompanion", mode = { "n", "v" } },
+			{ "<leader>aC", "", desc = "CodeCompanion", mode = { "n", "v" } },
+			{ "<leader>aCc", "", desc = "CodeCompanion Chat", mode = { "n", "v" } },
 			{
-				"<leader>aCc",
+				"<leader>aCca",
 				function()
-					return require("codecompanion").chat()
+					return require("codecompanion").chat({ fargs = { "anthropic" } })
 				end,
-				desc = "Codecompanion Chat",
+				desc = "CodeCompanion Chat with Anthropic",
+				mode = { "n", "v" },
+			},
+			{
+				"<leader>aCcc",
+				function()
+					return require("codecompanion").chat({ fargs = { "copilot" } })
+				end,
+				desc = "CodeCompanion Chat with Copilot",
+				mode = { "n", "v" },
+			},
+			{
+				"<leader>aCco",
+				function()
+					return require("codecompanion").chat({ fargs = { "openai" } })
+				end,
+				desc = "CodeCompanion Chat with OpenAI",
+				mode = { "n", "v" },
+			},
+			{
+				"<leader>aCcg",
+				function()
+					return require("codecompanion").chat({ fargs = { "gemini" } })
+				end,
+				desc = "CodeCompanion Chat with Gemini",
+				mode = { "n", "v" },
+			},
+			{
+				"<leader>aCcd",
+				function()
+					return require("codecompanion").chat({ fargs = { "deepseek" } })
+				end,
+				"<cmd>CodeCompanionChat deepseek<CR>",
+				desc = "CodeCompanion Chat with DeepSeek",
 				mode = { "n", "v" },
 			},
 			{
@@ -27,7 +61,7 @@ return {
 				function()
 					return require("codecompanion").actions()
 				end,
-				desc = "Codecompanion Actions",
+				desc = "CodeCompanion Actions",
 				mode = { "n", "v" },
 			},
 			{
@@ -35,7 +69,7 @@ return {
 				function()
 					return require("codecompanion").toggle()
 				end,
-				desc = "Codecompanion Toggle",
+				desc = "CodeCompanion Toggle",
 				mode = { "n", "v" },
 			},
 			{
@@ -43,7 +77,7 @@ return {
 				function()
 					return require("codecompanion").add()
 				end,
-				desc = "Codecompanion Add",
+				desc = "CodeCompanion Add",
 				mode = { "v" },
 			},
 		},
