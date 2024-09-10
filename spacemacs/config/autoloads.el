@@ -43,6 +43,13 @@
 
 ;;;***
 
+;;;### (autoloads nil "config-python" "config-python.el" (0 0 0 0))
+;;; Generated autoloads from config-python.el
+
+(autoload 'my-python-setup "config-python")
+
+;;;***
+
 ;;;### (autoloads nil "config-secure" "config-secure.el.gpg" (0 0
 ;;;;;;  0 0))
 ;;; Generated autoloads from config-secure.el.gpg

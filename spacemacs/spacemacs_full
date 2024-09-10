@@ -95,11 +95,9 @@ This function should only modify configuration layer settings."
                    lsp-rust-analyzer-cargo-auto-reload t
                    rustic-format-on-save t)
              emacs-lisp
-             lsp
+             (lsp :variables
+                  lsp-use-upstream-bindings t)
              (python :variables
-                     lsp-pylsp-plugins-ruff-enabled t
-                     lsp-pylsp-plugins-rope-autoimport-enabled t
-                     lsp-semgrep-languages '()
                      python-backend 'lsp
                      python-lsp-server 'pylsp
                      python-formatter 'lsp
@@ -829,6 +827,7 @@ before packages are loaded."
   (autoload 'my-bibtex-setup "config-bibtex" "Setup bibtex configurations" t)
   (autoload 'my-common-setup "config-common" "Setup common configurations" t)
   (autoload 'my-org-setup "config-org" "Setup org-mode configurations" t)
+  (autoload 'my-python-setup "config-python" "Setup python configurations" t)
   (autoload 'my-secure-setup "config-secure" "Setup secure configurations" t)
   (autoload 'my-secure-stub-setup "config-secure-stub" "Setup secure stub configurations" t)
   (autoload 'my-tex-setup "config-tex" "Setup TeX configurations" t)
@@ -843,6 +842,7 @@ before packages are loaded."
      (my-secure-stub-setup)))
   (my-ai-setup)
   (my-org-setup)
+  (my-python-setup)
   (my-tex-setup)
   (my-bibtex-setup)
   (my-twitter-setup)
