@@ -9,7 +9,6 @@ INSTALL_GO=${INSTALL_GO:-true}
 INSTALL_LUA=${INSTALL_LUA:-true}
 INSTALL_NODE=${INSTALL_NODE:-true}
 INSTALL_EMACS=${INSTALL_EMACS:-true}
-INSTALL_NEOVIM=${INSTALL_NEOVIM:-true}
 INSTALL_FONTS=${INSTALL_FONTS:-true}
 
 # Detect WSL
@@ -46,10 +45,6 @@ while [[ $# -gt 0 ]]; do
 		        ;;
 	      --no-emacs)
 		        INSTALL_EMACS=false
-		        shift
-		        ;;
-	      --no-neovim)
-		        INSTALL_NEOVIM=false
 		        shift
 		        ;;
 	      --no-fonts)
@@ -275,8 +270,12 @@ if $INSTALL_RUST; then
 	  echo "Installing Rust and cargo packages..."
 	  source "$HOME/.cargo/env"
 	  cargo install --locked \
-		      aichat argc atuin bottom cargo-edit cargo-outdated gitui lsd neovide ouch \
+		      aichat argc atuin bottom cargo-edit cargo-outdated gitui lsd ouch \
 		      tealdeer texlab viu yazi-cli yazi-fm
+
+    if $GUI; then
+        cargo install --git https://github.com/neovide/neovide
+    fi
 
 	  rustup component add rustfmt
 	  rustup component add clippy
@@ -298,7 +297,7 @@ fi
 
 # Install lua packages
 if $INSTALL_LUA; then
-	  if ! command -v go &>/dev/null; then
+	  if ! command -v luarocks &>/dev/null; then
 		    echo "Installing luarocks..."
 		    install_packages luarocks
 	  fi
