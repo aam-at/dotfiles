@@ -10,9 +10,8 @@ return {
 			"ibhagwan/fzf-lua", -- optional
 		},
 		config = true,
-		priority = -1000,
 		keys = {
-			{ "<leader>gs", "<cmd>Neogit<CR>", desc = "Neogit Status" },
+			{ "<leader>gS", "<cmd>Neogit<CR>", desc = "Neogit Status" },
 		},
 	},
 }

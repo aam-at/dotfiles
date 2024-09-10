@@ -16,7 +16,14 @@ return {
 		config = function()
 			-- Setup orgmode
 			require("orgmode").setup({
-				org_agenda_files = "~/Dropbox/Org/**/*",
+				org_agenda_files = {
+					"~/Dropbox/Org/inbox.org",
+					"~/Dropbox/Org/someday.org",
+					"~/Dropbox/Org/work.org",
+					"~/Dropbox/Org/personal.org",
+					"~/Dropbox/Org/ideas.org",
+					"~/Dropbox/Org/projects/**",
+				},
 				org_default_notes_file = "~/Dropbox/Org/refile.org",
 			})
 		end,
