@@ -14,53 +14,53 @@ INSTALL_FONTS=${INSTALL_FONTS:-true}
 
 # Detect WSL
 if grep -qi microsoft /proc/version; then
-    WSL=true
-    echo "This script is running on WSL"
+	  WSL=true
+	  echo "This script is running on WSL"
 else
-    WSL=false
-    echo "This script is running on Ubuntu"
+	  WSL=false
+	  echo "This script is running on Ubuntu"
 fi
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
-    case $1 in
-        --gui)
-            GUI=true
-            shift
-            ;;
-        --no-python)
-            INSTALL_PYTHON=false
-            shift
-            ;;
-        --no-rust)
-            INSTALL_RUST=false
-            shift
-            ;;
-        --no-go)
-            INSTALL_GO=false
-            shift
-            ;;
-        --no-node)
-            INSTALL_NODE=false
-            shift
-            ;;
-        --no-emacs)
-            INSTALL_EMACS=false
-            shift
-            ;;
-        --no-neovim)
-            INSTALL_NEOVIM=false
-            shift
-            ;;
-        --no-fonts)
-            INSTALL_FONTS=false
-            shift
-            ;;
-        *)
-            echo "Unknown option: $1"
-            exit 1
-            ;;
-    esac
+	  case $1 in
+	      --gui)
+		        GUI=true
+		        shift
+		        ;;
+	      --no-python)
+		        INSTALL_PYTHON=false
+		        shift
+		        ;;
+	      --no-rust)
+		        INSTALL_RUST=false
+		        shift
+		        ;;
+	      --no-go)
+		        INSTALL_GO=false
+		        shift
+		        ;;
+	      --no-node)
+		        INSTALL_NODE=false
+		        shift
+		        ;;
+	      --no-emacs)
+		        INSTALL_EMACS=false
+		        shift
+		        ;;
+	      --no-neovim)
+		        INSTALL_NEOVIM=false
+		        shift
+		        ;;
+	      --no-fonts)
+		        INSTALL_FONTS=false
+		        shift
+		        ;;
+	      *)
+		        echo "Unknown option: $1"
+		        exit 1
+		        ;;
+	  esac
 done
 
 # Source .bashrc
@@ -71,17 +71,17 @@ bash -c "$(wget -qO- https://git.io/vQgMr)"
 
 # Function to install packages
 install_packages() {
-    echo "Installing packages..."
-    sudo apt-fast install -y "$@"
+	  echo "Installing packages..."
+	  sudo apt-fast install -y "$@"
 }
 
 # Function to add PPA and install packages
 add_ppa_and_install() {
-    local ppa=$1
-    shift
-    sudo add-apt-repository "ppa:$ppa" -y
-    sudo apt-fast update
-    install_packages "$@"
+	  local ppa=$1
+	  shift
+	  sudo add-apt-repository "ppa:$ppa" -y
+	  sudo apt-fast update
+	  install_packages "$@"
 }
 
 # Install apt-fast
@@ -91,37 +91,36 @@ sudo apt-get install -y apt-fast
 
 # Install basic packages
 install_packages \
-    apt-file autojump automake bat bison btop build-essential ca-certificates \
-    checkinstall clang cmake cmake cscope curl davmail eza fasd fd-find ffmpeg \
-    fish fonts-firacode fonts-jetbrains-mono fonts-powerline freeglut3-dev fzy \
-    g++-multilib gawk gcc-10 gcc-multilib gettext git git git-lfs glances global \
-    gnupg gnupg2 gping guile-3.0-dev htop iotop iputils-arping jq keychain kitty \
-    libasound2-dev libbz2-dev libbz2-dev libcld2-dev libenchant-2-dev \
-    libevent-dev libexpat1-dev libffi-dev libfontconfig1-dev libfontconfig1-dev \
-    libfreetype6-dev libfreetype6-dev libfuse-dev libgccjit-13-dev libgccjit0 \
-    libgif-dev libgmime-3.0-dev libgnutls28-dev libjansson-dev libjansson4 \
-    libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev libncurses-dev \
-    libncurses6 libncursesw6 libopenblas-dev libpng-dev libpoppler-glib-dev \
-    libpoppler-private-dev libreadline-dev libsndio-dev libsqlite3-dev \
-    libssl-dev libssl-dev libsystemd-dev libtiff-dev libtree-sitter-dev \
-    libvterm-dev libwebkit2gtk-4.1-dev libxapian-dev libxcb-composite0-dev \
-    libxcb-xfixes0-dev libxcursor-dev libxi-dev libxkbcommon-dev libxmu-dev \
-    libxpm-dev llvm make mc meson mosh ncdu net-tools nnn openconnect \
-    openssh-server p7zip-full p7zip-rar pandoc parallel pass pdfgrep pdfpc peco \
-    pipx pkg-config pkg-config plocate postfix powertop protobuf-compiler pydf \
-    python-dev-is-python3 python3 python3-openssl python3-pip ranger ripgrep \
-    ruby ruby-dev screen sd shellcheck silversearcher-ag sqlite3 stow texinfo \
-    tig tk-dev tmux tmuxinator trash-cli ubuntu-restricted-extras unrar wget \
-    wmctrl xdg-utils xz-utils zlib1g-dev zoxide
+	  apt-file autojump automake bat bison btop build-essential ca-certificates \
+	  checkinstall clang cmake cmake cscope curl davmail eza fasd fd-find ffmpeg \
+	  fish fonts-firacode fonts-jetbrains-mono fonts-powerline freeglut3-dev fzy \
+	  g++-multilib gawk gcc-10 gcc-multilib gettext git git git-lfs glances global \
+	  gnupg gnupg2 gping guile-3.0-dev htop iotop iputils-arping jq keychain kitty \
+	  libasound2-dev libbz2-dev libbz2-dev libcld2-dev libenchant-2-dev \
+	  libevent-dev libexpat1-dev libffi-dev libfontconfig1-dev libfontconfig1-dev \
+	  libfreetype6-dev libfreetype6-dev libfuse-dev libgccjit-13-dev libgccjit0 \
+	  libgif-dev libgmime-3.0-dev libgnutls28-dev libjansson-dev libjansson4 \
+	  libjpeg-dev liblzma-dev libmagick++-dev libmagickcore-dev libncurses-dev \
+	  libncurses6 libncursesw6 libopenblas-dev libpng-dev libpoppler-glib-dev \
+	  libpoppler-private-dev libreadline-dev libsndio-dev libsqlite3-dev \
+	  libssl-dev libssl-dev libsystemd-dev libtiff-dev libtree-sitter-dev \
+	  libvterm-dev libwebkit2gtk-4.1-dev libxapian-dev libxcb-composite0-dev \
+	  libxcb-xfixes0-dev libxcursor-dev libxi-dev libxkbcommon-dev libxmu-dev \
+	  libxpm-dev llvm make mc meson mosh ncdu net-tools nnn openconnect \
+	  openssh-server p7zip-full p7zip-rar pandoc parallel pass pdfgrep pdfpc peco \
+	  pipx pkg-config pkg-config plocate postfix powertop protobuf-compiler pydf \
+	  python-dev-is-python3 python3 python3-openssl python3-pip ranger ripgrep \
+	  ruby ruby-dev screen sd shellcheck silversearcher-ag sqlite3 stow texinfo \
+	  tig tk-dev tmux tmuxinator trash-cli ubuntu-restricted-extras unrar wget \
+	  wmctrl xdg-utils xz-utils zlib1g-dev zoxide
 
 # Add repositories and install upstream packages
 add_ppa_and_install git-core/ppa git git-annex git-flow git-hub git-lfs
-add_ppa_and_install neovim-ppa/stable neovim
 add_ppa_and_install fish-shell/release-3 fish
 
 # Install TLP for battery management (non-WSL only)
 if ! $WSL; then
-    add_ppa_and_install linrunner/tlp tlp
+	  add_ppa_and_install linrunner/tlp tlp
 fi
 
 # Install Node.js
@@ -139,7 +138,7 @@ fi
 
 # Install GUI packages
 if $GUI; then
-    echo "Installing packages for X11..."
+	  echo "Installing packages for X11..."
 	  install_packages \
 		    alacritty anki bibtool ditaa fbreader gnome-tweaks graphviz html2text isync \
 		    notmuch plantuml tabbed xdotool
@@ -168,15 +167,30 @@ fi
 mkdir -p "$TOOLS_DIR"
 
 # Install tmux
-if ! command -v tmux &>/dev/null; then
+if ! command -v tmux &>/dev/null || [ ! -d "/usr/local/stow/tmux" ]; then
 	  echo "Installing tmux..."
-	  curl -s https://api.github.com/repos/tmux/tmux/releases/latest | jq -r ".assets[] | select(.name | endswith(\".tar.gz\")).browser_download_url" | wget -O "$TOOLS_DIR/tmux.tar.gz" -i -
-	  mkdir "$TOOLS_DIR/tmux"
-	  tar -xzvf "$TOOLS_DIR/tmux.tar.gz" -C "$TOOLS_DIR/tmux" --strip-components=1
-	  cd "$TOOLS_DIR/tmux" || exit
+	  curl -s https://api.github.com/repos/tmux/tmux/releases/latest | jq -r ".assets[] | select(.name | endswith(\".tar.gz\")).browser_download_url" | wget -O "/tmp/tmux.tar.gz" -i -
+	  mkdir -p /tmp/tmux
+	  tar -xzvf "/tmp/tmux.tar.gz" -C "/tmp/tmux" --strip-components=1
+	  cd "/tmp/tmux" || exit
 	  ./configure
 	  make -j "$(nproc)"
-	  sudo checkinstall
+	  sudo make install prefix=/usr/local/stow/tmux
+	  cd -- || exit
+	  cd /usr/local/stow || exit
+	  sudo stow -S tmux
+	  cd - || exit
+fi
+
+# Instal neovim
+if ! command -v nvim &>/dev/null || [ ! -d "/usr/local/stow/nvim" ]; then
+	  echo "Installing neovim..."
+	  curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r ".assets[] | select(.name | endswith(\"-linux64.tar.gz\")).browser_download_url" | wget -O "/tmp/nvim.tar.gz" -i -
+	  sudo mkdir -p /usr/local/stow/nvim
+	  sudo tar -xzvf "/tmp/nvim.tar.gz" -C "/usr/local/stow/nvim" --strip-components=1
+	  cd -- || exit
+	  cd /usr/local/stow || exit
+	  sudo stow -S nvim
 	  cd - || exit
 fi
 
