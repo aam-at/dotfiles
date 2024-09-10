@@ -48,11 +48,10 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-    xterm*|rxvt*)
+    xterm* | rxvt*)
         PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
         ;;
-    *)
-        ;;
+    *) ;;
 esac
 
 # enable color support of ls and also add handy aliases
@@ -83,12 +82,11 @@ fi
 ##############################
 
 # source ssh
-[ -f $HOME/.keychain/$HOSTNAME-sh ] \
-    && . $HOME/.keychain/$HOSTNAME-sh
+[ -f $HOME/.keychain/$HOSTNAME-sh ] &&
+    . $HOME/.keychain/$HOSTNAME-sh
 # source gpg
-[ -f $HOME/.keychain/$HOSTNAME-sh-gpg ] \
-    && . $HOME/.keychain/$HOSTNAME-sh-gpg
-
+[ -f $HOME/.keychain/$HOSTNAME-sh-gpg ] &&
+    . $HOME/.keychain/$HOSTNAME-sh-gpg
 
 # source environement variables
 if [ -f $HOME/.env ]; then
@@ -128,29 +126,29 @@ if [ -f ~/.fzf.bash ]; then
     . ~/.fzf.bash
 
     export FZF_DEFAULT_OPTS="
-      --info=inline
-      --layout reverse
-      --border top
-      --multi
-      --color=fg:#ebdbb2,bg:#282828,hl:#fabd2f
-      --color=fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f
-      --color=info:#83a598,prompt:#bdae93,pointer:#83a598
-      --color=marker:#fe8019,spinner:#fabd2f,header:#665c54
-      --prompt='$ ' --pointer='▶' --marker='✓'
-      --bind '?:toggle-preview'
-      --bind 'alt-j:preview-down,alt-k:preview-up'
-      --bind 'ctrl-d:preview-page-down,ctrl-u:preview-page-up'
-      --bind 'ctrl-a:select-all'
-      --bind 'ctrl-e:execute-silent(emacsclient -c {+}&)'
-      --bind 'ctrl-c:execute(code {+})'
-      --bind 'ctrl-r:execute-silent(pycharm-professional {+}&)'
-      --bind 'ctrl-o:execute(xdg-open {+})'
-      --bind 'ctrl-s:toggle-sort'
-      --bind 'ctrl-v:execute(echo {+} | xargs -o vim)'
-      --bind 'ctrl-y:execute(echo {+} | pbcopy)'
-      --bind 'btab:up'
-      --bind 'tab:down'
-      --bind 'ctrl-h:execute(echo \"
+--info=inline
+--layout reverse
+--border top
+--multi
+--color=fg:#ebdbb2,bg:#282828,hl:#fabd2f
+--color=fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f
+--color=info:#83a598,prompt:#bdae93,pointer:#83a598
+--color=marker:#fe8019,spinner:#fabd2f,header:#665c54
+--prompt='$ ' --pointer='▶' --marker='✓'
+--bind '?:toggle-preview'
+--bind 'alt-j:preview-down,alt-k:preview-up'
+--bind 'ctrl-d:preview-page-down,ctrl-u:preview-page-up'
+--bind 'ctrl-a:select-all'
+--bind 'ctrl-e:execute-silent(emacsclient -c {+}&)'
+--bind 'ctrl-c:execute(code {+})'
+--bind 'ctrl-r:execute-silent(pycharm-professional {+}&)'
+--bind 'ctrl-o:execute(xdg-open {+})'
+--bind 'ctrl-s:toggle-sort'
+--bind 'ctrl-v:execute(echo {+} | xargs -o nvim)'
+--bind 'ctrl-y:execute(echo {+} | pbcopy)'
+--bind 'btab:up'
+--bind 'tab:down'
+--bind 'ctrl-h:execute(echo \"
 Keybindings Help:
   ?           : Toggle the preview window.
   alt + j     : Move the preview window down.
@@ -163,26 +161,26 @@ Keybindings Help:
   ctrl + r    : Open the selected file in PyCharm (silently).
   ctrl + o    : Open the selected file or directory with the default application.
   ctrl + s    : Toggle sorting of the results.
-  ctrl + v    : Open the selected file in Vim.
+  ctrl + v    : Open the selected file in NeoVim.
   ctrl + y    : Copy the selected file path to the clipboard.
   shift + tab : Move the selection up.
   tab         : Move the selection down.
   ctrl + h    : Show this help message.
 \" | less -R)'
-    "
+"
     export FZF_CTRL_T_OPTS="
-      --preview 'fzf-preview.sh {}'
-    "
+--preview 'fzf-preview.sh {}'
+"
     export FZF_CTRL_R_OPTS="
-      --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
-      --color header:italic
-      --header 'Press CTRL-Y to copy command into clipboard'
-    "
+--bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+--color header:italic
+--header 'Press CTRL-Y to copy command into clipboard'
+"
     export FZF_ALT_C_OPTS="
-      --walker-skip .git,node_modules,target
-      --preview 'tree --dirsfirst -L 2 -C {}'
-      --bind 'ctrl-t:execute-silent(gnome-terminal --working-directory=$(pwd)/{})'
-    "
+--walker-skip .git,node_modules,target
+--preview 'tree --dirsfirst -L 2 -C {}'
+--bind 'ctrl-t:execute-silent(gnome-terminal --working-directory=$(pwd)/{})'
+"
     export FZF_COMPLETION_TRIGGER='~~'
 
     # fe [FUZZY PATTERN] - Open the selected file with the default editor
@@ -200,8 +198,8 @@ Keybindings Help:
     fo() {
         local out file key
         out="$(fzf-tmux --preview 'fzf-preview.sh {}' --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)"
-        key=$(head -1 <<< "$out")
-        file=$(head -2 <<< "$out" | tail -1)
+        key=$(head -1 <<<"$out")
+        file=$(head -2 <<<"$out" | tail -1)
         if [ -n "$file" ]; then
             [ "$key" = ctrl-o ] && xdg-open "$file" || ${EDITOR:-vim} "$file"
         fi
@@ -211,7 +209,7 @@ Keybindings Help:
     fd() {
         local dir
         dir=$(find -L ${1:-.} -path '*/\.*' -prune \
-                   -o -type d -print 2> /dev/null | fzf-tmux +m) &&
+                   -o -type d -print 2>/dev/null | fzf-tmux +m) &&
             cd "$dir"
     }
 
@@ -222,10 +220,8 @@ Keybindings Help:
 
         file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf-tmux --read0 -0 -1)"
 
-        if [[ -n $file ]]
-        then
-            if [[ -d $file ]]
-            then
+        if [[ -n $file ]]; then
+            if [[ -d $file ]]; then
                 $EDITOR $file
             else
                 $EDITOR -- ${file:h}
@@ -245,14 +241,13 @@ Keybindings Help:
         local pid
         pid=$(ps -ef | sed 1d | fzf-tmux -m | awk '{print $2}')
 
-        if [ "x$pid" != "x" ]
-        then
+        if [ "x$pid" != "x" ]; then
             echo $pid | xargs kill -${1:-9}
         fi
     }
 
     # p - search for academic PDFs by author, title, journal, institution
-    p () {
+    p() {
         local DIR open
         declare -A already
         DIR="${HOME}/.cache/pdftotext"
@@ -264,34 +259,34 @@ Keybindings Help:
         fi
 
         {
-            ag -g ".pdf$"; # fast, without pdftotext
-            ag -g ".pdf$" \
-                | while read -r FILE; do
-                local EXPIRY HASH CACHE
-                HASH=$(md5sum "$FILE" | cut -c 1-32)
-                # Remove duplicates (file that has same hash as already seen file)
-                [ ${already[$HASH]+abc} ] && continue # see https://stackoverflow.com/a/13221491
-                already[$HASH]=$HASH
-                EXPIRY=$(( 86400 + $RANDOM * 20 )) # 1 day (86400 seconds) plus some random
-                CMD="pdftotext -f 1 -l 1 '$FILE' - 2>/dev/null | tr \"\n\" \"_\" "
-                CACHE="$DIR/$HASH"
-                test -f "${CACHE}" && [ $(expr $(date +%s) - $(date -r "$CACHE" +%s)) -le $EXPIRY ] || eval "$CMD" > "${CACHE}"
-                echo -e "$FILE\t$(cat ${CACHE})"
-            done
-        } | fzf -e  -d '\t' \
+            ag -g ".pdf$" # fast, without pdftotext
+            ag -g ".pdf$" |
+                while read -r FILE; do
+                    local EXPIRY HASH CACHE
+                    HASH=$(md5sum "$FILE" | cut -c 1-32)
+                    # Remove duplicates (file that has same hash as already seen file)
+                    [ ${already[$HASH]+abc} ] && continue # see https://stackoverflow.com/a/13221491
+                    already[$HASH]=$HASH
+                    EXPIRY=$((86400 + $RANDOM * 20)) # 1 day (86400 seconds) plus some random
+                    CMD="pdftotext -f 1 -l 1 '$FILE' - 2>/dev/null | tr \"\n\" \"_\" "
+                    CACHE="$DIR/$HASH"
+                    test -f "${CACHE}" && [ $(expr $(date +%s) - $(date -r "$CACHE" +%s)) -le $EXPIRY ] || eval "$CMD" >"${CACHE}"
+                    echo -e "$FILE\t$(cat ${CACHE})"
+                done
+        } | fzf -e -d '\t' \
                 --preview-window up:75% \
                 --preview '
-                v=$(echo {q} | tr " " "|");
-                echo {1} | grep -E "^|$v" -i --color=always;
-                pdftotext -f 1 -l 1 {1} - | grep -E "^|$v" -i --color=always' \
-                    | awk 'BEGIN {FS="\t"; OFS="\t"}; {print "\""$1"\""}' \
-                    | xargs $open > /dev/null 2> /dev/null
+v=$(echo {q} | tr " " "|");
+echo {1} | grep -E "^|$v" -i --color=always;
+pdftotext -f 1 -l 1 {1} - | grep -E "^|$v" -i --color=always' |
+            awk 'BEGIN {FS="\t"; OFS="\t"}; {print "\""$1"\""}' |
+            xargs $open >/dev/null 2>/dev/null
     }
 fi
 
 # configure zoxide
 if command_exists zoxide; then
-  eval "$(zoxide init bash)"
+    eval "$(zoxide init bash)"
 fi
 
 # configure atuin
@@ -351,24 +346,24 @@ function copy_password() {
     copy_password.sh $1
 }
 
-function emacs () {
+function emacs() {
     # https://github.com/syl20bnr/spacemacs/wiki/Terminal
     local TERM=xterm-24bit
     eval "$(which emacs) $@"
 }
 
 if command_exists broot; then
-  function br {
-      local cmd cmd_file code
-      cmd_file=$(mktemp)
-      if broot --outcmd "$cmd_file" "$@"; then
-          cmd=$(<"$cmd_file")
-          command rm -f "$cmd_file"
-          eval "$cmd"
-      else
-          code=$?
-          command rm -f "$cmd_file"
-          return "$code"
-      fi
-  }
+    function br {
+        local cmd cmd_file code
+        cmd_file=$(mktemp)
+        if broot --outcmd "$cmd_file" "$@"; then
+            cmd=$(<"$cmd_file")
+            command rm -f "$cmd_file"
+            eval "$cmd"
+        else
+            code=$?
+            command rm -f "$cmd_file"
+            return "$code"
+        fi
+    }
 fi
