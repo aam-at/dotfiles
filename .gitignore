@@ -18,3 +18,4 @@ atom/
 /config/aichat/sessions/
 **/.python-version
 **/.env
+config/lazyvim/lazy-lock.json
