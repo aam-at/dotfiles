@@ -6,6 +6,49 @@ return {
 		version = false, -- set this if you want to always pull the latest change
 		opts = {
 			provider = "copilot",
+			behavior = {
+				auto_set_keymaps = false,
+			},
+			mappings = {
+				---@class AvanteConflictMappings
+				diff = {
+					ours = "co",
+					theirs = "ct",
+					all_theirs = "ca",
+					both = "cb",
+					cursor = "cc",
+					next = "]x",
+					prev = "[x",
+				},
+				suggestion = {
+					accept = "<M-l>",
+					next = "<M-]>",
+					prev = "<M-[>",
+					dismiss = "<C-]>",
+				},
+				jump = {
+					next = "]]",
+					prev = "[[",
+				},
+				submit = {
+					normal = "<CR>",
+					insert = "<C-s>",
+				},
+				-- NOTE: The following will be safely set by avante.nvim
+				ask = "<leader>aaa",
+				edit = "<leader>aae",
+				refresh = "<leader>aar",
+				toggle = {
+					default = "<leader>aat",
+					debug = "<leader>aad",
+					hint = "<leader>aah",
+					suggestion = "<leader>aas",
+				},
+			},
+		},
+		keys = {
+			{ "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
+			{ "<leader>aa", "", desc = "Avante", mode = { "n", "v" } },
 		},
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
 		build = "make",
