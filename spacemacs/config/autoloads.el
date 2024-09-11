@@ -50,19 +50,11 @@
 
 ;;;***
 
-;;;### (autoloads nil "config-secure" "config-secure.el.gpg" (0 0
+;;;### (autoloads nil "config-secure" "config-secure.el" (0 0
 ;;;;;;  0 0))
-;;; Generated autoloads from config-secure.el.gpg
+;;; Generated autoloads from config-secure.el
 
 (autoload 'my-secure-setup "config-secure")
-
-;;;***
-
-;;;### (autoloads nil "config-secure-stub" "config-secure-stub.el"
-;;;;;;  (0 0 0 0))
-;;; Generated autoloads from config-secure-stub.el
-
-(autoload 'my-secure-stub-setup "config-secure-stub")
 
 ;;;***
 
