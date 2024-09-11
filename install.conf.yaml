@@ -36,6 +36,7 @@
     ~/.config/tmux: config/tmux
     ~/.config/wezterm: config/wezterm
     ~/.config/yazi: config/yazi
+    ~/.config/zed: config/zed
     ~/.config/zellij: config/zellij
     ~/.notmuch-config: config/notmuch/config
     ~/.config/pudb/pudb.cfg:
