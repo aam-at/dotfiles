@@ -30,6 +30,10 @@
     name = Alexander Matyasko
 [diff "gpg"]
 	textconv = gpg --no-tty --decrypt
+	cachetextconv = true
+	binary = true
+[diff "pdf"]
+    textconv = sh -c 'pdftotext -layout -enc UTF-8 "$0" -'
 [push]
 	default = simple
 [github]
@@ -39,3 +43,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[credential]
+	helper = store
