@@ -3,3 +3,5 @@
 -- Add any additional options here
 vim.colorscheme = "gruvbox"
 vim.background = "dark"
+
+vim.g.lazyvim_python_lsp = "basedpyright"
