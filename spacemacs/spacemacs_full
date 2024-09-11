@@ -829,7 +829,6 @@ before packages are loaded."
   (autoload 'my-org-setup "config-org" "Setup org-mode configurations" t)
   (autoload 'my-python-setup "config-python" "Setup python configurations" t)
   (autoload 'my-secure-setup "config-secure" "Setup secure configurations" t)
-  (autoload 'my-secure-stub-setup "config-secure-stub" "Setup secure stub configurations" t)
   (autoload 'my-tex-setup "config-tex" "Setup TeX configurations" t)
   (autoload 'my-twitter-setup "config-twitter" "Setup twitter configurations" t)
   (autoload 'my-xwidget-setup "config-xwidget" "Setup xwidget configurations" t)
@@ -838,8 +837,7 @@ before packages are loaded."
   (condition-case err
       (my-secure-setup)
     (error
-     (message "my-secure-setup failed: %S" err)
-     (my-secure-stub-setup)))
+     (message "please decrypt config using git-crypt" err)))
   (my-ai-setup)
   (my-org-setup)
   (my-python-setup)
