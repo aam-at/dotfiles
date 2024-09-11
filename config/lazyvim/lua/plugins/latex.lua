@@ -40,5 +40,30 @@ return {
 		requires = {
 			{ "nvim-telescope/telescope.nvim" },
 		},
+		config = function()
+			require("telescope").load_extension("bibtex")
+			require("telescope").setup({
+				extensions = {
+					bibtex = {
+						global_files = {
+							"~/Dropbox/Research/Bibliography/refs.bib",
+							"~/Dropbox/Research/Bibliography/myrefs.bib",
+						},
+					},
+				},
+			})
+		end,
+	},
+	{
+		"mfussenegger/nvim-lint",
+		optional = true,
+		opts = {
+			linters_by_ft = {
+				org = { "vale" },
+				txt = { "vale" },
+				latex = { "vale", "chktex" },
+				markdown = { "vale" },
+			},
+		},
 	},
 }
