@@ -215,6 +215,14 @@
   ;; configure org-capture
   (add-hook 'org-capture-mode-hook #'org-align-tags)
   (add-hook 'org-capture-after-finalize-hook (lambda () (if (org-roam-file-p) (org-roam-db-sync))))
+
+  (defun aam/org-roam-capture-finalize ()
+    "Insert text at the beginning of the captured file."
+    (save-excursion
+      (goto-char (point-min))
+      (insert ":PROPERTIES:\n")
+      (insert (format ":ID: %s\n" (org-id-new)))
+      (insert ":END:\n")))
   (setq org-capture-templates
         `(
           ("t" "Todo" entry (file ,aam/org-inbox)
@@ -277,14 +285,17 @@ DEADLINE: %^{Deadline}t
           ("sn" "Simple (Atomic) Note" plain
            (file aam/org-capture-note-filepath-with-date)
            (file ,(aam/org-path "templates/note.org"))
+           :hook aam/org-roam-capture-finalize
            :jump-to-captured t)
           ("sN" "Named (Structured) Note" plain
            (file aam/org-capture-note-filepath)
            (file ,(aam/org-path "templates/note.org"))
+           :hook aam/org-roam-capture-finalize
            :jump-to-captured t)
           ("sp" "Project" plain
            (file aam/org-capture-project-filepath)
            (file ,(aam/org-path "templates/project.org"))
+           :hook aam/org-roam-capture-finalize
            :jump-to-captured t)))
   ;; todo template for calfw calendar
   (if (eq org-enable-calfw t)
