@@ -217,6 +217,7 @@ This function should only modify configuration layer settings."
              (org-extras :variables
                          org-enable-delve t)
              org-roam
+             python-extras
              cpp-extras)
 
            ;; OS-specific layers
