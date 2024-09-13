@@ -1,3 +1,5 @@
+local _, openai_api_key = RunShellCommand("copy_password.sh apikey")
+
 return {
 	{
 		"williamboman/mason.nvim",
@@ -22,15 +24,14 @@ return {
 									enabled = true,
 									gpu = true,
 									check_text = {
-										on_open = true,
-										on_save = true,
+										on_open = false,
+										on_save = false,
 										on_change = false,
 									},
 								},
 								openai = {
-									enabled = false,
-									api_key = "api_key",
-									-- url = '<CUSTOM_URL>'  -- optional to use an OpenAI-compatible server
+									enabled = true,
+									api_key = openai_api_key,
 									check_text = {
 										on_open = false,
 										on_save = false,

@@ -1,5 +1,12 @@
 return {
 	{
+		"williamboman/mason.nvim",
+		opts = function(_, opts)
+			table.insert(opts.ensure_installed, "ltex-ls")
+			table.insert(opts.ensure_installed, "vale")
+		end,
+	},
+	{
 		"lervag/vimtex",
 		lazy = false, -- lazy-loading will disable inverse search
 		config = function()
