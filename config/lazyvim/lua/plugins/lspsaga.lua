@@ -18,6 +18,7 @@ return {
 			keys[#keys + 1] = { "gr", "<cmd> Lspsaga finder<cr>", desc = "References" }
 			keys[#keys + 1] = { "gR", "<cmd> Telescope lsp_references<cr>", desc = "References", nowait = true }
 			keys[#keys + 1] = { "<leader>cO", "<cmd>Lspsaga outline<cr>", desc = "Toggle outline" }
+			keys[#keys + 1] = { "<leader>'", "<cmd>Lspsaga term_toggle<cr>", desc = "Term outline" }
 		end,
 	},
 }
