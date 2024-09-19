@@ -22,13 +22,12 @@
 
 ;;; Code:
 (setq writing-packages
-      '(
-        cdlatex
-        ;; general writing
+      '(;; general writing
         flycheck
+        flycheck-vale
+        flycheck-grammarly
         writeroom-mode
         writegood-mode
-        flycheck-vale
         (write-or-die :location local)
         ;; synonyms and thesaurus
         jinx
@@ -40,15 +39,6 @@
         synosaurus
         (words :location local)
         academic-phrases))
-
-(defun writing/init-cdlatex()
-  (use-package cdlatex
-    :defer t
-    :commands cdlatex-mode
-    :diminish cdlatex-mode
-    :init
-    (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
-    (add-hook 'latex-mode-hook 'turn-on-cdlatex)))
 
 (defun writing/post-init-flycheck ()
 
@@ -62,7 +52,7 @@
               (message (one-or-more not-newline)
                        (zero-or-more "\n" (any " ") (one-or-more not-newline)))
               line-end))
-    :modes (text-mode latext-model org-mode markdown-mode gfm-mode))
+    :modes (text-mode latex-mode LaTeX-mode org-mode markdown-mode gfm-mode))
   (add-to-list 'flycheck-checkers 'proselint)
 
   ;; textlint checker
@@ -93,8 +83,37 @@
               (message (one-or-more not-newline)
                        (zero-or-more "\n" (any " ") (one-or-more not-newline)))
               line-end))
-    :modes (text-mode latex-mode org-mode markdown-mode gfm-mode))
+    :modes (text-mode latex-mode LaTeX-mode org-mode markdown-mode gfm-mode))
   (add-to-list 'flycheck-checkers 'textlint))
+
+(defun writing/init-flycheck-vale ()
+  "Initialize flycheck-vale"
+  :init
+  (with-eval-after-load  'flycheck
+    (require 'flycheck-vale)
+    (setq flycheck-vale-modes '(text-mode
+                                markdown-mode
+                                rst-mode
+                                org-mode
+                                latex-mode
+                                LaTeX-mode))
+    (flycheck-vale-setup)
+    (dolist (mode flycheck-vale-modes)
+      (flycheck-add-mode 'vale mode))))
+
+(defun writing/init-flycheck-grammarly ()
+  :init
+  (with-eval-after-load 'flycheck
+    (require 'flycheck-grammarly)
+    (setq flycheck-grammarly-active-modes '(text-mode
+                                            markdown-mode
+                                            rst-mode
+                                            org-mode
+                                            latex-mode
+                                            LaTeX-mode))
+    (flycheck-grammarly-setup)
+    (dolist (mode flycheck-grammarly-active-modes)
+      (flycheck-add-mode 'grammarly mode))))
 
 (defun writing/post-init-writeroom-mode ()
   (setq writeroom-width 90)
@@ -105,13 +124,6 @@
   :defer t
   :init
   (spacemacs/set-leader-keys "xG" #'writegood-mode))
-
-(defun writing/init-flycheck-vale ()
-  "Initialize flycheck-vale"
-  :defer t
-  :confi
-  (setq flycheck-vale-modes '(text-mode markdown-mode rst-mode org-mode latex-mode))
-  (flycheck-vale-setup))
 
 (defun writing/init-write-or-die ()
   (use-package write-or-die
@@ -128,7 +140,14 @@
       :evil-leader "C-t d")))
 
 (defun writing/init-jinx()
-  :defer t)
+  :defer t
+  :init
+  (with-eval-after-load 'ispell
+    (global-set-key [remap ispell-word] #'jinx-correct))
+  (with-eval-after-load 'evil-commands
+    (global-set-key [remap evil-next-flyspell-error] #'jinx-next)
+    (global-set-key [remap evil-prev-flyspell-error] #'jinx-previous))
+  (global-jinx-mode))
 
 (defun writing/init-powerthesaurus()
   :defer t
