@@ -99,10 +99,11 @@ This function should only modify configuration layer settings."
                   lsp-use-upstream-bindings t)
              (python :variables
                      python-backend 'lsp
-                     python-lsp-server 'pylsp
+                     python-format-on-save nil
                      python-formatter 'lsp
-                     python-format-on-save t
-                     python-sort-imports-on-save t)
+                     python-lsp-server 'pylsp
+                     python-poetry-activate t
+                     python-sort-imports-on-save nil)
              (typescript :variables
                          typescript-fmt-on-save t
                          typescript-fmt-tool 'typescript-formatter
