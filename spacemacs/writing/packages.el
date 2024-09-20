@@ -140,14 +140,16 @@
       :evil-leader "C-t d")))
 
 (defun writing/init-jinx()
-  :defer t
-  :init
-  (with-eval-after-load 'ispell
-    (global-set-key [remap ispell-word] #'jinx-correct))
-  (with-eval-after-load 'evil-commands
-    (global-set-key [remap evil-next-flyspell-error] #'jinx-next)
-    (global-set-key [remap evil-prev-flyspell-error] #'jinx-previous))
-  (global-jinx-mode))
+  (use-package jinx
+    :defer t
+    :diminish jinx-mode
+    :init
+    (with-eval-after-load 'ispell
+      (global-set-key [remap ispell-word] #'jinx-correct))
+    (with-eval-after-load 'evil-commands
+      (global-set-key [remap evil-next-flyspell-error] #'jinx-next)
+      (global-set-key [remap evil-prev-flyspell-error] #'jinx-previous))
+    (global-jinx-mode)))
 
 (defun writing/init-powerthesaurus()
   :defer t
