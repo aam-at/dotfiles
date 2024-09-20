@@ -24,11 +24,17 @@
 
 (defconst ai-extras-packages
   '(
+    shell-maker
     (copilot :requires company
              :location (recipe
                         :fetcher github
                         :repo "zerolfx/copilot.el"
                         :files ("*.el" "dist")))
+    (copilot-chat :requires company
+                  :location (recipe
+                             :fetcher github
+                             :repo "chep/copilot-chat.el"
+                             :files ("*.el")))
     elisa
     (khoj :location (recipe
                      :fetcher github
@@ -36,6 +42,10 @@
                      :files ("src/interface/emacs/*.el")))
     llm
     magit-gptcommit))
+
+(defun ai-extras/init-shell-maker ()
+  (use-package shell-maker
+    :demand t))
 
 (defun ai-extras/init-copilot ()
   (use-package copilot
@@ -52,6 +62,46 @@
       (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion-by-word))
     (add-hook 'prog-mode-hook 'copilot-mode)
     (spacemacs|diminish copilot-mode "" "C")))
+
+(defun ai-extras/init-copilot-chat ()
+  (use-package copilot-chat
+    :defer t
+    :ensure t
+    :init
+    (defun ai-extras/bury-and-kill-buffer()
+      (interactive)
+      (bury-buffer)
+      (delete-window))
+    (spacemacs/set-leader-keys
+      "$c" 'copilot-chat-display)
+    (dolist (mode '(copilot-chat-mode copilot-chat-shell-shell-mode))
+      (spacemacs/set-leader-keys-for-major-mode mode
+        "l" 'copilot-chat-prompt-split-and-list
+        "n" 'copilot-chat-prompt-history-next
+        "p" 'copilot-chat-prompt-history-previous
+        "r" 'copilot-chat-review
+        "d" 'copilot-chat-doc
+        "f" 'copilot-chat-fix
+        "o" 'copilot-chat-optimize
+        "t" 'copilot-chat-test
+        "q" 'bury-buffer))
+    :config
+    (require 'copilot-chat-shell-maker)
+    (push '(shell-maker . copilot-chat-shell-maker-init) copilot-chat-frontend-list)
+    (setq copilot-chat-frontend 'shell-maker)
+    (when (eq copilot-chat-frontend 'shell-maker)
+      (copilot-chat-shell-maker-init))
+    (evilified-state-evilify-map copilot-chat-mode-map
+      :mode copilot-chat-mode
+      :bindings
+      "C-c q" 'bury-buffer)
+    (evilified-state-evilify-map copilot-chat-list-mode-map
+      :mode copilot-chat-list-mode
+      :bindings
+      "RET" 'copilot-chat-list-add-or-remove-buffer
+      "C"   'copilot-chat-list-clear-buffers
+      "g"   'copilot-chat-list-refresh
+      "q"   'ai-extras/bury-and-kill-buffer)))
 
 (defun ai-extras/init-elisa ()
   (use-package elisa
