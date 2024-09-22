@@ -1,6 +1,13 @@
 local _, openai_api_key = RunShellCommand("copy_password.sh apikey")
 
 return {
+	-- line wrapping
+	{
+		"andrewferrier/wrapping.nvim",
+		config = function()
+			require("wrapping").setup()
+		end,
+	},
 	-- uncover usage problems in your writing
 	{
 		"reedes/vim-wordy",
