@@ -41,7 +41,6 @@ return {
         augroup END
       ]])
 		end,
-		keys = { vim.keymap.set("n", "<leader>uP", "<cmd>PencilToggle<cr>", { desc = "Toggle Pencil" }) },
 	},
 	-- correct common typos and misspellings as you type in vim
 	{
