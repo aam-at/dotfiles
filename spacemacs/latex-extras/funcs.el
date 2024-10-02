@@ -45,3 +45,23 @@
     (put-text-property start end 'orig-text orig-text)
 
     (message "Text wrapping cycled to state %d" cycle-state)))
+
+(defun latex-extras/split-to-one-sentence-per-line ()
+  "Split the selected region or current paragraph into one sentence per line."
+  (interactive)
+  (let ((start (if (use-region-p) (region-beginning) (point-min)))
+        (end (if (use-region-p) (region-end) (point-max))))
+    (save-excursion
+      (goto-char start)
+      (while (< (point) end)
+        (let ((sentence-start (point)))
+          (forward-sentence)
+          (when (< (point) end)
+            (let ((sentence-end (point)))
+              (goto-char sentence-start)
+              (delete-horizontal-space)
+              (while (search-forward "\n" sentence-end t)
+                (replace-match " " nil t))
+              (goto-char sentence-end)
+              (delete-horizontal-space)
+              (insert "\n"))))))))
