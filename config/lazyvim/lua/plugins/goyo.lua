@@ -41,20 +41,14 @@ vim.g.toggle_goyo = function()
 	end
 end
 
+vim.cmd("command! GoyoToggle lua vim.g.toggle_goyo()")
+
 return {
 	-- goyo.vim - Distraction-free writing in Vim
 	{
 		"junegunn/goyo.vim",
 		depends = { "junegunn/limelight.vim" },
 		cmd = "Goyo",
-		keys = {
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>uG",
-				"<cmd>lua vim.g.toggle_goyo()<CR>",
-				{ noremap = true, silent = true, desc = "Toggle Goyo" }
-			),
-		},
 	},
 	-- limelight - Hyperfocus-writing in Vim
 	{
