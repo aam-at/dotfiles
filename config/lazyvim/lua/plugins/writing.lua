@@ -30,6 +30,7 @@ return {
 	-- rethinking Vim as a tool for writers
 	{
 		"reedes/vim-pencil",
+		cmd = "PencilToggle",
 		config = function()
 			vim.cmd([[
         augroup pencil
@@ -40,6 +41,7 @@ return {
         augroup END
       ]])
 		end,
+		keys = { vim.keymap.set("n", "<leader>uP", "<cmd>PencilToggle<cr>", { desc = "Toggle Pencil" }) },
 	},
 	-- correct common typos and misspellings as you type in vim
 	{

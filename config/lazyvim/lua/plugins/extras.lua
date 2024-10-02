@@ -34,19 +34,6 @@ return {
 	{
 		"mg979/vim-visual-multi",
 	},
-	-- zen-mode - Distraction-free writing
-	{
-		"folke/zen-mode.nvim",
-		cmd = "ZenMode",
-		opts = {
-			window = {
-				width = 0.85,
-			},
-		},
-		keys = {
-			{ "<leader>uz", "<cmd>ZenMode<cr>", desc = "Zen Mode" },
-		},
-	},
 	-- window picker
 	{
 		"s1n7ax/nvim-window-picker",
