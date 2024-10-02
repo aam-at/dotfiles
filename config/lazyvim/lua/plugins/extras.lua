@@ -44,4 +44,8 @@ return {
 			require("window-picker").setup()
 		end,
 	},
+	-- pencil colorscheme
+	{
+		"preservim/vim-colors-pencil",
+	},
 }
