@@ -14,9 +14,10 @@ vim.g.goyo_enter = function()
 	vim.wo.wrap = true
 	vim.bo.textwidth = 0
 	vim.bo.wrapmargin = 0
-	vim.cmd("Goyo 140x95%")
+	vim.cmd("Goyo 140x100%")
 	vim.cmd("Limelight 0.5")
 	require("lualine").hide()
+	require("gitsigns").detach()
 	vim.g.is_goyo_active = true
 end
 
@@ -30,6 +31,7 @@ vim.g.goyo_leave = function()
 	vim.cmd("Goyo!")
 	vim.cmd("Limelight!")
 	vim.cmd("colorscheme " .. vim.g.default_colorscheme)
+	require("gitsigns").attach()
 	vim.g.is_goyo_active = false
 end
 
