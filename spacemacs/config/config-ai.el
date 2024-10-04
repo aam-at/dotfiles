@@ -155,6 +155,30 @@
     :models '("gemini-1.0-pro"
               "gemini-1.5-pro"
               "gemini-1.5-flash"))
+  (gptel-make-openai "Github Models"
+    :host "models.inference.ai.azure.com"
+    :endpoint "/chat/completions"
+    :stream t
+    :key github-api-key
+    :models '("gpt-4o"
+              "gpt-4o-mini"
+              "o1-mini"
+              "o1-preview"))
+  (gptel-make-openai "OpenRouter"
+    :host "openrouter.ai"
+    :endpoint "/api/v1/chat/completions"
+    :stream t
+    :key openrouter-api-key
+    :models '("anthropic/claude-3.5-sonnet"
+              "google/gemini-pro-1.5-exp"
+              "openai/gpt-4o-mini"
+              "openai/gpt-4o"
+              "openai/gpt-4o-2024-08-06"
+              "openai/o1-mini"
+              "openai/o1-preview"
+              "perplexity/llama-3.1-sonar-huge-128k-online"
+              "perplexity/llama-3.1-sonar-large-128k-online"
+              "perplexity/llama-3.1-sonar-small-128k-online"))
 
   (gptel-make-openai "TogetherAI"
     :host "api.together.xyz"
