@@ -1,4 +1,4 @@
-- clean: ['~']
+- clean: ["~"]
 - shell:
     - [git submodule update --depth 1 --init --recursive, Installing submodules]
     - [env > ~/.bash_env, Environment variables]
@@ -30,6 +30,7 @@
     ~/.config/kitty: config/kitty
     ~/.config/lazygit: config/lazygit
     ~/.config/mimeapps.list: config/mimeapps.list
+    ~/.config/neovide: config/neovide
     ~/.config/nvim: config/lazyvim
     ~/.config/ranger: config/ranger
     ~/.config/redshift.conf: config/redshift.conf
