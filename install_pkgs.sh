@@ -373,7 +373,7 @@ fi
 if ! command -v ollama &>/dev/null; then
     echo "Installing ollama..."
     curl -fsSL https://ollama.com/install.sh | sh
-    ollama_models=( "chatfire/bge-m3:q8_0" "codestral:latest" "gemma2:9b" "gemma2:9b-instruct-q6_K" "glm4:9b" "llama3.1:8b" "llama3.1:8b-instruct-q8_0" "mxbai-embed-large:latest" "nomic-embed-text:latest" "phi3:14b" "phi3:latest" "starcoder2:15b" "starcoder2:3b" "starcoder2:7b" )
+    ollama_models=( "chatfire/bge-m3:q8_0" "codestral:latest" "gemma2:9b" "gemma2:9b-instruct-q6_K" "glm4:9b" "llama3.1:8b" "llama3.1:8b-instruct-q8_0" "mxbai-embed-large:latest" "nomic-embed-text:latest" "phi3:14b" "phi3:latest")
     for ollama_model in "${ollama_models[@]}"; do
         ollama pull "$ollama_model"
     done
