@@ -333,74 +333,6 @@ DAYS must be a positive integer greater than 1."
         path
       (concat dir "marginalia.org"))))
 
-(defun org-extras/remark-highlight-save (buffer beg end props &optional title)
-  (let* ((filename (org-remark-source-get-file-name buffer))
-         (ext (file-name-extension buffer))
-         (id (plist-get props 'org-remark-id))
-         (text (org-with-wide-buffer (buffer-substring-no-properties beg end)))
-         (notes-buf (find-file-noselect (org-remark-notes-get-file-name)))
-         (main-buf (current-buffer))
-         (line-num (org-current-line beg))
-         (orgid (org-remark-highlight-get-org-id beg)))
-    (with-current-buffer notes-buf
-      (when (featurep 'org-remark-convert-legacy) (org-remark-convert-legacy-data))
-      ;;`org-with-wide-buffer is a macro that should work for non-Org file'
-      (org-with-wide-buffer
-       (let ((file-headline (or (org-find-property
-                                 org-remark-prop-source-file filename)
-                                (progn
-                                  ;; If file-headline does not exist, create one at the bottom
-                                  (goto-char (point-max))
-                                  ;; Ensure to be in the beginning of line to add a new headline
-                                  (when (eolp) (open-line 1) (forward-line 1) (beginning-of-line))
-                                  (insert (if (string-equal ext "org")
-                                              "* COMMENT Highlights"
-                                            (concat "* " title "\n")))
-                                  (org-set-property org-remark-prop-source-file filename)
-                                  (org-up-heading-safe) (point))))
-             (id-headline (org-find-property org-remark-prop-id id)))
-         ;; Add org-remark-link with updated line-num as a property
-         (plist-put props "org-remark-link" (concat
-                                             "[[file:"
-                                             filename
-                                             (when line-num (format "::%d" line-num))
-                                             "]]"))
-         (if id-headline
-             (progn
-               (goto-char id-headline)
-               ;; Update the existing headline and position properties
-               ;; Don't update the headline text when it already exists
-               ;; Let the user decide how to manage the headlines
-               ;; (org-edit-headline text)
-               ;; FIXME update the line-num in a normal link if any
-               (org-remark-notes-set-properties beg end props))
-           ;; No headline with the marginal notes ID property. Create a new one
-           ;; at the end of the file's entry
-           (goto-char file-headline)
-           (org-narrow-to-subtree)
-           (goto-char (point-max))
-           ;; Ensure to be in the beginning of line to add a new headline
-           (when (eolp) (open-line 1) (forward-line 1) (beginning-of-line))
-           ;; Create a headline
-           ;; Add a properties
-           (insert (concat "** " text "\n"))
-           (org-remark-notes-set-properties beg end props)
-           (when (and orgid org-remark-use-org-id)
-             (insert (concat "[[id:" orgid "]" "[" title "]]"))))))
-      (cond
-       ;; fix GH issue #19
-       ;; Temporarily remove `org-remark-save' from the `after-save-hook'
-       ;; When the marginal notes buffer is the source buffer
-       ((eq notes-buf main-buf)
-        (remove-hook 'after-save-hook #'org-remark-save t)
-        (save-buffer)
-        (add-hook 'after-save-hook #'org-remark-save nil t))
-       ;; When marginal notes buffer is separate from the source buffer, save the
-       ;; notes buffer
-       ((buffer-modified-p)
-        (save-buffer)))
-      t)))
-
 
 ;; Customization to automatically fetch citations from google scholar
 (defun scholarly-citations-process-sentinel (process event)
