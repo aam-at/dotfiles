@@ -35,6 +35,10 @@
                              :fetcher github
                              :repo "chep/copilot-chat.el"
                              :files ("*.el")))
+    (esi-dictate :location (recipe
+                            :fetcher github
+                            :repo "lepisma/emacs-speech-input"
+                            :files ("*.el" "*.py")))
     elisa
     (khoj :location (recipe
                      :fetcher github
@@ -102,6 +106,15 @@
       "C"   'copilot-chat-list-clear-buffers
       "g"   'copilot-chat-list-refresh
       "q"   'ai-extras/bury-and-kill-buffer)))
+
+(defun ai-extras/init-esi-dictate ()
+  (use-package esi-dictate
+    :defer t
+    :bind (:map esi-dictate-mode-map
+                ("C-g" . esi-dictate-stop))
+    :hook (esi-dictate-speech-final . esi-dictate-fix-context)
+    :config
+    (setq llm-warn-on-nonfree nil)))
 
 (defun ai-extras/init-elisa ()
   (use-package elisa
