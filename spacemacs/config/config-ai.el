@@ -5,6 +5,16 @@
   (require 'llm-openai)
   (require 'llm-gemini)
   (require 'llm-ollama)
+  ;; esi dictate settings
+  (setq esi-dictate-dg-api-key deepgram-api-key)
+  (setq esi-dictate-llm-provider (make-llm-openai
+                                  :key openai-api-key
+                                  :chat-model "gpt-4o-mini"))
+  ;; (setq esi-dictate-llm-provider (make-llm-openai-compatible
+  ;;                                 :key github-api-key
+  ;;                                 :chat-model "gpt-4o-mini"
+  ;;                                 :url  "models.inference.ai.azure.com/chat/completions"))
+
   ;; ellama settings
   (setopt ellama-language "Russian"
           ellama-naming-scheme 'ellama-generate-name-by-llm
