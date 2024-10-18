@@ -101,7 +101,6 @@
   ;; same file if the file is org buffer, otherwise put the highlights in the
   ;; separate file.
   (setq org-remark-notes-file-name #'org-extras/remark-notes-file)
-  (advice-add 'org-remark-highlight-save :override #'org-extras/remark-highlight-save)
 
   ;; Magit settings
   (setq magit-org-todos-filename org-projectile-file)
