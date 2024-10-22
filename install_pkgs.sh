@@ -219,8 +219,10 @@ if $INSTALL_PYTHON && [ ! -d "$HOME/.pyenv" ]; then
 	  pipx install uv
 
 	  for tool in autoflake autopep8 basedpyright black cmake-language-server \
-		                      docformatter flake9 gpustat isort marker-pdf nvitop poetry pre-commit \
-		                      proselint pylint ruff semgrep yapf; do
+                 docformatter flake9 \
+                 git+https://github.com/bcbernardo/aw-watcher-ask.git gpustat \
+                 isort marker-pdf nvitop poetry pre-commit proselint pylint ruff \
+                 semgrep yapf; do
 		    uv tool install "$tool"
 	  done
 fi

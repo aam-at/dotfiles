@@ -1,0 +1,1 @@
+complete --command aw-watcher-ask --no-files --arguments "(env _AW_WATCHER_ASK_COMPLETE=complete_fish _TYPER_COMPLETE_FISH_ACTION=get-args _TYPER_COMPLETE_ARGS=(commandline -cp) aw-watcher-ask)" --condition "env _AW_WATCHER_ASK_COMPLETE=complete_fish _TYPER_COMPLETE_FISH_ACTION=is-args _TYPER_COMPLETE_ARGS=(commandline -cp) aw-watcher-ask"
