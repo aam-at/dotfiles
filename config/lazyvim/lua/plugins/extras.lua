@@ -30,6 +30,12 @@ return {
 			{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
 		},
 	},
+	-- activity watch
+	{
+		"ActivityWatch/aw-watcher-vim",
+		cmd = "AWStart",
+	},
+
 	-- Vim-visual-multi - Multiple cursors in vim
 	{
 		"mg979/vim-visual-multi",
