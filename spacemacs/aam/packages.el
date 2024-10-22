@@ -14,6 +14,7 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst aam-packages
   '(
+    activity-watch-mode
     biblio
     (unicode-math-input :location (recipe
                                    :fetcher github
@@ -28,6 +29,8 @@
     memoize
     pdf-tools))
 
+(defun aam/init-activity-watch-mode()
+  :defer t)
 
 (defun aam/post-init-biblio ()
   (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "lb" 'biblio-lookup)

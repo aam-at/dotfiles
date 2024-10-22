@@ -44,6 +44,9 @@
   (define-key evil-visual-state-map "j" 'evil-next-visual-line)
   (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
+  ;; enable global activity watch
+  (global-activity-watch-mode)
+
   ;; basic programming settings
   (defun my-prog-settings()
     (spacemacs/toggle-fill-column-indicator-on)
