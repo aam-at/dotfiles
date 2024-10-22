@@ -41,5 +41,4 @@ end)
 
 vim.o.background = "dark" -- or "light" for light mode
 vim.cmd([[colorscheme gruvbox]])
-vim.cmd(":AWStart")
 vim.o.guifont = "JetBrains Mono:h12"
