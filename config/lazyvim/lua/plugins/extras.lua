@@ -1,3 +1,10 @@
+local function check_aw_running()
+	local handle = io.popen("nc -z localhost 5600 && echo open || echo closed")
+	local result = handle:read("*a")
+	handle:close()
+	return result:find("open") ~= nil
+end
+
 return {
 	-- Oil - A modern, extensible, and fast file explorer for neovim
 	{
@@ -34,6 +41,12 @@ return {
 	{
 		"ActivityWatch/aw-watcher-vim",
 		cmd = "AWStart",
+		init = function()
+			vim.g.aw_enabled = check_aw_running()
+			if vim.g.aw_enabled then
+				vim.cmd("AWStart")
+			end
+		end,
 	},
 
 	-- Vim-visual-multi - Multiple cursors in vim
