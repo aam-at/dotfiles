@@ -1,5 +1,3 @@
-local _, openai_api_key = RunShellCommand("copy_password.sh apikey")
-
 return {
 	-- line wrapping
 	{
@@ -108,5 +106,11 @@ return {
 				},
 			},
 		},
+		config = function(_, opts)
+			vim.defer_fn(function()
+				local _, openai_api_key = RunShellCommand("copy_password.sh apikey")
+				opts.servers.textlsp.settings.textLSP.analysers.openai.api_key = openai_api_key
+			end, 100)
+		end,
 	},
 }
