@@ -45,7 +45,10 @@
   (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
   ;; enable global activity watch
-  (global-activity-watch-mode)
+  (when (check-localhost-port 5600)
+    (progn
+      (message "Enable global activity watch")
+      (global-activity-watch-mode)))
 
   ;; basic programming settings
   (defun my-prog-settings()
