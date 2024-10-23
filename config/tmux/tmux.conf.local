@@ -473,8 +473,9 @@ TMUX_FZF_LAUNCH_KEY="C-f"
 set -g @plugin 'tmuxinator/tmuxinator'
 set -g @plugin 'fcsonline/tmux-thumbs'
 set -g @plugin 'Freed-Wu/tmux-digit'
-set -g @plugin 'akohlbecker/aw-watcher-tmux'
-
+if-shell "nc -zv localhost 5600 >/dev/null 2>&1" {
+    set -g @plugin 'akohlbecker/aw-watcher-tmux'
+}
 
 # -- custom variables ----------------------------------------------------------
 
