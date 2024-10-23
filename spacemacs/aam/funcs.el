@@ -87,3 +87,17 @@
     (with-temp-buffer
       (call-process "nvidia-smi" nil t nil "--query-gpu=memory.total" "--format=csv,noheader,nounits")
       (/ (string-to-number (buffer-string)) 1024))))
+
+
+(defun check-localhost-port (port)
+  "Check if localhost port is accepting connections. Returns t if port is open, nil otherwise."
+  (condition-case nil
+      (let ((proc (open-network-stream
+                   "port-test"
+                   nil
+                   "localhost"
+                   port)))
+        (when proc
+          (delete-process proc)
+          t))
+    (error nil)))

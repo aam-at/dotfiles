@@ -30,7 +30,9 @@
     pdf-tools))
 
 (defun aam/init-activity-watch-mode()
-  :defer t)
+  :defer t
+  :config
+  (spacemacs|diminish activity-watch-mode " Ⓐ" " A"))
 
 (defun aam/post-init-biblio ()
   (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "lb" 'biblio-lookup)

@@ -148,6 +148,7 @@ This function should only modify configuration layer settings."
                     latex-refresh-preview t
                     latex-view-pdf-in-split-window t)
              (org :variables
+                  org-contacts-files (list "~/Dropbox/Org/contacts.org")
                   org-enable-appear-support t
                   org-enable-bootstrap-support t
                   org-enable-epub-support t
@@ -155,7 +156,6 @@ This function should only modify configuration layer settings."
                   org-enable-modern-support t
                   org-enable-notifications t
                   org-enable-org-contacts-support t
-                  org-contacts-files (list "~/Dropbox/Org/contacts.org")
                   org-enable-org-journal-support t
                   org-enable-remark-support t
                   org-enable-reveal-js-support t
@@ -165,6 +165,7 @@ This function should only modify configuration layer settings."
                   org-enable-transclusion-support t
                   org-enable-trello-support nil
                   org-enable-valign t
+                  org-projectile-file "TODOs.org"
                   org-start-notification-daemon-on-startup t
                   org-want-todo-bindings t)
              ;; ----------------------------------------------------------------
