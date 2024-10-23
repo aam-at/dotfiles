@@ -82,7 +82,8 @@
     (linum-mode -1))
 
   (add-hook 'doc-view-mode-hook 'my-doc-view-settings)
-  (defadvice doc-view-display (after fit-width activate)
+  (define-advice doc-view-display (:after (&rest _) fit-width)
+    "Fit document width to window after displaying."
     (doc-view-fit-width-to-window)))
 
 (provide 'config-tex)
