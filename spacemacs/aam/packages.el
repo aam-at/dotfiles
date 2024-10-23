@@ -16,6 +16,7 @@
   '(
     activity-watch-mode
     biblio
+    casual
     (unicode-math-input :location (recipe
                                    :fetcher github
                                    :repo "astoff/unicode-math-input.el"))
@@ -37,6 +38,12 @@
 (defun aam/post-init-biblio ()
   (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "lb" 'biblio-lookup)
   (evil-set-initial-state 'biblio-selection-mode 'emacs))
+
+(defun aam/init-casual()
+  :defer t
+  :init
+  (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+    "A" 'casual-agenda-tmenu))
 
 (defun aam/init-unicode-math-input ())
 
