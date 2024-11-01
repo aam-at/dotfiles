@@ -17,6 +17,9 @@
     activity-watch-mode
     biblio
     casual
+    (explain-pause-mode :location (recipe
+                                   :fetcher github
+                                   :repo "lastquestion/explain-pause-mode"))
     (unicode-math-input :location (recipe
                                    :fetcher github
                                    :repo "astoff/unicode-math-input.el"))
@@ -44,6 +47,15 @@
   :init
   (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
     "A" 'casual-agenda-tmenu))
+
+(defun aam/init-explain-pause-mode()
+  (use-package explain-pause-mode
+    :defer t
+    :init
+    (when aam-enable-explain-pause-at-startup
+      (explain-pause-mode))
+    :config
+    (setf (cadr (assoc 'explain-pause-mode minor-mode-alist)) "")))
 
 (defun aam/init-unicode-math-input ())
 
