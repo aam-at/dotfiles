@@ -204,4 +204,9 @@
     "[typescriptreact]": {
         "editor.defaultFormatter": "vscode.typescript-language-features"
     },
+    "github.copilot.advanced": {
+        "useLanguageServer": true,
+    },
+    "github.copilot.chat.edits.enabled": true,
+    "github.copilot.chat.search.semanticTextResults": true,
 }
