@@ -27,7 +27,7 @@
     ewmctrl
     fish-completion
     gscholar-bibtex
-    helm-system-packages
+    (helm-system-packages :requires helm)
     key-chord
     key-seq
     memoize
