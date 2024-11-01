@@ -50,10 +50,11 @@ This function should only modify configuration layer settings."
              semantic
              (spell-checking :variables enable-flyspell-auto-completion nil)
              (shell :variables
-                    shell-default-term-shell "/usr/bin/fish"
-                    shell-enable-smart-eshell t
                     shell-default-height 30
-                    shell-default-position 'bottom)
+                    shell-default-position 'bottom
+                    shell-default-shell 'vterm
+                    shell-default-term-shell "/usr/bin/fish"
+                    shell-enable-smart-eshell t)
              smex
              syntax-checking
              (tabs :variables tabs-auto-hide nil)
