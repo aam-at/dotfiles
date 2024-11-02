@@ -42,6 +42,7 @@ This function should only modify configuration layer settings."
                   git-enable-magit-delta-plugin t
                   git-enable-magit-gitflow-plugin t)
              (helm :variables
+                   helm-use-icons t
                    helm-use-posframe nil)
              helpful
              (ibuffer :variables ibuffer-group-buffers-by 'projects)
