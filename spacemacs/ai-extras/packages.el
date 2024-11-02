@@ -90,11 +90,6 @@
         "t" 'copilot-chat-test
         "q" 'bury-buffer))
     :config
-    (require 'copilot-chat-shell-maker)
-    (push '(shell-maker . copilot-chat-shell-maker-init) copilot-chat-frontend-list)
-    (setq copilot-chat-frontend 'shell-maker)
-    (when (eq copilot-chat-frontend 'shell-maker)
-      (copilot-chat-shell-maker-init))
     (evilified-state-evilify-map copilot-chat-mode-map
       :mode copilot-chat-mode
       :bindings
