@@ -113,9 +113,9 @@
 
   ;; Elisa config
   (setopt elisa-limit 5
-          elisa-web-search-function 'elisa-search-searxng ;; searxng works better than duckduckgo in my tests
           elisa-prompt-rewriting-enabled t ;; prompt rewriting may increase quality of answers
-          elisa-reranker-enabled t) ;; reranker increases answer quality
+          elisa-reranker-enabled t ;; reranker increases answer quality
+          elisa-web-search-function 'elisa-search-searxng) ;; searxng works better than duckduckgo in my tests
   (setopt elisa-chat-provider
           (make-llm-ollama
            :chat-model "llama3.1:8b-instruct-q8_0"

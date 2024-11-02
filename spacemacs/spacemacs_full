@@ -805,6 +805,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; Garbage Collector Magic Hack
   (with-eval-after-load 'gcmh
     (gcmh-mode 1))
+  ;; set elisa cache directory
+  (setopt elisa-db-directory (concat spacemacs-cache-directory "elisa/"))
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
    (let ((font-size (if (> (x-display-pixel-width) 3000) 20 14)))
