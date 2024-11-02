@@ -405,7 +405,10 @@ SCHEDULED: %(cfw:org-capture-day)
         org-ref-default-bibliography aam/bibtex-files
         org-ref-pdf-directory (aam/bib-path "papers/"))
   ;; org-cite configuration
-  (setq org-cite-global-bibliography aam/bibtex-files)
+  (setq org-cite-global-bibliography
+        (ensure-list
+         (or (bound-and-true-p citar-bibliography)
+             (bound-and-true-p bibtex-completion-bibliography))))
 
   ;; setup org modules
   (my-org-setup/modules)
