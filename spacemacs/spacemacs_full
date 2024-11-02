@@ -41,9 +41,10 @@ This function should only modify configuration layer settings."
              (git :variables
                   git-enable-magit-delta-plugin t
                   git-enable-magit-gitflow-plugin t)
-             (helm :variables
-                   helm-use-icons t
-                   helm-use-posframe nil)
+             (compleseus :variables
+                         compleseus-engine 'vertico
+                         compleseus-use-nerd-icons t
+                         compleseus-use-vertico-posframe t)
              helpful
              (ibuffer :variables ibuffer-group-buffers-by 'projects)
              multiple-cursors
@@ -217,6 +218,7 @@ This function should only modify configuration layer settings."
              ;; My private layers
              ;; ----------------------------------------------------------------
              aam
+             helm-legacy
              writing
              (ai-extras :variables
                         ai-extras-autostart-gptcommit-mode t)
