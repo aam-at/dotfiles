@@ -17,13 +17,10 @@
     activity-watch-mode
     biblio
     casual
+    cloc
     (explain-pause-mode :location (recipe
                                    :fetcher github
                                    :repo "lastquestion/explain-pause-mode"))
-    (unicode-math-input :location (recipe
-                                   :fetcher github
-                                   :repo "astoff/unicode-math-input.el"))
-    cloc
     ewmctrl
     fish-completion
     gscholar-bibtex
@@ -32,7 +29,12 @@
     key-seq
     memoize
     nerd-icons
-    pdf-tools))
+    pdf-tools
+    prescient
+    company-prescient
+    (unicode-math-input :location (recipe
+                                   :fetcher github
+                                   :repo "astoff/unicode-math-input.el"))))
 
 (defun aam/init-activity-watch-mode()
   :defer t
@@ -49,6 +51,9 @@
   (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
     "A" 'casual-agenda-tmenu))
 
+(defun aam/init-cloc()
+  :defer t)
+
 (defun aam/init-explain-pause-mode()
   (use-package explain-pause-mode
     :defer t
@@ -57,11 +62,6 @@
       (explain-pause-mode))
     :config
     (setf (cadr (assoc 'explain-pause-mode minor-mode-alist)) "")))
-
-(defun aam/init-unicode-math-input ())
-
-(defun aam/init-cloc()
-  :defer t)
 
 (defun aam/init-ewmctrl()
   (use-package ewmctrl
@@ -152,3 +152,18 @@
 
 (defun aam/post-init-pdf-tools ()
   (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "e" 'aam-extract-pdf-text-from-current-buffer))
+
+(defun aam/init-prescient ()
+  (use-package prescient
+    :defer t
+    :config
+    ;; Configure Emacs to use prescient for all completions
+    (push 'prescient completion-styles)))
+
+(defun aam/init-company-prescient ()
+  (use-package company-prescient
+    :after company
+    :hook
+    (company-mode . company-prescient-mode)))
+
+(defun aam/init-unicode-math-input ())
