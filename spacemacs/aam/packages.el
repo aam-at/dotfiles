@@ -31,6 +31,7 @@
     key-chord
     key-seq
     memoize
+    nerd-icons
     pdf-tools))
 
 (defun aam/init-activity-watch-mode()
@@ -145,6 +146,9 @@
 
 (defun aam/init-memoize ()
   (use-package memoize))
+
+(defun aam/init-nerd-icons()
+  :defer t)
 
 (defun aam/post-init-pdf-tools ()
   (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "e" 'aam-extract-pdf-text-from-current-buffer))
