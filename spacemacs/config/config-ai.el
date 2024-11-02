@@ -244,7 +244,11 @@
         whisper-translate nil
         whisper-use-threads (/ (num-processors) 2))
 
-  ;; khoj setings
+  ;; copilot-chat settings
+  (setq copilot-chat-frontend 'shell-maker
+        copilot-chat-model "claude-3.5-sonnet")
+
+  ;; khoj settings
   (setq khoj-server-is-local t
         khoj-auto-index nil
         khoj-server-url "http://localhost:42110"
