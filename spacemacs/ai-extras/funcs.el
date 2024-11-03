@@ -1,3 +1,31 @@
+
+;; Customization of the Copilot Chat
+;; Define a customizable list of Copilot Chat models
+(defcustom copilot-chat-models '("claude-3.5-sonnet"
+                                 "gpt-4o-2024-08-06"
+                                 "gpt-4o-mini-2024-07-18"
+                                 "o1-mini-2024-09-12"
+                                 "o1-preview-2024-09-12")
+  "List of available Copilot Chat models."
+  :type '(repeat string)
+  :group 'copilot-chat)
+
+;;;###autoload
+(defun ai-extras/select-copilot-chat-model ()
+  "Interactively select a Copilot Chat model from `copilot-chat-models` and set `copilot-chat-model` accordingly.
+
+This function prompts the user with a list of available Copilot Chat models defined in
+`copilot-chat-models` and updates the `copilot-chat-model` variable based on the user's selection.
+A confirmation message is displayed in the minibuffer upon successful selection."
+  (interactive)
+  (if copilot-chat-models
+      (let ((selection (completing-read "Select Copilot Chat Model: " copilot-chat-models nil t
+                                        nil 'copilot-chat-model-history copilot-chat-model)))
+        (setq copilot-chat-model selection)
+        (message "Copilot Chat Model set to: %s" copilot-chat-model))
+    (message "Error: `copilot-chat-models` is empty. Please update the list of models.")))
+
+
 ;; source code: https://github.com/kamushadenes/gptel-extensions.el/blob/main/gptel-extensions.el
 (defgroup gptel-ext nil
   "Extensions for gptel."
