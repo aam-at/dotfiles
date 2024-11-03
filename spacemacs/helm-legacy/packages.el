@@ -64,8 +64,13 @@
     :defer t
     :init
     (setq helm-posframe-poshandler 'posframe-poshandler-frame-center)
-    (setq helm-posframe-width (round (* 0.618 (frame-width))))
-    (setq helm-posframe-height (round (* 0.618 (frame-height))))
+    ;; Update helm posframe dimensions
+    (defun update-helm-posframe-dimensions ()
+      (setq helm-posframe-width (round (* 0.618 (frame-width))))
+      (setq helm-posframe-height (round (* 0.618 (frame-height)))))
+    (update-helm-posframe-dimensions)
+    ;; Update on frame resizing
+    (add-hook 'window-size-change-functions (lambda (_frame) (update-helm-posframe-dimensions)))
     (setq helm-posframe-parameters
           '((internal-border-width . 2)
             (left-fringe . 4)
