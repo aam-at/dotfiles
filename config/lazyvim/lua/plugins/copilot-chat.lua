@@ -68,6 +68,14 @@ return {
 				desc = "CopilotChat Quick Chat",
 				mode = { "n", "v" },
 			},
+			{
+				"<leader>acm",
+				function()
+					require("CopilotChat").select_model()
+				end,
+				desc = "CopilotChat Select Model",
+				mode = { "n", "v" },
+			},
 			-- Show help actions with telescope
 			{ "<leader>acd", M.pick("help"), desc = "Diagnostic Help", mode = { "n", "v" } },
 			-- Show prompts actions with telescope
