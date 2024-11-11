@@ -77,7 +77,7 @@ return {
 						textLSP = {
 							analysers = {
 								languagetool = {
-									enabled = false,
+									enabled = true,
 								},
 								gramformer = {
 									-- gramformer dependency needs to be installed manually
@@ -89,28 +89,11 @@ return {
 										on_change = false,
 									},
 								},
-								openai = {
-									enabled = true,
-									api_key = openai_api_key,
-									check_text = {
-										on_open = false,
-										on_save = false,
-										on_change = false,
-									},
-									model = "gpt-4o-mini",
-									max_token = 50,
-								},
 							},
 						},
 					},
 				},
 			},
 		},
-		config = function(_, opts)
-			vim.defer_fn(function()
-				local _, openai_api_key = RunShellCommand("copy_password.sh apikey")
-				opts.servers.textlsp.settings.textLSP.analysers.openai.api_key = openai_api_key
-			end, 100)
-		end,
 	},
 }
