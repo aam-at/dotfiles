@@ -37,11 +37,13 @@ return {
 				-- NOTE: The following will be safely set by avante.nvim
 				ask = "<leader>aaa",
 				edit = "<leader>aae",
+				focus = "<leader>aaf",
 				refresh = "<leader>aar",
 				toggle = {
-					default = "<leader>aat",
 					debug = "<leader>aad",
+					default = "<leader>aat",
 					hint = "<leader>aah",
+					repomap = "<leader>aar",
 					suggestion = "<leader>aas",
 				},
 			},
