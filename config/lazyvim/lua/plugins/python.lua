@@ -1,21 +1,13 @@
 return {
-	-- mason to automatically install ruff
+	-- mason to automatically install ruff and basedpyright
 	{
 		"williamboman/mason.nvim",
 		opts = function(_, opts)
 			table.insert(opts.ensure_installed, "ruff")
+			table.insert(opts.ensure_installed, "basedpyright")
 		end,
 	},
 	-- configure ruff as a formatter for python
-	{
-		"nvimtools/none-ls.nvim",
-		optional = true,
-		opts = function(_, opts)
-			local nls = require("null-ls")
-			opts.sources = opts.sources or {}
-			table.insert(opts.sources, nls.builtins.formatting.ruff)
-		end,
-	},
 	{
 		"stevearc/conform.nvim",
 		optional = true,

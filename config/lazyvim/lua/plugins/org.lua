@@ -10,6 +10,15 @@ return {
 					})
 				end,
 			},
+			{
+				"hrsh7th/nvim-cmp",
+				optional = true,
+				opts = function(_, opts)
+					table.insert(opts.sources, 1, {
+						name = "orgmode",
+					})
+				end,
+			},
 		},
 		event = "VeryLazy",
 		ft = { "org" },
