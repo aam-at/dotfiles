@@ -218,8 +218,8 @@ if $INSTALL_PYTHON && [ ! -d "$HOME/.pyenv" ]; then
 	  pyenv deactivate
 	  pipx install uv
 
-	  for tool in autoflake autopep8 basedpyright black cmake-language-server \
-                 docformatter flake9 \
+	  for tool in aider autoflake autopep8 basedpyright black \
+                 cmake-language-server docformatter flake9 \
                  git+https://github.com/bcbernardo/aw-watcher-ask.git gpustat \
                  isort marker-pdf nvitop poetry pre-commit proselint pylint ruff \
                  semgrep yapf; do
