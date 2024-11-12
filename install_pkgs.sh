@@ -154,6 +154,9 @@ if $GUI; then
 	  # Install Ruby gems
 	  sudo gem install anystyle anystyle-cli
 
+    # Install bibtex-tidy
+    npm install -g bibtex-tidy
+
 	  # Install text linting tools
 	  sudo npm i -g textlint write-good textlint-plugin-latex textlint-rule-write-good \
 		     textlint-rule-no-start-duplicated-conjunction textlint-rule-max-comma \
