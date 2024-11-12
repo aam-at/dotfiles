@@ -32,6 +32,27 @@ return {
 		end,
 	},
 	{
+		"let-def/texpresso.vim",
+		commands = {
+			"TeXpresso",
+		},
+		config = function()
+			vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+				group = vim.api.nvim_create_augroup("lazyvim_texpresso_keymap", { clear = true }),
+				pattern = { "*.tex" },
+				callback = function()
+					vim.api.nvim_buf_set_keymap(
+						0,
+						"n",
+						"<leader>cx",
+						":TeXpresso %<CR>",
+						{ noremap = true, silent = true }
+					)
+				end,
+			})
+		end,
+	},
+	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
 			{ "kdheepak/cmp-latex-symbols" },
