@@ -23,6 +23,10 @@
 ;;; Code:
 (defconst latex-extras-packages
   '(cdlatex
+    (texpresso :location (recipe
+                          :fetcher github
+                          :repo "let-def/texpresso"
+                          :files ("emacs/*.el")))
     xenops))
 
 
@@ -34,6 +38,13 @@
     :init
     (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
     (add-hook 'latex-mode-hook 'turn-on-cdlatex)))
+
+(defun latex-extras/init-texpresso()
+  :defer t
+  :init
+  (require 'texpresso)
+  (spacemacs/set-leader-keys-for-major-mode 'latex-mode
+    "t" 'texpresso))
 
 (defun latex-extras/init-xenops()
   (use-package xenops
