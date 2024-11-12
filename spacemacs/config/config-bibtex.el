@@ -40,6 +40,12 @@
           (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
           (default       . bibtex-completion-format-citation-default)))
   (setq bibtex-completion-pdf-open-function 'find-file)
+  ;; configure citar
+  (setq citar-bibliography aam/bibtex-files
+        citar-library-paths (list (aam/bib-path "papers/")
+                                  (aam/bib-path "review/")
+                                  (aam/bib-path "books/"))
+        citar-notes-paths (list (aam/org-path "papers")))
 
   ;; generate autokey
   (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "g" 'aam/bibtex-generate-autokey)
