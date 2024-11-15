@@ -796,7 +796,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq aam/org-root (file-truename (expand-file-name "~/Dropbox/Org/")))
   (defun aam/org-path (path) (concat aam/org-root path))
   ;; configure bibtex
-  (setq aam/bib-root "~/Dropbox/Research/Bibliography/")
+  (setq aam/bib-root "~/Google Drive/Research/Bibliography/")
   (defun aam/bib-path (path) (concat aam/bib-root path))
   (setq aam/bibtex-files (list (aam/bib-path "refs.bib")
                                (aam/bib-path "review.bib")

@@ -26,6 +26,7 @@ return {
 	-- optional blink completion source for require statements and module annotations
 	{
 		"saghen/blink.cmp",
+		optional = true,
 		opts = {
 			sources = {
 				-- add lazydev to your completion providers
