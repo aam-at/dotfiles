@@ -297,16 +297,6 @@ DEADLINE: %^{Deadline}t
            (file ,(aam/org-path "templates/project.org"))
            :hook aam/org-roam-capture-finalize
            :jump-to-captured t)))
-  ;; todo template for calfw calendar
-  (if (eq org-enable-calfw t)
-      (setq org-capture-templates
-            (append org-capture-templates
-                    '("c" "calfw2org" entry (file ,aam/org-inbox)
-                      "* TODO %?
-SCHEDULED: %(cfw:org-capture-day)
-:PROPERTIES:
-:CREATED: %U
-:END:\n"))))
 
   ;; org babel languages
   (org-babel-do-load-languages

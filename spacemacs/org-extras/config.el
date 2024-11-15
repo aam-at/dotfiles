@@ -17,9 +17,6 @@
   "Association list of methods to automatically fetch citations and
   corresponding python scripts.")
 
-(defvar org-enable-calfw nil
-  "If non-nil, calfw and org-calfw (https://github.com/kiwanami/emacs-calfw/) are configured")
-
 (defvar org-enable-gcal nil
   "If non-nil, org-gcal (https://github.com/nicoalphonse/org-gcal) is configured")
 

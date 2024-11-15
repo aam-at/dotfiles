@@ -14,12 +14,6 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst org-extras-packages
   '(
-    (calfw :toggle (and
-                    (spacemacs/system-is-linux)
-                    org-enable-calfw))
-    (calfw-org :toggle (and
-                        (spacemacs/system-is-linux)
-                        org-enable-calfw))
     org-super-agenda
     (org-protocol-capture-html :location (recipe
                                           :fetcher github
@@ -47,28 +41,6 @@
     pdf-tools
     org-pdftools
     org-noter-pdftools))
-
-;; List of packages to exclude.
-(defconst org-extras-excluded-packages '())
-
-;; For each package, define a function org-extras/init-<package-name>
-;;
-;; (defun org-extras/init-my-package ()
-;;   "Initialize my package"
-;;   )
-;;
-;; Often the body of an initialize function uses `use-package'
-;; For more info on `use-package', see readme:
-;; https://github.com/jwiegley/use-package
-(defun org-extras/init-calfw ()
-  :init
-  (spacemacs/set-leader-keys "aC" 'cfw:open-org-calendar)
-  :config
-  (evil-set-initial-state 'cfw:calendar-mode 'emacs))
-
-(defun org-extras/init-calfw-org ()
-  :init
-  (require 'calfw-org))
 
 (defun org-extras/init-org-super-agenda()
   :config (org-super-agenda-mode))

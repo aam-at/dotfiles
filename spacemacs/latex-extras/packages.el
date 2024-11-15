@@ -26,8 +26,7 @@
     (texpresso :location (recipe
                           :fetcher github
                           :repo "let-def/texpresso"
-                          :files ("emacs/*.el")))
-    xenops))
+                          :files ("emacs/*.el")))))
 
 
 (defun latex-extras/init-cdlatex()
@@ -45,17 +44,3 @@
   (require 'texpresso)
   (spacemacs/set-leader-keys-for-major-mode 'latex-mode
     "t" 'texpresso))
-
-(defun latex-extras/init-xenops()
-  (use-package xenops
-    :defer t
-    :hook
-    (latex-mode . (lambda ()
-                    (when (display-graphic-p)
-                      xenops-mode)))
-    (LaTeX-mode . (lambda ()
-                    (when (display-graphic-p)
-                      xenops-mode)))
-    :config
-    (spacemacs|diminish xenops-mode " Ⓧ " "X")
-    (spacemacs|diminish xenops-xen-mode)))
