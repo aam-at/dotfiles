@@ -47,8 +47,8 @@ This function should only modify configuration layer settings."
                          compleseus-use-vertico-posframe t)
              helpful
              (ibuffer :variables ibuffer-group-buffers-by 'projects)
-             multiple-cursors
-             outshine
+             (multiple-cursors :variables
+                               multiple-cursors-backend 'evil-mc)
              selectric
              semantic
              (spell-checking :variables enable-flyspell-auto-completion nil)
@@ -58,7 +58,6 @@ This function should only modify configuration layer settings."
                     shell-default-shell 'vterm
                     shell-default-term-shell "/usr/bin/fish"
                     shell-enable-smart-eshell t)
-             smex
              syntax-checking
              (tabs :variables tabs-auto-hide nil)
              (treemacs :variables treemacs-use-filewatch-mode t)
@@ -68,7 +67,6 @@ This function should only modify configuration layer settings."
                               version-control-diff-tool 'diff-hl)
              ;; More VIM sugar in emacs
              evil-better-jumper
-             evil-commentary
              evil-snipe
              vinegar
              ;; ----------------------------------------------------------------
@@ -100,6 +98,7 @@ This function should only modify configuration layer settings."
                    rustic-format-on-save t)
              emacs-lisp
              (lsp :variables
+                  lsp-lens-enable t
                   lsp-use-upstream-bindings t)
              (python :variables
                      python-backend 'lsp
@@ -108,22 +107,14 @@ This function should only modify configuration layer settings."
                      python-lsp-server 'pylsp
                      python-poetry-activate t
                      python-sort-imports-on-save nil)
-             (typescript :variables
-                         typescript-fmt-on-save t
-                         typescript-fmt-tool 'typescript-formatter
-                         typescript-linter 'tslint)
              ;; Scripting & other languages
-             autohotkey
-             (cmake :variables
-                    cmake-backend 'lsp
-                    cmake-enable-cmake-ide-support t)
              csv
-             gpu
              json
-             protobuf
-             shell-scripts
-             vimscript
-             yaml
+             (shell-scripts :variables
+                            shell-scripts-backend 'lsp
+                            shell-scripts-format-on-save t)
+             (yaml :variables
+                    yaml-enable-lsp t)
              ;; ----------------------------------------------------------------
              ;; Programming tools
              ;; ----------------------------------------------------------------
@@ -133,9 +124,6 @@ This function should only modify configuration layer settings."
                               auto-completion-enable-sort-by-usage t
                               auto-completion-private-snippets-directory "~/dotfiles/spacemacs/snippets")
              dap
-             debug
-             imenu-list
-             ipython-notebook
              parinfer
              ;; ----------------------------------------------------------------
              ;; Writing and note taking
@@ -164,7 +152,7 @@ This function should only modify configuration layer settings."
                   org-enable-remark-support t
                   org-enable-reveal-js-support t
                   org-enable-roam-protocol t
-                  org-enable-roam-ui t
+                  org-enable-roam-ui nil
                   org-enable-sticky-header nil
                   org-enable-transclusion-support t
                   org-enable-trello-support nil
@@ -175,7 +163,6 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              ;; AI layers
              ;; ----------------------------------------------------------------
-             openai
              (llm-client :variables
                          llm-client-enable-gptel t
                          llm-client-enable-ellama t)
@@ -183,14 +170,12 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              ;; Readers
              ;; ----------------------------------------------------------------
-             (dash :variables
-                   dash-docs-docset-newpath "~/.local/share/Zeal/docsets")
              (elfeed :variables
                      elfeed-search-filter "@1-months-ago +unread"
                      elfeed-spacemacs-layout-name "@Elfeed"
                      elfeed-spacemacs-layout-binding "f"
                      elfeed-enable-goodies t
-                     elfeed-enable-web-interface t
+                     elfeed-enable-web-interface nil
                      rmh-elfeed-org-files (list "~/Dropbox/Org/feeds.org")
                      elfeed-goodies/entry-pane-position 'bottom
                      url-queue-timeout 10)
@@ -202,7 +187,6 @@ This function should only modify configuration layer settings."
              ;; Misc tools
              ;; ----------------------------------------------------------------
              all-the-icons
-             chrome
              finance
              (languagetool :variables
                            languagetool-show-error-on-jump t
@@ -213,11 +197,11 @@ This function should only modify configuration layer settings."
              ranger
              rebox
              search-engine
-             twitter
              ;; ----------------------------------------------------------------
              ;; My private layers
              ;; ----------------------------------------------------------------
-             aam
+             (aam :variables
+                  aam-enable-explain-pause-at-startup nil)
              helm-legacy
              writing
              (ai-extras :variables
@@ -232,9 +216,6 @@ This function should only modify configuration layer settings."
            ;; OS-specific layers
            (when (spacemacs/system-is-linux)
              '(
-               cscope
-               fasd
-               gtags
                (mu4e :variables
                      mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e"
                      mu4e-spacemacs-layout-name "@Mu4e"
@@ -250,7 +231,7 @@ This function should only modify configuration layer settings."
                pass
                tmux
                systemd
-               xclipboard))
+               (xclipboard :variables xclipboard-enable-cliphist t)))
            (when (spacemacs/system-is-mswindows)
              '(windows-scripts)))
 
@@ -842,8 +823,6 @@ before packages are loaded."
   (autoload 'my-python-setup "config-python" "Setup python configurations" t)
   (autoload 'my-secure-setup "config-secure" "Setup secure configurations" t)
   (autoload 'my-tex-setup "config-tex" "Setup TeX configurations" t)
-  (autoload 'my-twitter-setup "config-twitter" "Setup twitter configurations" t)
-  (autoload 'my-xwidget-setup "config-xwidget" "Setup xwidget configurations" t)
   ;; load configs
   (my-common-setup)
   (condition-case err
@@ -855,8 +834,6 @@ before packages are loaded."
   (my-python-setup)
   (my-tex-setup)
   (my-bibtex-setup)
-  (my-twitter-setup)
-  (my-xwidget-setup)
   ;; linux specific
   (when (spacemacs/system-is-linux)
     (progn
