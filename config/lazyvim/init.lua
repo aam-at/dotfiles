@@ -30,8 +30,9 @@ LazyVim.on_load("telescope", function(telescope)
 		require("telescope").extensions.bibtex.setup({
 			-- Path to global bibliographies (placed outside of the project)
 			global_files = {
-				"~/Dropbox/Research/Bibliography/refs.bib",
-				"~/Dropbox/Research/Bibliography/myrefs.bib",
+				"~/Google Drive/Research/Bibliography/refs.bib",
+				"~/Google Drive/Research/Bibliography/books.bib",
+				"~/Google Drive/Research/Bibliography/myrefs.bib",
 			},
 			-- Context awareness
 			context = true,
