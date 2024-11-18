@@ -14,6 +14,7 @@
 ;; which require an initialization must be listed explicitly in the list.
 (defconst org-extras-packages
   '(
+    cdlatex
     org-super-agenda
     (org-protocol-capture-html :location (recipe
                                           :fetcher github
@@ -41,6 +42,10 @@
     pdf-tools
     org-pdftools
     org-noter-pdftools))
+
+(defun org-extras/post-init-cdlatex()
+  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+  (spacemacs|diminish org-cdlatex-mode))
 
 (defun org-extras/init-org-super-agenda()
   :config (org-super-agenda-mode))

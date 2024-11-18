@@ -321,10 +321,6 @@ DEADLINE: %^{Deadline}t
   (setq org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
         org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
 
-  ;; cdlatex for org-mode
-  (spacemacs|diminish org-cdlatex-mode)
-  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
-
   (setq org-log-into-drawer "LOGBOOK")
 
   ;; org-roam settings

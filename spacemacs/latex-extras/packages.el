@@ -22,25 +22,50 @@
 
 ;;; Code:
 (defconst latex-extras-packages
-  '(cdlatex
+  '(
+    adaptive-wrap
+    cdlatex
     (texpresso :location (recipe
                           :fetcher github
                           :repo "let-def/texpresso"
                           :files ("emacs/*.el")))))
 
+(defun latex-extras/init-adaptive-wrap()
+  (use-package adaptive-wrap
+    :defer t
+    :hook (LaTeX-mode . adaptive-wrap-prefix-mode)
+    :init (setq-default adaptive-wrap-extra-indent 0)))
 
 (defun latex-extras/init-cdlatex()
   (use-package cdlatex
     :defer t
     :commands cdlatex-mode
     :diminish cdlatex-mode
+    :hook ((LaTeX-mode . cdlatex-mode)
+           (latex-mode . cdlatex-mode))
     :init
-    (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
-    (add-hook 'latex-mode-hook 'turn-on-cdlatex)))
+    ;; Use \( ... \) instead of $ ... $.
+    (setq cdlatex-use-dollar-to-ensure-math nil)
+    ;; based on https://github.com/doomemacs/doomemacs/blob/master/modules/lang/latex/config.el
+    (with-eval-after-load 'cdlatex
+      ;; Smartparens takes care of inserting closing delimiters, and if you
+      ;; don't use smartparens you probably don't want these either.
+      (define-key cdlatex-mode-map (kbd "$") nil)
+      (define-key cdlatex-mode-map (kbd "(") nil)
+      (define-key cdlatex-mode-map (kbd "{") nil)
+      (define-key cdlatex-mode-map (kbd "[") nil)
+      (define-key cdlatex-mode-map (kbd "|") nil)
+      (define-key cdlatex-mode-map (kbd "<") nil)
+      ;; AUCTeX takes care of auto-inserting {} on _^ if you want, with
+      ;; `TeX-electric-sub-and-superscript'.
+      (define-key cdlatex-mode-map (kbd "^") nil)
+      (define-key cdlatex-mode-map (kbd "_") nil))))
+
 
 (defun latex-extras/init-texpresso()
-  :defer t
-  :init
-  (require 'texpresso)
-  (spacemacs/set-leader-keys-for-major-mode 'latex-mode
-    "t" 'texpresso))
+  (use-package texpresso
+    :defer t
+    :init
+    (require 'texpresso)
+    (spacemacs/set-leader-keys-for-major-mode 'latex-mode
+      "t" 'texpresso)))
