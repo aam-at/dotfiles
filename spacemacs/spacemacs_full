@@ -114,7 +114,7 @@ This function should only modify configuration layer settings."
                             shell-scripts-backend 'lsp
                             shell-scripts-format-on-save t)
              (yaml :variables
-                    yaml-enable-lsp t)
+                   yaml-enable-lsp t)
              ;; ----------------------------------------------------------------
              ;; Programming tools
              ;; ----------------------------------------------------------------

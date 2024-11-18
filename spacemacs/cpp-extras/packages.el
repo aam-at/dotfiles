@@ -40,19 +40,6 @@
   (spacemacs/set-leader-keys-for-major-mode 'c++-mode
     "=" 'c-c++/format-region-or-buffer))
 
-(defun c-c++/format-region-or-buffer ()
-  "Indent a region if selected, otherwise the whole buffer."
-  (interactive)
-  (save-excursion
-    (if (region-active-p)
-        (progn
-          (clang-format-region (region-beginning) (region-end))
-          (message "Formatted selected region."))
-      (progn
-        (clang-format-buffer)
-        (message "Formatted buffer.")))
-    (whitespace-cleanup)))
-
 (defun cpp-extras/init-doxymacs ()
   (use-package doxymacs
     :commands doxymacs-mode
