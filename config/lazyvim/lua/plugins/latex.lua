@@ -32,7 +32,10 @@ return {
 		end,
 	},
 	{
-		"let-def/texpresso.vim",
+		"aam-at/texpresso.vim",
+		dependencies = {
+			{ "lervag/vimtex" },
+		},
 		commands = {
 			"TeXpresso",
 		},
