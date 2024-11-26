@@ -65,22 +65,6 @@
 
 ;;;***
 
-;;;### (autoloads nil "config-twitter" "config-twitter.el" (0 0 0
-;;;;;;  0))
-;;; Generated autoloads from config-twitter.el
-
-(autoload 'my-twitter-setup "config-twitter")
-
-;;;***
-
-;;;### (autoloads nil "config-xwidget" "config-xwidget.el" (0 0 0
-;;;;;;  0))
-;;; Generated autoloads from config-xwidget.el
-
-(autoload 'my-xwidget-setup "config-xwidget")
-
-;;;***
-
 ;;; End of scraped data
 
 (provide 'autoloads)
