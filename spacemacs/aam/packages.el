@@ -35,7 +35,8 @@
     company-prescient
     (unicode-math-input :location (recipe
                                    :fetcher github
-                                   :repo "astoff/unicode-math-input.el"))))
+                                   :repo "astoff/unicode-math-input.el"))
+    pretty-hydra))
 
 (defun aam/init-activity-watch-mode()
   :defer t
@@ -192,3 +193,5 @@
     (company-mode . company-prescient-mode)))
 
 (defun aam/init-unicode-math-input ())
+
+(defun aam/init-pretty-hydra())
