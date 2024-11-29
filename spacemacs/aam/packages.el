@@ -29,6 +29,7 @@
     key-seq
     memoize
     nerd-icons
+    popper
     pdf-tools
     prescient
     company-prescient
@@ -152,6 +153,30 @@
 
 (defun aam/post-init-pdf-tools ()
   (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "e" 'aam-extract-pdf-text-from-current-buffer))
+
+(defun aam/init-popper()
+  (use-package popper
+    :defer t
+    :bind (("C-`"   . popper-toggle-latest)
+           ("M-`"   . popper-cycle)
+           ("C-M-`" . popper-toggle-type))
+    :init
+    (setq popper-group-function #'popper-group-by-directory
+          popper-reference-buffers
+          '("\\*Messages\\*"
+            "Output\\*$"
+            "^\\*Python\\*$" inferior-python-mode
+            "\\*Async Shell Command\\*"
+            "^\\*eshell.*\\*$" eshell-mode ;eshell as a popup
+            "^\\*shell.*\\*$"  shell-mode  ;shell as a popup
+            "^\\*term.*\\*$"   term-mode   ;term as a popup
+            "^\\*vterm.*\\*$"  vterm-mode  ;vterm as a popup
+            flycheck-error-list-mode
+            haskell-interactive-mode
+            help-mode
+            compilation-mode))
+    (popper-mode t)
+    (popper-echo-mode t)))
 
 (defun aam/init-prescient ()
   (use-package prescient
