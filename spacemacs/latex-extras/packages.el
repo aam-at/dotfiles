@@ -41,8 +41,8 @@
     :defer t
     :commands cdlatex-mode
     :diminish cdlatex-mode
-    :hook ((LaTeX-mode . cdlatex-mode)
-           (latex-mode . cdlatex-mode))
+    :hook ((plain-TeX-mode . cdlatex-mode)
+           (LaTeX-mode . cdlatex-mode))
     :init
     ;; Use \( ... \) instead of $ ... $.
     (setq cdlatex-use-dollar-to-ensure-math nil)

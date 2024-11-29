@@ -21,6 +21,7 @@
                                           :repo "alphapapa/org-protocol-capture-html"))
     magit-org-todos
     org
+    org-mru-clock
     org-transclusion
     vulpea
     ob-async
@@ -73,6 +74,25 @@
     "Su" 'org-extras/citations-update-at-point)
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images
             'append))
+
+(defun org-extras/init-org-mru-clock()
+  (use-package org-mru-clock
+    :ensure t
+    :after org
+    :init
+    (require 'embark)
+    ;; global keybindings
+    (spacemacs/set-leader-keys
+      "aoCi" 'org-mru-clock-in
+      "aoCg" 'org-mru-clock-goto
+      "aoCs" 'org-mru-clock-select-recent-task)
+    ;; org-mode keybindings
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "Ci" 'org-mru-clock-in
+      "Cg" 'org-mru-clock-goto
+      "Cs" 'org-mru-clock-select-recent-task)
+    (setq org-mru-clock-how-many 100)
+    (add-hook 'minibuffer-setup-hook #'org-mru-clock-embark-minibuffer-hook)))
 
 (defun org-extras/post-init-org-transclusion ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
