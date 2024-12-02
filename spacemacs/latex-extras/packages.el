@@ -24,17 +24,39 @@
 (defconst latex-extras-packages
   '(
     adaptive-wrap
+    auctex-cont-latexmk
+    auctex-label-numbers
     cdlatex
+    preview-auto
     (texpresso :location (recipe
                           :fetcher github
                           :repo "let-def/texpresso"
-                          :files ("emacs/*.el")))))
+                          :files ("emacs/*.el")))
+    (twauctex :location (recipe
+                         :fetcher github
+                         :repo "cgroza/twauctex"))))
 
 (defun latex-extras/init-adaptive-wrap()
   (use-package adaptive-wrap
     :defer t
     :hook (LaTeX-mode . adaptive-wrap-prefix-mode)
     :init (setq-default adaptive-wrap-extra-indent 0)))
+
+(defun latex-extras/init-auctex-cont-latexmk()
+  (use-package auctex-cont-latexmk
+    :defer t
+    :after latex
+    :init
+    (spacemacs/declare-prefix-for-mode 'latex-mode "T" "toggles")
+    (spacemacs/set-leader-keys-for-major-mode 'latex-mode
+      "Tc" 'auctex-cont-latexmk-toggle)))
+
+(defun latex-extras/init-auctex-label-numbers()
+  (use-package auctex-label-numbers
+    :defer t
+    :after latex
+    :hook ((plain-TeX-mode . auctex-label-numbers-mode)
+           (LaTeX-mode . auctex-label-numbers-mode))))
 
 (defun latex-extras/init-cdlatex()
   (use-package cdlatex
@@ -61,6 +83,16 @@
       (define-key cdlatex-mode-map (kbd "^") nil)
       (define-key cdlatex-mode-map (kbd "_") nil))))
 
+(defun latex-extras/init-preview-auto()
+  (use-package preview-auto
+    :defer t
+    :after latex
+    :hook ((plain-TeX-mode . preview-auto-conditionally-enable)
+           (LaTeX-mode . preview-auto-conditionally-enable))
+    :config
+    (setq preview-locating-previews-message nil)
+    (setq preview-protect-point t)
+    (setq preview-leave-open-previews-visible t)))
 
 (defun latex-extras/init-texpresso()
   (use-package texpresso
@@ -69,3 +101,13 @@
     (require 'texpresso)
     (spacemacs/set-leader-keys-for-major-mode 'latex-mode
       "t" 'texpresso)))
+
+(defun latex-extras/init-twauctex()
+  (use-package twauctex
+    :defer t
+    :after latex
+    :diminish twauctex-mode
+    :init
+    ;; interferes with twauctex
+    (remove-hook 'LaTeX-mode-hook #'latex/auto-fill-mode)
+    (twauctex-global-mode)))
