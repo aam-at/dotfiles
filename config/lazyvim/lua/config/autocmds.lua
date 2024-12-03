@@ -31,7 +31,9 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- custom functions
+-- Custom Local Functions
+
+-- Split selected text into one sentence per line
 local function split_to_one_sentence_per_line(opts)
 	local start_line, start_col, end_line, end_col
 
@@ -63,3 +65,57 @@ end
 
 -- Create a Vim command to call the function
 vim.api.nvim_create_user_command("SplitSentences", split_to_one_sentence_per_line, { range = true })
+
+-- Custom Global Functions
+
+-- Function to Run Shell Command
+function RunShellCommand(cmd)
+	local handle, err = io.popen(cmd)
+	if not handle then
+		return false, err
+	end
+
+	local result, read_err = handle:read("*a")
+	local _, close_err = handle:close()
+
+	if read_err or close_err then
+		return false, read_err or close_err
+	end
+
+	result = string.gsub(result, "[\r\n]+$", "")
+	return true, result
+end
+
+-- Function to load and parse a JSON file
+function LoadJSONFile(filepath)
+	-- Expand the path to handle ~
+	filepath = filepath:gsub("~", os.getenv("HOME"))
+	-- Open the file in read mode
+	local file = io.open(filepath, "r")
+
+	-- Check if file exists
+	if not file then
+		print("Error: Could not open file " .. filepath)
+		return nil
+	end
+
+	-- Read the entire file contents
+	local content = file:read("*all")
+	file:close()
+
+	-- Require the vim.json module for parsing
+	local json = vim.json
+
+	-- Parse the JSON content
+	local success, result = pcall(function()
+		return json.decode(content)
+	end)
+
+	-- Check if parsing was successful
+	if not success then
+		print("Error parsing JSON: " .. tostring(result))
+		return nil
+	end
+
+	return result
+end
