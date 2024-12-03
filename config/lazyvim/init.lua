@@ -1,21 +1,3 @@
--- my custom commands
-function RunShellCommand(cmd)
-	local handle, err = io.popen(cmd)
-	if not handle then
-		return false, err
-	end
-
-	local result, read_err = handle:read("*a")
-	local _, close_err = handle:close()
-
-	if read_err or close_err then
-		return false, read_err or close_err
-	end
-
-	result = string.gsub(result, "[\r\n]+$", "")
-	return true, result
-end
-
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
 
