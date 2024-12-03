@@ -102,7 +102,7 @@ install_packages \
     libsqlite3-dev libssl-dev libssl-dev libsystemd-dev libtiff-dev \
     libtree-sitter-dev libvterm-dev libwebkit2gtk-4.1-dev libxapian-dev \
     libxcb-composite0-dev libxcb-xfixes0-dev libxcursor-dev libxi-dev \
-    libxkbcommon-dev libxmu-dev libxpm-dev llvm make mc meson mosh ncdu \
+    libxkbcommon-dev libxmu-dev libxpm-dev llvm lynx make mc meson mosh ncdu \
     net-tools nnn openconnect openssh-server p7zip-full p7zip-rar pandoc \
     parallel pass pdfgrep pdfpc peco pipx pkg-config pkg-config plocate postfix \
     powertop protobuf-compiler pydf python-dev-is-python3 python3 \
