@@ -23,7 +23,6 @@
     org
     org-mru-clock
     org-transclusion
-    vulpea
     ob-async
     (org-gcal :toggle org-enable-gcal
               :location (recipe
@@ -97,24 +96,6 @@
 (defun org-extras/post-init-org-transclusion ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "uf" #'org-extras/convert-org-id-link-to-file-link))
-
-(defun org-extras/init-vulpea()
-  (use-package vulpea
-    :after org-roam
-    :hook ((org-roam-db-autosync-mode . vulpea-db-autosync-enable))
-    :init
-    (spacemacs/set-leader-keys
-      "aorf" 'vulpea-find
-      "aorF" 'org-roam-node-find
-      "aori" 'vulpea-insert
-      "aorI" 'org-roam-node-insert
-      "aorb" 'vulpea-find-backlink)
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "rf" 'vulpea-find
-      "rF" 'org-roam-node-find
-      "ri" 'vulpea-insert
-      "rI" 'org-roam-node-insert
-      "rb" 'vulpea-find-backlink)))
 
 (defun org-extras/init-ob-async ()
   :defer t

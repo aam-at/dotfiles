@@ -152,6 +152,7 @@ This function should only modify configuration layer settings."
                   org-enable-remark-support t
                   org-enable-reveal-js-support t
                   org-enable-roam-protocol t
+                  org-enable-roam-support t
                   org-enable-roam-ui nil
                   org-enable-sticky-header nil
                   org-enable-transclusion-support t
@@ -209,7 +210,7 @@ This function should only modify configuration layer settings."
                         ai-extras-autostart-gptcommit-mode t)
              (org-extras :variables
                          org-enable-delve t)
-             org-roam
+             org-roam-extras
              latex-extras
              python-extras
              cpp-extras)
