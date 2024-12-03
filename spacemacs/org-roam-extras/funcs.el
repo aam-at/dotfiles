@@ -1,4 +1,4 @@
-(defun org-roam/org-hide-properties ()
+(defun org-roam-extras/org-hide-properties ()
   "Hide all org-mode headline property drawers in buffer. Could be slow if it has a lot of overlays."
   (interactive)
   (save-excursion
@@ -10,20 +10,20 @@
       (overlay-put ov_this 'hidden-prop-drawer t)))
   (put 'org-toggle-properties-hide-state 'state 'hidden))
 
-(defun org-roam/org-show-properties ()
+(defun org-roam-extras/org-show-properties ()
   "Show all org-mode property drawers hidden by org-hide-properties."
   (interactive)
   (remove-overlays (point-min) (point-max) 'hidden-prop-drawer t)
   (put 'org-toggle-properties-hide-state 'state 'shown))
 
-(defun org-roam/org-toggle-properties ()
+(defun org-roam-extras/org-toggle-properties ()
   "Toggle visibility of property drawers."
   (interactive)
   (if (eq (get 'org-toggle-properties-hide-state 'state) 'hidden)
-      (org-roam/org-show-properties)
-    (org-roam/org-hide-properties)))
+      (org-roam-extras/org-show-properties)
+    (org-roam-extras/org-hide-properties)))
 
-(defun org-roam/org-orphan-nodes-by-id ()
+(defun org-roam-extras/org-orphan-nodes-by-id ()
   "Return a list of all orphan nodes in `org-roam`."
   (org-roam-db-query "SELECT
 id, title
@@ -35,10 +35,10 @@ WHERE id NOT IN (
                   WHERE l.type LIKE '%%id%%'
                   )"))
 
-(defun org-roam/org-insert-orphan-nodes ()
+(defun org-roam-extras/org-insert-orphan-nodes ()
   "Insert all orphan nodes in `org-roam' in the current buffer."
   (interactive)
-  (let* ((orphans (org-roam/org-orphan-nodes-by-id)))
+  (let* ((orphans (org-roam-extras/org-orphan-nodes-by-id)))
     (dolist (orphan orphans)
       (let ((id (car orphan))
             (title (cadr orphan)))
