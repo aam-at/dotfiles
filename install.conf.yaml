@@ -4,8 +4,14 @@
     - [env > ~/.bash_env, Environment variables]
     - [cd bash/bashmarks && make install, Install bashmarks]
     - [mkdir -p ~/.local/bin && ln -frs scripts/* ~/.local/bin/, Link scripts]
-    - [curl -sfL https://direnv.net/install.sh | bin_path=~/.local/bin bash, Install direnv]
-    - [tic -x -o ~/.terminfo general/xterm/xterm-24bit.terminfo, Configure Truecolor]
+    - [
+        curl -sfL https://direnv.net/install.sh | bin_path=~/.local/bin bash,
+        Install direnv,
+      ]
+    - [
+        tic -x -o ~/.terminfo general/xterm/xterm-24bit.terminfo,
+        Configure Truecolor,
+      ]
 - link:
     ~/.ssh/config: config/ssh/config
     ~/.davmail.properties: config/davmail.properties
@@ -20,9 +26,9 @@
     ~/.config/btop: config/btop
     ~/.config/catppuccin: config/catppuccin
     ~/.config/Code/User/:
-        create: true
-        glob: true
-        path: config/code/*
+      create: true
+      glob: true
+      path: config/code/*
     ~/.config/fish: config/fish
     ~/.config/git: config/git
     ~/.config/gitui: config/gitui
@@ -41,26 +47,29 @@
     ~/.config/zellij: config/zellij
     ~/.notmuch-config: config/notmuch/config
     ~/.config/pudb/pudb.cfg:
-        create: true
-        path: config/python/pudb.cfg
+      create: true
+      path: config/python/pudb.cfg
     ~/.config/systemd/user:
-        create: true
-        path: config/systemd
+      create: true
+      path: config/systemd
     ~/.config/zathura:
-        create: true
-        path: config/zathura
+      create: true
+      path: config/zathura
     ~/.authinfo.gpg: ../Dropbox/Software/authinfo.gpg
     ~/.twittering-mode.gpg: ../Dropbox/Software/emacs/twittering-mode.gpg
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
     ~/.screenrc: screen/screenrc
     ~/.ideavimrc: idea/ideavimrc
     ~/.spacemacs.d/init.el:
-        create: true
-        path: spacemacs/spacemacs_full
+      create: true
+      path: spacemacs/spacemacs_full
     ~/.spacemacs.d/config: spacemacs/config
     ~/.spacemacs_writing.d/init.el:
-        create: true
-        path: spacemacs/spacemacs_writing
+      create: true
+      path: spacemacs/spacemacs_writing
+    ~/.spacemacs_basic.d/init.el:
+      create: true
+      path: spacemacs/spacemacs_basic
     ~/.spacemacs_writing.d/config: spacemacs/config
     ~/.emacs.d/.cache/bookmarks: ../Dropbox/Software/emacs/bookmarks
     ~/.emacs.d/.cache/.org-id-locations: ../Dropbox/Software/emacs/org-id-locations
@@ -83,5 +92,5 @@
     ~/.xbindkeysrc: general/x/xbindkeysrc
     ~/.latexmkrc: general/latexmkrc
     ~/.local/share/applications/:
-        path: general/applications/*
-        glob: true
+      path: general/applications/*
+      glob: true
