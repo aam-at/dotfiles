@@ -158,7 +158,7 @@
 (defun aam/init-popper()
   (use-package popper
     :defer t
-    :bind (("C-`"   . popper-toggle-latest)
+    :bind (("C-`"   . popper-toggle)
            ("M-`"   . popper-cycle)
            ("C-M-`" . popper-toggle-type))
     :init
