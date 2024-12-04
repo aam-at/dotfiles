@@ -22,7 +22,7 @@ return {
 		opts = function()
 			local user = vim.env.USER or "User"
 			user = user:sub(1, 1):upper() .. user:sub(2)
-			return {
+			local opts = {
 				model = "gpt-4o",
 				auto_insert_mode = true,
 				show_help = true,
@@ -36,6 +36,17 @@ return {
 					return select.visual(source) or select.buffer(source)
 				end,
 			}
+			-- load prompts from a json file
+			local prompts_data = LoadJSONFile("~/Dropbox/Org/data/prompts/prompts.json")
+			-- convert the json data to a list of prompts
+			local prompts_list = {}
+			for key, value in pairs(prompts_data) do
+				prompts_list[key] = {
+					system_prompt = value,
+				}
+			end
+			opts.prompts = prompts_list
+			return opts
 		end,
 		keys = {
 			{ "<c-s>", "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
