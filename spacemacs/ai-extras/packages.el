@@ -76,8 +76,49 @@
       (interactive)
       (bury-buffer)
       (delete-window))
+    (spacemacs/declare-prefix "$c" "Copilot-Chat")
+    ;; General Chat Management
     (spacemacs/set-leader-keys
-      "$c" 'copilot-chat-display)
+      "$cc" 'copilot-chat-switch-to-buffer        ; Switch to chat buffer
+      "$cr" 'copilot-chat-reset                   ; Reset chat state
+      "$cd" 'copilot-chat-display                 ; Display chat buffer
+      "$cM" 'ai-extras/select-copilot-chat-model) ; Set model for suggestions
+    ;; Code Explanation
+    (spacemacs/declare-prefix "$ce" "Code Explanation")
+    (spacemacs/set-leader-keys
+      "$cee" 'copilot-chat-explain                 ; Explain selection
+      "$ceE" 'copilot-chat-explain-defun           ; Explain entire function
+      "$ces" 'copilot-chat-explain-symbol-at-line) ; Explain symbol at line
+    ;; Code Improvement
+    (spacemacs/declare-prefix "$ci" "Code Improvement")
+    (spacemacs/set-leader-keys
+      "$cid" 'copilot-chat-doc                     ; Generate documentation
+      "$cif" 'copilot-chat-fix                     ; Fix code
+      "$cio" 'copilot-chat-optimize                ; Optimize code
+      "$cit" 'copilot-chat-test                   ; Test suggestions
+      "$cir" 'copilot-chat-review                  ; Review selection
+      "$cib" 'copilot-chat-review-whole-buffer)    ; Review whole buffer
+    ;; Buffer Management
+    (spacemacs/declare-prefix "$cb" "Buffer Management")
+    (spacemacs/set-leader-keys
+      "$cba" 'copilot-chat-add-current-buffer      ; Add current buffer to chat
+      "$cbx" 'copilot-chat-del-current-buffer      ; Delete buffer from chat
+      "$cbl" 'copilot-chat-list)                   ; List managed buffers
+    ;; Custom Prompts
+    (spacemacs/declare-prefix "$cp" "Custom Prompts")
+    (spacemacs/set-leader-keys
+      "$cpp" 'copilot-chat-custom-prompt-selection ; Custom prompt selection
+      "$cpf" 'copilot-chat-custom-prompt-function  ; Custom prompt function
+      "$cpi" 'copilot-chat-ask-and-insert)         ; Insert prompt response
+    ;; Commit Management
+    (spacemacs/declare-prefix "$cm" "Commit Management")
+    (spacemacs/set-leader-keys
+      "$cmi" 'copilot-chat-insert-commit-message)   ; Generate commit message
+    ;; History Navigation
+    (spacemacs/declare-prefix "$ch" "History Navigation")
+    (spacemacs/set-leader-keys
+      "$chp" 'copilot-chat-prompt-history-previous ; Previous history
+      "$chn" 'copilot-chat-prompt-history-next)    ; Next history
     (dolist (mode '(copilot-chat-mode copilot-chat-shell-shell-mode))
       (spacemacs/set-leader-keys-for-major-mode mode
         "l" 'copilot-chat-prompt-split-and-list
