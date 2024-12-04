@@ -42,6 +42,8 @@
           ("NEXT" . (:foreground "#4169e1" :weight bold))
           ("DONE" . (:foreground "#32cd32" :weight bold))
           ("FAILED" . (:foreground "#ff0000" :weight bold :strike-through t))))
+  (setq org-format-latex-options
+        (plist-put org-format-latex-options :scale 2.0))
   ;; org-modern
   (setq org-modern-table nil)
   (setq org-modern-priority
