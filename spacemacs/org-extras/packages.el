@@ -21,6 +21,7 @@
                                           :repo "alphapapa/org-protocol-capture-html"))
     magit-org-todos
     org
+    org-doing
     org-mru-clock
     org-transclusion
     ob-async
@@ -73,6 +74,9 @@
     "Su" 'org-extras/citations-update-at-point)
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images
             'append))
+
+(defun org-extras/init-org-doing()
+  (use-package org-doing :defer t))
 
 (defun org-extras/init-org-mru-clock()
   (use-package org-mru-clock
