@@ -20,5 +20,8 @@
 (defvar org-enable-gcal nil
   "If non-nil, org-gcal (https://github.com/nicoalphonse/org-gcal) is configured")
 
+(defvar org-enable-doing-notifier nil
+  "If non-nil, org-doing-notifier is enabled")
+
 (defvar org-enable-delve nil
   "If non-nil, delve (https://github.com/publicimageltd/delve) is configured")

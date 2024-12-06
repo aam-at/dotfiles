@@ -209,7 +209,8 @@ This function should only modify configuration layer settings."
              (ai-extras :variables
                         ai-extras-autostart-gptcommit-mode t)
              (org-extras :variables
-                         org-enable-delve t)
+                         org-enable-delve t
+                         org-enable-doing-notifier t)
              org-roam-extras
              latex-extras
              python-extras
