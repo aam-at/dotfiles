@@ -1,4 +1,4 @@
-;; This file configures email for use.
+;; This file configures org-mode for use.
 
 ;;;###autoload
 (defun my-org-setup ()

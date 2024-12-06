@@ -22,6 +22,7 @@
     magit-org-todos
     org
     org-doing
+    (org-doing-notifier :location local)
     org-mru-clock
     org-transclusion
     ob-async
@@ -77,6 +78,13 @@
 
 (defun org-extras/init-org-doing()
   (use-package org-doing :defer t))
+
+(defun org-extras/init-org-doing-notifier ()
+  (use-package org-doing-notifier
+    :defer t
+    :commands (org-doing-notifier-start org-doing-notifier-stop org-doing-notifier-toggle)
+    :init
+    (org-doing-notifier-start)))
 
 (defun org-extras/init-org-mru-clock()
   (use-package org-mru-clock
