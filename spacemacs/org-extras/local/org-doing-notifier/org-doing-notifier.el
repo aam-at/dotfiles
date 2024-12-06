@@ -39,8 +39,7 @@
   (condition-case err
       (let ((output (string-trim (shell-command-to-string org-doing-notifier-command))))
         (unless (string-empty-p output)
-          (org-doing output)
-          (org-doing-log output)))
+          (org-doing output)))
     (error
      (message "Error in org-doing-notifier: %s" err)
      (org-doing-notifier-stop))))
