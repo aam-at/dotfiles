@@ -22,7 +22,8 @@
     magit-org-todos
     org
     org-doing
-    (org-doing-notifier :location local)
+    (org-doing-notifier :toggle org-enable-doing-notifier
+                        :location local)
     org-mru-clock
     org-transclusion
     ob-async
