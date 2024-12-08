@@ -149,6 +149,9 @@
     :bind (:map esi-dictate-mode-map
                 ("C-g" . esi-dictate-stop))
     :hook (esi-dictate-speech-final . esi-dictate-fix-context)
+    :init
+    (spacemacs/set-leader-keys
+      "$d"' esi-dictate-start)
     :config
     (setq llm-warn-on-nonfree nil)))
 
