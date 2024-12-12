@@ -276,6 +276,10 @@ DEADLINE: %^{Deadline}t
            "* %a :website:\n\n%U %?\n\n%:initial")
           ;; Snippets
           ("s" "Snippets")
+          ("sg" "Gratitude journal" plain
+           (function org-journal-find-location)
+           (file ,(aam/org-path "templates/gratitude_pages.org"))
+           :jump-to-captured t)
           ("sm" "Morning Pages Note" plain
            (function org-journal-find-location)
            (file ,(aam/org-path "templates/morning_pages.org"))
