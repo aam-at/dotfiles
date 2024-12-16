@@ -1,4 +1,96 @@
 ;; This file configures org-mode for use.
+(setq org-rating-guide (aam/org-path "templates/rating_guide.org"))
+
+(defvar org-rating-guide-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "q") #'kill-this-buffer)
+    map)
+  "Keymap for `rating-guide-mode`.")
+
+(define-derived-mode org-rating-guide-mode special-mode "Rating Guide"
+  "A special mode for displaying the rating guide."
+  (use-local-map org-rating-guide-mode-map))
+
+(defun org-show-rating-guide ()
+  "Display the `org-rating-guide` in a split window, or switch to it if it already exists, ensuring visibility."
+  (interactive)
+  (let ((buffer-name "*Rating Guide*"))
+    (if-let ((existing-buffer (get-buffer buffer-name)))
+        ;; If the buffer exists, ensure it is displayed
+        (display-buffer existing-buffer '(display-buffer-same-window))
+      ;; Otherwise, create the buffer and display the rating guide
+      (with-current-buffer (get-buffer-create buffer-name)
+        (erase-buffer)
+        (insert-file-contents org-rating-guide)
+        (org-rating-guide-mode))) ;; Activate the custom mode
+    ;; Always display the buffer in a visible window
+    (display-buffer buffer-name '((display-buffer-pop-up-window display-buffer-same-window)))))
+
+(defun org-daily-journal-find-location ()
+  "Open today's daily journal file for use with `org-capture`.
+This function ensures the journal entry is opened or created if it does not exist.
+It also inhibits inserting the heading since `org-capture` will handle that.
+If the journal is not daily, it narrows the buffer to the current subtree.
+
+Finally, the cursor is placed at the end of the buffer, ready for editing."
+  (interactive)
+  ;; Open today's journal entry, suppressing the automatic heading insertion
+  (org-journal-new-entry t)
+  ;; If the journal type is not daily, narrow to the subtree for better focus
+  (unless (eq org-journal-file-type 'daily)
+    (org-narrow-to-subtree))
+  ;; Move the cursor to the end of the buffer
+  (goto-char (point-max)))
+
+(defun org-weekly-journal-file ()
+  "Return path to current week's journal file (format: YYYYWNN.org).
+Uses `aam/org-path` to locate the journal/ directory."
+  (let* ((week-file-name (format-time-string "%YW%V.org")) ;; ISO week format
+         (journal-path (aam/org-path "journal/")) ;; Base directory
+         (full-file-path (expand-file-name week-file-name journal-path))) ;; Complete path
+    full-file-path))
+
+(defun org-weekly-journal-find-location ()
+  "Open or create this week's journal file based on the current ISO week number.
+The file is named using the format `<Year>W<Week>.org` (e.g., `2023W42.org`)
+and stored in the `journal/` directory under the path returned by `aam/org-path`.
+
+This function is intended for use with `org-capture` workflows."
+  (interactive)
+  (let* ((full-file-path (org-weekly-journal-file))) ;; Complete path
+    ;; Create the file with a default structure if it does not exist
+    (unless (file-exists-p full-file-path)
+      (with-temp-file full-file-path
+        (insert "#+TODO: TODO(t) NEXT(n) | DONE(d) FAILED(f)\n")
+        (insert (format-time-string "#+TITLE: Week %V, %Y\n\n"))))
+    ;; Open the file and move to the end
+    (find-file full-file-path)
+    (goto-char (point-max))))
+
+(defun org-monthly-journal-file ()
+  "Return path to current month's journal file (format: YYYYMM.org).
+Uses `aam/org-path` to locate the journal/ directory."
+  (let* ((month-file-name (format-time-string "%YM%m.org")) ;; File name format
+         (journal-path (aam/org-path "journal/")) ;; Base directory
+         (full-file-path (expand-file-name month-file-name journal-path))) ;; Complete path
+    full-file-path))
+
+(defun org-monthly-journal-find-location ()
+  "Open or create this month's journal file based on the current year and month.
+The file is named using the format `<Year>M<Month>.org` (e.g., `2024M1.org`)
+and stored in the `journal/` directory under the path returned by `aam/org-path`.
+
+This function is intended for use with `org-capture` workflows."
+  (interactive)
+  (let* ((full-file-path (org-monthly-journal-file))) ;; Complete path
+    ;; Create the file with a default structure if it does not exist
+    (unless (file-exists-p full-file-path)
+      (with-temp-file full-file-path
+        (insert "#+TODO: TODO(t) NEXT(n) | DONE(d) FAILED(f)\n")
+        (insert (format-time-string "#+TITLE: %B, %Y\n\n"))))
+    ;; Open the file and move to the end
+    (find-file full-file-path)
+    (goto-char (point-max))))
 
 ;;;###autoload
 (defun my-org-setup ()
@@ -183,14 +275,6 @@
   (org-clock-persistence-insinuate)
 
   ;; org capture settings
-  (defun org-journal-find-location ()
-    ;; Open today's journal, but specify a non-nil prefix argument in order to
-    ;; inhibit inserting the heading; org-capture will insert the heading.
-    (org-journal-new-entry t)
-    (unless (eq org-journal-file-type 'daily)
-      (org-narrow-to-subtree))
-    (goto-char (point-max)))
-
   (defun aam/org-capture-note-filepath (&optional with-date)
     "Return path to note with datetime prefix or without it"
     (funcall (-partial 'org-extras/roam-get-filepath-for-title
@@ -203,6 +287,10 @@
     "Return path to structured note"
     (funcall (-partial 'org-extras/roam-get-filepath-for-title
                        (aam/org-path "projects"))))
+  (defun aam/org-capture-area-filepath ()
+    "Return path to structured note"
+    (funcall (-partial 'org-extras/roam-get-filepath-for-title
+                       (aam/org-path "areas"))))
   (defun aam/org-capture-org-roam-link (file)
     (let ((node (with-current-buffer
                     (get-file-buffer file)
@@ -255,7 +343,7 @@ DEADLINE: %^{Deadline}t
            (file ,aam/org-inbox)
            "* TODO [#A] Reply: %a :@home:@work:"
            :immediate-finish t)
-          ("j" "Journal entry" plain (function org-journal-find-location)
+          ("j" "Journal entry" plain (function org-daily-journal-find-location)
            "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
            :jump-to-captured t :immediate-finish t)
           ("l" "Web link" entry (file ,aam/org-inbox)
@@ -276,18 +364,29 @@ DEADLINE: %^{Deadline}t
            "* %a :website:\n\n%U %?\n\n%:initial")
           ;; Snippets
           ("s" "Snippets")
+          ;; Snippets for journaling
           ("sg" "Gratitude journal" plain
-           (function org-journal-find-location)
+           (function org-daily-journal-find-location)
            (file ,(aam/org-path "templates/gratitude_pages.org"))
            :jump-to-captured t)
           ("sm" "Morning Pages Note" plain
-           (function org-journal-find-location)
+           (function org-daily-journal-find-location)
            (file ,(aam/org-path "templates/morning_pages.org"))
            :jump-to-captured t)
-          ("sr" "Daily Review Note" plain
-           (function org-journal-find-location)
-           (file ,(aam/org-path "templates/daily_review.org"))
+          ;; Snippets for planning and reviewing
+          ("sd" "Daily Review" plain
+           (function org-daily-journal-find-location)
+           (file ,(aam/org-path "templates/morning_pages.org"))
            :jump-to-captured t)
+          ("sw" "Weekly Plan" plain
+           (function org-weekly-journal-find-location)
+           (file ,(aam/org-path "templates/weekly_plan.org"))
+           :jump-to-captured t)
+          ("sW" "Weekly Review" plain
+           (function org-weekly-journal-find-location)
+           (file ,(aam/org-path "templates/weekly_review.org"))
+           :jump-to-captured t)
+          ;; Snippets for zettelkasten and PARA
           ("sn" "Simple (Atomic) Note" plain
            (file aam/org-capture-note-filepath-with-date)
            (file ,(aam/org-path "templates/note.org"))
@@ -296,6 +395,12 @@ DEADLINE: %^{Deadline}t
           ("sN" "Named (Structured) Note" plain
            (file aam/org-capture-note-filepath)
            (file ,(aam/org-path "templates/note.org"))
+           :hook aam/org-roam-capture-finalize
+           :jump-to-captured t)
+          ;; PARA projects and areas
+          ("sa" "Area" plain
+           (file aam/org-capture-area-filepath)
+           (file ,(aam/org-path "templates/area.org"))
            :hook aam/org-roam-capture-finalize
            :jump-to-captured t)
           ("sp" "Project" plain
