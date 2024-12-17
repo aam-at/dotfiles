@@ -52,7 +52,7 @@
 
   ;; basic programming settings
   (defun my-prog-settings()
-    (spacemacs/toggle-fill-column-indicator-on)
+    (spacemacs/toggle-display-fill-column-indicator-on)
     (spacemacs/toggle-relative-line-numbers-on)
     (face-remap-add-relative 'default '(:family "JetBrains Mono")))
   (add-hook 'prog-mode-hook 'my-prog-settings)
