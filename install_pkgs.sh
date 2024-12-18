@@ -286,6 +286,13 @@ if $INSTALL_RUST; then
 
     if $GUI; then
         cargo install --git https://github.com/neovide/neovide
+        if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+            echo "Installing xremap for Wayland..."
+            cargo install xremap --features gnome
+        elif [ "$XDG_SESSION_TYPE" = "x11" ]; then
+            echo "Installing xremap for X11..."
+            cargo install xremap --features x11
+        fi
     fi
 
 	  rustup component add rustfmt
