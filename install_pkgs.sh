@@ -293,6 +293,9 @@ if $INSTALL_RUST; then
             echo "Installing xremap for X11..."
             cargo install xremap --features x11
         fi
+        # configure xremap to use without sudo
+        sudo gpasswd -a $USER input
+        echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/input.rules
     fi
 
 	  rustup component add rustfmt

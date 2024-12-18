@@ -42,6 +42,7 @@
     ~/.config/redshift.conf: config/redshift.conf
     ~/.config/tmux: config/tmux
     ~/.config/wezterm: config/wezterm
+    ~/.config/xremap: config/xremap
     ~/.config/yazi: config/yazi
     ~/.config/zed: config/zed
     ~/.config/zellij: config/zellij
