@@ -148,7 +148,7 @@ if $GUI; then
 		    install_packages \
             chrome-gnome-shell gnome-shell-extensions \
             network-manager-openconnect network-manager-openconnect-gnome \
-            xbindkeys zathura zathura-djvu zathura-pdf-poppler
+            zathura zathura-djvu zathura-pdf-poppler
 	  fi
 
 	  # Install Ruby gems
