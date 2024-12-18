@@ -146,9 +146,9 @@ if $GUI; then
 
 	  if ! $WSL; then
 		    install_packages \
-			      chrome-gnome-shell network-manager-openconnect \
-			      network-manager-openconnect-gnome xbindkeys \
-			      zathura zathura-djvu zathura-pdf-poppler
+            chrome-gnome-shell gnome-shell-extensions \
+            network-manager-openconnect network-manager-openconnect-gnome \
+            xbindkeys zathura zathura-djvu zathura-pdf-poppler
 	  fi
 
 	  # Install Ruby gems
