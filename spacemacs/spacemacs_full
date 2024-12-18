@@ -786,6 +786,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (if (functionp 'json-serialize)
       (message "Native JSON is available")
     (warn "Native JSON is *not* available"))
+  ;; increase lisp nesting
+  (setq max-lisp-eval-depth 10000)
+  ;; FIX: inhibit x resources to avoid issues with X11 for emacs 30.0.92
+  (setq inhibit-x-resources t)
   ;; open true file when opening any new file
   (setq find-file-visit-truename t)
   ;; configure org before anything
