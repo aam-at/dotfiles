@@ -3,7 +3,7 @@ atom/
 /nvim/.cache
 /nvim/.netrwhist
 *.pyo
-/config/systemd/*
+/config/systemd/*target.wants/*
 **/__pycache__/*
 /config/fish/functions/fish_prompt.fish
 /config/fish/functions/fish_user_key_bindings.fish
