@@ -376,7 +376,7 @@ DEADLINE: %^{Deadline}t
           ;; Snippets for planning and reviewing
           ("sd" "Daily Review" plain
            (function org-daily-journal-find-location)
-           (file ,(aam/org-path "templates/morning_pages.org"))
+           (file ,(aam/org-path "templates/daily_review.org"))
            :jump-to-captured t)
           ("sw" "Weekly Plan" plain
            (function org-weekly-journal-find-location)
