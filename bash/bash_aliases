@@ -33,6 +33,25 @@ function aichat() {
 }
 
 # install fonts
+
+function get_font_dir() {
+    # Determine the base font directory based on the OS
+    local subdirectory=$1
+    if [ "$(uname)" = "Darwin" ]; then
+        # macOS
+        base_font_dir="$HOME/Library/Fonts"
+    else
+        # Linux
+        base_font_dir="$HOME/.local/share/fonts"
+    fi
+    if [ -n "$subdirectory" ]; then
+        font_dir="$base_font_dir/$subdirectory"
+    else
+        font_dir="$base_font_dir"
+    fi
+    echo $font_dir
+}
+
 function install_fonts() {
     local source_dir="$1"
     local prefix="$2"
@@ -44,21 +63,8 @@ function install_fonts() {
         return 1
     fi
 
-    # Determine the base font directory based on the OS
-    if [ "$(uname)" = "Darwin" ]; then
-        # macOS
-        base_font_dir="$HOME/Library/Fonts"
-    else
-        # Linux
-        base_font_dir="$HOME/.local/share/fonts"
-    fi
-
     # Set the target font directory
-    if [ -n "$subdirectory" ]; then
-        font_dir="$base_font_dir/$subdirectory"
-    else
-        font_dir="$base_font_dir"
-    fi
+    font_dir=$(get_font_dir $subdirectory)
 
     # Create the target directory if it doesn't exist
     mkdir -p "$font_dir"
