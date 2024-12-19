@@ -95,7 +95,7 @@
   ;; basic text settings
   (defun my-text-settings()
     (visual-line-mode)
-    (face-remap-add-relative 'default '(:family "iA Writer Mono V")))
+    (face-remap-add-relative 'default '(:family "iA Writer Mono S")))
   (add-hook 'text-mode-hook 'my-text-settings)
   (spacemacs/set-leader-keys "C-t l" 'visual-line-mode)
 
