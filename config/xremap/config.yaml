@@ -1,9 +1,5 @@
 modmap:
   - name: Default
-    application:
-      not:
-        - Microsoft-edge
-        - Google-chrome
     remap:
       CapsLock: Esc
       Esc: CapsLock
