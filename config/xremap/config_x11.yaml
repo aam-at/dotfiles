@@ -7,4 +7,4 @@ keymap:
   - name: Popup Terminal
     remap:
       F12:
-        launch: ["bash", "-c", "~/dotfiles/scripts/popup_terminal.sh"]
+        launch: ["bash", "-c", "~/dotfiles/scripts/popup_terminal_x11.sh"]
