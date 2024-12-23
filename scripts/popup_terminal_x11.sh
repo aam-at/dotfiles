@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 
-# Dropdown Terminal Script using tdrop
+# Dropdown Terminal Script using tdrop for X11
 
 # Check if tdrop is installed
-if ! command -v tdrop &> /dev/null; then
+if ! command -v tdrop &>/dev/null; then
     echo "tdrop could not be found. Please install tdrop (https://github.com/noctuid/tdrop)."
     exit 1
 fi
 
 # Check if wmctrl is installed
-if ! command -v wmctrl &> /dev/null; then
+if ! command -v wmctrl &>/dev/null; then
     echo "wmctrl could not be found. Please install wmctrl."
     exit 1
 fi
 
 # Check if kitty is installed
-if ! command -v kitty &> /dev/null; then
+if ! command -v kitty &>/dev/null; then
     echo "kitty could not be found. Please install kitty."
     exit 1
 fi
@@ -25,12 +25,14 @@ WIDTH="100%"
 HEIGHT="50%"
 
 # Parse command-line arguments for custom width and height
-while getopts w:h: flag
-do
+while getopts w:h: flag; do
     case "${flag}" in
-        w) WIDTH=${OPTARG};;
-        h) HEIGHT=${OPTARG};;
-        *) echo "Usage: $0 [-w width] [-h height]"; exit 1;;
+        w) WIDTH=${OPTARG} ;;
+        h) HEIGHT=${OPTARG} ;;
+        *)
+            echo "Usage: $0 [-w width] [-h height]"
+            exit 1
+            ;;
     esac
 done
 
