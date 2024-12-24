@@ -25,11 +25,7 @@
 (defconst ai-extras-packages
   '(
     shell-maker
-    (copilot :requires company
-             :location (recipe
-                        :fetcher github
-                        :repo "zerolfx/copilot.el"
-                        :files ("*.el" "dist")))
+    (copilot :requires company)
     (copilot-chat :requires company
                   :location (recipe
                              :fetcher github
