@@ -149,6 +149,7 @@ This function is intended for use with `org-capture` workflows."
           ("FAILED" . (:background "#ff0000" :foreground "#ffffff" :weight bold :strike-through t))))
   ;; agenda settings
   (setq org-agenda-files (list (aam/org-path "inbox.org")
+                               (aam/org-path "habits.org")
                                (aam/org-path "someday.org")
                                (aam/org-path "work.org")
                                (aam/org-path "personal.org")
