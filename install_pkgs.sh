@@ -281,7 +281,7 @@ if $INSTALL_RUST; then
   echo "Installing Rust and cargo packages..."
   source "$HOME/.cargo/env"
   cargo install --locked \
-    aichat argc atuin bottom cargo-edit cargo-outdated eza gitui gping \
+    aichat argc atuin bottom broot cargo-edit cargo-outdated eza gitui gping \
     lsd ouch sd tealdeer texlab viu yazi-cli yazi-fm
 
   if $GUI; then
