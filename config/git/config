@@ -3,7 +3,7 @@
     path = themes.gitconfig
     path = ~/dotfiles/config/catppuccin/delta/catppuccin.gitconfig
 [core]
-    editor = /usr/bin/vim
+    editor = /usr/bin/nvim
     filemode = false
     autocrlf = input
     pager = delta
