@@ -92,8 +92,6 @@ fi
 if [ -f $HOME/.env ]; then
   if [ -z "${PATH_INIT+x}" ]; then
     . $HOME/.env
-    # avoid reloading of environement variables
-    export PATH_INIT=1
   fi
 fi
 
@@ -303,11 +301,17 @@ fi
 
 # configure pyenv
 if [ -d $HOME/.pyenv ]; then
-  export PYENV_ROOT="$HOME/.pyenv"
-  command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init -)"
-  export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-  eval "$(pyenv virtualenv-init -)"
+  if [ -z "${PYENV_INIT+x}" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+    export PYENV_INIT=1
+  fi
+  if [ -z "${PYENV_VIRTUALENV_INIT+x}" ]; then
+    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+    eval "$(pyenv virtualenv-init -)"
+    export PYENV_VIRTUALENV_INIT=1
+  fi
 fi
 
 # configure direnv
