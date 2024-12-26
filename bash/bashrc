@@ -15,66 +15,66 @@ ulimit -n 65536 2>/dev/null
 
 # Check and set KITTY_PID if it's empty
 if [ -z "$KITTY_PID" ]; then
-    export KITTY_PID=$(tmux showenv KITTY_PID 2>/dev/null | awk -F= '{print $2}')
+  export KITTY_PID=$(tmux showenv KITTY_PID 2>/dev/null | awk -F= '{print $2}')
 fi
 # Check and set KITTY_WINDOW_ID if it's empty
 if [ -z "$KITTY_WINDOW_ID" ]; then
-    KITTY_WINDOW_ID=$(tmux showenv KITTY_WINDOW_ID 2>/dev/null | awk -F= '{print $2}')
+  KITTY_WINDOW_ID=$(tmux showenv KITTY_WINDOW_ID 2>/dev/null | awk -F= '{print $2}')
 fi
 
 if [ -n "$KITTY_PID" ] || [ -n "$KITTY_WINDOW_ID" ]; then
-    export TERM='xterm-kitty'
+  export TERM='xterm-kitty'
 elif [[ -n $TMUX ]]; then
-    export TERM='screen-256color'
+  export TERM='screen-256color'
 fi
 
 if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-        # We have color support; assume it's compliant with Ecma-48
-        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-        # a case would tend to support setf rather than setaf.)
-        color_prompt=yes
-    else
-        color_prompt=
-    fi
+  if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
+  else
+    color_prompt=
+  fi
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+  PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+  PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-    xterm* | rxvt*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-        ;;
-    *) ;;
+xterm* | rxvt*)
+  PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+  ;;
+*) ;;
 esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  alias dir='dir --color=auto'
+  alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
-    fi
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
 fi
 
 ##############################
@@ -83,18 +83,18 @@ fi
 
 # source ssh
 [ -f $HOME/.keychain/$HOSTNAME-sh ] &&
-    . $HOME/.keychain/$HOSTNAME-sh
+  . $HOME/.keychain/$HOSTNAME-sh
 # source gpg
 [ -f $HOME/.keychain/$HOSTNAME-sh-gpg ] &&
-    . $HOME/.keychain/$HOSTNAME-sh-gpg
+  . $HOME/.keychain/$HOSTNAME-sh-gpg
 
 # source environement variables
 if [ -f $HOME/.env ]; then
-    if [ -z "${PATH_INIT+x}" ]; then
-        . $HOME/.env
-        # avoid reloading of environement variables
-        export PATH_INIT=1
-    fi
+  if [ -z "${PATH_INIT+x}" ]; then
+    . $HOME/.env
+    # avoid reloading of environement variables
+    export PATH_INIT=1
+  fi
 fi
 
 #####################
@@ -103,29 +103,29 @@ fi
 
 # configure fasd
 function command_exists() {
-    command -v "$1" >/dev/null 2>&1
+  command -v "$1" >/dev/null 2>&1
 }
 
 # configure bash-preexec
 if [ -f ~/.bash-preexec.sh ]; then
-    . ~/.bash-preexec.sh
+  . ~/.bash-preexec.sh
 fi
 
 # configure fasd
 if command_exists fasd; then
-    eval "$(fasd --init auto)"
+  eval "$(fasd --init auto)"
 fi
 
 # configure autojump
 if [ -f /usr/share/autojump/autojump.sh ]; then
-    . /usr/share/autojump/autojump.sh
+  . /usr/share/autojump/autojump.sh
 fi
 
 # configure fzf
 if [ -f ~/.fzf.bash ]; then
-    . ~/.fzf.bash
+  . ~/.fzf.bash
 
-    export FZF_DEFAULT_OPTS="
+  export FZF_DEFAULT_OPTS="
 --info=inline
 --layout reverse
 --border top
@@ -168,160 +168,160 @@ Keybindings Help:
   ctrl + h    : Show this help message.
 \" | less -R)'
 "
-    export FZF_CTRL_T_OPTS="
+  export FZF_CTRL_T_OPTS="
 --preview 'fzf-preview.sh {}'
 "
-    export FZF_CTRL_R_OPTS="
+  export FZF_CTRL_R_OPTS="
 --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
 --color header:italic
 --header 'Press CTRL-Y to copy command into clipboard'
 "
-    export FZF_ALT_C_OPTS="
+  export FZF_ALT_C_OPTS="
 --walker-skip .git,node_modules,target
 --preview 'tree --dirsfirst -L 2 -C {}'
 --bind 'ctrl-t:execute-silent(gnome-terminal --working-directory=$(pwd)/{})'
 "
-    export FZF_COMPLETION_TRIGGER='~~'
+  export FZF_COMPLETION_TRIGGER='~~'
 
-    # fe [FUZZY PATTERN] - Open the selected file with the default editor
-    #   - Bypass fuzzy finder if there's only one match (--select-1)
-    #   - Exit if there's no match (--exit-0)
-    fe() {
-        local files
-        files="$(fzf-tmux --preview 'fzf-preview.sh {}' --query="$1" --multi --select-1 --exit-0)"
-        [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
-    }
+  # fe [FUZZY PATTERN] - Open the selected file with the default editor
+  #   - Bypass fuzzy finder if there's only one match (--select-1)
+  #   - Exit if there's no match (--exit-0)
+  fe() {
+    local files
+    files="$(fzf-tmux --preview 'fzf-preview.sh {}' --query="$1" --multi --select-1 --exit-0)"
+    [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+  }
 
-    # Modified version where you can press
-    #   - CTRL-O to open with `open` command,
-    #   - CTRL-E or Enter key to open with the $EDITOR
-    fo() {
-        local out file key
-        out="$(fzf-tmux --preview 'fzf-preview.sh {}' --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)"
-        key=$(head -1 <<<"$out")
-        file=$(head -2 <<<"$out" | tail -1)
-        if [ -n "$file" ]; then
-            [ "$key" = ctrl-o ] && xdg-open "$file" || ${EDITOR:-vim} "$file"
-        fi
-    }
+  # Modified version where you can press
+  #   - CTRL-O to open with `open` command,
+  #   - CTRL-E or Enter key to open with the $EDITOR
+  fo() {
+    local out file key
+    out="$(fzf-tmux --preview 'fzf-preview.sh {}' --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)"
+    key=$(head -1 <<<"$out")
+    file=$(head -2 <<<"$out" | tail -1)
+    if [ -n "$file" ]; then
+      [ "$key" = ctrl-o ] && xdg-open "$file" || ${EDITOR:-vim} "$file"
+    fi
+  }
 
-    # fd - cd to selected directory
-    fd() {
-        local dir
-        dir=$(find -L ${1:-.} -path '*/\.*' -prune \
-                   -o -type d -print 2>/dev/null | fzf-tmux +m) &&
-            cd "$dir"
-    }
+  # fd - cd to selected directory
+  fd() {
+    local dir
+    dir=$(find -L ${1:-.} -path '*/\.*' -prune \
+      -o -type d -print 2>/dev/null | fzf-tmux +m) &&
+      cd "$dir"
+  }
 
-    # cfe - fuzzy open file from anywhere
-    # ex: cfe word1 word2 ... (even part of a file name)
-    cfe() {
-        local file
+  # cfe - fuzzy open file from anywhere
+  # ex: cfe word1 word2 ... (even part of a file name)
+  cfe() {
+    local file
 
-        file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf-tmux --read0 -0 -1)"
+    file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf-tmux --read0 -0 -1)"
 
-        if [[ -n $file ]]; then
-            if [[ -d $file ]]; then
-                $EDITOR $file
-            else
-                $EDITOR -- ${file:h}
-            fi
-        fi
-    }
+    if [[ -n $file ]]; then
+      if [[ -d $file ]]; then
+        $EDITOR $file
+      else
+        $EDITOR -- ${file:h}
+      fi
+    fi
+  }
 
-    # cdf - cd into the directory of the selected file
-    cdf() {
-        local file
-        local dir
-        file=$(fzf-tmux --preview 'fzf-preview.sh {}' +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
-    }
+  # cdf - cd into the directory of the selected file
+  cdf() {
+    local file
+    local dir
+    file=$(fzf-tmux --preview 'fzf-preview.sh {}' +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+  }
 
-    # fkill - kill process
-    fkill() {
-        local pid
-        pid=$(ps -ef | sed 1d | fzf-tmux -m | awk '{print $2}')
+  # fkill - kill process
+  fkill() {
+    local pid
+    pid=$(ps -ef | sed 1d | fzf-tmux -m | awk '{print $2}')
 
-        if [ "x$pid" != "x" ]; then
-            echo $pid | xargs kill -${1:-9}
-        fi
-    }
+    if [ "x$pid" != "x" ]; then
+      echo $pid | xargs kill -${1:-9}
+    fi
+  }
 
-    # p - search for academic PDFs by author, title, journal, institution
-    p() {
-        local DIR open
-        declare -A already
-        DIR="${HOME}/.cache/pdftotext"
-        mkdir -p "${DIR}"
-        if [ "$(uname)" = "Darwin" ]; then
-            open=open
-        else
-            open="gio open"
-        fi
+  # p - search for academic PDFs by author, title, journal, institution
+  p() {
+    local DIR open
+    declare -A already
+    DIR="${HOME}/.cache/pdftotext"
+    mkdir -p "${DIR}"
+    if [ "$(uname)" = "Darwin" ]; then
+      open=open
+    else
+      open="gio open"
+    fi
 
-        {
-            ag -g ".pdf$" # fast, without pdftotext
-            ag -g ".pdf$" |
-                while read -r FILE; do
-                    local EXPIRY HASH CACHE
-                    HASH=$(md5sum "$FILE" | cut -c 1-32)
-                    # Remove duplicates (file that has same hash as already seen file)
-                    [ ${already[$HASH]+abc} ] && continue # see https://stackoverflow.com/a/13221491
-                    already[$HASH]=$HASH
-                    EXPIRY=$((86400 + $RANDOM * 20)) # 1 day (86400 seconds) plus some random
-                    CMD="pdftotext -f 1 -l 1 '$FILE' - 2>/dev/null | tr \"\n\" \"_\" "
-                    CACHE="$DIR/$HASH"
-                    test -f "${CACHE}" && [ $(expr $(date +%s) - $(date -r "$CACHE" +%s)) -le $EXPIRY ] || eval "$CMD" >"${CACHE}"
-                    echo -e "$FILE\t$(cat ${CACHE})"
-                done
-        } | fzf -e -d '\t' \
-                --preview-window up:75% \
-                --preview '
+    {
+      ag -g ".pdf$" # fast, without pdftotext
+      ag -g ".pdf$" |
+        while read -r FILE; do
+          local EXPIRY HASH CACHE
+          HASH=$(md5sum "$FILE" | cut -c 1-32)
+          # Remove duplicates (file that has same hash as already seen file)
+          [ ${already[$HASH]+abc} ] && continue # see https://stackoverflow.com/a/13221491
+          already[$HASH]=$HASH
+          EXPIRY=$((86400 + $RANDOM * 20)) # 1 day (86400 seconds) plus some random
+          CMD="pdftotext -f 1 -l 1 '$FILE' - 2>/dev/null | tr \"\n\" \"_\" "
+          CACHE="$DIR/$HASH"
+          test -f "${CACHE}" && [ $(expr $(date +%s) - $(date -r "$CACHE" +%s)) -le $EXPIRY ] || eval "$CMD" >"${CACHE}"
+          echo -e "$FILE\t$(cat ${CACHE})"
+        done
+    } | fzf -e -d '\t' \
+      --preview-window up:75% \
+      --preview '
 v=$(echo {q} | tr " " "|");
 echo {1} | grep -E "^|$v" -i --color=always;
 pdftotext -f 1 -l 1 {1} - | grep -E "^|$v" -i --color=always' |
-            awk 'BEGIN {FS="\t"; OFS="\t"}; {print "\""$1"\""}' |
-            xargs $open >/dev/null 2>/dev/null
-    }
+      awk 'BEGIN {FS="\t"; OFS="\t"}; {print "\""$1"\""}' |
+      xargs $open >/dev/null 2>/dev/null
+  }
 fi
 
 # configure zoxide
 if command_exists zoxide; then
-    eval "$(zoxide init bash)"
+  eval "$(zoxide init bash)"
 fi
 
 # configure atuin
 if command_exists atuin && [[ $- == *i* ]]; then
-    eval "$(atuin init bash --disable-ctrl-r --disable-up-arrow)"
-    bind -m emacs -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=emacs'
-    bind -m emacs -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=emacs'
-    bind -m vi-insert -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-insert'
-    bind -m vi-insert -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-insert'
-    bind -m vi-command -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-normal'
-    bind -m vi-command -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-normal'
-    bind -m vi-command -x '"k": __atuin_history --shell-up-key-binding --keymap-mode=vim-normal'
+  eval "$(atuin init bash --disable-ctrl-r --disable-up-arrow)"
+  bind -m emacs -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=emacs'
+  bind -m emacs -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=emacs'
+  bind -m vi-insert -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-insert'
+  bind -m vi-insert -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-insert'
+  bind -m vi-command -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-normal'
+  bind -m vi-command -x '"\ex": __atuin_history --shell-up-key-binding --keymap-mode=vim-normal'
+  bind -m vi-command -x '"k": __atuin_history --shell-up-key-binding --keymap-mode=vim-normal'
 fi
 
 # configure pyenv
 if [ -d $HOME/.pyenv ]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init -)"
-    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-    eval "$(pyenv virtualenv-init -)"
+  export PYENV_ROOT="$HOME/.pyenv"
+  command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+  export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+  eval "$(pyenv virtualenv-init -)"
 fi
 
 # configure direnv
 if command_exists direnv; then
-    eval "$(direnv hook bash)"
+  eval "$(direnv hook bash)"
 fi
 
 if [ -f ~/.local/share/icons-in-terminal/icons_bash.sh ]; then
-    . ~/.local/share/icons-in-terminal/icons_bash.sh
+  . ~/.local/share/icons-in-terminal/icons_bash.sh
 fi
 
 # add custom completions
 for f in ~/.bash_completion.d/*; do
-    . $f
+  . $f
 done
 
 ################################
@@ -334,36 +334,36 @@ done
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+  . ~/.bash_aliases
 fi
 
 if [ -f ~/.aliases ]; then
-    . ~/.aliases
+  . ~/.aliases
 fi
 
 # Functions definitions.
 function copy_password() {
-    copy_password.sh $1
+  copy_password.sh $1
 }
 
 function emacs() {
-    # https://github.com/syl20bnr/spacemacs/wiki/Terminal
-    local TERM=xterm-24bit
-    eval "$(which emacs) $@"
+  # https://github.com/syl20bnr/spacemacs/wiki/Terminal
+  local TERM=xterm-24bit
+  eval "$(which emacs) $@"
 }
 
 if command_exists broot; then
-    function br {
-        local cmd cmd_file code
-        cmd_file=$(mktemp)
-        if broot --outcmd "$cmd_file" "$@"; then
-            cmd=$(<"$cmd_file")
-            command rm -f "$cmd_file"
-            eval "$cmd"
-        else
-            code=$?
-            command rm -f "$cmd_file"
-            return "$code"
-        fi
-    }
+  function br {
+    local cmd cmd_file code
+    cmd_file=$(mktemp)
+    if broot --outcmd "$cmd_file" "$@"; then
+      cmd=$(<"$cmd_file")
+      command rm -f "$cmd_file"
+      eval "$cmd"
+    else
+      code=$?
+      command rm -f "$cmd_file"
+      return "$code"
+    fi
+  }
 fi
