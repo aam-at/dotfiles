@@ -56,3 +56,5 @@ export TEXLIVE_ROOT="/usr/local/texlive/2024"
 export MANPATH="$TEXLIVE_ROOT/texmf-dist/doc/man:$MANPATH"
 export INFOPATH="$TEXLIVE_ROOT/texmf-dist/doc/info:$INFOPATH"
 export PATH="$TEXLIVE_ROOT/bin/x86_64-linux:$PATH"
+# avoid reloading of environement variables
+export PATH_INIT=1
