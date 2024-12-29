@@ -7,7 +7,7 @@ export CPATH=""
 export LD_LIBRARY_PATH=""
 export LIBRARY_PATH=""
 
-export ALTERNATE_EDITOR=vim
+export ALTERNATE_EDITOR=nvim
 export EDITOR="emacsclient -t"
 
 # Configure cuda
