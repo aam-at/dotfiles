@@ -76,6 +76,11 @@
       (error "No file associated with this buffer"))
     (switch-to-buffer (aam--extract-pdf-text-to-buffer (aam--ensure-pdf-file pdf-file)))))
 
+(defun aam-delete-empty-lines ()
+  "Delete empty lines in current buffer"
+  (interactive)
+  (flush-lines "^[[:space:]]*$"))
+
 
 (defun cuda-available-p ()
   "Check if CUDA is available on the system."
