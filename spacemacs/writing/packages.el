@@ -25,7 +25,6 @@
       '(;; general writing
         flycheck
         flycheck-vale
-        flycheck-grammarly
         writeroom-mode
         writegood-mode
         (write-or-die :location local)
@@ -100,20 +99,6 @@
     (flycheck-vale-setup)
     (dolist (mode flycheck-vale-modes)
       (flycheck-add-mode 'vale mode))))
-
-(defun writing/init-flycheck-grammarly ()
-  :init
-  (with-eval-after-load 'flycheck
-    (require 'flycheck-grammarly)
-    (setq flycheck-grammarly-active-modes '(text-mode
-                                            markdown-mode
-                                            rst-mode
-                                            org-mode
-                                            latex-mode
-                                            LaTeX-mode))
-    (flycheck-grammarly-setup)
-    (dolist (mode flycheck-grammarly-active-modes)
-      (flycheck-add-mode 'grammarly mode))))
 
 (defun writing/post-init-writeroom-mode ()
   (setq writeroom-width 90)
