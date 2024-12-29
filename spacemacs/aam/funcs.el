@@ -81,6 +81,35 @@
   (interactive)
   (flush-lines "^[[:space:]]*$"))
 
+(defun aam-delete-xml-tags (&optional start-pos end-pos)
+  "Delete all XML-style tags and their content.
+Matches any XML tags like <tag>...</tag>.
+Works on whole buffer or the selected region if START-POS and END-POS are provided."
+  (interactive)
+  (let ((count 0)
+        (start (or start-pos (point-min)))
+        (end (or end-pos (point-max)))
+        (xml-start-regex "<\\([^/> ]+\\)\\(?:\\s-+[^>]*\\)?>"))
+    (save-excursion
+      (goto-char start)
+      (while (and (< (point) end)
+                  (re-search-forward xml-start-regex end t))
+        (let* ((tag-name (match-string 1))
+               (begin (match-beginning 0))
+               (end-tag (concat "</" tag-name ">"))
+               (success (search-forward end-tag end t)))
+          (if success
+              (progn
+                (delete-region begin (point))
+                (setq count (1+ count)))
+            (message "Warning: Unmatched tag <%s> at position %d" tag-name begin)
+            (goto-char (1+ begin))))))
+    ;; Then delete empty lines
+    (aam-delete-empty-lines)
+    (when (> count 0)
+      (message "Deleted %d XML tag region%s" count (if (= count 1) "" "s")))
+    count))
+
 
 (defun cuda-available-p ()
   "Check if CUDA is available on the system."
