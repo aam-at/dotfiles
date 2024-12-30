@@ -1,30 +1,43 @@
 ;; This file configures org-mode for use.
 (setq org-rating-guide (aam/org-path "templates/rating_guide.org"))
+(setq org-gtd-trigger-list (aam/org-path "templates/trigger_list.org"))
 
-(defvar org-rating-guide-mode-map
+(defvar org-template-view-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "q") #'kill-this-buffer)
-    map)
-  "Keymap for `rating-guide-mode`.")
+    (define-key map (kbd "q") #'quit-window)  ;; Changed to quit-window
+    map))
 
-(define-derived-mode org-rating-guide-mode special-mode "Rating Guide"
-  "A special mode for displaying the rating guide."
-  (use-local-map org-rating-guide-mode-map))
+(define-derived-mode org-template-view-mode org-mode "Template View"
+  "A special mode for displaying org templates."
+  (use-local-map org-template-view-mode-map)
+  (read-only-mode 1))
 
+(defun org-show-template (template-path buffer-name)
+  "Display a template file in a split window.
+TEMPLATE-PATH is the path to the template file.
+BUFFER-NAME is the name of the buffer to display it in."
+  (if-let ((existing-buffer (get-buffer buffer-name)))
+      ;; If the buffer exists, ensure it is displayed
+      (display-buffer existing-buffer '(display-buffer-same-window))
+    ;; Otherwise, create the buffer and display the template
+    (with-current-buffer (get-buffer-create buffer-name)
+      (erase-buffer)
+      (insert-file-contents template-path)
+      (org-template-view-mode)))
+  ;; Always display the buffer in a visible window
+  (display-buffer buffer-name '((display-buffer-pop-up-window
+                                 display-buffer-same-window))))
+
+;; Convenience functions for specific templates
 (defun org-show-rating-guide ()
-  "Display the `org-rating-guide` in a split window, or switch to it if it already exists, ensuring visibility."
+  "Display the rating guide template."
   (interactive)
-  (let ((buffer-name "*Rating Guide*"))
-    (if-let ((existing-buffer (get-buffer buffer-name)))
-        ;; If the buffer exists, ensure it is displayed
-        (display-buffer existing-buffer '(display-buffer-same-window))
-      ;; Otherwise, create the buffer and display the rating guide
-      (with-current-buffer (get-buffer-create buffer-name)
-        (erase-buffer)
-        (insert-file-contents org-rating-guide)
-        (org-rating-guide-mode))) ;; Activate the custom mode
-    ;; Always display the buffer in a visible window
-    (display-buffer buffer-name '((display-buffer-pop-up-window display-buffer-same-window)))))
+  (org-show-template org-rating-guide "*Rating Guide*"))
+
+(defun org-show-gtd-trigger-list ()
+  "Display the GTD trigger list template."
+  (interactive)
+  (org-show-template org-gtd-trigger-list "*GTD Trigger List*"))
 
 (defun org-daily-journal-find-location ()
   "Open today's daily journal file for use with `org-capture`.
