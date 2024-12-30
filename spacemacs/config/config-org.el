@@ -58,7 +58,7 @@ Finally, the cursor is placed at the end of the buffer, ready for editing."
 (defun org-weekly-journal-file ()
   "Return path to current week's journal file (format: YYYYWNN.org).
 Uses `aam/org-path` to locate the journal/ directory."
-  (let* ((week-file-name (format-time-string "%YW%V.org")) ;; ISO week format
+  (let* ((week-file-name (format-time-string "%GW%V.org")) ;; ISO week format
          (journal-path (aam/org-path "journal/")) ;; Base directory
          (full-file-path (expand-file-name week-file-name journal-path))) ;; Complete path
     full-file-path))
@@ -75,7 +75,7 @@ This function is intended for use with `org-capture` workflows."
     (unless (file-exists-p full-file-path)
       (with-temp-file full-file-path
         (insert "#+TODO: TODO(t) NEXT(n) | DONE(d) FAILED(f)\n")
-        (insert (format-time-string "#+TITLE: Week %V, %Y\n\n"))))
+        (insert (format-time-string "#+TITLE: Week %V, %G\n\n"))))
     ;; Open the file and move to the end
     (find-file full-file-path)
     (goto-char (point-max))))
@@ -83,7 +83,7 @@ This function is intended for use with `org-capture` workflows."
 (defun org-monthly-journal-file ()
   "Return path to current month's journal file (format: YYYYMM.org).
 Uses `aam/org-path` to locate the journal/ directory."
-  (let* ((month-file-name (format-time-string "%YM%m.org")) ;; File name format
+  (let* ((month-file-name (format-time-string "%GM%m.org")) ;; File name format
          (journal-path (aam/org-path "journal/")) ;; Base directory
          (full-file-path (expand-file-name month-file-name journal-path))) ;; Complete path
     full-file-path))
@@ -100,7 +100,7 @@ This function is intended for use with `org-capture` workflows."
     (unless (file-exists-p full-file-path)
       (with-temp-file full-file-path
         (insert "#+TODO: TODO(t) NEXT(n) | DONE(d) FAILED(f)\n")
-        (insert (format-time-string "#+TITLE: %B, %Y\n\n"))))
+        (insert (format-time-string "#+TITLE: %B, %G\n\n"))))
     ;; Open the file and move to the end
     (find-file full-file-path)
     (goto-char (point-max))))
@@ -383,7 +383,7 @@ DEADLINE: %^{Deadline}t
            (function org-daily-journal-find-location)
            (file ,(aam/org-path "templates/gratitude_pages.org"))
            :jump-to-captured t)
-          ("sm" "Morning Pages Note" plain
+          ("sp" "Morning Pages Note" plain
            (function org-daily-journal-find-location)
            (file ,(aam/org-path "templates/morning_pages.org"))
            :jump-to-captured t)
@@ -400,6 +400,14 @@ DEADLINE: %^{Deadline}t
            (function org-weekly-journal-find-location)
            (file ,(aam/org-path "templates/weekly_review.org"))
            :jump-to-captured t)
+          ("sm" "Monthly Plan" plain
+           (function org-monthly-journal-find-location)
+           (file ,(aam/org-path "templates/monthly_plan.org"))
+           :jump-to-captured t)
+          ("sM" "Monthly Review" plain
+           (function org-monthly-journal-find-location)
+           (file ,(aam/org-path "templates/monthly_review.org"))
+           :jump-to-captured t)
           ;; Snippets for zettelkasten and PARA
           ("sn" "Simple (Atomic) Note" plain
            (file aam/org-capture-note-filepath-with-date)
@@ -412,12 +420,12 @@ DEADLINE: %^{Deadline}t
            :hook aam/org-roam-capture-finalize
            :jump-to-captured t)
           ;; PARA projects and areas
-          ("sa" "Area" plain
+          ("sA" "Area" plain
            (file aam/org-capture-area-filepath)
            (file ,(aam/org-path "templates/area.org"))
            :hook aam/org-roam-capture-finalize
            :jump-to-captured t)
-          ("sp" "Project" plain
+          ("sP" "Project" plain
            (file aam/org-capture-project-filepath)
            (file ,(aam/org-path "templates/project.org"))
            :hook aam/org-roam-capture-finalize
