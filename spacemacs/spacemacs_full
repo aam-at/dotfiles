@@ -857,7 +857,17 @@ before packages are loaded."
   (when (spacemacs/system-is-linux)
     (progn
       (autoload 'my-mail-setup "config-mail" "Setup mail configurations" t)
-      (my-mail-setup))))
+      (my-mail-setup)))
+  ;; my startup screen
+  (defun aam-setup-startup-screen ()
+    "Split the existing startup screen and show the current week's journal file."
+    (interactive)
+    (save-selected-window
+      (split-window-horizontally) ; Split horizontally
+      (other-window 1)            ; Move to the new window
+      (org-weekly-journal-find-location))) ; Display the journal file
+  (when (f-exists-p (org-weekly-journal-file))
+    (aam-setup-startup-screen)))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
