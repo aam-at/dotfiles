@@ -17,7 +17,7 @@ end
 return {
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
-		branch = "canary",
+		branch = "main",
 		cmd = "CopilotChat",
 		opts = function()
 			local user = vim.env.USER or "User"
@@ -31,10 +31,6 @@ return {
 				window = {
 					width = 0.4,
 				},
-				selection = function(source)
-					local select = require("CopilotChat.select")
-					return select.visual(source) or select.buffer(source)
-				end,
 			}
 			-- load prompts from a json file
 			local prompts_data = LoadJSONFile("~/Dropbox/Org/data/prompts/prompts.json")
