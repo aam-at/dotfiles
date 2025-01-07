@@ -101,11 +101,11 @@ Works on whole buffer or the selected region if START-POS and END-POS are provid
           (if success
               (progn
                 (delete-region begin (point))
+                (when (looking-at "^\n")
+                  (delete-char 1))
                 (setq count (1+ count)))
             (message "Warning: Unmatched tag <%s> at position %d" tag-name begin)
             (goto-char (1+ begin))))))
-    ;; Then delete empty lines
-    (aam-delete-empty-lines)
     (when (> count 0)
       (message "Deleted %d XML tag region%s" count (if (= count 1) "" "s")))
     count))
