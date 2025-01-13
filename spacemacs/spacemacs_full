@@ -105,7 +105,6 @@ This function should only modify configuration layer settings."
                      python-format-on-save nil
                      python-formatter 'lsp
                      python-lsp-server 'pylsp
-                     python-poetry-activate t
                      python-sort-imports-on-save nil)
              ;; Scripting & other languages
              csv
