@@ -48,7 +48,6 @@ return {
 			end
 		end,
 	},
-
 	-- Vim-visual-multi - Multiple cursors in vim
 	{
 		"mg979/vim-visual-multi",
@@ -62,6 +61,10 @@ return {
 		config = function()
 			require("window-picker").setup()
 		end,
+	},
+	-- direnv integration
+	{
+		"direnv/direnv.vim",
 	},
 	-- pencil colorscheme
 	{
