@@ -19,4 +19,4 @@ WIDTH="100"
 HEIGHT="50"
 CLASS=kitty-dropterm
 
-hdrop --floating --position top --gap 40 --width $WIDTH --height $HEIGHT kitty --class $CLASS --focus
+hdrop --floating --position top --gap 40 --width $WIDTH --height $HEIGHT kitty --class $CLASS

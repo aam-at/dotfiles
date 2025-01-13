@@ -18,6 +18,7 @@
     biblio
     casual
     cloc
+    direnv
     (explain-pause-mode :location (recipe
                                    :fetcher github
                                    :repo "lastquestion/explain-pause-mode"))
@@ -55,6 +56,11 @@
 
 (defun aam/init-cloc()
   :defer t)
+
+(defun aam/init-direnv()
+  :defer t
+  :config
+  (direnv-mode))
 
 (defun aam/init-explain-pause-mode()
   (use-package explain-pause-mode
