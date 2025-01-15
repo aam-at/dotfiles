@@ -284,7 +284,7 @@ if $INSTALL_RUST; then
   source "$HOME/.cargo/env"
   cargo install --locked \
     aichat argc atuin bottom broot cargo-edit cargo-outdated eza gitui gping \
-    lsd ouch sd tealdeer texlab viu yazi-cli yazi-fm
+    kanata lsd ouch sd tealdeer texlab viu yazi-cli yazi-fm
 
   if $GUI; then
     cargo install --git https://github.com/neovide/neovide
