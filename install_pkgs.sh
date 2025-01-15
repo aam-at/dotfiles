@@ -249,6 +249,8 @@ if $INSTALL_FONTS; then
     if [ ! -d "$TOOLS_DIR/$dir_name" ]; then
       echo "Installing $font_subdir..."
       git clone --depth=1 "$repo_url" "$TOOLS_DIR/$dir_name"
+    fi
+    if [ ! -d "$font_subdir" ]; then
       install_fonts "$TOOLS_DIR/$dir_name" "" "$font_subdir"
     else
       echo "Skipping $font_subdir installation as it is already installed"
