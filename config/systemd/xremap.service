@@ -1,0 +1,16 @@
+[Unit]
+Description=XRemap key remapping service
+Documentation=https://github.com/xremap/xremap
+
+[Service]
+Type=exec
+Restart=always
+KillMode=process
+WorkingDirectory=%h
+EnvironmentFile=%h/.bash_env
+StandardError=null
+StandardOutput=journal
+ExecStart=/usr/bin/sh -c 'exec $$(which xremap) --cfg $${HOME}/.config/xremap/config_hypr.yaml'
+
+[Install]
+WantedBy=default.target

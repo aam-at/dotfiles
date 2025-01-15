@@ -36,6 +36,7 @@
     ~/.config/git: config/git
     ~/.config/gitui: config/gitui
     ~/.config/helix: config/helix
+    ~/.config/kanata: config/kanata
     ~/.config/kitty: config/kitty
     ~/.config/lazygit: config/lazygit
     ~/.config/mimeapps.list: config/mimeapps.list
