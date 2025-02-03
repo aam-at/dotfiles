@@ -37,6 +37,7 @@
     (unicode-math-input :location (recipe
                                    :fetcher github
                                    :repo "astoff/unicode-math-input.el"))
+    (ultra-scroll :location local)
     pretty-hydra))
 
 (defun aam/init-activity-watch-mode()
@@ -199,5 +200,13 @@
     (company-mode . company-prescient-mode)))
 
 (defun aam/init-unicode-math-input ())
+
+(defun aam/init-ultra-scroll()
+  (use-package ultra-scroll
+    :init
+    (setq scroll-conservatively 101
+          scroll-margin 0)
+    :config
+    (ultra-scroll-mode 1)))
 
 (defun aam/init-pretty-hydra())
