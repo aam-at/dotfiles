@@ -192,7 +192,6 @@
         "**/.trunk/*plugins/": true
     },
     "editor.defaultFormatter": "trunk.io",
-    "cloudcode.duetAI.project": "cpgd-301214",
     "files.autoSave": "onWindowChange",
     "[latex]": {
         "editor.defaultFormatter": "James-Yu.latex-workshop"
