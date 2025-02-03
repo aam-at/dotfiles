@@ -42,6 +42,15 @@
                                         :key deepinfra-api-key
                                         :chat-model "meta-llama/Meta-Llama-3.1-405B-Instruct"
                                         :url "https://api.deepinfra.com/v1/openai"))
+          ;; github models
+          ("github-gpt4o" . (make-llm-openai-compatible
+                             :key github-api-key
+                             :chat-model "gpt-4o"
+                             :url "models.inference.ai.azure.com/chat/completions"))
+          ("github-gpt4o-mini" . (make-llm-openai-compatible
+                                  :key github-api-key
+                                  :chat-model "gpt-4o-mini"
+                                  :url "models.inference.ai.azure.com/chat/completions"))
           ;; groq models
           ("groq-llama3.1:8b" . (make-llm-openai-compatible
                                  :key groq-api-key
@@ -170,8 +179,10 @@
     :endpoint "/chat/completions"
     :stream t
     :key github-api-key
-    :models '("gpt-4o"
+    :models '("DeepSeek-R1"
+              "gpt-4o"
               "gpt-4o-mini"
+              "Llama-3.3-70B-Instruct"
               "o1-mini"
               "o1-preview"))
   (gptel-make-openai "OpenRouter"
@@ -180,8 +191,8 @@
     :stream t
     :key openrouter-api-key
     :models '("anthropic/claude-3.5-sonnet"
-              "deepseek/deepseek-r1:free",
-              "deepseek/deepseek-r1",
+              "deepseek/deepseek-r1:free"
+              "deepseek/deepseek-r1"
               "google/gemini-pro-1.5-exp"
               "openai/gpt-4o-mini"
               "openai/gpt-4o"
@@ -205,8 +216,8 @@
     :endpoint "/openai/v1/chat/completions"
     :stream t
     :key groq-api-key
-    :models '("llama-3.1-405b-reasoning"
-              "llama-3.1-70b-versatile"
+    :models '("deepseek-r1-distill-llama-70b"
+              "llama-3.3-70b-versatile"
               "llama-3.1-8b-instant"))
 
   (gptel-make-openai "Deepinfra"
