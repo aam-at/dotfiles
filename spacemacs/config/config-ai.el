@@ -180,6 +180,8 @@
     :stream t
     :key openrouter-api-key
     :models '("anthropic/claude-3.5-sonnet"
+              "deepseek/deepseek-r1:free",
+              "deepseek/deepseek-r1",
               "google/gemini-pro-1.5-exp"
               "openai/gpt-4o-mini"
               "openai/gpt-4o"
