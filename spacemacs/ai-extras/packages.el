@@ -115,7 +115,7 @@
     (spacemacs/set-leader-keys
       "$chp" 'copilot-chat-prompt-history-previous ; Previous history
       "$chn" 'copilot-chat-prompt-history-next)    ; Next history
-    (dolist (mode '(copilot-chat-mode copilot-chat-shell-shell-mode))
+    (dolist (mode '(copilot-chat-mode copilot-chat-shell-mode))
       (spacemacs/set-leader-keys-for-major-mode mode
         "l" 'copilot-chat-prompt-split-and-list
         "n" 'copilot-chat-prompt-history-next
@@ -127,10 +127,13 @@
         "t" 'copilot-chat-test
         "q" 'bury-buffer))
     :config
-    (evilified-state-evilify-map copilot-chat-mode-map
-      :mode copilot-chat-mode
-      :bindings
-      "C-c q" 'bury-buffer)
+    (let ((mode (if (eq copilot-chat-frontend "shell-maker")
+                    'copilot-chat-shell-mode
+                  'copilot-chat-mode)))
+      (evilified-state-evilify-map (symbol-value (intern (concat (symbol-name mode) "-map")))
+        :mode mode
+        :bindings
+        (kbd "C-c q") 'ai-extras/bury-and-kill-buffer))
     (evilified-state-evilify-map copilot-chat-list-mode-map
       :mode copilot-chat-list-mode
       :bindings
