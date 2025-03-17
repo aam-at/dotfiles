@@ -24,7 +24,6 @@
         TeX-electric-sub-and-superscript t
         ;; Just save, don't ask before each compilation.
         TeX-save-query nil)
-  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
   ;; pdf-tools settings
   (with-eval-after-load 'pdf-tools
     (add-hook 'pdf-view-mode-hook #'pdf-sync-minor-mode))
