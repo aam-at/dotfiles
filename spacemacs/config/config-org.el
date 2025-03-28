@@ -480,7 +480,8 @@ DEADLINE: %^{Deadline}t
 [[file:%(aam-get-cite-pdf-filename \"%^{citekey}\")][pdf]]
 %?"
            :if-new
-           (file+head "papers/${citekey}.org" "#+TITLE: ${title}\n")
+           (file+head "papers/${citekey}.org" "#+TITLE: ${title}
+#+STARTUP: latexpreview")
            :empty-lines 1
            :unnarrowed t)))
   (setq org-roam-capture-ref-templates

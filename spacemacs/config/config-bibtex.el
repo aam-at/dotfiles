@@ -17,6 +17,8 @@
 
   ;; helm-bibtex
   (spacemacs/set-leader-keys "hc" 'helm-bibtex)
+  ;; citar
+  (spacemacs/set-leader-keys "hC" 'citar-open)
   ;; configure bibtex-completion for org-ref
   (setq bibtex-completion-notes-path (aam/org-path "papers")
         bibtex-completion-bibliography aam/bibtex-files
