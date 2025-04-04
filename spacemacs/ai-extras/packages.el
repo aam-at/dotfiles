@@ -78,7 +78,7 @@
       "$cc" 'copilot-chat-switch-to-buffer        ; Switch to chat buffer
       "$cr" 'copilot-chat-reset                   ; Reset chat state
       "$cd" 'copilot-chat-display                 ; Display chat buffer
-      "$cM" 'ai-extras/select-copilot-chat-model) ; Set model for suggestions
+      "$cM" 'copilot-chat-set-model) ; Set model for suggestions
     ;; Code Explanation
     (spacemacs/declare-prefix "$ce" "Code Explanation")
     (spacemacs/set-leader-keys
