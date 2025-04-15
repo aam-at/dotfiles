@@ -103,7 +103,7 @@ This function should only modify configuration layer settings."
              (python :variables
                      python-backend 'lsp
                      python-format-on-save nil
-                     python-formatter 'lsp
+                     python-formatter 'ruff
                      python-lsp-server 'pylsp
                      python-sort-imports-on-save nil)
              ;; Scripting & other languages

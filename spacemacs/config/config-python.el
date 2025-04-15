@@ -7,6 +7,11 @@
         lsp-pyright-langserver-command "basedpyright"
         lsp-disabled-clients '(semgrep-ls trunk-lsp))
 
+  (reformatter-define ruff-isort
+      :program ruff-format-command
+      :args (list "check" "--select" "I" "--fix" "--stdin-filename" (or (buffer-file-name) input-file))
+      :lighter " RuffIsort"
+      :group 'ruff-format)
   ;; NOTE: disable poetry tracking mode because it causes Emacs to crash
   ;; (setq poetry-tracking-strategy 'switch-buffer)
   ;; (add-hook 'python-mode-hook #'poetry-tracking-mode)
