@@ -285,6 +285,7 @@ if $INSTALL_RUST; then
   cargo install --locked \
     aichat argc atuin bottom broot cargo-edit cargo-outdated eza gitui gping \
     kanata lsd ouch sd tealdeer texlab viu yazi-cli yazi-fm
+  cargo install --git https://github.com/blahgeek/emacs-lsp-booster
 
   if $GUI; then
     cargo install --git https://github.com/neovide/neovide
@@ -393,12 +394,12 @@ if ! command -v ollama &>/dev/null; then
   echo "Installing ollama..."
   curl -fsSL https://ollama.com/install.sh | sh
   ollama_models=(
-      # coding
-      "qwen2.5-coder:3b" "qwen2.5-coder:7b"
-      # llm
-      "gemma3:4b" "gemma3:12b" "phi4:mini"
-      # embedding
-      "granite-embedding:278m" "mxbai-embed-large:latest" "nomic-embed-text:latest")
+    # coding
+    "qwen2.5-coder:3b" "qwen2.5-coder:7b"
+    # llm
+    "gemma3:4b" "gemma3:12b" "phi4:mini"
+    # embedding
+    "granite-embedding:278m" "mxbai-embed-large:latest" "nomic-embed-text:latest")
   for ollama_model in "${ollama_models[@]}"; do
     ollama pull "$ollama_model"
   done
