@@ -5,7 +5,8 @@
   (setq lsp-pylsp-plugins-rope-autoimport-enabled t
         lsp-pylsp-plugins-ruff-enabled t
         lsp-pyright-langserver-command "basedpyright"
-        lsp-disabled-clients '(semgrep-ls trunk-lsp))
+        lsp-pyright-multi-root nil
+        lsp-disabled-clients '(semgrep-ls trunk-lsp ruff pyls pylsp))
 
   (reformatter-define ruff-isort
       :program ruff-format-command

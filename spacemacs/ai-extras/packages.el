@@ -41,6 +41,7 @@
                      :repo "aam-at/khoj"
                      :files ("src/interface/emacs/*.el")))
     llm
+    ;; minuet
     magit-gptcommit))
 
 (defun ai-extras/init-shell-maker ()
@@ -166,6 +167,16 @@
       "$k" 'khoj)))
 
 (defun ai-extras/init-llm ())
+
+;; (defun ai-extras/init-minuet ()
+;;   (use-package minuet
+;;     :defer t
+;;     :init
+;;     (spacemacs/declare-prefix "$m" "Minuet")
+;;     (spacemacs/set-leader-keys
+;;       "$mc" 'minuet-complete-with-minibuffer)
+;;     (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 64)
+;;     (plist-put minuet-openai-fim-compatible-options :end-point "http://localhost:11434/v1/completions")))
 
 (defun ai-extras/init-magit-gptcommit ()
   (use-package magit-gptcommit

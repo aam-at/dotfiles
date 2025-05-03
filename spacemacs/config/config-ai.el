@@ -284,14 +284,18 @@
                                     "Identify 'gotchas' or less obvious parts of the code that might trip up someone new.\n"
                                     "Provide clear and relevant examples aligned with any provided context.\n")
         copilot-chat-model "claude-3.5-sonnet")
+  (setq copilot-chat-prompt "You are helpful AI assistant living in Emacs.")
 
   ;; khoj settings
   (setq khoj-server-is-local t
         khoj-auto-index nil
-        khoj-server-url "http://localhost:42110"
+        khoj-server-url "http://localhost:42111"
         khoj-index-files-batch 1
         khoj-default-content-type "org"
         khoj-index-files (directory-files-recursively aam/org-root (rx ".org" eos))
+        ;; khoj-index-files (directory-files-recursively (expand-file-name "~/papers_md") (rx ".md" eos))
+        ;; khoj-index-files (append (directory-files-recursively aam/org-root (rx ".org" eos))
+        ;;                          (directory-files-recursively (expand-file-name "~/papers_md") (rx ".md" eos)))
         khoj-index-directories nil))
 
 (provide 'config-ai)
