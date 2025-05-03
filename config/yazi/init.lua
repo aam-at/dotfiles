@@ -1,31 +1,4 @@
-local catppuccin_palette = {
-	rosewater = "#f4dbd6",
-	flamingo = "#f0c6c6",
-	pink = "#f5bde6",
-	mauve = "#c6a0f6",
-	red = "#ed8796",
-	maroon = "#ee99a0",
-	peach = "#f5a97f",
-	yellow = "#eed49f",
-	green = "#a6da95",
-	teal = "#8bd5ca",
-	sky = "#91d7e3",
-	sapphire = "#7dc4e4",
-	blue = "#8aadf4",
-	lavender = "#b7bdf8",
-	text = "#cad3f5",
-	subtext1 = "#b8c0e0",
-	subtext0 = "#a5adcb",
-	overlay2 = "#939ab7",
-	overlay1 = "#8087a2",
-	overlay0 = "#6e738d",
-	surface2 = "#5b6078",
-	surface1 = "#494d64",
-	surface0 = "#363a4f",
-	base = "#24273a",
-	mantle = "#1e2030",
-	crust = "#181926",
-}
+local gruvbox_theme = require("yatline-gruvbox"):setup("dark")
 
 -- Plugins
 require("full-border"):setup({
@@ -33,7 +6,7 @@ require("full-border"):setup({
 })
 
 require("zoxide"):setup({
-	update_db = false,
+	update_db = true,
 })
 
 require("session"):setup({
@@ -41,41 +14,12 @@ require("session"):setup({
 })
 
 require("yatline"):setup({
-	section_separator = { open = "", close = "" },
-	inverse_separator = { open = "", close = "" },
-	part_separator = { open = "", close = "" },
-
-	style_a = {
-		fg = catppuccin_palette.mantle,
-		bg_mode = {
-			normal = catppuccin_palette.blue,
-			select = catppuccin_palette.mauve,
-			un_set = catppuccin_palette.red,
-		},
-	},
-	style_b = { bg = catppuccin_palette.surface0, fg = catppuccin_palette.text },
-	style_c = { bg = catppuccin_palette.base, fg = catppuccin_palette.text },
-
-	permissions_t_fg = catppuccin_palette.green,
-	permissions_r_fg = catppuccin_palette.yellow,
-	permissions_w_fg = catppuccin_palette.red,
-	permissions_x_fg = catppuccin_palette.sky,
-	permissions_s_fg = catppuccin_palette.lavender,
-
-	selected = { icon = "󰻭", fg = catppuccin_palette.yellow },
-	copied = { icon = "", fg = catppuccin_palette.green },
-	cut = { icon = "", fg = catppuccin_palette.red },
-
-	total = { icon = "", fg = catppuccin_palette.yellow },
-	succ = { icon = "", fg = catppuccin_palette.green },
-	fail = { icon = "", fg = catppuccin_palette.red },
-	found = { icon = "", fg = catppuccin_palette.blue },
-	processed = { icon = "", fg = catppuccin_palette.green },
+	theme = gruvbox_theme,
 
 	tab_width = 20,
 	tab_use_inverse = true,
 
-	show_background = false,
+	show_background = true,
 
 	display_header_line = true,
 	display_status_line = true,
@@ -85,9 +29,7 @@ require("yatline"):setup({
 			section_a = {
 				{ type = "line", custom = false, name = "tabs", params = { "left" } },
 			},
-			section_b = {
-				{ type = "coloreds", custom = false, name = "githead" },
-			},
+			section_b = {},
 			section_c = {},
 		},
 		right = {
@@ -95,11 +37,9 @@ require("yatline"):setup({
 				{ type = "string", custom = false, name = "tab_path" },
 			},
 			section_b = {
-				{ type = "coloreds", custom = false, name = "task_workload" },
+				{ type = "coloreds", custom = false, name = "githead" },
 			},
-			section_c = {
-				{ type = "coloreds", custom = false, name = "task_states" },
-			},
+			section_c = {},
 		},
 	},
 
@@ -126,10 +66,16 @@ require("yatline"):setup({
 			section_c = {
 				{ type = "string", custom = false, name = "hovered_file_extension", params = { true } },
 				{ type = "coloreds", custom = false, name = "permissions" },
+				{ type = "coloreds", custom = false, name = "created_time" },
+				{ type = "coloreds", custom = false, name = "modified_time" },
 			},
 		},
 	},
 })
+
+require("yatline-modified-time"):setup()
+
+require("yatline-created-time"):setup()
 
 require("yatline-githead"):setup({
 	show_branch = true,
@@ -159,16 +105,16 @@ require("yatline-githead"):setup({
 	show_untracked = true,
 	untracked_symbol = " ",
 
-	prefix_color = catppuccin_palette.pink,
-	branch_color = catppuccin_palette.pink,
-	commit_color = catppuccin_palette.mauve,
-	stashes_color = catppuccin_palette.teal,
-	state_color = catppuccin_palette.lavender,
-	staged_color = catppuccin_palette.green,
-	unstaged_color = catppuccin_palette.yellow,
-	untracked_color = catppuccin_palette.pink,
-	ahead_color = catppuccin_palette.green,
-	behind_color = catppuccin_palette.yellow,
+	prefix_color = gruvbox_theme.pink,
+	branch_color = gruvbox_theme.pink,
+	commit_color = gruvbox_theme.mauve,
+	stashes_color = gruvbox_theme.teal,
+	state_color = gruvbox_theme.lavender,
+	staged_color = gruvbox_theme.green,
+	unstaged_color = gruvbox_theme.yellow,
+	untracked_color = gruvbox_theme.pink,
+	ahead_color = gruvbox_theme.green,
+	behind_color = gruvbox_theme.yellow,
 })
 
 require("git"):setup()

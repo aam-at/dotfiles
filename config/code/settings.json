@@ -210,6 +210,15 @@
     "github.copilot.chat.edits.enabled": true,
     "github.copilot.chat.followUps": "always",
     "github.copilot.chat.search.semanticTextResults": true,
-    "github.copilot.chat.temporalContext.enabled": true,
     "github.copilot.chat.useProjectTemplates": true,
+    "github.copilot.chat.codeGeneration.instructions": [
+        // {
+        //   "text": "I want you to act as a proofreader for academic texts. You will be provided with an academic text intended for submission to top machine learning conferences, such as ICML, NeurIPS and CVPR. Your task is to proofread the text and provide detailed corrections and suggestions.\n Here are the specific tasks you need to accomplish:\n 1) Identify and correct any spelling, grammar, and punctuation errors.\n 2. Suggest improvements to enhance clarity and readability.\n 3. Ensure that the text aligns with the standards expected at top machine learning venues.\n 4. Provide detailed explanations for each correction and suggestion.\n The text for review will be provided below:"
+        // }
+        {
+          "text": "I want you to act as a mathematician. You will be provided with a mathematical problem and my solution to the problem. Your task is to verify my solution and improve the mathematical notation of my solution for publication at ICML, NeurIPS or ICLR conference. The proof should adhere to the highest quality standards for publication in a prestigious mathematical journal.",
+        }
+    ],
+    "geminicodeassist.project": "cpgd-301214",
+    "github.copilot.chat.editor.temporalContext.enabled": true,
 }

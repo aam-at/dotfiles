@@ -29,6 +29,9 @@
     key-chord
     key-seq
     memoize
+    ;; (nova :location (recipe
+    ;;                  :fetcher github
+    ;;                  :repo "thisisran/nova"))
     popper
     pdf-tools
     prescient
@@ -155,6 +158,14 @@
 (defun aam/init-memoize ()
   (use-package memoize))
 
+;; (defun aam/init-nova()
+;;   (use-package nova
+;;     :after vertico-posframe
+;;     :config
+;;     (require 'nova-vertico)
+;;     (nova-vertico-mode -1)
+;;     (vertico-posframe-mode 1)
+;;     (nova-vertico-mode 1)))
 
 (defun aam/post-init-pdf-tools ()
   (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "e" 'aam-extract-pdf-text-from-current-buffer))
