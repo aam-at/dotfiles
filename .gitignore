@@ -19,3 +19,4 @@ atom/
 **/.python-version
 **/.env
 config/lazyvim/lazy-lock.json
+config/yazi/plugins
