@@ -8,16 +8,16 @@ INSTALL_RUST=${INSTALL_RUST:-true}
 INSTALL_GO=${INSTALL_GO:-true}
 INSTALL_LUA=${INSTALL_LUA:-true}
 INSTALL_NODE=${INSTALL_NODE:-true}
+INSTALL_OLLAMA=${INSTALL_OLLAMA:-false}
 INSTALL_EMACS=${INSTALL_EMACS:-true}
 INSTALL_FONTS=${INSTALL_FONTS:-true}
 
-# Detect WSL
-if grep -qi microsoft /proc/version; then
-  WSL=true
-  echo "This script is running on WSL"
+if [ -f /etc/os-release ]; then
+  . /etc/os-release
+  echo "This script is running on $NAME"
 else
-  WSL=false
-  echo "This script is running on Ubuntu"
+  echo "Unable to detect distribution."
+  exit 1
 fi
 
 # Parse command line arguments
@@ -25,6 +25,10 @@ while [[ $# -gt 0 ]]; do
   case $1 in
   --gui)
     GUI=true
+    shift
+    ;;
+  --ollama)
+    INSTALL_OLLAMA=true
     shift
     ;;
   --no-python)
@@ -65,39 +69,78 @@ source "$HOME/.bashrc"
 bash -c "$(wget -qO- https://git.io/vQgMr)"
 
 sudo pacman -S --needed \
-  autojump automake bat bison btop base-devel ca-certificates \
-  clang cmake cscope curl fasd fd ffmpeg fish \
-  ttf-fira-code ttf-jetbrains-mono powerline-fonts \
-  freeglut fzy gcc libgccjit gettext git glances \
-  global gnupg guile htop iotop iputils jq keychain \
-  kitty alsa-lib bzip2 enchant libevent expat libffi \
-  fontconfig freetype2 fuse3 gcc giflib gmime3 \
-  gnutls gtk4 jansson jbig2dec \
-  mupdf \
-  mupdf-tools \
-  libmupdf \
-  mujs \
-  tree-sitter \
-  pdfpc \
-  libjpeg-turbo leptonica xz imagemagick \
-  ncurses openblas libpng poppler poppler-glib \
-  readline sdl2 sndio sqlite openssl systemd \
-  libtiff tree-sitter libvterm webkit2gtk xapian-core \
-  libxcb libxcomposite libxfixes libxcursor libxi libxkbcommon \
-  libxmu libxpm llvm lynx make mc meson mosh ncdu net-tools \
-  nnn openconnect openssh p7zip pandoc parallel pass \
-  pdfgrep peco python-pip python python-pyopenssl \
-  ranger ripgrep ruby screen shellcheck \
-  the_silver_searcher sqlite stow texinfo tig tk tmux \
-  trash-cli unrar wget wmctrl xdg-utils \
-  xz zlib zoxide
+  alsa-lib autojump automake base-devel bat bison btop bzip2 ca-certificates \
+  clang cmake cscope curl dust emacs-wayland enchant expat fasd fd ffmpeg fish \
+  fontconfig freeglut freetype2 fuse3 fzy gcc gcc gettext giflib git glances \
+  global gmime3 gnupg gnutls gtk4 guile helix hspell htop imagemagick iotop \
+  iputils jansson jbig2dec jq keychain kitty leptonica libevent libffi libgccjit \
+  libjpeg-turbo libmupdf libpng libtiff libvoikko libvterm libxcb libxcomposite \
+  libxcursor libxfixes libxi libxkbcommon libxmu libxpm llvm lynx make mc meson \
+  mosh mujs mupdf mupdf-tools ncdu ncurses neovim net-tools nnn nuspell openblas \
+  openconnect openssh openssl p7zip pandoc parallel pass pdfgrep pdfpc peco \
+  pinentry poppler poppler-glib powerline-fonts python python-pip python-pipx \
+  python-pyopenssl ranger readline ripgrep ruby screen sdl2 shellcheck sndio \
+  sqlite sqlite stow systemd texinfo the_silver_searcher tig tk tmux trash-cli \
+  tree-sitter tree-sitter ttf-fira-code ttf-jetbrains-mono unrar vale webkit2gtk \
+  wget wmctrl xapian-core xdg-utils xz xz zellij zlib zoxide
 
 sudo pacman -S --needed \
   github-cli git git-annex git-crypt git-crypt \
-  git-flow git-hub git-lfs \
-  git-secrets
+  git-lfs
 
-sudo yay -S git-hub git-secrets
+yay -S --needed git-hub git-secrets fpp-git mu noisetorch hdrop-git gitflow-avh git-secrets teams-for-linux
+
+if $GUI; then
+  echo "Installing packages for Wayland..."
+  sudo pacman -S --needed obsidian slack-desktop languagetool discord logseq-desktop-bin
+fi
+
+if $INSTALL_PYTHON; then
+  echo "Installing uv and plugins..."
+  pipx install uv
+
+  for tool in aider autoflake autopep8 basedpyright black \
+    cmake-language-server docformatter flake9 \
+    git+https://github.com/bcbernardo/aw-watcher-ask.git gpustat \
+    isort marker-pdf nvitop poetry pre-commit proselint pylint ruff \
+    semgrep yapf; do
+    uv tool install "$tool"
+  done
+fi
+
+if $INSTALL_FONTS; then
+  install_font_package() {
+    local repo_url="$1"
+    local dir_name="$2"
+    local font_subdir="$3"
+
+    if [ ! -d "$TOOLS_DIR/$dir_name" ]; then
+      echo "Installing $font_subdir..."
+      git clone --depth=1 "$repo_url" "$TOOLS_DIR/$dir_name"
+    fi
+    if [ ! -d "$font_subdir" ]; then
+      install_fonts "$TOOLS_DIR/$dir_name" "" "$font_subdir"
+    else
+      echo "Skipping $font_subdir installation as it is already installed"
+    fi
+  }
+  # Define font packages
+  font_packages=(
+    "https://github.com/JetBrains/JetBrainsMono/|jetbrains-fonts|JetBrainsFonts"
+    "https://github.com/adobe-fonts/source-code-pro|adobe-source-code-pro-fonts|AdobeFonts"
+    "https://github.com/domtronn/all-the-icons.el|all-icons-fonts|AllIconsFonts"
+    "https://github.com/iaolo/iA-Fonts|iawriter-fonts|iAWriterFonts"
+    "https://github.com/powerline/fonts|powerline-fonts|PowerlineFonts"
+    "https://github.com/ryanoasis/nerd-fonts|nerd-fonts|NerdFonts"
+    "https://github.com/sebastiencs/icons-in-terminal|icons-fonts|IconsFonts"
+  )
+
+  # Install each font package
+  for package in "${font_packages[@]}"; do
+    IFS='|' read -r repo_url dir_name font_subdir <<<"$package"
+    install_font_package "$repo_url" "$dir_name" "$font_subdir"
+  done
+fi
 
 # Install Rust and cargo packages
 if $INSTALL_RUST; then
@@ -107,6 +150,11 @@ if $INSTALL_RUST; then
   cargo install --locked \
     aichat argc atuin bottom broot cargo-edit cargo-outdated eza gitui gping \
     kanata lsd ouch sd tealdeer texlab viu yazi-cli yazi-fm
+
+  # for kanata
+  sudo groupadd uinput
+  sudo usermod -aG input $USER
+  sudo usermod -aG uinput $USER
 
   if $GUI; then
     cargo install --git https://github.com/neovide/neovide
@@ -146,10 +194,23 @@ if $GUI && [ ! -d "$HOME/.intellimacs" ]; then
   git clone https://github.com/MarcoIeni/intellimacs ~/.intellimacs
 fi
 
-# Install pathpicker
-if ! command -v fpp &>/dev/null; then
-  echo "Installing pathpicker..."
-  yay -S --needed fpp-git
+# Install ollama
+if $INSTALL_OLLAMA; then
+  if ! command -v ollama &>/dev/null; then
+    echo "Installing ollama..."
+    curl -fsSL https://ollama.com/install.sh | sh
+  fi
+  echo "Downloading ollama models"
+  ollama_models=(
+    # coding
+    "qwen2.5-coder:3b" "qwen2.5-coder:7b"
+    # llm
+    "gemma3:4b" "gemma3:12b" "phi4:mini"
+    # embedding
+    "granite-embedding:278m" "mxbai-embed-large:latest" "nomic-embed-text:latest")
+  for ollama_model in "${ollama_models[@]}"; do
+    ollama pull "$ollama_model"
+  done
 fi
 
 # Install fzf
@@ -159,8 +220,4 @@ if [ ! -d "$HOME/.fzf" ]; then
   ~/.fzf/install --all
 fi
 
-# Install oh-my-fish (omf)
-if [ ! -d "$HOME/.config/omf" ]; then
-  echo "Installing oh-my-fish (omf)..."
-  curl -L https://get.oh-my.fish | fish
-fi
+echo "Setup complete!"
