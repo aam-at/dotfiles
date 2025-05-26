@@ -42,8 +42,8 @@ alias rg="rg --files"                      # Ripgrep for searching files
 alias untar="tar -xvf"           # Untar files
 alias targz="tar -cvzf"          # Create tar.gz archives
 alias untargz="tar -xvzf"        # Extract tar.gz archives
-alias zip="zip -r"               # Zip directories
-alias unzip="unzip -d"           # Unzip directories
+alias zipr="zip"               # Zip directories
+alias unzipd="unzip -d"           # Unzip directories
 
 ################################
 ###  File ShortCut           ###
