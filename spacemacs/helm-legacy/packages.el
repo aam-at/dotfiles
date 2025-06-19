@@ -28,7 +28,7 @@
     helm-projectile))
 
 (defun helm-legacy/init-helm ()
-  :defer (spacemacs/defer))
+  :defer t)
 
 (defun helm-legacy/init-helm-icons ()
   (use-package helm-icons
