@@ -83,7 +83,7 @@ sudo pacman -S --needed \
   python-pyopenssl ranger readline ripgrep ruby screen sdl2 shellcheck sndio \
   sqlite sqlite stow systemd texinfo the_silver_searcher tig tk tmux trash-cli \
   tree-sitter tree-sitter ttf-fira-code ttf-jetbrains-mono unrar vale \
-  webkit2gtk wget wmctrl xapian-core xdg-utils xz xz zellij zlib zoxide
+  webkit2gtk wget wmctrl xapian-core xdg-utils xz xz zellij zenity zlib zoxide
 
 sudo pacman -S --needed \
   github-cli git git-annex git-crypt git-crypt \
