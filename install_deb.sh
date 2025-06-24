@@ -209,13 +209,13 @@ if $INSTALL_PYTHON && [ ! -d "$HOME/.pyenv" ]; then
   git clone https://github.com/pyenv/pyenv-update.git ~/.pyenv/plugins/pyenv-update
 
   # Install Python 3.11.9 with pyenv and set up virtual environments
-  CONFIGURE_OPTS=--enable-shared pyenv install 3.11.9
+  CONFIGURE_OPTS=--enable-shared pyenv install 3.11.13
 
-  pyenv virtualenv 3.11.9 neovim3
+  pyenv virtualenv 3.11.13 neovim3
   pyenv activate neovim3
   pip install pynvim
 
-  pyenv virtualenv 3.11.9 tensor3
+  pyenv virtualenv 3.11.13 tensor3
   pyenv activate tensor3
   pip install -U "jedi>=0.13.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"
   pip install -U "ptvsd>=4.2" epc importmagic mupy pudb
@@ -363,7 +363,7 @@ fi
 # Install oh-my-fish (omf)
 if [ ! -d "$HOME/.config/omf" ]; then
   echo "Installing oh-my-fish (omf)..."
-  curl -L https://get.oh-my.fish | fish
+  curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
 fi
 
 # Install icons-in-terminal
