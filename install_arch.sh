@@ -68,41 +68,48 @@ source "$HOME/.bashrc"
 # Install Gogh Color theme
 bash -c "$(wget -qO- https://git.io/vQgMr)"
 
-sudo pacman -S --needed \
-  alsa-lib aspell aspell-en aspell-ru autojump automake base-devel bat bibtool \
-  bison btop bzip2 ca-certificates clang cmake cscope curl dust emacs-wayland \
+# Function to install packages
+install_packages() {
+  echo "Installing packages..."
+  sudo pacman -S --needed "$@"
+}
+
+install_packages \
+  alsa-lib aspell aspell-en aspell-ru automake base-devel bat bibtool bison \
+  btop bzip2 ca-certificates clang cmake cscope curl dust emacs-wayland \
   enchant enchant expat fasd fd ffmpeg fish fontconfig freeglut freetype2 \
   fuse3 fzy gcc gcc gettext giflib git glances global gmime3 gnupg gnutls gtk4 \
   guile helix hspell htop imagemagick iotop iputils jansson jbig2dec jq \
   keychain kitty leptonica libevent libffi libgccjit libjpeg-turbo libmupdf \
-  libpng libtiff libtiff5 libvoikko libvterm libxcb libxcomposite libxcursor \
-  libxfixes libxi libxkbcommon libxmu libxpm llvm lynx make mc meson mosh mujs \
-  mupdf mupdf-tools ncdu ncurses neovim net-tools nnn nuspell openblas \
-  openconnect openssh openssl p7zip pandoc parallel pass pdfgrep pdfpc pdftk \
-  peco pinentry poppler poppler-glib powerline-fonts python python-pip \
-  python-pipx python-pyopenssl ranger readline ripgrep ruby screen sdl2 \
-  shellcheck sndio sqlite sqlite stow systemd texinfo the_silver_searcher tig \
-  tk tmux trash-cli tree-sitter tree-sitter ttf-fira-code ttf-jetbrains-mono \
-  unrar vale webkit2gtk wget wmctrl xapian-core xdg-utils xz xz zathura \
-  zathura-djvu zathura-pdf-poppler zellij zenity zlib zoxide
+  libpng libtiff libvoikko libvterm libxcb libxcomposite libxcursor libxfixes \
+  libxi libxkbcommon libxmu libxpm llvm lynx make mc meson mosh mujs mupdf \
+  mupdf-tools ncdu ncurses neovim net-tools nnn nuspell openblas openconnect \
+  openssh openssl p7zip pandoc parallel pass pdfgrep pdfpc pdftk peco pinentry \
+  poppler poppler-glib powerline-fonts python python-pip python-pipx \
+  python-pyopenssl ranger readline ripgrep ruby screen sdl2 shellcheck sndio \
+  sqlite sqlite stow systemd texinfo the_silver_searcher tig tk tmux trash-cli \
+  tree-sitter tree-sitter ttf-fira-code ttf-jetbrains-mono unrar vale \
+  webkit2gtk wget wmctrl xapian-core xdg-utils xz xz zathura zathura-djvu \
+  zathura-pdf-poppler zellij zenity zlib zoxide
 
-sudo pacman -S --needed \
+install_packages \
   github-cli git git-annex git-crypt git-crypt \
-  git-lfs
+  git-delta git-lfs
 
-yay -S --needed git-hub git-secrets fpp-git mu noisetorch hdrop-git gitflow-avh git-secrets teams-for-linux
+yay -S --needed \
+  autojump git-hub git-secrets fpp-git mu noisetorch hdrop-git gitflow-avh \
+  git-secrets teams-for-linux
 
 # Install GUI packages
 if $GUI; then
   echo "Installing packages for Wayland..."
-  sudo pacman -S --needed obsidian slack-desktop languagetool discord logseq-desktop-bin
+  install_packages obsidian slack-desktop languagetool discord logseq-desktop-bin
 fi
 
 # Install Node.js
 if $INSTALL_NODE; then
   echo "Installing Node.js..."
-  curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-  install_packages nodejs
+  install_packages nodejs npm
   sudo npm i -g npm
 
   # Install Gemini cli
@@ -164,7 +171,8 @@ fi
 # Install Rust and cargo packages
 if $INSTALL_RUST; then
   echo "Installing Rust and cargo packages..."
-  sudo pacman -S --needed rustup
+  install_packages rustup
+  rustup default stable
   source "$HOME/.cargo/env"
   cargo install --locked \
     aichat argc atuin bottom broot cargo-edit cargo-outdated eza gitui gping \
@@ -187,7 +195,7 @@ fi
 # Install go packages
 if $INSTALL_GO; then
   echo "Installing go and go packages..."
-  sudo pacman -S --needed go
+  install_packages go
   repos=("charmbracelet/freeze" "charmbracelet/glow" "charmbracelet/mods" "charmbracelet/vhs" "stefanlogue/meteor" "jesseduffield/lazydocker")
   for repo in "${repos[@]}"; do
     go install "github.com/${repo}@latest"
@@ -197,7 +205,7 @@ fi
 # Install lua packages
 if $INSTALL_LUA; then
   echo "Installing luarocks and tiktoken_core..."
-  sudo pacman -S --needed luarocks
+  install_packages luarocks
   luarocks install --local tiktoken_core
 fi
 
@@ -237,6 +245,12 @@ if [ ! -d "$HOME/.fzf" ]; then
   echo "Installing fzf..."
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install --all
+fi
+
+# Install oh-my-fish (omf)
+if [ ! -d "$HOME/.config/omf" ]; then
+  echo "Installing oh-my-fish (omf)..."
+  curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
 fi
 
 echo "Setup complete!"
