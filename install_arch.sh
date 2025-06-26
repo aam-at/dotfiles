@@ -92,9 +92,26 @@ sudo pacman -S --needed \
 
 yay -S --needed git-hub git-secrets fpp-git mu noisetorch hdrop-git gitflow-avh git-secrets teams-for-linux
 
+# Install GUI packages
 if $GUI; then
   echo "Installing packages for Wayland..."
   sudo pacman -S --needed obsidian slack-desktop languagetool discord logseq-desktop-bin
+fi
+
+# Install Node.js
+if $INSTALL_NODE; then
+  echo "Installing Node.js..."
+  curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+  install_packages nodejs
+  sudo npm i -g npm
+
+  # Install Gemini cli
+  sudo npm install -g @google/gemini-cli
+
+  sudo npm i -g \
+    bash-language-server js-beautify prettier tslint typescript \
+    typescript-formatter typescript-language-server vim-language-server \
+    vscode-json-languageserver
 fi
 
 if $INSTALL_PYTHON; then
