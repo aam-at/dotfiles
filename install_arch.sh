@@ -115,6 +115,9 @@ if $INSTALL_NODE; then
   # Install Gemini cli
   sudo npm install -g @google/gemini-cli
 
+  # Install bibtex-tidy
+  sudo npm install -g bibtex-tidy
+
   sudo npm i -g \
     bash-language-server js-beautify prettier tslint typescript \
     typescript-formatter typescript-language-server vim-language-server \
