@@ -115,6 +115,9 @@ if $INSTALL_NODE; then
   # Install Gemini cli
   sudo npm install -g @google/gemini-cli
 
+  # Install OpenCode AI CLI
+  sudo npm i -g opencode-ai@latest
+
   # Install bibtex-tidy
   sudo npm install -g bibtex-tidy
 
