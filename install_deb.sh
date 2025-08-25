@@ -135,6 +135,12 @@ if $INSTALL_NODE; then
   # Install Gemini cli
   sudo npm install -g @google/gemini-cli
 
+  # Install codex
+  sudo npm install -g @openai/codex
+
+  # Anthropic Code
+  sudo npm install -g @anthropic-ai/claude-code
+
   # Install OpenCode AI CLI
   sudo npm i -g opencode-ai@latest
 
