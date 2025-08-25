@@ -125,6 +125,8 @@
               (local-set-key (kbd "M-Q") 'unfill-paragraph)))
 
   ;; status line
+  (with-eval-after-load 'shfmt
+    (spacemacs|diminish shfmt-on-save-mode " " " S"))
   (with-eval-after-load 'tree-sitter
     (spacemacs|diminish tree-sitter-mode " " " T"))
   (with-eval-after-load 'ts-fold
