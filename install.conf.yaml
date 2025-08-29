@@ -54,9 +54,10 @@
     ~/.config/pudb/pudb.cfg:
       create: true
       path: config/python/pudb.cfg
-    ~/.config/systemd/user:
+    ~/.config/systemd/user/:
       create: true
-      path: config/systemd
+      globa: true
+      path: config/systemd/*
     ~/.config/zathura:
       create: true
       path: config/zathura
