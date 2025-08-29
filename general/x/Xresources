@@ -25,3 +25,5 @@
 *.color21:                         #ebdbb2
 *.cursorColor:                     #d5c4a1
 *.foreground:                      #d5c4a1
+Xcursor.theme: Bibata-Modern-Ice
+Xcursor.size: 30
