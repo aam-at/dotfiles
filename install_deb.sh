@@ -202,7 +202,7 @@ fi
 # Instal neovim
 if ! command -v nvim &>/dev/null || [ ! -d "/usr/local/stow/nvim" ]; then
   echo "Installing neovim..."
-  curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r ".assets[] | select(.name | endswith(\"-linux64.tar.gz\")).browser_download_url" | wget -O "/tmp/nvim.tar.gz" -i -
+  curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r ".assets[] | select(.name | endswith(\"-linux-x86_64.tar.gz\")).browser_download_url" | wget -O "/tmp/nvim.tar.gz" -i -
   sudo mkdir -p /usr/local/stow/nvim
   sudo tar -xzvf "/tmp/nvim.tar.gz" -C "/usr/local/stow/nvim" --strip-components=1
   cd -- || exit
