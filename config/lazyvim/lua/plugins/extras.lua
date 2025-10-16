@@ -11,7 +11,7 @@ return {
 		"stevearc/oil.nvim",
 		cmd = "Oil",
 		opts = {},
-		dependencies = { { "echasnovski/mini.icons", opts = {} } },
+		dependencies = { { "nvim-mini/mini.icons", opts = {} } },
 		config = function(_, opts)
 			require("oil").setup(opts)
 		end,

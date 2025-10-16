@@ -1,7 +1,7 @@
 return {
 	-- mason to automatically install ruff and basedpyright
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		opts = function(_, opts)
 			table.insert(opts.ensure_installed, "ruff")
 			table.insert(opts.ensure_installed, "basedpyright")
