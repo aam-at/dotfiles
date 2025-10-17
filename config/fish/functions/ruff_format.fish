@@ -1,15 +1,28 @@
-function ruff_format -d "Runs ruff to sort imports and format the specified file.
+function ruff_format --description 'Format Python files with ruff (imports + formatter)'
+    if not set -q argv[1]
+        echo 'Usage: ruff_format <file> [...]' >&2
+        return 64
+    end
 
-Usage:
-  ruff_format <filename>
+    if not type -q ruff
+        echo 'ruff_format: ruff is not installed.' >&2
+        return 127
+    end
 
-Arguments:
-  filename - The name of the file to be checked and formatted by ruff."
-    set -l file_to_format $argv[1]
+    set -l rc 0
+    for target in $argv
+        if not test -f $target
+            echo "ruff_format: \"$target\" is not a regular file." >&2
+            set rc 1
+            continue
+        end
 
-    # Sort imports and fix issues
-    ruff check --select I --fix $file_to_format
+        command ruff check --select I --fix -- $target
+        or return $status
 
-    # Format the file
-    ruff format $file_to_format
+        command ruff format -- $target
+        or return $status
+    end
+
+    return $rc
 end
