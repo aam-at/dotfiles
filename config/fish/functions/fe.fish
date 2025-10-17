@@ -1,8 +1,14 @@
-function fe -d "Open the selected file with the default editor
-    - Bypass fuzzy finder if there's only one match (--select-1)
-    - Exit if there's no match (--exit-0)"
-    set -lx files (fzf-tmux --query=$argv --multi --select-1 --exit-0)
-    if test -n $files
-        eval $EDITOR $files
+function fe --description 'Open selected files with $EDITOR'
+    set -l query (string join ' ' -- $argv)
+
+    set -l fzf (__fish_config_fzf_cmd)
+    or return $status
+
+    set -l selections (command $fzf --multi --select-1 --exit-0 --query="$query")
+    if not set -q selections[1]
+        return 1
     end
+
+    set -l escaped (string escape -- $selections)
+    eval $EDITOR $escaped
 end

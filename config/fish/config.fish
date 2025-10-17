@@ -2,13 +2,15 @@
 # Basic config #
 ################
 
-# reset user paths
+# Rebuild user-specific PATH entries deterministically each session.
 set -e fish_user_paths
 
-# use emacs keybindgins by default
-set -U fish_key_bindings fish_default_key_bindings
+# Keep default (Emacs-style) key bindings unless explicitly overridden.
+set -q fish_key_bindings; or set -U fish_key_bindings fish_default_key_bindings
 
-if test -n "$EMACS"
+set -g __fish_config_file ~/.config/fish/config.fish
+
+if set -q EMACS
     set -x TERM eterm-color
 
     function fish_title
@@ -16,130 +18,135 @@ if test -n "$EMACS"
     end
 end
 
-##############################
-# Load environment variables #
-##############################
-
-if test -f ~/.keychain/$hostname-fish
-    source ~/.keychain/$hostname-fish
-end
-if test -f ~/.keychain/$hostname-fish-gpg
-    source ~/.keychain/$hostname-fish-gpg
-end
-
-
-# Source environement variables shared between different shells.
-# http://unix.stackexchange.com/questions/176322/share-environment-variables-between-bash-and-fish/176331#176331
-function export --description 'Set global variable. Alias for set -gx, made for bash compatibility'
-    if test -z "$argv"
-        set
-        return 0
+function __fish_config_hostname --description 'Return current hostname in a cross-shell friendly way'
+    if set -q hostname
+        echo $hostname
+    else
+        hostname
     end
-    for arg in $argv
-        set -l v (echo $arg|sed s/=/\\n/)
-        switch (count $v)
-            case 1
-                set -gx $v $$v
-            case 2
-                if [ $v[1] = PATH ]
-                    set -gx PATH (echo $v[2]|tr ': ' \n)
-                else
-                    set -gx $v
-                end
+end
+
+function __fish_config_load_keychain --description 'Load cached ssh/gpg agent environment exported by keychain'
+    set -l host (__fish_config_hostname)
+    set -l base ~/.keychain/$host-fish
+
+    for file in $base $base-gpg
+        if test -r $file
+            source $file
         end
     end
 end
 
-if test -e ~/.env
-    set -x PATH_BK $PATH
-    source ~/.env
-    set -U fish_user_paths $PATH $fish_user_paths
-    set -gx PATH $PATH_BK
-    set -e PATH_BK
+function __fish_config_source_env --description 'Merge ~/.env exports into fish and keep PATH ordering intact'
+    set -l env_file ~/.env
+    if not test -r $env_file
+        return
+    end
+
+    set -l original_path $PATH
+    set -l original_user_paths $fish_user_paths
+
+    source $env_file
+
+    set -l env_path $PATH
+
+    set -gx PATH $original_path
+    set -U fish_user_paths $original_user_paths
+
+    if set -q env_path[1]
+        if functions -q fish_add_path
+            set -l env_count (count $env_path)
+            for idx in (seq $env_count -1 1)
+                set -l dir $env_path[$idx]
+                if test -n "$dir"
+                    fish_add_path --move $dir
+                end
+            end
+        else
+            set -U fish_user_paths $env_path $fish_user_paths
+        end
+    end
+end
+
+__fish_config_source_env
+
+if status --is-interactive; and test -t 1
+    __fish_config_load_keychain
 end
 
 #####################
 # Configure plugins #
 #####################
 
-# Path to Oh My Fish install.
-set -gx OMF_PATH $HOME/.local/share/omf
+# Path and configuration for Oh My Fish live in conf.d/omf.fish
 
-# Load oh-my-fish configuration.
-if test -d $OMF_PATH # Customize Oh My Fish configuration path.
-    set -gx OMF_CONFIG $HOME/.config/omf
-
-    # Oh My Fish plugins
-    set fish_plugins emacs fasd https://github.com/gazorby/fifc gi git-flow pyenv python weather
-    # Oh My Fish themes
-    set fish_themes agnoster batman krisleech ocean syl20bnr toaster zish
-    # select theme
-    set fish_theme batman
-end
-
-# configure fifc
+# Configure fifc only once the command is available.
 if type -q fifc
-    set -Ux fifc_editor vim
-    set -U fifc_keybinding \cx
-    set -U fifc_bat_opts --style=numbers
-    set -U fifc_fd_opts --hidden
+    set -q fifc_editor; or set -Ux fifc_editor vim
+    set -q fifc_keybinding; or set -U fifc_keybinding \cx
+    set -q fifc_bat_opts; or set -U fifc_bat_opts --style=numbers
+    set -q fifc_fd_opts; or set -U fifc_fd_opts --hidden
 end
 
-# configure zoxide
-if type -q zoxide
-    zoxide init fish | source
-end
+if status --is-interactive
+    if type -q zoxide
+        zoxide init fish | source
+    end
 
-# configure atuin
-if type -q atuin
-    set -gx ATUIN_NOBIND true
-    atuin init fish | source
-end
+    if type -q atuin
+        set -gx ATUIN_NOBIND true
+        atuin init fish | source
+    end
 
-# configure autojump
-if test -d /usr/share/autojump
-    source /usr/share/autojump/autojump.fish
-end
+    if test -d /usr/share/autojump
+        source /usr/share/autojump/autojump.fish
+    end
 
-# configure pyenv
-if test -d ~/.pyenv
-    set -gx PYENV_ROOT $HOME/.pyenv
-    set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
-    pyenv init - | source
-    pyenv virtualenv-init - | source
-end
+    if test -d ~/.pyenv
+        set -gx PYENV_ROOT $HOME/.pyenv
+        if functions -q fish_add_path
+            fish_add_path --move $PYENV_ROOT/bin
+        else
+            set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
+        end
+        if type -q pyenv
+            pyenv init - | source
+            pyenv virtualenv-init - | source
+        end
+    end
 
-# configure direnv
-if type -q direnv
-    # do stuff
-    direnv hook fish | source
-    set -g direnv_fish_mode eval_on_arrow    # trigger direnv at prompt, and on every arrow-based directory change (default)
-    set -g direnv_fish_mode eval_after_arrow # trigger direnv at prompt, and only after arrow-based directory changes before executing command
-    set -g direnv_fish_mode disable_arrow    # trigger direnv at prompt only, this is similar functionality to the original behavior
-end
+    if type -q direnv
+        direnv hook fish | source
+        set -g direnv_fish_mode disable_arrow
+    end
 
-# configure icons-in-terminal
-if test -d ~/.local/share/icons-in-terminal
-    source ~/.local/share/icons-in-terminal/icons.fish
+    if test -d ~/.local/share/icons-in-terminal
+        source ~/.local/share/icons-in-terminal/icons.fish
+    end
 end
 
 ################################
 # Custom aliases and functions #
 ################################
-if test -e ~/.aliases
+
+if test -r ~/.aliases
     source ~/.aliases
 end
-if test -e ~/.config/fish/aliases.fish
+
+if test -r ~/.config/fish/aliases.fish
     source ~/.config/fish/aliases.fish
 end
 
-# configure fzf
-if test -d ~/.fzf/bin
+if functions -q fish_add_path
+    fish_add_path --move $HOME/.fzf/bin
+else
     set -U fish_user_paths $HOME/.fzf/bin $fish_user_paths
 end
 
 function reload
-    source ~/.config/fish/config.fish
+    if test -r $__fish_config_file
+        source $__fish_config_file
+    end
 end
 
 function emacs
@@ -147,3 +154,7 @@ function emacs
     set -lx TERM xterm-24bit
     eval (which emacs) $argv
 end
+
+functions -e __fish_config_hostname
+functions -e __fish_config_load_keychain
+functions -e __fish_config_source_env
