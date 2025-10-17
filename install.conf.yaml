@@ -44,6 +44,7 @@
     ~/.config/nvim: config/lazyvim
     ~/.config/ranger: config/ranger
     ~/.config/redshift.conf: config/redshift.conf
+    ~/.config/starship.toml: config/starship.toml
     ~/.config/tmux: config/tmux
     ~/.config/wezterm: config/wezterm
     ~/.config/xremap: config/xremap
