@@ -80,8 +80,8 @@ alias realls="/bin/ls"
 
 # Define cat aliases
 alias cat='batcat'
-alias catn='batcat --number'
-alias catA='batcat --show-all'
+alias catn='cat --number'
+alias catA='cat --show-all'
 alias realcat='/bin/cat'
 
 # Define plocate alias
