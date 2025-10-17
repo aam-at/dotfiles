@@ -75,23 +75,23 @@ install_packages() {
 }
 
 install_packages \
-  alsa-lib aspell aspell-en aspell-ru automake base-devel bat bibtool bison \
-  btop bzip2 ca-certificates clang cmake cscope curl dust emacs-wayland \
-  enchant enchant expat fasd fd ffmpeg file-roller fish fontconfig freeglut \
-  freetype2 fuse3 fzy gcc gcc gettext giflib git github-desktop glances global \
-  gmime3 gnupg gnutls gtk4 guile helix hspell htop hunspell imagemagick iotop \
-  iputils jansson jbig2dec jq keychain kitty leptonica libevent libffi \
-  libgccjit libjpeg-turbo libmupdf libpng libtiff libvoikko libvterm libxcb \
-  libxcomposite libxcursor libxfixes libxi libxkbcommon libxmu libxpm llvm \
-  lynx make mc meson mosh mujs mupdf mupdf-tools ncdu ncurses neovim net-tools \
-  nnn nuspell openblas openconnect openssh openssl p7zip pandoc parallel pass \
-  pdfgrep pdfpc pdftk peco pinentry poppler poppler-glib powerline-fonts \
-  python python-pip python-pipx python-pyopenssl ranger readline ripgrep ruby \
-  screen sdl2 shellcheck sndio sqlite sqlite stow systemd texinfo \
-  the_silver_searcher thunar thunar-archive-plugin tig tk tmux trash-cli \
-  tree-sitter tree-sitter ttf-fira-code ttf-jetbrains-mono unrar vale \
-  webkit2gtk wget wmctrl xapian-core xdg-utils xz xz zathura zathura-djvu \
-  zathura-pdf-poppler zed zellij zenity zlib-ng zoxide
+  alsa-lib aspell aspell-en aspell-ru automake base-devel bat bibtool bison btop \
+  bzip2 ca-certificates clang cmake cscope curl dust emacs-wayland enchant \
+  enchant expat fasd fd ffmpeg file-roller fish fontconfig freeglut freetype2 \
+  fuse3 fzy gcc gcc gettext giflib git github-desktop glances global gmime3 \
+  gnupg gnutls gtk4 guile helix hspell htop hunspell imagemagick iotop iputils \
+  jansson jbig2dec jq keychain kitty leptonica libevent libffi libgccjit \
+  libjpeg-turbo libmupdf libpng libtiff libvoikko libvterm libxcb libxcomposite \
+  libxcursor libxfixes libxi libxkbcommon libxmu libxpm llvm lynx make mc meson \
+  mosh mujs mupdf mupdf-tools ncdu ncurses neovim net-tools nnn nuspell openblas \
+  openconnect openssh openssl p7zip pandoc parallel pass pdfgrep pdfpc pdftk \
+  peco pinentry poppler poppler-glib powerline-fonts python python-pip \
+  python-pipx python-pyopenssl qps ranger readline ripgrep ruby screen sdl2 \
+  shellcheck sndio sqlite sqlite stow systemd texinfo the_silver_searcher thunar \
+  thunar-archive-plugin tig tk tmux trash-cli tree-sitter tree-sitter \
+  ttf-fira-code ttf-jetbrains-mono unrar vale webkit2gtk wget wmctrl xapian-core \
+  xdg-utils xz xz zathura zathura-djvu zathura-pdf-poppler zed zellij zenity \
+  zlib-ng zoxide
 
 install_packages \
   git git-annex git-crypt git-delta git-lfs github-cli
