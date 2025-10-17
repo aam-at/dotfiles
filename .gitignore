@@ -20,3 +20,5 @@ atom/
 **/.env
 config/lazyvim/lazy-lock.json
 config/yazi/plugins
+config/fish/functions/*fifc*.fish
+config/fish/functions/fisher.fish
