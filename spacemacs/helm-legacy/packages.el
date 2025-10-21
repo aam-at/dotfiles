@@ -22,9 +22,13 @@
 
 (defconst helm-legacy-packages
   '(helm
-    helm-icons
+    (helm-icons :location (recipe
+                           :fetcher github
+                           :repo "yyoncho/helm-icons"))
     (helm-ls-git :toggle (configuration-layer/layer-used-p 'git))
-    helm-posframe
+    (helm-posframe :location (recipe
+                              :fetcher github
+                              :repo "tumashu/helm-posframe"))
     helm-projectile))
 
 (defun helm-legacy/init-helm ()
