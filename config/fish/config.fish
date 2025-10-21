@@ -119,6 +119,11 @@ if status is-interactive
         set -q fifc_fd_opts; or set -U fifc_fd_opts --hidden
     end
 
+    # television
+    if command -v television &>/dev/null
+        television init fish | source
+    end
+
     # zoxide
     if command -v zoxide &>/dev/null
         zoxide init fish --cmd cd | source
