@@ -296,8 +296,8 @@ if $INSTALL_RUST; then
   echo "Installing Rust and cargo packages..."
   source "$HOME/.cargo/env"
   cargo install --locked \
-    aichat argc atuin bottom broot cargo-edit cargo-outdated eza gitui gping \
-    kanata lsd ouch sd tealdeer texlab viu yazi-cli yazi-fm
+    aichat argc atuin bottom broot cargo-edit cargo-outdated eza gitui gitu \
+    gping kanata lsd ouch sd tealdeer texlab viu yazi-cli yazi-fm
   cargo install --git https://github.com/blahgeek/emacs-lsp-booster
 
   if $GUI; then

@@ -1,7 +1,7 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
 rev = "de53d90"
-hash = "3996fc74044bc44144b323686f887e1"
+hash = "cf5e10bd4b119e1c1b0c0cc7447715e0"
 
 [[plugin.deps]]
 use = "imsi32/yatline"
@@ -16,7 +16,7 @@ hash = "4d441b38138ce6492a4e10fa349fd65"
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
 rev = "de53d90"
-hash = "63b6c222bf2103b3023389dde5e2ecfe"
+hash = "8372320741a15c08a43edf053c268ab1"
 
 [[plugin.deps]]
 use = "Reledia/glow"

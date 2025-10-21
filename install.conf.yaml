@@ -34,6 +34,7 @@
       path: config/direnv/direnvrc
     ~/.config/fish: config/fish
     ~/.config/git: config/git
+    ~/.config/gitu: config/gitu
     ~/.config/gitui: config/gitui
     ~/.config/helix: config/helix
     ~/.config/kanata: config/kanata
