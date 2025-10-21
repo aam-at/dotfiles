@@ -188,7 +188,7 @@ if $INSTALL_RUST; then
   source "$HOME/.cargo/env"
   cargo install --locked \
     aichat argc atuin bottom broot cargo-edit cargo-outdated eza gitu gitui \
-    gping kanata lsd ouch sd tealdeer texlab viu yazi-cli yazi-fm
+    gping kanata lsd ouch sd tealdeer television texlab viu yazi-cli yazi-fm
   cargo install --git https://github.com/blahgeek/emacs-lsp-booster
 
   # for kanata
