@@ -1,38 +1,105 @@
 {
-  "icon_theme": "Zed (Default)",
-  "assistant": {
+  "agent": {
     "default_model": {
       "provider": "copilot_chat",
-      "model": "gpt-4o"
+      "model": "gpt-5"
     },
-    "version": "2"
+    "model_parameters": []
   },
+  "multi_cursor_modifier": "cmd_or_ctrl",
+  "gutter": {
+    "line_numbers": true
+  },
+  "minimap": {
+    "show": "auto"
+  },
+  "autosave": "on_window_change",
+  "show_edit_predictions": true,
+  "restore_on_startup": "last_session",
+  "format_on_save": "on",
+  "remove_trailing_whitespace_on_save": true,
+  "ensure_final_newline_on_save": true,
+  "preferred_line_length": 100,
+  "tab_size": 2,
+  "hard_tabs": false,
+  "soft_wrap": "preferred_line_length",
+  "prettier": {
+    "allowed": true
+  },
+  "helix_mode": false,
+  "ui_font_family": ".ZedSans",
+  "ui_font_size": 15,
+  "icon_theme": "Material Icon Theme",
   "theme": {
     "mode": "system",
     "light": "Gruvbox Light",
     "dark": "Gruvbox Dark"
   },
   "base_keymap": "VSCode",
-  "buffer_font_family": "BerkeleyMono Nerd Font",
+  "buffer_font_family": "JetBrainsMono Nerd Font Mono",
   "buffer_font_size": 15,
-  "vim_mode": true,
-  "relative_line_numbers": true,
-  "cursor_blink": false,
-  "scrollbar": {
-    "show": "never"
-  },
   "buffer_line_height": {
     "custom": 1.7
   },
+  "vim_mode": true,
+  "vim": {
+    "use_system_clipboard": "never",
+    "enable_vim_sneak": true,
+    "use_multiline_find": true,
+    "use_smartcase_find": true,
+    "toggle_relative_line_numbers": true,
+    "custom_digraphs": {
+      "fz": "🧟‍♀️"
+    }
+  },
+  "relative_line_numbers": true,
+  "cursor_blink": false,
+  "tab_bar": {
+    "show": true
+  },
+  "scrollbar": {
+    "show": "never"
+  },
   "terminal": {
-    "font_family": "BerkeleyMono Nerd Font",
+    "font_family": "JetBrainsMono Nerd Font Mono",
     "font_size": 15,
     "line_height": {
       "custom": 1.7
+    },
+    "env": {
+      "EDITOR": "zed --wait"
     }
   },
   "inlay_hints": {
     "enabled": false
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "languages": {
+    "Go": {
+      "preferred_line_length": 100
+    },
+    "TypeScript": {
+      "preferred_line_length": 100
+    },
+    "JavaScript": {
+      "preferred_line_length": 100
+    },
+    "Python": {
+      "preferred_line_length": 100
+    },
+    "JSON": {
+      "preferred_line_length": 100
+    },
+    "YAML": {
+      "preferred_line_length": 100
+    },
+    "Markdown": {
+      "preferred_line_length": 88,
+      "remove_trailing_whitespace_on_save": false
+    }
   },
   "lsp": {
     "gopls": {
@@ -64,29 +131,13 @@
           "rangeVariableTypes": true
         }
       }
-    }
-  },
-  "languages": {
-    "Python": {
-      "format_on_save": {
-        "language_server": {
-          "name": "ruff"
+    },
+    "ltex": {
+      "settings": {
+        "ltex": {
+          "language": "en-US"
         }
-      },
-      "formatter": {
-        "language_server": {
-          "name": "ruff"
-        }
-      },
-      "language_servers": [
-        "pyright",
-        "ruff"
-      ]
-    }
-  },
-  "terminal": {
-    "env": {
-      "EDITOR": "zed --wait"
+      }
     }
   },
   "file_types": {
@@ -99,10 +150,6 @@
       "jsonc",
       "*.code-snippets"
     ]
-  },
-  "telemetry": {
-    "diagnostics": false,
-    "metrics": false
   },
   "project_panel": {
     "button": true,

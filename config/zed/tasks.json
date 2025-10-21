@@ -1,0 +1,24 @@
+[
+  {
+    "label": "magit",
+    "command": "zed \"$(gitu)\"",
+    "hide": "always",
+    "allow_concurrent_runs": false,
+    "use_new_terminal": true,
+    "reveal": "always",
+  },
+  {
+    "label": "latexmk",
+    "command": "latexmk",
+    "args": [
+      "-synctex=1",
+      "-pdf",
+      "-recorder",
+      "$ZED_FILENAME"
+    ],
+    "cwd": "$ZED_DIRNAME",
+    "tags": [
+      "latex-build"
+    ]
+  }
+]
