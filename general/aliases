@@ -79,7 +79,7 @@ alias ld="_ls -l --group-directories-first --only-dirs" # Long listing of direct
 alias realls="/bin/ls"
 
 # Define cat aliases
-alias cat='batcat'
+alias cat='bat'
 alias catn='cat --number'
 alias catA='cat --show-all'
 alias realcat='/bin/cat'
