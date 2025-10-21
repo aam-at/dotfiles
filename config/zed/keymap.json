@@ -1,103 +1,301 @@
+// Zed keymap — Spacemacs/Evil-flavored (Linux/Windows chords)
+// Goals:
+// - Keep SPC workflow coherent and mnemonic
+// - Pane & buffer nav parity with Spacemacs
+// - Safe actions only; keystroke shims where Zed lacks a direct action
+
 [
+  /* =========================
+   * Leader (SPC) & global ops
+   * ========================= */
   {
-    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "context": "VimControl && !menu",
     "bindings": {
-      "ctrl-w z": "workspace::ToggleZoom",
-      "ctrl-w t": "terminal_panel::ToggleFocus",
-      "g ]": "editor::GoToDiagnostic",
-      "g [": "editor::GoToPrevDiagnostic",
-      "g r": "editor::FindAllReferences",
-      "shift-k": "editor::Hover",
-      "space l a": "editor::ToggleCodeActions",
-      "space l r": "editor::Rename",
-      "space l f": "editor::Format",
-      "space l l": "diagnostics::Deploy",
-      "space l o": "outline::Toggle",
-      "g c c": "editor::ToggleComments",
-      "space f": "file_finder::Toggle",
-      "space o": "tab_switcher::Toggle",
-      "space e": "workspace::ToggleLeftDock",
-      "space p": "projects::OpenRecent",
-      "space v": "editor::GoToDefinitionSplit"
+      // leader essentials
+      "space :": "command_palette::Toggle",
+      "space space": "file_finder::Toggle",
+      // full-project search UI
+      "space /": "workspace::NewSearch",
+      // reveal current file
+      "space e": "pane::RevealInProjectPanel",
+
+      // files (SPC f …)
+      "space f f": "file_finder::Toggle",
+      "space f s": "workspace::Save",
+      "space f S": "workspace::SaveAll",
+      "space f t": "project_panel::ToggleFocus",
+      "space f y": "workspace::CopyPath",
+      "space f Y": "workspace::CopyRelativePath",
+      "space f e d": "zed::OpenKeymap",
+      "space f p": "projects::OpenRecent",
+
+      // buffers/tabs (SPC b …)
+      "space b b": "tab_switcher::Toggle",
+      "space b d": "pane::CloseActiveItem",
+      "space b k": "pane::CloseActiveItem",
+      "space b K": "pane::CloseOtherItems",
+      "space b n": "workspace::NewFile",
+      // next/prev tab (safe shim)
+      "space b ]": ["workspace::SendKeystrokes", "ctrl-tab"],
+      "space b [": ["workspace::SendKeystrokes", "ctrl-shift-tab"],
+      // quick alternate buffer
+      "space tab": "pane::AlternateFile",
+
+      // windows (SPC w …)
+      // splits
+      "space w v": "pane::SplitVertical",
+      "space w s": "pane::SplitHorizontal",
+      "space w /": "pane::SplitVertical",
+      "space w -": "pane::SplitHorizontal",
+
+      // focus (hjkl)
+      "space w h": "workspace::ActivatePaneLeft",
+      "space w j": "workspace::ActivatePaneDown",
+      "space w k": "workspace::ActivatePaneUp",
+      "space w l": "workspace::ActivatePaneRight",
+
+      // move panes (HJKL) via vim-style shim
+      "space w H": ["workspace::SendKeystrokes", "ctrl-w shift-h"],
+      "space w J": ["workspace::SendKeystrokes", "ctrl-w shift-j"],
+      "space w K": ["workspace::SendKeystrokes", "ctrl-w shift-k"],
+      "space w L": ["workspace::SendKeystrokes", "ctrl-w shift-l"],
+
+      // zoom / cycle / close
+      "space w m": "workspace::ToggleZoom",
+      "space w w": "workspace::ActivateNextPane",
+      "space w d": "pane::CloseActiveItem",
+      "space w q": "pane::CloseActiveItem", // Spacemacs muscle memory
+      "space w m m": "workspace::CloseAllDocks",
+      "ctrl-w ctrl-w": "workspace::ActivateNextPane",
+
+      // projects (SPC p …)
+      "space p p": "projects::OpenRecent",
+      "space p f": "file_finder::Toggle",
+      "space p t": "project_panel::ToggleFocus",
+      "space p r": "task::Spawn",
+
+      // search (SPC s …)
+      "space s s": "vim::Search",
+      "space s b": ["vim::Search", { "backwards": true }],
+      "space s p": "workspace::NewSearch",
+      "space s i": "outline::Toggle",
+      "space s w": "pane::DeploySearch", // search word under cursor (inline)
+      "space *": ["workspace::SendKeystrokes", "ctrl-d space / enter"],
+
+      // comments (SPC c …)
+      "space c l": "vim::ToggleComments",
+      "space c a": "editor::ToggleCodeActions",
+      "space .": "editor::ToggleCodeActions",
+      "space c r": "editor::Rename",
+
+      // toggles (SPC t …)
+      "space t n": "editor::ToggleLineNumbers",
+      "space t r": "editor::ToggleRelativeLineNumbers",
+      "space t m": "editor::ToggleMinimap",
+      "space t w": "editor::ToggleSoftWrap",
+      "space t i": "editor::ToggleInlayHints",
+      "space t z": "workspace::ToggleCenteredLayout", // zen-ish
+      // extra convenience: soft-wrap via SPC u w
+      "space u w": "editor::ToggleSoftWrap",
+
+      // git (SPC g …)
+      "space g g": "git_panel::ToggleFocus",
+      "space g s": "git_panel::ToggleFocus",
+      "space g c": "git::Commit",
+      "space g b": "git::Blame",
+      "space g l": "editor::OpenPermalinkToLine",
+      "space g p": "git::Push",
+      "space g P": "git::Pull",
+      "space g f": "git::Fetch",
+
+      // terminal & assistants
+      "space '": "terminal_panel::ToggleFocus",
+      "space a i": "agent::ToggleFocus",
+
+      // markdown preview
+      "space m p": "markdown::OpenPreview",
+      "space m P": "markdown::OpenPreviewToTheSide",
+
+      // quit (Spacemacs-style)
+      "space q q": "zed::Quit",
+
+      // tab / buffer indexes (SPC 1…9)
+      "space 1": ["workspace::SendKeystrokes", "ctrl-1"],
+      "space 2": ["workspace::SendKeystrokes", "ctrl-2"],
+      "space 3": ["workspace::SendKeystrokes", "ctrl-3"],
+      "space 4": ["workspace::SendKeystrokes", "ctrl-4"],
+      "space 5": ["workspace::SendKeystrokes", "ctrl-5"],
+      "space 6": ["workspace::SendKeystrokes", "ctrl-6"],
+      "space 7": ["workspace::SendKeystrokes", "ctrl-7"],
+      "space 8": ["workspace::SendKeystrokes", "ctrl-8"],
+      "space 9": ["workspace::SendKeystrokes", "ctrl-9"]
     }
   },
+
+  /* =========================
+   * Mode-specific Vim helpers
+   * ========================= */
+  {
+    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu",
+    "bindings": {
+      "space g h d": "editor::ToggleSelectedDiffHunks",
+      "g f": "editor::OpenExcerpts" // keep as-is: quick jump helper
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
+      // Pane navigation with Ctrl-hjkl (no OS collisions)
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
+    }
+  },
+
+  // Better escape from insert: jj / jk
   {
     "context": "Editor && vim_mode == insert && !menu",
     "bindings": {
-      "j j": "vim::NormalBefore"
+      "j j": "vim::NormalBefore",
+      "j k": "vim::NormalBefore"
+    }
+  },
+
+  /* =========================
+   * Search panels, terminal
+   * ========================= */
+  {
+    "context": "ProjectSearchBar > Editor",
+    "bindings": {
+      "escape": "pane::CloseActiveItem"
     }
   },
   {
-    "context": "Editor && vim_mode == visual && !VimWaiting && !VimObject",
+    "context": "Terminal && screen==normal",
     "bindings": {
-      "shift-j": "editor::MoveLineDown",
-      "shift-k": "editor::MoveLineUp"
+      "escape": "workspace::ToggleBottomDock",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
     }
   },
   {
-    "context": "Terminal",
+    "context": "Terminal && screen==alt",
     "bindings": {
-      "ctrl-w z": "workspace::ToggleZoom",
-      "ctrl-w t": "terminal_panel::ToggleFocus"
+      "escape": "pane::CloseActiveItem"
     }
   },
   {
-    "context": "Editor",
+    "context": "Workspace",
     "bindings": {
-      "cmd-[": "editor::Outdent",
-      "cmd-]": "editor::Indent",
-      "cmd-alt-up": "editor::AddSelectionAbove",
-      "cmd-ctrl-p": "editor::AddSelectionAbove",
-      "cmd-alt-down": "editor::AddSelectionBelow",
-      "cmd-ctrl-n": "editor::AddSelectionBelow",
-      "cmd-d": [
-        "editor::SelectNext",
-        {
-          "replace_newest": false
-        }
-      ],
-      "ctrl-cmd-d": [
-        "editor::SelectPrevious",
-        {
-          "replace_newest": false
-        }
-      ],
-      "cmd-k cmd-d": [
-        "editor::SelectNext",
-        {
-          "replace_newest": true
-        }
-      ],
-      "cmd-k ctrl-cmd-d": [
-        "editor::SelectPrevious",
-        {
-          "replace_newest": true
-        }
-      ],
-      "cmd-/": [
-        "editor::ToggleComments",
-        {
-          "advance_downwards": false
-        }
-      ],
-      "alt-up": "editor::SelectLargerSyntaxNode",
-      "alt-down": "editor::SelectSmallerSyntaxNode",
-      "cmd-u": "editor::UndoSelection",
-      "cmd-shift-u": "editor::RedoSelection",
-      "f8": "editor::GoToDiagnostic",
-      "shift-f8": "editor::GoToPrevDiagnostic",
-      "f2": "editor::Rename",
-      "f12": "editor::GoToDefinition",
-      "alt-f12": "editor::GoToDefinitionSplit",
-      "cmd-f12": "editor::GoToTypeDefinition",
-      "alt-cmd-f12": "editor::GoToTypeDefinitionSplit",
-      "alt-shift-f12": "editor::FindAllReferences",
-      "ctrl-m": "editor::MoveToEnclosingBracket",
-      "alt-cmd-[": "editor::Fold",
-      "alt-cmd-]": "editor::UnfoldLines",
-      "ctrl-space": "editor::ShowCompletions",
-      "cmd-.": "editor::ToggleCodeActions",
-      "alt-cmd-r": "editor::RevealInFinder"
+      "ctrl-\\": "terminal_panel::ToggleFocus",
+      "ctrl-b": "workspace::ToggleRightDock"
+    }
+  },
+
+  /* =========================
+   * Git panels & diffs
+   * ========================= */
+  {
+    "context": "GitPanel",
+    "bindings": {
+      "tab": "git::Diff",
+      "c c": "git::Commit",
+      "b b": "git::CheckoutBranch",
+      "b c": "git::Branch",
+      "P u": "git::Push",
+      "F u": "git::Pull",
+      "escape": "workspace::ToggleRightDock",
+      "s": "git::ToggleStaged",
+      "S": "git::StageAll",
+      "x": ["workspace::SendKeystrokes", "delete"]
+    }
+  },
+  {
+    "context": "GitDiff > multibuffer",
+    "bindings": {
+      "escape": "pane::CloseActiveItem",
+      "c c": "git::Commit",
+      "x": ["workspace::SendKeystrokes", "ctrl-alt-z"],
+      "S": "git::StageAll",
+      "s": ["workspace::SendKeystrokes", "ctrl-alt-y"]
+    }
+  },
+
+  /* =========================
+   * Multibuffer, mini, agents
+   * ========================= */
+  {
+    "context": "Editor && multibuffer",
+    "bindings": {
+      "escape": "pane::CloseActiveItem",
+      "enter": ["workspace::SendKeystrokes", "g space"],
+      "n": "search::SelectNextMatch",
+      "shift-n": "search::SelectPreviousMatch"
+    }
+  },
+  {
+    "context": "AgentPanel > Markdown",
+    "bindings": {
+      "escape": "workspace::ToggleRightDock"
+    }
+  },
+
+  /* =========================
+   * Welcome & Project panel
+   * ========================= */
+  {
+    "context": "Welcome",
+    "bindings": {
+      "space p p": "projects::OpenRecent",
+      "space p t": "project_panel::ToggleFocus",
+      "space p f": "file_finder::Toggle",
+      "space /": "workspace::NewSearch"
+    }
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "A": "project_panel::NewDirectory",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Delete",
+      "x": "project_panel::Cut",
+      "c": "project_panel::Copy",
+      "p": "project_panel::Paste",
+      "q": "workspace::ToggleLeftDock",
+      "Q": "workspace::ToggleRightDock",
+      "space e": "workspace::ToggleRightDock",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
+    }
+  },
+
+  /* =========================
+   * Panel navigation (Ctrl-w)
+   * ========================= */
+  {
+    "context": "Dock",
+    "bindings": {
+      "ctrl-w h": "workspace::ActivatePaneLeft",
+      "ctrl-w l": "workspace::ActivatePaneRight",
+      "ctrl-w k": "workspace::ActivatePaneUp",
+      "ctrl-w j": "workspace::ActivatePaneDown"
+    }
+  },
+
+  /* =========================
+   * Sneak motion (normal/visual)
+   * ========================= */
+  {
+    "context": "vim_mode == normal || vim_mode == visual",
+    "bindings": {
+      "s": ["vim::PushSneak", {}],
+      "S": ["vim::PushSneakBackward", {}]
     }
   }
 ]
