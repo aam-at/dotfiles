@@ -112,6 +112,9 @@ install_packages \
   ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zlib1g-dev \
   zoxide
 
+$(which fdfind) /usr/bin/fd
+$(which batcat) /usr/bin/bat
+
 # Add repositories and install upstream packages
 
 add_ppa_and_install git-core/ppa \
