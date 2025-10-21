@@ -187,8 +187,9 @@ if $INSTALL_RUST; then
   rustup default stable
   source "$HOME/.cargo/env"
   cargo install --locked \
-    aichat argc atuin bottom broot cargo-edit cargo-outdated eza gitu gitui \
-    gping kanata lsd ouch sd tealdeer television texlab viu yazi-cli yazi-fm
+    aichat argc atuin bottom broot cargo-binstall cargo-edit cargo-outdated eza \
+    gitu gitui gping kanata lsd ouch sd tealdeer television texlab viu \
+    watchexec-cli yazi-cli yazi-fm
   cargo install --git https://github.com/blahgeek/emacs-lsp-booster
 
   # for kanata
