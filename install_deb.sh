@@ -112,8 +112,16 @@ install_packages \
   ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zlib1g-dev \
   zoxide
 
-$(which fdfind) /usr/bin/fd
-$(which batcat) /usr/bin/bat
+fd_path=$(command -v fdfind || true)
+bat_path=$(command -v batcat || true)
+
+# Ensure fd/bat commands are available under expected names.
+if [ -n "$fd_path" ]; then
+  sudo ln -sf "$fd_path" /usr/local/bin/fd
+fi
+if [ -n "$bat_path" ]; then
+  sudo ln -sf "$bat_path" /usr/local/bin/bat
+fi
 
 # Add repositories and install upstream packages
 
