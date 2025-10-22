@@ -323,10 +323,10 @@ if $INSTALL_RUST; then
   fi
   echo "Installing Rust and cargo packages..."
   source "$HOME/.cargo/env"
-  cargo install --locked \
-    aichat argc atuin bottom broot cargo-binstall cargo-edit cargo-outdated eza \
-    gitu gitui gping kanata lsd ouch sd tealdeer television texlab viu \
-    watchexec-cli yazi-cli yazi-fm
+  cargo install --locked cargo-binstall cargo-edit cargo-outdated
+  cargo binstall -y \
+    aichat argc atuin bottom broot eza gitu gitui gping kanata lsd ouch \
+    sd tealdeer television texlab viu watchexec-cli yazi-cli yazi-fm
   cargo install --git https://github.com/blahgeek/emacs-lsp-booster
 
   if $GUI; then
@@ -401,12 +401,6 @@ if [ ! -d "$HOME/.fzf" ]; then
   ~/.fzf/install --all
 fi
 
-# Install oh-my-fish (omf)
-if [ ! -d "$HOME/.config/omf" ]; then
-  echo "Installing oh-my-fish (omf)..."
-  curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
-fi
-
 # Install icons-in-terminal
 if [ ! -d "$HOME/.local/share/icons-in-terminal" ]; then
   echo "Installing icons-in-terminal..."
@@ -432,7 +426,7 @@ if $GUI && ! $WSL && ! command -v noisetorch &>/dev/null; then
 fi
 
 # Install ollama
-if ! command -v ollama &>/dev/null; then
+if ! $WSL && ! command -v ollama &>/dev/null; then
   echo "Installing ollama..."
   curl -fsSL https://ollama.com/install.sh | sh
   ollama_models=(
