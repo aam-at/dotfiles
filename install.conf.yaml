@@ -46,7 +46,7 @@
     ~/.config/ranger: config/ranger
     ~/.config/redshift.conf: config/redshift.conf
     ~/.config/starship.toml: config/starship.toml
-    ~/.config/television/config.toml: config/television/config.toml
+    ~/.config/television: config/television
     ~/.config/tmux: config/tmux
     ~/.config/wezterm: config/wezterm
     ~/.config/xremap: config/xremap

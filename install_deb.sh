@@ -220,6 +220,9 @@ if ! command -v nvim &>/dev/null || [ ! -d "/usr/local/stow/nvim" ]; then
   cd /usr/local/stow || exit
   sudo stow -S nvim
   cd - || exit
+  echo "✅ neovim installed successfully!"
+else
+  echo "neovim already installed."
 fi
 
 # Install pyenv and plugins
@@ -262,6 +265,20 @@ if ! command -v delta &>/dev/null; then
   curl -s https://api.github.com/repos/dandavison/delta/releases/latest | jq -r ".assets[] | select(.name | endswith(\"amd64.deb\") and contains(\"musl\")).browser_download_url" | wget -O /tmp/delta.deb -i -
   sudo dpkg -i /tmp/delta.deb
   rm /tmp/delta.deb
+  echo "✅ delta installed successfully!"
+else
+  echo "delta already installed."
+fi
+
+# Install fastfetch
+if ! command -v fastfetch &>/dev/null; then
+  echo "Installing fastfetch-cli..."
+  curl -s https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest | jq -r ".assets[] | select(.name | endswith(\"amd64.deb\")).browser_download_url" | wget -O /tmp/fastfetch.deb -i -
+  sudo dpkg -i /tmp/fastfetch.deb
+  rm /tmp/fastfetch.deb
+  echo "✅ fastfetch-cli installed successfully!"
+else
+  echo "fastfetch-cli already installed."
 fi
 
 if $INSTALL_FONTS; then
