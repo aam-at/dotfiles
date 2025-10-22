@@ -139,7 +139,7 @@ fi
 # Install Node.js
 if $INSTALL_NODE; then
   echo "Installing Node.js..."
-  curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+  curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash -
   install_packages nodejs
   sudo npm i -g npm
 
