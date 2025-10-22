@@ -281,7 +281,7 @@ else
   echo "fastfetch-cli already installed."
 fi
 
-if $INSTALL_FONTS; then
+if $INSTALL_FONTS && ! $WSL; then
   install_font_package() {
     local repo_url="$1"
     local dir_name="$2"
