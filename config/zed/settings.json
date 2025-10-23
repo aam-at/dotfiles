@@ -167,5 +167,26 @@
   },
   "chat_panel": {
     "dock": "left"
+  },
+  "auto_install_extensions": {
+    "basher": true,
+    "codebook": true,
+    "docker-compose": true,
+    "dockerfile": true,
+    "env": true,
+    "fish": true,
+    "html": true,
+    "latex": true,
+    "lua": true,
+    "make": true,
+    "material-icon-theme": true,
+    "mcp-server-github": true,
+    "org": true,
+    "pylsp": true,
+    "python-refactoring": true,
+    "python-requirements": true,
+    "rainbow-csv": true,
+    "texpresso": true,
+    "zig": true
   }
 }
