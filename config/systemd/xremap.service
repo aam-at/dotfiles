@@ -10,7 +10,7 @@ WorkingDirectory=%h
 EnvironmentFile=%h/.bash_env
 StandardError=null
 StandardOutput=journal
-ExecStart=/usr/bin/sh -c 'exec $$(which xremap) --cfg $${HOME}/.config/xremap/config_hypr.yaml'
+ExecStart=/usr/bin/env sh -c 'exec "$(command -v xremap)" "$HOME/.config/xremap/config_hypr.yaml"'
 
 [Install]
 WantedBy=default.target
