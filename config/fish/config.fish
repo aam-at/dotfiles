@@ -126,7 +126,7 @@ if status is-interactive
 
     # zoxide
     if command -v zoxide &>/dev/null
-        zoxide init fish --cmd cd | source
+        zoxide init fish | source
     end
 
     # icons-in-terminal
