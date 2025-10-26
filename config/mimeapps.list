@@ -8,6 +8,7 @@ text/org=emacsclient.desktop
 text/org_archive=emacsclient.desktop;
 text/yaml=emacsclient.desktop;
 text/x-bibtex=emacsclient.desktop
+video/mp4=vlc.desktop
 
 [Added Associations]
 x-scheme-handler/http=microsoft-edge.desktop;
@@ -19,3 +20,4 @@ text/org=emacsclient.desktop;
 text/org_archive=emacsclient.desktop;
 text/yaml=emacsclient.desktop;
 text/x-bibtex=emacsclient.desktop;
+video/mp4=vlc.desktop;

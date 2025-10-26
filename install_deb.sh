@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Default values
 GUI=${GUI:-false}
 TOOLS_DIR=${TOOLS_DIR:-"$HOME/local/tools"}
@@ -141,24 +143,7 @@ if $INSTALL_NODE; then
   echo "Installing Node.js..."
   curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash -
   install_packages nodejs
-  sudo npm i -g npm
-
-  # Install Gemini cli
-  sudo npm install -g @google/gemini-cli
-
-  # Install codex
-  sudo npm install -g @openai/codex
-
-  # Anthropic Code
-  sudo npm install -g @anthropic-ai/claude-code
-
-  # Install OpenCode AI CLI
-  sudo npm i -g opencode-ai@latest
-
-  sudo npm i -g \
-    bash-language-server js-beautify prettier tslint typescript \
-    typescript-formatter typescript-language-server vim-language-server \
-    vscode-json-languageserver
+  "$REPO_DIR/setup/install_node_packages.sh"
 fi
 
 # Install GUI packages
@@ -177,9 +162,6 @@ if $GUI; then
 
   # Install Ruby gems
   sudo gem install anystyle anystyle-cli
-
-  # Install bibtex-tidy
-  npm install -g bibtex-tidy
 
   # Install text linting tools
   sudo npm i -g textlint write-good textlint-plugin-latex textlint-rule-write-good \
@@ -323,11 +305,7 @@ if $INSTALL_RUST; then
   fi
   echo "Installing Rust and cargo packages..."
   source "$HOME/.cargo/env"
-  cargo install --locked cargo-binstall cargo-edit cargo-outdated
-  cargo binstall -y \
-    aichat argc atuin bottom broot eza gitu gitui gping kanata lsd ouch \
-    sd tealdeer television texlab viu watchexec-cli yazi-cli yazi-fm
-  cargo install --git https://github.com/blahgeek/emacs-lsp-booster
+  "$REPO_DIR/setup/install_rust_packages.sh"
 
   if $GUI; then
     cargo install --git https://github.com/neovide/neovide
@@ -342,10 +320,6 @@ if $INSTALL_RUST; then
     sudo gpasswd -a $USER input
     echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/input.rules
   fi
-
-  rustup component add rustfmt
-  rustup component add clippy
-  rustup component add rust-analyzer
 fi
 
 # Install go packages
@@ -355,10 +329,7 @@ if $INSTALL_GO; then
     add_ppa_and_install longsleep/golang-backports golang-go
   fi
   echo "Installing go packages..."
-  repos=("charmbracelet/freeze" "charmbracelet/glow" "charmbracelet/mods" "charmbracelet/vhs" "stefanlogue/meteor" "jesseduffield/lazydocker")
-  for repo in "${repos[@]}"; do
-    go install "github.com/${repo}@latest"
-  done
+  "$REPO_DIR/setup/install_go_packages.sh"
 fi
 
 # Install lua packages
