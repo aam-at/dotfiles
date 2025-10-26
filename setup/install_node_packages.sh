@@ -27,10 +27,12 @@ run_global_npm npm
 
 # Common set of global npm packages used across supported distributions.
 npm_packages=(
-  "@google/gemini-cli"
-  "@openai/codex"
-  "@anthropic-ai/claude-code"
-  "@github/copilot"
+  "@anthropic-ai/claude-code@latest"
+  "@github/copilot@latest"
+  "@google/gemini-cli@latest"
+  "@openai/codex@latest"
+  "@qwen-code/qwen-code@latest"
+  "@vibe-kit/grok-cli@latest"
   "opencode-ai@latest"
   "bibtex-tidy"
   "bash-language-server"
