@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Default values
 GUI=${GUI:-false}
 TOOLS_DIR=${TOOLS_DIR:-"$HOME/local/tools"}
@@ -110,27 +112,7 @@ fi
 if $INSTALL_NODE; then
   echo "Installing Node.js..."
   install_packages nodejs npm
-  sudo npm i -g npm
-
-  # Install Gemini cli
-  sudo npm install -g @google/gemini-cli
-
-  # Install codex
-  sudo npm install -g @openai/codex
-
-  # Anthropic Code
-  sudo npm install -g @anthropic-ai/claude-code
-
-  # Install OpenCode AI CLI
-  sudo npm i -g opencode-ai@latest
-
-  # Install bibtex-tidy
-  sudo npm install -g bibtex-tidy
-
-  sudo npm i -g \
-    bash-language-server js-beautify prettier tslint typescript \
-    typescript-formatter typescript-language-server vim-language-server \
-    vscode-json-languageserver
+  "$REPO_DIR/setup/install_node_packages.sh"
 fi
 
 if $INSTALL_PYTHON; then
@@ -186,11 +168,7 @@ if $INSTALL_RUST; then
   install_packages rustup
   rustup default stable
   source "$HOME/.cargo/env"
-  cargo install --locked cargo-binstall cargo-edit cargo-outdated
-  cargo binstall -y \
-    aichat argc atuin bottom broot eza gitu gitui gping kanata lsd ouch \
-    sd tealdeer television texlab viu watchexec-cli yazi-cli yazi-fm
-  cargo install --git https://github.com/blahgeek/emacs-lsp-booster
+  "$REPO_DIR/setup/install_rust_packages.sh"
 
   # for kanata
   sudo groupadd uinput
@@ -200,20 +178,13 @@ if $INSTALL_RUST; then
   if $GUI; then
     cargo install --git https://github.com/neovide/neovide
   fi
-
-  rustup component add rustfmt
-  rustup component add clippy
-  rustup component add rust-analyzer
 fi
 
 # Install go packages
 if $INSTALL_GO; then
   echo "Installing go and go packages..."
   install_packages go
-  repos=("charmbracelet/freeze" "charmbracelet/glow" "charmbracelet/mods" "charmbracelet/vhs" "stefanlogue/meteor" "jesseduffield/lazydocker")
-  for repo in "${repos[@]}"; do
-    go install "github.com/${repo}@latest"
-  done
+  "$REPO_DIR/setup/install_go_packages.sh"
 fi
 
 # Install lua packages
