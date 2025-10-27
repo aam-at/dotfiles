@@ -9,6 +9,7 @@ text/org_archive=emacsclient.desktop;
 text/yaml=emacsclient.desktop;
 text/x-bibtex=emacsclient.desktop
 video/mp4=vlc.desktop
+x-scheme-handler/mailto=microsoft-edge.desktop
 
 [Added Associations]
 x-scheme-handler/http=microsoft-edge.desktop;

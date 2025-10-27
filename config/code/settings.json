@@ -222,4 +222,5 @@
     "geminicodeassist.project": "cpgd-301214",
     "github.copilot.chat.editor.temporalContext.enabled": true,
     "github.copilot.nextEditSuggestions.enabled": true,
+    "python.analysis.typeCheckingMode": "standard",
 }

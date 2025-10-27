@@ -1,11 +1,11 @@
-function fd --description 'cd to a directory selected via fzf'
+function ff --description 'cd to a directory selected via fzf'
     set -l search_root '.'
     if set -q argv[1]
         set search_root $argv[1]
     end
 
     if not test -d $search_root
-        printf 'fd: "%s" is not a directory.\n' $search_root >&2
+        printf 'ff: "%s" is not a directory.\n' $search_root >&2
         return 1
     end
 

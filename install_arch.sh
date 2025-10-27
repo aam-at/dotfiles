@@ -100,7 +100,7 @@ install_packages \
 
 yay -S --needed \
   autojump dropbox fpp-git git-hub git-secrets git-secrets gitflow-avh \
-  hdrop-git insync mu noisetorch teams-for-linux visual-studio-code-bin
+  hdrop-git insync mu noisetorch teams-for-linux visual-studio-code-bin xremap-hypr-bin
 
 # Install GUI packages
 if $GUI; then
