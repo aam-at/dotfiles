@@ -204,7 +204,7 @@ Keybindings Help:
   }
 
   # fd - cd to selected directory
-  fd() {
+  ff() {
     local dir
     dir=$(find -L ${1:-.} -path '*/\.*' -prune \
       -o -type d -print 2>/dev/null | fzf-tmux +m) &&
