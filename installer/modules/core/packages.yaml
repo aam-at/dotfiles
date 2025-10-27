@@ -1,0 +1,65 @@
+# Core system packages
+packages:
+  system:
+    apt:
+      - curl
+      - wget
+      - git
+      - vim
+      - nano
+      - htop
+      - tree
+      - unzip
+      - zip
+      - tar
+      - gzip
+      - build-essential
+      - software-properties-common
+      - apt-transport-https
+      - ca-certificates
+      - gnupg
+      - lsb-release
+    
+    pacman:
+      - curl
+      - wget
+      - git
+      - vim
+      - nano
+      - htop
+      - tree
+      - unzip
+      - zip
+      - tar
+      - gzip
+      - base-devel
+      - ca-certificates
+      - gnupg
+      - lsb-release
+  
+  network:
+    apt:
+      - net-tools
+      - dnsutils
+      - iputils-ping
+      - traceroute
+      - nmap
+      - openssh-client
+      - openssh-server
+    
+    pacman:
+      - net-tools
+      - dnsutils
+      - iputils
+      - traceroute
+      - nmap
+      - openssh
+
+dependencies:
+  - curl
+  - wget
+  - git
+
+post_install:
+  - "echo 'Core packages installed successfully'"
+  - "systemctl enable ssh || true"

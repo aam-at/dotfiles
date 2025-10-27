@@ -1,0 +1,105 @@
+# Modern Linux Installation System - Module Configuration
+
+installer:
+  name: "Modern Linux Installer"
+  version: "1.0.0"
+  description: "A modular Linux installation system"
+
+logging:
+  level: "INFO"
+  file: ".installer/logs/install.log"
+
+modules:
+  core:
+    enabled: true
+    priority: 1
+    description: "Core system packages and utilities"
+    dependencies: []
+  
+  development:
+    enabled: true
+    priority: 2
+    description: "Development tools and environments"
+    dependencies: ["core"]
+  
+  ai:
+    enabled: false
+    priority: 3
+    description: "AI tools, models, and development packages"
+    dependencies: ["core", "development"]
+  
+  gui:
+    enabled: false
+    priority: 4
+    description: "GUI applications and desktop environment"
+    dependencies: ["core"]
+  
+  fonts:
+    enabled: true
+    priority: 5
+    description: "Font packages and typography"
+    dependencies: ["core"]
+  
+  editors:
+    enabled: true
+    priority: 6
+    description: "Text editors and IDEs"
+    dependencies: ["core", "development"]
+
+profiles:
+  default:
+    modules: ["core", "development", "fonts", "editors"]
+    description: "Default installation with essential tools"
+  
+  developer:
+    modules: ["core", "development", "ai", "editors", "fonts"]
+    description: "Full development environment with AI tools"
+  
+  minimal:
+    modules: ["core"]
+    description: "Minimal installation with core packages only"
+  
+  workstation:
+    modules: ["core", "development", "ai", "gui", "fonts", "editors"]
+    description: "Complete workstation setup"
+  
+  server:
+    modules: ["core", "development"]
+    description: "Server-focused installation without GUI"
+
+package_managers:
+  apt:
+    enabled: true
+    update_command: "sudo apt update"
+    install_command: "sudo apt install -y"
+    remove_command: "sudo apt remove -y"
+  
+  pacman:
+    enabled: true
+    update_command: "sudo pacman -Sy"
+    install_command: "sudo pacman -S --needed --noconfirm"
+    remove_command: "sudo pacman -R --noconfirm"
+  
+  pip:
+    enabled: true
+    install_command: "pip install"
+    global_command: "pip install --user"
+  
+  npm:
+    enabled: true
+    install_command: "npm install -g"
+  
+  cargo:
+    enabled: true
+    install_command: "cargo install"
+
+backup:
+  enabled: true
+  directory: ".installer/backups"
+  max_backups: 5
+  compress: true
+
+rollback:
+  enabled: true
+  keep_logs: true
+  max_logs: 10

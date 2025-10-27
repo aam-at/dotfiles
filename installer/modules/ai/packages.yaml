@@ -1,0 +1,63 @@
+# AI tools and packages
+packages:
+  python:
+    pip:
+      - aider-chat
+      - gpustat
+      - nvitop
+      - openai
+      - anthropic
+      - google-generativeai
+  
+  node:
+    npm:
+      - "@anthropic-ai/claude-code@latest"
+      - "@github/copilot@latest"
+      - "@google/gemini-cli@latest"
+      - "@openai/codex@latest"
+      - "opencode-ai@latest"
+  
+  rust:
+    cargo:
+      - aichat
+      - cargo-binstall
+  
+  system:
+    apt:
+      - python3-pip
+      - python3-venv
+      - nodejs
+      - npm
+      - curl
+    
+    pacman:
+      - python-pip
+      - nodejs
+      - npm
+      - curl
+
+ollama_models:
+  coding:
+    - "qwen2.5-coder:3b"
+    - "qwen2.5-coder:7b"
+  
+  general:
+    - "gemma3:4b"
+    - "gemma3:12b"
+    - "phi4:mini"
+  
+  embedding:
+    - "granite-embedding:278m"
+    - "mxbai-embed-large:latest"
+    - "nomic-embed-text:latest"
+
+dependencies:
+  - python3
+  - pip
+  - nodejs
+  - npm
+  - curl
+
+post_install:
+  - "echo 'AI tools installed successfully'"
+  - "ollama --version || echo 'Ollama not installed'"

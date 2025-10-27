@@ -1,0 +1,66 @@
+# Developer Profile Configuration
+# Optimized for software development with AI tools
+
+profile:
+  name: "developer"
+  description: "Full development environment with AI tools"
+  version: "1.0.0"
+
+modules:
+  - core
+  - development
+  - ai
+  - editors
+  - fonts
+
+settings:
+  install_optional: true
+  install_recommended: true
+  install_suggested: false
+  
+  # Development tools
+  install_docker: true
+  install_kubernetes: false
+  install_terraform: false
+  install_ansible: false
+  
+  # AI tools
+  install_ollama: true
+  install_ollama_models: true
+  install_copilot: true
+  install_aichat: true
+  
+  # Editors
+  install_vscode: true
+  install_vim: true
+  install_emacs: false
+  install_intellij: false
+  
+  # Languages
+  install_python: true
+  install_nodejs: true
+  install_rust: true
+  install_go: true
+  install_java: false
+  install_cpp: true
+  
+  # Databases
+  install_postgresql: false
+  install_mysql: false
+  install_redis: false
+  install_mongodb: false
+
+environment:
+  # Set up development environment variables
+  NODE_ENV: "development"
+  PYTHON_ENV: "development"
+  RUST_LOG: "info"
+  
+  # Git configuration
+  git_user_name: "${USER}"
+  git_user_email: "${USER}@localhost"
+
+post_install:
+  - "echo 'Developer profile installed successfully'"
+  - "echo 'Available tools: $(which python3) $(which node) $(which cargo) $(which git)'"
+  - "echo 'AI tools: $(which ollama) $(which aichat) 2>/dev/null || echo 'Some AI tools not available''"
