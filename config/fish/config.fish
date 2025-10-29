@@ -113,8 +113,7 @@ if status is-interactive
 
     # fzf
     if command -v fzf &>/dev/null
-        # Set up fzf key bindings
-        fzf --fish | source
+        # set up fzf options
         set -gx FZF_DEFAULT_OPTS "
 --tmux 100%,50%
 --info=inline
@@ -175,6 +174,12 @@ Keybindings Help:
 --bind 'ctrl-t:execute-silent(kitty @ launch --type=tab --cwd \"$(realpath \"{}\")\" --title \"$(basename \"{}\")\")'
 "
         set -gx FZF_COMPLETION_TRIGGER '~~'
+
+        # Set up fzf key bindings and fuzzy completion
+        if test -d ~/.fzf/bin
+            set -x PATH ~/.fzf/bin $PATH
+        end
+        fzf --fish | source
     end
 
     # fifc
