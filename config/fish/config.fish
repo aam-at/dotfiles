@@ -111,6 +111,72 @@ if status is-interactive
         set -g direnv_fish_mode disable_arrow
     end
 
+    # fzf
+    if command -v fzf &>/dev/null
+        # Set up fzf key bindings
+        fzf --fish | source
+        set -gx FZF_DEFAULT_OPTS "
+--tmux 100%,50%
+--info=inline
+--layout reverse
+--border top
+--multi
+--color=fg:#ebdbb2,bg:#282828,hl:#fabd2f
+--color=fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f
+--color=info:#83a598,prompt:#bdae93,pointer:#83a598
+--color=marker:#fe8019,spinner:#fabd2f,header:#665c54
+--prompt='\$ ' --pointer='▶' --marker='✓'
+--bind '?:toggle-preview'
+--bind 'alt-j:preview-down,alt-k:preview-up'
+--bind 'ctrl-d:preview-page-down,ctrl-u:preview-page-up'
+--bind 'ctrl-a:select-all'
+--bind 'ctrl-e:execute-silent(emacsclient -c {+}&)'
+--bind 'ctrl-c:execute(code {+})'
+--bind 'ctrl-r:execute-silent(pycharm-professional {+}&)'
+--bind 'ctrl-o:execute(xdg-open {+})'
+--bind 'ctrl-s:toggle-sort'
+--bind 'ctrl-v:execute(echo {+} | xargs -o nvim)'
+--bind 'ctrl-y:execute(echo {+} | pbcopy)'
+--bind 'btab:up'
+--bind 'tab:down'
+--bind 'ctrl-h:execute(echo \"
+Keybindings Help:
+  ?           : Toggle the preview window.
+  alt + j     : Move the preview window down.
+  alt + k     : Move the preview window up.
+  ctrl + d    : Scroll the preview window page down.
+  ctrl + u    : Scroll the preview window page up.
+  ctrl + a    : Select all items.
+  ctrl + e    : Open the selected file in Emacs (silently).
+  ctrl + c    : Open the selected file in Visual Studio Code.
+  ctrl + r    : Open the selected file in PyCharm (silently).
+  ctrl + o    : Open the selected file or directory with the default application.
+  ctrl + s    : Toggle sorting of the results.
+  ctrl + v    : Open the selected file in NeoVim.
+  ctrl + y    : Copy the selected file path to the clipboard.
+  shift + tab : Move the selection up.
+  tab         : Move the selection down.
+  ctrl + h    : Show this help message.
+\" | less -R)'
+"
+        set -gx FZF_CTRL_T_OPTS "
+--preview 'fzf-preview.sh {}'
+"
+        # NOTE: Works only on Wayland; replace `wl-copy` with `xclip -selection clipboard`
+        # or `xsel --clipboard --input` for X11 environments.
+        set -gx FZF_CTRL_R_OPTS "
+--bind 'ctrl-y:execute-silent(echo -n {2..} | wl-copy)+abort'
+--color header:italic
+--header 'Press CTRL-Y to copy command into clipboard'
+"
+        set -gx FZF_ALT_C_OPTS "
+--walker-skip .git,node_modules,target
+--preview 'tree --dirsfirst -L 2 -C {}'
+--bind 'ctrl-t:execute-silent(kitty @ launch --type=tab --cwd \"$(realpath \"{}\")\" --title \"$(basename \"{}\")\")'
+"
+        set -gx FZF_COMPLETION_TRIGGER '~~'
+    end
+
     # fifc
     if type -q fifc
         set -q fifc_editor; or set -Ux fifc_editor vim
