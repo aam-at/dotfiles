@@ -44,6 +44,7 @@ npm_packages=(
   "typescript-language-server"
   "vim-language-server"
   "vscode-json-languageserver"
+  "yaml-language-server"
 )
 
 run_global_npm "${npm_packages[@]}"
