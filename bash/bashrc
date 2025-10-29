@@ -120,10 +120,10 @@ if [ -f /usr/share/autojump/autojump.sh ]; then
 fi
 
 # configure fzf
-if [ -f ~/.fzf.bash ]; then
-  . ~/.fzf.bash
-
+if command_exists fzf; then
+  # set up fzf options
   export FZF_DEFAULT_OPTS="
+--tmux 100%,50%
 --info=inline
 --layout reverse
 --border top
@@ -169,18 +169,26 @@ Keybindings Help:
   export FZF_CTRL_T_OPTS="
 --preview 'fzf-preview.sh {}'
 "
+  # NOTE: Works only on Wayland; replace `wl-copy` with `xclip -selection clipboard`
+  # or `xsel --clipboard --input` for X11 environments.
   export FZF_CTRL_R_OPTS="
---bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+--bind 'ctrl-y:execute-silent(echo -n {2..} | wl-copy)+abort'
 --color header:italic
 --header 'Press CTRL-Y to copy command into clipboard'
 "
   export FZF_ALT_C_OPTS="
 --walker-skip .git,node_modules,target
 --preview 'tree --dirsfirst -L 2 -C {}'
---bind 'ctrl-t:execute-silent(gnome-terminal --working-directory=$(pwd)/{})'
+--bind 'ctrl-t:execute-silent(kitty @ launch --type=tab --cwd \"$(realpath \"{}\")\" --title \"$(basename \"{}\")\")'
 "
   export FZF_COMPLETION_TRIGGER='~~'
 
+  # Set up fzf key bindings and fuzzy completion
+  if [ -f "$HOME/.fzf.bash" ]; then
+    source "$HOME/.fzf.bash"
+  else
+    eval "$(fzf --bash)"
+  fi
   # fe [FUZZY PATTERN] - Open the selected file with the default editor
   #   - Bypass fuzzy finder if there's only one match (--select-1)
   #   - Exit if there's no match (--exit-0)
