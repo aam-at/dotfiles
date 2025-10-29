@@ -4,7 +4,7 @@ After=network.target snapd.apparmor.service
 
 [Service]
 Type=simple
-ExecStart=java -cp /snap/languagetool/current/usr/bin/languagetool-server.jar org.languagetool.server.HTTPServer --port 8088 --allow-origin
+ExecStart=java -cp /opt/languagetool/languagetool-server.jar org.languagetool.server.HTTPServer --port 8088 --allow-origin
 Restart=on-failure
 KillMode=process
 
