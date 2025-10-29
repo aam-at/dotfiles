@@ -232,13 +232,7 @@ if $INSTALL_PYTHON && [ ! -d "$HOME/.pyenv" ]; then
   pyenv deactivate
   pipx install uv
 
-  for tool in aider-chat autoflake autopep8 basedpyright black \
-    cmake-language-server docformatter flake9 \
-    git+https://github.com/bcbernardo/aw-watcher-ask.git gpustat \
-    isort marker-pdf nvitop poetry pre-commit proselint pylint ruff \
-    semgrep yapf; do
-    uv tool install "$tool"
-  done
+  "$REPO_DIR/setup/install_python_tools.sh"
 fi
 
 # Install delta
