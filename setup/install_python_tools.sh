@@ -8,7 +8,6 @@ if ! command -v uv >/dev/null 2>&1; then
 fi
 
 uv_tools=(
-  aider-chat
   autoflake
   autopep8
   basedpyright
@@ -34,3 +33,6 @@ uv_tools=(
 for tool in "${uv_tools[@]}"; do
   uv tool install "$tool"
 done
+
+uv tool install --force --python python3.12 aider-chat
+uv tool update-shell
