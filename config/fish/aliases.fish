@@ -1,7 +1,18 @@
 abbr -a -- - 'cd -'
 
-# If inside a kitty terminal, add aliases for kitty's icat, ssh, diff, and hg
-if test -n "$KITTY_PID"; or begin; tmux info > /dev/null 2>&1; and test -n (tmux showenv KITTY_PID 2>/dev/null | string split -f2 '='); end
+# If inside a kitty terminal, add aliases for kitty's helpers
+set -l __fish_in_kitty 0
+
+if set -q KITTY_PID
+    set __fish_in_kitty 1
+else if set -q TMUX; and type -q tmux
+    set -l kitty_env (tmux showenv KITTY_PID 2>/dev/null | string split -f2 '=')
+    if test -n "$kitty_env"
+        set __fish_in_kitty 1
+    end
+end
+
+if test $__fish_in_kitty -eq 1
     alias icat="kitten icat"
     alias ssh="kitty +kitten ssh"
     alias realssh="/usr/bin/ssh"
