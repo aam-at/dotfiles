@@ -1,0 +1,69 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Default settings
+FORCE_TTY=false
+FRAME_NAME="magit"
+FRAME_PARAMS="((name . \"$FRAME_NAME\") (width . 120) (height . 40))"
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+  --tty | -t)
+    FORCE_TTY=true
+    shift
+    ;;
+  --frame-name)
+    FRAME_NAME="$2"
+    shift 2
+    ;;
+  *)
+    echo "Unknown option: $1" >&2
+    exit 1
+    ;;
+  esac
+done
+
+# Check if Emacs is running
+if ! emacsclient -a false --eval nil --quiet >/dev/null 2>&1; then
+  echo "Error: Emacs not running." >&2
+  exit 1
+fi
+
+# Detect whether Emacs is graphical
+IS_GRAPHICAL="$(emacsclient -a false --eval "(display-graphic-p)" --quiet)"
+ARGS=()
+
+# Control frame creation
+if [ "$FORCE_TTY" = true ]; then
+  # Always run in terminal
+  ARGS+=("-t")
+  FRAME_EXPR="(select-frame-set-input-focus (selected-frame))"
+else
+  if [ "$IS_GRAPHICAL" = "t" ]; then
+    ARGS+=("-n")
+    FRAME_EXPR="
+          (let* ((frame (car (filtered-frame-list
+                               (lambda (f)
+                                 (equal (frame-parameter f 'name) \"$FRAME_NAME\"))))))
+            (if frame
+                (select-frame-set-input-focus frame)
+              (select-frame-set-input-focus (make-frame $FRAME_PARAMS))))
+        "
+  else
+    # Fall back to terminal mode if no GUI
+    ARGS+=("-t")
+    FRAME_EXPR="(select-frame-set-input-focus (selected-frame))"
+  fi
+fi
+
+# Build and execute Emacs expression
+EMACS_EXPR="
+  (progn
+    $FRAME_EXPR
+    (magit-status)
+    (delete-other-windows))
+"
+
+exec emacsclient "${ARGS[@]}" --eval "$EMACS_EXPR"
