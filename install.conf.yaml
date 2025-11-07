@@ -35,6 +35,7 @@
     ~/.config/fastfetch: config/fastfetch
     ~/.config/fish: config/fish
     ~/.config/git: config/git
+    ~/.config/ghostty: config/ghostty
     ~/.config/gitu: config/gitu
     ~/.config/gitui: config/gitui
     ~/.config/helix: config/helix
