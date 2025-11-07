@@ -289,6 +289,11 @@ if $INSTALL_FONTS && ! $WSL; then
     IFS='|' read -r repo_url dir_name font_subdir <<<"$package"
     install_font_package "$repo_url" "$dir_name" "$font_subdir"
   done
+
+  # Install cochineal font
+  wget https://mirrors.ctan.org/fonts/cochineal.zip -O /tmp/cochineal.zip
+  unzip /tmp/cochineal.zip -d $TOOLS_DIR/cochineal-fonts
+  install_fonts "$TOOLS_DIR/cochineal-fonts" "" "CochinealFonts"
 fi
 
 # Install Rust and cargo packages
