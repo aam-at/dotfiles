@@ -1,17 +1,13 @@
 return {
-	{
-		"NeogitOrg/neogit",
-		dependencies = {
-			"nvim-lua/plenary.nvim", -- required
-			"sindrets/diffview.nvim", -- optional - Diff integration
-
-			-- Only one of these is needed, not both.
-			"nvim-telescope/telescope.nvim", -- optional
-			"ibhagwan/fzf-lua", -- optional
-		},
-		config = true,
-		keys = {
-			{ "<leader>gS", "<cmd>Neogit<CR>", desc = "Neogit Status" },
-		},
-	},
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- required
+      "sindrets/diffview.nvim", -- optional - Diff integration
+    },
+    config = true,
+    keys = {
+      { "<leader>gm", "<cmd>Neogit<CR>", desc = "Neogit Status" },
+    },
+  },
 }
