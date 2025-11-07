@@ -99,7 +99,7 @@ install_packages \
   git git-annex git-crypt git-delta git-lfs github-cli
 
 yay -S --needed \
-  autojump dropbox fpp-git git-hub git-secrets git-secrets gitflow-avh \
+  autojump fpp-git git-hub git-secrets git-secrets gitflow-avh \
   hdrop-git insync mu noisetorch teams-for-linux visual-studio-code-bin xremap-hypr-bin
 
 # Install GUI packages
@@ -154,6 +154,11 @@ if $INSTALL_FONTS; then
     IFS='|' read -r repo_url dir_name font_subdir <<<"$package"
     install_font_package "$repo_url" "$dir_name" "$font_subdir"
   done
+
+  # Install cochineal font
+  wget https://mirrors.ctan.org/fonts/cochineal.zip -O /tmp/cochineal.zip
+  unzip /tmp/cochineal.zip -d $TOOLS_DIR/cochineal-fonts
+  install_fonts "$TOOLS_DIR/cochineal-fonts" "" "CochinealFonts"
 fi
 
 # Install Rust and cargo packages
