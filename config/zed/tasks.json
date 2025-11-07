@@ -1,11 +1,29 @@
 [
   {
-    "label": "magit",
-    "command": "zed \"$(gitu)\"",
-    "hide": "always",
+    "label": "Magit",
+    "command": "magit --tty",
+    "shell": {
+      "program": "bash"
+    },
+    "hide": "on_success",
+    "reveal_target": "center",
+    "show_summary": false,
+    "show_command": false,
     "allow_concurrent_runs": false,
-    "use_new_terminal": true,
-    "reveal": "always",
+    "use_new_terminal": true
+  },
+  {
+    "label": "Gitui",
+    "command": "gitui",
+    "shell": {
+      "program": "bash"
+    },
+    "hide": "on_success",
+    "reveal_target": "center",
+    "show_summary": false,
+    "show_command": false,
+    "allow_concurrent_runs": false,
+    "use_new_terminal": true
   },
   {
     "label": "latexmk",
