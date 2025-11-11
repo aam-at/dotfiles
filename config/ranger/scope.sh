@@ -69,6 +69,21 @@ handle_extension() {
 
   ## PDF
   pdf)
+    if command -v chafa >/dev/null 2>&1 && command -v pdftoppm >/dev/null 2>&1; then
+      tmp_pdf="$(mktemp -t ranger-pdf-preview.XXXXXX)"
+      if pdftoppm -f 1 -l 1 -singlefile -scale-to-x 1024 -scale-to-y -1 \
+        -png -- "${FILE_PATH}" "${tmp_pdf}" >/dev/null 2>&1; then
+        preview_image="${tmp_pdf}.png"
+        if chafa --fill --symbols=unicode --size="${PV_WIDTH}x${PV_HEIGHT}" \
+          --stretch -- "${preview_image}" >/dev/null; then
+          rm -f "${preview_image}"
+          exit 5
+        fi
+        rm -f "${preview_image}"
+      else
+        rm -f "${tmp_pdf}" "${tmp_pdf}.png" 2>/dev/null
+      fi
+    fi
     ## Preview as text conversion
     pdftotext -l 10 -nopgbrk -q -- "${FILE_PATH}" - |
       fmt -w "${PV_WIDTH}" && exit 5
@@ -107,6 +122,13 @@ handle_extension() {
     w3m -dump "${FILE_PATH}" && exit 5
     lynx -dump -- "${FILE_PATH}" && exit 5
     elinks -dump "${FILE_PATH}" && exit 5
+    pandoc -s -t markdown -- "${FILE_PATH}" && exit 5
+    ;;
+  ## Markdown
+  markdown | md | mdown | mkd | mkdn | mdx)
+    if command -v glow >/dev/null 2>&1; then
+      glow --width="${PV_WIDTH}" --style=dark "${FILE_PATH}" && exit 5
+    fi
     pandoc -s -t markdown -- "${FILE_PATH}" && exit 5
     ;;
 
