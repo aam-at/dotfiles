@@ -158,7 +158,22 @@
     "context": "Editor && vim_mode == insert && !menu",
     "bindings": {
       "j j": "vim::NormalBefore",
-      "j k": "vim::NormalBefore"
+      "j k": "vim::NormalBefore",
+
+      // Emacs-flavored insert-mode helpers
+      "ctrl-a": "editor::MoveToBeginningOfLine",
+      "ctrl-e": "editor::MoveToEndOfLine",
+      "ctrl-b": "editor::MoveLeft",
+      "ctrl-f": "editor::MoveRight",
+      "ctrl-p": "editor::MoveUp",
+      "ctrl-n": "editor::MoveDown",
+      "alt-b": "editor::MoveToPreviousWordStart",
+      "alt-f": "editor::MoveToNextWordEnd",
+      "alt-d": "editor::DeleteToNextWordEnd",
+      "alt-backspace": "editor::DeleteToPreviousWordStart",
+      "ctrl-k": "editor::DeleteToEndOfLine",
+      "ctrl-y": "editor::Paste",
+      "ctrl-/": "editor::Undo"
     }
   },
 
