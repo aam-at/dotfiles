@@ -26,6 +26,32 @@
     "use_new_terminal": true
   },
   {
+    "label": "Lazygit",
+    "command": "lazygit",
+    "shell": {
+      "program": "bash"
+    },
+    "hide": "on_success",
+    "reveal_target": "center",
+    "show_summary": false,
+    "show_command": false,
+    "allow_concurrent_runs": false,
+    "use_new_terminal": true
+  },
+  {
+    "label": "Tig",
+    "command": "tig",
+    "shell": {
+      "program": "bash"
+    },
+    "hide": "on_success",
+    "reveal_target": "center",
+    "show_summary": false,
+    "show_command": false,
+    "allow_concurrent_runs": false,
+    "use_new_terminal": true
+  },
+  {
     "label": "latexmk",
     "command": "latexmk",
     "args": [
