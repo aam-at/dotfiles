@@ -109,6 +109,10 @@ if [ -f ~/.bash-preexec.sh ]; then
   . ~/.bash-preexec.sh
 fi
 
+if [ -f "$HOME/.local/bin/bashmarks.sh" ]; then
+  source "$HOME/.local/bin/bashmarks.sh"
+fi
+
 # configure fasd
 if command_exists fasd; then
   eval "$(fasd --init auto)"
