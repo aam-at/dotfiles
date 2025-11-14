@@ -86,8 +86,8 @@ install_packages \
   libffi libgccjit libjpeg-turbo libmupdf libpng libtiff libvoikko libvterm \
   libxcb libxcomposite libxcursor libxfixes libxi libxkbcommon libxmu libxpm \
   llvm lynx make mc meson mosh mujs mupdf mupdf-tools ncdu ncurses neovim \
-  net-tools nnn nuspell openblas openconnect openssh openssl p7zip pandoc \
-  parallel pass pdfgrep pdfpc pdftk peco pinentry poppler poppler-glib \
+  net-tools nnn notmuch nuspell openblas openconnect openssh openssl p7zip \
+  pandoc parallel pass pdfgrep pdfpc pdftk peco pinentry poppler poppler-glib \
   powerline-fonts procs python python-pip python-pipx python-pyopenssl qps \
   ranger readline ripgrep ruby screen sdl2 shellcheck sndio sqlite sqlite stow \
   systemd texinfo the_silver_searcher thunar thunar-archive-plugin tig tk tmux \
