@@ -1,39 +1,90 @@
 """
-Gruvbox Dark theme for PuDB.
+Gruvbox theme for PuDB with both Dark and Light variants.
 
 This file is meant to be loaded via the `custom_theme` setting by pointing
-PuDB at its path. It maps the debugger UI and syntax groups onto the canonical
-Gruvbox Dark palette using xterm-256 color codes.
+PuDB at its path. Set the `PUDB_GRUVBOX_VARIANT` environment variable to
+`dark` (default) or `light` before launching PuDB to pick the palette. The
+colors map to the canonical Gruvbox palette using xterm-256 color codes so
+the debugger matches the rest of your terminal tooling.
 """
+
+import os
 
 from pudb.themes.utils import add_setting, link
 
 
-# Canonical Gruvbox colors mapped to their xterm-256 equivalents.
-bg0 = "h235"
-bg1 = "h237"
-bg2 = "h239"
-bg3 = "h241"
-bg4 = "h243"
-fg0 = "h229"
-fg1 = "h223"
-fg2 = "h187"
-gray = "h245"
+VARIANT_ENV = "PUDB_GRUVBOX_VARIANT"
+_VARIANT_ALIASES = {
+    "d": "dark",
+    "dark": "dark",
+    "dark-medium": "dark",
+    "default": "dark",
+    "l": "light",
+    "light": "light",
+}
 
-bright_red = "h203"
-bright_green = "h142"
-bright_yellow = "h214"
-bright_blue = "h109"
-bright_purple = "h175"
-bright_aqua = "h108"
-bright_orange = "h208"
+_COMMON_ACCENTS = {
+    "gray": "h245",
+    "bright_red": "h203",
+    "bright_green": "h142",
+    "bright_yellow": "h214",
+    "bright_blue": "h109",
+    "bright_purple": "h175",
+    "bright_aqua": "h108",
+    "bright_orange": "h208",
+    "neutral_red": "h124",
+    "neutral_green": "h106",
+    "neutral_yellow": "h172",
+    "neutral_blue": "h66",
+    "neutral_aqua": "h72",
+    "neutral_orange": "h166",
+}
 
-neutral_red = "h124"
-neutral_green = "h106"
-neutral_yellow = "h172"
-neutral_blue = "h66"
-neutral_aqua = "h72"
-neutral_orange = "h166"
+
+def _merge_palette(entries):
+    merged = _COMMON_ACCENTS.copy()
+    merged.update(entries)
+    return merged
+
+
+_GRUVBOX_PALETTES = {
+    "dark": _merge_palette(
+        {
+            "bg0": "h235",
+            "bg1": "h237",
+            "bg2": "h239",
+            "bg3": "h241",
+            "bg4": "h243",
+            "fg0": "h229",
+            "fg1": "h223",
+            "fg2": "h187",
+        }
+    ),
+    "light": _merge_palette(
+        {
+            "bg0": "h229",
+            "bg1": "h223",
+            "bg2": "h250",
+            "bg3": "h248",
+            "bg4": "h246",
+            "fg0": "h237",
+            "fg1": "h239",
+            "fg2": "h241",
+        }
+    ),
+}
+
+
+def _resolve_variant():
+    raw = os.environ.get(VARIANT_ENV, "dark")
+    return _VARIANT_ALIASES.get(raw.strip().lower(), "dark")
+
+
+_VARIANT = _resolve_variant()
+_COLORS = _GRUVBOX_PALETTES[_VARIANT].copy()
+_COLORS["accent_fg"] = (
+    _COLORS["bg0"] if _VARIANT == "dark" else _COLORS["fg0"]
+)
 
 link("current breakpoint", "current frame name")
 link("focused current breakpoint", "focused current frame name")
@@ -41,102 +92,150 @@ link("focused current breakpoint", "focused current frame name")
 palette.clear()
 palette.update({
     # {{{ base styles
-    "background": (fg1, bg0),
-    "selectable": (fg0, bg1),
-    "focused selectable": (fg0, bg2),
-    "highlighted": (bg0, bright_aqua),
-    "hotkey": (add_setting(bright_orange, "underline"), bg1),
+    "background": (_COLORS["fg1"], _COLORS["bg0"]),
+    "selectable": (_COLORS["fg0"], _COLORS["bg1"]),
+    "focused selectable": (_COLORS["fg0"], _COLORS["bg2"]),
+    "highlighted": (_COLORS["accent_fg"], _COLORS["bright_aqua"]),
+    "hotkey": (
+        add_setting(_COLORS["bright_orange"], "underline"),
+        _COLORS["bg1"],
+    ),
     # }}}
     # {{{ general ui
-    "input": (fg0, bg0),
-    "button": (add_setting(fg0, "bold"), bg2),
-    "focused button": (add_setting(bg0, "bold"), bright_aqua),
-    "focused sidebar": (bg0, neutral_blue),
-    "warning": (fg0, bright_red),
-    "group head": (add_setting(bg0, "bold"), neutral_blue),
-    "dialog title": (add_setting(fg0, "bold"), bg3),
+    "input": (_COLORS["fg0"], _COLORS["bg0"]),
+    "button": (add_setting(_COLORS["fg0"], "bold"), _COLORS["bg2"]),
+    "focused button": (
+        add_setting(_COLORS["accent_fg"], "bold"),
+        _COLORS["bright_aqua"],
+    ),
+    "focused sidebar": (_COLORS["accent_fg"], _COLORS["neutral_blue"]),
+    "warning": (_COLORS["fg0"], _COLORS["bright_red"]),
+    "group head": (
+        add_setting(_COLORS["accent_fg"], "bold"),
+        _COLORS["neutral_blue"],
+    ),
+    "dialog title": (
+        add_setting(_COLORS["fg0"], "bold"),
+        _COLORS["bg3"],
+    ),
     # }}}
     # {{{ source view
-    "source": (fg0, bg0),
-    "current source": (bg0, bright_yellow),
-    "current focused source": (bg0, bright_orange),
-    "breakpoint source": (fg0, neutral_red),
-    "line number": (bg4, bg0),
-    "current line marker": (add_setting(bright_yellow, "bold"), bg0),
-    "breakpoint marker": (add_setting(bright_red, "bold"), bg0),
+    "source": (_COLORS["fg0"], _COLORS["bg0"]),
+    "current source": (
+        _COLORS["accent_fg"],
+        _COLORS["bright_yellow"],
+    ),
+    "current focused source": (
+        _COLORS["accent_fg"],
+        _COLORS["bright_orange"],
+    ),
+    "breakpoint source": (_COLORS["fg0"], _COLORS["neutral_red"]),
+    "line number": (_COLORS["bg4"], _COLORS["bg0"]),
+    "current line marker": (
+        add_setting(_COLORS["bright_yellow"], "bold"),
+        _COLORS["bg0"],
+    ),
+    "breakpoint marker": (
+        add_setting(_COLORS["bright_red"], "bold"),
+        _COLORS["bg0"],
+    ),
     # }}}
     # {{{ sidebar
-    "sidebar one": (fg0, bg1),
-    "focused sidebar one": (fg0, bg3),
-    "sidebar two": (bright_blue, bg1),
-    "focused sidebar two": (bright_blue, bg3),
-    "sidebar three": (bright_purple, bg1),
-    "focused sidebar three": (bright_purple, bg3),
+    "sidebar one": (_COLORS["fg0"], _COLORS["bg1"]),
+    "focused sidebar one": (_COLORS["fg0"], _COLORS["bg3"]),
+    "sidebar two": (_COLORS["bright_blue"], _COLORS["bg1"]),
+    "focused sidebar two": (_COLORS["bright_blue"], _COLORS["bg3"]),
+    "sidebar three": (_COLORS["bright_purple"], _COLORS["bg1"]),
+    "focused sidebar three": (_COLORS["bright_purple"], _COLORS["bg3"]),
     # }}}
     # {{{ variables view
-    "variables": (fg0, bg1),
-    "variable separator": (bg3, bg0),
-    "var label": (bright_blue, bg1),
-    "focused var label": (bright_blue, bg3),
-    "var value": (fg0, bg0),
-    "focused var value": (fg0, bg2),
-    "highlighted var label": (bg0, bright_aqua),
-    "highlighted var value": (bg0, bright_green),
-    "focused highlighted var label": (bg0, bright_blue),
-    "focused highlighted var value": (bg0, bright_green),
-    "return label": (bright_green, bg0),
-    "return value": (fg0, bg0),
-    "focused return label": (bright_green, bg2),
-    "focused return value": (fg0, bg2),
+    "variables": (_COLORS["fg0"], _COLORS["bg1"]),
+    "variable separator": (_COLORS["bg3"], _COLORS["bg0"]),
+    "var label": (_COLORS["bright_blue"], _COLORS["bg1"]),
+    "focused var label": (_COLORS["bright_blue"], _COLORS["bg3"]),
+    "var value": (_COLORS["fg0"], _COLORS["bg0"]),
+    "focused var value": (_COLORS["fg0"], _COLORS["bg2"]),
+    "highlighted var label": (
+        _COLORS["accent_fg"],
+        _COLORS["bright_aqua"],
+    ),
+    "highlighted var value": (
+        _COLORS["accent_fg"],
+        _COLORS["bright_green"],
+    ),
+    "focused highlighted var label": (
+        _COLORS["accent_fg"],
+        _COLORS["bright_blue"],
+    ),
+    "focused highlighted var value": (
+        _COLORS["accent_fg"],
+        _COLORS["bright_green"],
+    ),
+    "return label": (_COLORS["bright_green"], _COLORS["bg0"]),
+    "return value": (_COLORS["fg0"], _COLORS["bg0"]),
+    "focused return label": (_COLORS["bright_green"], _COLORS["bg2"]),
+    "focused return value": (_COLORS["fg0"], _COLORS["bg2"]),
     # }}}
     # {{{ stack
-    "stack": (fg0, bg1),
-    "frame name": (bright_green, bg1),
-    "frame class": (bright_aqua, bg1),
-    "frame location": (bright_yellow, bg1),
-    "focused frame name": (bright_green, bg3),
-    "focused frame class": (bright_aqua, bg3),
-    "focused frame location": (bright_yellow, bg3),
-    "current frame name": (bright_green, bg0),
-    "current frame class": (bright_aqua, bg0),
-    "current frame location": (bright_yellow, bg0),
-    "focused current frame name": (bright_green, bg2),
-    "focused current frame class": (bright_aqua, bg2),
-    "focused current frame location": (bright_yellow, bg2),
+    "stack": (_COLORS["fg0"], _COLORS["bg1"]),
+    "frame name": (_COLORS["bright_green"], _COLORS["bg1"]),
+    "frame class": (_COLORS["bright_aqua"], _COLORS["bg1"]),
+    "frame location": (_COLORS["bright_yellow"], _COLORS["bg1"]),
+    "focused frame name": (_COLORS["bright_green"], _COLORS["bg3"]),
+    "focused frame class": (_COLORS["bright_aqua"], _COLORS["bg3"]),
+    "focused frame location": (_COLORS["bright_yellow"], _COLORS["bg3"]),
+    "current frame name": (_COLORS["bright_green"], _COLORS["bg0"]),
+    "current frame class": (_COLORS["bright_aqua"], _COLORS["bg0"]),
+    "current frame location": (_COLORS["bright_yellow"], _COLORS["bg0"]),
+    "focused current frame name": (_COLORS["bright_green"], _COLORS["bg2"]),
+    "focused current frame class": (_COLORS["bright_aqua"], _COLORS["bg2"]),
+    "focused current frame location": (
+        _COLORS["bright_yellow"],
+        _COLORS["bg2"],
+    ),
     # }}}
     # {{{ breakpoints view
-    "breakpoint": (bright_orange, bg1),
-    "disabled breakpoint": (gray, bg1),
-    "current breakpoint": (bright_orange, bg0),
-    "disabled current breakpoint": (gray, bg0),
-    "focused breakpoint": (bright_orange, bg3),
-    "focused current breakpoint": (bright_orange, bg2),
-    "focused disabled breakpoint": (gray, bg3),
-    "focused disabled current breakpoint": (gray, bg2),
+    "breakpoint": (_COLORS["bright_orange"], _COLORS["bg1"]),
+    "disabled breakpoint": (_COLORS["gray"], _COLORS["bg1"]),
+    "current breakpoint": (_COLORS["bright_orange"], _COLORS["bg0"]),
+    "disabled current breakpoint": (_COLORS["gray"], _COLORS["bg0"]),
+    "focused breakpoint": (_COLORS["bright_orange"], _COLORS["bg3"]),
+    "focused current breakpoint": (_COLORS["bright_orange"], _COLORS["bg2"]),
+    "focused disabled breakpoint": (_COLORS["gray"], _COLORS["bg3"]),
+    "focused disabled current breakpoint": (
+        _COLORS["gray"],
+        _COLORS["bg2"],
+    ),
     # }}}
     # {{{ shell
-    "command line edit": (fg0, bg0),
-    "command line prompt": (add_setting(bright_yellow, "bold"), bg0),
-    "command line input": (fg0, bg0),
-    "command line output": (fg2, bg0),
-    "command line error": (bright_red, bg0),
-    "focused command line output": (fg2, bg2),
-    "focused command line error": (bright_red, bg2),
+    "command line edit": (_COLORS["fg0"], _COLORS["bg0"]),
+    "command line prompt": (
+        add_setting(_COLORS["bright_yellow"], "bold"),
+        _COLORS["bg0"],
+    ),
+    "command line input": (_COLORS["fg0"], _COLORS["bg0"]),
+    "command line output": (_COLORS["fg2"], _COLORS["bg0"]),
+    "command line error": (_COLORS["bright_red"], _COLORS["bg0"]),
+    "focused command line output": (_COLORS["fg2"], _COLORS["bg2"]),
+    "focused command line error": (_COLORS["bright_red"], _COLORS["bg2"]),
     # }}}
     # {{{ Code syntax
-    "literal": (bright_purple, bg0),
-    "builtin": (bright_aqua, bg0),
-    "exception": (bright_orange, bg0),
-    "keyword2": (bright_yellow, bg0),
-    "function": (bright_blue, bg0),
-    "class": (add_setting(bright_yellow, "underline"), bg0),
-    "keyword": (bright_red, bg0),
-    "operator": (bright_orange, bg0),
-    "comment": (gray, bg0),
-    "docstring": (gray, bg0),
-    "argument": (bright_green, bg0),
-    "pseudo": (neutral_aqua, bg0),
-    "string": (bright_green, bg0),
+    "literal": (_COLORS["bright_purple"], _COLORS["bg0"]),
+    "builtin": (_COLORS["bright_aqua"], _COLORS["bg0"]),
+    "exception": (_COLORS["bright_orange"], _COLORS["bg0"]),
+    "keyword2": (_COLORS["bright_yellow"], _COLORS["bg0"]),
+    "function": (_COLORS["bright_blue"], _COLORS["bg0"]),
+    "class": (
+        add_setting(_COLORS["bright_yellow"], "underline"),
+        _COLORS["bg0"],
+    ),
+    "keyword": (_COLORS["bright_red"], _COLORS["bg0"]),
+    "operator": (_COLORS["bright_orange"], _COLORS["bg0"]),
+    "comment": (_COLORS["gray"], _COLORS["bg0"]),
+    "docstring": (_COLORS["gray"], _COLORS["bg0"]),
+    "argument": (_COLORS["bright_green"], _COLORS["bg0"]),
+    "pseudo": (_COLORS["neutral_aqua"], _COLORS["bg0"]),
+    "string": (_COLORS["bright_green"], _COLORS["bg0"]),
     # }}}
 })
 
