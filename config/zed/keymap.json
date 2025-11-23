@@ -166,6 +166,7 @@
       "ctrl-b": "editor::MoveLeft",
       "ctrl-f": "editor::MoveRight",
       "ctrl-p": "editor::MoveUp",
+      "ctrl-d": "editor::Delete",
       "ctrl-n": "editor::MoveDown",
       "alt-b": "editor::MoveToPreviousWordStart",
       "alt-f": "editor::MoveToNextWordEnd",
@@ -199,7 +200,7 @@
   {
     "context": "Terminal && screen==alt",
     "bindings": {
-      "escape": "pane::CloseActiveItem"
+      "escape": ["workspace::SendKeystrokes", "escape"]
     }
   },
   {
