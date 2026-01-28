@@ -91,8 +91,8 @@ install_packages \
   apt-file autojump automake bat bison btop build-essential ca-certificates \
   checkinstall clang cmake cmake cscope curl davmail fasd fd-find ffmpeg \
   ffmpegthumbnailer fish fonts-firacode fonts-jetbrains-mono fonts-powerline \
-  freeglut3-dev fzy g++-multilib gawk gcc-10 gcc-multilib gettext git glances \
-  global gnome-epub-thumbnailer gnupg gnupg2 guile-3.0-dev htop iotop \
+  freeglut3-dev fswatch fzy g++-multilib gawk gcc-10 gcc-multilib gettext git \
+  glances global gnome-epub-thumbnailer gnupg gnupg2 guile-3.0-dev htop iotop \
   iputils-arping jq keychain kitty libadwaita-1-dev libasound2-dev libbz2-dev \
   libbz2-dev libcld2-dev libenchant-2-dev libevent-dev libexpat1-dev \
   libffi-dev libfontconfig1-dev libfontconfig1-dev libfreetype6-dev \

@@ -99,7 +99,7 @@ install_packages \
   git git-annex git-crypt git-delta git-lfs github-cli
 
 yay -S --needed \
-  autojump fpp-git git-hub git-secrets git-secrets gitflow-avh \
+  autojump fpp-git fswatch git-hub git-secrets git-secrets gitflow-avh \
   hdrop-git insync mu noisetorch teams-for-linux visual-studio-code-bin xremap-hypr-bin
 
 # Install GUI packages
