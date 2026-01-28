@@ -116,6 +116,9 @@ This function is intended for use with `org-capture` workflows."
   ;; set org-roam directory before loading agenda
   (setq org-default-notes-file (aam/org-path "refile.org"))
   (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
+  ;; vulpea settings
+  (setq vulpea-db-sync-directories (list org-directory))
+  (vulpea-db-autosync-mode +1)
   ;; latex preview for org-mode
   (setq org-latex-create-formula-image-program 'dvipng
         org-preview-latex-image-directory "ltximg/")

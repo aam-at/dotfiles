@@ -55,7 +55,6 @@
 (defun org-roam-extras/init-vulpea()
   (use-package vulpea
     :after org-roam
-    :hook ((org-roam-db-autosync-mode . vulpea-db-autosync-enable))
     :init
     (spacemacs/set-leader-keys
       "aorf" 'vulpea-find
