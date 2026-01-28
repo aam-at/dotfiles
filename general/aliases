@@ -88,6 +88,7 @@ alias realcat='/bin/cat'
 alias locate='plocate -i'
 
 # Define gping alias
+alias realping="/bin/ping"
 alias ping='gping'
 
 # Git related shortcuts
