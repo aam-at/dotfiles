@@ -34,6 +34,7 @@ npm_packages=(
   "@qwen-code/qwen-code@latest"
   "@vibe-kit/grok-cli@latest"
   "opencode-ai@latest"
+  "openclaw"
   "bash-language-server"
   "bibtex-tidy"
   "js-beautify"
