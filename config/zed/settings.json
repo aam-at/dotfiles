@@ -142,6 +142,11 @@
           "language": "en-US"
         }
       }
+    },
+    "unicode": {
+      "settings": {
+        "include_all_symbols": false
+      }
     }
   },
   "file_types": {
@@ -191,6 +196,7 @@
     "python-requirements": true,
     "rainbow-csv": true,
     "texpresso": true,
+    "unicode": true,
     "zig": true
   }
 }
