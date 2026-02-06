@@ -1,24 +1,15 @@
 [Default Applications]
 x-scheme-handler/http=microsoft-edge.desktop
-application/xhtml+xml=microsoft-edge.desktop
-text/html=microsoft-edge.desktop
 x-scheme-handler/https=microsoft-edge.desktop
-application/pdf=zathura.desktop
+application/xhtml+xml=microsoft-edge.desktop
+application/xml=nvim.desktop;
+text/html=microsoft-edge.desktop
+application/pdf=mupdf.desktop;zathura.desktop;
 text/org=emacsclient.desktop
 text/org_archive=emacsclient.desktop;
 text/yaml=emacsclient.desktop;
+text/x-tex=emacsclient.desktop;
 text/x-bibtex=emacsclient.desktop
+text/bibtex=emacsclient.desktop
 video/mp4=vlc.desktop
 x-scheme-handler/mailto=microsoft-edge.desktop
-
-[Added Associations]
-x-scheme-handler/http=microsoft-edge.desktop;
-application/xhtml+xml=microsoft-edge.desktop;
-text/html=microsoft-edge.desktop;
-x-scheme-handler/https=microsoft-edge.desktop;
-application/pdf=zathura.desktop;
-text/org=emacsclient.desktop;
-text/org_archive=emacsclient.desktop;
-text/yaml=emacsclient.desktop;
-text/x-bibtex=emacsclient.desktop;
-video/mp4=vlc.desktop;
