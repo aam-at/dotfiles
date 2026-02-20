@@ -23,3 +23,4 @@ config/yazi/plugins
 config/fish/functions/*fifc*.fish
 config/fish/functions/fisher.fish
 config/television/cable/*.toml
+config/niri/dms/*.kdl
