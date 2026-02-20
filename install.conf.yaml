@@ -41,6 +41,7 @@
     ~/.config/helix: config/helix
     ~/.config/kanata: config/kanata
     ~/.config/kitty: config/kitty
+    ~/.config/niri: config/niri
     ~/.config/lazygit: config/lazygit
     ~/.config/mimeapps.list: config/mimeapps.list
     ~/.config/neovide: config/neovide

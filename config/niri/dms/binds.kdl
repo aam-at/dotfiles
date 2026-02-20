@@ -5,7 +5,11 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // === Application Launchers ===
-    Mod+T hotkey-overlay-title="Open Terminal" { spawn "kitty"; }
+    Mod+T hotkey-overlay-title="Open Terminal" { spawn "bash" "-c" "exec $TERMINAL"; }
+    Mod+Return hotkey-overlay-title="Terminal" { spawn "bash" "-c" "exec $TERMINAL"; }
+    Mod+E hotkey-overlay-title="File Manager" { spawn "bash" "-c" "exec $FILE_MANAGER"; }
+    Mod+B hotkey-overlay-title="Browser" { spawn "bash" "-c" "exec $BROWSER"; }
+    Mod+C hotkey-overlay-title="Editor" { spawn "bash" "-c" "exec $TERMINAL -e $EDITOR"; }
     Mod+Space hotkey-overlay-title="Application Launcher" {
         spawn "dms" "ipc" "call" "spotlight" "toggle";
     }
@@ -199,7 +203,7 @@ binds {
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
     Mod+Ctrl+F { expand-column-to-available-width; }
-    Mod+C { center-column; }
+    Mod+Shift+C { center-column; }
     Mod+Ctrl+C { center-visible-columns; }
 
     // === Manual Sizing ===
@@ -207,6 +211,16 @@ binds {
     Mod+Equal { set-column-width "+10%"; }
     Mod+Shift+Minus { set-window-height "-10%"; }
     Mod+Shift+Equal { set-window-height "+10%"; }
+    // === Fine-Grained Resize (5% steps) ===
+    Mod+Ctrl+Minus { set-column-width "-5%"; }
+    Mod+Ctrl+Equal { set-column-width "+5%"; }
+    Mod+Ctrl+Shift+Minus { set-window-height "-5%"; }
+    Mod+Ctrl+Shift+Equal { set-window-height "+5%"; }
+    // === Column Width Presets (direct set) ===
+    Mod+Ctrl+1 { set-column-width "33.333%"; }
+    Mod+Ctrl+2 { set-column-width "50%"; }
+    Mod+Ctrl+3 { set-column-width "66.667%"; }
+    Mod+Ctrl+4 { set-column-width "100%"; }
 
     // === Screenshots ===
     XF86Launch1 { screenshot; }
