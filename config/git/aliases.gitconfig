@@ -1,122 +1,161 @@
-# http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/
 [alias]
-    # basic {{{
-    st = status -sb
-    cl = clone
-    ci = commit
-    co = checkout
-    br = branch 
-    r = reset
-    cp = cherry-pick
-    gr = grep -Ii
-    type = cat-file -t
-    change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
-
-    # pull with stash and rebase
-    spull = "!f() { git stash; git pull; git stash pop; }; f "
-    srpull = "!f() { git stash; git pull; git stash pop; }; f "
-
-    dump = cat-file -p
+    # === status & info === {{{
+    s = status -sb
+    st = status
+    root = rev-parse --show-toplevel
+    whoami = "!echo \"$(git config user.name) <$(git config user.email)>\""
+    aliases = "!git config -l | grep alias | cut -c 7- | sort"
+    contributors = shortlog -sn --all --no-merges
     # }}}
-    # tweak defaults {{{
-    diff = diff --word-diff
-    wdiff = diff --color-words
-    ldiff = latexdiff --latexmk --quite --pdf-viewer emacsclient
-    branch = branch -ra
-    grep = grep -Ii
-    bra = branch -ra
-    ai = add --interactive
-    # grep on filename
-    f = "!git ls-files | grep -i"
+
+    # === staging === {{{
+    a = add
+    ap = add -p
+    unstage = restore --staged
+    discard = restore
     # }}}
-    # commit {{{
+
+    # === commit === {{{
+    c = commit -v
     cm = commit -m
-    cma = commit -a -m
     ca = commit --amend
-    amend = commit --amend
-    caa = commit -a --amend -C HEAD
+    cane = commit --amend --no-edit
+    caa = commit -a --amend --no-edit
+    cfix = commit --fixup
+    cfixh = commit --fixup=HEAD
+    empty = "!git commit --allow-empty -m '[empty] Initial commit'"
     # }}}
-    # log commands {{{
-    ls = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
-    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
-    lc  = "!f() { git ll "$1"^.."$1"; }; f"
-    lnc = log --pretty=format:"%h\\ %s\\ [%cn]"
-    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-    logtree="log --graph --oneline --decorate --all"
-    fl = log -u
-    filelog = log -u
-    # }}}
-    # diff {{{
-    d = diff --word-diff
+
+    # === diff === {{{
+    d = diff
+    dw = diff --word-diff
     dc = diff --cached
-    # show changed files from last commit
+    ds = diff --stat
+    dcs = diff --cached --stat
+    dlc = diff --cached HEAD~
+    dr = "!f() { git diff \"$1\"~..\"$1\"; }; f"
+    # }}}
+
+    # === log === {{{
+    l = log --oneline --graph --decorate -20
+    ll = log --pretty=format:\"%C(yellow)%h%Cred%d %Creset%s%Cblue [%cn]\" --decorate --numstat
+    ls = log --pretty=format:\"%C(green)%h %C(yellow)[%ad]%Cred%d %Creset%s%Cblue [%cn]\" --decorate --date=relative
+    lga = log --oneline --graph --decorate --all -30
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    tree = log --graph --oneline --decorate --all
+    fl = log -u
+    lc = "!f() { git ll \"$1\"~..\"$1\"; }; f"
     dl = "!git ll -1"
-    # diff last commit
-    dlc = diff --cached HEAD^
-    dr  = "!f() { git diff -w "$1"^.."$1"; }; f"
-    diffr  = "!f() { git diff "$1"^.."$1"; }; f"
     # }}}
-    # reset commands {{{
-    r1 = reset HEAD^
-    r2 = reset HEAD^^
+
+    # === branch === {{{
+    br = branch -vv
+    ba = branch -ra
+    bd = branch -d
+    bdf = branch -D
+    recent = "!git branch --sort=-committerdate --format='%(refname:short)  %(committerdate:relative)' | head -20"
+    rename = branch -m
+    sw = switch
+    cob = switch -c
+    main = "!git switch $(git main-branch)"
+    main-branch = "!b=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@'); [ -n \"$b\" ] && echo \"$b\" || { git rev-parse --verify main >/dev/null 2>&1 && echo main || echo master; }"
+    cobm = "!f() { git switch -c \"$1\" $(git main-branch); }; f"
+    delete-merged-preview = "!current=$(git branch --show-current) && git branch --merged --format='%(refname:short)' | grep -vE \"^($current|main|master|develop)$\""
+    delete-merged = "!git delete-merged-preview | while IFS= read -r b; do [ -n \"$b\" ] && git branch -d \"$b\"; done"
+    cleanup-preview = "!git branch -vv | awk '/: gone]/{print $1}'"
+    cleanup = "!f() { git fetch -p && git cleanup-preview | while IFS= read -r b; do [ -n \"$b\" ] && git branch -D \"$b\"; done; }; f"
+    done = "!f() { git branch | grep \"$1\" | cut -c 3- | grep -v '^done-' | while IFS= read -r b; do [ -n \"$b\" ] && git branch -m \"$b\" \"done-$b\"; done; }; f"
+    # }}}
+
+    # === reset & undo === {{{
+    uncommit = reset --soft HEAD~
+    r1 = reset HEAD~
+    r2 = reset HEAD~~
+    rhp = "!git status --short --branch && git diff --stat && git diff --cached --stat"
     rh = reset --hard
-    rh1 = reset HEAD^ --hard
-    rh2 = reset HEAD^^ --hard
+    rh1 = reset HEAD~ --hard
+    rh2 = reset HEAD~~ --hard
     # }}}
-    # git svn {{{
-    svnr = svn rebase
-    svnd = svn dcommit
-    svnl = svn log --oneline --show-commit
-    # }}}
-    # stash {{{
+
+    # === stash === {{{
+    sp = stash push -m
     sl = stash list
     sa = stash apply
-    ss = stash save
+    sd = stash drop
+    ss = stash show -p
+    spop = stash pop
     # }}}
-    # assume aliases {{{
+
+    # === remote & sync === {{{
+    fe = fetch --all --prune
+    sync = "!git fetch --all --prune && git pull --rebase"
+    pullr = pull --rebase
+    pushup = push -u origin HEAD
+    pushf = push --force-with-lease
+    dpush = "!git push origin $(git symbolic-ref --short HEAD)"
+    dpushf = "!git push --force-with-lease origin $(git symbolic-ref --short HEAD)"
+    track = "!f() { git branch -u \"origin/$1\" \"$1\"; }; f"
+    untrack = "!f() { git branch --unset-upstream \"$1\"; }; f"
+    rem = remote -v
+    # }}}
+
+    # === rebase === {{{
+    rb = rebase
+    rbi = rebase -i
+    rbc = rebase --continue
+    rba = rebase --abort
+    rbs = rebase --skip
+    autosquash = "!git rebase -i --autosquash"
+    # }}}
+
+    # === merge & conflict === {{{
+    ff = merge --ff-only
+    nff = merge --no-ff
+    ours = "!f() { git checkout --ours -- \"$@\" && git add -- \"$@\"; }; f"
+    theirs = "!f() { git checkout --theirs -- \"$@\" && git add -- \"$@\"; }; f"
+    # }}}
+
+    # === worktree === {{{
+    wta = worktree add
+    wtl = worktree list
+    wtr = worktree remove
+    # }}}
+
+    # === wip === {{{
+    wip = "!git add -A && git commit -m 'WIP [skip ci]'"
+    unwip = "!git log -1 --format='%s' | grep -q '^WIP' && git reset HEAD~"
+    save = "!git add -A && git commit -m \"SAVEPOINT $(date +%Y-%m-%dT%H:%M)\""
+    # }}}
+
+    # === cherry-pick === {{{
+    cp = cherry-pick
+    cpc = cherry-pick --continue
+    cpa = cherry-pick --abort
+    # }}}
+
+    # === bisect === {{{
+    bis = bisect start
+    big = bisect good
+    bib = bisect bad
+    bir = bisect reset
+    # }}}
+
+    # === assume-unchanged === {{{
     assume = update-index --assume-unchanged
     unassume = update-index --no-assume-unchanged
-    # show assumed files
     assumed = "!git ls-files -v | grep ^h | cut -c 3-"
-    # unassume all the assumed files
-    unassumeall = "!git assumed | xargs git update-index --no-assume-unchanged"
-    assumeall = "!git st -s | awk {'print $2'} | xargs git assume"
+    unassumeall = "!f() { git assumed | while IFS= read -r p; do [ -n \"$p\" ] && git update-index --no-assume-unchanged -- \"$p\"; done; }; f"
     # }}}
-    # subtree {{{
-    #   add
-    sba = "!f() { git subtree add --prefix $2 $1 master --squash; }; f" 
-    #   update/pull
-    sbu = "!f() { git subtree pull --prefix $2 $1 master --squash; }; f" 
-    # }}}
-    # various useful {{{
-    # last tag created
-    lasttag = describe --tags --abbrev=0
+
+    # === misc === {{{
+    co = checkout
+    cl = clone
+    gr = grep -Ii
+    gra = "!f() { A=$(pwd) && TOPLEVEL=$(git rev-parse --show-toplevel) && cd \"$TOPLEVEL\" && git grep --full-name -In \"$1\" | while IFS= read -r line; do printf '%s/%s\\n' \"$TOPLEVEL\" \"$line\"; done; cd \"$A\"; }; f"
+    f = "!git ls-files | grep -i"
     lt = describe --tags --abbrev=0
-
-    # conflict/merges
-    ours = "!f() { git co --ours $@ && git add $@; }; f"
-    theirs = "!f() { git co --theirs $@ && git add $@; }; f"
-
-    #list remotes
-    rem="!git config -l | grep remote.*url | tail -n +2"
-
-    #apply patch from other local repo
-    lap = "!f() { git --git-dir=$1 format-patch -k -1 --stdout $2 | git am -3 -k; }; f"
-
-    #open files edited in last commit
-    last = "!nvim $(git show HEAD --format="" --name-only | xargs)"
-
-    # initial empty commit
-    empty = "!git commit -am\"[empty] Initial commit\" --allow-empty"
-
-    # list all aliases
-    la = "!git config -l | grep alias | cut -c 7-"
-    # }}}
-    # convoluted aliases {{{
-    # grep from root folder
-    gra = "!f() { A=$(pwd) && TOPLEVEL=$(git rev-parse --show-toplevel) && cd $TOPLEVEL && git grep --full-name -In $1 | xargs -I{} echo $TOPLEVEL/{} && cd $A; }; f"
-    #rename branch tree to done-
-    done = "!f() { git branch | grep "$1" | cut -c 3- | grep -v done | xargs -I{} git branch -m {} done-{}; }; f"
-    #add bitbucket remote
-    ra = "!f() { git remote add $1 https://bitbucket.org/$2.git; }; f"
+    type = cat-file -t
+    dump = cat-file -p
+    lap = "!f() { git --git-dir=\"$1\" format-patch -k -1 --stdout \"$2\" | git am -3 -k; }; f"
+    last = "!git diff-tree --no-commit-id --name-only -r -z HEAD | xargs -r -0 nvim"
     # }}}
