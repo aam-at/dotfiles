@@ -3,6 +3,7 @@ x-scheme-handler/http=microsoft-edge.desktop
 x-scheme-handler/https=microsoft-edge.desktop
 application/xhtml+xml=microsoft-edge.desktop
 application/xml=nvim.desktop;
+application/json=nvim.desktop;
 text/html=microsoft-edge.desktop
 application/pdf=mupdf.desktop;zathura.desktop;
 text/org=emacsclient.desktop
