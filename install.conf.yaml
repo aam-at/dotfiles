@@ -3,7 +3,10 @@
     - [git submodule update --depth 1 --init --recursive, Installing submodules]
     - [env > ~/.bash_env, Environment variables]
     - [cd bash/bashmarks && make install, Install bashmarks]
-    - [mkdir -p ~/.local/bin && ln -frs scripts/* ~/.local/bin/, Link scripts]
+    - [
+        chmod +x scripts/*.sh && mkdir -p ~/.local/bin && ln -frs scripts/* ~/.local/bin/,
+        Link scripts,
+      ]
     - [
         curl -sfL https://direnv.net/install.sh | bin_path=~/.local/bin bash,
         Install direnv,
@@ -12,6 +15,7 @@
         tic -x -o ~/.terminfo general/xterm/xterm-24bit.terminfo,
         Configure Truecolor,
       ]
+    - [./scripts/health-check.sh, Run health check]
 - link:
     ~/.ssh/config: config/ssh/config
     ~/.davmail.properties: config/davmail.properties
@@ -85,6 +89,7 @@
     ~/.spacemacs_writing.d/config: spacemacs/config
     ~/.emacs.d/.cache/bookmarks: ../Dropbox/Software/emacs/bookmarks
     ~/.emacs.d/.cache/.org-id-locations: ../Dropbox/Software/emacs/org-id-locations
+    ~/.config/age: ../Dropbox/Software/age
     ~/.elfeed: ../Dropbox/Software/elfeed
     ~/.password-store: ../Dropbox/Software/pass
     # bash settings
