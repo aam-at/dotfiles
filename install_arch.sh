@@ -77,12 +77,12 @@ install_packages() {
 }
 
 install_packages \
-  alsa-lib aspell aspell-en aspell-ru automake base-devel bat bibtool bison btop \
-  bzip2 ca-certificates cava chafa clang cmake cscope curl dgop dust \
+  age alsa-lib aspell aspell-en aspell-ru automake base-devel bat bibtool bison \
+  btop bzip2 ca-certificates cava chafa clang cmake cscope curl dgop dust \
   emacs-wayland enchant enchant exo expat fasd fd ffmpeg file-roller fish \
   fontconfig freeglut freetype2 fuse3 fzy gcc gcc gettext ghostty giflib git \
   github-desktop glances global gmime3 gnupg gnutls gtk4 guile gvfs helix hexyl \
-  hspell htop hunspell hyprpolkitagent imagemagick iotop iputils jansson \
+  hspell htop httpie hunspell hyprpolkitagent imagemagick iotop iputils jansson \
   jbig2dec jq keychain kitty lazygit leptonica libevent libffi libgccjit \
   libjpeg-turbo libmupdf libpng libtiff libvoikko libvterm libxcb libxcomposite \
   libxcursor libxfixes libxi libxkbcommon libxmu libxpm llvm lynx make mc meson \
@@ -94,7 +94,7 @@ install_packages \
   the_silver_searcher thunar thunar-archive-plugin tig tk tmux trash-cli \
   tree-sitter tree-sitter ttf-fira-code ttf-jetbrains-mono unrar vale webkit2gtk \
   wget wmctrl xapian-core xdg-desktop-portal-hyprland xdg-utils xfce4-settings \
-  xz xz zathura zathura-djvu zathura-pdf-poppler zed zellij zenity zlib-ng \
+  xh xz zathura zathura-djvu zathura-pdf-poppler zed zellij zenity zlib-ng \
   zoxide
 
 install_packages \
