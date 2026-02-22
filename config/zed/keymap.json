@@ -128,7 +128,49 @@
       "space 6": ["workspace::SendKeystrokes", "ctrl-6"],
       "space 7": ["workspace::SendKeystrokes", "ctrl-7"],
       "space 8": ["workspace::SendKeystrokes", "ctrl-8"],
-      "space 9": ["workspace::SendKeystrokes", "ctrl-9"]
+      "space 9": ["workspace::SendKeystrokes", "ctrl-9"],
+
+      // toggle comments (Spacemacs SPC ;)
+      "space ;": "vim::ToggleComments",
+
+      // LSP / language operations (SPC l …)
+      "space l a": "editor::ToggleCodeActions",
+      "space l d": "editor::GoToDefinition",
+      "space l D": "editor::GoToTypeDefinition",
+      "space l f": "editor::Format",
+      "space l h": "editor::Hover",
+      "space l i": "editor::GoToImplementation",
+      "space l r": "editor::Rename",
+      "space l R": "editor::FindAllReferences",
+      "space l s": "outline::Toggle",
+      "space l S": "project_symbols::Toggle",
+      "space l t": "editor::GoToTypeDefinition",
+
+      // errors / diagnostics (SPC e …)
+      "space e l": "diagnostics::Deploy",
+      "space e n": "editor::GoToDiagnostic",
+      "space e p": "editor::GoToPrevDiagnostic",
+
+      // jump (SPC j …)
+      "space j l": "go_to_line::Toggle",
+      "space j d": "editor::GoToDefinition",
+      "space j i": "editor::GoToImplementation",
+
+      // text manipulation (SPC x …)
+      "space x u": "editor::ConvertToLowerCase",
+      "space x U": "editor::ConvertToUpperCase",
+      "space x l s": "editor::SortLinesCaseSensitive",
+      "space x l S": "editor::SortLinesCaseInsensitive",
+
+      // help (SPC h …)
+      "space h k": "zed::OpenKeymap",
+      "space h s": "zed::OpenSettings",
+
+      // git hunk navigation
+      "space g n": "editor::GoToHunk",
+      "space g N": "editor::GoToPrevHunk",
+      "space g d": "editor::ToggleSelectedDiffHunks",
+      "space g r": "editor::RevertSelectedHunks"
     }
   },
 
@@ -139,7 +181,12 @@
     "context": "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu",
     "bindings": {
       "space g h d": "editor::ToggleSelectedDiffHunks",
-      "g f": "editor::OpenExcerpts" // keep as-is: quick jump helper
+      "g f": "editor::OpenExcerpts", // keep as-is: quick jump helper
+      // vim-standard bracket navigation
+      "] d": "editor::GoToDiagnostic",
+      "[ d": "editor::GoToPrevDiagnostic",
+      "] g": "editor::GoToHunk",
+      "[ g": "editor::GoToPrevHunk"
     }
   },
   {
