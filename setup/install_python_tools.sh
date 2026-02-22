@@ -24,9 +24,11 @@ uv_tools=(
   pre-commit
   proselint
   pylint
+  pyrefly
   ruff
   semgrep
   textLSP
+  ty
   yapf
 )
 
