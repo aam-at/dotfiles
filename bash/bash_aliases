@@ -27,6 +27,40 @@ function y() {
 	rm -f -- "$tmp"
 }
 
+# Unified search function - search with ripgrep and fzf preview
+search() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: search <pattern> [path]"
+        echo "Search for pattern using ripgrep with fzf preview"
+        return 1
+    fi
+    local pattern="$1"
+    shift
+    local path="${1:-.}"
+    rg --hidden --glob '!.git' --color=always "$pattern" "$path" | \
+        fzf --ansi --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
+            --preview-window 'right:60%' \
+            --bind 'enter:become(nvim {1} +{2})'
+}
+
+# Quick file search with fd and fzf
+fs() {
+    local file
+    file=$(fd --type f --color=always | fzf --ansi --preview 'bat --style=numbers --color=always {}' --preview-window 'right:60%')
+    if [ -n "$file" ]; then
+        nvim "$file"
+    fi
+}
+
+# Directory search with fd and fzf
+ds() {
+    local dir
+    dir=$(fd --type d --color=always | fzf --ansi --preview 'tree -L 2 -C {}' --preview-window 'right:60%')
+    if [ -n "$dir" ]; then
+        cd "$dir" || return
+    fi
+}
+
 # ruff alias
 function ruff_format() {
     local file_to_format=$1
