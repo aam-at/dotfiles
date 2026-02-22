@@ -32,7 +32,6 @@ alias pscpu="ps auxf | sort -nr -k 3" # CPU usage by processes
 ###  Search and find ###
 ########################
 alias grep="grep --color=auto"             # Grep with color
-alias f="find . -name"                     # Find files by name
 alias ag="ag --path-to-ignore ~/.agignore" # Silver searcher with ignore file
 alias rg="rg --files"                      # Ripgrep for searching files
 
@@ -77,6 +76,15 @@ alias lsg="_ls --grid"                                  # Grid view of files wit
 alias lh="_ls -lh"                                      # Long listing with human-readable file sizes
 alias ld="_ls -l --group-directories-first --only-dirs" # Long listing of directories only
 alias realls="/bin/ls"
+
+################################
+###  Search and Find Tools  ###
+################################
+# fd - faster find alternative
+alias find="fd --type f"
+alias findd="fd --type d"
+alias finda="fd --hidden"
+alias findi="fd -i"
 
 # Define cat aliases
 alias cat='bat'
