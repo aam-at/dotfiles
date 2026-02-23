@@ -1,0 +1,38 @@
+// Miscellaneous settings
+// Matches Hyprland misc.conf + niri-specific settings
+
+config-notification {
+  disable-failed
+}
+
+gestures {
+  hot-corners {
+    off
+  }
+}
+
+overview {
+  workspace-shadow {
+    off
+  }
+}
+
+hotkey-overlay {
+  skip-at-startup
+}
+
+prefer-no-csd
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+debug {
+  honor-xdg-activation-with-invalid-serial
+}
+
+recent-windows {
+  binds {
+    Alt+Tab         { next-window scope="output"; }
+    Alt+Shift+Tab   { previous-window scope="output"; }
+    Alt+grave       { next-window filter="app-id"; }
+    Alt+Shift+grave { previous-window filter="app-id"; }
+  }
+}

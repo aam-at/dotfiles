@@ -1,0 +1,10 @@
+// Named workspaces
+// Matches Hyprland special workspaces (F1-F5)
+// Niri uses named workspaces instead of Hyprland's "special" toggle workspaces.
+// The corresponding F1-F5 keybindings are in dms/binds.kdl.
+
+workspace "sysmon"
+workspace "music"
+workspace "communication"
+workspace "ai"
+workspace "todo"
