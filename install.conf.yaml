@@ -23,6 +23,7 @@
     ~/.vale: config/vale/vale
     ~/.textlintrc: config/textlintrc
     ~/.sbclrc: config/sbclrc
+    ~/.config/DankMaterialShell: config/DankMaterialShell
     ~/.config/aichat: config/aichat
     ~/.config/alacritty: config/alacritty
     ~/.config/atuin: config/atuin

@@ -120,17 +120,6 @@
            :embedding-model "nomic-embed-text"
            :default-chat-non-standard-params '(("stop" . ("\n")))))
 
-  ;; Elisa config
-  (setopt elisa-limit 5
-          elisa-prompt-rewriting-enabled t ;; prompt rewriting may increase quality of answers
-          elisa-reranker-enabled t ;; reranker increases answer quality
-          elisa-web-search-function 'elisa-search-searxng) ;; searxng works better than duckduckgo in my tests
-  (setopt elisa-chat-provider
-          (make-llm-ollama
-           :chat-model "llama3.1:8b-instruct-q8_0"
-           :embedding-model "chatfire/bge-m3:q8_0"
-           :default-chat-non-standard-params '(("num_ctx" . 131072))))
-  (setopt elisa-embeddings-provider (make-llm-ollama :embedding-model "chatfire/bge-m3:q8_0"))
   ;; Translation llm provider
   (setopt ellama-translation-provider (make-llm-ollama
                                        :chat-model "phi3:14b-medium-128k-instruct-q6_K"
