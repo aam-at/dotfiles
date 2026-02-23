@@ -21,7 +21,17 @@
       ;; in terminal when asking for gpg password
       (setq epg-pinentry-mode 'loopback)))
 
+  (setq desktop-restore-eager 5
+        desktop-files-not-to-save "^$"
+        desktop-load-locked-desktop t)
   (desktop-save-mode t)
+
+  ;; tune gcmh for writing sessions — larger threshold, auto idle delay
+  (with-eval-after-load 'gcmh
+    (setq gcmh-high-cons-threshold (* 256 1024 1024)
+          gcmh-idle-delay 'auto
+          gcmh-auto-idle-delay-factor 10))
+
   (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
 
   ;; startup
@@ -44,11 +54,12 @@
   (define-key evil-visual-state-map "j" 'evil-next-visual-line)
   (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
-  ;; enable global activity watch
-  (when (check-localhost-port 5600)
-    (progn
-      (message "Enable global activity watch")
-      (global-activity-watch-mode)))
+  ;; enable global activity watch (deferred to avoid blocking startup)
+  (run-with-idle-timer 3 nil
+    (lambda ()
+      (when (check-localhost-port 5600)
+        (message "Enable global activity watch")
+        (global-activity-watch-mode))))
 
   ;; basic programming settings
   (defun my-prog-settings()
@@ -56,43 +67,6 @@
     (spacemacs/toggle-relative-line-numbers-on)
     (face-remap-add-relative 'default '(:family "JetBrains Mono")))
   (add-hook 'prog-mode-hook 'my-prog-settings)
-  ;; speed up the lsp-mode using lsp-booster
-  (if (executable-find "emacs-lsp-booster")
-      (progn
-        (defun lsp-booster--advice-json-parse (old-fn &rest args)
-          "Try to parse bytecode instead of json."
-          (or
-           (when (equal (following-char) ?#)
-             (let ((bytecode (read (current-buffer))))
-               (when (byte-code-function-p bytecode)
-                 (funcall bytecode))))
-           (apply old-fn args)))
-        (advice-add (if (progn (require 'json)
-                               (fboundp 'json-parse-buffer))
-                        'json-parse-buffer
-                      'json-read)
-                    :around
-                    #'lsp-booster--advice-json-parse)
-
-        (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-          "Prepend emacs-lsp-booster command to lsp CMD."
-          (let ((orig-result (funcall old-fn cmd test?)))
-            (if (and (not test?)                             ;; for check lsp-server-present?
-                     (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-                     lsp-use-plists
-                     (not (functionp 'json-rpc-connection))  ;; native json-rpc
-                     (executable-find "emacs-lsp-booster"))
-                (progn
-                  (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-                    (setcar orig-result command-from-exec-path))
-                  (message "Using emacs-lsp-booster for %s!" orig-result)
-                  ;; (cons "emacs-lsp-booster" orig-result)
-                  (append (list "emacs-lsp-booster" "--disable-bytecode" "--") orig-result))
-              orig-result)))
-        (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
-        (message "emacs-lsp-booster configuration loaded successfully."))
-    (message "emacs-lsp-booster not found. To install, run: cargo install --git https://github.com/blahgeek/emacs-lsp-booster"))
-
   ;; basic text settings
   (defun my-text-settings()
     (visual-line-mode)
