@@ -1,0 +1,178 @@
+// Window rules
+// Ported from Hyprland dms/rules.conf
+
+// === Base visuals ===
+// GNOME apps: rounded corners, clip to geometry
+window-rule {
+  match app-id=r#"^org\.gnome\."#
+  draw-border-with-background false
+  geometry-corner-radius 12
+  clip-to-geometry true
+}
+
+// Terminal emulators: no border background
+window-rule {
+  match app-id=r#"^org\.wezfurlong\.wezterm$"#
+  match app-id="Alacritty"
+  match app-id="zen"
+  match app-id="com.mitchellh.ghostty"
+  match app-id="kitty"
+  draw-border-with-background false
+}
+
+// Wezterm: auto-size columns
+window-rule {
+  match app-id=r#"^org\.wezfurlong\.wezterm$"#
+  default-column-width {}
+}
+
+// === App tile defaults ===
+window-rule {
+  match app-id=r#"^gnome-control-center$"#
+  match app-id=r#"^nm-connection-editor$"#
+  default-column-width { proportion 0.5; }
+  open-floating false
+}
+
+// === App float defaults ===
+window-rule {
+  match app-id=r#"^gnome-calculator$"#
+  match app-id=r#"^galculator$"#
+  match app-id=r#"^blueman-manager$"#
+  match app-id=r#"^org\.gnome\.Nautilus$"#
+  match app-id=r#"^xdg-desktop-portal$"#
+  match app-id=r#"^zoom$"#
+  open-floating true
+}
+
+// Additional float apps (from Hyprland rules)
+window-rule {
+  match app-id="guifetch"
+  match app-id="yad"
+  match app-id="zenity"
+  match app-id="wev"
+  match app-id=r#"^org\.gnome\.FileRoller$"#
+  match app-id="file-roller"
+  match app-id=r#"^com\.github\.GradienceTeam\.Gradience$"#
+  match app-id="feh"
+  match app-id="imv"
+  match app-id="system-config-printer"
+  match app-id=r#"^nwg-look$"#
+  open-floating true
+}
+
+// Quickshell: floating
+window-rule {
+  match app-id=r#"org\.quickshell$"#
+  open-floating true
+}
+
+// GNOME Settings: floating
+window-rule {
+  match app-id=r#"^org\.gnome\.Settings$"#
+  open-floating true
+}
+
+// Pavucontrol / yad-icon-browser: floating
+window-rule {
+  match app-id=r#"^pavucontrol$"#
+  match app-id=r#"^org\.pulseaudio\.pavucontrol$"#
+  match app-id="yad-icon-browser"
+  open-floating true
+}
+
+// === Dialog windows ===
+window-rule {
+  match title=r#"^(Select|Open)( a)? (File|Folder)(s)?$"#
+  open-floating true
+}
+window-rule {
+  match title=r#"^File (Operation|Upload)( Progress)?$"#
+  open-floating true
+}
+window-rule {
+  match title=r#".* Properties$"#
+  open-floating true
+}
+window-rule {
+  match title="Export Image as PNG"
+  match title="GIMP Crash Debug"
+  match title="Save As"
+  match title="Library"
+  open-floating true
+}
+
+// === Picture-in-Picture ===
+window-rule {
+  match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+  match title=r#"Picture(-| )in(-| )[Pp]icture"#
+  open-floating true
+}
+
+// === Steam / Games ===
+window-rule {
+  match app-id=r#"^steam$"# title=r#"^notificationtoasts_\d+_desktop$"#
+  default-floating-position x=10 y=10 relative-to="bottom-right"
+  open-focused false
+}
+
+window-rule {
+  match app-id="steam"
+  geometry-corner-radius 10
+}
+
+window-rule {
+  match app-id="steam" title="Friends List"
+  open-floating true
+}
+
+window-rule {
+  match app-id=r#"^com-atlauncher-App$"# title="ATLauncher Console"
+  open-floating true
+}
+
+// === Workspace routing ===
+// These use named workspaces defined in dms/workspaces.kdl
+// Matching Hyprland special workspace routing from rules.conf
+window-rule {
+  match app-id="btop"
+  open-on-workspace "sysmon"
+}
+
+window-rule {
+  match app-id=r#"^(feishin|Spotify|Supersonic|Cider)$"#
+  open-on-workspace "music"
+}
+
+window-rule {
+  match title=r#"^Spotify( Free)?$"#
+  match title=r#"^YouTube Music"#
+  open-on-workspace "music"
+}
+
+window-rule {
+  match app-id=r#"^(discord|equibop|vesktop|whatsapp|org\.telegram\.desktop)$"#
+  open-on-workspace "communication"
+}
+
+window-rule {
+  match title="ChatGPT"
+  open-on-workspace "ai"
+}
+
+window-rule {
+  match app-id="Todoist"
+  open-on-workspace "todo"
+}
+
+window-rule {
+  match title=r#"^Google Calendar"#
+  match title=r#"^Google Tasks"#
+  open-on-workspace "todo"
+}
+
+// === Layer rules ===
+layer-rule {
+  match namespace="^quickshell$"
+  place-within-backdrop true
+}
