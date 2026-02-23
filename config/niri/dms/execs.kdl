@@ -1,0 +1,9 @@
+// Startup applications
+// Matches Hyprland execs.conf
+
+// Keyboard remapping daemons
+spawn-at-startup "sh" "-lc" "exec $(which xremap) \"$HOME/.config/xremap/config_wayland.yaml\""
+spawn-at-startup "sh" "-lc" "exec $(which kanata) -c \"$HOME/.config/kanata/config.kbd\""
+
+// Non-critical maintenance (match Hyprland: trash-empty 30)
+spawn-at-startup "trash-empty" "30"

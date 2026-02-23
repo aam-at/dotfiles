@@ -1,0 +1,9 @@
+// Environment variables
+// Matches Hyprland variable definitions
+
+environment {
+  XDG_CURRENT_DESKTOP "niri"
+  TERMINAL "kitty"
+  FILE_MANAGER "thunar"
+  BROWSER "microsoft-edge-stable"
+}
