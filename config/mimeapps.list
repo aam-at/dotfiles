@@ -6,6 +6,7 @@ application/xml=nvim.desktop;
 application/json=nvim.desktop;
 text/html=microsoft-edge.desktop
 application/pdf=mupdf.desktop;zathura.desktop;
+text/markdown=emacsclient.desktop;
 text/org=emacsclient.desktop
 text/org_archive=emacsclient.desktop;
 text/yaml=emacsclient.desktop;
