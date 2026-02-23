@@ -35,7 +35,6 @@
                             :fetcher github
                             :repo "lepisma/emacs-speech-input"
                             :files ("*.el" "*.py")))
-    elisa
     (khoj :location (recipe
                      :fetcher github
                      :repo "aam-at/khoj"
@@ -154,10 +153,6 @@
       "$d"' esi-dictate-start)
     :config
     (setq llm-warn-on-nonfree nil)))
-
-(defun ai-extras/init-elisa ()
-  (use-package elisa
-    :demand t))
 
 (defun ai-extras/init-khoj ()
   (use-package khoj
