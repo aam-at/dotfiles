@@ -1,0 +1,17 @@
+{
+  "dankKDEConnect": {
+    "enabled": true
+  },
+  "dankLauncherKeys": {
+    "enabled": true
+  },
+  "dankPomodoroTimer": {
+    "enabled": true
+  },
+  "dankBatteryAlerts": {
+    "enabled": true
+  },
+  "hyprSpecialWorkspaceIndicator": {
+    "enabled": true
+  }
+}
