@@ -191,7 +191,8 @@ recent-windows {
   }
 }
 
-spawn-at-startup "sh" "-lc" "exec xremap \"$HOME/.config/xremap/config_wayland.yaml\""
+spawn-at-startup "sh" "-lc" "exec $(which xremap) \"$HOME/.config/xremap/config_wayland.yaml\""
+spawn-at-startup "sh" "-lc" "exec $(which kanata) -c \"$HOME/.config/kanata/config.kbd\""
 
 // Include dms files
 include "dms/colors.kdl"
