@@ -49,8 +49,6 @@ This function should only modify configuration layer settings."
              (ibuffer :variables ibuffer-group-buffers-by 'projects)
              (multiple-cursors :variables
                                multiple-cursors-backend 'evil-mc)
-             selectric
-             semantic
              (spell-checking :variables enable-flyspell-auto-completion nil)
              (shell :variables
                     shell-default-height 30
@@ -72,7 +70,6 @@ This function should only modify configuration layer settings."
              ;; ----------------------------------------------------------------
              ;; Themes
              ;; ----------------------------------------------------------------
-             (colors :variables colors-enable-rainbow-identifiers t)
              themes-megapack
              ;; ----------------------------------------------------------------
              ;; Programming and programming languages
@@ -104,7 +101,6 @@ This function should only modify configuration layer settings."
                      python-backend 'lsp
                      python-format-on-save nil
                      python-formatter 'ruff
-                     python-lsp-server 'pyright
                      python-sort-imports-on-save nil)
              ;; Scripting & other languages
              csv
@@ -135,7 +131,7 @@ This function should only modify configuration layer settings."
                     latex-build-command "LatexMk"
                     latex-enable-auto-fill t
                     latex-enable-folding t
-                    latex-enable-magic t
+                    latex-enable-magic nil
                     latex-refresh-preview t
                     latex-view-pdf-in-split-window t)
              (org :variables
@@ -203,7 +199,6 @@ This function should only modify configuration layer settings."
              (aam :variables
                   aam-enable-explain-pause-at-startup nil)
              harpoon
-             helm-legacy
              polymode
              writing
              ;; my extras
@@ -229,9 +224,6 @@ This function should only modify configuration layer settings."
                      mu4e-enable-mode-line t
                      mu4e-org-compose-support t
                      mu4e-use-maildirs-extension t)
-               (notmuch :variables
-                        notmuch-spacemacs-layout-name "@Notmuch"
-                        notmuch-spacemacs-layout-binding "n")
                pass
                tmux
                systemd
@@ -265,7 +257,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -818,12 +810,14 @@ before packages are loaded."
   (autoload 'my-ai-setup "config-ai" "Setup AI configurations" t)
   (autoload 'my-bibtex-setup "config-bibtex" "Setup bibtex configurations" t)
   (autoload 'my-common-setup "config-common" "Setup common configurations" t)
+  (autoload 'my-lsp-setup "config-lsp" "Setup LSP configurations" t)
   (autoload 'my-org-setup "config-org" "Setup org-mode configurations" t)
   (autoload 'my-python-setup "config-python" "Setup python configurations" t)
   (autoload 'my-secure-setup "config-secure" "Setup secure configurations" t)
   (autoload 'my-tex-setup "config-tex" "Setup TeX configurations" t)
   ;; load configs
   (my-common-setup)
+  (with-eval-after-load 'lsp-mode (my-lsp-setup))
   (condition-case err
       (my-secure-setup)
     (error

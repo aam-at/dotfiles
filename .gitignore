@@ -25,6 +25,7 @@ config/fish/functions/fisher.fish
 config/television/cable/*.toml
 config/niri/dms/*.kdl
 
+
 /.worktrees/
 config/DankMaterialShell/themes
 config/DankMaterialShell/plugins

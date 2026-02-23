@@ -118,7 +118,7 @@ This function is intended for use with `org-capture` workflows."
   (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
   ;; vulpea settings
   (setq vulpea-db-sync-directories (list org-directory))
-  (vulpea-db-autosync-mode +1)
+  (run-with-idle-timer 5 nil (lambda () (vulpea-db-autosync-mode +1)))
   ;; latex preview for org-mode
   (setq org-latex-create-formula-image-program 'dvipng
         org-preview-latex-image-directory "ltximg/")
@@ -434,28 +434,29 @@ DEADLINE: %^{Deadline}t
            :hook aam/org-roam-capture-finalize
            :jump-to-captured t)))
 
-  ;; org babel languages
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((R . t)
-     (ditaa . t)
-     (dot . t)
-     (emacs-lisp . t)
-     (gnuplot . t)
-     (haskell . nil)
-     (latex . t)
-     (ledger . t)
-     (ocaml . nil)
-     (octave . t)
-     (plantuml . t)
-     (python . t)
-     (ruby . t)
-     (screen . nil)
-     (shell .t)
-     (sql . nil)
-     (sqlite . t)))
-  (setq org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
-        org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
+  ;; defer babel language loading until ob is first used
+  (with-eval-after-load 'ob
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((R . t)
+       (ditaa . t)
+       (dot . t)
+       (emacs-lisp . t)
+       (gnuplot . t)
+       (haskell . nil)
+       (latex . t)
+       (ledger . t)
+       (ocaml . nil)
+       (octave . t)
+       (plantuml . t)
+       (python . t)
+       (ruby . t)
+       (screen . nil)
+       (shell . t)
+       (sql . nil)
+       (sqlite . t)))
+    (setq org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
+          org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar"))
 
   (setq org-log-into-drawer "LOGBOOK")
 
