@@ -3,3 +3,4 @@ install.bat eol=crlf
 install_win.conf.yaml eol=crlf
 *.* eol=lf
 spacemacs/config/config-secure.el filter=git-crypt diff=git-crypt
+config/DankMaterialShell/settings.json filter=git-crypt diff=git-crypt
