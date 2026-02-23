@@ -1,0 +1,11 @@
+{
+  "id": "hyprSpecialWorkspaceIndicator",
+  "name": "Hypr Special Workspace Indicator",
+  "description": "Shows the active Hyprland special workspace next to the workspace switcher",
+  "version": "1.0.0",
+  "author": "Codex",
+  "type": "widget",
+  "capabilities": ["dankbar-widget"],
+  "component": "./HyprSpecialWorkspaceIndicator.qml",
+  "icon": "bookmark"
+}
