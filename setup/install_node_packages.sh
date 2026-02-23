@@ -50,3 +50,64 @@ npm_packages=(
 )
 
 run_global_npm "${npm_packages[@]}"
+
+# AI skills integration
+add_skills() {
+  local repo="$1"
+  shift
+  local -a skills=("$@")
+
+  # Build: --skill a --skill b --skill c ...
+  local -a skill_args=()
+  for s in "${skills[@]}"; do
+    skill_args+=(--skill "$s")
+  done
+
+  npx skills add "$repo" "${skill_args[@]}" --global --agent "*" -y
+}
+
+# --- K-Dense-AI/claude-scientific-skills ---
+KDENSE_SKILLS=(
+  venue-templates
+  scholar-evaluation
+  scientific-brainstorming
+  scientific-critical-thinking
+  scientific-schematics
+  scientific-slides
+  scientific-visualization
+  scientific-writing
+  research-grants
+  research-lookup
+  pufferlib
+  pymoo
+  pptx-posters
+  dask
+  latex-posters
+  literature-review
+  matplotlib
+  openalex-database
+  paper-2-web
+  peer-review
+  plotly
+  pytorch-lightning
+  scikit-learn
+  seaborn
+  torch-geometric
+  transformers
+  umap-learn
+)
+
+add_skills "K-Dense-AI/claude-scientific-skills" "${KDENSE_SKILLS[@]}"
+add_skills "anthropics/skills" docx pdf pptx xlsx
+add_skills "alirezarezvani/claude-skills" \
+  senior-backend \
+  senior-computer-vision \
+  senior-data-scientist \
+  senior-ml-engineer \
+  senior-prompt-engineer
+
+npx skills add PleasePrompto/notebooklm-skill --all
+npx skills add blader/humanizer --all
+
+# Install manually superpowers: https://github.com/obra/superpowers
+# Install manually claude plugins: /plugin marketplace add anthropics/claude-plugins-official
