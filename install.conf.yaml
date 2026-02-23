@@ -43,6 +43,7 @@
     ~/.config/gitu: config/gitu
     ~/.config/gitui: config/gitui
     ~/.config/helix: config/helix
+    ~/.config/hypr: config/hypr
     ~/.config/kanata: config/kanata
     ~/.config/kitty: config/kitty
     ~/.config/niri: config/niri
