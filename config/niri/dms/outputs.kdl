@@ -1,0 +1,5 @@
+// Monitor configuration
+// Matches Hyprland outputs.conf: single generic fallback
+// Niri auto-detects monitors; no explicit output block needed
+// for single-monitor fallback. Add output blocks here for
+// multi-monitor setups.

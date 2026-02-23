@@ -193,6 +193,19 @@ binds {
     Mod+Shift+8 { move-column-to-workspace 8; }
     Mod+Shift+9 { move-column-to-workspace 9; }
 
+    // === Named Workspaces (match Hyprland special workspaces F1-F5) ===
+    Mod+F1 { focus-workspace "sysmon"; }
+    Mod+F2 { focus-workspace "music"; }
+    Mod+F3 { focus-workspace "communication"; }
+    Mod+F4 { focus-workspace "ai"; }
+    Mod+F5 { focus-workspace "todo"; }
+
+    Mod+Shift+F1 { move-column-to-workspace "sysmon"; }
+    Mod+Shift+F2 { move-column-to-workspace "music"; }
+    Mod+Shift+F3 { move-column-to-workspace "communication"; }
+    Mod+Shift+F4 { move-column-to-workspace "ai"; }
+    Mod+Shift+F5 { move-column-to-workspace "todo"; }
+
     // === Column Management ===
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }

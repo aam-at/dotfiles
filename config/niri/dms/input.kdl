@@ -1,0 +1,29 @@
+// Input configuration
+// Matches Hyprland input.conf settings
+
+input {
+  keyboard {
+    xkb {
+      layout "us,ru"
+      options "grp:alt_shift_toggle,compose:ralt,caps:swapescape"
+    }
+    numlock
+    repeat-delay 250
+    repeat-rate 35
+  }
+
+  touchpad {
+    tap
+    natural-scroll
+    dwt       // disable-while-typing
+    scroll-factor 0.3
+  }
+
+  mouse {
+  }
+
+  trackpoint {
+  }
+
+  focus-follows-mouse max-scroll-amount="0%"
+}
