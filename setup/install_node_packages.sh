@@ -1,46 +1,79 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
-# Ensure npm is available before proceeding.
-if ! command -v npm >/dev/null 2>&1; then
-  echo "npm is not installed. Please install Node.js before running this script." >&2
+warn() { echo "WARN: $*" >&2; }
+die() {
+  echo "ERROR: $*" >&2
   exit 1
+}
+
+# -----------------------------
+# Detect package manager (prefer bun)
+# -----------------------------
+if command -v bun >/dev/null 2>&1; then
+  PM=bun
+elif command -v npm >/dev/null 2>&1; then
+  PM=npm
+  warn "bun not found; falling back to npm."
+else
+  die "Neither bun nor npm found. Install Bun or Node.js first."
 fi
 
-# Use sudo when available; otherwise fall back to running npm directly.
-SUDO_BIN=${SUDO_BIN:-}
-if [[ -z "${SUDO_BIN}" ]] && command -v sudo >/dev/null 2>&1; then
-  SUDO_BIN="sudo"
+# NPM user-global prefix
+if [[ "$PM" == "npm" ]]; then
+  NPM_PREFIX="${NPM_PREFIX:-$HOME/.npm-global}"
+  export NPM_CONFIG_PREFIX="$NPM_PREFIX"
+  export PATH="$NPM_PREFIX/bin:$PATH"
+  npm install -g npm >/dev/null 2>&1 || warn "Could not update npm."
 fi
 
-run_global_npm() {
-  if [[ -n "${SUDO_BIN}" ]]; then
-    "${SUDO_BIN}" npm install -g "$@"
+if [[ "$PM" == "bun" ]]; then
+  BUN_PREFIX="${BUN_PREFIX:-$HOME/.bun}"
+  export BUN_CONFIG_PREFIX="$BUN_PREFIX"
+  export PATH="$BUN_PREFIX/bin:$PATH"
+fi
+
+# -----------------------------
+# Installer helpers
+# -----------------------------
+install_packages() {
+  if [[ "$PM" == "bun" ]]; then
+    bun add -g "$@"
   else
     npm install -g "$@"
   fi
 }
 
-# Keep npm itself up to date.
-run_global_npm npm
+run_x() {
+  if [[ "$PM" == "bun" ]] && command -v bunx >/dev/null 2>&1; then
+    bunx "$@"
+  elif command -v npx >/dev/null 2>&1; then
+    npx "$@"
+  else
+    die "Neither bunx nor npx available to run: $*"
+  fi
+}
 
-# Common set of global npm packages used across supported distributions.
-npm_packages=(
+# -----------------------------
+# Global packages
+# -----------------------------
+packages=(
   "@anthropic-ai/claude-code@latest"
   "@github/copilot@latest"
   "@google/gemini-cli@latest"
+  "@mariozechner/pi-coding-agent"
+  "@marp-team/marp-cli"
   "@openai/codex@latest"
   "@qwen-code/qwen-code@latest"
+  "@sylphx/pdf-reader-mcp"
+  "@th0rgal/ralph-wiggum"
   "@vibe-kit/grok-cli@latest"
-  "opencode-ai@latest"
-  "openclaw"
   "bash-language-server"
   "bibtex-tidy"
   "js-beautify"
-  "@marp-team/marp-cli"
+  "openclaw"
+  "opencode-ai@latest"
   "prettier"
-  "tslint"
   "typescript"
   "typescript-formatter"
   "typescript-language-server"
@@ -49,65 +82,44 @@ npm_packages=(
   "yaml-language-server"
 )
 
-run_global_npm "${npm_packages[@]}"
+install_packages "${packages[@]}"
 
+# -----------------------------
 # AI skills integration
+# -----------------------------
 add_skills() {
   local repo="$1"
   shift
-  local -a skills=("$@")
-
-  # Build: --skill a --skill b --skill c ...
-  local -a skill_args=()
-  for s in "${skills[@]}"; do
-    skill_args+=(--skill "$s")
-  done
-
-  npx skills add "$repo" "${skill_args[@]}" --global --agent "*" -y
+  local -a args=()
+  for s in "$@"; do args+=(--skill "$s"); done
+  run_x skills add "$repo" "${args[@]}" --global --agent "*" -y
 }
 
-# --- K-Dense-AI/claude-scientific-skills ---
-KDENSE_SKILLS=(
+add_skills "K-Dense-AI/claude-scientific-skills" \
+  dask latex-posters literature-review matplotlib openalex-database \
+  paper-2-web peer-review plotly pptx-posters pufferlib pymoo \
+  pytorch-lightning research-grants research-lookup scholar-evaluation \
+  scikit-learn scientific-brainstorming scientific-critical-thinking \
+  scientific-schematics scientific-slides scientific-visualization \
+  scientific-writing seaborn torch-geometric transformers umap-learn \
   venue-templates
-  scholar-evaluation
-  scientific-brainstorming
-  scientific-critical-thinking
-  scientific-schematics
-  scientific-slides
-  scientific-visualization
-  scientific-writing
-  research-grants
-  research-lookup
-  pufferlib
-  pymoo
-  pptx-posters
-  dask
-  latex-posters
-  literature-review
-  matplotlib
-  openalex-database
-  paper-2-web
-  peer-review
-  plotly
-  pytorch-lightning
-  scikit-learn
-  seaborn
-  torch-geometric
-  transformers
-  umap-learn
-)
 
-add_skills "K-Dense-AI/claude-scientific-skills" "${KDENSE_SKILLS[@]}"
 add_skills "anthropics/skills" docx pdf pptx xlsx
+
 add_skills "alirezarezvani/claude-skills" \
-  senior-backend \
-  senior-computer-vision \
-  senior-data-scientist \
-  senior-ml-engineer \
-  senior-prompt-engineer
+  senior-backend senior-computer-vision senior-data-scientist \
+  senior-ml-engineer senior-prompt-engineer
 
-npx skills add PleasePrompto/notebooklm-skill --all
-npx skills add blader/humanizer --all
+run_x skills add PleasePrompto/notebooklm-skill --all
+run_x skills add blader/humanizer --all
 
-# Install manually superpowers: https://github.com/obra/superpowers
-# Install manually claude plugins: /plugin marketplace add anthropics/claude-plugins-official
+# Install manually: superpowers — https://github.com/obra/superpowers
+# Install manually: claude plugins — /plugin marketplace add anthropics/claude-plugins-official
+
+echo "Done."
+if [[ "$PM" == "npm" ]]; then
+  echo "Ensure PATH includes: ${NPM_PREFIX}/bin"
+fi
+if [[ "$PM" == "bun" ]]; then
+  echo "Ensure PATH includes: ${BUN_PREFIX}/bin"
+fi
