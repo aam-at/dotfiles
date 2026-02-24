@@ -45,6 +45,7 @@ This function should only modify configuration layer settings."
                          compleseus-engine 'vertico
                          compleseus-use-nerd-icons t
                          compleseus-use-vertico-posframe t)
+             helm-legacy
              helpful
              (ibuffer :variables ibuffer-group-buffers-by 'projects)
              (multiple-cursors :variables
