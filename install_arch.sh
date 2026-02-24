@@ -97,7 +97,7 @@ if $INSTALL_RUST; then
   "$REPO_DIR/setup/install_rust_packages.sh"
 
   # for kanata
-  sudo groupadd uinput
+  sudo groupadd -f uinput
   sudo usermod -aG input "$USER"
   sudo usermod -aG uinput "$USER"
 
