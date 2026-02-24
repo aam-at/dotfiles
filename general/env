@@ -51,6 +51,14 @@ export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 export CARGOPATH="$HOME/.cargo"
 export PATH="$CARGOPATH/bin:$PATH"
 
+# Configure npm packages
+export NPM_PATH="$HOME/.npm-global"
+export PATH="$NPM_PATH/bin:$PATH"
+
+# Configure bun packages
+export BUN_PATH="$HOME/.bun"
+export PATH="$BUN_PATH/bin:$PATH"
+
 # texlive
 export TEXLIVE_ROOT="/usr/local/texlive/2025"
 export MANPATH="$TEXLIVE_ROOT/texmf-dist/doc/man:$MANPATH"
