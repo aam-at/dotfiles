@@ -78,7 +78,7 @@ install_packages() {
 
 install_packages \
   age alsa-lib aspell aspell-en aspell-ru automake base-devel bat bibtool bison \
-  btop bzip2 ca-certificates cava chafa clang cmake cscope curl dgop dust \
+  btop bun bzip2 ca-certificates cava chafa clang cmake cscope curl dgop dust \
   emacs-wayland enchant enchant exo expat fasd fd ffmpeg file-roller fish \
   fontconfig freeglut freetype2 fuse3 fzy gcc gcc gettext ghostty giflib git \
   github-desktop glances global gmime3 gnupg gnutls gtk4 guile gvfs helix hexyl \
