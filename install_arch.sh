@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$REPO_DIR/setup/lib.sh"
 
 # Default values
 GUI=${GUI:-false}
@@ -22,53 +24,10 @@ else
   exit 1
 fi
 
-# Parse command line arguments
-while [[ $# -gt 0 ]]; do
-  case $1 in
-  --gui)
-    GUI=true
-    shift
-    ;;
-  --ollama)
-    INSTALL_OLLAMA=true
-    shift
-    ;;
-  --no-python)
-    INSTALL_PYTHON=false
-    shift
-    ;;
-  --no-rust)
-    INSTALL_RUST=false
-    shift
-    ;;
-  --no-go)
-    INSTALL_GO=false
-    shift
-    ;;
-  --no-node)
-    INSTALL_NODE=false
-    shift
-    ;;
-  --no-emacs)
-    INSTALL_EMACS=false
-    shift
-    ;;
-  --no-fonts)
-    INSTALL_FONTS=false
-    shift
-    ;;
-  *)
-    echo "Unknown option: $1"
-    exit 1
-    ;;
-  esac
-done
-
-# Source .bashrc
-source "$HOME/.bashrc"
+parse_common_args "$@"
 
 # Install Gogh Color theme
-bash -c "$(wget -qO- https://git.io/vQgMr)"
+bash -c "$(wget -qO- https://raw.githubusercontent.com/Gogh-Co/Gogh/master/apply-colors.sh)"
 
 # Function to install packages
 install_packages() {
@@ -126,42 +85,7 @@ if $INSTALL_PYTHON; then
 fi
 
 if $INSTALL_FONTS; then
-  install_font_package() {
-    local repo_url="$1"
-    local dir_name="$2"
-    local font_subdir="$3"
-
-    if [ ! -d "$TOOLS_DIR/$dir_name" ]; then
-      echo "Installing $font_subdir..."
-      git clone --depth=1 "$repo_url" "$TOOLS_DIR/$dir_name"
-    fi
-    if [ ! -d "$font_subdir" ]; then
-      install_fonts "$TOOLS_DIR/$dir_name" "" "$font_subdir"
-    else
-      echo "Skipping $font_subdir installation as it is already installed"
-    fi
-  }
-  # Define font packages
-  font_packages=(
-    "https://github.com/JetBrains/JetBrainsMono/|jetbrains-fonts|JetBrainsFonts"
-    "https://github.com/adobe-fonts/source-code-pro|adobe-source-code-pro-fonts|AdobeFonts"
-    "https://github.com/domtronn/all-the-icons.el|all-icons-fonts|AllIconsFonts"
-    "https://github.com/iaolo/iA-Fonts|iawriter-fonts|iAWriterFonts"
-    "https://github.com/powerline/fonts|powerline-fonts|PowerlineFonts"
-    "https://github.com/ryanoasis/nerd-fonts|nerd-fonts|NerdFonts"
-    "https://github.com/sebastiencs/icons-in-terminal|icons-fonts|IconsFonts"
-  )
-
-  # Install each font package
-  for package in "${font_packages[@]}"; do
-    IFS='|' read -r repo_url dir_name font_subdir <<<"$package"
-    install_font_package "$repo_url" "$dir_name" "$font_subdir"
-  done
-
-  # Install cochineal font
-  wget https://mirrors.ctan.org/fonts/cochineal.zip -O /tmp/cochineal.zip
-  unzip /tmp/cochineal.zip -d $TOOLS_DIR/cochineal-fonts
-  install_fonts "$TOOLS_DIR/cochineal-fonts" "" "CochinealFonts"
+  install_font_packages "$TOOLS_DIR"
 fi
 
 # Install Rust and cargo packages
@@ -173,9 +97,9 @@ if $INSTALL_RUST; then
   "$REPO_DIR/setup/install_rust_packages.sh"
 
   # for kanata
-  sudo groupadd uinput
-  sudo usermod -aG input $USER
-  sudo usermod -aG uinput $USER
+  sudo groupadd -f uinput
+  sudo usermod -aG input "$USER"
+  sudo usermod -aG uinput "$USER"
 
   if $GUI; then
     cargo install --git https://github.com/neovide/neovide
@@ -196,48 +120,19 @@ if $INSTALL_LUA; then
   luarocks install --local tiktoken_core
 fi
 
-# Install Spacemacs
-if $INSTALL_EMACS && [ ! -d "$HOME/.emacs.d" ]; then
-  echo "Installing Spacemacs..."
-  git clone https://github.com/aam-at/spacemacs ~/.emacs.d
+if $INSTALL_EMACS; then
+  install_spacemacs
 fi
 
-# Install Intellimacs
-if $GUI && [ ! -d "$HOME/.intellimacs" ]; then
-  echo "Installing Intellimacs..."
-  git clone https://github.com/MarcoIeni/intellimacs ~/.intellimacs
+if $GUI; then
+  install_intellimacs
 fi
 
-# Install ollama
 if $INSTALL_OLLAMA; then
-  if ! command -v ollama &>/dev/null; then
-    echo "Installing ollama..."
-    curl -fsSL https://ollama.com/install.sh | sh
-  fi
-  echo "Downloading ollama models"
-  ollama_models=(
-    # coding
-    "qwen2.5-coder:3b" "qwen2.5-coder:7b"
-    # llm
-    "gemma3:4b" "gemma3:12b" "phi4:mini"
-    # embedding
-    "granite-embedding:278m" "mxbai-embed-large:latest" "nomic-embed-text:latest")
-  for ollama_model in "${ollama_models[@]}"; do
-    ollama pull "$ollama_model"
-  done
+  install_ollama
 fi
 
-# Install fzf
-if [ ! -d "$HOME/.fzf" ]; then
-  echo "Installing fzf..."
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install --all
-fi
-
-# Install oh-my-fish (omf)
-if [ ! -d "$HOME/.config/omf" ]; then
-  echo "Installing oh-my-fish (omf)..."
-  curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
-fi
+install_fzf
+install_omf
 
 echo "Setup complete!"
