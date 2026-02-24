@@ -1,15 +1,11 @@
 #!/bin/bash
-# Toggle a named workspace: focus it, or go back if already on it.
-# Mimics Hyprland's togglespecialworkspace behavior.
+# Toggle focus to a named workspace.
+# Press once to go there, press again to go back.
 #
 # Usage: toggle-named-workspace.sh <workspace-name>
 
 TARGET="$1"
-
-if [ -z "$TARGET" ]; then
-  echo "Usage: toggle-named-workspace.sh <workspace-name>" >&2
-  exit 1
-fi
+[ -z "$TARGET" ] && exit 1
 
 CURRENT=$(niri msg -j workspaces | jq -r '.[] | select(.is_focused) | .name // empty')
 
