@@ -171,7 +171,7 @@ binds {
     Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
     Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
 
-    // === Numbered Workspaces ===
+    // === Numbered Workspaces (dynamic indices; special workspaces are kept in a reserved high range) ===
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }
     Mod+3 { focus-workspace 3; }
@@ -193,12 +193,12 @@ binds {
     Mod+Shift+8 { move-column-to-workspace 8; }
     Mod+Shift+9 { move-column-to-workspace 9; }
 
-    // === Named Workspaces (match Hyprland special workspaces F1-F5) ===
-    Mod+F1 { focus-workspace "sysmon"; }
-    Mod+F2 { focus-workspace "music"; }
-    Mod+F3 { focus-workspace "communication"; }
-    Mod+F4 { focus-workspace "ai"; }
-    Mod+F5 { focus-workspace "todo"; }
+    // === Named Workspaces (Hyprland-like toggle on repeated keypress) ===
+    Mod+F1 { spawn "bash" "-lc" "exec $HOME/.config/niri/scripts/toggle-named-workspace.sh sysmon"; }
+    Mod+F2 { spawn "bash" "-lc" "exec $HOME/.config/niri/scripts/toggle-named-workspace.sh music"; }
+    Mod+F3 { spawn "bash" "-lc" "exec $HOME/.config/niri/scripts/toggle-named-workspace.sh communication"; }
+    Mod+F4 { spawn "bash" "-lc" "exec $HOME/.config/niri/scripts/toggle-named-workspace.sh ai"; }
+    Mod+F5 { spawn "bash" "-lc" "exec $HOME/.config/niri/scripts/toggle-named-workspace.sh todo"; }
 
     Mod+Shift+F1 { move-column-to-workspace "sysmon"; }
     Mod+Shift+F2 { move-column-to-workspace "music"; }
