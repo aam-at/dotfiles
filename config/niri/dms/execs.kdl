@@ -7,3 +7,6 @@ spawn-at-startup "sh" "-lc" "exec $(which kanata) -c \"$HOME/.config/kanata/conf
 
 // Non-critical maintenance (match Hyprland: trash-empty 30)
 spawn-at-startup "trash-empty" "30"
+
+// Push named workspaces to end of list so indices 1-9 stay free
+spawn-at-startup "sh" "-lc" "$HOME/.config/niri/scripts/reorder-named-workspaces.sh"
