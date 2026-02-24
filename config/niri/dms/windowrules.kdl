@@ -26,6 +26,17 @@ window-rule {
   default-column-width {}
 }
 
+// Full width apps
+window-rule {
+  match app-id=r#"^microsoft-edge"#
+  match app-id=r#"^google-chrome"#
+  match app-id=r#"^emacs(client)?$"#
+  match app-id=r#"^dev\.zed\.Zed"#
+  match app-id=r#"^code(-url-handler)?$"#
+  match app-id=r#"^antigravity"#
+  default-column-width { proportion 1.0; }
+}
+
 // === App tile defaults ===
 window-rule {
   match app-id=r#"^gnome-control-center$"#
