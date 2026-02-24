@@ -12,5 +12,5 @@ function aichat --description 'Launch aichat with secrets pulled from the passwo
     set -l deepseek (copy_password.sh deepseek 2>/dev/null)
     set -l gemini (copy_password.sh gemini 2>/dev/null)
 
-    env DEEPSEEK_API_KEY=$deepseek GEMINI_API_KEY=$gemini command aichat $argv
+    env DEEPSEEK_API_KEY=$deepseek GEMINI_API_KEY=$gemini aichat $argv
 end
