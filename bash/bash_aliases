@@ -79,6 +79,32 @@ function aichat() {
     env DEEPSEEK_API_KEY="$DEEPSEEK_API_KEY" GEMINI_API_KEY="$GEMINI_API_KEY" aichat "$@"
 }
 
+# niri aliases / helpers
+if command -v niri >/dev/null 2>&1; then
+  __bash_aliases_source="${BASH_SOURCE[0]}"
+  if command -v readlink >/dev/null 2>&1; then
+    __bash_aliases_source="$(readlink -f -- "$__bash_aliases_source" 2>/dev/null || printf '%s' "$__bash_aliases_source")"
+  fi
+  __bash_aliases_dir="$(cd -- "$(dirname -- "$__bash_aliases_source")" && pwd -P)"
+  if [ -r "$__bash_aliases_dir/niri_aliases" ]; then
+    . "$__bash_aliases_dir/niri_aliases"
+  fi
+  unset __bash_aliases_source __bash_aliases_dir
+fi
+
+# Hyprland aliases / helpers
+if command -v hyprctl >/dev/null 2>&1; then
+  __bash_aliases_source="${BASH_SOURCE[0]}"
+  if command -v readlink >/dev/null 2>&1; then
+    __bash_aliases_source="$(readlink -f -- "$__bash_aliases_source" 2>/dev/null || printf '%s' "$__bash_aliases_source")"
+  fi
+  __bash_aliases_dir="$(cd -- "$(dirname -- "$__bash_aliases_source")" && pwd -P)"
+  if [ -r "$__bash_aliases_dir/hypr_aliases" ]; then
+    . "$__bash_aliases_dir/hypr_aliases"
+  fi
+  unset __bash_aliases_source __bash_aliases_dir
+fi
+
 # If inside a kitty terminal, add aliases for kitty's icat, ssh, diff, and hg
 if [[ -n $KITTY_PID ]]; then
   alias icat="kitten icat"

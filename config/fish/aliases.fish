@@ -28,3 +28,17 @@ function y
     end
     rm -f -- "$tmp"
 end
+
+if type -q hyprctl
+    set -l __fish_aliases_dir (command dirname -- (status filename))
+    if test -r "$__fish_aliases_dir/hypr_aliases.fish"
+        source "$__fish_aliases_dir/hypr_aliases.fish"
+    end
+end
+
+if type -q niri
+    set -l __fish_aliases_dir (command dirname -- (status filename))
+    if test -r "$__fish_aliases_dir/niri_aliases.fish"
+        source "$__fish_aliases_dir/niri_aliases.fish"
+    end
+end
