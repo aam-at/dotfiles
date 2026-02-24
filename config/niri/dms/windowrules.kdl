@@ -141,31 +141,35 @@ window-rule {
 
 window-rule {
   match app-id=r#"^(feishin|Spotify|Supersonic|Cider)$"#
-  open-on-workspace "music"
-}
-
-window-rule {
   match title=r#"^Spotify( Free)?$"#
   match title=r#"^YouTube Music"#
+  match title=r#"^musicForProgramming()"#
   open-on-workspace "music"
 }
 
 window-rule {
-  match app-id=r#"^(discord|equibop|vesktop|whatsapp|org\.telegram\.desktop)$"#
+  match app-id=r#"^(discord|equibop|vesktop|whatsapp|org\.telegram\.desktop|teams-for-linux)$"#
+  match title="Gmail"
+  match title="Microsoft Teams"
+  match title="Outlook"
   open-on-workspace "communication"
 }
 
 window-rule {
   match title="ChatGPT"
+  match title="Claude"
+  match title="DeepSeek"
+  match title="Google AI Studio"
+  match title="Google Gemini"
+  match title="Meta AI"
+  match title="NotebookLM"
+  match title="Perplexity"
+  match title="Poe"
   open-on-workspace "ai"
 }
 
 window-rule {
   match app-id="Todoist"
-  open-on-workspace "todo"
-}
-
-window-rule {
   match title=r#"^Google Calendar"#
   match title=r#"^Google Tasks"#
   open-on-workspace "todo"
