@@ -1,0 +1,100 @@
+# niri aliases / helpers
+alias nmsg='niri msg'
+alias na='niri msg action'
+alias nws='niri msg workspaces'
+alias nwsj='niri msg -j workspaces'
+alias nwin='niri msg windows'
+alias nwinj='niri msg -j windows'
+alias nout='niri msg outputs'
+alias nreload='niri msg action load-config-file'
+alias noverview='niri msg action toggle-overview'
+alias nfloat='niri msg action toggle-window-floating'
+alias nbackws='niri msg action focus-workspace-previous'
+alias ncw1='niri msg action set-column-width "100%"'
+alias nww1='niri msg action set-window-width "100%"'
+alias ncw50='niri msg action set-column-width "50%"'
+alias nww50='niri msg action set-window-width "50%"'
+
+__niri_width_change() {
+  if [ $# -ne 1 ]; then
+    echo "Usage: __niri_width_change <change|proportion>" >&2
+    return 1
+  fi
+
+  local change="$1"
+  if [[ "$change" =~ ^(0([.][0-9]+)?|1([.]0+)?)$ ]]; then
+    awk -v v="$change" 'BEGIN { printf "%.6g%%", v * 100 }'
+  else
+    printf "%s" "$change"
+  fi
+}
+
+# Accept native niri width strings (e.g. +10%, 66.667%) or proportions (e.g. 1.0).
+ncw() {
+  if [ $# -ne 1 ]; then
+    echo "Usage: ncw <change|proportion>" >&2
+    return 1
+  fi
+  local change
+  change="$(__niri_width_change "$1")" || return
+  niri msg action set-column-width "$change"
+}
+
+# Accept native niri width strings (e.g. +10%, 66.667%) or proportions (e.g. 1.0).
+nww() {
+  if [ $# -ne 1 ]; then
+    echo "Usage: nww <change|proportion>" >&2
+    return 1
+  fi
+  local change
+  change="$(__niri_width_change "$1")" || return
+  niri msg action set-window-width "$change"
+}
+
+nwsname() {
+  if [ $# -eq 0 ]; then
+    echo "Usage: nwsname <name...>" >&2
+    return 1
+  fi
+  niri msg action set-workspace-name "$*"
+}
+
+nwsunname() {
+  if [ $# -eq 0 ]; then
+    niri msg action unset-workspace-name
+  else
+    niri msg action unset-workspace-name "$1"
+  fi
+}
+
+nfocusws() {
+  if [ $# -ne 1 ]; then
+    echo "Usage: nfocusws <index|name>" >&2
+    return 1
+  fi
+  niri msg action focus-workspace "$1"
+}
+
+nmovewinws() {
+  if [ $# -ne 1 ]; then
+    echo "Usage: nmovewinws <index|name>" >&2
+    return 1
+  fi
+  niri msg action move-window-to-workspace "$1"
+}
+
+nmovecolws() {
+  if [ $# -ne 1 ]; then
+    echo "Usage: nmovecolws <index|name>" >&2
+    return 1
+  fi
+  niri msg action move-column-to-workspace "$1"
+}
+
+ntogglews() {
+  if [ $# -ne 1 ]; then
+    echo "Usage: ntogglews <workspace-name>" >&2
+    return 1
+  fi
+  "$HOME/.config/niri/scripts/toggle-named-workspace.sh" "$1"
+}
