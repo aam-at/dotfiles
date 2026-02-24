@@ -50,6 +50,12 @@ install_fonts() {
 install_font_packages() {
     local tools_dir="$1"
 
+    if [ -z "$tools_dir" ]; then
+        echo "Error: tools_dir argument is required." >&2
+        return 1
+    fi
+    mkdir -p "$tools_dir"
+
     local font_packages=(
         "https://github.com/JetBrains/JetBrainsMono/|jetbrains-fonts|JetBrainsFonts"
         "https://github.com/adobe-fonts/source-code-pro|adobe-source-code-pro-fonts|AdobeFonts"
