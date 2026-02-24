@@ -113,7 +113,7 @@ install_ollama() {
         "granite-embedding:278m" "mxbai-embed-large:latest" "nomic-embed-text:latest"
     )
     for model in "${ollama_models[@]}"; do
-        ollama pull "$model"
+        ollama pull "$model" || echo "Warning: failed to pull $model" >&2
     done
 }
 
@@ -142,8 +142,8 @@ install_intellimacs() {
 install_fzf() {
     if [ ! -d "$HOME/.fzf" ]; then
         echo "Installing fzf..."
-        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-        ~/.fzf/install --all
+        git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+        "$HOME/.fzf/install" --all
     else
         echo "fzf already installed."
     fi
@@ -154,7 +154,7 @@ install_fzf() {
 install_omf() {
     if [ ! -d "$HOME/.config/omf" ]; then
         echo "Installing oh-my-fish (omf)..."
-        curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+        curl -fsSL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
     else
         echo "oh-my-fish already installed."
     fi
@@ -165,7 +165,7 @@ install_omf() {
 # Sets INSTALL_* and GUI variables. Call after defining defaults.
 # Usage: parse_common_args "$@"
 parse_common_args() {
-    while [[ $# -gt 0 ]]; do
+    while [ $# -gt 0 ]; do
         case $1 in
         --gui)
             GUI=true
