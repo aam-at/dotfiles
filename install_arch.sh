@@ -98,8 +98,8 @@ if $INSTALL_RUST; then
 
   # for kanata
   sudo groupadd uinput
-  sudo usermod -aG input $USER
-  sudo usermod -aG uinput $USER
+  sudo usermod -aG input "$USER"
+  sudo usermod -aG uinput "$USER"
 
   if $GUI; then
     cargo install --git https://github.com/neovide/neovide

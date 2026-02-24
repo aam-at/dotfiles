@@ -154,7 +154,7 @@ install_fzf() {
 install_omf() {
     if [ ! -d "$HOME/.config/omf" ]; then
         echo "Installing oh-my-fish (omf)..."
-        curl -fsSL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+        curl -fsSL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish || true
     else
         echo "oh-my-fish already installed."
     fi
