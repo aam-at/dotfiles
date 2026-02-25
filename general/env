@@ -7,8 +7,9 @@ export CPATH=""
 export LD_LIBRARY_PATH=""
 export LIBRARY_PATH=""
 
-export ALTERNATE_EDITOR=nvim
 export EDITOR="emacsclient -t"
+export ALTERNATE_EDITOR=nvim
+export VISUAL="emacsclient -c -n"
 
 # Configure cuda
 export CUDA_DEVICE_ORDER=PCI_BUS_ID
@@ -17,7 +18,6 @@ export PATH="$CUDA_HOME/bin:$PATH"
 export CPATH="$CUDA_HOME/include:$CPATH"
 export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
 export LIBRARY_PATH="$CUDA_HOME/lib64:$LIBRARY_PATH"
-export VISUAL="emacsclient -t"
 
 # Configure cudnn
 export CUDNN_HOME="/usr/local/cudnn"

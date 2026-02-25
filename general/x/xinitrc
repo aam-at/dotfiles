@@ -1,6 +1,6 @@
 export ALTERNATE_EDITOR=nvim
 export EDITOR=emacsclient -t
-export VISUAL=emacsclient
+export VISUAL=emacsclient-visual.sh
 
 eval `gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh`
 export GNOME_KEYRING_CONTROL
