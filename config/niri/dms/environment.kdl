@@ -4,6 +4,8 @@
 environment {
   XDG_CURRENT_DESKTOP "niri"
   TERMINAL "kitty"
+  VISUAL "emacsclient-visual.sh"
+  EDITOR "emacsclient-visual.sh"
   FILE_MANAGER "thunar"
   BROWSER "microsoft-edge-stable"
 }
