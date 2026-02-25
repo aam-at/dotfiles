@@ -1,12 +1,10 @@
 return {
-  -- mason to automatically install ruff and basedpyright
+  -- mason to automatically install pyrefly, ty, and ruff
   {
     "mason-org/mason.nvim",
     opts = function(_, opts)
-      table.insert(opts.ensure_installed, "pyrefly")
       table.insert(opts.ensure_installed, "ty")
       table.insert(opts.ensure_installed, "ruff")
-      table.insert(opts.ensure_installed, "basedpyright")
     end,
   },
   -- configure ruff as a formatter for python
