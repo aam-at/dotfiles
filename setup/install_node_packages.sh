@@ -110,8 +110,8 @@ add_skills "alirezarezvani/claude-skills" \
   senior-backend senior-computer-vision senior-data-scientist \
   senior-ml-engineer senior-prompt-engineer
 
-run_x skills add PleasePrompto/notebooklm-skill --all
-run_x skills add blader/humanizer --all
+run_x skills add PleasePrompto/notebooklm-skill --all --global
+run_x skills add blader/humanizer --all --global
 
 # Install manually: superpowers — https://github.com/obra/superpowers
 # Install manually: claude plugins — /plugin marketplace add anthropics/claude-plugins-official
