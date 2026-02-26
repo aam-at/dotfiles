@@ -1,6 +1,6 @@
 {
-  "features": {
-    "edit_prediction_provider": "copilot"
+  "edit_predictions": {
+    "provider": "copilot"
   },
   "agent": {
     "default_model": {
@@ -35,11 +35,7 @@
   "ui_font_family": ".ZedSans",
   "ui_font_size": 15,
   "icon_theme": "Material Icon Theme",
-  "theme": {
-    "mode": "system",
-    "light": "Gruvbox Light",
-    "dark": "Gruvbox Dark"
-  },
+  "theme": "Gruvbox Dark",
   "base_keymap": "VSCode",
   "buffer_font_family": "JetBrainsMono Nerd Font Mono",
   "buffer_font_size": 15,
@@ -57,7 +53,7 @@
       "fz": "🧟‍♀️"
     }
   },
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "cursor_blink": false,
   "vertical_scroll_margin": 5,
   "show_signature_help_after_edits": true,
