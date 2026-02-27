@@ -14,7 +14,7 @@ uv_tools=(
   black
   cmake-language-server
   docformatter
-  flake9
+  flake8
   git+https://github.com/bcbernardo/aw-watcher-ask.git
   gpustat
   isort

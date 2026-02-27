@@ -27,7 +27,7 @@ fi
 parse_common_args "$@"
 
 # Install Gogh Color theme
-bash -c "$(wget -qO- https://raw.githubusercontent.com/Gogh-Co/Gogh/master/apply-colors.sh)"
+bash -c "$(wget -qO- https://git.io/vQgMr)"
 
 # Function to install packages
 install_packages() {
@@ -37,8 +37,8 @@ install_packages() {
 
 install_packages \
   age alsa-lib aspell aspell-en aspell-ru automake base-devel bat bibtool bison \
-  btop bun bzip2 ca-certificates cava chafa clang cmake cscope curl dgop dust \
-  emacs-wayland enchant enchant exo expat fasd fd ffmpeg file-roller fish \
+  btop bun bzip2 ca-certificates cava chafa clang cmake cscope curl dgop direnv \
+  dust emacs-wayland enchant enchant exo expat fasd fd ffmpeg file-roller fish \
   fontconfig freeglut freetype2 fuse3 fzy gcc gcc gettext ghostty giflib git \
   github-desktop glances global gmime3 gnupg gnutls gtk4 guile gvfs helix hexyl \
   hspell htop httpie hunspell hyprpolkitagent imagemagick iotop iputils jansson \
@@ -59,10 +59,15 @@ install_packages \
 install_packages \
   git git-annex git-crypt git-delta git-lfs github-cli
 
+# rust utilities
+install_packages \
+  aichat atuin bottom broot eza gitui gitui gping lsd ouch sd starship \
+  television texlab viu watchexec yazi
+
 yay -S --needed \
-  autojump dsearch-bin fpp-git fswatch git-hub git-secrets git-secrets \
-  gitflow-avh hdrop-git insync mu noisetorch teams-for-linux \
-  visual-studio-code-bin xremap-hypr-bin
+  antigravity claude-desktop-appimage dsearch-bin fpp-git fswatch git-hub \
+  git-secrets git-secrets gitflow-avh insync microsoft-edge-stable-bin mu \
+  noisetorch teams-for-linux visual-studio-code-bin
 
 # Install GUI packages
 if $GUI; then
@@ -93,7 +98,6 @@ if $INSTALL_RUST; then
   echo "Installing Rust and cargo packages..."
   install_packages rustup
   rustup default stable
-  source "$HOME/.cargo/env"
   "$REPO_DIR/setup/install_rust_packages.sh"
 
   # for kanata
@@ -108,8 +112,8 @@ fi
 
 # Install go packages
 if $INSTALL_GO; then
-  echo "Installing go and go packages..."
   install_packages go
+  echo "Installing go and go packages..."
   "$REPO_DIR/setup/install_go_packages.sh"
 fi
 
@@ -133,6 +137,5 @@ if $INSTALL_OLLAMA; then
 fi
 
 install_fzf
-install_omf
 
 echo "Setup complete!"

@@ -8,10 +8,6 @@
         Link scripts,
       ]
     - [
-        curl -sfL https://direnv.net/install.sh | bin_path=~/.local/bin bash,
-        Install direnv,
-      ]
-    - [
         tic -x -o ~/.terminfo general/xterm/xterm-24bit.terminfo,
         Configure Truecolor,
       ]
