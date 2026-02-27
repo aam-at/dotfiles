@@ -17,9 +17,7 @@ cargo install --locked cargo-binstall cargo-edit cargo-outdated
 
 # Reuse cargo-binstall to install the wider toolchain.
 if command -v cargo-binstall >/dev/null 2>&1; then
-  cargo binstall -y \
-    aichat argc atuin bottom broot eza gitu gitui gping kanata lsd ouch \
-    sd tealdeer television texlab viu watchexec-cli yazi-cli yazi-fm
+  cargo binstall -y kanata tealdeer
 else
   echo "cargo-binstall not found on PATH; skipping cargo binstall packages." >&2
 fi
