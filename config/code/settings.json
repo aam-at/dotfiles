@@ -205,7 +205,7 @@
     },
     "editor.multiCursorModifier": "ctrlCmd",
     "github.copilot.advanced": {
-        "useLanguageServer": true,
+        "useLanguageServer": true
     },
     "github.copilot.chat.edits.enabled": true,
     "github.copilot.chat.followUps": "always",
