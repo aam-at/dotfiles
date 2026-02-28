@@ -26,6 +26,10 @@
     ~/.config/broot: config/broot
     ~/.config/btop: config/btop
     ~/.config/catppuccin: config/catppuccin
+    ~/.config/Antigravity/User/:
+      create: true
+      glob: true
+      path: config/code/*
     ~/.config/Code/User/:
       create: true
       glob: true
