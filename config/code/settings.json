@@ -223,4 +223,5 @@
     "github.copilot.chat.editor.temporalContext.enabled": true,
     "github.copilot.nextEditSuggestions.enabled": true,
     "python.analysis.typeCheckingMode": "standard",
+    "claudeCode.useTerminal": true,
 }
