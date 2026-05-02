@@ -4,7 +4,7 @@
 // ! PLACE YOUR CUSTOM CONFIGURATION ELSEWHERE !
 
 cursor {
-  xcursor-theme "sweet-cursors"
-  xcursor-size 18
-  hide-when-typing
+    xcursor-theme "sweet-cursors"
+    xcursor-size 18
+    hide-when-typing
 }

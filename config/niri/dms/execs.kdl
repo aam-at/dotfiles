@@ -1,5 +1,12 @@
 // Startup applications
 // Matches Hyprland execs.conf
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=Niri"
+spawn-at-startup "/usr/lib/hyprpolkitagent/hyprpolkitagent"
 
 // Non-critical maintenance (match Hyprland: trash-empty 30)
 spawn-at-startup "trash-empty" "30"
+
+// dropbox start
+spawn-at-startup "dropbox" "start"
+// insycn start
+spawn-at-startup "insync" "start" "--qt-qpa-platform=xcb"
