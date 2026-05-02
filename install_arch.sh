@@ -56,6 +56,7 @@ install_packages \
   xfce4-settings xh xz zathura zathura-djvu zathura-pdf-poppler zed zellij \
   zenity zlib-ng zoxide
 
+# install git tools
 install_packages \
   git git-annex git-crypt git-delta git-lfs github-cli
 
@@ -63,6 +64,14 @@ install_packages \
 install_packages \
   aichat atuin bottom broot eza gitui gitui gping lsd ouch sd starship \
   television texlab viu watchexec yazi
+
+# texlive
+install_packages \
+  biber perl-file-homedir perl-ipc-system-simple perl-tk perl-yaml-tiny \
+  texlive-basic texlive-bibtexextra texlive-binextra texlive-fontsextra \
+  texlive-fontsrecommended texlive-langcyrillic texlive-latex texlive-latexextra \
+  texlive-latexrecommended texlive-luatex texlive-mathscience texlive-xetex \
+  wdiff
 
 yay -S --needed \
   antigravity claude-desktop-appimage dsearch-bin fpp-git fswatch git-hub \
