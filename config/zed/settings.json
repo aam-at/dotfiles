@@ -1,12 +1,17 @@
 {
+  "git_panel": {
+    "dock": "left"
+  },
   "edit_predictions": {
     "provider": "copilot"
   },
   "agent": {
+    "dock": "right",
     "default_model": {
+      "effort": "high",
       "provider": "copilot_chat",
-      "model": "claude-opus-4.6",
-      "enable_thinking": false
+      "model": "gemini-3.1-pro-preview",
+      "enable_thinking": true
     },
     "favorite_models": [],
     "model_parameters": []
