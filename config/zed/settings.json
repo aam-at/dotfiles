@@ -108,6 +108,8 @@
         "pyrefly",
         "ty",
         "!basedpyright",
+        "!pyright",
+        "!pylsp",
         "..."
       ]
     },
@@ -208,8 +210,6 @@
     "material-icon-theme": true,
     "mcp-server-github": true,
     "org": true,
-    "pylsp": true,
-    "python-refactoring": true,
     "python-requirements": true,
     "rainbow-csv": true,
     "texpresso": true,

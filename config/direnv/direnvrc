@@ -39,3 +39,16 @@ layout_uv() {
     export UV_ACTIVE=1  # or VENV_ACTIVE=1
     export VIRTUAL_ENV
 }
+
+layout_pixi() {
+    if [[ ! -f "pixi.toml" && ! -f "pyproject.toml" ]]; then
+        log_status "No Pixi project exists. Executing \`pixi init\` to create one."
+        pixi init
+    fi
+
+    # Ensure the environment exists
+    pixi install >/dev/null
+
+    # Let Pixi generate the correct activation for direnv
+    eval "$(pixi shell-hook --change-ps1 false)"
+}
