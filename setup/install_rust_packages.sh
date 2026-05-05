@@ -22,6 +22,9 @@ else
   echo "cargo-binstall not found on PATH; skipping cargo binstall packages." >&2
 fi
 
+# CLI proxy that reduces LLM token consumption
+cargo install --git https://github.com/rtk-ai/rtk
+
 # Additional tooling that requires git sources.
 cargo install --git https://github.com/blahgeek/emacs-lsp-booster
 
