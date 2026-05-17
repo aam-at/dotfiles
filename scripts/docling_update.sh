@@ -63,6 +63,9 @@ process_pdf() {
 
   local filename
   filename=$(basename "$pdf")
+  local stem
+  stem="${filename%.*}"
+  local output_dir="$md_folder/$stem"
 
   local computed_hash
   computed_hash=$(md5sum "$pdf" | awk '{print $1}')
@@ -92,7 +95,14 @@ process_pdf() {
     echo "Converting $filename (changed)..."
   fi
 
-  if docling "$pdf" --to md --output "$md_folder"; then
+  mkdir -p "$output_dir"
+  local pdf_rel
+  pdf_rel=$(realpath --relative-to="$output_dir" "$pdf")
+
+  if (
+    cd "$output_dir"
+    docling "$pdf_rel" --to md --image-export-mode referenced --output .
+  ); then
     flock -x "$lock_file" -c "
       grep -v '  ${filename}$' '${hash_file}' > '${hash_file}.tmp' || true
       echo '${computed_hash}  ${filename}' >> '${hash_file}.tmp'
