@@ -144,9 +144,10 @@ alias gtl="git tag -l"                                     # List tags matching 
 alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 
-# xclip aliases for clipboard operations
-alias pbcopy="xclip -selection clipboard"          # Copy to clipboard
-alias pbpaste="xclip -selection clipboard -o"      # Paste from clipboard
+# Clipboard aliases
+# Route through shell-agnostic helper scripts so both bash and fish can source this file.
+alias pbcopy="pbcopy.sh"   # Copy to clipboard
+alias pbpaste="pbpaste.sh" # Paste from clipboard
 
 # vim -> neovim aliases
 alias v="nvim"                                     # Alias 'v' to open nvim
