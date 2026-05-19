@@ -4,16 +4,29 @@
 (defvar scholarly-citations-output nil
   "Holds the output from the `scholarly-citations-process-sentinel` function.")
 
-(defvar scholarly-default-method "manual"
+(defvar semantic-scholar-api-key nil
+  "API key for Semantic Scholar citation lookups.
+When nil, `semantic-scholar-api-citations` uses the
+SEMANTIC_SCHOLAR_API_KEY environment variable if set. If neither is
+available, it sends an unauthenticated request.")
+
+(defvar semantic-scholar-api-retry-seconds 5
+  "Seconds to retry transient Semantic Scholar API failures.
+Retries apply to `semantic-scholar-api-citations` for rate limits,
+server errors, and empty responses.")
+
+(defvar scholarly-default-method "google scholar [manual]"
   "Default method to fetch citations.")
 
 (defconst scholarly-methods-alist
-  '(("manual" . scholarly-manual-citations)
-    ("jina" . scholarly-jina-citations)
-    ("scholarly_no_proxy" . "scholarly_citations.py --proxy noproxy")
-    ("scholarly_freeproxy" . "scholarly_citations.py --proxy freeproxy")
-    ("scholarly_scrapper" . "scholarly_citations.py --proxy scrapper")
-    ("serpapi_scrapper" . "serpapi_citations.py"))
+  '(("google scholar [manual]" . scholarly-manual-citations)
+    ("google scholar [jina]" . scholarly-jina-citations)
+    ("google scholar [scholarly no proxy]" . "scholarly_citations.py --proxy noproxy")
+    ("google scholar [scholarly freeproxy]" . "scholarly_citations.py --proxy freeproxy")
+    ("google scholar [scholarly scrapper]" . "scholarly_citations.py --proxy scrapper")
+    ("google scholar [serpapi scrapper]" . "serpapi_citations.py")
+    ("semantic scholar [manual]" . semantic-scholar-manual-citations)
+    ("semantic scholar [api]" . semantic-scholar-api-citations))
   "Association list of methods to automatically fetch citations and
   corresponding python scripts.")
 

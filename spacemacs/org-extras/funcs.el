@@ -334,7 +334,7 @@ DAYS must be a positive integer greater than 1."
       (concat dir "marginalia.org"))))
 
 
-;; Customization to automatically fetch citations from google scholar
+;; Customization to automatically fetch scholarly citation counts
 (defun scholarly-citations-process-sentinel (process event)
   "Sentinel function to process the output from the Python script
   when it finishes."
@@ -381,14 +381,117 @@ DAYS must be a positive integer greater than 1."
     (kill-buffer buffer)
     citations))
 
+(defun semantic-scholar-manual-citations (title)
+  "Search TITLE on Semantic Scholar and manually input its citation count."
+  (let ((search-url (concat "https://www.semanticscholar.org/search?q="
+                            (url-hexify-string title)
+                            "&sort=relevance")))
+    (browse-url search-url)
+    (read-number "Enter the number of citations: ")))
+
+(defun semantic-scholar--api-key ()
+  "Return the configured Semantic Scholar API key, or nil."
+  (let ((api-key (or (and (boundp 'semantic-scholar-api-key)
+                          semantic-scholar-api-key)
+                     (getenv "SEMANTIC_SCHOLAR_API_KEY"))))
+    (and api-key
+         (not (string= api-key ""))
+         api-key)))
+
+(defun semantic-scholar--api-retry-seconds ()
+  "Return the Semantic Scholar API retry duration."
+  (let ((retry-seconds (if (boundp 'semantic-scholar-api-retry-seconds)
+                           semantic-scholar-api-retry-seconds
+                         5)))
+    (if (numberp retry-seconds)
+        (max 0 retry-seconds)
+      5)))
+
+(defun semantic-scholar--retryable-status-p (status-code)
+  "Return non-nil when STATUS-CODE should be retried."
+  (or (not status-code)
+      (= status-code 429)
+      (>= status-code 500)))
+
+(defun semantic-scholar--request-json (url &optional retry-seconds)
+  "Fetch URL from the Semantic Scholar API and return decoded JSON.
+Retry rate limits, server errors, and empty responses for
+RETRY-SECONDS seconds."
+  (let* ((api-key (semantic-scholar--api-key))
+         (retry-seconds (or retry-seconds
+                            (semantic-scholar--api-retry-seconds)))
+         (deadline (+ (float-time) retry-seconds))
+         (url-request-method "GET")
+         (url-request-extra-headers
+          (when api-key
+            `(("x-api-key" . ,api-key))))
+         (last-error-message "Semantic Scholar request failed"))
+    (catch 'done
+      (while t
+        (let ((buffer (condition-case err
+                          (url-retrieve-synchronously url t t 2)
+                        (error
+                         (setq last-error-message
+                               (format "Semantic Scholar request failed: %s"
+                                       (error-message-string err)))
+                         :request-error))))
+          (if (eq buffer :request-error)
+              nil
+            (if (not buffer)
+              (setq last-error-message "Semantic Scholar request returned no response")
+              (unwind-protect
+                  (with-current-buffer buffer
+                    (goto-char (point-min))
+                    (let ((status-code
+                           (when (looking-at "HTTP/[0-9.]+ \\([0-9]+\\)")
+                             (string-to-number (match-string 1)))))
+                      (re-search-forward "^$" nil 'move)
+                      (forward-line)
+                      (if (and status-code (>= status-code 400))
+                          (let ((body (string-trim
+                                       (buffer-substring-no-properties
+                                        (point) (point-max)))))
+                            (setq last-error-message
+                                  (format "Semantic Scholar request failed with HTTP %d: %s"
+                                          status-code body))
+                            (unless (semantic-scholar--retryable-status-p status-code)
+                              (error "%s" last-error-message)))
+                        (let ((json-object-type 'alist)
+                              (json-array-type 'list)
+                              (json-key-type 'symbol))
+                          (throw 'done (json-read))))))
+                (kill-buffer buffer)))))
+        (if (< (float-time) deadline)
+            (sleep-for 0.25)
+          (error "%s" last-error-message))))))
+
+(defun semantic-scholar-api-citations (title)
+  "Fetch the citation count for TITLE from the Semantic Scholar Graph API.
+Use `semantic-scholar-api-key` or SEMANTIC_SCHOLAR_API_KEY when
+available; otherwise, use an unauthenticated request."
+  (let* ((encoded-title (url-hexify-string (format "\"%s\"" title)))
+         (url (format
+               "https://api.semanticscholar.org/graph/v1/paper/search?query=%s&fields=title,citationCount&limit=1"
+               encoded-title))
+         (response (semantic-scholar--request-json
+                    url
+                    (semantic-scholar--api-retry-seconds)))
+         (paper (car (alist-get 'data response)))
+         (citations (alist-get 'citationCount paper)))
+    (unless paper
+      (error "No Semantic Scholar match found for title: %s" title))
+    (unless (numberp citations)
+      (error "Semantic Scholar result has no citation count for title: %s" title))
+    citations))
+
 (defun scholarly-citations (title &optional method callback)
   "Find the number of citations for a paper given its TITLE using
   the method specified in METHOD. When the process finishes, call
   CALLBACK with the number of citations as its argument. The METHOD
   argument is used to look up the corresponding Python script and
-  options in `scholarly-methods-alist`. If METHOD is 'manual', read
-  the value from the user."
-  (let* ((method (or method "manual"))
+  options in `scholarly-methods-alist`. If METHOD is a manual method,
+  read the value from the user."
+  (let* ((method (or method "google scholar [manual]"))
          (method-info (assoc method scholarly-methods-alist)))
     (if (not method-info)
         (error "Unknown method: %s" method)
