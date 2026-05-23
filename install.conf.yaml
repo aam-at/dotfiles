@@ -4,7 +4,8 @@
     - [env > ~/.bash_env, Environment variables]
     - [cd bash/bashmarks && make install, Install bashmarks]
     - [
-        chmod +x scripts/*.sh && mkdir -p ~/.local/bin && ln -frs scripts/* ~/.local/bin/,
+        chmod +x scripts/*.sh && mkdir -p ~/.local/bin && ln -frs scripts/*
+          ~/.local/bin/,
         Link scripts,
       ]
     - [
@@ -26,7 +27,7 @@
     ~/.config/broot: config/broot
     ~/.config/btop: config/btop
     ~/.config/catppuccin: config/catppuccin
-    ~/.config/Antigravity/User/:
+    ~/.config/Antigravity IDE/User/:
       create: true
       glob: true
       path: config/code/*
