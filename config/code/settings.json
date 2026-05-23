@@ -1,228 +1,673 @@
 {
-    "workbench.editorAssociations": {
-        "*.ipynb": "jupyter-notebook"
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  },
+  "keyboard.dispatch": "keyCode",
+  "editor.fontFamily": "'JetBrains Mono'",
+  "editor.fontSize": 13,
+  "editor.fontLigatures": true,
+  "editor.smoothScrolling": true,
+  "python.languageServer": "Default",
+  "vim.easymotion": true,
+  "vim.useSystemClipboard": true,
+  "vim.useCtrlKeys": true,
+  "vim.leader": "<space>",
+  "vim.incsearch": true,
+  "vim.hlsearch": true,
+  "vim.ignorecase": true,
+  "vim.smartcase": true,
+  "vim.sneak": true,
+  "vim.sneakUseIgnorecaseAndSmartcase": true,
+  "vim.surround": true,
+  "vim.camelCaseMotion.enable": true,
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<space>"
+      ],
+      "commands": [
+        "vspacecode.space"
+      ]
     },
-    "keyboard.dispatch": "keyCode",
-    "editor.fontFamily": "'JetBrains Mono'",
-    "editor.fontSize": 13,
-    "editor.fontLigatures": true,
-    "editor.smoothScrolling": true,
-    "python.languageServer": "Pylance",
-    "vim.easymotion": true,
-    "vim.useSystemClipboard": true,
-    "vim.useCtrlKeys": true,
-    "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        ","
+      ],
+      "commands": [
+        "vspacecode.space",
         {
-            "before": [
-                "<space>"
-            ],
-            "commands": [
-                "vspacecode.space"
-            ]
-        },
-        {
-            "before": [
-                ","
-            ],
-            "commands": [
-                "vspacecode.space",
-                {
-                    "command": "whichkey.triggerKey",
-                    "args": "m"
-                }
-            ]
+          "command": "whichkey.triggerKey",
+          "args": "m"
         }
-    ],
-    "vim.visualModeKeyBindingsNonRecursive": [
+      ]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<space>"
+      ],
+      "commands": [
+        "vspacecode.space"
+      ]
+    },
+    {
+      "before": [
+        ","
+      ],
+      "commands": [
+        "vspacecode.space",
         {
-            "before": [
-                "<space>"
-            ],
-            "commands": [
-                "vspacecode.space"
-            ]
-        },
-        {
-            "before": [
-                ","
-            ],
-            "commands": [
-                "vspacecode.space",
-                {
-                    "command": "whichkey.triggerKey",
-                    "args": "m"
-                }
-            ]
-        },
-        {
-            "before": [
-                ">"
-            ],
-            "commands": [
-                "editor.action.indentLines"
-            ]
-        },
-        {
-            "before": [
-                "<"
-            ],
-            "commands": [
-                "editor.action.outdentLines"
-            ]
+          "command": "whichkey.triggerKey",
+          "args": "m"
         }
-    ],
-    "explorer.confirmDelete": false,
-    "editor.lineNumbers": "relative",
-    "latex-workshop.view.pdf.viewer": "tab",
-    "editor.inlineSuggest.enabled": true,
-    "notebook.cellToolbarLocation": {
-        "default": "right",
-        "jupyter-notebook": "left"
+      ]
     },
-    "redhat.telemetry.enabled": true,
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter",
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": "explicit"
-        },
-        "editor.formatOnType": true,
-        "diffEditor.ignoreTrimWhitespace": false,
+    {
+      "before": [
+        ">"
+      ],
+      "commands": [
+        "editor.action.indentLines"
+      ]
     },
-    "isort.args": [
-        "--profile",
-        "black"
-    ],
-    "vim.handleKeys": {
-        "<C-f>": true,
-        "<C-b>": true,
-        "<C-a>": true,
-        "<C-e>": true,
-        "<C-d>": true,
-    },
-    "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "<"
+      ],
+      "commands": [
+        "editor.action.outdentLines"
+      ]
+    }
+  ],
+  "vspacecode.bindingOverrides": [
+    {
+      "keys": "f",
+      "name": "+Files",
+      "type": "bindings",
+      "bindings": [
         {
-            "before": [
-                "<C-f>"
-            ],
-            "after": [
-                "<right>"
-            ]
+          "key": "f",
+          "name": "Find file",
+          "type": "command",
+          "command": "workbench.action.quickOpen"
         },
         {
-            "before": [
-                "<C-b>"
-            ],
-            "after": [
-                "<left>"
-            ]
+          "key": "r",
+          "name": "Open recent",
+          "type": "command",
+          "command": "workbench.action.openRecent"
         },
         {
-            "before": [
-                "alt-b"
-            ],
-            "after": [
-                "<left>"
-            ]
-        },
-        {
-            "before": [
-                "<C-a>"
-            ],
-            "commands": [
-                {
-                    "command": "cursorHome",
-                    "when": "editorTextFocus"
-                }
-            ]
-        },
-        {
-            "before": [
-                "<C-e>"
-            ],
-            "commands": [
-                {
-                    "command": "cursorEnd",
-                    "when": "editorTextFocus"
-                }
-            ]
-        },
-        {
-            "before": [
-                "<C-d>"
-            ],
-            "commands": [
-                {
-                    "command": "deleteRight",
-                    "when": "editorTextFocus && !editorReadonly"
-                }
-            ]
+          "key": "s",
+          "name": "Save file",
+          "type": "command",
+          "command": "workbench.action.files.save"
         }
-    ],
-    "workbench.colorTheme": "Gruvbox Dark Medium",
-    "workbench.iconTheme": "vscode-icons",
-    "python.analysis.completeFunctionParens": true,
-    "syntax.highlightLanguages": [
-        "c",
-        "cpp",
-        "python",
-        "typescript",
-        "typescriptreact",
-        "javascript",
-        "go",
-        "rust",
-        "php",
-        "ruby",
-        "shellscript",
-        "ocaml",
-        "lua"
-    ],
-    "files.exclude": {
-        "**/.trunk/*actions/": true,
-        "**/.trunk/*logs/": true,
-        "**/.trunk/*notifications/": true,
-        "**/.trunk/*out/": true,
-        "**/.trunk/*plugins/": true
+      ]
     },
-    "trunk.trunkGrayOutNonBlockingIssues": false,
-    "files.watcherExclude": {
-        "**/.trunk/*actions/": true,
-        "**/.trunk/*logs/": true,
-        "**/.trunk/*notifications/": true,
-        "**/.trunk/*out/": true,
-        "**/.trunk/*plugins/": true
-    },
-    "editor.defaultFormatter": "trunk.io",
-    "files.autoSave": "onWindowChange",
-    "[latex]": {
-        "editor.defaultFormatter": "James-Yu.latex-workshop"
-    },
-    "diffEditor.codeLens": true,
-    "[jsonc]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
-    "editor.multiCursorModifier": "ctrlCmd",
-    "github.copilot.advanced": {
-        "useLanguageServer": true
-    },
-    "github.copilot.chat.edits.enabled": true,
-    "github.copilot.chat.followUps": "always",
-    "github.copilot.chat.search.semanticTextResults": true,
-    "github.copilot.chat.useProjectTemplates": true,
-    "github.copilot.chat.codeGeneration.instructions": [
-        // {
-        //   "text": "I want you to act as a proofreader for academic texts. You will be provided with an academic text intended for submission to top machine learning conferences, such as ICML, NeurIPS and CVPR. Your task is to proofread the text and provide detailed corrections and suggestions.\n Here are the specific tasks you need to accomplish:\n 1) Identify and correct any spelling, grammar, and punctuation errors.\n 2. Suggest improvements to enhance clarity and readability.\n 3. Ensure that the text aligns with the standards expected at top machine learning venues.\n 4. Provide detailed explanations for each correction and suggestion.\n The text for review will be provided below:"
-        // }
+    {
+      "keys": "b",
+      "name": "+Buffers",
+      "type": "bindings",
+      "bindings": [
         {
-            "text": "I want you to act as a mathematician. You will be provided with a mathematical problem and my solution to the problem. Your task is to verify my solution and improve the mathematical notation of my solution for publication at ICML, NeurIPS or ICLR conference. The proof should adhere to the highest quality standards for publication in a prestigious mathematical journal.",
+          "key": "tab",
+          "name": "Last buffer",
+          "type": "command",
+          "command": "workbench.action.openPreviousRecentlyUsedEditorInGroup"
+        },
+        {
+          "key": "b",
+          "name": "Show all buffers",
+          "type": "command",
+          "command": "workbench.action.showAllEditors"
+        },
+        {
+          "key": "d",
+          "name": "Close active buffer",
+          "type": "command",
+          "command": "workbench.action.closeActiveEditor"
         }
-    ],
-    "geminicodeassist.project": "cpgd-301214",
-    "github.copilot.chat.editor.temporalContext.enabled": true,
-    "github.copilot.nextEditSuggestions.enabled": true,
-    "python.analysis.typeCheckingMode": "standard",
-    "claudeCode.useTerminal": true,
+      ]
+    },
+    {
+      "keys": "w",
+      "name": "+Windows",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "h",
+          "name": "Focus left",
+          "type": "command",
+          "command": "workbench.action.focusLeftGroup"
+        },
+        {
+          "key": "j",
+          "name": "Focus below",
+          "type": "command",
+          "command": "workbench.action.focusBelowGroup"
+        },
+        {
+          "key": "k",
+          "name": "Focus above",
+          "type": "command",
+          "command": "workbench.action.focusAboveGroup"
+        },
+        {
+          "key": "l",
+          "name": "Focus right",
+          "type": "command",
+          "command": "workbench.action.focusRightGroup"
+        },
+        {
+          "key": "s",
+          "name": "Split editor",
+          "type": "command",
+          "command": "workbench.action.splitEditor"
+        },
+        {
+          "key": "v",
+          "name": "Split editor right",
+          "type": "command",
+          "command": "workbench.action.splitEditorRight"
+        },
+        {
+          "key": "d",
+          "name": "Close editor group",
+          "type": "command",
+          "command": "workbench.action.closeEditorsInGroup"
+        },
+        {
+          "key": "=",
+          "name": "Even editor widths",
+          "type": "command",
+          "command": "workbench.action.evenEditorWidths"
+        }
+      ]
+    },
+    {
+      "keys": "g",
+      "name": "+Git",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "s",
+          "name": "Magit status",
+          "type": "command",
+          "command": "magit.status"
+        },
+        {
+          "key": "m",
+          "name": "Magit dispatch",
+          "type": "command",
+          "command": "magit.dispatch"
+        },
+        {
+          "key": "f",
+          "name": "Magit file popup",
+          "type": "command",
+          "command": "magit.file-popup"
+        },
+        {
+          "key": "g",
+          "name": "Source control",
+          "type": "command",
+          "command": "workbench.view.scm"
+        },
+        {
+          "key": "S",
+          "name": "Stage selected ranges",
+          "type": "command",
+          "command": "git.stageSelectedRanges"
+        },
+        {
+          "key": "U",
+          "name": "Unstage selected ranges",
+          "type": "command",
+          "command": "git.unstageSelectedRanges"
+        },
+        {
+          "key": "R",
+          "name": "Revert selected ranges",
+          "type": "command",
+          "command": "git.revertSelectedRanges"
+        }
+      ]
+    },
+    {
+      "keys": "p",
+      "name": "+Projects",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "f",
+          "name": "Find file in project",
+          "type": "command",
+          "command": "workbench.action.quickOpen"
+        },
+        {
+          "key": "p",
+          "name": "Open workspace",
+          "type": "command",
+          "command": "workbench.action.openWorkspace"
+        },
+        {
+          "key": "d",
+          "name": "Open folder",
+          "type": "command",
+          "command": "workbench.action.files.openFolder"
+        },
+        {
+          "key": "s",
+          "name": "Search project",
+          "type": "command",
+          "command": "workbench.action.findInFiles"
+        },
+        {
+          "key": "t",
+          "name": "Run task",
+          "type": "command",
+          "command": "workbench.action.tasks.runTask"
+        }
+      ]
+    },
+    {
+      "keys": "s",
+      "name": "+Search",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "s",
+          "name": "Search in file",
+          "type": "command",
+          "command": "actions.find"
+        },
+        {
+          "key": "f",
+          "name": "Search in files",
+          "type": "command",
+          "command": "workbench.action.findInFiles"
+        },
+        {
+          "key": "r",
+          "name": "Replace in files",
+          "type": "command",
+          "command": "workbench.action.replaceInFiles"
+        },
+        {
+          "key": "b",
+          "name": "Search symbols",
+          "type": "command",
+          "command": "workbench.action.gotoSymbol"
+        },
+        {
+          "key": "p",
+          "name": "Search workspace symbols",
+          "type": "command",
+          "command": "workbench.action.showAllSymbols"
+        }
+      ]
+    },
+    {
+      "keys": "tab",
+      "name": "+Workspace",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "tab",
+          "name": "Last buffer",
+          "type": "command",
+          "command": "workbench.action.openPreviousRecentlyUsedEditorInGroup"
+        },
+        {
+          "key": "n",
+          "name": "Next editor",
+          "type": "command",
+          "command": "workbench.action.nextEditor"
+        },
+        {
+          "key": "p",
+          "name": "Previous editor",
+          "type": "command",
+          "command": "workbench.action.previousEditor"
+        },
+        {
+          "key": "w",
+          "name": "Switch window",
+          "type": "command",
+          "command": "workbench.action.switchWindow"
+        }
+      ]
+    },
+    {
+      "keys": "c",
+      "name": "+Code",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "a",
+          "name": "Code action",
+          "type": "command",
+          "command": "editor.action.quickFix"
+        },
+        {
+          "key": "r",
+          "name": "Rename symbol",
+          "type": "command",
+          "command": "editor.action.rename"
+        },
+        {
+          "key": "f",
+          "name": "Format document",
+          "type": "command",
+          "command": "editor.action.formatDocument"
+        },
+        {
+          "key": "o",
+          "name": "Organize imports",
+          "type": "command",
+          "command": "editor.action.organizeImports"
+        },
+        {
+          "key": "R",
+          "name": "Refactor",
+          "type": "command",
+          "command": "editor.action.refactor"
+        }
+      ]
+    },
+    {
+      "keys": "e",
+      "name": "+Errors",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "l",
+          "name": "Problems",
+          "type": "command",
+          "command": "workbench.actions.view.problems"
+        },
+        {
+          "key": "n",
+          "name": "Next problem",
+          "type": "command",
+          "command": "editor.action.marker.next"
+        },
+        {
+          "key": "p",
+          "name": "Previous problem",
+          "type": "command",
+          "command": "editor.action.marker.prev"
+        },
+        {
+          "key": "q",
+          "name": "Quick fix",
+          "type": "command",
+          "command": "editor.action.quickFix"
+        }
+      ]
+    },
+    {
+      "keys": "h",
+      "name": "+Help",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": " ",
+          "name": "Command palette",
+          "type": "command",
+          "command": "workbench.action.showCommands"
+        },
+        {
+          "key": "k",
+          "name": "Keyboard shortcuts",
+          "type": "command",
+          "command": "workbench.action.openGlobalKeybindings"
+        },
+        {
+          "key": "s",
+          "name": "Settings",
+          "type": "command",
+          "command": "workbench.action.openSettingsJson"
+        },
+        {
+          "key": "e",
+          "name": "Extensions",
+          "type": "command",
+          "command": "workbench.view.extensions"
+        }
+      ]
+    },
+    {
+      "keys": "o",
+      "name": "+Open",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "e",
+          "name": "Explorer",
+          "type": "command",
+          "command": "workbench.view.explorer"
+        },
+        {
+          "key": "t",
+          "name": "Terminal",
+          "type": "command",
+          "command": "workbench.action.terminal.toggleTerminal"
+        },
+        {
+          "key": "o",
+          "name": "Output",
+          "type": "command",
+          "command": "workbench.action.output.toggleOutput"
+        },
+        {
+          "key": "p",
+          "name": "Problems",
+          "type": "command",
+          "command": "workbench.actions.view.problems"
+        }
+      ]
+    },
+    {
+      "keys": "t",
+      "name": "+Toggles",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "s",
+          "name": "Toggle sidebar",
+          "type": "command",
+          "command": "workbench.action.toggleSidebarVisibility"
+        },
+        {
+          "key": "p",
+          "name": "Toggle panel",
+          "type": "command",
+          "command": "workbench.action.togglePanel"
+        },
+        {
+          "key": "z",
+          "name": "Toggle zen mode",
+          "type": "command",
+          "command": "workbench.action.toggleZenMode"
+        },
+        {
+          "key": "w",
+          "name": "Toggle word wrap",
+          "type": "command",
+          "command": "editor.action.toggleWordWrap"
+        }
+      ]
+    },
+    {
+      "keys": "q",
+      "name": "+Quit",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "q",
+          "name": "Close window",
+          "type": "command",
+          "command": "workbench.action.closeWindow"
+        },
+        {
+          "key": "r",
+          "name": "Reload window",
+          "type": "command",
+          "command": "workbench.action.reloadWindow"
+        }
+      ]
+    }
+  ],
+  "explorer.confirmDelete": false,
+  "editor.lineNumbers": "relative",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "editor.inlineSuggest.enabled": true,
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "left"
+  },
+  "redhat.telemetry.enabled": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "editor.formatOnType": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+  },
+  "isort.args": [
+    "--profile",
+    "black"
+  ],
+  "vim.handleKeys": {
+    "<C-f>": true,
+    "<C-b>": true,
+    "<C-a>": true,
+    "<C-e>": true,
+    "<C-d>": true,
+  },
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "<C-f>"
+      ],
+      "after": [
+        "<right>"
+      ]
+    },
+    {
+      "before": [
+        "<C-b>"
+      ],
+      "after": [
+        "<left>"
+      ]
+    },
+    {
+      "before": [
+        "alt-b"
+      ],
+      "after": [
+        "<left>"
+      ]
+    },
+    {
+      "before": [
+        "<C-a>"
+      ],
+      "commands": [
+        {
+          "command": "cursorHome",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<C-e>"
+      ],
+      "commands": [
+        {
+          "command": "cursorEnd",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<C-d>"
+      ],
+      "commands": [
+        {
+          "command": "deleteRight",
+          "when": "editorTextFocus && !editorReadonly"
+        }
+      ]
+    }
+  ],
+  "workbench.colorTheme": "Gruvbox Dark Medium",
+  "workbench.iconTheme": "vscode-icons",
+  "python.analysis.completeFunctionParens": true,
+  "syntax.highlightLanguages": [
+    "c",
+    "cpp",
+    "python",
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "go",
+    "rust",
+    "php",
+    "ruby",
+    "shellscript",
+    "ocaml",
+    "lua"
+  ],
+  "files.exclude": {
+    "**/.trunk/*actions/": true,
+    "**/.trunk/*logs/": true,
+    "**/.trunk/*notifications/": true,
+    "**/.trunk/*out/": true,
+    "**/.trunk/*plugins/": true
+  },
+  "trunk.trunkGrayOutNonBlockingIssues": false,
+  "files.watcherExclude": {
+    "**/.trunk/*actions/": true,
+    "**/.trunk/*logs/": true,
+    "**/.trunk/*notifications/": true,
+    "**/.trunk/*out/": true,
+    "**/.trunk/*plugins/": true
+  },
+  "editor.defaultFormatter": "trunk.io",
+  "files.autoSave": "onWindowChange",
+  "[latex]": {
+    "editor.defaultFormatter": "James-Yu.latex-workshop"
+  },
+  "diffEditor.codeLens": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "editor.multiCursorModifier": "ctrlCmd",
+  "search.searchView.semanticSearchBehavior": "always",
+  "github.copilot.chat.useProjectTemplates": true,
+  "github.copilot.chat.codeGeneration.instructions": [
+    // {
+    //   "text": "I want you to act as a proofreader for academic texts. You will be provided with an academic text intended for submission to top machine learning conferences, such as ICML, NeurIPS and CVPR. Your task is to proofread the text and provide detailed corrections and suggestions.\n Here are the specific tasks you need to accomplish:\n 1) Identify and correct any spelling, grammar, and punctuation errors.\n 2. Suggest improvements to enhance clarity and readability.\n 3. Ensure that the text aligns with the standards expected at top machine learning venues.\n 4. Provide detailed explanations for each correction and suggestion.\n The text for review will be provided below:"
+    // }
+    {
+      "text": "I want you to act as a mathematician. You will be provided with a mathematical problem and my solution to the problem. Your task is to verify my solution and improve the mathematical notation of my solution for publication at ICML, NeurIPS or ICLR conference. The proof should adhere to the highest quality standards for publication in a prestigious mathematical journal.",
+    }
+  ],
+  "geminicodeassist.project": "cpgd-301214",
+  "github.copilot.chat.editor.temporalContext.enabled": true,
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "python.analysis.typeCheckingMode": "standard",
+  "claudeCode.useTerminal": true,
 }
