@@ -19,11 +19,6 @@ rev = "1962818"
 hash = "26db011a778f261d730d4f5f8bf24b3f"
 
 [[plugin.deps]]
-use = "Reledia/glow"
-rev = "bd3eaa5"
-hash = "92b5c58159a51c567f82b618cee2b78"
-
-[[plugin.deps]]
 use = "imsi32/yatline-gruvbox"
 rev = "f570b77"
 hash = "244048d1c3e7c557796f372c5c01de5d"
@@ -37,6 +32,21 @@ hash = "af416c7b3f928e38a513bdf465efffa9"
 use = "wekauwau/yatline-modified-time"
 rev = "2d33471"
 hash = "8fa6028ef832b34cf32f4ee43cb0ae35"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:zoom"
+rev = "598cdb6"
+hash = "fa268cb59989a87780605fdcfb8d99a9"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:piper"
+rev = "598cdb6"
+hash = "d99cfbc3812e7738505f9e4bedb759cd"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:mount"
+rev = "598cdb6"
+hash = "e3260d0b1feded8c8e3ae3afa1169e30"
 
 [flavor]
 deps = []
