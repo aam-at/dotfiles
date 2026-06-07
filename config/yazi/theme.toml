@@ -221,107 +221,96 @@ rules = [
   { mime = "application/xz", fg = "#d3869b" },
 
   # Fallback
-  { name = "*", fg = "#ebdbb2" },
-  { name = "*/", fg = "#83a598" },
+  { url = "*", fg = "#ebdbb2" },
+  { url = "*/", fg = "#83a598" },
 ]
 
-[icons]
+[icon]
+prepend_dirs = [
+  { name = ".config", text = "" },
+  { name = ".git", text = "" },
+  { name = "Development", text = "" },
+  { name = "Desktop", text = "" },
+  { name = "Documents", text = "" },
+  { name = "Downloads", text = "" },
+  { name = "Library", text = "" },
+  { name = "Movies", text = "" },
+  { name = "Music", text = "" },
+  { name = "Pictures", text = "" },
+  { name = "Public", text = "" },
+  { name = "Videos", text = "" },
+]
 
-"Desktop/" = ""
-"Documents/" = ""
-"Downloads/" = ""
-"Pictures/" = ""
-"Music/" = ""
-"Movies/" = ""
-"Videos/" = ""
-"Public/" = ""
-"Library/" = ""
-"Development/" = ""
-".config/" = ""
+prepend_files = [
+  { name = ".DS_Store", text = "" },
+  { name = ".bash_profile", text = "" },
+  { name = ".bashrc", text = "" },
+  { name = ".bashprofile", text = "" },
+  { name = ".gitattributes", text = "" },
+  { name = ".gitignore", text = "" },
+  { name = ".gitmodules", text = "" },
+  { name = ".vimrc", text = "" },
+  { name = ".zprofile", text = "" },
+  { name = ".zshenv", text = "" },
+  { name = ".zshrc", text = "" },
+]
 
-# Git
-".git/" = ""
-".gitignore" = ""
-".gitmodules" = ""
-".gitattributes" = ""
+prepend_exts = [
+  { name = "7z", text = "" },
+  { name = "avi", text = "" },
+  { name = "bmp", text = "" },
+  { name = "c", text = "" },
+  { name = "conf", text = "" },
+  { name = "css", text = "" },
+  { name = "cpp", text = "" },
+  { name = "fish", text = "" },
+  { name = "flac", text = "" },
+  { name = "gif", text = "" },
+  { name = "go", text = "" },
+  { name = "gz", text = "" },
+  { name = "h", text = "" },
+  { name = "hpp", text = "" },
+  { name = "html", text = "" },
+  { name = "ico", text = "" },
+  { name = "ini", text = "" },
+  { name = "java", text = "" },
+  { name = "jpeg", text = "" },
+  { name = "jpg", text = "" },
+  { name = "js", text = "" },
+  { name = "json", text = "" },
+  { name = "jsx", text = "" },
+  { name = "lua", text = "" },
+  { name = "mkv", text = "" },
+  { name = "mov", text = "" },
+  { name = "mp3", text = "" },
+  { name = "mp4", text = "" },
+  { name = "md", text = "" },
+  { name = "php", text = "" },
+  { name = "png", text = "" },
+  { name = "py", text = "" },
+  { name = "rb", text = "" },
+  { name = "rs", text = "" },
+  { name = "scss", text = "" },
+  { name = "sh", text = "" },
+  { name = "sv", text = "󰍛" },
+  { name = "svg", text = "" },
+  { name = "svh", text = "󰍛" },
+  { name = "swift", text = "" },
+  { name = "tcl", text = "󰛓" },
+  { name = "toml", text = "" },
+  { name = "ts", text = "" },
+  { name = "tsx", text = "" },
+  { name = "txt", text = "" },
+  { name = "wav", text = "" },
+  { name = "webp", text = "" },
+  { name = "vim", text = "" },
+  { name = "yaml", text = "" },
+  { name = "yml", text = "" },
+]
 
-# Dotfiles
-".DS_Store" = ""
-".bashrc" = ""
-".bashprofile" = ""
-".zshrc" = ""
-".zshenv" = ""
-".zprofile" = ""
-".vimrc" = ""
-
-# Text
-"*.txt" = ""
-"*.md" = ""
-
-# Archives
-"*.zip" = ""
-"*.tar" = ""
-"*.gz" = ""
-"*.7z" = ""
-
-# Audio
-"*.mp3" = ""
-"*.flac" = ""
-"*.wav" = ""
-
-# Movies
-"*.mp4" = ""
-"*.mkv" = ""
-"*.avi" = ""
-"*.mov" = ""
-
-# Images
-"*.jpg" = ""
-"*.jpeg" = ""
-"*.png" = ""
-"*.gif" = ""
-"*.webp" = ""
-"*.avif" = ""
-"*.bmp" = ""
-"*.ico" = ""
-"*.svg" = ""
-
-# Programming
-"*.c" = ""
-"*.cpp" = ""
-"*.h" = ""
-"*.hpp" = ""
-"*.rs" = ""
-"*.go" = ""
-"*.py" = ""
-"*.js" = ""
-"*.ts" = ""
-"*.tsx" = ""
-"*.jsx" = ""
-"*.rb" = ""
-"*.php" = ""
-"*.java" = ""
-"*.sh" = ""
-"*.fish" = ""
-"*.swift" = ""
-"*.vim" = ""
-"*.lua" = ""
-"*.html" = ""
-"*.css" = ""
-"*.scss" = ""
-"*.json" = ""
-"*.toml" = ""
-"*.yml" = ""
-"*.yaml" = ""
-"*.ini" = ""
-"*.conf" = ""
-"*.v" = "󰍛"
-"*.sv" = "󰍛"
-"*.svh" = "󰍛"
-"*.tcl" = "󰛓"
-
-# Default
-"*" = ""
-"*/" = ""
+prepend_conds = [
+  { if = "dir", text = "" },
+  { if = "!dir", text = "" },
+]
 
 # : }}}
