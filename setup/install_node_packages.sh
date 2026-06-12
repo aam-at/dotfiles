@@ -70,6 +70,7 @@ packages=(
   "@vibe-kit/grok-cli@latest"
   "bash-language-server"
   "bibtex-tidy"
+  "cline"
   "js-beautify"
   "openclaw"
   "opencode-ai@latest"
