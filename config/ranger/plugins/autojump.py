@@ -1,15 +1,33 @@
+import os
 import ranger.api
+import shutil
 import subprocess
 from ranger.api.commands import *
 
 HOOK_INIT_OLD = ranger.api.hook_init
+AUTOJUMP = shutil.which("autojump")
+
+
+def _resolve_directory(path):
+    if not path:
+        return None
+
+    expanded = os.path.expandvars(os.path.expanduser(path))
+    if os.path.isdir(expanded):
+        return os.path.abspath(expanded)
+
+    return None
 
 
 def hook_init(fm):
-    def update_autojump(signal):
-        subprocess.Popen(["autojump", "--add", signal.new.path])
+    if AUTOJUMP:
+        def update_autojump(signal):
+            try:
+                subprocess.Popen([AUTOJUMP, "--add", signal.new.path])
+            except OSError:
+                pass
 
-    fm.signal_bind('cd', update_autojump)
+        fm.signal_bind('cd', update_autojump)
     HOOK_INIT_OLD(fm)
 
 
@@ -23,7 +41,29 @@ class j(Command):
     """
 
     def execute(self):
-        directory = subprocess.check_output(["autojump", self.arg(1)])
-        directory = directory.decode("utf-8", "ignore")
-        directory = directory.rstrip('\n')
-        self.fm.execute_console("cd " + directory)
+        query = self.arg(1)
+        directory = _resolve_directory(query)
+
+        if not query:
+            if directory:
+                self.fm.cd(directory)
+            else:
+                self.fm.notify("autojump is not available", bad=True)
+            return
+
+        if AUTOJUMP:
+            try:
+                directory = subprocess.check_output([AUTOJUMP, query])
+                directory = directory.decode("utf-8", "ignore").rstrip("\n")
+            except (OSError, subprocess.CalledProcessError):
+                if directory:
+                    self.fm.cd(directory)
+                else:
+                    self.fm.notify("autojump is not available", bad=True)
+                return
+        elif not directory:
+            self.fm.notify("autojump is not available", bad=True)
+            return
+
+        if directory:
+            self.fm.cd(directory)
