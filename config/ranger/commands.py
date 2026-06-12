@@ -1,3 +1,4 @@
+import importlib
 import os
 import shlex
 import shutil
@@ -227,3 +228,89 @@ class ripgrep(Command):
             return
         command = f"{editor} +{line_no} {shlex.quote(path)}"
         self.fm.run(command)
+
+
+class _preview_zoom_base(Command):
+    step = 0.25
+
+    def _module(self):
+        try:
+            return importlib.import_module("plugins.kitty_preview")
+        except ImportError as exc:
+            self.fm.notify(f"Image preview plugin is unavailable: {exc}", bad=True)
+            return None
+
+    def _redraw_preview(self):
+        ui = getattr(self.fm, "ui", None)
+        if ui is None:
+            return
+
+        preview_widgets = []
+        browser = getattr(ui, "browser", None)
+        if browser is not None:
+            browser.need_redraw = True
+            columns = getattr(browser, "columns", None)
+            if columns:
+                preview_widgets.append(columns[-1])
+
+        try:
+            preview_widgets.append(ui.get_pager())
+        except Exception:
+            pass
+
+        for widget in preview_widgets:
+            if widget is None:
+                continue
+            widget.need_redraw = True
+            widget.need_redraw_image = True
+            if getattr(widget, "image", None):
+                widget.need_clear_image = True
+
+        ui.redraw_window()
+
+    def _set_zoom(self, new_zoom):
+        module = self._module()
+        if module is None:
+            return
+        module.IMAGE_ZOOM = max(
+            module.MIN_IMAGE_ZOOM,
+            min(module.MAX_IMAGE_ZOOM, new_zoom),
+        )
+        self._redraw_preview()
+        self.fm.notify(f"Image zoom: {module.IMAGE_ZOOM:.2f}x", duration=1)
+
+
+class preview_zoom_in(_preview_zoom_base):
+    """:preview_zoom_in
+
+    Zoom image previews in.
+    """
+
+    def execute(self):
+        module = self._module()
+        if module is None:
+            return
+        self._set_zoom(module.IMAGE_ZOOM + self.step)
+
+
+class preview_zoom_out(_preview_zoom_base):
+    """:preview_zoom_out
+
+    Zoom image previews out.
+    """
+
+    def execute(self):
+        module = self._module()
+        if module is None:
+            return
+        self._set_zoom(module.IMAGE_ZOOM - self.step)
+
+
+class preview_zoom_reset(_preview_zoom_base):
+    """:preview_zoom_reset
+
+    Reset image preview zoom.
+    """
+
+    def execute(self):
+        self._set_zoom(1.0)
