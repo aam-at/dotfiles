@@ -10,10 +10,9 @@ ESCAPED_FILE=$(printf '%q' "$FILE")
 EXISTING_WINDOW=$(xdotool search --name "$ESCAPED_FILE")
 
 if [ -z "$EXISTING_WINDOW" ]; then
-    # If the window does not exist, open the file with Zathura
-    zathura "$FILE" &
+  # If the window does not exist, open the file with Zathura
+  zathura "$FILE" &
 else
-    # If the window exists, focus it
-    xdotool windowactivate "$EXISTING_WINDOW"
+  # If the window exists, focus it
+  xdotool windowactivate "$EXISTING_WINDOW"
 fi
-

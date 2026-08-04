@@ -15,12 +15,28 @@ usage() {
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    -j|--jobs)    JOBS="$2"; shift 2 ;;
-    -n|--dry-run) DRY_RUN=true; shift ;;
-    -h|--help)    usage; exit 0 ;;
-    --)           shift; break ;;
-    -*)           echo "Unknown option: $1" >&2; usage >&2; exit 1 ;;
-    *)            break ;;
+  -j | --jobs)
+    JOBS="$2"
+    shift 2
+    ;;
+  -n | --dry-run)
+    DRY_RUN=true
+    shift
+    ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  --)
+    shift
+    break
+    ;;
+  -*)
+    echo "Unknown option: $1" >&2
+    usage >&2
+    exit 1
+    ;;
+  *) break ;;
   esac
 done
 
@@ -126,10 +142,10 @@ if [[ ${#pdfs[@]} -eq 0 ]]; then
   exit 0
 fi
 
-printf '%s\n' "${pdfs[@]}" \
-  | xargs -P "$JOBS" -I{} bash -c \
-      'process_pdf "$@"' _ \
-      {} "$MD_FOLDER" "$HASH_FILE" "$LOCK_FILE" "$DRY_RUN" "$COUNTER_DIR"
+printf '%s\n' "${pdfs[@]}" |
+  xargs -P "$JOBS" -I{} bash -c \
+    'process_pdf "$@"' _ \
+    {} "$MD_FOLDER" "$HASH_FILE" "$LOCK_FILE" "$DRY_RUN" "$COUNTER_DIR"
 
 sort -k2 "$HASH_FILE" -o "$HASH_FILE"
 
