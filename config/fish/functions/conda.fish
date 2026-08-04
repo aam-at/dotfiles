@@ -4,7 +4,6 @@
 # Ivan Smirnov (C) 2015
 #
 
-
 #
 # INSTALL
 #
@@ -35,7 +34,6 @@
 #
 #         set -e CONDA_LEFT_PROMPT
 
-
 # Require version fish v2.0+ to be able to use array slices, `else if`
 # and $status for command substitutions
 if [ (echo (fish -v ^&1) | sed 's/^.*version \([0-9]\)\..*$/\1/') -lt 2 ]
@@ -43,14 +41,12 @@ if [ (echo (fish -v ^&1) | sed 's/^.*version \([0-9]\)\..*$/\1/') -lt 2 ]
     exit 1
 end
 
-
 function __conda_delete_function
     functions -e $argv
     if functions -q $argv
         functions -e $argv
     end
 end
-
 
 function __conda_restore_prompt
     if functions -q __fish_prompt_orig
@@ -65,7 +61,6 @@ function __conda_restore_prompt
         functions -e __fish_right_prompt_orig
     end
 end
-
 
 function __conda_backup_prompt
     functions -e __fish_prompt_orig
@@ -87,7 +82,6 @@ function __conda_backup_prompt
     end
 end
 
-
 function __conda_echo_env
     set_color normal
     echo -n '('
@@ -96,7 +90,6 @@ function __conda_echo_env
     set_color normal
     echo -n ') '
 end
-
 
 # Inject environment name into fish_right_prompt / fish_prompt
 function __conda_update_prompt
@@ -123,12 +116,10 @@ function __conda_update_prompt
     end
 end
 
-
 # Convert colon-separated path to a legit fish list
 function __conda_set_path
     set -gx PATH (echo $argv[1] | tr : \n)
 end
-
 
 # Calls activate / deactivate functions if the first argument is activate or
 # deactivate; otherwise, calls conda-<cmd> and passes the arguments through
@@ -149,7 +140,6 @@ function conda
         end
     end
 end
-
 
 # Equivalent to bash version of conda activate script
 function activate --description 'Activate a conda environment.'
@@ -187,10 +177,9 @@ function activate --description 'Activate a conda environment.'
     end
 end
 
-
 # Equivalent to bash version of conda deactivate script
 function deactivate --description 'Deactivate the current conda environment.'
-    if set -q CONDA_DEFAULT_ENV  # don't deactivate the root environment
+    if set -q CONDA_DEFAULT_ENV # don't deactivate the root environment
         set -l NEW_PATH (conda '..deactivate' $argv[1])
         if [ $status = 0 ]
             __conda_set_path $NEW_PATH
