@@ -207,8 +207,7 @@ git:
   # won't do either of these things.
   autoStageResolvedConflicts: true
   # Command used when displaying the current branch git log in the main window
-  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate
-    --date=relative --pretty=medium {{branchName}} --
+  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --
   # If true, do not spawn a separate process when using GPG
   overrideGpg: false
   # If true, do not allow force pushes
@@ -243,8 +242,7 @@ git:
   # length. Set to 40 to disable truncation.
   truncateCopiedCommitHashesTo: 12
   allBranchesLogCmds:
-    - git log --graph --all --color=always --abbrev-commit --decorate
-      --date=relative  --pretty=medium
+    - git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium
 # Periodic update checks
 update:
   # One of: 'prompt' (default) | 'background' | 'never'
@@ -392,6 +390,7 @@ keybinding:
     increaseRenameSimilarityThreshold: )
     decreaseRenameSimilarityThreshold: (
     openDiffTool: <c-t>
+    newWorktree: w
   status:
     checkForUpdate: u
     recentRepos: <enter>
@@ -430,8 +429,6 @@ keybinding:
     setUpstream: u
     fetchRemote: f
     sortOrder: s
-  worktrees:
-    viewWorktreeOptions: w
   commits:
     squashDown: s
     renameCommit: r
