@@ -89,6 +89,7 @@ suppress_preload = false
 [plugin]
 
 prepend_previewers = [
+  { mime = "application/pdf", run = "pdf-pages" },
   { mime = "application/*zip", run = 'piper -- ouch l -t -y "$1"' },
   { mime = "application/gzip", run = 'piper -- ouch l -t -y "$1"' },
   { mime = "application/x-tar", run = 'piper -- ouch l -t -y "$1"' },
