@@ -1,13 +1,110 @@
-[language-server.ty]
-command = "ty"
-args = ["server"]
+[language-server.bash-language-server]
+command = "bash-language-server"
+args = ["start"]
+
+[language-server.clangd]
+command = "clangd"
+
+[language-server.cmake-language-server]
+command = "cmake-language-server"
+
+[language-server.docker-langserver]
+command = "docker-langserver"
+args = ["--stdio"]
+
+[language-server.markdown-oxide]
+command = "markdown-oxide"
 
 [language-server.ruff]
 command = "ruff"
 args = ["server"]
+
+[language-server.rust-analyzer]
+command = "rust-analyzer"
+
+[language-server.taplo]
+command = "taplo"
+args = ["lsp", "stdio"]
+
+[language-server.texlab]
+command = "texlab"
+
+[language-server.ty]
+command = "ty"
+args = ["server"]
+
+[language-server.vscode-json-languageserver]
+command = "vscode-json-languageserver"
+args = ["--stdio"]
+
+[language-server.yaml-language-server]
+command = "yaml-language-server"
+args = ["--stdio"]
 
 [[language]]
 name = "python"
 language-servers = ["ty", "ruff"]
 auto-format = true
 formatter = { command = "ruff", args = ["format", "-"] }
+
+[[language]]
+name = "c"
+language-servers = ["clangd"]
+auto-format = true
+formatter = { command = "clang-format", args = ["--assume-filename", "file.c"] }
+
+[[language]]
+name = "cpp"
+language-servers = ["clangd"]
+auto-format = true
+formatter = { command = "clang-format", args = ["--assume-filename", "file.cpp"] }
+
+[[language]]
+name = "rust"
+language-servers = ["rust-analyzer"]
+auto-format = true
+formatter = { command = "rustfmt", args = ["--emit", "stdout"] }
+
+[[language]]
+name = "bash"
+language-servers = ["bash-language-server"]
+auto-format = true
+formatter = { command = "shfmt", args = ["-filename", "file.sh"] }
+
+[[language]]
+name = "yaml"
+language-servers = ["yaml-language-server"]
+auto-format = true
+formatter = { command = "prettier", args = ["--stdin-filepath", "file.yaml"] }
+
+[[language]]
+name = "json"
+language-servers = ["vscode-json-languageserver"]
+auto-format = true
+formatter = { command = "prettier", args = ["--stdin-filepath", "file.json"] }
+
+[[language]]
+name = "markdown"
+language-servers = ["markdown-oxide"]
+auto-format = true
+formatter = { command = "prettier", args = ["--stdin-filepath", "file.md"] }
+
+[[language]]
+name = "latex"
+language-servers = ["texlab"]
+
+[[language]]
+name = "bibtex"
+language-servers = ["texlab"]
+
+[[language]]
+name = "toml"
+language-servers = ["taplo"]
+
+[[language]]
+name = "cmake"
+language-servers = ["cmake-language-server"]
+
+[[language]]
+name = "dockerfile"
+language-servers = ["docker-langserver"]
