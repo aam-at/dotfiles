@@ -155,11 +155,11 @@ Suggestions: %s
   (interactive)
   (browse-url
    (format "http://gateway.webofknowledge.com/gateway/Gateway.cgi?topic=%s&GWVersion=2&SrcApp=WEB&SrcAuth=HSB&DestApp=UA&DestLinkType=GeneralSearchSummary"
-    (if (region-active-p)
-	(mapconcat 'identity (split-string
-			      (buffer-substring (region-beginning)
-						(region-end))) "+")
-      (thing-at-point 'word)))))
+	   (if (region-active-p)
+	       (mapconcat 'identity (split-string
+				     (buffer-substring (region-beginning)
+						       (region-end))) "+")
+	     (thing-at-point 'word)))))
 
 
 (defun words-scopus ()
@@ -388,7 +388,7 @@ tell application \"System Events\"
 	tell process \"Finder\"
 		click menu item \"Find\" of menu \"File\" of menu bar 1
 		keystroke " (format "\"%s\"" query )
-		"
+		       "
 	end tell
 end tell")))
     (message "%s" applescript)
@@ -406,7 +406,7 @@ end tell")))
 ;; https://github.com/abo-abo/hydra
 
 (defhydra words-hydra (:color blue :hint nil)
-  "
+	  "
 words
 _d_: Dictionary  _g_: Google           _T_: Twitter _b_: Bibtex      _k_: Speak
 _t_: Thesaurus   _G_: Google Scholar   ^ ^          _f_: Mac finder  _r_: Translate
@@ -418,25 +418,25 @@ _s_: Spell       _c_: Crossref         ^ ^          _w_: swiper-all
 ^ ^              _o_: Semantic Scholar
 _q_: quit
 "
-  ("d" words-dictionary "dictionary")
-  ("t" words-thesaurus "thesaurus")
-  ("s" words-atd "spell/grammar")
-  ("g" words-google "google")
-  ("T" words-twitter "Twitter")
-  ("W" words-wos "Web of Science")
-  ("G" words-google-scholar "Google scholar")
-  ("c" words-crossref "CrossRef")
-  ("S" words-scopus "Scopus")
-  ("o" words-semantic-scholar "Semantic Scholar")
-  ("p" words-pubmed "Pubmed")
-  ("a" words-arxiv "Arxiv")
-  ("b" words-bibtex "bibtex")
-  ("f" words-finder "Mac Finder")
-  ("w" words-swiper-all "swiper-all")
-  ("M" words-mdfind "mdfind")
-  ("k" words-speak "Speak")
-  ("r" words-translate "Translate")
-  ("q" nil "cancel"))
+	  ("d" words-dictionary "dictionary")
+	  ("t" words-thesaurus "thesaurus")
+	  ("s" words-atd "spell/grammar")
+	  ("g" words-google "google")
+	  ("T" words-twitter "Twitter")
+	  ("W" words-wos "Web of Science")
+	  ("G" words-google-scholar "Google scholar")
+	  ("c" words-crossref "CrossRef")
+	  ("S" words-scopus "Scopus")
+	  ("o" words-semantic-scholar "Semantic Scholar")
+	  ("p" words-pubmed "Pubmed")
+	  ("a" words-arxiv "Arxiv")
+	  ("b" words-bibtex "bibtex")
+	  ("f" words-finder "Mac Finder")
+	  ("w" words-swiper-all "swiper-all")
+	  ("M" words-mdfind "mdfind")
+	  ("k" words-speak "Speak")
+	  ("r" words-translate "Translate")
+	  ("q" nil "cancel"))
 
 
 ;;; End:

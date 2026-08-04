@@ -75,72 +75,72 @@
     (spacemacs/declare-prefix "$c" "Copilot-Chat")
     ;; General Chat Management
     (spacemacs/set-leader-keys
-      "$cc" 'copilot-chat-switch-to-buffer        ; Switch to chat buffer
-      "$cr" 'copilot-chat-reset                   ; Reset chat state
-      "$cd" 'copilot-chat-display                 ; Display chat buffer
-      "$cM" 'copilot-chat-set-model) ; Set model for suggestions
+     "$cc" 'copilot-chat-switch-to-buffer        ; Switch to chat buffer
+     "$cr" 'copilot-chat-reset                   ; Reset chat state
+     "$cd" 'copilot-chat-display                 ; Display chat buffer
+     "$cM" 'copilot-chat-set-model) ; Set model for suggestions
     ;; Code Explanation
     (spacemacs/declare-prefix "$ce" "Code Explanation")
     (spacemacs/set-leader-keys
-      "$cee" 'copilot-chat-explain                 ; Explain selection
-      "$ceE" 'copilot-chat-explain-defun           ; Explain entire function
-      "$ces" 'copilot-chat-explain-symbol-at-line) ; Explain symbol at line
+     "$cee" 'copilot-chat-explain                 ; Explain selection
+     "$ceE" 'copilot-chat-explain-defun           ; Explain entire function
+     "$ces" 'copilot-chat-explain-symbol-at-line) ; Explain symbol at line
     ;; Code Improvement
     (spacemacs/declare-prefix "$ci" "Code Improvement")
     (spacemacs/set-leader-keys
-      "$cid" 'copilot-chat-doc                     ; Generate documentation
-      "$cif" 'copilot-chat-fix                     ; Fix code
-      "$cio" 'copilot-chat-optimize                ; Optimize code
-      "$cit" 'copilot-chat-test                   ; Test suggestions
-      "$cir" 'copilot-chat-review                  ; Review selection
-      "$cib" 'copilot-chat-review-whole-buffer)    ; Review whole buffer
+     "$cid" 'copilot-chat-doc                     ; Generate documentation
+     "$cif" 'copilot-chat-fix                     ; Fix code
+     "$cio" 'copilot-chat-optimize                ; Optimize code
+     "$cit" 'copilot-chat-test                   ; Test suggestions
+     "$cir" 'copilot-chat-review                  ; Review selection
+     "$cib" 'copilot-chat-review-whole-buffer)    ; Review whole buffer
     ;; Buffer Management
     (spacemacs/declare-prefix "$cb" "Buffer Management")
     (spacemacs/set-leader-keys
-      "$cba" 'copilot-chat-add-current-buffer      ; Add current buffer to chat
-      "$cbx" 'copilot-chat-del-current-buffer      ; Delete buffer from chat
-      "$cbl" 'copilot-chat-list)                   ; List managed buffers
+     "$cba" 'copilot-chat-add-current-buffer      ; Add current buffer to chat
+     "$cbx" 'copilot-chat-del-current-buffer      ; Delete buffer from chat
+     "$cbl" 'copilot-chat-list)                   ; List managed buffers
     ;; Custom Prompts
     (spacemacs/declare-prefix "$cp" "Custom Prompts")
     (spacemacs/set-leader-keys
-      "$cpp" 'copilot-chat-custom-prompt-selection ; Custom prompt selection
-      "$cpf" 'copilot-chat-custom-prompt-function  ; Custom prompt function
-      "$cpi" 'copilot-chat-ask-and-insert)         ; Insert prompt response
+     "$cpp" 'copilot-chat-custom-prompt-selection ; Custom prompt selection
+     "$cpf" 'copilot-chat-custom-prompt-function  ; Custom prompt function
+     "$cpi" 'copilot-chat-ask-and-insert)         ; Insert prompt response
     ;; Commit Management
     (spacemacs/declare-prefix "$cm" "Commit Management")
     (spacemacs/set-leader-keys
-      "$cmi" 'copilot-chat-insert-commit-message)   ; Generate commit message
+     "$cmi" 'copilot-chat-insert-commit-message)   ; Generate commit message
     ;; History Navigation
     (spacemacs/declare-prefix "$ch" "History Navigation")
     (spacemacs/set-leader-keys
-      "$chp" 'copilot-chat-prompt-history-previous ; Previous history
-      "$chn" 'copilot-chat-prompt-history-next)    ; Next history
+     "$chp" 'copilot-chat-prompt-history-previous ; Previous history
+     "$chn" 'copilot-chat-prompt-history-next)    ; Next history
     (dolist (mode '(copilot-chat-mode copilot-chat-shell-mode))
       (spacemacs/set-leader-keys-for-major-mode mode
-        "l" 'copilot-chat-prompt-split-and-list
-        "n" 'copilot-chat-prompt-history-next
-        "p" 'copilot-chat-prompt-history-previous
-        "r" 'copilot-chat-review
-        "d" 'copilot-chat-doc
-        "f" 'copilot-chat-fix
-        "o" 'copilot-chat-optimize
-        "t" 'copilot-chat-test
-        "q" 'bury-buffer))
+						"l" 'copilot-chat-prompt-split-and-list
+						"n" 'copilot-chat-prompt-history-next
+						"p" 'copilot-chat-prompt-history-previous
+						"r" 'copilot-chat-review
+						"d" 'copilot-chat-doc
+						"f" 'copilot-chat-fix
+						"o" 'copilot-chat-optimize
+						"t" 'copilot-chat-test
+						"q" 'bury-buffer))
     :config
     (let ((mode (if (eq copilot-chat-frontend "shell-maker")
                     'copilot-chat-shell-mode
                   'copilot-chat-mode)))
       (evilified-state-evilify-map (symbol-value (intern (concat (symbol-name mode) "-map")))
-        :mode mode
-        :bindings
-        (kbd "C-c q") 'ai-extras/bury-and-kill-buffer))
+				   :mode mode
+				   :bindings
+				   (kbd "C-c q") 'ai-extras/bury-and-kill-buffer))
     (evilified-state-evilify-map copilot-chat-list-mode-map
-      :mode copilot-chat-list-mode
-      :bindings
-      "RET" 'copilot-chat-list-add-or-remove-buffer
-      "C"   'copilot-chat-list-clear-buffers
-      "g"   'copilot-chat-list-refresh
-      "q"   'ai-extras/bury-and-kill-buffer)))
+				 :mode copilot-chat-list-mode
+				 :bindings
+				 "RET" 'copilot-chat-list-add-or-remove-buffer
+				 "C"   'copilot-chat-list-clear-buffers
+				 "g"   'copilot-chat-list-refresh
+				 "q"   'ai-extras/bury-and-kill-buffer)))
 
 (defun ai-extras/init-esi-dictate ()
   (use-package esi-dictate
@@ -150,7 +150,7 @@
     :hook (esi-dictate-speech-final . esi-dictate-fix-context)
     :init
     (spacemacs/set-leader-keys
-      "$d"' esi-dictate-start)
+     "$d"' esi-dictate-start)
     :config
     (setq llm-warn-on-nonfree nil)))
 
@@ -159,7 +159,7 @@
     :defer t
     :init
     (spacemacs/set-leader-keys
-      "$k" 'khoj)))
+     "$k" 'khoj)))
 
 (defun ai-extras/init-llm ())
 

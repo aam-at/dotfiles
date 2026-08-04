@@ -36,9 +36,9 @@
 
 (defun cpp-extras/post-init-clang-format()
   (spacemacs/set-leader-keys-for-major-mode 'c-mode
-    "=" 'c-c++/format-region-or-buffer)
+					    "=" 'c-c++/format-region-or-buffer)
   (spacemacs/set-leader-keys-for-major-mode 'c++-mode
-    "=" 'c-c++/format-region-or-buffer))
+					    "=" 'c-c++/format-region-or-buffer))
 
 (defun cpp-extras/init-doxymacs ()
   (use-package doxymacs

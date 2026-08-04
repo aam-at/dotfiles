@@ -87,19 +87,19 @@
 
   ;; Define the inner mode for the LaTeX comment environment
   (define-innermode poly-latex-comment-md-innermode
-    :mode 'markdown-mode
-    :head-mode 'host
-    :tail-mode 'host
-    :head-matcher "^[ \t]*\\\\begin{comment}.*$"
-    :tail-matcher "^[ \t]*\\\\end{comment}.*$"
-    :head-adjust-face nil
-    :body-indent-offset 0
-    :indent-offset 0)
+		    :mode 'markdown-mode
+		    :head-mode 'host
+		    :tail-mode 'host
+		    :head-matcher "^[ \t]*\\\\begin{comment}.*$"
+		    :tail-matcher "^[ \t]*\\\\end{comment}.*$"
+		    :head-adjust-face nil
+		    :body-indent-offset 0
+		    :indent-offset 0)
 
   (define-polymode poly-latex-mode
-    :hostmode 'poly-latex-hostmode
-    :innermodes '(poly-latex-comment-md-innermode)
-    (setq-local polymode-run-these-before-change-functions-in-other-buffers nil)
-    (setq-local polymode-run-these-after-change-functions-in-other-buffers nil)))
+		   :hostmode 'poly-latex-hostmode
+		   :innermodes '(poly-latex-comment-md-innermode)
+		   (setq-local polymode-run-these-before-change-functions-in-other-buffers nil)
+		   (setq-local polymode-run-these-after-change-functions-in-other-buffers nil)))
 
 (provide 'config-tex)

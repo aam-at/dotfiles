@@ -49,7 +49,7 @@
     :init
     (spacemacs/declare-prefix-for-mode 'latex-mode "T" "toggles")
     (spacemacs/set-leader-keys-for-major-mode 'latex-mode
-      "Tc" 'auctex-cont-latexmk-toggle)))
+					      "Tc" 'auctex-cont-latexmk-toggle)))
 
 (defun latex-extras/init-auctex-label-numbers()
   (use-package auctex-label-numbers
@@ -100,7 +100,7 @@
     :init
     (require 'texpresso)
     (spacemacs/set-leader-keys-for-major-mode 'latex-mode
-      "t" 'texpresso)))
+					      "t" 'texpresso)))
 
 (defun latex-extras/init-twauctex()
   (use-package twauctex

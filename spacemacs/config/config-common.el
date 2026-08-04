@@ -56,10 +56,10 @@
 
   ;; enable global activity watch (deferred to avoid blocking startup)
   (run-with-idle-timer 3 nil
-    (lambda ()
-      (when (check-localhost-port 5600)
-        (message "Enable global activity watch")
-        (global-activity-watch-mode))))
+		       (lambda ()
+			 (when (check-localhost-port 5600)
+			   (message "Enable global activity watch")
+			   (global-activity-watch-mode))))
 
   ;; basic programming settings
   (defun my-prog-settings()

@@ -30,16 +30,16 @@
     :init
     (spacemacs/declare-prefix "ah" "harpoon")
     (spacemacs/set-leader-keys
-      "ah." 'harpoon-quick-menu-hydra
-      "ahm" 'harpoon-toggle-quick-menu
-      "aha" 'harpoon-add-file
-      "ahd" 'harpoon-delete-item
-      "M-1" 'harpoon-go-to-1
-      "M-2" 'harpoon-go-to-2
-      "M-3" 'harpoon-go-to-3
-      "M-4" 'harpoon-go-to-4
-      "M-5" 'harpoon-go-to-5
-      "M-6" 'harpoon-go-to-6
-      "M-7" 'harpoon-go-to-7
-      "M-8" 'harpoon-go-to-8
-      "M-9" 'harpoon-go-to-9)))
+     "ah." 'harpoon-quick-menu-hydra
+     "ahm" 'harpoon-toggle-quick-menu
+     "aha" 'harpoon-add-file
+     "ahd" 'harpoon-delete-item
+     "M-1" 'harpoon-go-to-1
+     "M-2" 'harpoon-go-to-2
+     "M-3" 'harpoon-go-to-3
+     "M-4" 'harpoon-go-to-4
+     "M-5" 'harpoon-go-to-5
+     "M-6" 'harpoon-go-to-6
+     "M-7" 'harpoon-go-to-7
+     "M-8" 'harpoon-go-to-8
+     "M-9" 'harpoon-go-to-9)))

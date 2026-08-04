@@ -513,24 +513,24 @@ Key bindings:
   "Keymap for doxymacs minor mode.")
 
 (define-key doxymacs-mode-map "\C-cd?"
-  'doxymacs-lookup)
+	    'doxymacs-lookup)
 (define-key doxymacs-mode-map "\C-cdr"
-  'doxymacs-rescan-tags)
+	    'doxymacs-rescan-tags)
 
 (define-key doxymacs-mode-map "\C-cd\r"
-  'doxymacs-insert-command)
+	    'doxymacs-insert-command)
 (define-key doxymacs-mode-map "\C-cdf"
-  'doxymacs-insert-function-comment)
+	    'doxymacs-insert-function-comment)
 (define-key doxymacs-mode-map "\C-cdi"
-  'doxymacs-insert-file-comment)
+	    'doxymacs-insert-file-comment)
 (define-key doxymacs-mode-map "\C-cdm"
-  'doxymacs-insert-blank-multiline-comment)
+	    'doxymacs-insert-blank-multiline-comment)
 (define-key doxymacs-mode-map "\C-cds"
-  'doxymacs-insert-blank-singleline-comment)
+	    'doxymacs-insert-blank-singleline-comment)
 (define-key doxymacs-mode-map "\C-cd;"
-  'doxymacs-insert-member-comment)
+	    'doxymacs-insert-member-comment)
 (define-key doxymacs-mode-map "\C-cd@"
-  'doxymacs-insert-grouping-comments)
+	    'doxymacs-insert-grouping-comments)
 
 
 ;;;###autoload
@@ -663,8 +663,8 @@ Key bindings:
       (font-lock-add-keywords nil doxymacs-doxygen-keywords)
     ;; Use old-school way
     (let ((old (if (eq (car-safe font-lock-keywords) t)
-		 (cdr font-lock-keywords)
-	       font-lock-keywords)))
+		   (cdr font-lock-keywords)
+		 font-lock-keywords)))
       (setq font-lock-keywords (append old doxymacs-doxygen-keywords)))))
 
 
@@ -807,8 +807,8 @@ to comp-list."
 			(kill-buffer new-buffer)
 			(set-buffer currbuff)
 			(error (concat
-				  "Tag file " xml " not found."))))))
-		  (set-buffer currbuff))))
+				"Tag file " xml " not found."))))))
+		(set-buffer currbuff))))
       ;; Couldn't find this file in doxymacs-doxygen-dirs
       (error (concat "File " (buffer-file-name)
 		     " does not match any directories in"
@@ -1301,36 +1301,36 @@ where:
 ;; Default templates
 
 (defconst doxymacs-JavaDoc-blank-multiline-comment-template
- '("/**" > n "* " p > n "* " > n "*/" > n)
- "Default JavaDoc-style template for a blank multiline doxygen comment.")
+  '("/**" > n "* " p > n "* " > n "*/" > n)
+  "Default JavaDoc-style template for a blank multiline doxygen comment.")
 
 (defconst doxymacs-Qt-blank-multiline-comment-template
- '("//! " p > n "/*! " > n > n "*/" > n)
- "Default Qt-style template for a blank multiline doxygen comment.")
+  '("//! " p > n "/*! " > n > n "*/" > n)
+  "Default Qt-style template for a blank multiline doxygen comment.")
 
 (defconst doxymacs-C++-blank-multiline-comment-template
- '("///" > n "/// " p > n "///" > n)
- "Default C++-style template for a blank multiline doxygen comment.")
+  '("///" > n "/// " p > n "///" > n)
+  "Default C++-style template for a blank multiline doxygen comment.")
 
 (defconst doxymacs-C++!-blank-multiline-comment-template
- '("//!" > n "//! " p > n "//!" > n)
- "Default C++!-style template for a blank multiline doxygen comment.")
+  '("//!" > n "//! " p > n "//!" > n)
+  "Default C++!-style template for a blank multiline doxygen comment.")
 
 (defconst doxymacs-JavaDoc-blank-singleline-comment-template
- '("/// " > p)
- "Default JavaDoc-style template for a blank single line doxygen comment.")
+  '("/// " > p)
+  "Default JavaDoc-style template for a blank single line doxygen comment.")
 
 (defconst doxymacs-Qt-blank-singleline-comment-template
- '("//! " > p)
- "Default Qt-style template for a blank single line doxygen comment.")
+  '("//! " > p)
+  "Default Qt-style template for a blank single line doxygen comment.")
 
 (defconst doxymacs-C++-blank-singleline-comment-template
- '("/// " > p)
- "Default C++-style template for a blank single line doxygen comment.")
+  '("/// " > p)
+  "Default C++-style template for a blank single line doxygen comment.")
 
 (defconst doxymacs-C++!-blank-singleline-comment-template
- '("//! " > p)
- "Default C++!-style template for a blank single line doxygen comment.")
+  '("//! " > p)
+  "Default C++!-style template for a blank single line doxygen comment.")
 
 (defun doxymacs-doxygen-command-char ()
   (cond
@@ -1350,72 +1350,72 @@ where:
 	(list 'l " <" user-mail-address ">"))))
 
 (defconst doxymacs-JavaDoc-file-comment-template
- '("/**" > n
-   " * " (doxymacs-doxygen-command-char) "file   "
-   (if (buffer-file-name)
-       (file-name-nondirectory (buffer-file-name))
-     "") > n
-   " * " (doxymacs-doxygen-command-char) "author " (user-full-name)
-   (doxymacs-user-mail-address)
-   > n
-   " * " (doxymacs-doxygen-command-char) "date   " (current-time-string) > n
-   " * " > n
-   " * " (doxymacs-doxygen-command-char) "brief  " (p "Brief description of this file: ") > n
-   " * " > n
-   " * " p > n
-   " */" > n)
- "Default JavaDoc-style template for file documentation.")
+  '("/**" > n
+    " * " (doxymacs-doxygen-command-char) "file   "
+    (if (buffer-file-name)
+	(file-name-nondirectory (buffer-file-name))
+      "") > n
+    " * " (doxymacs-doxygen-command-char) "author " (user-full-name)
+    (doxymacs-user-mail-address)
+    > n
+    " * " (doxymacs-doxygen-command-char) "date   " (current-time-string) > n
+    " * " > n
+    " * " (doxymacs-doxygen-command-char) "brief  " (p "Brief description of this file: ") > n
+    " * " > n
+    " * " p > n
+    " */" > n)
+  "Default JavaDoc-style template for file documentation.")
 
 (defconst doxymacs-Qt-file-comment-template
- '("/*!" > n
-   " " (doxymacs-doxygen-command-char) "file   "
-   (if (buffer-file-name)
-       (file-name-nondirectory (buffer-file-name))
-     "") > n
-   " " (doxymacs-doxygen-command-char) "author " (user-full-name)
-   (doxymacs-user-mail-address)
-   > n
-   " " (doxymacs-doxygen-command-char) "date   " (current-time-string) > n
-   " " > n
-   " " (doxymacs-doxygen-command-char) "brief  " (p "Brief description of this file: ") > n
-   " " > n
-   " " p > n
-   "*/" > n)
- "Default Qt-style template for file documentation.")
+  '("/*!" > n
+    " " (doxymacs-doxygen-command-char) "file   "
+    (if (buffer-file-name)
+	(file-name-nondirectory (buffer-file-name))
+      "") > n
+    " " (doxymacs-doxygen-command-char) "author " (user-full-name)
+    (doxymacs-user-mail-address)
+    > n
+    " " (doxymacs-doxygen-command-char) "date   " (current-time-string) > n
+    " " > n
+    " " (doxymacs-doxygen-command-char) "brief  " (p "Brief description of this file: ") > n
+    " " > n
+    " " p > n
+    "*/" > n)
+  "Default Qt-style template for file documentation.")
 
 (defconst doxymacs-C++-file-comment-template
- '("///" > n
-   "/// " (doxymacs-doxygen-command-char) "file   "
-   (if (buffer-file-name)
-       (file-name-nondirectory (buffer-file-name))
-     "") > n
-   "/// " (doxymacs-doxygen-command-char) "author " (user-full-name)
-   (doxymacs-user-mail-address)
-   > n
-   "/// " (doxymacs-doxygen-command-char) "date   " (current-time-string) > n
-   "/// " > n
-   "/// " (doxymacs-doxygen-command-char) "brief  " (p "Brief description of this file: ") > n
-   "/// " > n
-   "/// " p > n
-   "///" > n)
- "Default C++-style template for file documentation.")
+  '("///" > n
+    "/// " (doxymacs-doxygen-command-char) "file   "
+    (if (buffer-file-name)
+	(file-name-nondirectory (buffer-file-name))
+      "") > n
+    "/// " (doxymacs-doxygen-command-char) "author " (user-full-name)
+    (doxymacs-user-mail-address)
+    > n
+    "/// " (doxymacs-doxygen-command-char) "date   " (current-time-string) > n
+    "/// " > n
+    "/// " (doxymacs-doxygen-command-char) "brief  " (p "Brief description of this file: ") > n
+    "/// " > n
+    "/// " p > n
+    "///" > n)
+  "Default C++-style template for file documentation.")
 
 (defconst doxymacs-C++!-file-comment-template
- '("//!" > n
-   "//! " (doxymacs-doxygen-command-char) "file   "
-   (if (buffer-file-name)
-       (file-name-nondirectory (buffer-file-name))
-     "") > n
-   "//! " (doxymacs-doxygen-command-char) "author " (user-full-name)
-   (doxymacs-user-mail-address)
-   > n
-   "//! " (doxymacs-doxygen-command-char) "date   " (current-time-string) > n
-   "//! " > n
-   "//! " (doxymacs-doxygen-command-char) "brief  " (p "Brief description of this file: ") > n
-   "//! " > n
-   "//! " p > n
-   "//!" > n)
- "Default C++!-style template for file documentation.")
+  '("//!" > n
+    "//! " (doxymacs-doxygen-command-char) "file   "
+    (if (buffer-file-name)
+	(file-name-nondirectory (buffer-file-name))
+      "") > n
+    "//! " (doxymacs-doxygen-command-char) "author " (user-full-name)
+    (doxymacs-user-mail-address)
+    > n
+    "//! " (doxymacs-doxygen-command-char) "date   " (current-time-string) > n
+    "//! " > n
+    "//! " (doxymacs-doxygen-command-char) "brief  " (p "Brief description of this file: ") > n
+    "//! " > n
+    "//! " p > n
+    "//!" > n)
+  "Default C++!-style template for file documentation.")
 
 
 (defun doxymacs-parm-tempo-element (parms)
@@ -1445,82 +1445,82 @@ where:
 
 
 (defconst doxymacs-JavaDoc-function-comment-template
- '((let ((next-func (doxymacs-find-next-func)))
-     (if next-func
-	 (list
-	  'l
-	  "/** " '> 'n
-	  " * " 'p '> 'n
-	  " *" '> 'n
-	  (doxymacs-parm-tempo-element (cdr (assoc 'args next-func)))
-	  (unless (string-match
-                   (regexp-quote (cdr (assoc 'return next-func)))
-                   doxymacs-void-types)
-	    '(l " *" > n " * " (doxymacs-doxygen-command-char)
-		"return " (p "Returns: ") > n))
-	  " */" '>)
-       (progn
-	 (error "Can't find next function declaration.")
-	 nil))))
- "Default JavaDoc-style template for function documentation.")
+  '((let ((next-func (doxymacs-find-next-func)))
+      (if next-func
+	  (list
+	   'l
+	   "/** " '> 'n
+	   " * " 'p '> 'n
+	   " *" '> 'n
+	   (doxymacs-parm-tempo-element (cdr (assoc 'args next-func)))
+	   (unless (string-match
+                    (regexp-quote (cdr (assoc 'return next-func)))
+                    doxymacs-void-types)
+	     '(l " *" > n " * " (doxymacs-doxygen-command-char)
+		 "return " (p "Returns: ") > n))
+	   " */" '>)
+	(progn
+	  (error "Can't find next function declaration.")
+	  nil))))
+  "Default JavaDoc-style template for function documentation.")
 
 (defconst doxymacs-Qt-function-comment-template
- '((let ((next-func (doxymacs-find-next-func)))
-     (if next-func
-	 (list
-	  'l
-	  "//! " 'p '> 'n
-	  "/*! " '> 'n
-	  " " '> 'n
-	  (doxymacs-parm-tempo-element (cdr (assoc 'args next-func)))
-	  (unless (string-match
-                   (regexp-quote (cdr (assoc 'return next-func)))
-                   doxymacs-void-types)
-	    '(l " " > n "  " (doxymacs-doxygen-command-char)
-		"return " (p "Returns: ") > n))
-	  " */" '>)
-       (progn
-	 (error "Can't find next function declaraton.")
-	 nil))))
- "Default Qt-style template for function documentation.")
+  '((let ((next-func (doxymacs-find-next-func)))
+      (if next-func
+	  (list
+	   'l
+	   "//! " 'p '> 'n
+	   "/*! " '> 'n
+	   " " '> 'n
+	   (doxymacs-parm-tempo-element (cdr (assoc 'args next-func)))
+	   (unless (string-match
+                    (regexp-quote (cdr (assoc 'return next-func)))
+                    doxymacs-void-types)
+	     '(l " " > n "  " (doxymacs-doxygen-command-char)
+		 "return " (p "Returns: ") > n))
+	   " */" '>)
+	(progn
+	  (error "Can't find next function declaraton.")
+	  nil))))
+  "Default Qt-style template for function documentation.")
 
 (defconst doxymacs-C++-function-comment-template
- '((let ((next-func (doxymacs-find-next-func)))
-     (if next-func
-	 (list
-	  'l
-	  "/// " 'p '> 'n
-	  "///" '> 'n
-	  (doxymacs-parm-tempo-element (cdr (assoc 'args next-func)))
-	  (unless (string-match
-                   (regexp-quote (cdr (assoc 'return next-func)))
-                   doxymacs-void-types)
-	    '(l "///" > n "/// " (doxymacs-doxygen-command-char)
-		"return " (p "Returns: ") > n))
-	  "///" '>)
-       (progn
-	 (error "Can't find next function declaraton.")
-	 nil))))
- "Default C++-style template for function documentation.")
+  '((let ((next-func (doxymacs-find-next-func)))
+      (if next-func
+	  (list
+	   'l
+	   "/// " 'p '> 'n
+	   "///" '> 'n
+	   (doxymacs-parm-tempo-element (cdr (assoc 'args next-func)))
+	   (unless (string-match
+                    (regexp-quote (cdr (assoc 'return next-func)))
+                    doxymacs-void-types)
+	     '(l "///" > n "/// " (doxymacs-doxygen-command-char)
+		 "return " (p "Returns: ") > n))
+	   "///" '>)
+	(progn
+	  (error "Can't find next function declaraton.")
+	  nil))))
+  "Default C++-style template for function documentation.")
 
 (defconst doxymacs-C++!-function-comment-template
- '((let ((next-func (doxymacs-find-next-func)))
-     (if next-func
-	 (list
-	  'l
-	  "//! " 'p '> 'n
-	  "//!" '> 'n
-	  (doxymacs-parm-tempo-element (cdr (assoc 'args next-func)))
-	  (unless (string-match
-                   (regexp-quote (cdr (assoc 'return next-func)))
-                   doxymacs-void-types)
-	    '(l "//!" > n "//! " (doxymacs-doxygen-command-char)
-		"return " (p "Returns: ") > n))
-	  "//!" '>)
-       (progn
-	 (error "Can't find next function declaraton.")
-	 nil))))
- "Default C++!-style template for function documentation.")
+  '((let ((next-func (doxymacs-find-next-func)))
+      (if next-func
+	  (list
+	   'l
+	   "//! " 'p '> 'n
+	   "//!" '> 'n
+	   (doxymacs-parm-tempo-element (cdr (assoc 'args next-func)))
+	   (unless (string-match
+                    (regexp-quote (cdr (assoc 'return next-func)))
+                    doxymacs-void-types)
+	     '(l "//!" > n "//! " (doxymacs-doxygen-command-char)
+		 "return " (p "Returns: ") > n))
+	   "//!" '>)
+	(progn
+	  (error "Can't find next function declaraton.")
+	  nil))))
+  "Default C++!-style template for function documentation.")
 
 (defun doxymacs-invalid-style ()
   "Warn the user that he has set `doxymacs-doxygen-style' to an invalid
@@ -1615,16 +1615,16 @@ the column given by `comment-column' (much like \\[indent-for-comment])."
 	 (skip (concat (regexp-quote starter) "*"))
 	 (ender (or doxymacs-member-comment-end
 		    (cond
-		       ((string= doxymacs-doxygen-style "JavaDoc")
-			" */")
-		       ((string= doxymacs-doxygen-style "Qt")
-			" */")
-		       ((string= doxymacs-doxygen-style "C++")
-			"")
-		       ((string= doxymacs-doxygen-style "C++!")
-			"")
-		       (t
-			(doxymacs-invalid-style))))))
+		     ((string= doxymacs-doxygen-style "JavaDoc")
+		      " */")
+		     ((string= doxymacs-doxygen-style "Qt")
+		      " */")
+		     ((string= doxymacs-doxygen-style "C++")
+		      "")
+		     ((string= doxymacs-doxygen-style "C++!")
+		      "")
+		     (t
+		      (doxymacs-invalid-style))))))
     (if empty
 	;; Insert a blank single-line comment on empty lines
 	(doxymacs-insert-blank-singleline-comment)
@@ -1673,29 +1673,29 @@ the column given by `comment-column' (much like \\[indent-for-comment])."
   "Inserts doxygen grouping comments around the current region."
   (interactive "*r")
   (let* ((starter  (or doxymacs-group-comment-start
-		      (cond
-		       ((string= doxymacs-doxygen-style "JavaDoc")
-			"//@{")
-		       ((string= doxymacs-doxygen-style "Qt")
-			"/*@{*/")
-		       ((string= doxymacs-doxygen-style "C++")
-			"/// @{")
-		       ((string= doxymacs-doxygen-style "C++!")
-			"//! @{")
-		       (t
-			(doxymacs-invalid-style)))))
+		       (cond
+			((string= doxymacs-doxygen-style "JavaDoc")
+			 "//@{")
+			((string= doxymacs-doxygen-style "Qt")
+			 "/*@{*/")
+			((string= doxymacs-doxygen-style "C++")
+			 "/// @{")
+			((string= doxymacs-doxygen-style "C++!")
+			 "//! @{")
+			(t
+			 (doxymacs-invalid-style)))))
 	 (ender (or doxymacs-group-comment-end
 		    (cond
-		       ((string= doxymacs-doxygen-style "JavaDoc")
-			"//@}")
-		       ((string= doxymacs-doxygen-style "Qt")
-			"/*@}*/")
-		       ((string= doxymacs-doxygen-style "C++")
-			"/// @}")
-		       ((string= doxymacs-doxygen-style "C++!")
-			"//! @}")
-		       (t
-			(doxymacs-invalid-style))))))
+		     ((string= doxymacs-doxygen-style "JavaDoc")
+		      "//@}")
+		     ((string= doxymacs-doxygen-style "Qt")
+		      "/*@}*/")
+		     ((string= doxymacs-doxygen-style "C++")
+		      "/// @}")
+		     ((string= doxymacs-doxygen-style "C++!")
+		      "//! @}")
+		     (t
+		      (doxymacs-invalid-style))))))
     (save-excursion
       (goto-char end)
       (end-of-line)
@@ -1849,10 +1849,10 @@ The argument list is a list of strings."
 
 	(let* ((func (buffer-substring (match-beginning 3) (match-end 3)))
 	       (args (buffer-substring (point) (progn
-                                                (backward-char 1)
-                                                (forward-list)
-                                                (backward-char 1)
-                                                (point))))
+                                                 (backward-char 1)
+                                                 (forward-list)
+                                                 (backward-char 1)
+                                                 (point))))
 	       (ret (cond
 		     ;; Return type specified
 		     ((match-beginning 1)
@@ -1883,6 +1883,6 @@ The argument list is a list of strings."
 	  (list (cons 'func func)
 		(cons 'args (doxymacs-extract-args-list args))
 		(cons 'return (doxymacs-core-string ret))))
-    nil)))
+      nil)))
 
 ;;; doxymacs.el ends here

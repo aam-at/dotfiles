@@ -43,46 +43,46 @@
 
   ;; proselint checker
   (flycheck-define-checker proselint
-    "A linter for prose."
-    :command ("proselint" source-inplace)
-    :error-patterns
-    ((warning line-start (file-name) ":" line ":" column ": "
-              (id (one-or-more (not (any " "))))
-              (message (one-or-more not-newline)
-                       (zero-or-more "\n" (any " ") (one-or-more not-newline)))
-              line-end))
-    :modes (text-mode latex-mode LaTeX-mode org-mode markdown-mode gfm-mode))
+			   "A linter for prose."
+			   :command ("proselint" source-inplace)
+			   :error-patterns
+			   ((warning line-start (file-name) ":" line ":" column ": "
+				     (id (one-or-more (not (any " "))))
+				     (message (one-or-more not-newline)
+					      (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+				     line-end))
+			   :modes (text-mode latex-mode LaTeX-mode org-mode markdown-mode gfm-mode))
   (add-to-list 'flycheck-checkers 'proselint)
 
   ;; textlint checker
   (flycheck-define-checker textlint
-    "A linter for textlint."
-    :command ("npx" "textlint"
-              "--config" "/home/amatyasko/.textlintrc"
-              "--format" "unix"
-              "--rule" "write-good"
-              "--rule" "no-start-duplicated-conjunction"
-              "--rule" "max-comma"
-              "--rule" "terminology"
-              "--rule" "period-in-list-item"
-              "--rule" "abbr-within-parentheses"
-              "--rule" "alex"
-              "--rule" "common-misspellings"
-              "--rule" "en-max-word-count"
-              "--rule" "diacritics"
-              "--rule" "stop-words"
-              "--plugin"
-              (eval
-               (if (derived-mode-p 'tex-mode)
-                   "latex"
-                 "@textlint/text"))
-              source-inplace)
-    :error-patterns
-    ((warning line-start (file-name) ":" line ":" column ": "
-              (message (one-or-more not-newline)
-                       (zero-or-more "\n" (any " ") (one-or-more not-newline)))
-              line-end))
-    :modes (text-mode latex-mode LaTeX-mode org-mode markdown-mode gfm-mode))
+			   "A linter for textlint."
+			   :command ("npx" "textlint"
+				     "--config" "/home/amatyasko/.textlintrc"
+				     "--format" "unix"
+				     "--rule" "write-good"
+				     "--rule" "no-start-duplicated-conjunction"
+				     "--rule" "max-comma"
+				     "--rule" "terminology"
+				     "--rule" "period-in-list-item"
+				     "--rule" "abbr-within-parentheses"
+				     "--rule" "alex"
+				     "--rule" "common-misspellings"
+				     "--rule" "en-max-word-count"
+				     "--rule" "diacritics"
+				     "--rule" "stop-words"
+				     "--plugin"
+				     (eval
+				      (if (derived-mode-p 'tex-mode)
+					  "latex"
+					"@textlint/text"))
+				     source-inplace)
+			   :error-patterns
+			   ((warning line-start (file-name) ":" line ":" column ": "
+				     (message (one-or-more not-newline)
+					      (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+				     line-end))
+			   :modes (text-mode latex-mode LaTeX-mode org-mode markdown-mode gfm-mode))
   (add-to-list 'flycheck-checkers 'textlint))
 
 (defun writing/init-flycheck-vale ()
@@ -118,11 +118,11 @@
     (add-hook 'text-mode-hook #'write-or-die-mode)
     (spacemacs/set-leader-keys "xD" #'write-or-die-mode)
     (spacemacs|add-toggle write-or-die
-      :status (eq write-or-die-state 1)
-      :on (write-or-die-go)
-      :off (write-or-die-stop)
-      :documentation "Activate `Write or Die!'"
-      :evil-leader "C-t d")))
+			  :status (eq write-or-die-state 1)
+			  :on (write-or-die-go)
+			  :off (write-or-die-stop)
+			  :documentation "Activate `Write or Die!'"
+			  :evil-leader "C-t d")))
 
 (defun writing/init-jinx()
   (use-package jinx
@@ -141,25 +141,25 @@
   :init
   (spacemacs/declare-prefix "St" "Thesaurus")
   (spacemacs/set-leader-keys
-    "Sts" 'powerthesaurus-lookup-synonyms-dwim
-    "Sta" 'powerthesaurus-lookup-antonyms-dwim
-    "Str" 'powerthesaurus-lookup-related-dwim
-    "Std" 'powerthesaurus-lookup-definitions-dwim
-    "Ste" 'powerthesaurus-lookup-sentences-dwim))
+   "Sts" 'powerthesaurus-lookup-synonyms-dwim
+   "Sta" 'powerthesaurus-lookup-antonyms-dwim
+   "Str" 'powerthesaurus-lookup-related-dwim
+   "Std" 'powerthesaurus-lookup-definitions-dwim
+   "Ste" 'powerthesaurus-lookup-sentences-dwim))
 
 (defun writing/init-le-thesaurus()
   :defer t
   :init
   (spacemacs/set-leader-keys
-    "Stl" 'le-thesaurus-get-synonyms
-    "StL" 'le-thesaurus-get-antonyms))
+   "Stl" 'le-thesaurus-get-synonyms
+   "StL" 'le-thesaurus-get-antonyms))
 
 (defun writing/init-mw-thesaurus()
   :defer t
   :init
   (add-hook 'variable-pitch-mode 'mw-thesaurus-mode)
   (spacemacs/set-leader-keys
-    "Stm" 'mw-thesaurus-lookup-dwim))
+   "Stm" 'mw-thesaurus-lookup-dwim))
 
 (defun writing/init-synosaurus()
   (use-package synosaurus
@@ -178,7 +178,7 @@
     :commands (words words-hydra/body)
     :init
     (spacemacs/set-leader-keys
-      "Sw" 'words-hydra/body)))
+     "Sw" 'words-hydra/body)))
 
 (defun writing/init-academic-phrases()
   :defer t)

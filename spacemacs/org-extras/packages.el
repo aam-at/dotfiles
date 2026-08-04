@@ -68,12 +68,12 @@
 (defun org-extras/post-init-org ()
   (spacemacs/declare-prefix-for-mode 'org-mode "S" "Scholar")
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "Sr" 'org-extras/remove-all-overlays
-    "Sy" 'org-extras/sort-entries-by-year
-    "SY" 'org-extras/filter-entries-by-year
-    "Sc" 'org-extras/sort-entries-by-citations
-    "SC" 'org-extras/filter-entries-by-citations
-    "Su" 'org-extras/citations-update-at-point)
+					    "Sr" 'org-extras/remove-all-overlays
+					    "Sy" 'org-extras/sort-entries-by-year
+					    "SY" 'org-extras/filter-entries-by-year
+					    "Sc" 'org-extras/sort-entries-by-citations
+					    "SC" 'org-extras/filter-entries-by-citations
+					    "Su" 'org-extras/citations-update-at-point)
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images
             'append))
 
@@ -95,20 +95,20 @@
     (require 'embark)
     ;; global keybindings
     (spacemacs/set-leader-keys
-      "aoCi" 'org-mru-clock-in
-      "aoCg" 'org-mru-clock-goto
-      "aoCs" 'org-mru-clock-select-recent-task)
+     "aoCi" 'org-mru-clock-in
+     "aoCg" 'org-mru-clock-goto
+     "aoCs" 'org-mru-clock-select-recent-task)
     ;; org-mode keybindings
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "Ci" 'org-mru-clock-in
-      "Cg" 'org-mru-clock-goto
-      "Cs" 'org-mru-clock-select-recent-task)
+					      "Ci" 'org-mru-clock-in
+					      "Cg" 'org-mru-clock-goto
+					      "Cs" 'org-mru-clock-select-recent-task)
     (setq org-mru-clock-how-many 100)
     (add-hook 'minibuffer-setup-hook #'org-mru-clock-embark-minibuffer-hook)))
 
 (defun org-extras/post-init-org-transclusion ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "uf" #'org-extras/convert-org-id-link-to-file-link))
+					    "uf" #'org-extras/convert-org-id-link-to-file-link))
 
 (defun org-extras/init-ob-async ()
   :defer t
@@ -123,23 +123,23 @@
     (require 'org-gcal)
     (spacemacs/declare-prefix "aog" "gcal")
     (spacemacs/set-leader-keys
-      "aogs" 'org-gcal-sync
-      "aogf" 'org-gcal-fetch
-      "aogp" 'org-gcal-post-at-point
-      "aogr" 'org-gcal-refresh-token)
+     "aogs" 'org-gcal-sync
+     "aogf" 'org-gcal-fetch
+     "aogp" 'org-gcal-post-at-point
+     "aogr" 'org-gcal-refresh-token)
     (spacemacs/declare-prefix-for-mode 'org-mode "mg" "gcal")
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "gs" 'org-gcal-sync
-      "gf" 'org-gcal-fetch
-      "gp" 'org-gcal-post-at-point
-      "gr" 'org-gcal-refresh-token))
+					      "gs" 'org-gcal-sync
+					      "gf" 'org-gcal-fetch
+					      "gp" 'org-gcal-post-at-point
+					      "gr" 'org-gcal-refresh-token))
   :config
   (setq org-gcal-dir (concat spacemacs-cache-directory "org-gcal")))
 
 (defun org-extras/post-init-org-ref ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "ir" 'org-ref-helm-insert-ref-link
-    "iR" 'org-ref-helm-insert-label-link)
+					    "ir" 'org-ref-helm-insert-ref-link
+					    "iR" 'org-ref-helm-insert-label-link)
   (require 'org-ref)
   ;; optional but very useful libraries from org-ref
   (require 'openalex)
@@ -168,51 +168,51 @@
     :init
     (require 'delve-minor-mode)
     (evilified-state-evilify-map delve-mode-map
-      :mode delve-mode
-      :bindings
-      (kbd "RET") 'delve--key--toggle-preview
-      (kbd "+") 'delve--key--add-tags
-      (kbd "-") 'delve--key--remove-tags
-      (kbd "T") 'delve--key--insert-node-by-tags
-      (kbd "b") 'delve--key--backlinks
-      (kbd "c") 'delve--key--collect-into-buffer
-      (kbd "f") 'delve--key--fromlinks
-      (kbd "g") 'delve--key--refresh
-      (kbd "h") 'delve--key--insert-heading
-      (kbd "i") 'delve--key--insert-query-or-pile
-      (kbd "n") 'delve--node-transient-key
-      (kbd "o") 'delve--key--open-zettel
-      (kbd "p") 'delve--key--collect-into-pile
-      (kbd "q") 'bury-buffer
-      (kbd "s") 'delve--key--sort
-      (kbd "t") 'delve--key--insert-tagged
-      (kbd "v") 'delve-compact-view-mode
-      (kbd "C-<left>") 'delve--key--backlinks
-      (kbd "C-<return>") 'delve--key--open-zettel
-      (kbd "C-<right>") 'delve--key--fromlinks
-      (kbd "<delete>") 'delve--key--multi-delete)
+				 :mode delve-mode
+				 :bindings
+				 (kbd "RET") 'delve--key--toggle-preview
+				 (kbd "+") 'delve--key--add-tags
+				 (kbd "-") 'delve--key--remove-tags
+				 (kbd "T") 'delve--key--insert-node-by-tags
+				 (kbd "b") 'delve--key--backlinks
+				 (kbd "c") 'delve--key--collect-into-buffer
+				 (kbd "f") 'delve--key--fromlinks
+				 (kbd "g") 'delve--key--refresh
+				 (kbd "h") 'delve--key--insert-heading
+				 (kbd "i") 'delve--key--insert-query-or-pile
+				 (kbd "n") 'delve--node-transient-key
+				 (kbd "o") 'delve--key--open-zettel
+				 (kbd "p") 'delve--key--collect-into-pile
+				 (kbd "q") 'bury-buffer
+				 (kbd "s") 'delve--key--sort
+				 (kbd "t") 'delve--key--insert-tagged
+				 (kbd "v") 'delve-compact-view-mode
+				 (kbd "C-<left>") 'delve--key--backlinks
+				 (kbd "C-<return>") 'delve--key--open-zettel
+				 (kbd "C-<right>") 'delve--key--fromlinks
+				 (kbd "<delete>") 'delve--key--multi-delete)
     (spacemacs/set-leader-keys-for-major-mode 'delve-mode
-      "+" 'delve--key--add-tags
-      "-" 'delve--key--remove-tags
-      "T" 'delve--key--insert-node-by-tags
-      "b" 'delve--key--backlinks
-      "c" 'delve--key--collect-into-buffer
-      "f" 'delve--key--fromlinks
-      "g" 'delve--key--refresh
-      "h" 'delve--key--insert-heading
-      "i" 'delve--key--insert-query-or-pile
-      "n" 'delve--node-transient-key
-      "o" 'delve--key--open-zettel
-      "p" 'delve--key--collect-into-pile
-      "q" 'bury-buffer
-      "s" 'delve--key--sort
-      "t" 'delve--key--insert-tagged
-      "v" 'delve-compact-view-mode)
+					      "+" 'delve--key--add-tags
+					      "-" 'delve--key--remove-tags
+					      "T" 'delve--key--insert-node-by-tags
+					      "b" 'delve--key--backlinks
+					      "c" 'delve--key--collect-into-buffer
+					      "f" 'delve--key--fromlinks
+					      "g" 'delve--key--refresh
+					      "h" 'delve--key--insert-heading
+					      "i" 'delve--key--insert-query-or-pile
+					      "n" 'delve--node-transient-key
+					      "o" 'delve--key--open-zettel
+					      "p" 'delve--key--collect-into-pile
+					      "q" 'bury-buffer
+					      "s" 'delve--key--sort
+					      "t" 'delve--key--insert-tagged
+					      "v" 'delve-compact-view-mode)
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "Dd" 'delve
-      "Dc" 'delve-minor-mode-collect-actions
-      "De" 'delve-minor-mode-edit-actions
-      "Di" 'delve-minor-mode-inspect-actions)
+					      "Dd" 'delve
+					      "Dc" 'delve-minor-mode-collect-actions
+					      "De" 'delve-minor-mode-edit-actions
+					      "Di" 'delve-minor-mode-inspect-actions)
     :config
     (spacemacs|diminish delve-minor-mode " ⓓ" " D")
     (delve-global-minor-mode +1)))
@@ -223,8 +223,8 @@
     :commands (org-similarity-sidebuffer org-similarity-query)
     :init
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "Ss" 'org-similarity-sidebuffer
-      "Sq" 'org-similarity-query)
+					      "Ss" 'org-similarity-sidebuffer
+					      "Sq" 'org-similarity-query)
     :config
     (setq org-similarity-directory org-directory
           org-similarity-file-extension-pattern "*.org"
