@@ -5,7 +5,7 @@
     - [cd bash/bashmarks && make install, Install bashmarks]
     - [
         chmod +x scripts/*.sh && mkdir -p ~/.local/bin && ln -frs scripts/*
-          ~/.local/bin/,
+        ~/.local/bin/,
         Link scripts,
       ]
     - [

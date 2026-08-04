@@ -71,6 +71,7 @@ packages=(
   "bash-language-server"
   "bibtex-tidy"
   "cline"
+  "dockerfile-language-server-nodejs"
   "js-beautify"
   "openclaw"
   "opencode-ai@latest"

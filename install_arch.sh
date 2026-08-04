@@ -45,16 +45,16 @@ install_packages \
   iputils jansson jbig2dec jq keychain kitty lazygit leptonica libevent libffi \
   libgccjit libjpeg-turbo libmupdf libpng libsecret libtiff libvoikko libvterm \
   libxcb libxcomposite libxcursor libxfixes libxi libxkbcommon libxmu libxpm \
-  llvm lynx make mc meson mosh mujs mupdf mupdf-tools ncdu ncurses neovim \
-  net-tools nnn notmuch nuspell openblas openconnect openssh openssl p7zip \
-  pandoc parallel pass pdfgrep pdfpc pdftk peco pinentry poppler poppler-glib \
-  powerline-fonts procs python python-pip python-pipx python-pyopenssl qps \
-  ranger readline ripgrep ruby screen sdl2 shellcheck sndio sqlite sqlite stow \
-  systemd texinfo the_silver_searcher thunar thunar-archive-plugin tig tk tmux \
-  trash-cli tree-sitter tree-sitter ttf-fira-code ttf-jetbrains-mono unrar vale \
-  webkit2gtk wget wmctrl xapian-core xdg-desktop-portal-hyprland xdg-utils \
-  xfce4-settings xh xz zathura zathura-djvu zathura-pdf-poppler zed zellij \
-  zenity zlib-ng zoxide
+  lldb llvm lynx make mc meson mosh mujs mupdf mupdf-tools ncdu ncurses \
+  neovim net-tools nnn notmuch nuspell openblas openconnect openssh openssl \
+  p7zip pandoc parallel pass pdfgrep pdfpc pdftk peco pinentry poppler \
+  poppler-glib powerline-fonts procs python python-pip python-pipx \
+  python-pyopenssl qps ranger readline ripgrep ruby screen sdl2 shellcheck shfmt \
+  sndio sqlite sqlite stow systemd taplo texinfo the_silver_searcher thunar \
+  thunar-archive-plugin tig tk tmux trash-cli tree-sitter tree-sitter \
+  ttf-fira-code ttf-jetbrains-mono unrar vale webkit2gtk wget wmctrl xapian-core \
+  xdg-desktop-portal-hyprland xdg-utils xfce4-settings xh xz zathura \
+  zathura-djvu zathura-pdf-poppler zed zellij zenity zlib-ng zoxide
 
 # install git tools
 install_packages \

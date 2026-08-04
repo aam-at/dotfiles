@@ -18,6 +18,8 @@ cargo install --locked cargo-binstall cargo-edit cargo-outdated
 # Reuse cargo-binstall to install the wider toolchain.
 if command -v cargo-binstall >/dev/null 2>&1; then
   cargo binstall -y kanata tealdeer
+
+  cargo binstall --git 'https://github.com/feel-ix-343/markdown-oxide' markdown-oxide
 else
   echo "cargo-binstall not found on PATH; skipping cargo binstall packages." >&2
 fi

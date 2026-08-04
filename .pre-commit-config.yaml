@@ -6,3 +6,21 @@ repos:
         entry: fish_indent -w
         language: system
         files: \.fish$
+      - id: prettier-data
+        name: prettier (YAML and JSON)
+        entry: prettier --write
+        language: system
+        files: \.(ya?ml|json)$
+      - id: shfmt
+        name: shfmt (Bash)
+        entry: shfmt -w -i 2
+        language: system
+        files: (^|/)(bashrc|bash_profile|profile|[^/]+\.(bash|sh))$
+      - id: emacs-lisp-indent
+        name: Emacs Lisp indentation
+        entry: >-
+          emacs --batch --quick --eval '(dolist (file command-line-args-left)
+          (find-file file) (emacs-lisp-mode) (indent-region (point-min)
+          (point-max)) (save-buffer))'
+        language: system
+        files: \.(el|elisp|lisp)$
