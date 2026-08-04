@@ -24,8 +24,8 @@ DAYS must be a positive integer greater than 1."
   "Copy the titles of all org-elements in the selected buffer to the clipboard."
   (interactive)
   (let ((elements (org-element-map (org-element-parse-buffer 'objects) 'headline
-                    (lambda (hl)
-                      (org-element-property :title hl)))))
+				   (lambda (hl)
+				     (org-element-property :title hl)))))
     (kill-new (mapconcat 'identity elements "\n"))))
 
 (defun org-extras/narrow-to-subtree ()
@@ -72,12 +72,12 @@ DAYS must be a positive integer greater than 1."
   "Change properties for Org-Attach."
   (interactive)
   (org-with-point-at 1
-    (while (outline-next-heading)
-      (let ((DIR (org--property-local-values "ATTACH_DIR" nil)))
-        (when DIR
-          (org-set-property "DIR" (car DIR))
-          (org-delete-property "ATTACH_DIR"))))
-    (org-delete-property-globally "ATTACH_DIR_INHERIT")))
+		     (while (outline-next-heading)
+		       (let ((DIR (org--property-local-values "ATTACH_DIR" nil)))
+			 (when DIR
+			   (org-set-property "DIR" (car DIR))
+			   (org-delete-property "ATTACH_DIR"))))
+		     (org-delete-property-globally "ATTACH_DIR_INHERIT")))
 
 (defun org-extras/get-active-headline-files (file)
   "Get all active projects from the index file."
@@ -87,14 +87,14 @@ DAYS must be a positive integer greater than 1."
        (cl-remove-if-not
         #'identity
         (org-element-map parsetree 'headline
-          (lambda (headline)
-            (when (and (= (org-element-property :level headline) 2)
-                       (not (member "ARCHIVE" (org-get-tags headline)))
-                       (member "ACTIVE" (org-get-tags headline)))
-              (let ((uuid (org-extras/id--extract-uuid
-                           (org-element-property :raw-value headline))))
-                (when uuid
-                  (car (org-id-find uuid))))))))))))
+			 (lambda (headline)
+			   (when (and (= (org-element-property :level headline) 2)
+				      (not (member "ARCHIVE" (org-get-tags headline)))
+				      (member "ACTIVE" (org-get-tags headline)))
+			     (let ((uuid (org-extras/id--extract-uuid
+					  (org-element-property :raw-value headline))))
+			       (when uuid
+				 (car (org-id-find uuid))))))))))))
 
 ;; https://github.com/munen/emacs.d#convenience-functions-when-working-with-pdf-exports
 (defun update-other-buffer ()
@@ -438,7 +438,7 @@ RETRY-SECONDS seconds."
           (if (eq buffer :request-error)
               nil
             (if (not buffer)
-              (setq last-error-message "Semantic Scholar request returned no response")
+		(setq last-error-message "Semantic Scholar request returned no response")
               (unwind-protect
                   (with-current-buffer buffer
                     (goto-char (point-min))

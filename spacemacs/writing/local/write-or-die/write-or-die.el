@@ -66,22 +66,22 @@ displayed"
 ;; Working variables:
 (defvar write-or-die-mode-text " ☠")
 
-; state = 0: off
-; state = 1: on and going well
-; state = 2: warning
-; state = 3: Zap!!
+;; state = 0: off
+;; state = 1: on and going well
+;; state = 2: warning
+;; state = 3: Zap!!
 (defvar write-or-die-state 0)
 
-; number of words when 'write-or-die-go' most recently called
+;; number of words when 'write-or-die-go' most recently called
 (defvar write-or-die-num-words-begin 0)
 
-; timers:
-;  write-or-die-timer:
-;     how long since 'w-o-d-go' called, with w-o-d-state = 0
-;  write-or-die-warning-timer:
-;     sets the state to 2 when w-o-d-warning-period seconds pass while idle.
-;  write-or-die-grace-timer:
-;     sets the state to 3 when w-o-d-grace-period seconds pass while idle.
+;; timers:
+;;  write-or-die-timer:
+;;     how long since 'w-o-d-go' called, with w-o-d-state = 0
+;;  write-or-die-warning-timer:
+;;     sets the state to 2 when w-o-d-warning-period seconds pass while idle.
+;;  write-or-die-grace-timer:
+;;     sets the state to 3 when w-o-d-grace-period seconds pass while idle.
 (defvar write-or-die-timer nil)
 (defvar write-or-die-warning-timer nil)
 (defvar write-or-die-grace-timer nil)
@@ -125,24 +125,24 @@ warning routine or stimulus routine."
   )
 
 (defun word-count nil
-       "Count words in buffer"
-       ;;Adapted from replace.el - Tehom
-       (let
-	  ((regexp "\\w+")
-	     (rend (point-max)))
-	  (save-excursion
-	     (goto-char (point-min))
-	     (let ((count 0)
-		     opoint)
-		(while (and
-			  (< (point) rend)
-			  (progn
-			     (setq opoint (point))
-			     (re-search-forward regexp rend t)))
-		   (if (= opoint (point))
-		      (forward-char 1)
-		      (setq count (1+ count))))
-		count))))
+  "Count words in buffer"
+  ;;Adapted from replace.el - Tehom
+  (let
+      ((regexp "\\w+")
+       (rend (point-max)))
+    (save-excursion
+      (goto-char (point-min))
+      (let ((count 0)
+	    opoint)
+	(while (and
+		(< (point) rend)
+		(progn
+		  (setq opoint (point))
+		  (re-search-forward regexp rend t)))
+	  (if (= opoint (point))
+	      (forward-char 1)
+	    (setq count (1+ count))))
+	count))))
 
 (defun write-or-die-go ()
   "Start incentivised writing!"
@@ -175,11 +175,11 @@ warning routine or stimulus routine."
   (cancel-timer write-or-die-grace-timer)
   (modify-frame-parameters nil '((background-color . "White")))
   (write-or-die-update)
-)
+  )
 
 (defun write-or-die-warning ()
   (modify-frame-parameters nil '((background-color . "Red")))
-)
+  )
 
 (defun write-or-die-stimulus ()
   (backward-kill-word 1))

@@ -130,7 +130,7 @@ DELTA should be less than the window's height."
 	 (start win-start))
     (if (<= delta current-vs)	    ; simple case: just reduce vscroll
 	(setq delta (- current-vs delta))
-      ; Not enough vscroll: measure size above window-start
+      ;; Not enough vscroll: measure size above window-start
       (let* ((dims (window-text-pixel-size nil (cons start (- current-vs delta))
 					   start nil nil nil t))
 	     (pos (nth 2 dims))
@@ -270,7 +270,7 @@ will be replayed for left/right touch ends."
 			   ultra-scroll-mac-multiplier))))
 	(ultra-scroll--scroll (round delta) (mwheel-event-window event))))))
 
-; scroll-isearch support
+;; scroll-isearch support
 (put 'ultra-scroll 'scroll-command t)
 (put 'ultra-scroll-mac 'scroll-command t)
 

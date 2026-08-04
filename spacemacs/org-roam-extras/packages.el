@@ -48,26 +48,26 @@
   (require 'org-roam-protocol)
   (add-to-list 'org-modules 'org-roam-protocol)
   (spacemacs/set-leader-keys
-    "aorT" 'org-roam-extras/org-toggle-properties)
+   "aorT" 'org-roam-extras/org-toggle-properties)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "rT" 'org-roam-extras/org-toggle-properties))
+					    "rT" 'org-roam-extras/org-toggle-properties))
 
 (defun org-roam-extras/init-vulpea()
   (use-package vulpea
     :after org-roam
     :init
     (spacemacs/set-leader-keys
-      "aorf" 'vulpea-find
-      "aorF" 'org-roam-node-find
-      "aori" 'vulpea-insert
-      "aorI" 'org-roam-node-insert
-      "aorb" 'vulpea-find-backlink)
+     "aorf" 'vulpea-find
+     "aorF" 'org-roam-node-find
+     "aori" 'vulpea-insert
+     "aorI" 'org-roam-node-insert
+     "aorb" 'vulpea-find-backlink)
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "rf" 'vulpea-find
-      "rF" 'org-roam-node-find
-      "ri" 'vulpea-insert
-      "rI" 'org-roam-node-insert
-      "rb" 'vulpea-find-backlink)))
+					      "rf" 'vulpea-find
+					      "rF" 'org-roam-node-find
+					      "ri" 'vulpea-insert
+					      "rI" 'org-roam-node-insert
+					      "rb" 'vulpea-find-backlink)))
 
 (defun org-roam-extras/init-websocket ()
   (use-package websocket

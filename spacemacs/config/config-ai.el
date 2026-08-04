@@ -128,102 +128,102 @@
   ;; gptel settings
   (setq gptel-model "llama3.1:8b-instruct"
         gptel-backend (gptel-make-ollama "Ollama"
-                        :host "localhost:11434"
-                        :stream t
-                        :models '("llama3.1:8b-instruct-q8_0"))
+					 :host "localhost:11434"
+					 :stream t
+					 :models '("llama3.1:8b-instruct-q8_0"))
         gptel-log-level 'nil
         gptel-default-mode 'org-mode
         gptel-expert-commands t
         gptel-org-branching-context t)
   (gptel-make-openai "OpenAI"
-    :stream t
-    :key openai-api-key
-    :models '("gpt-4o-mini"
-              "gpt-4o"
-              "gpt-4o-2024-08-06"
-              "o1-preview"
-              "o1-mini"))
+		     :stream t
+		     :key openai-api-key
+		     :models '("gpt-4o-mini"
+			       "gpt-4o"
+			       "gpt-4o-2024-08-06"
+			       "o1-preview"
+			       "o1-mini"))
   (gptel-make-ollama "Ollama"
-    :host "localhost:11434"
-    :stream t
-    :models '("gemma2:9b"
-              "gemma2:9b-instruct-q6_K"
-              "glm4:9b"
-              "llama3.1:8b"
-              "llama3.1:8b-instruct-q8_0"
-              "phi3:3.8b"
-              "phi3:14b"
-              "wizardlm2:7b"
-              "wizardlm2:8x22b"
-              "command-r"
-              "command-r-plus"))
+		     :host "localhost:11434"
+		     :stream t
+		     :models '("gemma2:9b"
+			       "gemma2:9b-instruct-q6_K"
+			       "glm4:9b"
+			       "llama3.1:8b"
+			       "llama3.1:8b-instruct-q8_0"
+			       "phi3:3.8b"
+			       "phi3:14b"
+			       "wizardlm2:7b"
+			       "wizardlm2:8x22b"
+			       "command-r"
+			       "command-r-plus"))
   (gptel-make-gemini "Gemini"
-    :key gemini-api-key
-    :stream t
-    :models '("gemini-1.0-pro"
-              "gemini-1.5-pro"
-              "gemini-1.5-flash"))
+		     :key gemini-api-key
+		     :stream t
+		     :models '("gemini-1.0-pro"
+			       "gemini-1.5-pro"
+			       "gemini-1.5-flash"))
   (gptel-make-openai "Github Models"
-    :host "models.inference.ai.azure.com"
-    :endpoint "/chat/completions"
-    :stream t
-    :key github-api-key
-    :models '("DeepSeek-R1"
-              "gpt-4o"
-              "gpt-4o-mini"
-              "Llama-3.3-70B-Instruct"
-              "o1-mini"
-              "o1-preview"))
+		     :host "models.inference.ai.azure.com"
+		     :endpoint "/chat/completions"
+		     :stream t
+		     :key github-api-key
+		     :models '("DeepSeek-R1"
+			       "gpt-4o"
+			       "gpt-4o-mini"
+			       "Llama-3.3-70B-Instruct"
+			       "o1-mini"
+			       "o1-preview"))
   (gptel-make-openai "OpenRouter"
-    :host "openrouter.ai"
-    :endpoint "/api/v1/chat/completions"
-    :stream t
-    :key openrouter-api-key
-    :models '("anthropic/claude-3.5-sonnet"
-              "deepseek/deepseek-r1:free"
-              "deepseek/deepseek-r1"
-              "google/gemini-pro-1.5-exp"
-              "openai/gpt-4o-mini"
-              "openai/gpt-4o"
-              "openai/gpt-4o-2024-08-06"
-              "openai/o1-mini"
-              "openai/o1-preview"
-              "perplexity/llama-3.1-sonar-huge-128k-online"
-              "perplexity/llama-3.1-sonar-large-128k-online"
-              "perplexity/llama-3.1-sonar-small-128k-online"))
+		     :host "openrouter.ai"
+		     :endpoint "/api/v1/chat/completions"
+		     :stream t
+		     :key openrouter-api-key
+		     :models '("anthropic/claude-3.5-sonnet"
+			       "deepseek/deepseek-r1:free"
+			       "deepseek/deepseek-r1"
+			       "google/gemini-pro-1.5-exp"
+			       "openai/gpt-4o-mini"
+			       "openai/gpt-4o"
+			       "openai/gpt-4o-2024-08-06"
+			       "openai/o1-mini"
+			       "openai/o1-preview"
+			       "perplexity/llama-3.1-sonar-huge-128k-online"
+			       "perplexity/llama-3.1-sonar-large-128k-online"
+			       "perplexity/llama-3.1-sonar-small-128k-online"))
 
   (gptel-make-openai "TogetherAI"
-    :host "api.together.xyz"
-    :key together-ai-api-key
-    :stream t
-    :models '("meta-llama/Llama-3-8b-chat-hf"
-              "meta-llama/Llama-3-70b-chat-hf"
-              "microsoft/WizardLM-2-8x22B"))
+		     :host "api.together.xyz"
+		     :key together-ai-api-key
+		     :stream t
+		     :models '("meta-llama/Llama-3-8b-chat-hf"
+			       "meta-llama/Llama-3-70b-chat-hf"
+			       "microsoft/WizardLM-2-8x22B"))
 
   (gptel-make-openai "Groq"
-    :host "api.groq.com"
-    :endpoint "/openai/v1/chat/completions"
-    :stream t
-    :key groq-api-key
-    :models '("deepseek-r1-distill-llama-70b"
-              "llama-3.3-70b-versatile"
-              "llama-3.1-8b-instant"))
+		     :host "api.groq.com"
+		     :endpoint "/openai/v1/chat/completions"
+		     :stream t
+		     :key groq-api-key
+		     :models '("deepseek-r1-distill-llama-70b"
+			       "llama-3.3-70b-versatile"
+			       "llama-3.1-8b-instant"))
 
   (gptel-make-openai "Deepinfra"
-    :host "api.deepinfra.com"
-    :endpoint "/v1/openai/chat/completions"
-    :stream t
-    :key deepinfra-api-key
-    :models '("meta-llama/Meta-Llama-3.1-405B-Instruct"
-              "meta-llama/Meta-Llama-3.1-70B-Instruct"
-              "meta-llama/Meta-Llama-3.1-8B-Instruct"))
+		     :host "api.deepinfra.com"
+		     :endpoint "/v1/openai/chat/completions"
+		     :stream t
+		     :key deepinfra-api-key
+		     :models '("meta-llama/Meta-Llama-3.1-405B-Instruct"
+			       "meta-llama/Meta-Llama-3.1-70B-Instruct"
+			       "meta-llama/Meta-Llama-3.1-8B-Instruct"))
 
   (gptel-make-openai "Deepseek"
-    :host "api.deepseek.com"
-    :key deepseek-api-key
-    :stream t
-    :models '("deepseek-chat"
-              "deepseek-coder"))
+		     :host "api.deepseek.com"
+		     :key deepseek-api-key
+		     :stream t
+		     :models '("deepseek-chat"
+			       "deepseek-coder"))
   ;; llm settings
   ;; (setq magit-gptcommit-llm-provider
   ;;       (make-llm-ollama :embedding-model "nomic-embed-text:latest"

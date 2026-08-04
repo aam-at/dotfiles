@@ -146,157 +146,157 @@
 (load! "../spacemacs/cpp-extras/funcs")
 
 (use-package! keychain-environment
-  :config
-  (keychain-refresh-environment))
+	      :config
+	      (keychain-refresh-environment))
 
 (use-package! gcmh
-  :config
-  (gcmh-mode 1))
+	      :config
+	      (gcmh-mode 1))
 
 (use-package! direnv
-  :config
-  (direnv-mode))
+	      :config
+	      (direnv-mode))
 
 (use-package! fish-completion
-  :if (executable-find "fish")
-  :config
-  (global-fish-completion-mode))
+	      :if (executable-find "fish")
+	      :config
+	      (global-fish-completion-mode))
 
 (use-package! popper
-  :bind (("C-`" . popper-toggle)
-         ("M-`" . popper-cycle)
-         ("C-M-`" . popper-toggle-type))
-  :init
-  (setq popper-group-function #'popper-group-by-directory
-        popper-reference-buffers
-        '("\\*Messages\\*"
-          "Output\\*$"
-          "^\\*Python\\*$" inferior-python-mode
-          "\\*Async Shell Command\\*"
-          "^\\*eshell.*\\*$" eshell-mode
-          "^\\*shell.*\\*$" shell-mode
-          "^\\*term.*\\*$" term-mode
-          "^\\*vterm.*\\*$" vterm-mode
-          flycheck-error-list-mode
-          help-mode
-          compilation-mode))
-  :config
-  (popper-mode 1)
-  (popper-echo-mode 1))
+	      :bind (("C-`" . popper-toggle)
+		     ("M-`" . popper-cycle)
+		     ("C-M-`" . popper-toggle-type))
+	      :init
+	      (setq popper-group-function #'popper-group-by-directory
+		    popper-reference-buffers
+		    '("\\*Messages\\*"
+		      "Output\\*$"
+		      "^\\*Python\\*$" inferior-python-mode
+		      "\\*Async Shell Command\\*"
+		      "^\\*eshell.*\\*$" eshell-mode
+		      "^\\*shell.*\\*$" shell-mode
+		      "^\\*term.*\\*$" term-mode
+		      "^\\*vterm.*\\*$" vterm-mode
+		      flycheck-error-list-mode
+		      help-mode
+		      compilation-mode))
+	      :config
+	      (popper-mode 1)
+	      (popper-echo-mode 1))
 
 (use-package! prescient
-  :config
-  (push 'prescient completion-styles))
+	      :config
+	      (push 'prescient completion-styles))
 
 (use-package! company-prescient
-  :after company
-  :hook (company-mode . company-prescient-mode))
+	      :after company
+	      :hook (company-mode . company-prescient-mode))
 
 (use-package! key-chord
-  :config
-  (key-chord-mode 1))
+	      :config
+	      (key-chord-mode 1))
 
 (use-package! key-seq
-  :after evil
-  :config
-  (key-seq-define evil-normal-state-map "wh" #'evil-window-left)
-  (key-seq-define evil-normal-state-map "wj" #'evil-window-down)
-  (key-seq-define evil-normal-state-map "wk" #'evil-window-up)
-  (key-seq-define evil-normal-state-map "wl" #'evil-window-right)
-  (key-seq-define evil-normal-state-map "wy" #'split-window-right)
-  (key-seq-define evil-normal-state-map "wu" #'split-window-below-and-focus)
-  (key-seq-define evil-normal-state-map "wi" #'split-window-below)
-  (key-seq-define evil-normal-state-map "wo" #'split-window-right-and-focus)
-  (key-seq-define evil-normal-state-map "wm" #'spacemacs/toggle-maximize-buffer)
-  (key-seq-define evil-normal-state-map "kf" #'delete-frame)
-  (key-seq-define evil-normal-state-map "kw" #'evil-quit)
-  (key-seq-define evil-normal-state-map "kb" #'kill-this-buffer))
+	      :after evil
+	      :config
+	      (key-seq-define evil-normal-state-map "wh" #'evil-window-left)
+	      (key-seq-define evil-normal-state-map "wj" #'evil-window-down)
+	      (key-seq-define evil-normal-state-map "wk" #'evil-window-up)
+	      (key-seq-define evil-normal-state-map "wl" #'evil-window-right)
+	      (key-seq-define evil-normal-state-map "wy" #'split-window-right)
+	      (key-seq-define evil-normal-state-map "wu" #'split-window-below-and-focus)
+	      (key-seq-define evil-normal-state-map "wi" #'split-window-below)
+	      (key-seq-define evil-normal-state-map "wo" #'split-window-right-and-focus)
+	      (key-seq-define evil-normal-state-map "wm" #'spacemacs/toggle-maximize-buffer)
+	      (key-seq-define evil-normal-state-map "kf" #'delete-frame)
+	      (key-seq-define evil-normal-state-map "kw" #'evil-quit)
+	      (key-seq-define evil-normal-state-map "kb" #'kill-this-buffer))
 
 (use-package! ultra-scroll
-  :init
-  (setq scroll-conservatively 101
-        scroll-margin 0)
-  :config
-  (ultra-scroll-mode 1))
+	      :init
+	      (setq scroll-conservatively 101
+		    scroll-margin 0)
+	      :config
+	      (ultra-scroll-mode 1))
 
 (use-package! write-or-die
-  :commands write-or-die-mode
-  :hook (text-mode . write-or-die-mode)
-  :init
-  (map! :leader "xD" #'write-or-die-mode))
+	      :commands write-or-die-mode
+	      :hook (text-mode . write-or-die-mode)
+	      :init
+	      (map! :leader "xD" #'write-or-die-mode))
 
 (use-package! jinx
-  :hook (doom-first-input . global-jinx-mode)
-  :init
-  (map! [remap ispell-word] #'jinx-correct
-        [remap evil-next-flyspell-error] #'jinx-next
-        [remap evil-prev-flyspell-error] #'jinx-previous))
+	      :hook (doom-first-input . global-jinx-mode)
+	      :init
+	      (map! [remap ispell-word] #'jinx-correct
+		    [remap evil-next-flyspell-error] #'jinx-next
+		    [remap evil-prev-flyspell-error] #'jinx-previous))
 
 (use-package! synosaurus
-  :hook ((text-mode markdown-mode) . synosaurus-mode)
-  :init
-  (map! :leader "Stw" #'synosaurus-lookup)
-  :config
-  (setq synosaurus-choose-method 'default))
+	      :hook ((text-mode markdown-mode) . synosaurus-mode)
+	      :init
+	      (map! :leader "Stw" #'synosaurus-lookup)
+	      :config
+	      (setq synosaurus-choose-method 'default))
 
 (use-package! words
-  :commands (words words-hydra/body)
-  :init
-  (map! :leader "Sw" #'words-hydra/body))
+	      :commands (words words-hydra/body)
+	      :init
+	      (map! :leader "Sw" #'words-hydra/body))
 
 (after! flycheck
-  (flycheck-define-checker proselint
-    "A linter for prose."
-    :command ("proselint" source-inplace)
-    :error-patterns
-    ((warning line-start (file-name) ":" line ":" column ": "
-              (id (one-or-more (not (any " "))))
-              (message (one-or-more not-newline)
-                       (zero-or-more "\n" (any " ") (one-or-more not-newline)))
-              line-end))
-    :modes (text-mode latex-mode LaTeX-mode org-mode markdown-mode gfm-mode))
-  (add-to-list 'flycheck-checkers 'proselint)
-  (flycheck-define-checker textlint
-    "A linter for textlint."
-    :command ("npx" "textlint"
-              "--config" "/home/amatyasko/.textlintrc"
-              "--format" "unix"
-              "--rule" "write-good"
-              "--rule" "no-start-duplicated-conjunction"
-              "--rule" "max-comma"
-              "--rule" "terminology"
-              "--rule" "period-in-list-item"
-              "--rule" "abbr-within-parentheses"
-              "--rule" "alex"
-              "--rule" "common-misspellings"
-              "--rule" "en-max-word-count"
-              "--rule" "diacritics"
-              "--rule" "stop-words"
-              "--plugin"
-              (eval (if (derived-mode-p 'tex-mode) "latex" "@textlint/text"))
-              source-inplace)
-    :error-patterns
-    ((warning line-start (file-name) ":" line ":" column ": "
-              (message (one-or-more not-newline)
-                       (zero-or-more "\n" (any " ") (one-or-more not-newline)))
-              line-end))
-    :modes (text-mode latex-mode LaTeX-mode org-mode markdown-mode gfm-mode))
-  (add-to-list 'flycheck-checkers 'textlint))
+	(flycheck-define-checker proselint
+				 "A linter for prose."
+				 :command ("proselint" source-inplace)
+				 :error-patterns
+				 ((warning line-start (file-name) ":" line ":" column ": "
+					   (id (one-or-more (not (any " "))))
+					   (message (one-or-more not-newline)
+						    (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+					   line-end))
+				 :modes (text-mode latex-mode LaTeX-mode org-mode markdown-mode gfm-mode))
+	(add-to-list 'flycheck-checkers 'proselint)
+	(flycheck-define-checker textlint
+				 "A linter for textlint."
+				 :command ("npx" "textlint"
+					   "--config" "/home/amatyasko/.textlintrc"
+					   "--format" "unix"
+					   "--rule" "write-good"
+					   "--rule" "no-start-duplicated-conjunction"
+					   "--rule" "max-comma"
+					   "--rule" "terminology"
+					   "--rule" "period-in-list-item"
+					   "--rule" "abbr-within-parentheses"
+					   "--rule" "alex"
+					   "--rule" "common-misspellings"
+					   "--rule" "en-max-word-count"
+					   "--rule" "diacritics"
+					   "--rule" "stop-words"
+					   "--plugin"
+					   (eval (if (derived-mode-p 'tex-mode) "latex" "@textlint/text"))
+					   source-inplace)
+				 :error-patterns
+				 ((warning line-start (file-name) ":" line ":" column ": "
+					   (message (one-or-more not-newline)
+						    (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+					   line-end))
+				 :modes (text-mode latex-mode LaTeX-mode org-mode markdown-mode gfm-mode))
+	(add-to-list 'flycheck-checkers 'textlint))
 
 (use-package! flycheck-vale
-  :after flycheck
-  :config
-  (setq flycheck-vale-modes '(text-mode markdown-mode rst-mode org-mode latex-mode LaTeX-mode))
-  (flycheck-vale-setup)
-  (dolist (mode flycheck-vale-modes)
-    (flycheck-add-mode 'vale mode)))
+	      :after flycheck
+	      :config
+	      (setq flycheck-vale-modes '(text-mode markdown-mode rst-mode org-mode latex-mode LaTeX-mode))
+	      (flycheck-vale-setup)
+	      (dolist (mode flycheck-vale-modes)
+		(flycheck-add-mode 'vale mode)))
 
 (after! writeroom-mode
-  (setq writeroom-width 90)
-  (map! :leader "xW" #'writeroom-mode))
+	(setq writeroom-width 90)
+	(map! :leader "xW" #'writeroom-mode))
 
 (after! writegood-mode
-  (map! :leader "xG" #'writegood-mode))
+	(map! :leader "xG" #'writegood-mode))
 
 (map! :leader
       "Sts" #'powerthesaurus-lookup-synonyms-dwim
@@ -326,171 +326,171 @@
    (message "Secure config was not loaded: %s" (error-message-string err))))
 
 (after! lsp-mode
-  (my-lsp-setup))
+	(my-lsp-setup))
 
 (after! org
-  (my-org-setup)
-  (require 'org-protocol)
-  (add-to-list 'org-modules 'org-protocol)
-  (add-to-list 'org-modules 'org-roam-protocol)
-  (org-super-agenda-mode 1)
-  (add-hook 'org-mode-hook #'turn-on-org-cdlatex)
-  (add-hook 'org-babel-after-execute-hook #'org-display-inline-images 'append)
-  (map! :map org-mode-map
-        :localleader
-        "Sr" #'org-extras/remove-all-overlays
-        "Sy" #'org-extras/sort-entries-by-year
-        "SY" #'org-extras/filter-entries-by-year
-        "Sc" #'org-extras/sort-entries-by-citations
-        "SC" #'org-extras/filter-entries-by-citations
-        "Su" #'org-extras/citations-update-at-point
-        "uf" #'org-extras/convert-org-id-link-to-file-link
-        "N" #'orb-note-actions))
+	(my-org-setup)
+	(require 'org-protocol)
+	(add-to-list 'org-modules 'org-protocol)
+	(add-to-list 'org-modules 'org-roam-protocol)
+	(org-super-agenda-mode 1)
+	(add-hook 'org-mode-hook #'turn-on-org-cdlatex)
+	(add-hook 'org-babel-after-execute-hook #'org-display-inline-images 'append)
+	(map! :map org-mode-map
+              :localleader
+              "Sr" #'org-extras/remove-all-overlays
+              "Sy" #'org-extras/sort-entries-by-year
+              "SY" #'org-extras/filter-entries-by-year
+              "Sc" #'org-extras/sort-entries-by-citations
+              "SC" #'org-extras/filter-entries-by-citations
+              "Su" #'org-extras/citations-update-at-point
+              "uf" #'org-extras/convert-org-id-link-to-file-link
+              "N" #'orb-note-actions))
 
 (after! org-roam
-  (require 'org-roam-protocol)
-  (org-roam-db-autosync-mode 1)
-  (require 'org-roam-bibtex nil t)
-  (org-roam-bibtex-mode 1)
-  (when (require 'org-roam-ui nil t)
-    (org-roam-ui-mode 1)))
+	(require 'org-roam-protocol)
+	(org-roam-db-autosync-mode 1)
+	(require 'org-roam-bibtex nil t)
+	(org-roam-bibtex-mode 1)
+	(when (require 'org-roam-ui nil t)
+	  (org-roam-ui-mode 1)))
 
 (use-package! vulpea
-  :after org-roam
-  :config
-  (setq vulpea-db-sync-directories (list org-directory))
-  (vulpea-db-autosync-mode 1)
-  (map! :leader
-        "aorf" #'vulpea-find
-        "aorF" #'org-roam-node-find
-        "aori" #'vulpea-insert
-        "aorI" #'org-roam-node-insert
-        "aorb" #'vulpea-find-backlink)
-  (map! :map org-mode-map
-        :localleader
-        "rf" #'vulpea-find
-        "rF" #'org-roam-node-find
-        "ri" #'vulpea-insert
-        "rI" #'org-roam-node-insert
-        "rb" #'vulpea-find-backlink))
+	      :after org-roam
+	      :config
+	      (setq vulpea-db-sync-directories (list org-directory))
+	      (vulpea-db-autosync-mode 1)
+	      (map! :leader
+		    "aorf" #'vulpea-find
+		    "aorF" #'org-roam-node-find
+		    "aori" #'vulpea-insert
+		    "aorI" #'org-roam-node-insert
+		    "aorb" #'vulpea-find-backlink)
+	      (map! :map org-mode-map
+		    :localleader
+		    "rf" #'vulpea-find
+		    "rF" #'org-roam-node-find
+		    "ri" #'vulpea-insert
+		    "rI" #'org-roam-node-insert
+		    "rb" #'vulpea-find-backlink))
 
 (use-package! org-mru-clock
-  :after org
-  :config
-  (setq org-mru-clock-how-many 100)
-  (add-hook 'minibuffer-setup-hook #'org-mru-clock-embark-minibuffer-hook)
-  (map! :leader
-        "aoCi" #'org-mru-clock-in
-        "aoCg" #'org-mru-clock-goto
-        "aoCs" #'org-mru-clock-select-recent-task)
-  (map! :map org-mode-map
-        :localleader
-        "Ci" #'org-mru-clock-in
-        "Cg" #'org-mru-clock-goto
-        "Cs" #'org-mru-clock-select-recent-task))
+	      :after org
+	      :config
+	      (setq org-mru-clock-how-many 100)
+	      (add-hook 'minibuffer-setup-hook #'org-mru-clock-embark-minibuffer-hook)
+	      (map! :leader
+		    "aoCi" #'org-mru-clock-in
+		    "aoCg" #'org-mru-clock-goto
+		    "aoCs" #'org-mru-clock-select-recent-task)
+	      (map! :map org-mode-map
+		    :localleader
+		    "Ci" #'org-mru-clock-in
+		    "Cg" #'org-mru-clock-goto
+		    "Cs" #'org-mru-clock-select-recent-task))
 
 (use-package! org-doing-notifier
-  :commands (org-doing-notifier-start org-doing-notifier-stop org-doing-notifier-toggle)
-  :init
-  (org-doing-notifier-start))
+	      :commands (org-doing-notifier-start org-doing-notifier-stop org-doing-notifier-toggle)
+	      :init
+	      (org-doing-notifier-start))
 
 (use-package! delve
-  :after org-roam
-  :hook ((delve-mode . delve-compact-view-mode)
-         (delve-mode . hl-line-mode))
-  :config
-  (delve-global-minor-mode 1))
+	      :after org-roam
+	      :hook ((delve-mode . delve-compact-view-mode)
+		     (delve-mode . hl-line-mode))
+	      :config
+	      (delve-global-minor-mode 1))
 
 (use-package! org-similarity
-  :after org
-  :config
-  (setq org-similarity-directory org-directory
-        org-similarity-file-extension-pattern "*.org"
-        org-similarity-language "english"
-        org-similarity-algorithm "tfidf"
-        org-similarity-number-of-documents 10
-        org-similarity-min-chars 0
-        org-similarity-show-scores t
-        org-similarity-threshold 0.05
-        org-similarity-use-id-links t
-        org-similarity-recursive-search t
-        org-similarity-custom-python-interpreter nil
-        org-similarity-remove-first t
-        org-similarity-heading "** Related notes"
-        org-similarity-prefix "- "
-        org-similarity-ignore-frontmatter nil)
-  (map! :map org-mode-map
-        :localleader
-        "Ss" #'org-similarity-sidebuffer
-        "Sq" #'org-similarity-query))
+	      :after org
+	      :config
+	      (setq org-similarity-directory org-directory
+		    org-similarity-file-extension-pattern "*.org"
+		    org-similarity-language "english"
+		    org-similarity-algorithm "tfidf"
+		    org-similarity-number-of-documents 10
+		    org-similarity-min-chars 0
+		    org-similarity-show-scores t
+		    org-similarity-threshold 0.05
+		    org-similarity-use-id-links t
+		    org-similarity-recursive-search t
+		    org-similarity-custom-python-interpreter nil
+		    org-similarity-remove-first t
+		    org-similarity-heading "** Related notes"
+		    org-similarity-prefix "- "
+		    org-similarity-ignore-frontmatter nil)
+	      (map! :map org-mode-map
+		    :localleader
+		    "Ss" #'org-similarity-sidebuffer
+		    "Sq" #'org-similarity-query))
 
 (use-package! org-fragtog
-  :after org
-  :hook (org-mode . org-fragtog-mode))
+	      :after org
+	      :hook (org-mode . org-fragtog-mode))
 
 (after! pdf-tools
-  (map! :map pdf-view-mode-map
-        :localleader
-        "e" #'aam-extract-pdf-text-from-current-buffer
-        "N" #'org-noter))
+	(map! :map pdf-view-mode-map
+              :localleader
+              "e" #'aam-extract-pdf-text-from-current-buffer
+              "N" #'org-noter))
 
 (after! python
-  (my-python-setup)
-  (set-formatter! 'ruff :modes '(python-mode python-ts-mode)))
+	(my-python-setup)
+	(set-formatter! 'ruff :modes '(python-mode python-ts-mode)))
 
 (after! tex
-  (require 'polymode nil t)
-  (my-tex-setup))
+	(require 'polymode nil t)
+	(my-tex-setup))
 
 (after! bibtex
-  (my-bibtex-setup))
+	(my-bibtex-setup))
 
 (after! gptel
-  (my-ai-setup))
+	(my-ai-setup))
 
 (use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :config
-  (map! :map copilot-completion-map
-        "TAB" #'copilot-accept-completion
-        "<tab>" #'copilot-accept-completion
-        "C-TAB" #'copilot-accept-completion-by-word
-        "C-<tab>" #'copilot-accept-completion-by-word))
+	      :hook (prog-mode . copilot-mode)
+	      :config
+	      (map! :map copilot-completion-map
+		    "TAB" #'copilot-accept-completion
+		    "<tab>" #'copilot-accept-completion
+		    "C-TAB" #'copilot-accept-completion-by-word
+		    "C-<tab>" #'copilot-accept-completion-by-word))
 
 (use-package! copilot-chat
-  :commands (copilot-chat-display copilot-chat-switch-to-buffer copilot-chat-reset)
-  :init
-  (map! :leader
-        "$cc" #'copilot-chat-switch-to-buffer
-        "$cr" #'copilot-chat-reset
-        "$cd" #'copilot-chat-display
-        "$cM" #'copilot-chat-set-model
-        "$cee" #'copilot-chat-explain
-        "$ceE" #'copilot-chat-explain-defun
-        "$ces" #'copilot-chat-explain-symbol-at-line
-        "$cid" #'copilot-chat-doc
-        "$cif" #'copilot-chat-fix
-        "$cio" #'copilot-chat-optimize
-        "$cit" #'copilot-chat-test
-        "$cir" #'copilot-chat-review
-        "$cib" #'copilot-chat-review-whole-buffer
-        "$cba" #'copilot-chat-add-current-buffer
-        "$cbx" #'copilot-chat-del-current-buffer
-        "$cbl" #'copilot-chat-list
-        "$cpp" #'copilot-chat-custom-prompt-selection
-        "$cpf" #'copilot-chat-custom-prompt-function
-        "$cpi" #'copilot-chat-ask-and-insert
-        "$cmi" #'copilot-chat-insert-commit-message))
+	      :commands (copilot-chat-display copilot-chat-switch-to-buffer copilot-chat-reset)
+	      :init
+	      (map! :leader
+		    "$cc" #'copilot-chat-switch-to-buffer
+		    "$cr" #'copilot-chat-reset
+		    "$cd" #'copilot-chat-display
+		    "$cM" #'copilot-chat-set-model
+		    "$cee" #'copilot-chat-explain
+		    "$ceE" #'copilot-chat-explain-defun
+		    "$ces" #'copilot-chat-explain-symbol-at-line
+		    "$cid" #'copilot-chat-doc
+		    "$cif" #'copilot-chat-fix
+		    "$cio" #'copilot-chat-optimize
+		    "$cit" #'copilot-chat-test
+		    "$cir" #'copilot-chat-review
+		    "$cib" #'copilot-chat-review-whole-buffer
+		    "$cba" #'copilot-chat-add-current-buffer
+		    "$cbx" #'copilot-chat-del-current-buffer
+		    "$cbl" #'copilot-chat-list
+		    "$cpp" #'copilot-chat-custom-prompt-selection
+		    "$cpf" #'copilot-chat-custom-prompt-function
+		    "$cpi" #'copilot-chat-ask-and-insert
+		    "$cmi" #'copilot-chat-insert-commit-message))
 
 (when (eq system-type 'gnu/linux)
   (after! mu4e
-    (my-mail-setup)))
+	  (my-mail-setup)))
 
 (add-hook! 'emacs-startup-hook
-  (defun aam/doom-startup-journal ()
-    (when (and (fboundp 'org-weekly-journal-file)
-               (file-exists-p (org-weekly-journal-file)))
-      (save-selected-window
-        (split-window-horizontally)
-        (other-window 1)
-        (org-weekly-journal-find-location)))))
+	   (defun aam/doom-startup-journal ()
+	     (when (and (fboundp 'org-weekly-journal-file)
+			(file-exists-p (org-weekly-journal-file)))
+	       (save-selected-window
+		 (split-window-horizontally)
+		 (other-window 1)
+		 (org-weekly-journal-find-location)))))

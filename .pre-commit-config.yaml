@@ -19,8 +19,9 @@ repos:
       - id: emacs-lisp-indent
         name: Emacs Lisp indentation
         entry: >-
-          emacs --batch --quick --eval '(dolist (file command-line-args-left)
-          (find-file file) (emacs-lisp-mode) (indent-region (point-min)
-          (point-max)) (save-buffer))'
+          emacs --batch --quick --eval '(let ((root default-directory))
+          (dolist (file command-line-args-left) (find-file (expand-file-name
+          file root)) (emacs-lisp-mode) (indent-region (point-min) (point-max))
+          (save-buffer)))'
         language: system
         files: \.(el|elisp|lisp)$
