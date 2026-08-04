@@ -140,8 +140,20 @@ newline = "⏎"
 "space" = "command_palette"
 "/" = "global_search"                                                          # Spacemacs SPC /
 "f" = "file_picker"
+"F" = "file_picker_in_current_directory"
+"o" = "file_explorer"
+"O" = "file_explorer_in_current_buffer_directory"
 "h" = "global_search"
 "s" = ":write"
+"S" = ":write-all"
+
+# Frequently used LSP and project actions
+"a" = "code_action"
+"d" = "diagnostics_picker"
+"D" = "workspace_diagnostics_picker"
+"k" = "hover"
+"p" = "changed_file_picker"
+"r" = "rename_symbol"
 
 # Buffer manipulation
 [keys.normal.space.b]
@@ -267,6 +279,12 @@ newline = "⏎"
 [keys.normal.space.x]
 "u" = "switch_to_lowercase"
 "U" = "switch_to_uppercase"
+"a" = "align_selections"
+"m" = "merge_selections"
+"n" = "split_selection_on_newline"
+"s" = "select_regex"
+"S" = "split_selection"
+"t" = "trim_selections"
 
 [keys.normal.space.x.l]
 "s" = ":sort"

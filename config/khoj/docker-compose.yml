@@ -23,7 +23,7 @@ services:
     image: khoj
     # Uncomment the following line to build from source. This will take a few minutes. Comment the next two lines out if you want to use the offiicial image.
     # build:
-      # context: .
+    # context: .
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
@@ -57,9 +57,9 @@ services:
       resources:
         reservations:
           devices:
-          - driver: nvidia
-            count: ${NVIDIA_VISIBLE_DEVICES:-all}
-            capabilities: [gpu]
+            - driver: nvidia
+              count: ${NVIDIA_VISIBLE_DEVICES:-all}
+              capabilities: [gpu]
 
 volumes:
   khoj_config:

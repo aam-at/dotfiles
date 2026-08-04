@@ -54,15 +54,8 @@
   {
     "label": "latexmk",
     "command": "latexmk",
-    "args": [
-      "-synctex=1",
-      "-pdf",
-      "-recorder",
-      "$ZED_FILENAME"
-    ],
+    "args": ["-synctex=1", "-pdf", "-recorder", "$ZED_FILENAME"],
     "cwd": "$ZED_DIRNAME",
-    "tags": [
-      "latex-build"
-    ]
+    "tags": ["latex-build"]
   }
 ]
