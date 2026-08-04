@@ -1,5 +1,12 @@
 [mgr]
 prepend_keymap = [
+  # pdf-pages plugin
+  { on = ["["], run = "seek -1", desc = "Previous PDF page" },
+  { on = ["]"], run = "seek 1", desc = "Next PDF page" },
+  { on = ["<PageUp>"], run = "seek -1", desc = "Previous PDF page" },
+  { on = ["<PageDown>"], run = "seek 1", desc = "Next PDF page" },
+  { on = ["0"], run = "seek -999999", desc = "First PDF page" },
+  { on = ["<Home>"], run = "seek -999999", desc = "First PDF page" },
   # zoom plugin
   { on = [
     "+",
