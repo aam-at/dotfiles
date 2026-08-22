@@ -98,7 +98,7 @@ gui:
   # This can be toggled from within Lazygit with the '~' key, but that will not change the default.
   showFileTree: true
   # If true, show a random tip in the command log when Lazygit starts
-  showRandomTip: true
+  showRandomTip: false
   # If true, show the command log
   showCommandLog: true
   # If true, show the bottom line that contains keybinding info and useful buttons. If false, this line will be hidden except to display a loader for an in-progress action.
@@ -110,7 +110,7 @@ gui:
   # Nerd fonts version to use.
   # One of: '2' | '3' | empty string (default)
   # If empty, do not show icons.
-  nerdFontsVersion: ""
+  nerdFontsVersion: "3"
   # If true (default), file icons are shown in the file views. Only relevant if NerdFontsVersion is not empty.
   showFileIcons: true
   # Length of author name in (non-expanded) commits view. 2 means show initials only.
@@ -216,7 +216,7 @@ git:
   branchPrefix: ""
   # If true, parse emoji strings in commit messages e.g. render :rocket: as 🚀
   # (This should really be under 'gui', not 'git')
-  parseEmoji: false
+  parseEmoji: true
   # Config for showing the log in the commits view
   log:
     # One of: 'date-order' | 'author-date-order' | 'topo-order' | 'default'
@@ -289,14 +289,16 @@ os:
   # OpenLinkCommand is the command for opening a link
   # Deprecated: use OpenLink instead.
   openLinkCommand: ""
-  # CopyToClipboardCmd is the command for copying to clipboard.
+  # CopyToClipboardCmd is the command for copying to clipboard. {{text}} is
+  # substituted with the text to copy by lazygit itself; our script reads
+  # stdin, so pipe it in.
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-command-for-copying-to-and-pasting-from-clipboard
-  copyToClipboardCmd: ""
-  # ReadFromClipboardCmd is the command for reading the clipboard.
+  copyToClipboardCmd: printf '%s' "{{text}}" | $HOME/dotfiles/scripts/pbcopy.sh
+  # ReadFromClipboardCmd is the command for reading the clipboard; must write to stdout.
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-command-for-copying-to-and-pasting-from-clipboard
-  readFromClipboardCmd: ""
+  readFromClipboardCmd: $HOME/dotfiles/scripts/pbpaste.sh
 # If true, don't display introductory popups upon opening Lazygit.
-disableStartupPopups: false
+disableStartupPopups: true
 # What to do when opening Lazygit outside of a git repo.
 # - 'prompt': (default) ask whether to initialize a new repo or open in the most recent repo
 # - 'create': initialize a new repo
@@ -304,166 +306,17 @@ disableStartupPopups: false
 # - 'quit': exit Lazygit
 notARepository: prompt
 # If true, display a confirmation when subprocess terminates. This allows you to view the output of the subprocess before returning to Lazygit.
-promptToReturnFromSubprocess: true
-# Keybindings
+promptToReturnFromSubprocess: false
+# Keybindings: deliberately left at stock defaults (see README.md for the
+# full cheatsheet).
 keybinding:
-  universal:
-    quit: q
-    quit-alt1: <c-c>
-    return: <esc>
-    quitWithoutChangingDirectory: Q
-    togglePanel: <tab>
-    prevItem: <up>
-    nextItem: <down>
-    prevItem-alt: k
-    nextItem-alt: j
-    prevPage: ","
-    nextPage: .
-    scrollLeft: H
-    scrollRight: L
-    gotoTop: <
-    gotoBottom: ">"
-    toggleRangeSelect: v
-    rangeSelectDown: <s-down>
-    rangeSelectUp: <s-up>
-    prevBlock: <left>
-    nextBlock: <right>
-    prevBlock-alt: h
-    nextBlock-alt: l
-    nextBlock-alt2: <tab>
-    prevBlock-alt2: <backtab>
-    jumpToBlock:
-      - "1"
-      - "2"
-      - "3"
-      - "4"
-      - "5"
-    nextMatch: "n"
-    prevMatch: "N"
-    startSearch: /
-    optionMenu: <disabled>
-    optionMenu-alt1: "?"
-    select: <space>
-    goInto: <enter>
-    confirm: <enter>
-    confirmInEditor: <a-enter>
-    remove: d
-    new: "n"
-    edit: e
-    openFile: o
-    scrollUpMain: <pgup>
-    scrollDownMain: <pgdown>
-    scrollUpMain-alt1: K
-    scrollDownMain-alt1: J
-    scrollUpMain-alt2: <c-u>
-    scrollDownMain-alt2: <c-d>
-    executeShellCommand: ":"
-    createRebaseOptionsMenu: m
-    # 'Files' appended for legacy reasons
-    pushFiles: P
-    # 'Files' appended for legacy reasons
-    pullFiles: p
-    refresh: R
-    createPatchOptionsMenu: <c-p>
-    nextTab: "]"
-    prevTab: "["
-    nextScreenMode: +
-    prevScreenMode: _
-    undo: z
-    redo: <c-z>
-    filteringMenu: <c-s>
-    diffingMenu: W
-    diffingMenu-alt: <c-e>
-    copyToClipboard: <c-o>
-    openRecentRepos: <c-r>
-    submitEditorText: <enter>
-    extrasMenu: "@"
-    toggleWhitespaceInDiffView: <c-w>
-    increaseContextInDiffView: "}"
-    decreaseContextInDiffView: "{"
-    increaseRenameSimilarityThreshold: )
-    decreaseRenameSimilarityThreshold: (
-    openDiffTool: <c-t>
-    newWorktree: w
-  status:
-    checkForUpdate: u
-    recentRepos: <enter>
-    allBranchesLogGraph: a
-  files:
-    commitChanges: c
-    commitChangesWithoutHook: w
-    amendLastCommit: A
-    commitChangesWithEditor: C
-    findBaseCommitForFixup: <c-f>
-    confirmDiscard: x
-    ignoreFile: i
-    refreshFiles: r
-    stashAllChanges: s
-    viewStashOptions: S
-    toggleStagedAll: a
-    viewResetOptions: D
-    fetch: f
-    toggleTreeView: "`"
-    openMergeOptions: M
-    openStatusFilter: <c-b>
-    copyFileInfoToClipboard: "y"
-  branches:
-    createPullRequest: o
-    viewPullRequestOptions: O
-    copyPullRequestURL: <c-y>
-    checkoutBranchByName: c
-    forceCheckoutBranch: F
-    rebaseBranch: r
-    renameBranch: R
-    mergeIntoCurrentBranch: M
-    viewGitFlowOptions: i
-    fastForward: f
-    createTag: T
-    pushTag: P
-    setUpstream: u
-    fetchRemote: f
-    sortOrder: s
-  commits:
-    squashDown: s
-    renameCommit: r
-    renameCommitWithEditor: R
-    viewResetOptions: g
-    markCommitAsFixup: f
-    createFixupCommit: F
-    squashAboveCommits: S
-    moveDownCommit: <c-j>
-    moveUpCommit: <c-k>
-    amendToCommit: A
-    resetCommitAuthor: a
-    pickCommit: p
-    revertCommit: t
-    cherryPickCopy: C
-    pasteCommits: V
-    markCommitAsBaseForRebase: B
-    tagCommit: T
-    checkoutCommit: <space>
-    resetCherryPick: <c-r>
-    copyCommitAttributeToClipboard: "y"
-    openLogMenu: <c-l>
-    openInBrowser: o
-    viewBisectOptions: b
-    startInteractiveRebase: i
-  amendAttribute:
-    resetAuthor: a
-    setAuthor: A
-    addCoAuthor: c
-  stash:
-    popStash: g
-    renameStash: r
-  commitFiles:
-    checkoutCommitFile: c
-  main:
-    toggleSelectHunk: a
-    pickBothHunks: b
-    editSelectHunk: E
-  submodules:
-    init: i
-    update: u
-    bulkMenu: b
-  commitMessage:
-    commitMenu: <c-o>
+  universal: {}
+
+# Custom commands: repo-agnostic shortcuts not covered by a built-in keybinding.
+customCommands:
+  # Amend the last commit with currently staged changes, keeping its message.
+  - key: <c-a>
+    context: files
+    description: Amend last commit (no edit)
+    command: git commit --amend --no-edit
+    loadingText: Amending...
