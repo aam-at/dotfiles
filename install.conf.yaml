@@ -76,6 +76,8 @@
       path: config/zathura
     ~/.authinfo.gpg: ../Dropbox/Software/authinfo.gpg
     ~/.twittering-mode.gpg: ../Dropbox/Software/emacs/twittering-mode.gpg
+    ~/.pi/agent/settings.json: config/pi/settings.json
+    ~/.pi/agent/keybindings.json: config/pi/keybindings.json
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
     ~/.screenrc: screen/screenrc
     ~/.ideavimrc: idea/ideavimrc
