@@ -23,7 +23,11 @@ config/yazi/plugins
 config/fish/functions/*fifc*.fish
 config/fish/functions/fisher.fish
 config/television/cable/*.toml
-config/niri/dms/*.kdl
+config/niri/dms/alttab.kdl
+config/niri/dms/colors.kdl
+config/niri/dms/cursor.kdl
+config/niri/dms/layout.kdl
+config/niri/dms/wpblur.kdl
 
 
 /.worktrees/
