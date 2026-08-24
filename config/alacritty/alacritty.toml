@@ -45,7 +45,7 @@ bindings = [
 ]
 
 [scrolling]
-history = 5000
+history = 100000
 
 [window]
 dynamic_padding = true
