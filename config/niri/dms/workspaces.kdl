@@ -1,10 +1,5 @@
-// Named workspaces
-// Matches Hyprland special workspaces (F1-F5)
-// Niri uses named workspaces instead of Hyprland's "special" toggle workspaces.
-// The corresponding F1-F5 keybindings are in dms/binds.kdl.
-
-workspace "sysmon"
-workspace "music"
-workspace "communication"
-workspace "ai"
-workspace "todo"
+// No named workspaces. Plain dynamic workspaces only (Mod+1-9 in dms/binds.kdl,
+// raw index = live position on the focused monitor, per niri's own model).
+// Named workspaces were tried here (pinning, ordering, F1-F5 routing) and
+// dropped: more moving parts than value — index/name resolution collisions,
+// declaration-order drift on live reload, per-output pinning to reason about.

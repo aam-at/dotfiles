@@ -7,6 +7,9 @@ binds {
     // === Application Launchers ===
     Mod+T hotkey-overlay-title="Open Terminal" { spawn "bash" "-c" "exec $TERMINAL"; }
     Mod+Return hotkey-overlay-title="Open Terminal" { spawn "bash" "-c" "exec $TERMINAL"; }
+    Mod+Grave hotkey-overlay-title="Scratch Terminal" {
+        spawn "bash" "-lc" "exec $HOME/.config/niri/scripts/scratch-terminal.sh";
+    }
     Mod+E hotkey-overlay-title="File Manager" { spawn "bash" "-c" "exec $FILE_MANAGER"; }
     Mod+B hotkey-overlay-title="Browser" { spawn "bash" "-c" "exec $BROWSER"; }
     Mod+C hotkey-overlay-title="Editor" { spawn "bash" "-c" "exec $EDITOR"; }
@@ -171,7 +174,7 @@ binds {
     Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
     Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
 
-    // === Numbered Workspaces (dynamic indices; special workspaces are kept in a reserved high range) ===
+    // === Numbered Workspaces (dynamic; raw index = live position on the focused monitor) ===
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }
     Mod+3 { focus-workspace 3; }
@@ -192,19 +195,6 @@ binds {
     Mod+Shift+7 { move-column-to-workspace 7; }
     Mod+Shift+8 { move-column-to-workspace 8; }
     Mod+Shift+9 { move-column-to-workspace 9; }
-
-    // === Named Workspaces (Hyprland-like toggle on repeated keypress) ===
-    Mod+F1 { spawn "bash" "-lc" "exec $HOME/.config/niri/scripts/toggle-named-workspace.sh sysmon"; }
-    Mod+F2 { spawn "bash" "-lc" "exec $HOME/.config/niri/scripts/toggle-named-workspace.sh music"; }
-    Mod+F3 { spawn "bash" "-lc" "exec $HOME/.config/niri/scripts/toggle-named-workspace.sh communication"; }
-    Mod+F4 { spawn "bash" "-lc" "exec $HOME/.config/niri/scripts/toggle-named-workspace.sh ai"; }
-    Mod+F5 { spawn "bash" "-lc" "exec $HOME/.config/niri/scripts/toggle-named-workspace.sh todo"; }
-
-    Mod+Shift+F1 { move-column-to-workspace "sysmon"; }
-    Mod+Shift+F2 { move-column-to-workspace "music"; }
-    Mod+Shift+F3 { move-column-to-workspace "communication"; }
-    Mod+Shift+F4 { move-column-to-workspace "ai"; }
-    Mod+Shift+F5 { move-column-to-workspace "todo"; }
 
     // === Column Management ===
     Mod+BracketLeft  { consume-or-expel-window-left; }
