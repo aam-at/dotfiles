@@ -21,6 +21,9 @@ local host_os = get_os()
 
 -- Font Configuration
 local emoji_font = "Segoe UI Emoji"
+if host_os == "linux" then
+    emoji_font = "Noto Color Emoji"
+end
 config.font = wezterm.font_with_fallback({
     {
         family = "JetBrainsMono Nerd Font",
@@ -29,6 +32,9 @@ config.font = wezterm.font_with_fallback({
     emoji_font,
 })
 config.font_size = 10
+
+-- Scrollback
+config.scrollback_lines = 10000
 
 -- Color Configuration
 config.colors = require("cyberdream")
@@ -94,7 +100,6 @@ config.default_prog = { "pwsh", "-NoLogo" }
 
 -- OS-Specific Overrides
 if host_os == "linux" then
-    emoji_font = "Noto Color Emoji"
     config.default_prog = { "zsh" }
     config.front_end = "WebGpu"
     config.window_background_image = os.getenv("HOME") .. "/.config/wezterm/bg-blurred.png"
