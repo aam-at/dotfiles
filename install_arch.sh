@@ -42,7 +42,7 @@ install_packages \
   fontconfig freeglut freetype2 fuse3 fzy gcc gcc gettext ghostty giflib git \
   github-desktop glances global gmime3 gnome-keyring gnupg gnutls gtk4 guile \
   gvfs helix hexyl hspell htop httpie hunspell hyprpolkitagent imagemagick iotop \
-  iputils jansson jbig2dec jq keychain kitty lazygit leptonica libevent libffi \
+  iputils jansson jbig2dec jq kitty lazygit leptonica libevent libffi \
   libgccjit libjpeg-turbo libmupdf libpng libsecret libtiff libvoikko libvterm \
   libxcb libxcomposite libxcursor libxfixes libxi libxkbcommon libxmu libxpm \
   lldb llvm lynx make mc meson mosh mujs mupdf mupdf-tools ncdu ncurses \
