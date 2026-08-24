@@ -421,11 +421,6 @@ keymap = [
   { on = [
     "~",
   ], run = "help", desc = "Open help" },
-
-  # Plugins
-  { on = [
-    "i",
-  ], run = "plugin keyjump", desc = "Keyjump (Normal mode)" },
 ]
 
 [tasks]
