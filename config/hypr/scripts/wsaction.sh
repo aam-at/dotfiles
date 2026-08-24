@@ -9,7 +9,7 @@ if [[ $# -gt 0 && ${1-} == "-g" ]]; then
 fi
 
 if [[ $# -ne 2 ]]; then
-  echo 'Wrong number of arguments. Usage: ./wsaction.fish [-g] <dispatcher> <workspace>' >&2
+  echo 'Wrong number of arguments. Usage: ./wsaction.sh [-g] <dispatcher> <workspace>' >&2
   exit 1
 fi
 

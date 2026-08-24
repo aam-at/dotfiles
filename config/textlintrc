@@ -3,5 +3,18 @@
         "@textlint/text": {
             "extensions": [".org"]
         }
+    },
+    "rules": {
+        "write-good": true,
+        "no-start-duplicated-conjunction": true,
+        "max-comma": true,
+        "terminology": true,
+        "period-in-list-item": true,
+        "abbr-within-parentheses": true,
+        "alex": true,
+        "common-misspellings": true,
+        "en-max-word-count": true,
+        "diacritics": true,
+        "stop-words": true
     }
 }

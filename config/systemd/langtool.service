@@ -1,12 +1,13 @@
 [Unit]
 Description=LanguageTool Server
-After=network.target snapd.apparmor.service
+After=network.target
 
 [Service]
 Type=simple
 ExecStart=java -cp /opt/languagetool/languagetool-server.jar org.languagetool.server.HTTPServer --port 8088 --allow-origin
 Restart=on-failure
+RestartSec=2
 KillMode=process
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

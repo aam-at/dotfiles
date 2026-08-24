@@ -9,6 +9,7 @@ EnvironmentFile=%h/.bash_env
 ExecStart=/usr/bin/tmux new-session -d
 ExecStop=/usr/bin/tmux kill-server
 KillMode=mixed
+Restart=on-failure
 RestartSec=2
 
 [Install]
