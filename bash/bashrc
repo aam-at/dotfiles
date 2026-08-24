@@ -81,13 +81,6 @@ fi
 # Load environment variables #
 ##############################
 
-# source ssh
-[ -f $HOME/.keychain/$HOSTNAME-sh ] &&
-  . $HOME/.keychain/$HOSTNAME-sh
-# source gpg
-[ -f $HOME/.keychain/$HOSTNAME-sh-gpg ] &&
-  . $HOME/.keychain/$HOSTNAME-sh-gpg
-
 # source environement variables
 if [ -f $HOME/.env ]; then
   if [ -z "${PATH_INIT+x}" ]; then

@@ -17,6 +17,12 @@
     ~/.ssh/config: config/ssh/config
     ~/.davmail.properties: config/davmail.properties
     ~/.mbsyncrc: config/mbsyncrc
+    ~/.gnupg/gpg-agent.conf:
+      create: true
+      path: config/gnupg/gpg-agent.conf
+    ~/.config/environment.d/50-gnupg-ssh.conf:
+      create: true
+      path: config/environment.d/50-gnupg-ssh.conf
     ~/.vale: config/vale/vale
     ~/.textlintrc: config/textlintrc
     ~/.sbclrc: config/sbclrc

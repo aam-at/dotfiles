@@ -1,25 +1,6 @@
 ###################
 # Basic functions #
 ###################
-function __fish_config_hostname --description 'Return current hostname in a cross-shell friendly way'
-    if set -q hostname
-        echo $hostname
-    else
-        hostname
-    end
-end
-
-function __fish_config_load_keychain --description 'Load cached ssh/gpg agent environment exported by keychain'
-    set -l host (__fish_config_hostname)
-    set -l base ~/.keychain/$host-fish
-
-    for file in $base $base-gpg
-        if test -r $file
-            source $file
-        end
-    end
-end
-
 function __fish_config_source_env --description 'Merge ~/.env exports into fish and keep PATH ordering intact'
     set -l env_file ~/.env
     set -l env_fish_file ~/.env.fish
@@ -77,10 +58,6 @@ if set -q EMACS
 end
 
 __fish_config_source_env
-
-if status --is-interactive; and test -t 1
-    __fish_config_load_keychain
-end
 
 #####################
 # Configure plugins #
