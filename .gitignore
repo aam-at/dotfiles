@@ -30,3 +30,4 @@ config/niri/dms/*.kdl
 config/DankMaterialShell/themes
 config/DankMaterialShell/plugins
 config/DankMaterialShell/.*
+config/DankMaterialShell/monitors.json
