@@ -14,110 +14,122 @@
       ]
     - [./scripts/health-check.sh, Run health check]
 - link:
-    ~/.ssh/config: config/ssh/config
-    ~/.davmail.properties: config/davmail.properties
-    ~/.mbsyncrc: config/mbsyncrc
-    ~/.gnupg/gpg-agent.conf:
-      create: true
-      path: config/gnupg/gpg-agent.conf
-    ~/.config/environment.d/50-gnupg-ssh.conf:
-      create: true
-      path: config/environment.d/50-gnupg-ssh.conf
-    ~/.vale: config/vale/vale
-    ~/.textlintrc: config/textlintrc
-    ~/.sbclrc: config/sbclrc
-    ~/.config/DankMaterialShell: config/DankMaterialShell
+    # Bash
+    ~/.aliases: general/aliases
+    ~/.bash-preexec.sh: bash/bash-preexec.sh
+    ~/.bash_aliases: bash/bash_aliases
+    ~/.bash_completion.d: bash/completions
+    ~/.bash_logout: bash/bash_logout
+    ~/.bash_profile: bash/bash_profile
+    ~/.bashrc: bash/bashrc
+    ~/.dircolors: bash/dircolors-solarized/dircolors.ansi-light
+    ~/.profile: bash/profile
+
+    # General / X11
+    ~/.env: general/env
+    ~/.latexmkrc: general/latexmkrc
+    ~/.local/share/applications/:
+      path: general/applications/*
+      glob: true
+    ~/.Xmodmap: general/x/Xmodmap
+    ~/.Xresources: general/x/Xresources
+    ~/.xinitrc: general/x/xinitrc
+
+    # XDG ~/.config apps
     ~/.config/aichat: config/aichat
     ~/.config/alacritty: config/alacritty
-    ~/.config/atuin: config/atuin
-    ~/.config/broot: config/broot
-    ~/.config/btop: config/btop
-    ~/.config/catppuccin: config/catppuccin
     ~/.config/Antigravity IDE/User/:
       create: true
       glob: true
       path: config/code/*
+    ~/.config/atuin: config/atuin
+    ~/.config/broot: config/broot
+    ~/.config/btop: config/btop
+    ~/.config/catppuccin: config/catppuccin
     ~/.config/Code/User/:
       create: true
       glob: true
       path: config/code/*
+    ~/.config/DankMaterialShell: config/DankMaterialShell
     ~/.config/direnv/direnvrc:
       create: true
       path: config/direnv/direnvrc
+    ~/.config/environment.d/50-gnupg-ssh.conf:
+      create: true
+      path: config/environment.d/50-gnupg-ssh.conf
     ~/.config/fastfetch: config/fastfetch
     ~/.config/fish: config/fish
-    ~/.config/git: config/git
     ~/.config/ghostty: config/ghostty
+    ~/.config/git: config/git
     ~/.config/gitu: config/gitu
     ~/.config/gitui: config/gitui
     ~/.config/helix: config/helix
     ~/.config/hypr: config/hypr
     ~/.config/kanata: config/kanata
     ~/.config/kitty: config/kitty
-    ~/.config/niri: config/niri
     ~/.config/lazygit: config/lazygit
     ~/.config/mimeapps.list: config/mimeapps.list
     ~/.config/neovide: config/neovide
+    ~/.config/niri: config/niri
     ~/.config/nvim: config/lazyvim
+    ~/.config/pudb/pudb.cfg:
+      create: true
+      path: config/python/pudb.cfg
     ~/.config/ranger: config/ranger
     ~/.config/redshift.conf: config/redshift.conf
     ~/.config/starship.toml: config/starship.toml
+    ~/.config/systemd/user/:
+      create: true
+      glob: true
+      path: config/systemd/*
     ~/.config/television: config/television
     ~/.config/tmux: config/tmux
     ~/.config/wezterm: config/wezterm
     ~/.config/xremap: config/xremap
     ~/.config/yazi: config/yazi
-    ~/.config/zed: config/zed
-    ~/.config/zellij: config/zellij
-    ~/.notmuch-config: config/notmuch/config
-    ~/.config/pudb/pudb.cfg:
-      create: true
-      path: config/python/pudb.cfg
-    ~/.config/systemd/user/:
-      create: true
-      glob: true
-      path: config/systemd/*
     ~/.config/zathura:
       create: true
       path: config/zathura
+    ~/.config/zed: config/zed
+    ~/.config/zellij: config/zellij
+
+    # GnuPG / SSH / secrets
     ~/.authinfo.gpg: ../Dropbox/Software/authinfo.gpg
-    ~/.twittering-mode.gpg: ../Dropbox/Software/emacs/twittering-mode.gpg
-    ~/.pi/agent/settings.json: config/pi/settings.json
-    ~/.pi/agent/keybindings.json: config/pi/keybindings.json
-    ~/.stumpwmrc: config/stumpwm/stumpwmrc
-    ~/.screenrc: screen/screenrc
-    ~/.ideavimrc: idea/ideavimrc
+    ~/.config/age: ../Dropbox/Software/age
+    ~/.gnupg/gpg-agent.conf:
+      create: true
+      path: config/gnupg/gpg-agent.conf
+    ~/.password-store: ../Dropbox/Software/pass
+    ~/.ssh/config: config/ssh/config
+
+    # Mail
+    ~/.davmail.properties: config/davmail.properties
+    ~/.elfeed: ../Dropbox/Software/elfeed
+    ~/.mbsyncrc: config/mbsyncrc
+    ~/.notmuch-config: config/notmuch/config
+
+    # Emacs / Spacemacs
+    ~/.emacs.d/.cache/.org-id-locations: ../Dropbox/Software/emacs/org-id-locations
+    ~/.emacs.d/.cache/bookmarks: ../Dropbox/Software/emacs/bookmarks
+    ~/.spacemacs.d/config: spacemacs/config
     ~/.spacemacs.d/init.el:
       create: true
       path: spacemacs/spacemacs_full
-    ~/.spacemacs.d/config: spacemacs/config
-    ~/.spacemacs_writing.d/init.el:
-      create: true
-      path: spacemacs/spacemacs_writing
     ~/.spacemacs_basic.d/init.el:
       create: true
       path: spacemacs/spacemacs_basic
     ~/.spacemacs_writing.d/config: spacemacs/config
-    ~/.emacs.d/.cache/bookmarks: ../Dropbox/Software/emacs/bookmarks
-    ~/.emacs.d/.cache/.org-id-locations: ../Dropbox/Software/emacs/org-id-locations
-    ~/.config/age: ../Dropbox/Software/age
-    ~/.elfeed: ../Dropbox/Software/elfeed
-    ~/.password-store: ../Dropbox/Software/pass
-    # bash settings
-    ~/.profile: bash/profile
-    ~/.bash-preexec.sh: bash/bash-preexec.sh
-    ~/.bash_profile: bash/bash_profile
-    ~/.bashrc: bash/bashrc
-    ~/.bash_completion.d: bash/completions
-    ~/.bash_aliases: bash/bash_aliases
-    ~/.bash_logout: bash/bash_logout
-    ~/.dircolors: bash/dircolors-solarized/dircolors.ansi-light
-    ~/.aliases: general/aliases
-    ~/.env: general/env
-    ~/.Xmodmap: general/x/Xmodmap
-    ~/.Xresources: general/x/Xresources
-    ~/.xinitrc: general/x/xinitrc
-    ~/.latexmkrc: general/latexmkrc
-    ~/.local/share/applications/:
-      path: general/applications/*
-      glob: true
+    ~/.spacemacs_writing.d/init.el:
+      create: true
+      path: spacemacs/spacemacs_writing
+    ~/.twittering-mode.gpg: ../Dropbox/Software/emacs/twittering-mode.gpg
+
+    # Other editors / tools
+    ~/.ideavimrc: idea/ideavimrc
+    ~/.pi/agent/keybindings.json: config/pi/keybindings.json
+    ~/.pi/agent/settings.json: config/pi/settings.json
+    ~/.sbclrc: config/sbclrc
+    ~/.screenrc: screen/screenrc
+    ~/.stumpwmrc: config/stumpwm/stumpwmrc
+    ~/.textlintrc: config/textlintrc
+    ~/.vale: config/vale/vale
