@@ -407,9 +407,6 @@ bind C-a send-prefix
 # move status line to top
 #set -g status-position top
 
-set -g default-terminal "xterm-256color"
-set -g terminal-overrides ',xterm-256color:Tc'
-
 set -s escape-time 0                      # faster command sequences
 
 # Rather than constraining window size to the maximum size of any client
