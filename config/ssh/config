@@ -6,6 +6,7 @@ Host github.com
   IdentitiesOnly yes
 
 Host *
-ServerAliveInterval 240
-ControlMaster auto
-ControlPath ~/.ssh/master-%r@%h:%p
+  ServerAliveInterval 240
+  ControlMaster auto
+  ControlPath ~/.ssh/master-%r@%h:%p
+  ControlPersist 10m
