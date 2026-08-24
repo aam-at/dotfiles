@@ -143,48 +143,13 @@ window-rule {
   open-floating true
 }
 
-// === Workspace routing ===
-// These use named workspaces defined in dms/workspaces.kdl
-// Matching Hyprland special workspace routing from rules.conf
+// Scratch terminal (dms/scripts/scratch-terminal.sh, Mod+Grave): floating,
+// sized proportional to whichever output it opens on.
 window-rule {
-  match app-id="btop"
-  open-on-workspace "sysmon"
-}
-
-window-rule {
-  match app-id=r#"^(feishin|Spotify|Supersonic|Cider)$"#
-  match title=r#"^Spotify( Free)?$"#
-  match title=r#"^YouTube Music"#
-  match title=r#"^musicForProgramming()"#
-  open-on-workspace "music"
-}
-
-window-rule {
-  match app-id=r#"^(discord|equibop|vesktop|whatsapp|org\.telegram\.desktop|teams-for-linux)$"#
-  match title="Gmail"
-  match title="Microsoft Teams"
-  match title="Outlook"
-  open-on-workspace "communication"
-}
-
-window-rule {
-  match title="ChatGPT"
-  match title="Claude"
-  match title="DeepSeek"
-  match title="Google AI Studio"
-  match title="Google Gemini"
-  match title="Meta AI"
-  match title="NotebookLM"
-  match title="Perplexity"
-  match title="Poe"
-  open-on-workspace "ai"
-}
-
-window-rule {
-  match app-id="Todoist"
-  match title=r#"^Google Calendar"#
-  match title=r#"^Google Tasks"#
-  open-on-workspace "todo"
+  match app-id="^scratch-terminal$"
+  open-floating true
+  default-column-width { proportion 0.8; }
+  default-window-height { proportion 0.8; }
 }
 
 // === Layer rules ===
