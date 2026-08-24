@@ -82,9 +82,6 @@ if status --is-interactive; and test -t 1
     __fish_config_load_keychain
 end
 
-# Rebuild user-specific PATH entries deterministically each session.
-set -e fish_user_paths
-
 #####################
 # Configure plugins #
 #####################

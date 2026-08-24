@@ -1,5 +1,4 @@
 function fish_greeting
-    set -l banner_color (set_color --bold brcyan)
     set -l text_color (set_color --bold brwhite)
     set -l reset_color (set_color normal)
 

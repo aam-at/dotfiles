@@ -2,7 +2,6 @@
 IMAPAccount gmail
 Host imap.gmail.com
 User alexander.matyasko@gmail.com
-# PassCmd "pass show gmail.com"
 PassCmd "echo ${PASSWORD:-$(copy_password.sh alexander.matyasko@gmail.com)}"
 Port 993
 SSLType IMAPS
@@ -20,7 +19,6 @@ SubFolders Verbatim
 Channel gmail
 Master :gmail-remote:
 Slave :gmail-local:
-# Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
 Patterns *
 Create Slave
 Sync All
@@ -36,7 +34,6 @@ PassCmd "echo ${PASSWORD:-$(copy_password.sh aliaksan001@e.ntu.edu.sg)}"
 Timeout 1000
 SSLType None
 AuthMechs Login
-
 
 IMAPStore student-remote
 Account student
@@ -87,7 +84,6 @@ SyncState *
 IMAPAccount yandex
 Host imap.yandex.com
 User alexander.matyasko@yandex.com
-# PassCmd "pass show yandex.com"
 PassCmd "echo ${PASSWORD:-$(copy_password.sh alexander.matyasko@yandex.com)}"
 Port 993
 SSLType IMAPS
@@ -104,7 +100,6 @@ Inbox ~/.mail/yandex/INBOX
 Channel yandex
 Master :yandex-remote:
 Slave :yandex-local:
-# Patterns * ![Yandex]* "[Yandex]/Sent Mail" "[Yandex]/Starred" "[Yandex]/All Mail"
 Patterns *
 Create Slave
 Sync All
