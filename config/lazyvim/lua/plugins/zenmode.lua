@@ -3,6 +3,9 @@ return {
 	{
 		"folke/zen-mode.nvim",
 		cmd = "ZenMode",
+		keys = {
+			{ "<leader>uz", "<cmd>ZenMode<cr>", desc = "Zen Mode" },
+		},
 		opts = {
 			window = {
 				width = 0.65,
@@ -13,9 +16,6 @@ return {
 				cursorcolumn = false,
 				number = false,
 				relativenumber = false,
-			},
-			keys = {
-				{ "<leader>uz", "<cmd>ZenMode<cr>", desc = "Zen Mode" },
 			},
 			plugins = {
 				twilight = { enabled = true },

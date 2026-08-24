@@ -16,7 +16,7 @@ return {
 			require("oil").setup(opts)
 		end,
 		keys = {
-			vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" }),
+			{ "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
 		},
 	},
 	-- tmux navigator
@@ -51,6 +51,7 @@ return {
 	-- Vim-visual-multi - Multiple cursors in vim
 	{
 		"mg979/vim-visual-multi",
+		event = "VeryLazy",
 	},
 	-- window picker
 	{
@@ -65,9 +66,11 @@ return {
 	-- direnv integration
 	{
 		"direnv/direnv.vim",
+		event = "VeryLazy",
 	},
 	-- pencil colorscheme
 	{
 		"preservim/vim-colors-pencil",
+		event = "VeryLazy",
 	},
 }

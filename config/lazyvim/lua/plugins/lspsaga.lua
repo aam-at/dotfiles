@@ -1,7 +1,7 @@
 return {
   {
     "nvimdev/lspsaga.nvim",
-    after = "nvim-lspconfig",
+    event = "LspAttach",
     config = function()
       require("lspsaga").setup({})
     end,

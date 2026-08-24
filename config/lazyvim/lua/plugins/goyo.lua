@@ -49,7 +49,7 @@ return {
 	-- goyo.vim - Distraction-free writing in Vim
 	{
 		"junegunn/goyo.vim",
-		depends = { "junegunn/limelight.vim" },
+		dependencies = { "junegunn/limelight.vim" },
 		cmd = "Goyo",
 	},
 	-- limelight - Hyperfocus-writing in Vim

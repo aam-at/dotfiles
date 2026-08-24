@@ -181,8 +181,6 @@ newline = "⏎"
 "g" = "goto_first_diag"
 "G" = "goto_last_diag"
 
-[keys.normal.g]
-
 # Go to
 [keys.normal.space.g]
 "$" = "goto_line_end"
@@ -236,7 +234,7 @@ newline = "⏎"
 # Increase/decrease numbers
 [keys.normal.space.n]
 "+" = "increment"
-# "-" = "decrement"
+"-" = "decrement"
 
 [keys.normal.space.q]
 "a" = ":quit-all"
@@ -272,8 +270,6 @@ newline = "⏎"
 "s" = "hsplit"          # default
 "v" = "vsplit"          # default
 "/" = "vsplit"
-# TODO: Why doesn't this work?
-# "-" = "hsplit"
 
 # Text manipulation
 [keys.normal.space.x]

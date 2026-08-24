@@ -1,7 +1,7 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+-- ("-" -> Oil is defined as a lazy-loading key trigger in plugins/extras.lua)
 
 --- Barbar keymaps
 local opts = { noremap = true, silent = true }
