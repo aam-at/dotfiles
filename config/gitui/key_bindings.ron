@@ -1,53 +1,54 @@
+// Vim-style overrides for gitui.
+//
+// gitui (via ron::de::from_reader) silently ignores any field name here that
+// doesn't match a current `KeysList` field (src/keys/key_list.rs) -- no error,
+// no warning, it just falls back to the built-in default for that action. The
+// field names below were re-synced against the installed version (gitui
+// nightly 2025-10-15 / commit b4c0244a) after most of this file turned out to
+// be using a stale/legacy field-name schema and was silently a no-op.
+//
+// A few of the original bindings had no live equivalent left to map onto and
+// were dropped: commit_revert (feature removed), stash_pop (apply/drop only
+// now), status_unstage_all, diff_open, diff_unstage, file_open/stage/unstage/
+// discard (no per-key file-view actions; use status_reset_item + enter), and
+// log_cherry_pick (no dedicated action; 'y' already does `copy` by default).
+// confirm/abort/refresh were also dropped: they already matched the current
+// defaults (enter / exit_popup) or no longer exist as a bindable action
+// (manual refresh), so no override was needed for them anyway.
 (
     move_left: Some(( code: Char('h'), modifiers: "")),
     move_right: Some(( code: Char('l'), modifiers: "")),
     move_up: Some(( code: Char('k'), modifiers: "")),
     move_down: Some(( code: Char('j'), modifiers: "")),
-    scroll_up: Some(( code: Char('K'), modifiers: "SHIFT")),
-    scroll_down: Some(( code: Char('J'), modifiers: "SHIFT")),
-    move_first: Some(( code: Char('g'), modifiers: "")),
-    move_last: Some(( code: Char('G'), modifiers: "")),
+    shift_up: Some(( code: Char('K'), modifiers: "SHIFT")),
+    shift_down: Some(( code: Char('J'), modifiers: "SHIFT")),
+    home: Some(( code: Char('g'), modifiers: "")),
+    end: Some(( code: Char('G'), modifiers: "SHIFT")),
 
-    commit_open: Some(( code: Char('c'), modifiers: "")),
+    open_commit: Some(( code: Char('c'), modifiers: "")),
     commit_amend: Some(( code: Char('A'), modifiers: "SHIFT")),
-    commit_history: Some(( code: Char('H'), modifiers: "SHIFT")),
-    commit_revert: Some(( code: Char('v'), modifiers: "")),
+    file_history: Some(( code: Char('H'), modifiers: "SHIFT")),
 
     stash_open: Some(( code: Char('z'), modifiers: "")),
-    stash_save: Some(( code: Char('Z'), modifiers: "SHIFT")),
-    stash_pop: Some(( code: Char('P'), modifiers: "SHIFT")),
+    stashing_save: Some(( code: Char('Z'), modifiers: "SHIFT")),
     stash_drop: Some(( code: Char('D'), modifiers: "SHIFT")),
 
     status_reset_item: Some(( code: Char('U'), modifiers: "SHIFT")),
     status_stage_all: Some(( code: Char('S'), modifiers: "SHIFT")),
-    status_unstage_all: Some(( code: Char('u'), modifiers: "")),
-    status_commit: Some(( code: Char('c'), modifiers: "")),
-    status_push: Some(( code: Char('p'), modifiers: "")),
-    status_pull: Some(( code: Char('f'), modifiers: "")),
+    push: Some(( code: Char('p'), modifiers: "")),
+    pull: Some(( code: Char('f'), modifiers: "")),
 
-    diff_open: Some(( code: Char('d'), modifiers: "")),
-    diff_stage: Some(( code: Char('s'), modifiers: "")),
-    diff_unstage: Some(( code: Char('u'), modifiers: "")),
-    diff_discard: Some(( code: Char('x'), modifiers: "")),
+    diff_stage_lines: Some(( code: Char('s'), modifiers: "")),
+    diff_reset_lines: Some(( code: Char('x'), modifiers: "")),
 
-    log_open: Some(( code: Char('l'), modifiers: "")),
     log_tag_commit: Some(( code: Char('t'), modifiers: "")),
     log_checkout_commit: Some(( code: Char('o'), modifiers: "")),
-    log_create_branch: Some(( code: Char('n'), modifiers: "")),
-    log_cherry_pick: Some(( code: Char('y'), modifiers: "")),
+    create_branch: Some(( code: Char('n'), modifiers: "")),
 
-    file_open: Some(( code: Char('o'), modifiers: "")),
-    file_stage: Some(( code: Char('s'), modifiers: "")),
-    file_unstage: Some(( code: Char('u'), modifiers: "")),
-    file_discard: Some(( code: Char('x'), modifiers: "")),
-
-    branch_select: Some(( code: Char('b'), modifiers: "")),
-    branch_merge: Some(( code: Char('m'), modifiers: "")),
-    branch_delete: Some(( code: Char('D'), modifiers: "SHIFT")),
+    select_branch: Some(( code: Char('b'), modifiers: "")),
+    merge_branch: Some(( code: Char('m'), modifiers: "")),
+    delete_branch: Some(( code: Char('D'), modifiers: "SHIFT")),
 
     open_help: Some(( code: F(1), modifiers: "")),
     quit: Some(( code: Char('q'), modifiers: "")),
-    refresh: Some(( code: Char('r'), modifiers: "")),
-    confirm: Some(( code: Char('\r'), modifiers: "")),
-    abort: Some(( code: Char('\x1b'), modifiers: "")),
 )
