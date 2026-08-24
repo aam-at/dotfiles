@@ -66,34 +66,4 @@ return {
 			table.insert(opts.ensure_installed, "textlsp")
 		end,
 	},
-	-- text lsp server for grammar checking
-	-- {
-	-- 	"neovim/nvim-lspconfig",
-	-- 	opts = {
-	-- 		servers = {
-	-- 			textlsp = {
-	-- 				filetypes = { "tex", "latex", "pandoc", "markdown" },
-	-- 				settings = {
-	-- 					textLSP = {
-	-- 						analysers = {
-	-- 							languagetool = {
-	-- 								enabled = true,
-	-- 							},
-	-- 							gramformer = {
-	-- 								-- gramformer dependency needs to be installed manually
-	-- 								enabled = true,
-	-- 								gpu = true,
-	-- 								check_text = {
-	-- 									on_open = false,
-	-- 									on_save = false,
-	-- 									on_change = false,
-	-- 								},
-	-- 							},
-	-- 						},
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		},
-	-- 	},
-	-- },
 }
