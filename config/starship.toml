@@ -1,6 +1,8 @@
 # version: 1.0.0
 
 add_newline = false
+# Git status checks can exceed Starship's 500 ms default in large repositories.
+command_timeout = 1_000
 continuation_prompt = "[▸▹ ](dimmed white)"
 
 format = """($nix_shell$container$fill$git_metrics\n)$cmd_duration\
