@@ -108,20 +108,45 @@
     ~/.mbsyncrc: config/mbsyncrc
     ~/.notmuch-config: config/notmuch/config
 
-    # Emacs / Spacemacs
-    ~/.emacs.d/.cache/.org-id-locations: ../Dropbox/Software/emacs/org-id-locations
-    ~/.emacs.d/.cache/bookmarks: ../Dropbox/Software/emacs/bookmarks
-    ~/.spacemacs.d/config: spacemacs/config
-    ~/.spacemacs.d/init.el:
+    # Emacs profiles. Framework checkouts and generated state are intentionally
+    # outside the dotfiles repository; see emacs/README.md.
+    ~/.config/emacs/doom: emacs/doom
+    ~/.config/emacs/config:
       create: true
-      path: spacemacs/spacemacs_full
-    ~/.spacemacs_basic.d/init.el:
+      path: emacs/config
+    ~/.config/emacs/funcs:
       create: true
-      path: spacemacs/spacemacs_basic
-    ~/.spacemacs_writing.d/config: spacemacs/config
-    ~/.spacemacs_writing.d/init.el:
+      path: emacs/funcs
+    ~/.config/emacs/spacemacs:
       create: true
-      path: spacemacs/spacemacs_writing
+      path: emacs/spacemacs
+    ~/.config/emacs/spacemacs-full/config:
+      create: true
+      path: emacs/config
+    ~/.config/emacs/spacemacs-full/funcs:
+      create: true
+      path: emacs/funcs
+    ~/.config/emacs/spacemacs-full/layers:
+      create: true
+      path: emacs/spacemacs
+    ~/.config/emacs/spacemacs-full/init.el:
+      create: true
+      path: emacs/spacemacs/spacemacs_full
+    ~/.config/emacs/spacemacs-basic/init.el:
+      create: true
+      path: emacs/spacemacs/spacemacs_basic
+    ~/.config/emacs/spacemacs-writing/config:
+      create: true
+      path: emacs/config
+    ~/.config/emacs/spacemacs-writing/funcs:
+      create: true
+      path: emacs/funcs
+    ~/.config/emacs/spacemacs-writing/layers:
+      create: true
+      path: emacs/spacemacs
+    ~/.config/emacs/spacemacs-writing/init.el:
+      create: true
+      path: emacs/spacemacs/spacemacs_writing
     ~/.twittering-mode.gpg: ../Dropbox/Software/emacs/twittering-mode.gpg
 
     # Other editors / tools

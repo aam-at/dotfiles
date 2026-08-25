@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+# Start an Emacs configuration profile without sharing ~/.emacs.d.
+set -euo pipefail
+
+config_root="${XDG_CONFIG_HOME:-$HOME/.config}/emacs"
+data_root="${XDG_DATA_HOME:-$HOME/.local/share}/emacs"
+state_root="${XDG_STATE_HOME:-$HOME/.local/state}/emacs"
+
+usage() {
+  printf 'Usage: %s PROFILE [EMACS-ARG ...]\n' "${0##*/}" >&2
+  printf 'Profiles: doom, spacemacs-full, spacemacs-basic, spacemacs-writing, or an XDG profile name.\n' >&2
+  exit 64
+}
+
+profile="${1:-}"
+[[ -n "$profile" ]] || usage
+shift
+
+case "$profile" in
+doom)
+  framework="$data_root/doom"
+  profile_dir="$config_root/doom"
+  [[ -x "$framework/bin/doom" ]] || {
+    printf 'Doom is not installed at %s\n' "$framework" >&2
+    exit 1
+  }
+  [[ -f "$profile_dir/init.el" ]] || {
+    printf 'Doom profile is not installed at %s\n' "$profile_dir" >&2
+    exit 1
+  }
+  mkdir -p "$state_root/doom"
+  exec env EMACSDIR="$framework" \
+    DOOMDIR="$profile_dir" \
+    DOOMLOCALDIR="$state_root/doom" \
+    emacs --init-directory="$framework" "$@"
+  ;;
+spacemacs-full|spacemacs-basic|spacemacs-writing)
+  framework="$data_root/spacemacs"
+  profile_dir="$config_root/$profile"
+  [[ -f "$framework/init.el" ]] || {
+    printf 'Spacemacs is not installed at %s\n' "$framework" >&2
+    exit 1
+  }
+  [[ -f "$profile_dir/init.el" ]] || {
+    printf 'Spacemacs profile is not installed at %s\n' "$profile_dir" >&2
+    exit 1
+  }
+  exec env SPACEMACSDIR="$profile_dir" \
+    emacs --init-directory="$framework" "$@"
+  ;;
+*)
+  profile_dir="$config_root/$profile"
+  [[ -f "$profile_dir/init.el" ]] || {
+    printf 'Profile is not installed at %s\n' "$profile_dir" >&2
+    exit 1
+  }
+  exec emacs --init-directory="$profile_dir" "$@"
+  ;;
+esac

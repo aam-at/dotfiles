@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Run Doom's CLI with the same isolated paths as emacs-profile doom.
+set -euo pipefail
+
+config_root="${XDG_CONFIG_HOME:-$HOME/.config}/emacs"
+data_root="${XDG_DATA_HOME:-$HOME/.local/share}/emacs"
+state_root="${XDG_STATE_HOME:-$HOME/.local/state}/emacs"
+framework="$data_root/doom"
+profile_dir="$config_root/doom"
+
+[[ -x "$framework/bin/doom" ]] || {
+  printf 'Doom is not installed at %s\n' "$framework" >&2
+  exit 1
+}
+[[ -f "$profile_dir/init.el" ]] || {
+  printf 'Doom profile is not installed at %s\n' "$profile_dir" >&2
+  exit 1
+}
+
+mkdir -p "$state_root/doom"
+exec env EMACSDIR="$framework" \
+  DOOMDIR="$profile_dir" \
+  DOOMLOCALDIR="$state_root/doom" \
+  "$framework/bin/doom" "$@"
