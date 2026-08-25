@@ -1,0 +1,36 @@
+;;; org.el --- Dependencies from Org-related layers -*- no-byte-compile: t; -*-
+
+(package! cdlatex)
+(package! org-super-agenda)
+(package! org-protocol-capture-html
+	  :recipe (:host github :repo "alphapapa/org-protocol-capture-html"))
+(package! magit-org-todos)
+(package! org-doing)
+(package! org-mru-clock)
+(package! org-transclusion)
+(package! ob-async)
+(package! org-gcal
+	  :recipe (:host github :repo "kidd/org-gcal.el"))
+(package! org-ref)
+(package! org-roam-bibtex)
+(package! org-roam-ui)
+(package! vulpea)
+(package! websocket)
+(package! delve
+	  :recipe (:host github :repo "publicimageltd/delve"))
+(package! org-similarity
+	  :recipe (:host github :repo "aam-at/org-similarity"))
+(package! org-fragtog)
+(package! org-pdftools)
+(package! org-noter-pdftools)
+(package! org-contacts)
+(package! org-remark)
+(package! org-appear)
+(package! org-download)
+(package! org-mime)
+(package! org-cliplink)
+(package! org-modern)
+(package! ox-epub)
+(package! org-re-reveal)
+(package! org-sticky-header)
+(package! valign)

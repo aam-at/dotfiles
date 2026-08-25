@@ -1,0 +1,31 @@
+;;; extras.el --- Remaining package parity dependencies -*- no-byte-compile: t; -*-
+
+(package! ebib)
+(package! elfeed-goodies)
+(package! pandoc-mode)
+(package! reformatter)
+(package! ruff-format)
+(package! polymode)
+(package! poly-markdown)
+(package! poly-org)
+(package! adaptive-wrap)
+(package! auctex-cont-latexmk)
+(package! auctex-label-numbers)
+(package! preview-auto)
+(package! texpresso
+	  :recipe (:host github :repo "let-def/texpresso" :files ("emacs/*.el")))
+(package! twauctex
+	  :recipe (:host github :repo "cgroza/twauctex"))
+(package! clang-format)
+(package! doxymacs
+	  :recipe (:host github :repo "pniedzielski/doxymacs"))
+(package! nov)
+(package! djvu)
+(package! spray)
+(package! elfeed-web)
+(package! langtool)
+(package! ranger)
+(package! rebox2)
+(package! engine-mode)
+(package! systemd)
+(package! xclip)
