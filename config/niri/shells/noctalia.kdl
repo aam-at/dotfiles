@@ -1,0 +1,48 @@
+// Noctalia v5 profile. It deliberately does not load DMS-generated appearance
+// or DMS IPC bindings, so the two shells never run together.
+
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=Niri"
+spawn-at-startup "/usr/lib/hyprpolkitagent/hyprpolkitagent"
+spawn-at-startup "trash-empty" "30"
+spawn-at-startup "dropbox" "start"
+spawn-at-startup "insync" "start" "--qt-qpa-platform=xcb"
+spawn-at-startup "noctalia"
+
+include "../common/binds.kdl"
+
+// Keep the DMS muscle memory whenever Noctalia provides the equivalent.
+binds {
+  Mod+Space { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
+  Mod+V { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
+  Mod+M { spawn "noctalia" "msg" "panel-toggle" "control-center" "system"; }
+  Mod+N { spawn "noctalia" "msg" "panel-toggle" "control-center" "notifications"; }
+  Mod+Y { spawn "noctalia" "msg" "panel-toggle" "wallpaper"; }
+  Mod+Comma { spawn "noctalia" "msg" "settings-toggle"; }
+  Super+X { spawn "noctalia" "msg" "panel-toggle" "session"; }
+  Mod+Alt+L { spawn "noctalia" "msg" "session" "lock"; }
+  Ctrl+Alt+Delete { spawn "noctalia" "msg" "panel-toggle" "control-center" "system"; }
+
+  XF86AudioRaiseVolume allow-when-locked=true { spawn "noctalia" "msg" "volume-up" "3"; }
+  XF86AudioLowerVolume allow-when-locked=true { spawn "noctalia" "msg" "volume-down" "3"; }
+  XF86AudioMute allow-when-locked=true { spawn "noctalia" "msg" "volume-mute"; }
+  XF86AudioMicMute allow-when-locked=true { spawn "noctalia" "msg" "mic-mute"; }
+  XF86AudioPause allow-when-locked=true { spawn "noctalia" "msg" "media" "toggle"; }
+  XF86AudioPlay allow-when-locked=true { spawn "noctalia" "msg" "media" "toggle"; }
+  XF86AudioPrev allow-when-locked=true { spawn "noctalia" "msg" "media" "previous"; }
+  XF86AudioNext allow-when-locked=true { spawn "noctalia" "msg" "media" "next"; }
+  XF86MonBrightnessUp allow-when-locked=true { spawn "noctalia" "msg" "brightness-up" "5"; }
+  XF86MonBrightnessDown allow-when-locked=true { spawn "noctalia" "msg" "brightness-down" "5"; }
+  Print { spawn "noctalia" "msg" "screenshot-region"; }
+  Ctrl+Print { spawn "noctalia" "msg" "screenshot-full"; }
+  Alt+Print { spawn "noctalia" "msg" "screenshot-window"; }
+}
+
+// Noctalia wallpaper/overview and notification activation integration.
+// Keep application chrome aligned with the 12px DMS geometry.
+window-rule {
+  geometry-corner-radius 12
+  clip-to-geometry true
+}
+layout { background-color "transparent"; }
+layer-rule { match namespace="^noctalia-(wallpaper|overview).*"; place-within-backdrop true; }
+layer-rule { match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"; }

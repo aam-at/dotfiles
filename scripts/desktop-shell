@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Switch the shell profile shared by Niri and Hyprland.
+set -euo pipefail
+
+profile="${1:-status}"
+config_root="${XDG_CONFIG_HOME:-$HOME/.config}"
+niri_active="$config_root/niri/shells/active.kdl"
+hypr_active="$config_root/hypr/shells/active.conf"
+
+status() {
+  local niri_profile hypr_profile
+  niri_profile="$(sed -n 's|.*\\(dms\\|noctalia\\)\\.kdl.*|\\1|p' "$niri_active" 2>/dev/null | head -n1 || true)"
+  hypr_profile="$(sed -n 's|.*\\(dms\\|noctalia\\)\\.conf.*|\\1|p' "$hypr_active" 2>/dev/null | head -n1 || true)"
+  printf 'niri: %s\n' "${niri_profile:-not installed}"
+  printf 'hypr: %s\n' "${hypr_profile:-not installed}"
+}
+
+case "$profile" in
+  status)
+    status
+    exit 0
+    ;;
+  dms|noctalia)
+    ;;
+  *)
+    echo "usage: desktop-shell {dms|noctalia|status}" >&2
+    exit 2
+    ;;
+esac
+
+for active in "$niri_active" "$hypr_active"; do
+  dir="$(dirname "$active")"
+  target="$dir/$profile.${active##*.}"
+  [[ -f "$target" ]] || { echo "missing profile: $target" >&2; exit 1; }
+  tmp="$active.tmp.$$"
+  if [[ "$active" == *.kdl ]]; then
+    printf '%s\n' "// Managed by desktop-shell; do not edit." > "$tmp"
+    printf 'include "%s.kdl"\n' "$profile" >> "$tmp"
+  else
+    printf '%s\n' "# Managed by desktop-shell; do not edit." > "$tmp"
+    printf 'source = ./%s.conf\n' "$profile" >> "$tmp"
+  fi
+  mv -f "$tmp" "$active"
+done
+
+command -v niri >/dev/null && niri msg action load-config >/dev/null 2>&1 || true
+command -v hyprctl >/dev/null && hyprctl reload >/dev/null 2>&1 || true
+echo "desktop shell switched to: $profile"

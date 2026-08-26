@@ -1,4 +1,4 @@
-// No named workspaces. Plain dynamic workspaces only (Mod+1-9 in dms/binds.kdl,
+// No named workspaces. Plain dynamic workspaces only (Mod+1-9 in common/binds.kdl,
 // raw index = live position on the focused monitor, per niri's own model).
 // Named workspaces were tried here (pinning, ordering, F1-F5 routing) and
 // dropped: more moving parts than value — index/name resolution collisions,

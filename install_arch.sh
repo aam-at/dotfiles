@@ -15,6 +15,7 @@ INSTALL_NODE=${INSTALL_NODE:-true}
 INSTALL_OLLAMA=${INSTALL_OLLAMA:-false}
 INSTALL_EMACS=${INSTALL_EMACS:-true}
 INSTALL_FONTS=${INSTALL_FONTS:-true}
+INSTALL_DESKTOP_SHELLS=${INSTALL_DESKTOP_SHELLS:-true}
 
 if [ -f /etc/os-release ]; then
   . /etc/os-release
@@ -55,6 +56,14 @@ install_packages \
   ttf-fira-code ttf-jetbrains-mono unrar vale webkit2gtk wget wmctrl xapian-core \
   xdg-desktop-portal-hyprland xdg-utils xfce4-settings xh xz zathura \
   zathura-djvu zathura-pdf-poppler zed zellij zenity zlib-ng zoxide
+
+# Desktop-shell profiles: both are installed so `desktop-shell` can switch
+# between Dank Material Shell and Noctalia without another package transaction.
+# Set INSTALL_DESKTOP_SHELLS=false to skip this desktop-only bundle.
+if $INSTALL_DESKTOP_SHELLS; then
+  install_packages \
+    brightnessctl cliphist dms-shell hyprland matugen niri noctalia
+fi
 
 # install git tools
 install_packages \

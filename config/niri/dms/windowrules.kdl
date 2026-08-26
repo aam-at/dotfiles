@@ -146,7 +146,7 @@ window-rule {
 // Scratch terminal (dms/scripts/scratch-terminal.sh, Mod+Grave): floating,
 // sized proportional to whichever output it opens on.
 window-rule {
-  match app-id="^scratch-terminal$"
+  match app-id=r#"^scratch-terminal$"#
   open-floating true
   default-column-width { proportion 0.8; }
   default-window-height { proportion 0.8; }
