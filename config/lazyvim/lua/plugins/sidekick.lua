@@ -8,7 +8,13 @@ return {
       local sk = LazyVim.opts("sidekick.nvim") ---@type sidekick.Config|{}
       if vim.tbl_get(sk, "nes", "enabled") ~= false then
         opts.servers = opts.servers or {}
-        opts.servers.copilot = opts.servers.copilot or {}
+        -- The Copilot completion extra disables this server for copilot.lua.
+        -- Sidekick's next-edit suggestions use the Copilot LSP, so explicitly
+        -- re-enable it without asking Mason to manage the CLI-provided server.
+        opts.servers.copilot = vim.tbl_deep_extend("force", opts.servers.copilot or {}, {
+          enabled = true,
+          mason = false,
+        })
       end
     end,
   },

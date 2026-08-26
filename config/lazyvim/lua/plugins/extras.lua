@@ -6,19 +6,6 @@ local function check_aw_running()
 end
 
 return {
-	-- Oil - A modern, extensible, and fast file explorer for neovim
-	{
-		"stevearc/oil.nvim",
-		cmd = "Oil",
-		opts = {},
-		dependencies = { { "nvim-mini/mini.icons", opts = {} } },
-		config = function(_, opts)
-			require("oil").setup(opts)
-		end,
-		keys = {
-			{ "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
-		},
-	},
 	-- tmux navigator
 	{
 		"christoomey/vim-tmux-navigator",
