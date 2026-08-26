@@ -1,0 +1,10 @@
+# greetd session chooser for COSMIC, Niri, and Hyprland.
+#
+# Niri is the fallback. At the login screen, press F3 to choose any installed
+# Wayland session from /usr/share/wayland-sessions.
+[terminal]
+vt = 1
+
+[default_session]
+command = "tuigreet --time --remember --asterisks --cmd /usr/bin/niri-session"
+user = "greeter"

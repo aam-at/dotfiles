@@ -1,7 +1,7 @@
 #!/bin/bash
 # Jump to the scratch terminal if one is running, else spawn one.
 # No hide/show, no parking workspace — just quick access to one floating
-# terminal from anywhere. Bound to Mod+Grave in dms/binds.kdl.
+# terminal from anywhere. Bound to Mod+Grave in common/binds.kdl.
 
 WIN_ID=$(niri msg -j windows | jq -r '.[] | select(.app_id=="scratch-terminal") | .id' | head -1)
 

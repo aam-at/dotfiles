@@ -1,0 +1,12 @@
+// Dank Material Shell profile.
+// DMS owns the generated appearance fragments in ../dms/.
+include "../dms/execs.kdl"
+include "../dms/colors.kdl"
+include "../dms/layout.kdl"
+include "../dms/layout-custom.kdl"
+include "../dms/cursor.kdl"
+include "../dms/wpblur.kdl"
+include "../dms/animations.kdl"
+include "../dms/alttab.kdl"
+include "../common/binds.kdl"
+include "dms-binds.kdl"
