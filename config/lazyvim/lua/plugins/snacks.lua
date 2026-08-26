@@ -1,7 +1,32 @@
 return {
 	{
 		"folke/snacks.nvim",
+		keys = {
+			{ "-", function() Snacks.explorer() end, desc = "Open Explorer" },
+			{ "<leader>uz", function() Snacks.zen() end, desc = "Zen Mode" },
+		},
 		opts = {
+			explorer = { enabled = true },
+			image = { enabled = true },
+			indent = { enabled = true, scope = { enabled = true } },
+			notifier = { enabled = true, timeout = 3000 },
+			words = { enabled = true },
+			zen = {
+				toggles = { dim = true, git_signs = false, mini_diff_signs = false },
+				show = { statusline = false, tabline = false },
+				win = {
+					width = 0.65,
+					wo = {
+						cursorcolumn = false,
+						cursorline = false,
+						linebreak = true,
+						number = false,
+						relativenumber = false,
+						signcolumn = "no",
+						wrap = true,
+					},
+				},
+			},
 			dashboard = {
 				sections = {
 					{ section = "header" },
@@ -12,5 +37,8 @@ return {
 				},
 			},
 		},
+		init = function()
+			vim.api.nvim_create_user_command("ZenMode", function() Snacks.zen() end, {})
+		end,
 	},
 }
