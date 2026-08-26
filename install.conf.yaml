@@ -2,6 +2,7 @@
 - shell:
     - [git submodule update --depth 1 --init --recursive, Installing submodules]
     - [env > ~/.bash_env, Environment variables]
+    - [mkdir -p ~/.gnupg && chmod 700 ~/.gnupg, Secure GnuPG home directory]
     - [cd bash/bashmarks && make install, Install bashmarks]
     - [
         chmod +x scripts/*.sh && mkdir -p ~/.local/bin && ln -frs scripts/*
