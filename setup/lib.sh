@@ -117,12 +117,25 @@ install_ollama() {
   done
 }
 
-# ── Spacemacs / Intellimacs ──────────────────────────────────
+# ── Emacs distributions / Intellimacs ────────────────────────
 
-install_spacemacs() {
-  if [ ! -d "$HOME/.emacs.d" ]; then
+install_emacs() {
+  local emacs_data_dir="$HOME/.local/share/emacs"
+  local doom_dir="$emacs_data_dir/doom"
+  local spacemacs_dir="$emacs_data_dir/spacemacs"
+
+  mkdir -p "$emacs_data_dir"
+
+  if [ ! -d "$doom_dir" ]; then
+    echo "Installing Doom Emacs..."
+    git clone --depth=1 https://github.com/doomemacs/doomemacs "$doom_dir"
+  else
+    echo "Doom Emacs already installed."
+  fi
+
+  if [ ! -d "$spacemacs_dir" ]; then
     echo "Installing Spacemacs..."
-    git clone https://github.com/aam-at/spacemacs ~/.emacs.d
+    git clone --depth=1 https://github.com/aam-at/spacemacs "$spacemacs_dir"
   else
     echo "Spacemacs already installed."
   fi
@@ -201,7 +214,7 @@ parse_common_args() {
       echo "  --no-go        Skip Go toolchain"
       echo "  --no-node      Skip Node.js toolchain"
       echo "  --no-lua       Skip Lua toolchain"
-      echo "  --no-emacs     Skip Emacs/Spacemacs"
+      echo "  --no-emacs     Skip Doom Emacs and Spacemacs"
       echo "  --no-fonts     Skip font installation"
       exit 0
       ;;

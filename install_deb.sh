@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$REPO_DIR/setup/lib.sh"
 
 # Default values
 GUI=${GUI:-false}
@@ -340,10 +341,9 @@ if $INSTALL_LUA; then
   luarocks install --local tiktoken_core
 fi
 
-# Install Spacemacs
-if $INSTALL_EMACS && [ ! -d "$HOME/.emacs.d" ]; then
-  echo "Installing Spacemacs..."
-  git clone https://github.com/aam-at/spacemacs ~/.emacs.d
+# Install Doom Emacs and Spacemacs
+if $INSTALL_EMACS; then
+  install_emacs
 fi
 
 # Install Intellimacs
