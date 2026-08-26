@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Emacs Client
+GenericName=Text Editor
+Comment=Open files in the selected Emacs profile
+Exec=emacsclient-visual.sh -- %F
+Icon=emacs
+Type=Application
+Terminal=false
+Categories=Utility;TextEditor;
+MimeType=text/plain;text/markdown;text/org;text/org_archive;text/yaml;text/x-tex;text/x-bibtex;text/bibtex;
+StartupWMClass=Emacs

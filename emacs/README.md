@@ -54,6 +54,29 @@ Clone Doom to `~/.local/share/emacs/doom` and Spacemacs to
 Prelude or Emalla, can place an `init.el` in `~/.config/emacs/<profile>/` and
 run `emacs-profile <profile>`.
 
+## Systemd daemons
+
+The user unit is templated by profile, so each daemon has an isolated named
+server socket.  First deploy the dotfiles so the unit and launcher are linked,
+then use `emacs-daemon switch` to select the daemon started automatically and
+used by graphical file-open requests:
+
+```sh
+./install
+systemctl --user daemon-reload
+systemctl --user disable --now emacs.service  # one-time migration from the old unit
+emacs-daemon switch doom
+emacs-daemon switch spacemacs-full
+emacs-daemon open spacemacs-full path/to/file
+```
+
+`switch` intentionally keeps only one managed profile enabled and records the
+selection in `~/.local/state/emacs/default-profile`; `emacsclient-visual.sh`,
+desktop-file associations, and the Hyprland editor binding follow it.  To run
+two profiles concurrently, start each instance explicitly and connect to its
+named socket with `emacsclient --socket-name=<profile>`.  For a one-off frame,
+use `EMACS_PROFILE=spacemacs-full emacsclient-visual.sh`.
+
 ## Optional native Wayland build
 
 On Arch, [build-emacs-wayland](../scripts/build-emacs-wayland) builds Emacs
