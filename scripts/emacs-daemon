@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+
+# Manage named systemd user daemons for the Emacs profiles in this repository.
+set -euo pipefail
+
+profiles=(doom spacemacs-full spacemacs-basic spacemacs-writing)
+state_root="${XDG_STATE_HOME:-$HOME/.local/state}/emacs"
+selected_profile_file="$state_root/default-profile"
+
+usage() {
+  cat >&2 <<EOF
+Usage: ${0##*/} {switch|start|stop|restart|open|status} PROFILE [EMACSCLIENT-ARG ...]
+
+Profiles: ${profiles[*]}
+
+switch   stop other managed daemons, persist PROFILE for future user sessions,
+         then start it
+open     start PROFILE if needed, wait for its socket, and open a frame
+EOF
+  exit 64
+}
+
+profile_valid_p() {
+  local profile="$1"
+  local candidate
+  for candidate in "${profiles[@]}"; do
+    [[ "$candidate" == "$profile" ]] && return 0
+  done
+  return 1
+}
+
+wait_for_daemon() {
+  local profile="$1"
+  local attempt=0
+  while ((attempt++ < 100)); do
+    if emacsclient --socket-name="$profile" --eval '(emacs-pid)' >/dev/null 2>&1; then
+      return 0
+    fi
+    sleep 0.1
+  done
+  printf 'Timed out waiting for Emacs profile %q.\n' "$profile" >&2
+  systemctl --user status "emacs@${profile}.service" --no-pager >&2 || true
+  exit 1
+}
+
+command_name="${1:-}"
+profile="${2:-}"
+[[ -n "$command_name" && -n "$profile" ]] || usage
+profile_valid_p "$profile" || {
+  printf 'Unknown Emacs profile: %s\n' "$profile" >&2
+  usage
+}
+shift 2
+unit="emacs@${profile}.service"
+
+case "$command_name" in
+switch)
+  for candidate in "${profiles[@]}"; do
+    [[ "$candidate" == "$profile" ]] && continue
+    systemctl --user disable --now "emacs@${candidate}.service" 2>/dev/null || true
+  done
+  systemctl --user enable --now "$unit"
+  wait_for_daemon "$profile"
+  install -d -m 700 "$state_root"
+  printf '%s\n' "$profile" >"$selected_profile_file"
+  ;;
+start)
+  systemctl --user start "$unit"
+  wait_for_daemon "$profile"
+  ;;
+stop)
+  systemctl --user stop "$unit"
+  ;;
+restart)
+  systemctl --user restart "$unit"
+  wait_for_daemon "$profile"
+  ;;
+open)
+  systemctl --user start "$unit"
+  wait_for_daemon "$profile"
+  if [[ $# -gt 0 ]]; then
+    exec emacsclient --socket-name="$profile" --reuse-frame "$@"
+  else
+    exec emacsclient --socket-name="$profile" --create-frame
+  fi
+  ;;
+status)
+  exec systemctl --user status "$unit" --no-pager
+  ;;
+*)
+  usage
+  ;;
+esac

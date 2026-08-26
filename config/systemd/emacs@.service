@@ -1,0 +1,19 @@
+[Unit]
+Description=Emacs daemon (%i profile)
+Documentation=info:emacs man:emacs(1) https://www.gnu.org/software/emacs/
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=forking
+Environment=TERM=xterm-24bit
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+EnvironmentFile=-%h/.bash_env
+ExecStart=%h/.local/bin/emacs-profile %i --daemon=%i
+ExecStop=/usr/bin/emacsclient --socket-name=%i --eval=(kill-emacs)
+Restart=on-failure
+RestartSec=2
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target
