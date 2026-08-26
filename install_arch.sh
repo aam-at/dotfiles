@@ -134,7 +134,7 @@ if $INSTALL_LUA; then
 fi
 
 if $INSTALL_EMACS; then
-  install_spacemacs
+  install_emacs
 fi
 
 if $GUI; then
