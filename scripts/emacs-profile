@@ -8,14 +8,49 @@ data_root="${XDG_DATA_HOME:-$HOME/.local/share}/emacs"
 state_root="${XDG_STATE_HOME:-$HOME/.local/state}/emacs"
 
 usage() {
-  printf 'Usage: %s PROFILE [EMACS-ARG ...]\n' "${0##*/}" >&2
+  printf 'Usage: %s [--insecure] [--daemon[=NAME]] [-nw] PROFILE [EMACS-ARG ...]\n' "${0##*/}" >&2
   printf 'Profiles: doom, spacemacs-full, spacemacs-basic, spacemacs-writing, or an XDG profile name.\n' >&2
   exit 64
 }
 
+early_emacs_args=()
+while (($#)); do
+  case "$1" in
+  --insecure|--daemon|--daemon=*|-nw|--no-window-system)
+    early_emacs_args+=("$1")
+    shift
+    ;;
+  --)
+    shift
+    break
+    ;;
+  -*)
+    printf 'Profile must follow %s; pass other Emacs options after the profile.\n' "${0##*/}" >&2
+    usage
+    ;;
+  *)
+    break
+    ;;
+  esac
+done
+
 profile="${1:-}"
 [[ -n "$profile" ]] || usage
 shift
+
+# Emacs must see display-selection options before it initializes a graphical
+# frame.  Accept them after PROFILE too, but promote them to the early argv.
+emacs_args=()
+for arg in "$@"; do
+  case "$arg" in
+  --insecure|--daemon|--daemon=*|-nw|--no-window-system)
+    early_emacs_args+=("$arg")
+    ;;
+  *)
+    emacs_args+=("$arg")
+    ;;
+  esac
+done
 
 case "$profile" in
 doom)
@@ -33,7 +68,7 @@ doom)
   exec env EMACSDIR="$framework" \
     DOOMDIR="$profile_dir" \
     DOOMLOCALDIR="$state_root/doom" \
-    emacs --init-directory="$framework" "$@"
+    emacs "${early_emacs_args[@]}" --init-directory="$framework" "${emacs_args[@]}"
   ;;
 spacemacs-full|spacemacs-basic|spacemacs-writing)
   framework="$data_root/spacemacs"
@@ -47,7 +82,7 @@ spacemacs-full|spacemacs-basic|spacemacs-writing)
     exit 1
   }
   exec env SPACEMACSDIR="$profile_dir" \
-    emacs --init-directory="$framework" "$@"
+    emacs "${early_emacs_args[@]}" --init-directory="$framework" "${emacs_args[@]}"
   ;;
 *)
   profile_dir="$config_root/$profile"
@@ -55,6 +90,6 @@ spacemacs-full|spacemacs-basic|spacemacs-writing)
     printf 'Profile is not installed at %s\n' "$profile_dir" >&2
     exit 1
   }
-  exec emacs --init-directory="$profile_dir" "$@"
+  exec emacs "${early_emacs_args[@]}" --init-directory="$profile_dir" "${emacs_args[@]}"
   ;;
 esac

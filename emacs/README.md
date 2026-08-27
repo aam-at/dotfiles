@@ -46,8 +46,16 @@ paths:
 ```sh
 emacs-profile doom
 emacs-profile spacemacs-full
+emacs-profile --insecure spacemacs-full
+emacs-profile --daemon=research spacemacs-writing
+emacs-profile -nw spacemacs-basic
 doom-profile sync
 ```
+
+`emacs-profile` accepts `--insecure`, `--daemon[=NAME]`, and `-nw` (or
+`--no-window-system`) before or after the profile, and forwards them before
+Emacs initializes its display. Use a named daemon when running more than one
+profile so each server has its own socket.
 
 Clone Doom to `~/.local/share/emacs/doom` and Spacemacs to
 `~/.local/share/emacs/spacemacs`.  Future standalone profiles, such as
