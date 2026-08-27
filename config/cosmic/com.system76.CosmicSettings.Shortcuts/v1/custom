@@ -1,0 +1,111 @@
+// COSMIC DE keybindings that mimic the niri/Hyprland profile.
+//
+// This is the user "custom" layer that cosmic-comp merges ON TOP of the
+// shipped defaults at
+// /usr/share/cosmic/com.system76.CosmicSettings.Shortcuts/v1/defaults.
+// Only the entries listed here are added or overridden; every other default
+// binding (Super/Alt+Tab switchers, all XF86 media/brightness keys, Print,
+// Super+1-0 workspaces, Super+Shift+1-0 move, Super+m/g/o/s/y/x, Super+F11,
+// the a11y zoom on Super+period/Super+comma, etc.) stays intact.
+//
+// Source of truth for the mappings (active profile: noctalia):
+//   config/niri/common/binds.kdl  + config/niri/shells/noctalia.kdl
+//   config/hypr/common/binds.conf + config/hypr/shells/noctalia.conf
+//
+// Intentional divergences from the COSMIC defaults (to match muscle memory):
+//   * Super+u / Super+i re-bound from Focus(Out)/Focus(In) to workspace
+//     next/previous; Super+= / Super+- re-bound from a11y ZoomIn/Out to window
+//     resize. A11y zoom remains on Super+period / Super+comma.
+//   * The whole Super+Ctrl and Super+Shift+Ctrl key sets are re-purposed for
+//     monitor focus / send and move-to-workspace, instead of COSMIC's default
+//     workspace cycling on those keys.
+//
+// Remaining compositor-specific gaps:
+//   Super+Grave reusable scratch terminal, Super+Shift+P DPMS, direct column
+//   width presets (Super+Ctrl+1-4), named special workspaces (Super+F1-F5),
+//   and mouse-wheel workspace/column navigation. COSMIC now supports Spawn(),
+//   so ordinary app launchers are mapped directly below.
+{
+    // === System & Overview ===
+    // niri Mod+D/Mod+Tab overview -> Super+d (default Super+w overview kept).
+    (modifiers: [Super], key: "d"): System(WorkspaceOverview),
+
+    // === Application Launchers ===
+    // Match the concrete app choices in config/hypr/common/binds.conf.
+    (modifiers: [Super], key: "t"): Spawn("kitty"),
+    (modifiers: [Super], key: "Return"): Spawn("kitty"),
+    (modifiers: [Super], key: "e"): Spawn("thunar"),
+    (modifiers: [Super], key: "b"): Spawn("microsoft-edge-stable"),
+    (modifiers: [Super], key: "c"): Spawn("emacsclient-visual.sh"),
+    // Match the DMS/Noctalia clipboard overlay. Clippy Land is installed as
+    // the user Flatpak documented in config/cosmic/README.md.
+    (modifiers: [Super], key: "v"): Spawn("flatpak run io.github.k33wee.clippy-land --toggle"),
+    // niri/hypr Super+Space launcher. Layout switching is Alt+Shift (xkb), so
+    // overriding the default InputSourceSwitch on Super+space is safe.
+    (modifiers: [Super], key: "space"): System(Launcher),
+
+    // === Session ===
+    // niri Mod+Shift+E quit / hypr Super+Shift+E exit.
+    (modifiers: [Super, Shift], key: "e"): System(LogOut),
+    // niri/hypr Super+Alt+L lock (default Super+Escape lock kept).
+    (modifiers: [Super, Alt], key: "l"): System(LockScreen),
+
+    // === Window Management ===
+    // niri Mod+F maximize / hypr Super+F; overrides default Super+f HomeFolder.
+    (modifiers: [Super], key: "f"): Maximize,
+    // niri Mod+Shift+F / hypr Super+Shift+F fullscreen (default Super+F11 kept).
+    (modifiers: [Super, Shift], key: "f"): Fullscreen,
+    // niri Mod+Shift+T / hypr Super+Shift+T floating (default Super+g kept).
+    (modifiers: [Super, Shift], key: "t"): ToggleWindowFloating,
+
+    // === Workspace Navigation (focus) ===
+    // niri Mod+U/I/Page_Down/Page_Up; hypr Super+U/I/Page_Down/Page_Up.
+    // Overrides the COSMIC default Focus(Out)/Focus(In) on Super+u/i.
+    (modifiers: [Super], key: "u"): NextWorkspace,
+    (modifiers: [Super], key: "i"): PreviousWorkspace,
+    (modifiers: [Super], key: "Page_Down"): NextWorkspace,
+    (modifiers: [Super], key: "Page_Up"): PreviousWorkspace,
+
+    // === Move Window to Workspace ===
+    // niri Mod+Ctrl+Down/Up/U/I and Mod+Shift+Page_Down/Up/U/I;
+    // hypr Super+Ctrl / Super+Shift+ equivalents.
+    (modifiers: [Super, Ctrl], key: "Down"): MoveToNextWorkspace,
+    (modifiers: [Super, Ctrl], key: "Up"): MoveToPreviousWorkspace,
+    (modifiers: [Super, Ctrl], key: "u"): MoveToNextWorkspace,
+    (modifiers: [Super, Ctrl], key: "i"): MoveToPreviousWorkspace,
+    (modifiers: [Super, Shift], key: "Page_Down"): MoveToNextWorkspace,
+    (modifiers: [Super, Shift], key: "Page_Up"): MoveToPreviousWorkspace,
+    (modifiers: [Super, Shift], key: "u"): MoveToNextWorkspace,
+    (modifiers: [Super, Shift], key: "i"): MoveToPreviousWorkspace,
+
+    // === Monitor Focus (SwitchOutput) ===
+    // niri/hypr Super+Ctrl+HJKL/arrows focus monitor. Overrides COSMIC's
+    // default Super+Ctrl workspace-cycling bindings (intentional divergence).
+    (modifiers: [Super, Ctrl], key: "Left"): SwitchOutput(Left),
+    (modifiers: [Super, Ctrl], key: "Right"): SwitchOutput(Right),
+    (modifiers: [Super, Ctrl], key: "h"): SwitchOutput(Left),
+    (modifiers: [Super, Ctrl], key: "l"): SwitchOutput(Right),
+    (modifiers: [Super, Ctrl], key: "j"): SwitchOutput(Down),
+    (modifiers: [Super, Ctrl], key: "k"): SwitchOutput(Up),
+
+    // === Send Window to Monitor (MoveToOutput) ===
+    // niri/hypr Super+Shift+Ctrl+HJKL/arrows. Overrides COSMIC's default
+    // Super+Shift+Ctrl move-to-workspace bindings (intentional divergence).
+    (modifiers: [Super, Shift, Ctrl], key: "Left"): MoveToOutput(Left),
+    (modifiers: [Super, Shift, Ctrl], key: "Down"): MoveToOutput(Down),
+    (modifiers: [Super, Shift, Ctrl], key: "Up"): MoveToOutput(Up),
+    (modifiers: [Super, Shift, Ctrl], key: "Right"): MoveToOutput(Right),
+    (modifiers: [Super, Shift, Ctrl], key: "h"): MoveToOutput(Left),
+    (modifiers: [Super, Shift, Ctrl], key: "j"): MoveToOutput(Down),
+    (modifiers: [Super, Shift, Ctrl], key: "k"): MoveToOutput(Up),
+    (modifiers: [Super, Shift, Ctrl], key: "l"): MoveToOutput(Right),
+
+    // === Sizing & Layout (resize) ===
+    // niri/hypr Super+= / Super+- resize; Super+Shift variants resize height.
+    // Overrides COSMIC's default a11y ZoomIn/Out on those keys; a11y zoom
+    // remains on Super+period / Super+comma.
+    (modifiers: [Super], key: "equal"): Resizing(Outwards),
+    (modifiers: [Super], key: "minus"): Resizing(Inwards),
+    (modifiers: [Super, Shift], key: "equal"): Resizing(Outwards),
+    (modifiers: [Super, Shift], key: "minus"): Resizing(Inwards),
+}

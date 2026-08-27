@@ -44,6 +44,11 @@
       glob: true
       path: config/code/*
     ~/.config/atuin: config/atuin
+    # COSMIC DE: autostart hook matching the niri/Hyprland
+    # "trash-empty 30" startup execs.
+    ~/.config/autostart/trash-empty.desktop:
+      create: true
+      path: config/cosmic/autostart/trash-empty.desktop
     ~/.config/broot: config/broot
     ~/.config/btop: config/btop
     ~/.config/catppuccin: config/catppuccin
@@ -52,6 +57,13 @@
       glob: true
       path: config/code/*
     ~/.config/DankMaterialShell: config/DankMaterialShell
+    # COSMIC DE: link the keybindings override leaf (the user
+    # "custom" RON file cosmic-comp merges over its defaults), not the
+    # com.system76.* directory, so user-generated config stays out of
+    # the repo.
+    ~/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom:
+      create: true
+      path: config/cosmic/shortcuts-custom.ron
     ~/.config/direnv/direnvrc:
       create: true
       path: config/direnv/direnvrc
