@@ -1,0 +1,29 @@
+// Shared screen-sharing safety policy for DMS and Noctalia.
+
+// Bitwarden is installed locally. Hide it from xdg-desktop-portal screencasts
+// without affecting normal screenshots or the built-in screenshot selector.
+window-rule {
+  match app-id="Bitwarden"
+  match app-id="bitwarden"
+  match app-id=r#"^com\.bitwarden\.desktop$"#
+  block-out-from "screencast"
+}
+
+// Make an individual-window screen share unambiguous to the presenter. These
+// rules are dynamic and revert as soon as the cast stops.
+window-rule {
+  match is-window-cast-target=true
+  border {
+    width 4
+    active-color "#f2b8b5"
+    inactive-color "#b78b93"
+  }
+}
+
+// Do not leak transient notifications or volume/brightness OSDs into portal
+// screencasts. Unknown namespaces are harmlessly ignored by Niri.
+layer-rule {
+  match namespace=r#"^dms:(notification-popup|osd|toast)$"#
+  match namespace=r#"^noctalia-(notification|osd)$"#
+  block-out-from "screencast"
+}

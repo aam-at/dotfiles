@@ -13,9 +13,9 @@ fi
 
 terminal="${TERMINAL:-kitty}"
 case "$terminal" in
-  kitty) exec kitty --class "$scratch_class" --title "$scratch_class" ;;
-  wezterm) exec wezterm start --class "$scratch_class" ;;
-  ghostty) exec ghostty --class="$scratch_class" ;;
-  alacritty) exec alacritty --class "$scratch_class","$scratch_class" ;;
-  *) exec "$terminal" ;;
+kitty) exec kitty --class "$scratch_class" --title "$scratch_class" ;;
+wezterm) exec wezterm start --class "$scratch_class" ;;
+ghostty) exec ghostty --class="$scratch_class" ;;
+alacritty) exec alacritty --class "$scratch_class","$scratch_class" ;;
+*) exec "$terminal" ;;
 esac

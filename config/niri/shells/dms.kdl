@@ -1,12 +1,6 @@
 // Dank Material Shell profile.
-// DMS owns the generated appearance fragments in ../dms/.
+// Process startup and DMS-only bindings stay here; compositor policy is shared.
 include "../dms/execs.kdl"
-include "../dms/colors.kdl"
-include "../dms/layout.kdl"
-include "../dms/layout-custom.kdl"
-include "../dms/cursor.kdl"
-include "../dms/wpblur.kdl"
-include "../dms/animations.kdl"
-include "../dms/alttab.kdl"
+include "../common/compositor.kdl"
 include "../common/binds.kdl"
 include "dms-binds.kdl"

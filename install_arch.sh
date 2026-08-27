@@ -62,7 +62,7 @@ install_packages \
 # Set INSTALL_DESKTOP_SHELLS=false to skip this desktop-only bundle.
 if $INSTALL_DESKTOP_SHELLS; then
   install_packages \
-    brightnessctl cliphist dms-shell hyprland matugen niri noctalia
+    brightnessctl cliphist dms-shell hyprland matugen niri noctalia quickshell
 fi
 
 # install git tools
@@ -79,8 +79,8 @@ install_packages \
   biber perl-file-homedir perl-ipc-system-simple perl-tk perl-yaml-tiny \
   texlive-basic texlive-bibtexextra texlive-binextra texlive-fontsextra \
   texlive-fontsrecommended texlive-langcyrillic texlive-latex texlive-latexextra \
-  texlive-latexrecommended texlive-luatex texlive-mathscience texlive-xetex \
-  wdiff
+  texlive-latexrecommended texlive-luatex texlive-mathscience \
+  texlive-plaingeneric texlive-xetex wdiff
 
 yay -S --needed \
   antigravity claude-desktop-appimage dsearch-bin fpp-git fswatch git-hub \

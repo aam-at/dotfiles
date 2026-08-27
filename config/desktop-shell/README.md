@@ -14,11 +14,20 @@ Switch profiles, then reload or restart the compositor:
 desktop-shell dms
 desktop-shell noctalia
 desktop-shell status
+# Reload Niri and replace the running shell without logging out.
+desktop-shell noctalia --restart-niri
+desktop-shell dms --restart-niri
 ```
 
 The selector changes only `config/niri/shells/active.kdl` and
 `config/hypr/shells/active.conf`. It never edits the DMS-generated files in
 `dms/`.
+
+The selector reloads Niri's configuration by default so keybindings and
+compositor rules apply immediately. Add `--restart-niri` to also replace the
+active shell: it stops DMS before starting Noctalia, or stops Noctalia and
+restarts DMS. The DMS restart replaces its QuickShell child as well. This does
+not restart the Niri compositor or end the graphical session.
 
 Both profiles load the same compositor keymap (terminal and application
 launchers, directional focus/move, workspace movement, layout presets,

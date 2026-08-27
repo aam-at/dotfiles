@@ -1,9 +1,7 @@
 // Miscellaneous settings
-// Matches Hyprland misc.conf + niri-specific settings
-
-config-notification {
-  disable-failed
-}
+// Matches Hyprland misc.conf + niri-specific settings.
+// Keep Niri's failed-reload notification enabled: it is the quickest way to
+// spot a malformed live config regardless of the selected desktop shell.
 
 gestures {
   hot-corners {

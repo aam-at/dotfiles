@@ -65,13 +65,22 @@
     ~/.config/gitu: config/gitu
     ~/.config/gitui: config/gitui
     ~/.config/helix: config/helix
-    ~/.config/hypr: config/hypr
+    # Link each compositor entry so ~/.config/{niri,hypr}/shells remains a
+    # real, selector-addressable path for desktop-shell.
+    ~/.config/hypr/:
+      create: true
+      glob: true
+      path: config/hypr/*
     ~/.config/kanata: config/kanata
     ~/.config/kitty: config/kitty
     ~/.config/lazygit: config/lazygit
     ~/.config/mimeapps.list: config/mimeapps.list
     ~/.config/neovide: config/neovide
-    ~/.config/niri: config/niri
+    ~/.config/niri/:
+      create: true
+      glob: true
+      path: config/niri/*
+    ~/.config/noctalia: config/noctalia
     ~/.config/nvim: config/lazyvim
     ~/.config/pudb/pudb.cfg:
       create: true

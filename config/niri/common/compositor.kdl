@@ -1,0 +1,11 @@
+// Shared Niri compositor policy.
+// The DMS-generated files are the canonical source for the palette and basic
+// geometry, while both desktop-shell profiles consume the same result.
+include "../dms/colors.kdl"
+include "../dms/layout.kdl"
+include "../dms/layout-custom.kdl"
+include "../dms/cursor.kdl"
+include "../dms/wpblur.kdl"
+include "../dms/animations.kdl"
+include "../dms/alttab.kdl"
+include "privacy.kdl"

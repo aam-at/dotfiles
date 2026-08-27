@@ -94,6 +94,9 @@
 (defun aam/init-corfu ()
   (use-package corfu
     :init
+    ;; Vertico owns minibuffer completion.  Keeping Corfu's child frame out of
+    ;; minibuffers avoids face recalculation failures while previewing themes.
+    (setq global-corfu-minibuffer nil)
     (global-corfu-mode 1)
     :config
     (setq corfu-auto t
