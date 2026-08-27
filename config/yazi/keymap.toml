@@ -1,15 +1,31 @@
 [mgr]
 prepend_keymap = [
   # pdf-pages plugin
-  { on = ["["], run = "seek -1", desc = "Previous PDF page" },
-  { on = ["]"], run = "seek 1", desc = "Next PDF page" },
-  { on = ["<PageUp>"], run = "seek -1", desc = "Previous PDF page" },
-  { on = ["<PageDown>"], run = "seek 1", desc = "Next PDF page" },
-  { on = ["0"], run = "seek -999999", desc = "First PDF page" },
-  { on = ["<Home>"], run = "seek -999999", desc = "First PDF page" },
+  { on = [
+    "[",
+  ], run = "seek -1", desc = "Previous PDF page" },
+  { on = [
+    "]",
+  ], run = "seek 1", desc = "Next PDF page" },
+  { on = [
+    "<PageUp>",
+  ], run = "seek -1", desc = "Previous PDF page" },
+  { on = [
+    "<PageDown>",
+  ], run = "seek 1", desc = "Next PDF page" },
+  { on = [
+    "0",
+  ], run = "seek -999999", desc = "First PDF page" },
+  { on = [
+    "<Home>",
+  ], run = "seek -999999", desc = "First PDF page" },
   # zoom plugin (images)
-  { on = ["+"], run = "plugin zoom 1", desc = "Zoom in hovered image" },
-  { on = ["-"], run = "plugin zoom -1", desc = "Zoom out hovered image" },
+  { on = [
+    "+",
+  ], run = "plugin zoom 1", desc = "Zoom in hovered image" },
+  { on = [
+    "-",
+  ], run = "plugin zoom -1", desc = "Zoom out hovered image" },
   # mount plugin
   { on = "M", run = "plugin mount", desc = "Mount a remote directory (supports sshfs, rclone, etc.)" },
 ]

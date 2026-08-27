@@ -53,19 +53,43 @@
     --m3-radius: 12px;
     --m3-radius-sm: 10px;
     --m3-elev-0: none;
-    --m3-elev-1: 0 1px 2px color-mix(in srgb, var(--md-sys-color-shadow) 8%, transparent), 0 1px 3px color-mix(in srgb, var(--md-sys-color-shadow) 6%, transparent);
-    --m3-elev-2: 0 2px 6px color-mix(in srgb, var(--md-sys-color-shadow) 10%, transparent), 0 1px 3px color-mix(in srgb, var(--md-sys-color-shadow) 6%, transparent);
-    --m3-elev-3: 0 11px 7px color-mix(in srgb, var(--md-sys-color-shadow) 19%, transparent), 0 13px 25px color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent);
-    --m3-elev-4: 0 14px 12px color-mix(in srgb, var(--md-sys-color-shadow) 17%, transparent), 0 20px 40px color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent);
-    --m3-elev-5: 0 17px 17px color-mix(in srgb, var(--md-sys-color-shadow) 15%, transparent), 0 27px 55px color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent);
+    --m3-elev-1:
+      0 1px 2px color-mix(in srgb, var(--md-sys-color-shadow) 8%, transparent),
+      0 1px 3px color-mix(in srgb, var(--md-sys-color-shadow) 6%, transparent);
+    --m3-elev-2:
+      0 2px 6px color-mix(in srgb, var(--md-sys-color-shadow) 10%, transparent),
+      0 1px 3px color-mix(in srgb, var(--md-sys-color-shadow) 6%, transparent);
+    --m3-elev-3:
+      0 11px 7px color-mix(in srgb, var(--md-sys-color-shadow) 19%, transparent),
+      0 13px 25px
+        color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent);
+    --m3-elev-4:
+      0 14px 12px
+        color-mix(in srgb, var(--md-sys-color-shadow) 17%, transparent),
+      0 20px 40px
+        color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent);
+    --m3-elev-5:
+      0 17px 17px
+        color-mix(in srgb, var(--md-sys-color-shadow) 15%, transparent),
+      0 27px 55px
+        color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent);
 
     --tab-height: 34px;
     --urlbar-height: 38px;
 
-    --state-hover: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
-    --state-press: color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent);
+    --state-hover: color-mix(
+      in srgb,
+      var(--md-sys-color-on-surface) 8%,
+      transparent
+    );
+    --state-press: color-mix(
+      in srgb,
+      var(--md-sys-color-on-surface) 12%,
+      transparent
+    );
 
-    --focus-ring: 0 0 0 2px color-mix(in srgb, var(--md-sys-color-primary) 70%, transparent);
+    --focus-ring: 0 0 0 2px
+      color-mix(in srgb, var(--md-sys-color-primary) 70%, transparent);
   }
 }
 
@@ -121,18 +145,52 @@
     --md-sys-color-surface-container-high: #272a2f;
     --md-sys-color-surface-container-highest: #32353a;
 
-    --m3-elev-1: 0 1px 2px color-mix(in srgb, var(--md-sys-color-shadow) 50%, transparent), 0 1px 3px color-mix(in srgb, var(--md-sys-color-shadow) 35%, transparent);
-    --m3-elev-2: 0 4px 10px color-mix(in srgb, var(--md-sys-color-shadow) 55%, transparent), 0 1px 3px color-mix(in srgb, var(--md-sys-color-shadow) 35%, transparent);
-    --m3-elev-3: 0 11px 7px color-mix(in srgb, var(--md-sys-color-shadow) 45%, transparent), 0 13px 25px color-mix(in srgb, var(--md-sys-color-shadow) 55%, transparent);
-    --m3-elev-4: 0 14px 12px color-mix(in srgb, var(--md-sys-color-shadow) 42%, transparent), 0 20px 40px color-mix(in srgb, var(--md-sys-color-shadow) 55%, transparent);
-    --m3-elev-5: 0 17px 17px color-mix(in srgb, var(--md-sys-color-shadow) 40%, transparent), 0 27px 55px color-mix(in srgb, var(--md-sys-color-shadow) 55%, transparent);
+    --m3-elev-1:
+      0 1px 2px color-mix(in srgb, var(--md-sys-color-shadow) 50%, transparent),
+      0 1px 3px color-mix(in srgb, var(--md-sys-color-shadow) 35%, transparent);
+    --m3-elev-2:
+      0 4px 10px color-mix(in srgb, var(--md-sys-color-shadow) 55%, transparent),
+      0 1px 3px color-mix(in srgb, var(--md-sys-color-shadow) 35%, transparent);
+    --m3-elev-3:
+      0 11px 7px color-mix(in srgb, var(--md-sys-color-shadow) 45%, transparent),
+      0 13px 25px
+        color-mix(in srgb, var(--md-sys-color-shadow) 55%, transparent);
+    --m3-elev-4:
+      0 14px 12px
+        color-mix(in srgb, var(--md-sys-color-shadow) 42%, transparent),
+      0 20px 40px
+        color-mix(in srgb, var(--md-sys-color-shadow) 55%, transparent);
+    --m3-elev-5:
+      0 17px 17px
+        color-mix(in srgb, var(--md-sys-color-shadow) 40%, transparent),
+      0 27px 55px
+        color-mix(in srgb, var(--md-sys-color-shadow) 55%, transparent);
 
-    --state-hover: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent);
-    --state-press: color-mix(in srgb, var(--md-sys-color-on-surface) 10%, transparent);
+    --state-hover: color-mix(
+      in srgb,
+      var(--md-sys-color-on-surface) 6%,
+      transparent
+    );
+    --state-press: color-mix(
+      in srgb,
+      var(--md-sys-color-on-surface) 10%,
+      transparent
+    );
   }
 }
 
 /* idk if this even works, but the suggestion in the material updated readme bricks symbols no matter how many fallbacks I add */
 :root {
-  font-family: system-ui, "Inter Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+  font-family:
+    system-ui,
+    "Inter Variable",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji" !important;
 }

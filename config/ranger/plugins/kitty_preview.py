@@ -18,9 +18,9 @@ MIN_IMAGE_ZOOM = 0.25
 MAX_IMAGE_ZOOM = 4.0
 FAST_PREVIEW_DIRS = tuple(
     os.path.realpath(os.path.expanduser(p))
-    for p in os.environ.get("RNGR_FAST_IMAGE_PREVIEW_DIRS", "~/Pictures/Wallpapers").split(
-        os.pathsep
-    )
+    for p in os.environ.get(
+        "RNGR_FAST_IMAGE_PREVIEW_DIRS", "~/Pictures/Wallpapers"
+    ).split(os.pathsep)
     if p
 )
 
@@ -70,9 +70,7 @@ class KittyImageDisplayer(ImageDisplayer):
         if self.wezterm_bin and "wezterm" in term:
             return "wezterm"
         if self.kitty_bin and (
-            "kitty" in term
-            or "ghostty" in term
-            or os.environ.get("KITTY_WINDOW_ID")
+            "kitty" in term or "ghostty" in term or os.environ.get("KITTY_WINDOW_ID")
         ):
             return "kitty"
         raise ImgDisplayUnsupportedException(

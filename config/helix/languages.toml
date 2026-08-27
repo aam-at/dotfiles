@@ -57,7 +57,10 @@ formatter = { command = "clang-format", args = ["--assume-filename", "file.c"] }
 name = "cpp"
 language-servers = ["clangd"]
 auto-format = true
-formatter = { command = "clang-format", args = ["--assume-filename", "file.cpp"] }
+formatter = { command = "clang-format", args = [
+  "--assume-filename",
+  "file.cpp",
+] }
 
 [[language]]
 name = "rust"

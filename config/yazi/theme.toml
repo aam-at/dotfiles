@@ -308,9 +308,6 @@ prepend_exts = [
   { name = "yml", text = "" },
 ]
 
-prepend_conds = [
-  { if = "dir", text = "" },
-  { if = "!dir", text = "" },
-]
+prepend_conds = [{ if = "dir", text = "" }, { if = "!dir", text = "" }]
 
 # : }}}
