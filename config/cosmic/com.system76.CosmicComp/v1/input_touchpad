@@ -1,0 +1,18 @@
+(
+    state: Enabled,
+    acceleration: Some((profile: Some(Adaptive), speed: 0.0)),
+    click_method: Some(Clickfinger),
+    disable_while_typing: Some(true),
+    scroll_config: Some((
+        method: Some(TwoFinger),
+        natural_scroll: Some(true),
+        scroll_button: None,
+        scroll_factor: Some(0.3),
+    )),
+    tap_config: Some((
+        enabled: true,
+        button_map: Some(LeftRightMiddle),
+        drag: true,
+        drag_lock: false,
+    )),
+)

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Empty Trash
+Comment=Empty the trash of entries older than 30 days, matching the niri/Hyprland profile's "trash-empty 30" startup exec.
+Exec=trash-empty 30
+X-GNOME-Autostart-Phase=Application
+X-GNOME-Autostart-Delay=15
