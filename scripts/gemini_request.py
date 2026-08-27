@@ -58,10 +58,9 @@ def prepare_context_prompt(context_files: List[str]) -> str:
 def execute_curl_command(curl_command: List[str]) -> str:
     """Execute the curl command and return the result."""
     try:
-        result = subprocess.run(curl_command,
-                                capture_output=True,
-                                text=True,
-                                check=True)
+        result = subprocess.run(
+            curl_command, capture_output=True, text=True, check=True
+        )
         return result.stdout
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Error executing curl command: {e.stderr}")
@@ -80,31 +79,26 @@ def get_gemini_response(
     context_prompt = prepare_context_prompt(context_files)
 
     payload = {
-        "system_instruction": {
-            "parts": [{
-                "text": system_prompt
-            }]
-        },
-        "contents": [{
-            "role":
-            "user",
-            "parts": [{
-                "text": context_prompt
-            }, {
-                "text": user_prompt
-            }],
-        }],
+        "system_instruction": {"parts": [{"text": system_prompt}]},
+        "contents": [
+            {
+                "role": "user",
+                "parts": [{"text": context_prompt}, {"text": user_prompt}],
+            }
+        ],
         "generationConfig": {
             "temperature": temperature,
         },
     }
     if response_format:
-        payload["generationConfig"].update({
-            "response_mime_type":
-            "application/json",
-            "response_schema":
-            remove_attribute(response_format, "additionalProperties"),
-        })
+        payload["generationConfig"].update(
+            {
+                "response_mime_type": "application/json",
+                "response_schema": remove_attribute(
+                    response_format, "additionalProperties"
+                ),
+            }
+        )
     with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_file:
         json.dump(payload, temp_file)
         temp_file_path = temp_file.name
@@ -132,30 +126,28 @@ def get_gemini_response(
 def parse_arguments() -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description="Generate reviews using LLM with Gemini API.")
-    parser.add_argument("--api_key",
-                        default=os.getenv("GEMINI_API_KEY"),
-                        help="API key")
-    parser.add_argument("--model",
-                        default="gemini-1.5-flash",
-                        help="Model to use to use")
+        description="Generate reviews using LLM with Gemini API."
+    )
+    parser.add_argument(
+        "--api_key", default=os.getenv("GEMINI_API_KEY"), help="API key"
+    )
+    parser.add_argument(
+        "--model", default="gemini-1.5-flash", help="Model to use to use"
+    )
     parser.add_argument(
         "--temperature",
         type=float,
         default=0.7,
-        help=
-        "Temperature for sampling (default: 0.7 - good for creative writing)",
+        help="Temperature for sampling (default: 0.7 - good for creative writing)",
     )
     parser.add_argument(
         "--system_prompt",
-        default=
-        "You are a large language model and a writing assistant. Respond concisely.",
+        default="You are a large language model and a writing assistant. Respond concisely.",
         help="System prompt",
     )
-    parser.add_argument("--context_files",
-                        nargs="*",
-                        default=[],
-                        help="Paths to context files")
+    parser.add_argument(
+        "--context_files", nargs="*", default=[], help="Paths to context files"
+    )
     parser.add_argument("--user_prompt", required=True, help="User prompt")
     parser.add_argument("--response_format", help="JSON output format file")
     return parser.parse_args()
@@ -188,8 +180,9 @@ def main():
         if len(candidates) == 0:
             print(response)
         elif len(candidates) == 1:
-            message_content = (candidates[0].get("content", {}).get(
-                "parts", [{}])[0].get("text", ""))
+            message_content = (
+                candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+            )
             try:
                 content = json.loads(message_content)
                 print(json.dumps(content, indent=2))
@@ -197,18 +190,16 @@ def main():
                 print(message_content)
         else:
             for choice in candidates:
-                message_content = (choice.get("content",
-                                              {}).get("parts",
-                                                      [{}])[0].get("text", ""))
+                message_content = (
+                    choice.get("content", {}).get("parts", [{}])[0].get("text", "")
+                )
                 try:
                     content = json.loads(message_content)
                     print(
                         f"Message {choice.get('index', 'N/A')}: {json.dumps(content, indent=2)}"
                     )
                 except json.JSONDecodeError:
-                    print(
-                        f"Message {choice.get('index', 'N/A')}: {message_content}"
-                    )
+                    print(f"Message {choice.get('index', 'N/A')}: {message_content}")
     except Exception as e:
         print(f"An error occurred: {e}")
 

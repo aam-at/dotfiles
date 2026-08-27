@@ -54,7 +54,16 @@ capsule_padding = 6
 # Match DMS's left / center / right bar rhythm using Noctalia-native widgets.
 start = ["launcher", "workspaces", "active_window"]
 center = ["media", "clock", "weather"]
-end = ["tray", "keyboard_layout", "insync", "group:connectivity", "clipboard", "notifications", "battery", "control-center"]
+end = [
+  "tray",
+  "keyboard_layout",
+  "insync",
+  "group:connectivity",
+  "clipboard",
+  "notifications",
+  "battery",
+  "control-center",
+]
 
 [[bar.main.capsule_group]]
 id = "connectivity"

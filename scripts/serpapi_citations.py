@@ -12,19 +12,21 @@ def get_citations(title):
         "api_key": keyring.get_password("serpapi", getpass.getuser()),
         "engine": "google_scholar",
         "q": f'"{title}"',
-        "hl": "en"
+        "hl": "en",
     }
 
     search = GoogleSearch(params)
     results = search.get_dict()
-    search_result = results['organic_results'][0]
+    search_result = results["organic_results"][0]
 
-    if 'inline_links' not in search_result or 'cited_by' not in search_result[
-            'inline_links']:
+    if (
+        "inline_links" not in search_result
+        or "cited_by" not in search_result["inline_links"]
+    ):
         print("Citations not found.")
         return
 
-    cited_by = search_result['inline_links']['cited_by']['total']
+    cited_by = search_result["inline_links"]["cited_by"]["total"]
     return cited_by
 
 

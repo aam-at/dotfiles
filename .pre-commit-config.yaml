@@ -7,10 +7,20 @@ repos:
         language: system
         files: \.fish$
       - id: prettier-data
-        name: prettier (YAML and JSON)
+        name: prettier (YAML, JSON, and CSS)
         entry: prettier --write
         language: system
-        files: \.(ya?ml|json)$
+        files: \.(ya?ml|json|css)$
+      - id: taplo-format
+        name: taplo (TOML)
+        entry: taplo format
+        language: system
+        files: \.toml$
+      - id: ruff-format
+        name: ruff format (Python)
+        entry: ruff format
+        language: system
+        files: \.py$
       - id: shfmt
         name: shfmt (Bash)
         entry: shfmt -w -i 2
@@ -25,3 +35,8 @@ repos:
           (save-buffer)))'
         language: system
         files: \.(el|elisp|lisp)$
+      - id: lua-parse
+        name: luac (Lua syntax)
+        entry: luac -p
+        language: system
+        files: \.lua$

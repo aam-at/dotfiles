@@ -138,7 +138,7 @@ newline = "⏎"
 
 [keys.normal.space]
 "space" = "command_palette"
-"/" = "global_search"                                                          # Spacemacs SPC /
+"/" = "global_search"                             # Spacemacs SPC /
 "f" = "file_picker"
 "F" = "file_picker_in_current_directory"
 "o" = "file_explorer"
@@ -191,7 +191,16 @@ newline = "⏎"
 "h" = "goto_line_start"
 "i" = "goto_implementation"
 "l" = "goto_line_end"
-"m" = [":write-all", ":new", ":insert-output lazygit", ":set mouse false", ":set mouse true", ":buffer-close!", ":redraw", ":reload-all"]  # lazygit (magit-style)
+"m" = [
+  ":write-all",
+  ":new",
+  ":insert-output lazygit",
+  ":set mouse false",
+  ":set mouse true",
+  ":buffer-close!",
+  ":redraw",
+  ":reload-all",
+] # lazygit (magit-style)
 "M" = "goto_last_modification"
 "t" = "goto_window_top"
 "b" = "goto_window_bottom"
@@ -296,9 +305,9 @@ newline = "⏎"
 # Insert
 
 [keys.insert]
-"C-s" = [":write", "normal_mode"]                                              # save and return to normal
-"C-space" = "completion"                                                       # explicit completion trigger
-j = { k = "normal_mode" }                                                      # jk to exit insert mode
+"C-s" = [":write", "normal_mode"] # save and return to normal
+"C-space" = "completion"          # explicit completion trigger
+j = { k = "normal_mode" }         # jk to exit insert mode
 
 # ---------------------------------------------------------
 # Select

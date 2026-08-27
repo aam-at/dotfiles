@@ -28,8 +28,7 @@ def get_citations(title, proxy_type):
     if proxy_type == ProxyType.Freeproxy:
         success = pg.FreeProxies()
     elif proxy_type == ProxyType.Scrapper:
-        success = pg.ScraperAPI(
-            keyring.get_password("scrapperapi", getpass.getuser()))
+        success = pg.ScraperAPI(keyring.get_password("scrapperapi", getpass.getuser()))
     if proxy_type != ProxyType.Noproxy:
         assert success, f"Failed to set up {proxy_type.value} proxy"
         scholarly.use_proxy(pg)
