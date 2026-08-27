@@ -1,7 +1,7 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "b9598e6"
-hash = "7b625412411be411153886894d9acaf"
+rev = "c591a36"
+hash = "f281261ff04ad7ec867c3f802a50835f"
 
 [[plugin.deps]]
 use = "imsi32/yatline"
@@ -15,8 +15,8 @@ hash = "8282baf02fcd6aac00ccad2276775358"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "b9598e6"
-hash = "ce259b12c503a33a18a861052fa582b7"
+rev = "c591a36"
+hash = "5bb0bfab901d3601c370eafdd66edd31"
 
 [[plugin.deps]]
 use = "imsi32/yatline-gruvbox"
@@ -35,17 +35,17 @@ hash = "8fa6028ef832b34cf32f4ee43cb0ae35"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "b9598e6"
-hash = "f23ecc89ce0f9eeefdd4cea14e2a9ba7"
+rev = "c591a36"
+hash = "45a533508a9840cc5a10cf6129f63e6a"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mount"
-rev = "b9598e6"
-hash = "46cbdc05596a3ecd730b288e28c7079d"
+rev = "c591a36"
+hash = "b95f898e6dc60b52edbc415952e14395"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:zoom"
-rev = "b9598e6"
+rev = "c591a36"
 hash = "e8e279463ee99c940e6945a14cf4aa9e"
 
 [flavor]

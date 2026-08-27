@@ -16,3 +16,7 @@ text/bibtex=emacsclient.desktop
 video/mp4=vlc.desktop
 x-scheme-handler/mailto=microsoft-edge.desktop
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+x-scheme-handler/claude=com.anthropic.Claude.desktop
+
+[Added Associations]
+x-scheme-handler/claude=com.anthropic.Claude.desktop;
