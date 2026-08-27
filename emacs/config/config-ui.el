@@ -3,10 +3,25 @@
 ;; This file deliberately contains only Emacs values.  Doom and Spacemacs
 ;; adapt them to their respective font and theme settings.
 
-(defvar aam/theme 'doom-one
+(defvar aam/theme 'gruvbox-dark-medium
   "Theme selected by default in every Emacs distribution.")
 
-(defvar aam/theme-variants '(doom-one doom-one-light)
+(defvar aam/theme-variants '(;; dark themes
+                             gruvbox-dark-medium
+                             doom-one
+                             spacemacs-dark
+                             material
+                             leuven-dark
+                             modus-vivendi
+                             ;; light themes
+                             gruvbox-light-medium
+                             doom-one-light
+                             spacemacs-light
+                             material-light
+                             leuven
+                             modus-operandi
+                             whiteboard)
+
   "Themes offered by distributions that support cycling themes.")
 
 (defvar aam/monospace-font-family "JetBrains Mono"
