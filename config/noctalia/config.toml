@@ -1,0 +1,158 @@
+# Noctalia profile matching the DMS visual language used by the Niri setup.
+
+[shell]
+font_family = "Inter Variable"
+corner_radius_scale = 1.0
+telemetry_enabled = false
+
+[shell.panel]
+# DMS uses opaque, softly rounded surfaces rather than glass effects.
+transparency_mode = "solid"
+borders = true
+shadow = true
+launcher_placement = "floating"
+launcher_position = "center"
+
+[shell.launcher]
+categories = true
+show_icons = true
+show_app_origin_indicator = true
+compact = true
+app_grid = false
+sort_by_usage = true
+
+[shell.keyboard_layout.custom_labels]
+# Match the two XKB layouts configured in Niri and keep the bar label compact.
+us = "EN"
+ru = "RU"
+
+[dock]
+# Keep Niri's workspace full height: the dock floats over client windows,
+# including fullscreen ones, just like the DMS dock.
+reserve_space = false
+layer = "overlay"
+
+[bar.main]
+position = "top"
+thickness = 36
+# Keep the long, opaque DMS base, then use darker inset capsules for hierarchy.
+background_opacity = 1.0
+# DMS's background is edge-to-edge; only its widgets are rounded.
+radius = 0
+concave_edge_corners = false
+margin_ends = 0
+margin_edge = 0
+padding = 4
+widget_spacing = 4
+shadow = false
+capsule = true
+capsule_fill = "surface_variant"
+capsule_opacity = 1.0
+capsule_thickness = 0.82
+capsule_radius = 12
+capsule_padding = 6
+# Match DMS's left / center / right bar rhythm using Noctalia-native widgets.
+start = ["launcher", "workspaces", "active_window"]
+center = ["media", "clock", "weather"]
+end = ["tray", "keyboard_layout", "insync", "group:connectivity", "clipboard", "notifications", "battery", "control-center"]
+
+[[bar.main.capsule_group]]
+id = "connectivity"
+members = ["network", "net-download", "net-upload"]
+fill = "surface_variant"
+padding = 6
+radius = 12
+opacity = 1.0
+widget_spacing = 6
+
+[widget.launcher]
+glyph = "grid-dots"
+capsule_padding = 6
+
+[widget.workspaces]
+style = "regular"
+pill_scale = 1.0
+active_pill_size = 1.65
+inactive_pill_size = 1.0
+focused_color = "primary"
+occupied_color = "outline"
+empty_color = "surface_variant"
+change_color_on_hover = false
+
+[widget.active_window]
+min_length = 170
+max_length = 320
+icon_size = 16
+title_scroll = "on_hover"
+capsule_padding = 7
+
+[widget.media]
+min_length = 150
+max_length = 240
+art_size = 18
+title_scroll = "on_hover"
+hide_when_no_media = true
+
+[widget.clock]
+format = "{:%H:%M} · {:%a %d}"
+tooltip_format = "{:%A, %B %d, %Y}"
+
+[widget.weather]
+# Match DMS's existing automatic location setting rather than showing a placeholder.
+enabled = true
+max_length = 72
+show_condition = false
+
+[widget.network]
+show_label = false
+vpn_status = "both"
+
+[widget.keyboard_layout]
+# Text-only EN/RU status; left-click cycles Niri's configured layouts.
+show_glyph = false
+show_label = true
+display = "short"
+
+[widget.insync]
+type = "custom_button"
+custom_image = "/usr/share/icons/hicolor/scalable/apps/insync.svg"
+tooltip = "Open Insync"
+
+[widget.insync.actions]
+left = "exec insync show"
+
+[widget.net-download]
+type = "sysmon"
+stat = "net_rx"
+network_speed_compact = true
+visualization = "none"
+label_min_width = 42
+
+[widget.net-upload]
+type = "sysmon"
+stat = "net_tx"
+network_speed_compact = true
+visualization = "none"
+label_min_width = 42
+
+[system.monitor]
+enabled = true
+network_poll_seconds = 3
+
+[location]
+# DMS already uses automatic location; enable the equivalent Noctalia resolver.
+auto_locate = true
+
+[wallpaper]
+enabled = true
+fill_mode = "crop"
+transition_on_startup = false
+
+[wallpaper.automation]
+enabled = false
+
+[theme]
+mode = "dark"
+source = "custom"
+custom_palette = "dms-blue"
+pure_black_dark = false

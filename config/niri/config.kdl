@@ -19,3 +19,5 @@ include "dms/outputs.kdl"
 
 // DMS or Noctalia: change this one include with desktop-shell.
 include "shells/active.kdl"
+
+include "noctalia.kdl"

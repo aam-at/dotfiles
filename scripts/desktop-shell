@@ -3,27 +3,58 @@
 set -euo pipefail
 
 profile="${1:-status}"
+restart_niri=false
 config_root="${XDG_CONFIG_HOME:-$HOME/.config}"
 niri_active="$config_root/niri/shells/active.kdl"
 hypr_active="$config_root/hypr/shells/active.conf"
 
 status() {
   local niri_profile hypr_profile
-  niri_profile="$(sed -n 's|.*\\(dms\\|noctalia\\)\\.kdl.*|\\1|p' "$niri_active" 2>/dev/null | head -n1 || true)"
-  hypr_profile="$(sed -n 's|.*\\(dms\\|noctalia\\)\\.conf.*|\\1|p' "$hypr_active" 2>/dev/null | head -n1 || true)"
+  niri_profile="$(sed -nE 's/^[[:space:]]*include "(dms|noctalia)\.kdl".*/\1/p' "$niri_active" 2>/dev/null | head -n1 || true)"
+  hypr_profile="$(sed -nE 's/^[[:space:]]*source[[:space:]]*=[[:space:]]*\.\/(dms|noctalia)\.conf.*/\1/p' "$hypr_active" 2>/dev/null | head -n1 || true)"
   printf 'niri: %s\n' "${niri_profile:-not installed}"
   printf 'hypr: %s\n' "${hypr_profile:-not installed}"
 }
 
+stop_noctalia() {
+  pkill -TERM -x noctalia 2>/dev/null || return 0
+  for _ in {1..20}; do
+    pgrep -x noctalia >/dev/null || return 0
+    sleep 0.1
+  done
+  pkill -KILL -x noctalia 2>/dev/null || true
+}
+
+case "$#" in
+  0|1)
+    ;;
+  2)
+    if [[ "$2" == "--restart-niri" ]]; then
+      restart_niri=true
+    else
+      echo "usage: desktop-shell {dms|noctalia|status} [--restart-niri]" >&2
+      exit 2
+    fi
+    ;;
+  *)
+    echo "usage: desktop-shell {dms|noctalia|status} [--restart-niri]" >&2
+    exit 2
+    ;;
+esac
+
 case "$profile" in
   status)
+    [[ "$restart_niri" == false ]] || {
+      echo "--restart-niri requires dms or noctalia" >&2
+      exit 2
+    }
     status
     exit 0
     ;;
   dms|noctalia)
     ;;
   *)
-    echo "usage: desktop-shell {dms|noctalia|status}" >&2
+    echo "usage: desktop-shell {dms|noctalia|status} [--restart-niri]" >&2
     exit 2
     ;;
 esac
@@ -43,6 +74,24 @@ for active in "$niri_active" "$hypr_active"; do
   mv -f "$tmp" "$active"
 done
 
-command -v niri >/dev/null && niri msg action load-config >/dev/null 2>&1 || true
+if [[ "$restart_niri" == true ]]; then
+  command -v niri >/dev/null && niri msg action load-config-file
+
+  case "$profile" in
+    noctalia)
+      systemctl --user stop dms.service
+      stop_noctalia
+      systemd-run --user --scope --quiet --collect noctalia --daemon
+      ;;
+    dms)
+      stop_noctalia
+      # `start` is a no-op when DMS is already active.  Restart its cgroup so
+      # the DMS-managed QuickShell child is replaced too.
+      systemctl --user restart dms.service
+      ;;
+  esac
+else
+  command -v niri >/dev/null && niri msg action load-config-file >/dev/null 2>&1 || true
+fi
 command -v hyprctl >/dev/null && hyprctl reload >/dev/null 2>&1 || true
 echo "desktop shell switched to: $profile"

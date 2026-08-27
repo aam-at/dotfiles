@@ -24,6 +24,17 @@ if [[ -f "$target_file" ]]; then
 fi
 
 sudo install -D -m 0644 "$source_file" "$target_file"
+
+# Keep the current graphical session alive, but ensure the next boot starts
+# greetd instead of the display manager that currently owns the alias.
+for display_manager in sddm gdm lightdm; do
+  if systemctl is-enabled --quiet "$display_manager.service"; then
+    sudo systemctl disable "$display_manager.service"
+    echo "Disabled $display_manager.service for future boots"
+  fi
+done
+sudo systemctl enable greetd.service
+
 cat <<'EOF'
 Installed the greetd session chooser.
 

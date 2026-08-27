@@ -1,18 +1,19 @@
-// Noctalia v5 profile. It deliberately does not load DMS-generated appearance
-// or DMS IPC bindings, so the two shells never run together.
+// Noctalia v5 profile. It shares Niri compositor policy with DMS but owns its
+// own processes, panels, and IPC bindings, so the two shells never run together.
 
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=Niri"
 spawn-at-startup "/usr/lib/hyprpolkitagent/hyprpolkitagent"
 spawn-at-startup "trash-empty" "30"
-spawn-at-startup "dropbox" "start"
-spawn-at-startup "insync" "start" "--qt-qpa-platform=xcb"
 spawn-at-startup "noctalia"
 
+include "../common/compositor.kdl"
 include "../common/binds.kdl"
 
 // Keep the DMS muscle memory whenever Noctalia provides the equivalent.
 binds {
   Mod+Space { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
+  // Visual grid switcher; keep Niri's direct Alt+Tab and Mod+Tab overview intact.
+  Mod+Alt+Tab repeat=false { spawn "noctalia" "msg" "window-switcher"; }
   Mod+V { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
   Mod+M { spawn "noctalia" "msg" "panel-toggle" "control-center" "system"; }
   Mod+N { spawn "noctalia" "msg" "panel-toggle" "control-center" "notifications"; }
@@ -38,11 +39,10 @@ binds {
 }
 
 // Noctalia wallpaper/overview and notification activation integration.
-// Keep application chrome aligned with the 12px DMS geometry.
+// This later rule preserves Noctalia's 12px chrome over the shared defaults.
 window-rule {
   geometry-corner-radius 12
   clip-to-geometry true
 }
-layout { background-color "transparent"; }
 layer-rule { match namespace="^noctalia-(wallpaper|overview).*"; place-within-backdrop true; }
 layer-rule { match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"; }

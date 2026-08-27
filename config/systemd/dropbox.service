@@ -1,0 +1,15 @@
+[Unit]
+Description=Dropbox file synchronization
+Documentation=https://help.dropbox.com/installs/linux-commands
+ConditionPathExists=%h/.dropbox-dist/dropboxd
+
+[Service]
+# The Dropbox launcher replaces itself with the long-running daemon.
+Type=simple
+ExecStart=%h/.dropbox-dist/dropboxd
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target
