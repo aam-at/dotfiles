@@ -581,6 +581,12 @@
           "enabled": true
         },
         {
+          "id": "keyboard_layout_name",
+          "enabled": true,
+          "keyboardLayoutNameCompactMode": true,
+          "keyboardLayoutNameShowIcon": false
+        },
+        {
           "id": "network_speed_monitor",
           "enabled": true
         },
