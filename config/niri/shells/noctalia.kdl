@@ -1,7 +1,7 @@
 // Noctalia v5 profile. It shares Niri compositor policy with DMS but owns its
 // own processes, panels, and IPC bindings, so the two shells never run together.
 
-spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=Niri"
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
 spawn-at-startup "/usr/lib/hyprpolkitagent/hyprpolkitagent"
 spawn-at-startup "trash-empty" "30"
 spawn-at-startup "noctalia"

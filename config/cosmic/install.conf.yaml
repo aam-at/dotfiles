@@ -14,7 +14,8 @@
       force: true
       path: "*system76.*"
 
-    # Match the trash cleanup startup behavior used by niri and Hyprland.
-    ~/.config/autostart/trash-empty.desktop:
+    # COSMIC-specific XDG autostart hooks (trash cleanup and clipboard history).
+    ~/.config/autostart/:
       create: true
-      path: autostart/trash-empty.desktop
+      glob: true
+      path: autostart/*.desktop
