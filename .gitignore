@@ -28,6 +28,8 @@ config/niri/dms/colors.kdl
 config/niri/dms/cursor.kdl
 config/niri/dms/layout.kdl
 config/niri/dms/wpblur.kdl
+config/niri/shells/active.kdl
+config/hypr/shells/active.conf
 
 
 /.worktrees/

@@ -57,7 +57,8 @@ center = ["media", "clock", "weather"]
 end = [
   "tray",
   "keyboard_layout",
-  "insync",
+  "lock_keys",
+  "caffeine",
   "group:connectivity",
   "clipboard",
   "notifications",
@@ -122,13 +123,13 @@ show_glyph = false
 show_label = true
 display = "short"
 
-[widget.insync]
-type = "custom_button"
-custom_image = "/usr/share/icons/hicolor/scalable/apps/insync.svg"
-tooltip = "Open Insync"
-
-[widget.insync.actions]
-left = "exec insync show"
+[widget.lock_keys]
+# Match DMS's transient Caps Lock indicator and stay hidden when it is off.
+display = "short"
+hide_when_off = true
+show_caps_lock = true
+show_num_lock = false
+show_scroll_lock = false
 
 [widget.net-download]
 type = "sysmon"
@@ -165,3 +166,10 @@ mode = "dark"
 source = "custom"
 custom_palette = "dms-blue"
 pure_black_dark = false
+
+# Keep Noctalia's own palette, but never render it into application configs.
+[theme.templates]
+enable_builtin_templates = false
+enable_community_templates = false
+builtin_ids = []
+community_ids = []

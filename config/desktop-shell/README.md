@@ -19,8 +19,9 @@ desktop-shell noctalia --restart-niri
 desktop-shell dms --restart-niri
 ```
 
-The selector changes only `config/niri/shells/active.kdl` and
-`config/hypr/shells/active.conf`. It never edits the DMS-generated files in
+The selector changes only the local, Git-ignored `config/niri/shells/active.kdl`
+and `config/hypr/shells/active.conf` files. Dotbot creates both with Noctalia
+selected after linking; the selector never edits the DMS-generated files in
 `dms/`.
 
 The selector reloads Niri's configuration by default so keybindings and
