@@ -1,0 +1,20 @@
+- shell:
+    - [
+        "sh -c 'if [ -L \"$HOME/.config/cosmic\" ]; then rm \"$HOME/.config/cosmic\"; fi; mkdir -p \"$HOME/.config/cosmic\"'",
+        Keep COSMIC config root as a real directory,
+      ]
+
+- link:
+    # COSMIC owns and watches ~/.config/cosmic itself. Link each application
+    # namespace instead so settings writes land in this repository without
+    # replacing the watched root directory.
+    ~/.config/cosmic/:
+      create: true
+      glob: true
+      force: true
+      path: "*system76.*"
+
+    # Match the trash cleanup startup behavior used by niri and Hyprland.
+    ~/.config/autostart/trash-empty.desktop:
+      create: true
+      path: autostart/trash-empty.desktop

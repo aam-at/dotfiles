@@ -44,11 +44,6 @@
       glob: true
       path: config/code/*
     ~/.config/atuin: config/atuin
-    # COSMIC DE: autostart hook matching the niri/Hyprland
-    # "trash-empty 30" startup execs.
-    ~/.config/autostart/trash-empty.desktop:
-      create: true
-      path: config/cosmic/autostart/trash-empty.desktop
     ~/.config/broot: config/broot
     ~/.config/btop: config/btop
     ~/.config/catppuccin: config/catppuccin
@@ -57,13 +52,6 @@
       glob: true
       path: config/code/*
     ~/.config/DankMaterialShell: config/DankMaterialShell
-    # COSMIC DE: link the keybindings override leaf (the user
-    # "custom" RON file cosmic-comp merges over its defaults), not the
-    # com.system76.* directory, so user-generated config stays out of
-    # the repo.
-    ~/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom:
-      create: true
-      path: config/cosmic/shortcuts-custom.ron
     ~/.config/direnv/direnvrc:
       create: true
       path: config/direnv/direnvrc
@@ -128,47 +116,6 @@
     ~/.elfeed: ../Dropbox/Software/elfeed
     ~/.mbsyncrc: config/mbsyncrc
     ~/.notmuch-config: config/notmuch/config
-
-    # Emacs profiles. Framework checkouts and generated state are intentionally
-    # outside the dotfiles repository; see emacs/README.md.
-    ~/.config/emacs/doom: emacs/doom
-    ~/.config/emacs/config:
-      create: true
-      path: emacs/config
-    ~/.config/emacs/funcs:
-      create: true
-      path: emacs/funcs
-    ~/.config/emacs/spacemacs:
-      create: true
-      path: emacs/spacemacs
-    ~/.config/emacs/spacemacs-full/config:
-      create: true
-      path: emacs/config
-    ~/.config/emacs/spacemacs-full/funcs:
-      create: true
-      path: emacs/funcs
-    ~/.config/emacs/spacemacs-full/layers:
-      create: true
-      path: emacs/spacemacs
-    ~/.config/emacs/spacemacs-full/init.el:
-      create: true
-      path: emacs/spacemacs/spacemacs_full
-    ~/.config/emacs/spacemacs-basic/init.el:
-      create: true
-      path: emacs/spacemacs/spacemacs_basic
-    ~/.config/emacs/spacemacs-writing/config:
-      create: true
-      path: emacs/config
-    ~/.config/emacs/spacemacs-writing/funcs:
-      create: true
-      path: emacs/funcs
-    ~/.config/emacs/spacemacs-writing/layers:
-      create: true
-      path: emacs/spacemacs
-    ~/.config/emacs/spacemacs-writing/init.el:
-      create: true
-      path: emacs/spacemacs/spacemacs_writing
-    ~/.twittering-mode.gpg: ../Dropbox/Software/emacs/twittering-mode.gpg
 
     # Other editors / tools
     ~/.ideavimrc: idea/ideavimrc

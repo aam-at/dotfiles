@@ -29,6 +29,11 @@ The tracked files above are configuration source only.  Do not install any
 distribution into `~/.emacs.d`; that path cannot safely be shared by Doom,
 Spacemacs, Prelude, and other distributions.
 
+Emacs has its own `install.conf.yaml` in this directory. The repository-level
+`./install` script discovers it automatically and runs it with `emacs/` as the
+Dotbot base directory, keeping profile-specific links out of the main install
+manifest.
+
 Use these XDG locations instead:
 
 ```text
