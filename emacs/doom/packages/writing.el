@@ -1,4 +1,4 @@
-;;; writing.el --- Dependencies from the writing layer -*- no-byte-compile: t; -*-
+;;; writing.el --- Writing and prose dependencies -*- no-byte-compile: t; -*-
 
 (package! flycheck-vale)
 (package! writeroom-mode)
@@ -11,6 +11,10 @@
 (package! synosaurus)
 (package! academic-phrases)
 (package! write-or-die
-	  :recipe (:local-repo "../../spacemacs/writing/local/write-or-die"))
+	  :recipe (list :local-repo
+			(expand-file-name "../local/write-or-die"
+			                  (file-truename doom-user-dir))))
 (package! words
-	  :recipe (:local-repo "../../spacemacs/writing/local/words"))
+	  :recipe (list :local-repo
+			(expand-file-name "../local/words"
+			                  (file-truename doom-user-dir))))

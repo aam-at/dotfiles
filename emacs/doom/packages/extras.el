@@ -1,4 +1,4 @@
-;;; extras.el --- Remaining package parity dependencies -*- no-byte-compile: t; -*-
+;;; extras.el --- Additional workflow dependencies -*- no-byte-compile: t; -*-
 
 (package! ebib)
 (package! elfeed-goodies)

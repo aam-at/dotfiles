@@ -275,23 +275,15 @@ Suggestions: %s
 (defun words-speak (&optional text speed)
   "Speak word at point or region or TEXT.  Mac only."
   (interactive)
+  (unless (executable-find "say")
+    (user-error "The macOS `say' command is not available"))
   (setq speed (number-to-string (or speed 180)))
   (unless text
     (setq text (if (use-region-p)
 		   (buffer-substring
 		    (region-beginning) (region-end))
 		 (thing-at-point 'word))))
-  ;; escape some special applescript chars
-  (setq text (replace-regexp-in-string "\\\\" "\\\\\\\\" text))
-  (setq text (replace-regexp-in-string "\"" "\\\\\"" text))
-  ;; (do-applescript
-  ;;  (format
-  ;;   "say \"%s\" using \"%s\""
-  ;;   text
-  ;;   words-voice))
-  ;; (start-process "my-thing" "foo" "say" "-v" words-voice text "-r" speed)
-  ;; (call-process "say" nil nil nil (mapconcat 'identity (list "-v" words-voice text "-r" speed) " "))
-  (shell-command (format "say -v %s \"%s\" -r %s" words-voice text speed)))
+  (start-process "words-say" nil "say" "-v" words-voice text "-r" speed))
 
 (defvar words-languages
   '()
@@ -342,6 +334,8 @@ Assumes selected code is in English."
   "Search for file names matching word or selection at point using mdfind.
 Opens an org-buffer with links to results.  Mac only."
   (interactive)
+  (unless (executable-find "mdfind")
+    (user-error "The macOS `mdfind' command is not available"))
   (let ((query (if (use-region-p)
 		   (buffer-substring
 		    (region-beginning)
@@ -364,6 +358,8 @@ Opens an org-buffer with links to results.  Mac only."
 (defun words-swiper-all ()
   "Run swiper-all on the word at point or region."
   (interactive)
+  (unless (fboundp 'swiper-all)
+    (user-error "`swiper-all' is unavailable; enable the Spacemacs Ivy layer to use it"))
   (let ((query (if (use-region-p)
 		   (buffer-substring
 		    (region-beginning)
@@ -377,6 +373,8 @@ Opens an org-buffer with links to results.  Mac only."
 (defun words-finder ()
   "Open Mac Finder with search of word at point or selection."
   (interactive)
+  (unless (fboundp 'do-applescript)
+    (user-error "Finder search is only available on macOS"))
   (let* ((query (if (use-region-p)
 		    (buffer-substring
 		     (region-beginning)

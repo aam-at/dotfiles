@@ -1,4 +1,4 @@
-;;; aam.el --- Dependencies from aam and Helm layers -*- no-byte-compile: t; -*-
+;;; aam.el --- Personal utilities and optional Helm workflows -*- no-byte-compile: t; -*-
 
 (package! activity-watch-mode)
 (package! casual)
@@ -8,11 +8,8 @@
 (package! ewmctrl)
 (package! fish-completion)
 (package! gscholar-bibtex)
-(package! key-chord)
-(package! key-seq)
 (package! memoize)
 (package! popper)
-(package! prescient)
 (package! unicode-math-input
 	  :recipe (:host github :repo "astoff/unicode-math-input.el"))
 (package! pretty-hydra)

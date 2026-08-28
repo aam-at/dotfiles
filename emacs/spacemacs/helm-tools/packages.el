@@ -1,8 +1,8 @@
-;;; packages.el --- helm-legacy layer packages file for Spacemacs.
+;;; packages.el --- helm-tools layer packages file for Spacemacs.
 ;;
 ;; Copyright (c) 2012-2024 Sylvain Benner & Contributors
 ;;
-;; Author: Alexander Matyasko <amatyasko@amatyasko-PC>
+;; Author: Alexander Matyasko
 ;; URL: https://github.com/syl20bnr/spacemacs
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,9 +18,9 @@
 ;; GNU General Public License for more details.
 ;;
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-(defconst helm-legacy-packages
+(defconst helm-tools-packages
   '(helm
     (helm-icons :location (recipe
                            :fetcher github
@@ -28,19 +28,19 @@
     (helm-ls-git :toggle (configuration-layer/layer-used-p 'git))
     (helm-posframe :location (recipe
                               :fetcher github
-                              :repo "tumashu/helm-posframe"))
-    helm-projectile))
+                              :repo "tumashu/helm-posframe"))))
 
-(defun helm-legacy/init-helm ()
-  :defer t)
+(defun helm-tools/init-helm ()
+  (use-package helm
+    :defer t))
 
-(defun helm-legacy/init-helm-icons ()
+(defun helm-tools/init-helm-icons ()
   (use-package helm-icons
     :defer t
     :init
     (helm-icons-enable)))
 
-(defun helm-legacy/init-helm-ls-git ()
+(defun helm-tools/init-helm-ls-git ()
   (use-package helm-ls-git
     :defer t
     :init
@@ -63,23 +63,22 @@
       ;; Otherwise, use defaault `\'vc-dir'
       (setq helm-ls-git-status-command 'magit-status-setup-buffer))))
 
-(defun helm-legacy/init-helm-posframe ()
+(defun helm-tools/init-helm-posframe ()
   (use-package helm-posframe
     :defer t
     :init
     (setq helm-posframe-poshandler 'posframe-poshandler-frame-center)
     ;; Update helm posframe dimensions
-    (defun update-helm-posframe-dimensions ()
+    (defun helm-tools//update-posframe-dimensions ()
       (setq helm-posframe-width (round (* 0.618 (frame-width))))
       (setq helm-posframe-height (round (* 0.618 (frame-height)))))
-    (update-helm-posframe-dimensions)
+    (helm-tools//update-posframe-dimensions)
     ;; Update on frame resizing
-    (add-hook 'window-size-change-functions (lambda (_frame) (update-helm-posframe-dimensions)))
+    (add-hook 'window-size-change-functions
+              (lambda (_frame) (helm-tools//update-posframe-dimensions)))
     (setq helm-posframe-parameters
           '((internal-border-width . 2)
             (left-fringe . 4)
             (right-fringe . 4)
             (undecorated . nil)))
     (helm-posframe-enable)))
-
-(defun helm-legacy/init-helm-projectile ())

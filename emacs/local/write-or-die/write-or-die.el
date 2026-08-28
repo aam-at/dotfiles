@@ -1,4 +1,4 @@
-;;; write-or-die.el --- deletes word from buffer if you stop typing for to long -*- lexical-binding: t; -*-
+;;; write-or-die.el --- Delete words after prolonged idle time -*- lexical-binding: t; -*-
 
 ;; Version: 0.1a
 
@@ -13,15 +13,6 @@
 ;; changes colour to give you some warning, and then words are deleted
 ;; from the end of the document at a rate of 1 per second.  Beginning
 ;; writing again stops this.
-;;
-;; TODO:
-;;
-;; - Need to work out what variables need to be made buffer-local etc.
-;;   They don't behave quite as I expected them to...
-;; - Reinstate write-or-die-timer each second, rather than use the repeat feature.
-;;   (i.e. so that bad things don't happen if emacs happens to freeze for a while...)
-;; - Get it to work smoothely with colour themes; i.e. instead of changing to a white background by
-;;   default, need to change to the initial background colour. (17/12/2008)
 ;;
 ;; Please let me know if this is useful to you, or if you have any suggestions!
 
@@ -39,10 +30,10 @@
   :lighter write-or-die-mode-text
   :group write-or-die
   (if write-or-die-mode
-      (add-hook 'post-command-hook 'write-or-die-post-command-hook)
+      (add-hook 'post-command-hook #'write-or-die-post-command-hook nil t)
     (progn
       (write-or-die-stop)
-      (remove-hook 'post-command-hook 'write-or-die-post-command-hook))))
+      (remove-hook 'post-command-hook #'write-or-die-post-command-hook t))))
 
 ;; Customisable variables
 (defcustom write-or-die-target-words 500
@@ -64,16 +55,16 @@ displayed"
   :group 'write-or-die)
 
 ;; Working variables:
-(defvar write-or-die-mode-text " ☠")
+(defvar-local write-or-die-mode-text " ☠")
 
 ;; state = 0: off
 ;; state = 1: on and going well
 ;; state = 2: warning
 ;; state = 3: Zap!!
-(defvar write-or-die-state 0)
+(defvar-local write-or-die-state 0)
 
 ;; number of words when 'write-or-die-go' most recently called
-(defvar write-or-die-num-words-begin 0)
+(defvar-local write-or-die-num-words-begin 0)
 
 ;; timers:
 ;;  write-or-die-timer:
@@ -82,12 +73,12 @@ displayed"
 ;;     sets the state to 2 when w-o-d-warning-period seconds pass while idle.
 ;;  write-or-die-grace-timer:
 ;;     sets the state to 3 when w-o-d-grace-period seconds pass while idle.
-(defvar write-or-die-timer nil)
-(defvar write-or-die-warning-timer nil)
-(defvar write-or-die-grace-timer nil)
+(defvar-local write-or-die-timer nil)
+(defvar-local write-or-die-warning-timer nil)
+(defvar-local write-or-die-grace-timer nil)
+(defvar-local write-or-die-warning-face-cookie nil)
 
-(defvar write-or-die-time-so-far 0)
-(make-variable-buffer-local 'write-or-die-time-so-far)
+(defvar-local write-or-die-time-so-far 0)
 
 (defun write-or-die-update ()
   "This is called every second, and updates word count etc. / calls
@@ -95,7 +86,7 @@ warning routine or stimulus routine."
   (if (> write-or-die-state 0)
       (let (
 	    (num-words-written
-	     (- (word-count) write-or-die-num-words-begin))
+	     (- (write-or-die-word-count) write-or-die-num-words-begin))
 	    (time-to-go
 	     (- write-or-die-target-time write-or-die-time-so-far)))
 	(setq write-or-die-time-so-far
@@ -110,7 +101,7 @@ warning routine or stimulus routine."
   ;; If we're being warned about not concentrating on our writing....
   (if (> write-or-die-state 1)
       (write-or-die-warning)
-    (modify-frame-parameters nil '((background-color . "White"))))
+    (write-or-die-clear-warning))
   ;; If we're being punished for not writing for too long!
   (if (> write-or-die-state 2)
       (write-or-die-stimulus))
@@ -124,7 +115,7 @@ warning routine or stimulus routine."
       (setq write-or-die-state 1))
   )
 
-(defun word-count nil
+(defun write-or-die-word-count ()
   "Count words in buffer"
   ;;Adapted from replace.el - Tehom
   (let
@@ -147,41 +138,73 @@ warning routine or stimulus routine."
 (defun write-or-die-go ()
   "Start incentivised writing!"
   (interactive)
-  (if (= 0 write-or-die-state)
-      (progn
-	(setq write-or-die-state 1)
-	(setq write-or-die-num-words-begin (word-count))
-	(setq write-or-die-time-so-far 0)
-	(setq write-or-die-timer
-	      (run-with-timer
-	       0 1  ;; i.e. update once per second, starting NOW!
-	       'write-or-die-update))
-	(setq write-or-die-warning-timer
-	      (run-with-idle-timer write-or-die-warning-period
-				   1
-				   (lambda () (setq write-or-die-state 2))))
-	(setq write-or-die-grace-timer
-	      (run-with-idle-timer write-or-die-grace-period
-				   1
-				   (lambda () (setq write-or-die-state 3))))
-	)))
+  (unless write-or-die-mode
+    (write-or-die-mode 1))
+  (when (= 0 write-or-die-state)
+    (let ((buffer (current-buffer)))
+      (setq write-or-die-state 1)
+      (setq write-or-die-num-words-begin (write-or-die-word-count))
+      (setq write-or-die-time-so-far 0)
+      (setq write-or-die-timer
+	    (run-with-timer
+	     0 1  ;; i.e. update once per second, starting NOW!
+	     (lambda ()
+               (when (buffer-live-p buffer)
+                 (with-current-buffer buffer
+                   (write-or-die-update))))))
+      (setq write-or-die-warning-timer
+	    (run-with-idle-timer write-or-die-warning-period
+				 1
+				 (lambda ()
+                                   (when (buffer-live-p buffer)
+                                     (with-current-buffer buffer
+                                       (setq write-or-die-state 2))))))
+      (setq write-or-die-grace-timer
+	    (run-with-idle-timer write-or-die-grace-period
+				 1
+				 (lambda ()
+				   (when (buffer-live-p buffer)
+				     (with-current-buffer buffer
+				       (setq write-or-die-state 3))))))))
+  )
+
+(defun write-or-die-toggle ()
+  "Start a writing session, or stop and disarm the current one."
+  (interactive)
+  (if (> write-or-die-state 0)
+      (write-or-die-mode -1)
+    (write-or-die-go)))
 
 (defun write-or-die-stop ()
   "Stop incentivised writing!"
   (interactive)
   (setq write-or-die-state 0)
-  (cancel-timer write-or-die-timer)
-  (cancel-timer write-or-die-warning-timer)
-  (cancel-timer write-or-die-grace-timer)
-  (modify-frame-parameters nil '((background-color . "White")))
+  (dolist (timer (list write-or-die-timer
+                       write-or-die-warning-timer
+                       write-or-die-grace-timer))
+    (when (timerp timer)
+      (cancel-timer timer)))
+  (setq write-or-die-timer nil
+        write-or-die-warning-timer nil
+        write-or-die-grace-timer nil)
+  (write-or-die-clear-warning)
   (write-or-die-update)
   )
 
 (defun write-or-die-warning ()
-  (modify-frame-parameters nil '((background-color . "Red")))
-  )
+  (unless write-or-die-warning-face-cookie
+    (setq write-or-die-warning-face-cookie
+          (face-remap-add-relative 'default :background "Red"))))
+
+(defun write-or-die-clear-warning ()
+  "Remove the buffer-local warning face, if active."
+  (when write-or-die-warning-face-cookie
+    (face-remap-remove-relative write-or-die-warning-face-cookie)
+    (setq write-or-die-warning-face-cookie nil)))
 
 (defun write-or-die-stimulus ()
-  (backward-kill-word 1))
+  (unless (bobp)
+    (backward-kill-word 1)))
 
 (provide 'write-or-die)
+;;; write-or-die.el ends here

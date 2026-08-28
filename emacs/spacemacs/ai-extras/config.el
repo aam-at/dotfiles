@@ -1,2 +1,2 @@
-(defvar ai-extras-autostart-gptcommit-mode nil
+(defvar aam-enable-magit-gptcommit nil
   "If non-nil, automatically start `gptcommit-mode'.")

@@ -1,1 +1,1 @@
-(configuration-layer/declare-layers '(org git pdf))
+(configuration-layer/declare-layer-dependencies '(org git pdf))

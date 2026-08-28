@@ -61,12 +61,7 @@
 (defun ai-extras/init-copilot-chat ()
   (use-package copilot-chat
     :defer t
-    :ensure t
     :init
-    (defun aam/doom-bury-and-kill-buffer()
-      (interactive)
-      (bury-buffer)
-      (delete-window))
     (spacemacs/declare-prefix "$c" "Copilot-Chat")
     ;; General Chat Management
     (spacemacs/set-leader-keys
@@ -128,14 +123,14 @@
       (evilified-state-evilify-map (symbol-value (intern (concat (symbol-name mode) "-map")))
 				   :mode mode
 				   :bindings
-				   (kbd "C-c q") 'aam/doom-bury-and-kill-buffer))
+				   (kbd "C-c q") 'aam/bury-buffer-and-delete-window))
     (evilified-state-evilify-map copilot-chat-list-mode-map
 				 :mode copilot-chat-list-mode
 				 :bindings
 				 "RET" 'copilot-chat-list-add-or-remove-buffer
 				 "C"   'copilot-chat-list-clear-buffers
 				 "g"   'copilot-chat-list-refresh
-				 "q"   'aam/doom-bury-and-kill-buffer)))
+				 "q"   'aam/bury-buffer-and-delete-window)))
 
 (defun ai-extras/init-esi-dictate ()
   (use-package esi-dictate
@@ -173,7 +168,7 @@
     :defer t
     :after magit llm
     :init
-    (if ai-extras-autostart-gptcommit-mode
+    (if aam-enable-magit-gptcommit
         (progn
           (magit-gptcommit-mode -1)
           (magit-gptcommit-status-buffer-setup)))))

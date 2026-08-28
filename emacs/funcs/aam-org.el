@@ -1,6 +1,33 @@
+;;; aam-org.el --- Shared Org helpers -*- lexical-binding: t; -*-
+
+(require 'aam-core)
 (require 'cl-lib)
 (require 'json)
 (require 'url)
+
+(defvar aam-scholarly-citations-output nil
+  "Latest asynchronous citation-count result.")
+
+(defvar semantic-scholar-api-key nil
+  "API key for Semantic Scholar citation lookups.
+When nil, use SEMANTIC_SCHOLAR_API_KEY when it is available.")
+
+(defvar semantic-scholar-api-retry-seconds 5
+  "Seconds to retry transient Semantic Scholar API failures.")
+
+(defvar scholarly-default-method "google scholar [manual]"
+  "Default method used to fetch citation counts.")
+
+(defconst scholarly-methods-alist
+  '(("google scholar [manual]" . aam-scholarly-manual-citations)
+    ("google scholar [jina]" . aam-scholarly-jina-citations)
+    ("google scholar [scholarly no proxy]" . "scholarly_citations.py --proxy noproxy")
+    ("google scholar [scholarly freeproxy]" . "scholarly_citations.py --proxy freeproxy")
+    ("google scholar [scholarly scrapper]" . "scholarly_citations.py --proxy scrapper")
+    ("google scholar [serpapi scrapper]" . "serpapi_citations.py")
+    ("semantic scholar [manual]" . aam-semantic-scholar-manual-citations)
+    ("semantic scholar [api]" . aam-semantic-scholar-api-citations))
+  "Methods available to the scholarly citation-count helpers.")
 
 (defun aam/org-days-before-today (days)
   "Return the time DAYS days before today."
@@ -739,3 +766,6 @@ available; otherwise, use an unauthenticated request."
 
     ;; Insert the final output at point
     (insert output)))
+
+(provide 'aam-org)
+;;; aam-org.el ends here

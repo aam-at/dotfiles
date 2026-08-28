@@ -1,4 +1,4 @@
-;;; org.el --- Dependencies from Org-related layers -*- no-byte-compile: t; -*-
+;;; org.el --- Additional Org workflow dependencies -*- no-byte-compile: t; -*-
 
 (package! cdlatex)
 (package! org-super-agenda)

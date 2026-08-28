@@ -1,3 +1,5 @@
+;;; aam-latex.el --- Shared LaTeX helpers -*- lexical-binding: t; -*-
+
 (defun aam/latex-cycle-text-wrapping ()
   "Cycle between different text wrapping options:
 1. Default Emacs paragraph filling
@@ -153,3 +155,6 @@
       (LaTeX-indent-line)
       (forward-line -1)
       (LaTeX-indent-line)))))
+
+(provide 'aam-latex)
+;;; aam-latex.el ends here

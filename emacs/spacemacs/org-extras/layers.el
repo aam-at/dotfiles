@@ -1,1 +1,1 @@
-(configuration-layer/declare-layers '(org pdf))
+(configuration-layer/declare-layer-dependencies '(org pdf))
