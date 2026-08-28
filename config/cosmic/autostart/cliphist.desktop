@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Clipboard History
+Comment=Store text and image clipboard entries for the shared Super+V history menu.
+Exec=cliphist-watcher.sh
+X-GNOME-Autostart-Phase=Application

@@ -1,4 +1,5 @@
-// COSMIC DE keybindings that mimic the niri/Hyprland profile.
+// COSMIC DE keybindings that mirror the niri profile where COSMIC exposes an
+// equivalent action.
 //
 // This is the user "custom" layer that cosmic-comp merges ON TOP of the
 // shipped defaults at
@@ -9,8 +10,7 @@
 // the a11y zoom on Super+period/Super+comma, etc.) stays intact.
 //
 // Source of truth for the mappings (active profile: noctalia):
-//   config/niri/common/binds.kdl  + config/niri/shells/noctalia.kdl
-//   config/hypr/common/binds.conf + config/hypr/shells/noctalia.conf
+//   config/niri/common/binds.kdl + config/niri/shells/noctalia.kdl
 //
 // Intentional divergences from the COSMIC defaults (to match muscle memory):
 //   * Super+u / Super+i re-bound from Focus(Out)/Focus(In) to workspace
@@ -22,27 +22,37 @@
 //
 // Remaining compositor-specific gaps:
 //   Super+Grave reusable scratch terminal, Super+Shift+P DPMS, direct column
-//   width presets (Super+Ctrl+1-4), named special workspaces (Super+F1-F5),
-//   and mouse-wheel workspace/column navigation. COSMIC now supports Spawn(),
-//   so ordinary app launchers are mapped directly below.
+//   width presets (Super+Ctrl+1-4), workspace reordering, and mouse-wheel
+//   workspace/column navigation. COSMIC now supports Spawn(), so ordinary app
+//   launchers are mapped directly below.
 {
     // === System & Overview ===
-    // niri Mod+D/Mod+Tab overview -> Super+d (default Super+w overview kept).
+    // niri Mod+D/Mod+Tab both open the workspace overview.
     (modifiers: [Super], key: "d"): System(WorkspaceOverview),
+    (modifiers: [Super], key: "Tab"): System(WorkspaceOverview),
 
     // === Application Launchers ===
-    // Match the concrete app choices in config/hypr/common/binds.conf.
+    // Match niri's concrete application choices. HomeFolder/WebBrowser use
+    // XDG defaults, pinned to Thunar and Edge in config/mimeapps.list.
     (modifiers: [Super], key: "t"): Spawn("kitty"),
     (modifiers: [Super], key: "Return"): Spawn("kitty"),
-    (modifiers: [Super], key: "e"): Spawn("thunar"),
-    (modifiers: [Super], key: "b"): Spawn("microsoft-edge-stable"),
+    (modifiers: [Super], key: "e"): System(HomeFolder),
+    (modifiers: [Super], key: "b"): System(WebBrowser),
     (modifiers: [Super], key: "c"): Spawn("emacsclient-visual.sh"),
-    // Match the DMS/Noctalia clipboard overlay. Clippy Land is installed as
-    // the user Flatpak documented in config/cosmic/README.md.
-    (modifiers: [Super], key: "v"): Spawn("flatpak run io.github.k33wee.clippy-land --toggle"),
+    // Match the DMS/Noctalia clipboard-history behavior with the repo helper.
+    (modifiers: [Super], key: "v"): Spawn("clipboard-menu.sh"),
     // niri/hypr Super+Space launcher. Layout switching is Alt+Shift (xkb), so
     // overriding the default InputSourceSwitch on Super+space is safe.
     (modifiers: [Super], key: "space"): System(Launcher),
+
+    // Noctalia shell controls with safe COSMIC-native equivalents.
+    (modifiers: [Super], key: "x"): Spawn("session-menu.sh"),
+    (modifiers: [Super], key: "m"): Spawn("cosmic-settings system"),
+    (modifiers: [Super], key: "n"): Spawn("cosmic-settings notifications"),
+    (modifiers: [Super], key: "comma"): Spawn("cosmic-settings"),
+    (modifiers: [Super], key: "y"): Spawn("cosmic-settings wallpaper"),
+    (modifiers: [Ctrl, Alt], key: "Delete"): Spawn("cosmic-settings system"),
+    (modifiers: [Super, Alt], key: "Tab"): System(WindowSwitcher),
 
     // === Session ===
     // niri Mod+Shift+E quit / hypr Super+Shift+E exit.
@@ -57,6 +67,13 @@
     (modifiers: [Super, Shift], key: "f"): Fullscreen,
     // niri Mod+Shift+T / hypr Super+Shift+T floating (default Super+g kept).
     (modifiers: [Super, Shift], key: "t"): ToggleWindowFloating,
+    // niri's tabbed-column display is closest to COSMIC's window stacking.
+    (modifiers: [Super], key: "w"): ToggleStacking,
+
+    // COSMIC defaults Super+0 to "last workspace". Niri treats 0 as the
+    // tenth workspace, so override both focus and move explicitly.
+    (modifiers: [Super], key: "0"): Workspace(10),
+    (modifiers: [Super, Shift], key: "0"): MoveToWorkspace(10),
 
     // === Workspace Navigation (focus) ===
     // niri Mod+U/I/Page_Down/Page_Up; hypr Super+U/I/Page_Down/Page_Up.
@@ -67,16 +84,14 @@
     (modifiers: [Super], key: "Page_Up"): PreviousWorkspace,
 
     // === Move Window to Workspace ===
-    // niri Mod+Ctrl+Down/Up/U/I and Mod+Shift+Page_Down/Up/U/I;
-    // hypr Super+Ctrl / Super+Shift+ equivalents.
+    // niri Mod+Ctrl+Down/Up/U/I moves the active column to the adjacent
+    // workspace. COSMIC's MoveTo*Workspace is the equivalent window action.
     (modifiers: [Super, Ctrl], key: "Down"): MoveToNextWorkspace,
     (modifiers: [Super, Ctrl], key: "Up"): MoveToPreviousWorkspace,
     (modifiers: [Super, Ctrl], key: "u"): MoveToNextWorkspace,
     (modifiers: [Super, Ctrl], key: "i"): MoveToPreviousWorkspace,
-    (modifiers: [Super, Shift], key: "Page_Down"): MoveToNextWorkspace,
-    (modifiers: [Super, Shift], key: "Page_Up"): MoveToPreviousWorkspace,
-    (modifiers: [Super, Shift], key: "u"): MoveToNextWorkspace,
-    (modifiers: [Super, Shift], key: "i"): MoveToPreviousWorkspace,
+    // niri's Super+Shift+Page/U/I chords reorder the workspace itself. COSMIC
+    // has no equivalent action, so those chords are intentionally not mapped.
 
     // === Monitor Focus (SwitchOutput) ===
     // niri/hypr Super+Ctrl+HJKL/arrows focus monitor. Overrides COSMIC's

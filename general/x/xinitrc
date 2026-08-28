@@ -1,5 +1,8 @@
 export ALTERNATE_EDITOR=nvim
-export EDITOR=emacsclient -t
+export TERMINAL=kitty
+export FILE_MANAGER=thunar
+export BROWSER=microsoft-edge-stable
+export EDITOR=emacsclient-visual.sh
 export VISUAL=emacsclient-visual.sh
 
 eval `gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh`

@@ -1,6 +1,6 @@
 // Startup applications
 // Matches Hyprland execs.conf
-spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=Niri"
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
 spawn-at-startup "/usr/lib/hyprpolkitagent/hyprpolkitagent"
 
 // Non-critical maintenance (match Hyprland: trash-empty 30)

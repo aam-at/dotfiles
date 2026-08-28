@@ -43,45 +43,27 @@ Device-specific overrides remain unmanaged.
 
 `com.system76.CosmicSettings.Shortcuts/v1/custom` is merged on top of COSMIC's shipped defaults. Only listed bindings are added or overridden; all other defaults stay intact.
 
-The bindings follow `config/niri/common/binds.kdl` and `config/hypr/common/binds.conf` where COSMIC exposes matching actions:
+The bindings follow niri (`config/niri/common/binds.kdl` plus the active shell profile) as the source of truth wherever COSMIC exposes matching behavior:
 
-- Launchers: Super+Return / Super+T `kitty`, Super+E `thunar`, Super+B Edge, Super+C `emacsclient-visual.sh`, Super+Space launcher, Super+D workspace overview.
-- Clipboard: Super+V toggles Clippy Land, matching the DMS and Noctalia clipboard overlay.
-- Session: Super+Shift+E log out, Super+Alt+L lock screen.
-- Window: Super+F maximize, Super+Shift+F fullscreen, Super+Shift+T floating.
-- Workspaces: Super+U/I/Page_Down/Page_Up next/previous; Super+Ctrl and Super+Shift variants move the active window/workspace as documented in the shortcut file.
+- Launchers: Super+Return / Super+T `kitty`, Super+E the XDG file manager (pinned to Thunar), Super+B the XDG browser (pinned to Edge), Super+C `emacsclient-visual.sh`, and Super+Space launcher.
+- Overview: Super+D and Super+Tab both open the workspace overview, matching niri.
+- Clipboard: Super+V opens the repo's `cliphist`/Zenity clipboard-history menu, matching the DMS and Noctalia clipboard workflow without a COSMIC-specific Flatpak dependency. COSMIC autostarts `cliphist-watcher.sh` to record text and image selections.
+- Session: Super+X opens a session-action menu (lock, suspend, log out, restart, shut down); Super+Shift+E logs out; Super+Alt+L locks.
+- Shell UI: Super+M and Ctrl+Alt+Delete open COSMIC's System settings, Super+N opens Notification settings, Super+Comma opens COSMIC Settings, and Super+Y opens Wallpaper settings. These are the closest safe COSMIC counterparts to Noctalia's control-center panels.
+- Window switching: Super+Alt+Tab opens COSMIC's window switcher, matching the Noctalia binding while leaving Super+Tab dedicated to the workspace overview.
+- Window: Super+F maximize, Super+Shift+F fullscreen, Super+Shift+T floating, Super+W stacking (the closest COSMIC equivalent to niri's tabbed-column view).
+- Workspaces: Super+U/I/Page_Down/Page_Up next/previous; Super+Ctrl+Down/Up/U/I sends the active window to the adjacent workspace. Niri's Super+Shift workspace-reordering chords remain unbound because COSMIC cannot reorder workspaces with a shortcut action.
 - Numbered workspaces: Super+1-0 focuses 1-10 and Super+Shift+1-0 sends the active window, matching both Niri and Hyprland.
 - Monitors: Super+Ctrl+HJKL/arrows focus, Super+Shift+Ctrl+HJKL/arrows send.
 - Resize: Super+= / Super+- grow/shrink.
 
-COSMIC now supports arbitrary `Spawn(...)` custom shortcuts, so browser/editor launchers no longer need to be omitted.
+COSMIC now supports arbitrary `Spawn(...)` custom shortcuts. The session menu uses the repo's `session-menu.sh` helper because COSMIC does not expose the panel's full user-session menu as a shortcut action.
 
 ## Optional productivity applets
 
 COSMIC panel applets are installed separately from this dotfile repository.
 Their panel positions and ordering are tracked as part of the complete COSMIC
 configuration snapshot.
-
-### Clipboard history: Clippy Land
-
-Clippy Land provides searchable clipboard history and pinned text/image items.
-It is the COSMIC counterpart to the DMS/Noctalia clipboard overlay. The managed
-Super+V shortcut runs its Flatpak ID, `io.github.k33wee.clippy-land`.
-
-On Arch-based systems, install Flatpak once (requires administrator access):
-
-```sh
-sudo pacman -S flatpak
-flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak remote-add --if-not-exists --user cosmic https://apt.pop-os.org/cosmic/cosmic.flatpakrepo
-curl -LO https://github.com/k33wee/clippy-land/releases/download/v1.0.0/clippy-land_1.0.0.flatpak
-flatpak install --user ./clippy-land_1.0.0.flatpak
-```
-
-Log out and back in if COSMIC Settings does not list it immediately, then add
-**Clippy Land** under **Desktop → Panel (or Dock) → Configure applets**. Its
-normal panel popup opens from the applet; Super+V uses the applet's documented
-full-width shortcut surface because COSMIC has no pointer-less panel-popup API.
 
 ### Night Light
 
@@ -107,12 +89,12 @@ These still do not have a clean COSMIC equivalent in the current setup:
 - Super+Grave reusable scratch terminal (the existing scripts depend on niri/Hyprland window IPC).
 - Super+Shift+P direct compositor DPMS action.
 - Direct niri-style column width presets and consume/expel column operations.
-- Hyprland named special workspaces (Super+F1-F5).
+- Niri workspace reordering on Super+Shift+Page_Down/Page_Up/U/I.
 - Mouse-wheel workspace/column compositor bindings.
 
 ## Autostart
 
-`autostart/trash-empty.desktop` runs `trash-empty 30` at login, matching the niri and Hyprland startup hooks.
+`autostart/trash-empty.desktop` runs `trash-empty 30` at login, matching the niri and Hyprland startup hooks. `autostart/cliphist.desktop` starts the clipboard-history watcher used by Super+V.
 
 ## Applying the configuration
 

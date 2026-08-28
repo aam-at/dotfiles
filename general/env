@@ -7,9 +7,12 @@ export CPATH=""
 export LD_LIBRARY_PATH=""
 export LIBRARY_PATH=""
 
-export EDITOR="emacsclient -t"
+export TERMINAL="kitty"
+export FILE_MANAGER="thunar"
+export BROWSER="microsoft-edge-stable"
+export EDITOR="emacsclient-visual.sh"
 export ALTERNATE_EDITOR=nvim
-export VISUAL="emacsclient -c -n"
+export VISUAL="emacsclient-visual.sh"
 
 # Configure cuda
 export CUDA_DEVICE_ORDER=PCI_BUS_ID

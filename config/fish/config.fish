@@ -59,6 +59,15 @@ end
 
 __fish_config_source_env
 
+# Keep desktop application choices identical to the niri source of truth.
+# These explicit assignments intentionally override a stale ~/.env.fish cache.
+set -gx TERMINAL kitty
+set -gx FILE_MANAGER thunar
+set -gx BROWSER microsoft-edge-stable
+set -gx EDITOR emacsclient-visual.sh
+set -gx VISUAL emacsclient-visual.sh
+set -gx ALTERNATE_EDITOR nvim
+
 #####################
 # Configure plugins #
 #####################
