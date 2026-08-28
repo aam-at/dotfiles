@@ -17,6 +17,9 @@ video/mp4=vlc.desktop
 x-scheme-handler/mailto=microsoft-edge.desktop
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 x-scheme-handler/claude=com.anthropic.Claude.desktop
+x-scheme-handler/antigravity=antigravity.desktop
+x-scheme-handler/codex=chatgpt.desktop
 
 [Added Associations]
 x-scheme-handler/claude=com.anthropic.Claude.desktop;
+x-scheme-handler/antigravity=antigravity.desktop

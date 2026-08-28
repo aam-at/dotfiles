@@ -1,0 +1,13 @@
+{
+  "model": "sonnet",
+  "enableWorkflows": true,
+  "effortLevel": "high",
+  "modelSettings": {
+    "claude-sonnet-5": {
+      "effortLevel": "high"
+    }
+  },
+  "tui": "fullscreen",
+  "editorMode": "vim",
+  "inputNeededNotifEnabled": true
+}
