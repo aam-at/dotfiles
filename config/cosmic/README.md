@@ -57,7 +57,7 @@ The bindings follow niri (`config/niri/common/binds.kdl` plus the active shell p
 - Monitors: Super+Ctrl+HJKL/arrows focus, Super+Shift+Ctrl+HJKL/arrows send.
 - Resize: Super+= / Super+- grow/shrink.
 
-COSMIC now supports arbitrary `Spawn(...)` custom shortcuts. The session menu uses the repo's `session-menu.sh` helper because COSMIC does not expose the panel's full user-session menu as a shortcut action.
+COSMIC now supports arbitrary `Spawn(...)` custom shortcuts. The session menu uses the repo's `session-menu.sh` GTK4 overlay because COSMIC does not expose the panel applet's popup as a shortcut action. The overlay follows the tracked COSMIC light/dark palette, uses the standard symbolic session icons, supports mouse/keyboard navigation, toggles off when Super+X is pressed again, and delegates log out/restart/shutdown confirmation to `cosmic-osd`.
 
 ## Optional productivity applets
 
