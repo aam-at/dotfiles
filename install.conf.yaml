@@ -98,7 +98,6 @@
       create: true
       path: config/python/pudb.cfg
     ~/.config/ranger: config/ranger
-    ~/.config/redshift.conf: config/redshift.conf
     ~/.config/starship.toml: config/starship.toml
     ~/.config/systemd/user/:
       create: true

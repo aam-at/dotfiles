@@ -127,7 +127,6 @@
 (run-shell-command "/usr/bin/gnome-keyring-daemon --start --components=gpg")
 (run-shell-command "guake -e tmux")
 (run-shell-command "dropbox start")
-(run-shell-command "redshift")
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; Visual appearance
