@@ -1,7 +1,13 @@
 - clean: ["~"]
 - shell:
     - [git submodule update --depth 1 --init --recursive, Installing submodules]
-    - [env > ~/.bash_env, Environment variables]
+    # Quote every value so assignments with embedded newlines remain valid
+    # when sourced. The assignment-only format also remains valid for the
+    # systemd EnvironmentFile entries that consume this file.
+    - [
+        "python3 -c 'import os, shlex; print(*(f\"{name}={shlex.quote(value)}\" for name, value in os.environ.items()), sep=\"\\n\")' > ~/.bash_env",
+        Environment variables,
+      ]
     - [mkdir -p ~/.gnupg && chmod 700 ~/.gnupg, Secure GnuPG home directory]
     - [cd bash/bashmarks && make install, Install bashmarks]
     - [
