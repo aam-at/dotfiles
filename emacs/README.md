@@ -10,6 +10,10 @@ API.
 `doom/` contains Doom-only module selection, package manifests, and adapter
 configuration.  Its `packages/` directory is split by feature domain.
 
+`local/` contains small locally maintained Emacs packages shared by profiles.
+Distribution-specific package managers reference these sources directly; no
+profile-local copies or compatibility symlinks are required.
+
 `spacemacs/` contains Spacemacs-only profiles, layer declarations, snippets,
 and package-manager integration.
 

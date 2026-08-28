@@ -1,29 +1,23 @@
 ;;; config.el -*- lexical-binding: t; -*-
 
-;; Doom port of the Spacemacs configuration in this repository.
+;; Doom-specific integration for the shared Emacs configuration.
 
 (setq user-full-name "Alexander Matyasko"
       user-mail-address "alexander.matyasko@gmail.com"
       display-line-numbers-type 'relative
-      doom-localleader-key ","
       shell-file-name (or (executable-find "bash") shell-file-name))
 
 (setq-default vterm-shell "/bin/fish"
               explicit-shell-file-name "/bin/fish")
 
-(defconst aam/spacemacs-root
-  (file-truename (expand-file-name "../spacemacs" doom-user-dir)))
-
-(defconst aam/spacemacs-config-dir
+(defconst aam/shared-config-dir
   (file-truename (expand-file-name "../config" doom-user-dir)))
 
-(add-to-list 'load-path aam/spacemacs-config-dir)
-(add-to-list 'load-path (file-truename (expand-file-name "../funcs" doom-user-dir)))
-(add-to-list 'load-path (expand-file-name "aam" aam/spacemacs-root))
-(add-to-list 'load-path (expand-file-name "org-extras" aam/spacemacs-root))
-(add-to-list 'load-path (expand-file-name "org-roam-extras" aam/spacemacs-root))
-(add-to-list 'load-path (expand-file-name "latex-extras" aam/spacemacs-root))
-(add-to-list 'load-path (expand-file-name "cpp-extras" aam/spacemacs-root))
+(defconst aam/shared-funcs-dir
+  (file-truename (expand-file-name "../funcs" doom-user-dir)))
+
+(add-to-list 'load-path aam/shared-config-dir)
+(add-to-list 'load-path aam/shared-funcs-dir)
 
 (require 'config-ui)
 (setq doom-theme aam/theme
@@ -46,10 +40,9 @@
       org-enable-gcal nil
       org-enable-roam-ui nil
       aam-enable-explain-pause-at-startup nil
-      ai-extras-autostart-gptcommit-mode t)
+      aam-enable-magit-gptcommit t)
 
 (load! "../config/autoloads")
-(load! "keybindings")
 
 (load! "../funcs/aam-core")
 (aam/require-supported-emacs)
@@ -70,10 +63,6 @@
 		(explain-pause-mode))
 	      :config
 	      (setf (cadr (assq 'explain-pause-mode minor-mode-alist)) ""))
-
-(use-package! gcmh
-	      :config
-	      (gcmh-mode 1))
 
 (use-package! fish-completion
 	      :if (executable-find "fish")
@@ -102,32 +91,8 @@
 	      (popper-mode 1)
 	      (popper-echo-mode 1))
 
-(use-package! prescient
-	      :config
-	      (push 'prescient completion-styles))
-
-(use-package! key-chord
-	      :config
-	      (key-chord-mode 1))
-
-(use-package! key-seq
-	      :after evil
-	      :config
-	      (key-seq-define evil-normal-state-map "wh" #'evil-window-left)
-	      (key-seq-define evil-normal-state-map "wj" #'evil-window-down)
-	      (key-seq-define evil-normal-state-map "wk" #'evil-window-up)
-	      (key-seq-define evil-normal-state-map "wl" #'evil-window-right)
-	      (key-seq-define evil-normal-state-map "wy" #'split-window-right)
-	      (key-seq-define evil-normal-state-map "wu" #'aam/doom-split-window-below-and-focus)
-	      (key-seq-define evil-normal-state-map "wi" #'split-window-below)
-	      (key-seq-define evil-normal-state-map "wo" #'aam/doom-split-window-right-and-focus)
-	      (key-seq-define evil-normal-state-map "wm" #'doom/window-maximize-buffer)
-	      (key-seq-define evil-normal-state-map "kf" #'delete-frame)
-	      (key-seq-define evil-normal-state-map "kw" #'evil-quit)
-	      (key-seq-define evil-normal-state-map "kb" #'kill-this-buffer))
-
-;; Keep the legacy Helm entry points from the Spacemacs profile available while
-;; Vertico remains Doom's primary completion interface.
+;; Vertico remains Doom's primary completion interface; Helm is kept only for
+;; the few workflows that are still useful on their own.
 (use-package! helm-icons
 	      :after helm
 	      :config
@@ -136,7 +101,8 @@
 (use-package! helm-ls-git
 	      :commands helm-ls-git
 	      :init
-	      (aam/ported-leader! "gff" #'helm-ls-git)
+	      (map! :leader
+		    :desc "Find project file (Helm)" "p l" #'helm-ls-git)
 	      :config
 	      ;; Magit owns rebase todo buffers; helm-ls-git must not steal them.
 	      (setq auto-mode-alist
@@ -165,38 +131,40 @@
 						  harpoon-go-to-4 harpoon-go-to-5 harpoon-go-to-6 harpoon-go-to-7
 						  harpoon-go-to-8 harpoon-go-to-9)
 	      :init
-	      (aam/ported-leader!
-               (:prefix ("ah" . "harpoon")
-			"." #'harpoon-quick-menu-hydra
-			"m" #'harpoon-toggle-quick-menu
-			"a" #'harpoon-add-file
-			"d" #'harpoon-delete-item)
-               "M-1" #'harpoon-go-to-1
-               "M-2" #'harpoon-go-to-2
-               "M-3" #'harpoon-go-to-3
-               "M-4" #'harpoon-go-to-4
-               "M-5" #'harpoon-go-to-5
-               "M-6" #'harpoon-go-to-6
-               "M-7" #'harpoon-go-to-7
-               "M-8" #'harpoon-go-to-8
-               "M-9" #'harpoon-go-to-9))
+	      (map! :leader
+		    (:prefix ("p h" . "harpoon")
+			     :desc "Quick menu" "." #'harpoon-quick-menu-hydra
+			     :desc "Toggle menu" "m" #'harpoon-toggle-quick-menu
+			     :desc "Add file" "a" #'harpoon-add-file
+			     :desc "Delete item" "d" #'harpoon-delete-item
+			     :desc "Go to slot 1" "1" #'harpoon-go-to-1
+			     :desc "Go to slot 2" "2" #'harpoon-go-to-2
+			     :desc "Go to slot 3" "3" #'harpoon-go-to-3
+			     :desc "Go to slot 4" "4" #'harpoon-go-to-4
+			     :desc "Go to slot 5" "5" #'harpoon-go-to-5
+			     :desc "Go to slot 6" "6" #'harpoon-go-to-6
+			     :desc "Go to slot 7" "7" #'harpoon-go-to-7
+			     :desc "Go to slot 8" "8" #'harpoon-go-to-8
+			     :desc "Go to slot 9" "9" #'harpoon-go-to-9)))
 
 (use-package! helpful
 	      :commands (helpful-callable helpful-variable helpful-key)
 	      :init
-	      (aam/ported-leader!
-               "hf" #'helpful-callable
-               "hv" #'helpful-variable
-               "hk" #'helpful-key))
+	      (map! :leader
+		    (:prefix ("h" . "help")
+			     :desc "Describe callable" "f" #'helpful-callable
+			     :desc "Describe variable" "v" #'helpful-variable
+			     :desc "Describe key" "k" #'helpful-key)))
 
 (use-package! bm
 	      :commands (bm-toggle bm-next bm-previous bm-show-all)
 	      :init
-	      (aam/ported-leader!
-               "bm" #'bm-toggle
-               "bn" #'bm-next
-               "bp" #'bm-previous
-               "bl" #'bm-show-all))
+	      (map! :leader
+		    (:prefix ("b j" . "buffer marks")
+			     :desc "Toggle mark" "t" #'bm-toggle
+			     :desc "Next mark" "n" #'bm-next
+			     :desc "Previous mark" "p" #'bm-previous
+			     :desc "List marks" "l" #'bm-show-all)))
 
 (use-package! magit-delta
 	      :after magit
@@ -209,26 +177,30 @@
 (use-package! casual
 	      :after org-agenda
 	      :init
-	      (map! :map org-agenda-mode-map :localleader "A" #'casual-agenda-tmenu))
+	      (map! :map org-agenda-mode-map :localleader
+		    :desc "Casual agenda menu" "A" #'casual-agenda-tmenu))
 
 (use-package! biblio
 	      :commands biblio-lookup
 	      :init
-	      (map! :map bibtex-mode-map :localleader "lb" #'biblio-lookup)
+	      (map! :map bibtex-mode-map :localleader
+		    :desc "Biblio lookup" "b" #'biblio-lookup)
 	      :config
 	      (evil-set-initial-state 'biblio-selection-mode 'emacs))
 
 (use-package! gscholar-bibtex
 	      :commands gscholar-bibtex
 	      :init
-	      (map! :map bibtex-mode-map :localleader "ls" #'gscholar-bibtex)
+	      (map! :map bibtex-mode-map :localleader
+		    :desc "Google Scholar lookup" "s" #'gscholar-bibtex)
 	      :config
 	      (evil-set-initial-state 'gscholar-bibtex-mode 'emacs))
 
 (use-package! ewmctrl
 	      :commands ewmctrl
 	      :init
-	      (aam/ported-leader! "Aw" #'ewmctrl)
+	      (map! :leader
+		    :desc "Window manager" "o w" #'ewmctrl)
 	      :config
 	      (map! :map ewmctrl-mode-map :n
 		    "n" #'next-line "p" #'previous-line "g" #'ewmctrl-refresh
@@ -253,12 +225,13 @@
 	      (ultra-scroll-mode 1))
 
 (use-package! write-or-die
-	      :commands write-or-die-mode
-	      :hook (text-mode . write-or-die-mode)
+	      :commands (write-or-die-mode write-or-die-toggle)
 	      :init
-	      (aam/ported-leader! "xD" #'write-or-die-mode))
+	      (map! :leader
+		    :desc "Toggle Write or Die" "t W d" #'write-or-die-toggle))
 
 (use-package! mw-thesaurus
+	      :commands mw-thesaurus-lookup-dwim
 	      :hook (variable-pitch-mode . mw-thesaurus-mode))
 
 (use-package! jinx
@@ -269,16 +242,41 @@
 		    [remap evil-prev-flyspell-error] #'jinx-previous))
 
 (use-package! synosaurus
+	      :commands synosaurus-lookup
 	      :hook ((text-mode markdown-mode) . synosaurus-mode)
-	      :init
-	      (aam/ported-leader! "Stw" #'synosaurus-lookup)
 	      :config
 	      (setq synosaurus-choose-method 'default))
 
 (use-package! words
-	      :commands (words words-hydra/body)
-	      :init
-	      (aam/ported-leader! "Sw" #'words-hydra/body))
+	      :commands (words words-hydra/body))
+
+(use-package! powerthesaurus
+	      :commands (powerthesaurus-lookup-synonyms-dwim
+			 powerthesaurus-lookup-antonyms-dwim
+			 powerthesaurus-lookup-related-dwim
+			 powerthesaurus-lookup-definitions-dwim
+			 powerthesaurus-lookup-sentences-dwim))
+
+(use-package! le-thesaurus
+	      :commands (le-thesaurus-get-synonyms le-thesaurus-get-antonyms))
+
+(use-package! academic-phrases
+	      :commands (academic-phrases academic-phrases-by-section))
+
+(map! :leader
+      (:prefix ("s w" . "words")
+	       :desc "Synonyms" "s" #'powerthesaurus-lookup-synonyms-dwim
+	       :desc "Antonyms" "a" #'powerthesaurus-lookup-antonyms-dwim
+	       :desc "Related words" "r" #'powerthesaurus-lookup-related-dwim
+	       :desc "Definitions" "d" #'powerthesaurus-lookup-definitions-dwim
+	       :desc "Example sentences" "e" #'powerthesaurus-lookup-sentences-dwim
+	       :desc "Libre thesaurus synonyms" "l" #'le-thesaurus-get-synonyms
+	       :desc "Libre thesaurus antonyms" "L" #'le-thesaurus-get-antonyms
+	       :desc "Merriam-Webster thesaurus" "m" #'mw-thesaurus-lookup-dwim
+	       :desc "Synosaurus" "y" #'synosaurus-lookup
+	       :desc "Words menu" "w" #'words-hydra/body
+	       :desc "Academic phrases" "p" #'academic-phrases
+	       :desc "Academic phrases by section" "P" #'academic-phrases-by-section))
 
 (after! flycheck
 	(flycheck-define-checker proselint
@@ -295,7 +293,7 @@
 	(flycheck-define-checker textlint
 				 "A linter for textlint."
 				 :command ("npx" "textlint"
-					   "--config" "/home/amatyasko/.textlintrc"
+					   "--config" (eval (expand-file-name "~/.textlintrc"))
 					   "--format" "unix"
 					   "--rule" "write-good"
 					   "--rule" "no-start-duplicated-conjunction"
@@ -329,20 +327,12 @@
 
 (after! writeroom-mode
 	(setq writeroom-width 90)
-	(aam/ported-leader! "xW" #'writeroom-mode))
+	(map! :leader
+	      :desc "Toggle writeroom" "t W r" #'writeroom-mode))
 
 (after! writegood-mode
-	(aam/ported-leader! "xG" #'writegood-mode))
-
-(aam/ported-leader!
- "Sts" #'powerthesaurus-lookup-synonyms-dwim
- "Sta" #'powerthesaurus-lookup-antonyms-dwim
- "Str" #'powerthesaurus-lookup-related-dwim
- "Std" #'powerthesaurus-lookup-definitions-dwim
- "Ste" #'powerthesaurus-lookup-sentences-dwim
- "Stl" #'le-thesaurus-get-synonyms
- "StL" #'le-thesaurus-get-antonyms
- "Stm" #'mw-thesaurus-lookup-dwim)
+	(map! :leader
+	      :desc "Toggle writegood" "t W g" #'writegood-mode))
 
 (autoload 'aam/common-setup "config-common" nil t)
 (autoload 'aam/lsp-setup "config-lsp" nil t)
@@ -365,14 +355,25 @@
 	(when (aam/lsp-client-p)
 	  (aam/lsp-setup)))
 
-;; Spacemacs used DAP for C/C++ debugging.  Doom's debugger module provides
-;; Dape, but retaining dap-mode keeps the configured LLDB and cpptools flows.
+;; Dape is the primary Doom debugger. Keep dap-mode as a secondary entry point
+;; for the configured LLDB and cpptools flows.
 (use-package! dap-mode
 	      :after lsp-mode
 	      :commands (dap-debug dap-hydra)
+	      :init
+	      (map! :leader
+		    (:prefix ("d a" . "dap")
+			     :desc "Start DAP debug" "d" #'dap-debug
+			     :desc "DAP hydra" "h" #'dap-hydra))
 	      :config
 	      (require 'dap-cpptools nil t)
 	      (require 'dap-lldb nil t))
+
+(use-package! ebib
+	      :commands ebib
+	      :init
+	      (map! :leader
+		    :desc "Ebib bibliography manager" "n B" #'ebib))
 
 (after! org
 	(aam/org-setup)
@@ -383,18 +384,35 @@
 	(add-hook 'org-mode-hook #'turn-on-org-cdlatex)
 	(add-hook 'org-babel-after-execute-hook #'org-display-inline-images 'append)
 	(map! :map org-mode-map
-              :localleader
-              "Sr" #'aam/org-remove-all-overlays
-              "Sy" #'aam/org-sort-entries-by-year
-              "SY" #'aam/org-filter-entries-by-year
-              "Sc" #'aam/org-sort-entries-by-citations
-              "SC" #'aam/org-filter-entries-by-citations
-              "Su" #'aam/org-citations-update-at-point
-              "uf" #'aam/org-convert-org-id-link-to-file-link
-	      "N" #'orb-note-actions))
+	      :localleader
+	      (:prefix ("R" . "research")
+		       :desc "Remove overlays" "o" #'aam/org-remove-all-overlays
+		       :desc "Sort by year" "y" #'aam/org-sort-entries-by-year
+		       :desc "Filter by year" "Y" #'aam/org-filter-entries-by-year
+		       :desc "Sort by citations" "c" #'aam/org-sort-entries-by-citations
+		       :desc "Filter by citations" "C" #'aam/org-filter-entries-by-citations
+		       :desc "Update citations" "u" #'aam/org-citations-update-at-point)
+	      :desc "Convert ID link to file link" "l f" #'aam/org-convert-org-id-link-to-file-link
+	      :desc "Insert org-ref link" "l r" #'org-ref-insert-ref-link
+	      :desc "Insert org-ref label" "l R" #'org-ref-insert-label-link
+	      :desc "Roam bibliography actions" "N" #'orb-note-actions))
 
 (use-package! org-protocol-capture-html
 	      :after org)
+
+(use-package! org-doing
+	      :after org
+	      :commands org-doing
+	      :init
+	      (map! :leader
+		    :desc "Org doing" "n D" #'org-doing))
+
+(use-package! org-transclusion
+	      :after org
+	      :commands org-transclusion-transient-menu
+	      :init
+	      (map! :map org-mode-map :localleader
+		    :desc "Transclusion menu" "l x" #'org-transclusion-transient-menu))
 
 (use-package! org-contacts
 	      :after org
@@ -425,13 +443,12 @@
 	      :demand t)
 
 (after! org
-	(aam/ported-leader! "aon" #'org-noter)
-	(map! :map org-mode-map :localleader "n" #'org-noter)
 	(map! :map org-mode-map :localleader
-              "Dd" #'delve
-              "Dc" #'delve-minor-mode-collect-actions
-              "De" #'delve-minor-mode-edit-actions
-              "Di" #'delve-minor-mode-inspect-actions)
+	      (:prefix ("D" . "delve")
+		       :desc "Open Delve" "d" #'delve
+		       :desc "Collect actions" "c" #'delve-minor-mode-collect-actions
+		       :desc "Edit actions" "e" #'delve-minor-mode-edit-actions
+		       :desc "Inspect actions" "i" #'delve-minor-mode-inspect-actions))
 	(setq org-file-apps (delete '("\\.pdf\\'" . default) org-file-apps))
 	(add-to-list 'org-file-apps
 		     '("\\.pdf\\'" . (lambda (_file link) (aam/org-pdfview-open link)))))
@@ -450,16 +467,18 @@
 	      :when org-enable-gcal
 	      :after org
 	      :init
-	      (aam/ported-leader!
-               "aogs" #'org-gcal-sync
-               "aogf" #'org-gcal-fetch
-               "aogp" #'org-gcal-post-at-point
-               "aogr" #'org-gcal-refresh-token)
+	      (map! :leader
+		    (:prefix ("n g" . "org calendar")
+			     :desc "Sync" "s" #'org-gcal-sync
+			     :desc "Fetch" "f" #'org-gcal-fetch
+			     :desc "Post at point" "p" #'org-gcal-post-at-point
+			     :desc "Refresh token" "r" #'org-gcal-refresh-token))
 	      (map! :map org-mode-map :localleader
-		    "gs" #'org-gcal-sync
-		    "gf" #'org-gcal-fetch
-		    "gp" #'org-gcal-post-at-point
-		    "gr" #'org-gcal-refresh-token)
+		    (:prefix ("G" . "calendar")
+			     :desc "Sync" "s" #'org-gcal-sync
+			     :desc "Fetch" "f" #'org-gcal-fetch
+			     :desc "Post at point" "p" #'org-gcal-post-at-point
+			     :desc "Refresh token" "r" #'org-gcal-refresh-token))
 	      :config
 	      (setq org-gcal-dir (expand-file-name "org-gcal" doom-cache-dir)))
 
@@ -509,42 +528,29 @@
 	  (org-roam-ui-mode 1)))
 
 (after! org-roam
-	(aam/ported-leader! "aorT" #'aam/org-roam-toggle-properties)
-	(map! :map org-mode-map :localleader "rT" #'aam/org-roam-toggle-properties))
+	(map! :leader
+	      :desc "Toggle roam properties" "n r T" #'aam/org-roam-toggle-properties))
 
 (use-package! vulpea
 	      :after org-roam
 	      :config
 	      (setq vulpea-db-sync-directories (list org-directory))
 	      (vulpea-db-autosync-mode 1)
-	      (aam/ported-leader!
-	       "aorf" #'vulpea-find
-	       "aorF" #'org-roam-node-find
-	       "aori" #'vulpea-insert
-	       "aorI" #'org-roam-node-insert
-	       "aorb" #'vulpea-find-backlink)
-	      (map! :map org-mode-map
-		    :localleader
-		    "rf" #'vulpea-find
-		    "rF" #'org-roam-node-find
-		    "ri" #'vulpea-insert
-		    "rI" #'org-roam-node-insert
-		    "rb" #'vulpea-find-backlink))
+	      (map! :leader
+		    :desc "Vulpea find" "n r v" #'vulpea-find
+		    :desc "Vulpea insert" "n r V" #'vulpea-insert
+		    :desc "Vulpea backlinks" "n r b" #'vulpea-find-backlink))
 
 (use-package! org-mru-clock
 	      :after org
 	      :config
 	      (setq org-mru-clock-how-many 100)
 	      (add-hook 'minibuffer-setup-hook #'org-mru-clock-embark-minibuffer-hook)
-	      (aam/ported-leader!
-	       "aoCi" #'org-mru-clock-in
-	       "aoCg" #'org-mru-clock-goto
-	       "aoCs" #'org-mru-clock-select-recent-task)
-	      (map! :map org-mode-map
-		    :localleader
-		    "Ci" #'org-mru-clock-in
-		    "Cg" #'org-mru-clock-goto
-		    "Cs" #'org-mru-clock-select-recent-task))
+	      (map! :leader
+		    (:prefix ("n M" . "recent clocks")
+			     :desc "Clock in" "i" #'org-mru-clock-in
+			     :desc "Go to clock" "g" #'org-mru-clock-goto
+			     :desc "Select recent task" "s" #'org-mru-clock-select-recent-task)))
 
 (use-package! delve
 	      :after org-roam
@@ -598,8 +604,8 @@
 		    org-similarity-ignore-frontmatter nil)
 	      (map! :map org-mode-map
 		    :localleader
-		    "Ss" #'org-similarity-sidebuffer
-		    "Sq" #'org-similarity-query))
+		    :desc "Similarity sidebuffer" "R s" #'org-similarity-sidebuffer
+		    :desc "Similarity query" "R q" #'org-similarity-query))
 
 (use-package! org-fragtog
 	      :after org
@@ -607,9 +613,9 @@
 
 (after! pdf-tools
 	(map! :map pdf-view-mode-map
-              :localleader
-              "e" #'aam-extract-pdf-text-from-current-buffer
-              "N" #'org-noter))
+	      :localleader
+	      :desc "Extract text" "e" #'aam-extract-pdf-text-from-current-buffer
+	      :desc "Org noter" "N" #'org-noter))
 
 (after! python
 	(aam/python-setup)
@@ -627,7 +633,8 @@
 (use-package! auctex-cont-latexmk
 	      :after latex
 	      :init
-	      (map! :map LaTeX-mode-map :localleader "Tc" #'auctex-cont-latexmk-toggle))
+	      (map! :map LaTeX-mode-map :localleader
+		    :desc "Toggle continuous latexmk" "C" #'auctex-cont-latexmk-toggle))
 
 (use-package! auctex-label-numbers
 	      :hook ((plain-TeX-mode . auctex-label-numbers-mode)
@@ -645,7 +652,8 @@
 (use-package! texpresso
 	      :commands texpresso
 	      :init
-	      (map! :map LaTeX-mode-map :localleader "t" #'texpresso))
+	      (map! :map LaTeX-mode-map :localleader
+		    :desc "Texpresso preview" "x" #'texpresso))
 
 (after! cdlatex
 	(setq cdlatex-use-dollar-to-ensure-math nil)
@@ -664,8 +672,8 @@
 	      :hook (c++-mode . doxymacs-mode))
 
 (after! clang-format
-	(map! :map c-mode-map :localleader "=" #'aam/cpp-format-region-or-buffer)
-	(map! :map c++-mode-map :localleader "=" #'aam/cpp-format-region-or-buffer))
+	(map! :leader
+	      :desc "Clang format buffer/region" "c F" #'aam/cpp-format-region-or-buffer))
 
 (use-package! langtool
 	      :commands (langtool-check langtool-correct-buffer)
@@ -673,7 +681,8 @@
 	      (setq langtool-default-language "en-US"
 		    langtool-http-server-host "localhost"
 		    langtool-http-server-port 8088)
-	      (aam/ported-leader! "Sl" #'langtool-check))
+	      (map! :leader
+		    :desc "LanguageTool check" "s w g" #'langtool-check))
 
 (use-package! engine-mode
 	      :config
@@ -690,6 +699,19 @@
 (after! gptel
 	(aam/ai-setup))
 
+(use-package! ellama
+	      :commands ellama
+	      :init
+	      (map! :leader
+		    :desc "Ellama" "o l E" #'ellama))
+
+(use-package! whisper
+	      :commands (whisper-transcribe-fast whisper-transcribe)
+	      :init
+	      (map! :leader
+		    :desc "Whisper fast transcription" "o l w" #'whisper-transcribe-fast
+		    :desc "Whisper accurate transcription" "o l W" #'whisper-transcribe))
+
 (use-package! copilot
 	      :hook (prog-mode . copilot-mode)
 	      :config
@@ -702,39 +724,33 @@
 (use-package! shell-maker
 	      :demand t)
 
-(defun aam/doom-bury-and-kill-buffer ()
-  "Dismiss the current Copilot Chat buffer and its window."
-  (interactive)
-  (bury-buffer)
-  (delete-window))
-
 (use-package! copilot-chat
 	      :commands (copilot-chat-display copilot-chat-switch-to-buffer copilot-chat-reset)
 	      :init
-	      (aam/ported-leader!
-	       "$cc" #'copilot-chat-switch-to-buffer
-	       "$cr" #'copilot-chat-reset
-	       "$cd" #'copilot-chat-display
-	       "$cM" #'copilot-chat-set-model
-	       "$cee" #'copilot-chat-explain
-	       "$ceE" #'copilot-chat-explain-defun
-	       "$ces" #'copilot-chat-explain-symbol-at-line
-	       "$cid" #'copilot-chat-doc
-	       "$cif" #'copilot-chat-fix
-	       "$cio" #'copilot-chat-optimize
-	       "$cit" #'copilot-chat-test
-	       "$cir" #'copilot-chat-review
-	       "$cib" #'copilot-chat-review-whole-buffer
-	       "$cba" #'copilot-chat-add-current-buffer
-	       "$cbx" #'copilot-chat-del-current-buffer
-	       "$cbl" #'copilot-chat-list
-	       "$cpp" #'copilot-chat-custom-prompt-selection
-	       "$cpf" #'copilot-chat-custom-prompt-function
-	       "$cpi" #'copilot-chat-ask-and-insert
-	       "$cmi" #'copilot-chat-insert-commit-message
-	       "$chp" #'copilot-chat-prompt-history-previous
-	       "$chn" #'copilot-chat-prompt-history-next)
+	      (map! :leader
+		    :desc "Open Copilot Chat" "o l c" #'copilot-chat-switch-to-buffer
+		    :desc "Display Copilot Chat" "o l C" #'copilot-chat-display
+		    (:prefix ("c A" . "copilot")
+			     :desc "Explain selection" "e" #'copilot-chat-explain
+			     :desc "Explain defun" "E" #'copilot-chat-explain-defun
+			     :desc "Explain symbol" "s" #'copilot-chat-explain-symbol-at-line
+			     :desc "Document" "d" #'copilot-chat-doc
+			     :desc "Fix" "f" #'copilot-chat-fix
+			     :desc "Optimize" "o" #'copilot-chat-optimize
+			     :desc "Test" "t" #'copilot-chat-test
+			     :desc "Review selection" "r" #'copilot-chat-review
+			     :desc "Review buffer" "R" #'copilot-chat-review-whole-buffer
+			     :desc "Custom prompt" "p" #'copilot-chat-custom-prompt-selection
+			     :desc "Prompt function" "P" #'copilot-chat-custom-prompt-function
+			     :desc "Ask and insert" "i" #'copilot-chat-ask-and-insert)
+		    (:prefix ("b A" . "copilot context")
+			     :desc "Add current buffer" "a" #'copilot-chat-add-current-buffer
+			     :desc "Remove current buffer" "d" #'copilot-chat-del-current-buffer
+			     :desc "List buffers" "l" #'copilot-chat-list)
+		    :desc "Copilot commit message" "g c m" #'copilot-chat-insert-commit-message)
 	      (map! :map copilot-chat-mode-map :localleader
+		    "M" #'copilot-chat-set-model
+		    "R" #'copilot-chat-reset
 		    "l" #'copilot-chat-prompt-split-and-list
 		    "n" #'copilot-chat-prompt-history-next
 		    "p" #'copilot-chat-prompt-history-previous
@@ -742,6 +758,8 @@
 		    "f" #'copilot-chat-fix "o" #'copilot-chat-optimize
 		    "t" #'copilot-chat-test "q" #'bury-buffer)
 	      (map! :map copilot-chat-shell-mode-map :localleader
+		    "M" #'copilot-chat-set-model
+		    "R" #'copilot-chat-reset
 		    "l" #'copilot-chat-prompt-split-and-list
 		    "n" #'copilot-chat-prompt-history-next
 		    "p" #'copilot-chat-prompt-history-previous
@@ -751,33 +769,35 @@
 
 (after! copilot-chat
 	(map! :map copilot-chat-mode-map :n
-              "C-c q" #'aam/doom-bury-and-kill-buffer)
+              "C-c q" #'aam/bury-buffer-and-delete-window)
 	(map! :map copilot-chat-shell-mode-map :n
-              "C-c q" #'aam/doom-bury-and-kill-buffer)
+              "C-c q" #'aam/bury-buffer-and-delete-window)
 	(map! :map copilot-chat-list-mode-map :n
               "RET" #'copilot-chat-list-add-or-remove-buffer
               "C" #'copilot-chat-list-clear-buffers
               "g" #'copilot-chat-list-refresh
-              "q" #'aam/doom-bury-and-kill-buffer))
+              "q" #'aam/bury-buffer-and-delete-window))
 
 (use-package! esi-dictate
 	      :commands esi-dictate-start
 	      :bind (:map esi-dictate-mode-map ("C-g" . esi-dictate-stop))
 	      :hook (esi-dictate-speech-final . esi-dictate-fix-context)
 	      :init
-	      (aam/ported-leader! "$d" #'esi-dictate-start)
+	      (map! :leader
+		    :desc "Start dictation" "o l d" #'esi-dictate-start)
 	      :config
 	      (setq llm-warn-on-nonfree nil))
 
 (use-package! khoj
 	      :commands khoj
 	      :init
-	      (aam/ported-leader! "$k" #'khoj))
+	      (map! :leader
+		    :desc "Open Khoj" "o l k" #'khoj))
 
 (use-package! magit-gptcommit
 	      :after (magit llm)
 	      :init
-	      (when ai-extras-autostart-gptcommit-mode
+	      (when aam-enable-magit-gptcommit
 		(magit-gptcommit-mode -1)
 		(magit-gptcommit-status-buffer-setup)))
 

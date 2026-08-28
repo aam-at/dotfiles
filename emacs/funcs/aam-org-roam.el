@@ -1,3 +1,7 @@
+;;; aam-org-roam.el --- Shared Org-roam helpers -*- lexical-binding: t; -*-
+
+(require 'aam-core)
+
 (defun aam/org-roam-hide-properties ()
   "Hide all org-mode headline property drawers in buffer. Could be slow if it has a lot of overlays."
   (interactive)
@@ -47,3 +51,6 @@ WHERE id NOT IN (
                  (concat "id:" id)
                  title))
         (insert "\n")))))
+
+(provide 'aam-org-roam)
+;;; aam-org-roam.el ends here

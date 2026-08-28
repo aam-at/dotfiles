@@ -1,4 +1,4 @@
-;;; packages.el --- writing Layer packages File for Spacemacs
+;;; packages.el --- writing layer packages for Spacemacs -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2012-2024 Sylvain Benner & Contributors
 ;;
@@ -21,22 +21,29 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Code:
+(defconst writing-local-package-root
+  (file-truename
+   (expand-file-name "../../local"
+                     (file-truename
+                      (file-name-directory (or load-file-name buffer-file-name)))))
+  "Root directory for locally maintained writing packages.")
+
 (setq writing-packages
-      '(;; general writing
+      `(;; general writing
         flycheck
         flycheck-vale
         writeroom-mode
         writegood-mode
-        (write-or-die :location local)
+        (write-or-die :location ,(expand-file-name "write-or-die" writing-local-package-root))
         ;; synonyms and thesaurus
         jinx
         powerthesaurus
         le-thesaurus
-        (mw-thesaurus :location (recipe)
-                      :fetcher github
-                      :repo "agzam/mw-thesaurus.el")
+        (mw-thesaurus :location (recipe
+                                 :fetcher github
+                                 :repo "agzam/mw-thesaurus.el"))
         synosaurus
-        (words :location local)
+        (words :location ,(expand-file-name "words" writing-local-package-root))
         academic-phrases))
 
 (defun writing/post-init-flycheck ()
@@ -58,7 +65,7 @@
   (flycheck-define-checker textlint
 			   "A linter for textlint."
 			   :command ("npx" "textlint"
-				     "--config" "/home/amatyasko/.textlintrc"
+				     "--config" (eval (expand-file-name "~/.textlintrc"))
 				     "--format" "unix"
 				     "--rule" "write-good"
 				     "--rule" "no-start-duplicated-conjunction"
@@ -87,7 +94,6 @@
 
 (defun writing/init-flycheck-vale ()
   "Initialize flycheck-vale"
-  :init
   (with-eval-after-load  'flycheck
     (require 'flycheck-vale)
     (setq flycheck-vale-modes '(text-mode
@@ -106,23 +112,21 @@
 
 (defun writing/init-writegood-mode ()
   "Initialize writegood-mode"
-  :defer t
-  :init
   (spacemacs/set-leader-keys "xG" #'writegood-mode))
 
 (defun writing/init-write-or-die ()
   (use-package write-or-die
     :defer t
-    :commands write-or-die-mode
+    :commands (write-or-die-mode write-or-die-toggle)
     :init
-    (add-hook 'text-mode-hook #'write-or-die-mode)
-    (spacemacs/set-leader-keys "xD" #'write-or-die-mode)
+    (spacemacs/set-leader-keys "xD" #'write-or-die-toggle)
     (spacemacs|add-toggle write-or-die
-			  :status (eq write-or-die-state 1)
-			  :on (write-or-die-go)
-			  :off (write-or-die-stop)
-			  :documentation "Activate `Write or Die!'"
-			  :evil-leader "C-t d")))
+                          :status (and (boundp 'write-or-die-state)
+                                       (> write-or-die-state 0))
+                          :on (write-or-die-go)
+                          :off (write-or-die-mode -1)
+                          :documentation "Activate `Write or Die!'"
+                          :evil-leader "C-t d")))
 
 (defun writing/init-jinx()
   (use-package jinx
@@ -137,8 +141,6 @@
     (global-jinx-mode)))
 
 (defun writing/init-powerthesaurus()
-  :defer t
-  :init
   (spacemacs/declare-prefix "St" "Thesaurus")
   (spacemacs/set-leader-keys
    "Sts" 'powerthesaurus-lookup-synonyms-dwim
@@ -148,16 +150,12 @@
    "Ste" 'powerthesaurus-lookup-sentences-dwim))
 
 (defun writing/init-le-thesaurus()
-  :defer t
-  :init
   (spacemacs/set-leader-keys
    "Stl" 'le-thesaurus-get-synonyms
    "StL" 'le-thesaurus-get-antonyms))
 
 (defun writing/init-mw-thesaurus()
-  :defer t
-  :init
-  (add-hook 'variable-pitch-mode 'mw-thesaurus-mode)
+  (add-hook 'variable-pitch-mode-hook #'mw-thesaurus-mode)
   (spacemacs/set-leader-keys
    "Stm" 'mw-thesaurus-lookup-dwim))
 
@@ -181,4 +179,6 @@
      "Sw" 'words-hydra/body)))
 
 (defun writing/init-academic-phrases()
-  :defer t)
+  (spacemacs/set-leader-keys
+   "Spa" #'academic-phrases
+   "SpA" #'academic-phrases-by-section))

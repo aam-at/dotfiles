@@ -50,7 +50,7 @@ This function should only modify configuration layer settings."
                          compleseus-engine 'vertico
                          compleseus-use-nerd-icons t
                          compleseus-use-vertico-posframe t)
-             helm-legacy
+             helm-tools
              helpful
              (ibuffer :variables ibuffer-group-buffers-by 'projects)
              (multiple-cursors :variables
@@ -201,13 +201,11 @@ This function should only modify configuration layer settings."
              writing
              ;; my extras
              (ai-extras :variables
-                        ai-extras-autostart-gptcommit-mode t)
+                        aam-enable-magit-gptcommit t)
              (org-extras :variables
-                         org-enable-delve t
-                         org-enable-doing-notifier t)
+                         org-enable-delve t)
              org-roam-extras
              latex-extras
-             python-extras
              cpp-extras)
 
            (if (aam/eglot-client-p)
@@ -220,7 +218,7 @@ This function should only modify configuration layer settings."
            (when (spacemacs/system-is-linux)
              '(
                (mu4e :variables
-                     mu4e-installation-path "/usr/local/share/emacs/site-lisp/mu4e"
+                     mu4e-installation-path "/usr/share/emacs/site-lisp/mu4e"
                      mu4e-spacemacs-layout-name "@Mu4e"
                      mu4e-spacemacs-layout-binding "m"
                      mu4e-enable-async-operations t
@@ -636,7 +634,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
-   ;; (default '("rg" "ag" "pt" "ack" "grep"))
+   ;; (default '("rg" "ag" "ack" "grep"))
    dotspacemacs-search-tools '("rg" "ag" "ack" "grep")
 
    ;; The backend used for undo/redo functionality. Possible values are
@@ -842,103 +840,6 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   '(package-selected-packages
-     '(a academic-phrases ace-link activity-watch-mode adaptive-wrap afternoon-theme
-         aggressive-indent alect-themes alert all-the-icons all-the-icons-dired
-         all-the-icons-ibuffer ample-theme ample-zen-theme anti-zenburn-theme
-         apropospriate-theme auctex-cont-latexmk auctex-label-numbers
-         auctex-latexmk auto-compile auto-highlight-symbol auto-yasnippet
-         autothemer avy-jump-helm-line badwolf-theme better-jumper biblio
-         biblio-core bibtex-completion birds-of-paradise-plus-theme bm
-         browse-at-remote bubbleberry-theme bui busybee-theme cape casual ccls
-         cdlatex centaur-tabs centered-cursor-mode cherry-blossom-theme
-         chocolate-theme citar citar-embark citar-org-roam citeproc
-         clean-aindent-mode cliphist cloc closql clues-theme code-cells
-         code-review color-theme-sanityinc-solarized
-         color-theme-sanityinc-tomorrow column-enforce-mode company company-auctex
-         company-c-headers company-math company-reftex company-shell
-         compleseus-spacemacs-help consult consult-lsp consult-yasnippet copilot
-         copilot-chat corfu cpp-auto-include csv-mode cyberpunk-theme cython-mode
-         dakrone-theme dap-mode darkmine-theme darkokai-theme darktooth-theme
-         deferred define-word deft delve devdocs diff-hl diminish dired-quick-sort
-         direnv disable-mouse disaster django-theme djvu djvu3 doom-themes
-         dotenv-mode doxymacs dracula-theme drag-stuff dumb-jump eat ebib
-         edit-indirect ef-themes elfeed elfeed-goodies elfeed-org elisp-def
-         elisp-demos elisp-refs elisp-slime-nav ellama emacsql embark
-         embark-consult emojify emr engine-mode esh-help eshell-prompt-extras
-         eshell-z esi-dictate espresso-theme esxml eval-sexp-fu evil-anzu
-         evil-args evil-cleverparens evil-collection evil-easymotion evil-escape
-         evil-evilified-state evil-exchange evil-ghostel evil-goggles
-         evil-iedit-state evil-indent-plus evil-ledger evil-lion evil-lisp-state
-         evil-matchit evil-mc evil-nerd-commenter evil-numbers evil-org evil-snipe
-         evil-surround evil-tex evil-textobj-line evil-tutor evil-unimpaired
-         evil-visual-mark-mode evil-visualstar ewmctrl exec-path-from-shell
-         exotica-theme expand-region explain-pause-mode eyebrowse eziam-themes
-         fancy-battery farmhouse-themes fish-completion fish-mode flatland-theme
-         flatui-theme flycheck flyspell-correct flyspell-correct-popup font-utils
-         forge fringe-helper gandalf-theme gcmh gendoxy gh-md ghostel ghub
-         git-link git-messenger git-modes git-timemachine gitignore-templates gntp
-         gnuplot golden-ratio google-c-style google-translate gotham-theme gptel
-         gptel-agent grandshell-theme gruber-darker-theme gruvbox-theme
-         gscholar-bibtex harpoon hc-zenburn-theme helm-ag helm-bibtex
-         helm-c-yasnippet helm-comint helm-company helm-descbinds helm-icons
-         helm-ls-git helm-lsp helm-make helm-mode-manager helm-mu helm-org
-         helm-pass helm-posframe helm-projectile helm-purpose helm-pydoc
-         helm-swoop helm-system-packages helm-xref helpful hemisu-theme
-         heroku-theme hide-comnt highlight-indentation highlight-numbers
-         highlight-parentheses hl-todo hledger-mode holy-mode htmlize
-         hungry-delete hybrid-mode ibuffer-projectile indent-guide info+
-         inkpot-theme insert-shebang inspector ir-black-theme jazz-theme
-         jbeans-theme jeison jinx journalctl-mode json-mode json-navigator
-         json-reformat json-snatcher kaolin-themes key-chord key-seq
-         keychain-environment khoj langtool le-thesaurus ledger-mode ligature
-         light-soap-theme link-hint lister live-py-mode llm load-env-vars log4e
-         lorem-ipsum lsp-docker lsp-latex lsp-mode lsp-origami lsp-treemacs lsp-ui
-         lush-theme macrostep madhat2r-theme magit magit-annex magit-delta
-         magit-gitflow magit-gptcommit magit-org-todos magit-popup magit-section
-         marginalia markdown-mode markdown-toc material-theme math-symbol-lists
-         memoize minimal-theme modus-themes moe-theme molokai-theme
-         monochrome-theme monokai-theme mu4e-alert multi-line multi-term
-         multi-vterm mustang-theme mw-thesaurus mwim nameless naquadah-theme
-         nerd-icons nerd-icons-completion noctilux-theme nov ob-async
-         obsidian-theme occidental-theme oldlace-theme omtose-phellack-themes
-         open-junk-file orderless org org-alert org-appear org-category-capture
-         org-cliplink org-contacts org-contrib org-doing org-download org-fragtog
-         org-journal org-mime org-modern org-mru-clock org-noter
-         org-noter-pdftools org-pdftools org-pomodoro org-present
-         org-project-capture org-projectile org-protocol-capture-html
-         org-re-reveal org-ref org-remark org-rich-yank org-roam org-roam-bibtex
-         org-similarity org-super-agenda org-superstar org-transclusion org-vcard
-         organic-green-theme orgit orgit-forge origami overseer ox-epub ox-gfm
-         ox-pandoc ox-twbs page-break-lines pandoc-mode paradox parinfer-rust-mode
-         parsebib password-generator password-store password-store-otp pcache
-         pcre2el pdf-tools pdf-view-restore persistent-soft
-         phoenix-dark-mono-theme phoenix-dark-pink-theme pip-requirements pipenv
-         pippel planet-theme plz plz-event-source plz-media-type poetry
-         poly-markdown poly-org polymode popper popwin powerthesaurus prescient
-         prettier-js pretty-hydra preview-auto professional-theme
-         purple-haze-theme py-isort pydoc pyenv-mode pylookup python-pytest
-         pythonic pyvenv queue quickrun railscasts-theme rainbow-delimiters ranger
-         rebecca-theme rebox2 reformatter request restart-emacs reverse-theme
-         ron-mode ruff-format rust-mode rustic seti-theme shell-maker shell-pop
-         shfmt smeargle smyx-theme soft-charcoal-theme soft-morning-theme
-         soft-stone-theme solarized-theme soothe-theme space-doc spacegray-theme
-         spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup
-         sphinx-doc spray string-edit-at-point string-inflection subatomic-theme
-         subatomic256-theme sublime-themes sunny-day-theme symbol-overlay symon
-         synosaurus systemd tablist tango-2-theme tango-plus-theme
-         tangotango-theme tao-theme term-cursor terminal-here texpresso toc-org
-         toml-mode toxi-theme transient tree-sitter tree-sitter-indent
-         tree-sitter-langs treemacs-evil treemacs-icons-dired treemacs-magit
-         treemacs-persp treemacs-projectile treepy ts ts-fold tsc twauctex
-         twilight-anti-bright-theme twilight-bright-theme twilight-theme ucs-utils
-         ujelly-theme ultra-scroll underwater-theme undo-fu undo-fu-session unfill
-         unicode-fonts unicode-math-input uuidgen valign vertico vertico-posframe
-         vi-tilde-fringe volatile-highlights vterm vulpea vundo web-beautify
-         websocket wgrep whisper white-sand-theme winum with-editor writegood-mode
-         writeroom-mode ws-butler xterm-color yaml yaml-mode yasnippet
-         yasnippet-capf yasnippet-snippets zen-and-art-theme zenburn-theme
-         zonokai-emacs))
    '(safe-local-variable-values
      '((truncate-lines . "disabled")
        (org-ditaa-jar-path . "/usr/share/ditaa/ditaa.jar")

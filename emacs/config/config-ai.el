@@ -21,8 +21,7 @@
   ;; ellama settings
   (setopt ellama-language "Russian"
           ellama-naming-scheme 'ellama-generate-name-by-llm
-          ellama-sessions-directory (aam/org-path "drafts")
-          ellama-keymap-prefix "C-c e")
+          ellama-sessions-directory (aam/org-path "drafts"))
   (setopt ellama-provider
           (make-llm-ollama
            ;; this model should be pulled to use it

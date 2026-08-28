@@ -1,3 +1,5 @@
+;;; aam-core.el --- Shared Emacs helpers -*- lexical-binding: t; -*-
+
 (defun aam-copy-file-name-to-clipboard ()
   "Copy the current buffer file name to the clipboard."
   (interactive)
@@ -7,6 +9,13 @@
     (when filename
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
+
+(defun aam/bury-buffer-and-delete-window ()
+  "Bury the current buffer and delete its window when it is not the sole window."
+  (interactive)
+  (bury-buffer)
+  (when (window-parent (selected-window))
+    (delete-window)))
 
 (defun aam-open-pdf-external (key)
   (start-process "xournal" "*helm-bibtex-xournal*" "/usr/bin/xournal"
@@ -136,7 +145,6 @@ Works on whole buffer or the selected region if START-POS and END-POS are provid
           t))
     (error nil)))
 
-(provide 'aam-core)
 (defvar aam/org-root (file-truename (expand-file-name "~/Dropbox/Org/"))
   "Root directory of the Org knowledge base.")
 
@@ -180,3 +188,6 @@ Works on whole buffer or the selected region if START-POS and END-POS are provid
   (when (version< emacs-version aam/minimum-emacs-version)
     (error "This configuration requires Emacs %s or newer; running %s"
            aam/minimum-emacs-version emacs-version)))
+
+(provide 'aam-core)
+;;; aam-core.el ends here

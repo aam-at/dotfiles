@@ -1,4 +1,4 @@
-;;; ai.el --- Dependencies from the AI layer -*- no-byte-compile: t; -*-
+;;; ai.el --- AI-assisted editing dependencies -*- no-byte-compile: t; -*-
 
 (package! shell-maker)
 (package! copilot

@@ -27,15 +27,12 @@
     fish-completion
     gscholar-bibtex
     (helm-system-packages :requires helm)
-    key-chord
-    key-seq
     memoize
     ;; (nova :location (recipe
     ;;                  :fetcher github
     ;;                  :repo "thisisran/nova"))
     popper
     pdf-tools
-    prescient
     corfu
     (unicode-math-input :location (recipe
                                    :fetcher github
@@ -47,19 +44,22 @@
     yasnippet-capf))
 
 (defun aam/init-activity-watch-mode()
-  :defer t
-  :config
-  (spacemacs|diminish activity-watch-mode " Ⓐ" " A"))
+  (use-package activity-watch-mode
+    :defer t
+    :config
+    (spacemacs|diminish activity-watch-mode " Ⓐ" " A")))
 
 (defun aam/post-init-biblio ()
   (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "lb" 'biblio-lookup)
   (evil-set-initial-state 'biblio-selection-mode 'emacs))
 
 (defun aam/init-casual()
-  :defer t
-  :init
-  (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
-					    "A" 'casual-agenda-tmenu))
+  (use-package casual
+    :defer t
+    :commands casual-agenda-tmenu
+    :init
+    (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+					      "A" #'casual-agenda-tmenu)))
 
 (defun aam//disable-company ()
   "Keep Corfu as the sole completion user interface."
@@ -133,12 +133,14 @@
     (add-hook 'after-change-major-mode-hook #'aam//disable-company 100)))
 
 (defun aam/init-cloc()
-  :defer t)
+  (use-package cloc
+    :defer t))
 
 (defun aam/init-direnv()
-  :defer t
-  :config
-  (direnv-mode))
+  (use-package direnv
+    :defer t
+    :config
+    (direnv-mode)))
 
 (defun aam/init-explain-pause-mode()
   (use-package explain-pause-mode
@@ -189,46 +191,25 @@
 				   "SP"  'ewmctrl-sort-by-pid-reversed))))
 
 (defun aam/init-fish-completion()
-  :defer t
-  :config
-  (progn
+  (use-package fish-completion
+    :defer t
+    :config
     (when (and (executable-find "fish")
                (require 'fish-completion nil t))
       (global-fish-completion-mode))))
 
 (defun aam/init-gscholar-bibtex()
-  :defer t
-  :init
-  (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "ls" 'gscholar-bibtex)
-  :config
-  (evil-set-initial-state 'gscholar-bibtex-mode 'emacs))
+  (use-package gscholar-bibtex
+    :defer t
+    :commands gscholar-bibtex
+    :init
+    (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "ls" #'gscholar-bibtex)
+    :config
+    (evil-set-initial-state 'gscholar-bibtex-mode 'emacs)))
 
 (defun aam/init-helm-system-packages()
-  :defer t)
-
-(defun aam/init-key-chord()
-  :defer t
-  :init
-  (key-chord-mode 1))
-
-(defun aam/init-key-seq ()
-  :defer t
-  :config
-  ;; easy window navigation
-  (key-seq-define evil-normal-state-map "wh" 'evil-window-left)
-  (key-seq-define evil-normal-state-map "wj" 'evil-window-down)
-  (key-seq-define evil-normal-state-map "wk" 'evil-window-up)
-  (key-seq-define evil-normal-state-map "wl" 'evil-window-right)
-  ;; ;; easy window splitting
-  (key-seq-define evil-normal-state-map "wy" 'split-window-right)
-  (key-seq-define evil-normal-state-map "wu" 'split-window-below-and-focus)
-  (key-seq-define evil-normal-state-map "wi" 'split-window-below)
-  (key-seq-define evil-normal-state-map "wo" 'split-window-right-and-focus)
-  (key-seq-define evil-normal-state-map "wm" 'spacemacs/toggle-maximize-buffer)
-  ;; easy kill
-  (key-seq-define evil-normal-state-map "kf" 'delete-frame)
-  (key-seq-define evil-normal-state-map "kw" 'evil-quit)
-  (key-seq-define evil-normal-state-map "kb" 'kill-this-buffer))
+  (use-package helm-system-packages
+    :defer t))
 
 (defun aam/init-memoize ()
   (use-package memoize))
@@ -269,14 +250,9 @@
     (popper-mode t)
     (popper-echo-mode t)))
 
-(defun aam/init-prescient ()
-  (use-package prescient
-    :defer t
-    :config
-    ;; Configure Emacs to use prescient for all completions
-    (push 'prescient completion-styles)))
-
-(defun aam/init-unicode-math-input ())
+(defun aam/init-unicode-math-input ()
+  (use-package unicode-math-input
+    :defer t))
 
 (defun aam/init-ultra-scroll()
   (use-package ultra-scroll
@@ -286,4 +262,6 @@
     :config
     (ultra-scroll-mode 1)))
 
-(defun aam/init-pretty-hydra())
+(defun aam/init-pretty-hydra()
+  (use-package pretty-hydra
+    :defer t))

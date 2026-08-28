@@ -49,19 +49,19 @@
   (spacemacs|diminish org-cdlatex-mode))
 
 (defun org-extras/init-org-super-agenda()
-  :config (org-super-agenda-mode))
+  (use-package org-super-agenda
+    :defer t
+    :hook (org-agenda-mode . (lambda () (org-super-agenda-mode 1)))))
 
 (defun org-extras/init-org-protocol-capture-html ()
   (use-package org-protocol-capture-html
     :after org))
 
-(defun org-extras/post-init-org-protocol-capture-html ()
-  (require 'org-protocol-capture-html))
-
 (defun org-extras/init-magit-org-todos()
-  :defer t
-  :config
-  (magit-org-todos-autoinsert))
+  (use-package magit-org-todos
+    :after magit
+    :config
+    (magit-org-todos-autoinsert)))
 
 (defun org-extras/post-init-org ()
   (spacemacs/declare-prefix-for-mode 'org-mode "S" "Scholar")
@@ -80,7 +80,6 @@
 
 (defun org-extras/init-org-mru-clock()
   (use-package org-mru-clock
-    :ensure t
     :after org
     :init
     (require 'embark)
@@ -102,16 +101,16 @@
 					    "uf" #'aam/org-convert-org-id-link-to-file-link))
 
 (defun org-extras/init-ob-async ()
-  :defer t
-  :config
-  (setq ob-async-no-async-languages-alist '("ipython")))
+  (use-package ob-async
+    :defer t
+    :init
+    (setq ob-async-no-async-languages-alist '("ipython"))))
 
 
 (defun org-extras/init-org-gcal ()
-  :defer t
-  :init
-  (progn
-    (require 'org-gcal)
+  (use-package org-gcal
+    :defer t
+    :init
     (spacemacs/declare-prefix "aog" "gcal")
     (spacemacs/set-leader-keys
      "aogs" 'org-gcal-sync
@@ -123,29 +122,13 @@
 					      "gs" 'org-gcal-sync
 					      "gf" 'org-gcal-fetch
 					      "gp" 'org-gcal-post-at-point
-					      "gr" 'org-gcal-refresh-token))
-  :config
-  (setq org-gcal-dir (concat spacemacs-cache-directory "org-gcal")))
+					      "gr" 'org-gcal-refresh-token)
+    (setq org-gcal-dir (concat spacemacs-cache-directory "org-gcal"))))
 
 (defun org-extras/post-init-org-ref ()
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-					    "ir" 'org-ref-helm-insert-ref-link
-					    "iR" 'org-ref-helm-insert-label-link)
-  (require 'org-ref)
-  ;; optional but very useful libraries from org-ref
-  (require 'openalex)
-  (require 'doi-utils)
-  (require 'org-ref-pdf)
-  (require 'org-ref-url-utils)
-  (require 'org-ref-bibtex)
-  (require 'org-ref-arxiv)
-  (require 'org-ref-pubmed)
-  (require 'org-ref-isbn)
-  (require 'org-ref-wos)
-  (require 'org-ref-scopus)
-  (require 'x2bib)
-  (require 'org-ref-scifinder)
-  (require 'org-ref-worldcat))
+					    "ir" 'org-ref-insert-ref-link
+					    "iR" 'org-ref-insert-label-link))
 
 (defun org-extras/init-delve ()
   (use-package delve
@@ -234,17 +217,18 @@
           org-similarity-ignore-frontmatter nil)))
 
 (defun org-extras/init-org-fragtog ()
-  (use-package org-fragtog-mode
+  (use-package org-fragtog
     :diminish org-fragtog-mode
     :after org
     :hook (org-mode . org-fragtog-mode)))
 
 (defun org-extras/init-org-noter ()
-  :defer t
-  :commands (org-noter)
-  :init
-  (spacemacs/set-leader-keys "aon" 'org-noter)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "n" 'org-noter))
+  (use-package org-noter
+    :defer t
+    :commands org-noter
+    :init
+    (spacemacs/set-leader-keys "aon" 'org-noter)
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode "n" 'org-noter)))
 
 (defun org-extras/post-init-pdf-tools ()
   (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "N" 'org-noter)

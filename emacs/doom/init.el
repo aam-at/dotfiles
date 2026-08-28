@@ -1,6 +1,6 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
-;; Doom module selection translated from spacemacs_full.
+;; Doom module selection for the personal Emacs profile.
 ;; Run: ~/.config/emacs/bin/doom sync --doomdir ~/dotfiles/emacs/doom
 
 (add-to-list 'load-path (expand-file-name "../config" doom-user-dir))
@@ -19,7 +19,7 @@
        modeline
        (popup +defaults)
        tabs
-       (treemacs +lsp)
+       (:if (aam/lsp-client-p) (treemacs +lsp) treemacs)
        unicode
        (vc-gutter +pretty)
        vi-tilde-fringe
