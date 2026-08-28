@@ -37,16 +37,10 @@ status_indicators = "symbols"
 window_title = "{hostname}: herdr/{workspace}"
 
 [ui.sidebar.agents]
-rows = [
-  ["state_icon", "agent", "state_text"],
-  ["workspace", "tab"],
-]
+rows = [["state_icon", "agent", "state_text"], ["workspace", "tab"]]
 
 [ui.sidebar.spaces]
-rows = [
-  ["state_icon", "workspace"],
-  ["branch", "git_status"],
-]
+rows = [["state_icon", "workspace"], ["branch", "git_status"]]
 
 [ui.toast]
 delivery = "herdr"

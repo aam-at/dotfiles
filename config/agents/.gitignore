@@ -1,0 +1,12 @@
+# Never synchronize credentials, generated state, or a machine's interaction
+# history with the portable settings below.
+**/auth.json
+**/auth.db
+**/auth.db-*
+**/*token*
+**/*secret*
+**/cache/
+**/history.jsonl
+**/logs/
+**/sessions/
+**/state/

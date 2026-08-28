@@ -1,0 +1,23 @@
+symbolPreset: unicode
+theme:
+  dark: dark-gruvbox
+  light: light
+setupVersion: 1
+modelRoles:
+  default: nvidia/qwen/qwen3-coder-480b-a35b-instruct
+defaultThinkingLevel: max
+hideThinkingBlock: true
+externalThinking: false
+task:
+  maxConcurrency: 8
+statusLine:
+  preset: full
+  separator: powerline
+  transparent: true
+  compactThinkingLevel: false
+  showHookStatus: true
+terminal:
+  showProgress: true
+tui:
+  textSizing: true
+  tight: true

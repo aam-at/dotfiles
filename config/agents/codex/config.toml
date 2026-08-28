@@ -1,0 +1,31 @@
+# Shared Codex preferences. Keep project trust, MCP servers, credentials, and
+# host-specific paths in ~/.codex/config.toml.local or the local runtime state.
+model = "gpt-5.6-terra"
+model_reasoning_effort = "medium"
+personality = "pragmatic"
+plan_mode_reasoning_effort = "xhigh"
+approvals_reviewer = "user"
+service_tier = "default"
+
+[features]
+skills = true
+hooks = true
+unified_exec = true
+steer = true
+apps = true
+multi_agent = true
+prevent_idle_sleep = true
+memories = true
+js_repl = false
+
+[tui]
+status_line = [
+  "model-name",
+  "model-with-reasoning",
+  "current-dir",
+  "project-root",
+  "git-branch",
+  "context-remaining",
+  "context-used",
+  "five-hour-limit",
+]
