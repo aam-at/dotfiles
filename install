@@ -2,13 +2,41 @@
 
 set -e
 
-CONFIG="install.conf.yaml"
 DOTBOT_DIR="dotbot"
-
 DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTBOT="${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}"
 
 cd "${BASEDIR}"
 git submodule update --init --recursive "${DOTBOT_DIR}"
 
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+configs=()
+
+# Keep the repository-level manifest first, then run component manifests in a
+# stable order. Each manifest is executed relative to its own directory so
+# component configs can use local paths.
+if [[ -f "${BASEDIR}/install.conf.yaml" ]]; then
+    configs+=("${BASEDIR}/install.conf.yaml")
+fi
+
+while IFS= read -r -d '' config; do
+    [[ "${config}" == "${BASEDIR}/install.conf.yaml" ]] && continue
+    configs+=("${config}")
+done < <(
+    find "${BASEDIR}" \
+        \( -path "${BASEDIR}/.git" -o -path "${BASEDIR}/${DOTBOT_DIR}" \) -prune -o \
+        -type f -name install.conf.yaml -print0 | sort -z
+)
+
+if [[ ${#configs[@]} -eq 0 ]]; then
+    echo "No install.conf.yaml files found under ${BASEDIR}" >&2
+    exit 1
+fi
+
+for config in "${configs[@]}"; do
+    config_dir="$(dirname "${config}")"
+    relative_config="${config#"${BASEDIR}/"}"
+
+    echo "==> Running ${relative_config}"
+    "${DOTBOT}" -d "${config_dir}" -c "${config}" "${@}"
+done
