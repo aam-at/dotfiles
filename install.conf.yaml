@@ -148,3 +148,10 @@
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
     ~/.textlintrc: config/textlintrc
     ~/.vale: config/vale/vale
+
+# Desktop-shell selection is local runtime state, not a tracked dotfile.
+- shell:
+    - [
+        scripts/desktop-shell noctalia,
+        Initialize desktop shell selector to Noctalia,
+      ]

@@ -17,5 +17,5 @@ include "dms/workspaces.kdl"
 // Hardware
 include "dms/outputs.kdl"
 
-// DMS or Noctalia: change this one include with desktop-shell.
+// The generated local selector defaults to Noctalia; switch it with desktop-shell.
 include "shells/active.kdl"

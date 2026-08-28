@@ -386,13 +386,13 @@
   "launchPrefix": "",
   "gtkThemingEnabled": false,
   "qtThemingEnabled": false,
-  "syncModeWithPortal": true,
+  "syncModeWithPortal": false,
   "terminalsAlwaysDark": true,
   "muxType": "tmux",
   "muxUseCustomCommand": false,
   "muxCustomCommand": "",
   "muxSessionFilter": "",
-  "runDmsMatugenTemplates": true,
+  "runDmsMatugenTemplates": false,
   "matugenTemplateGtk": true,
   "matugenTemplateNiri": true,
   "matugenTemplateHyprland": true,
@@ -587,11 +587,15 @@
           "keyboardLayoutNameShowIcon": false
         },
         {
-          "id": "network_speed_monitor",
+          "id": "capsLockIndicator",
           "enabled": true
         },
         {
-          "id": "vpn",
+          "id": "idleInhibitor",
+          "enabled": true
+        },
+        {
+          "id": "network_speed_monitor",
           "enabled": true
         },
         {
@@ -608,7 +612,13 @@
         },
         {
           "id": "controlCenterButton",
-          "enabled": true
+          "enabled": true,
+          "showNetworkIcon": false,
+          "showBluetoothIcon": false,
+          "showAudioIcon": false,
+          "showAudioPercent": false,
+          "showVpnIcon": false,
+          "showScreenSharingIcon": false
         }
       ],
       "spacing": 0,
