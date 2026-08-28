@@ -43,19 +43,19 @@ install_packages \
   fontconfig freeglut freetype2 fuse3 fzy gcc gcc gettext ghostty giflib git \
   github-desktop glances global gmime3 gnome-keyring gnupg gnutls gtk4 guile \
   gvfs helix hexyl hspell htop httpie hunspell hyprpolkitagent imagemagick iotop \
-  iputils jansson jbig2dec jq kitty lazygit leptonica libevent libffi \
-  libgccjit libjpeg-turbo libmupdf libpng libsecret libtiff libvoikko libvterm \
-  libxcb libxcomposite libxcursor libxfixes libxi libxkbcommon libxmu libxpm \
-  lldb llvm lynx make mc meson mosh mujs mupdf mupdf-tools ncdu ncurses \
-  neovim net-tools nnn notmuch nuspell openblas openconnect openssh openssl \
-  p7zip pandoc parallel pass pdfgrep pdfpc pdftk peco pinentry poppler \
-  poppler-glib powerline-fonts procs python python-pip python-pipx \
-  python-pyopenssl qps ranger readline ripgrep ruby screen sdl2 shellcheck shfmt \
-  sndio sqlite sqlite stow systemd taplo texinfo the_silver_searcher thunar \
-  thunar-archive-plugin tig tk tmux trash-cli tree-sitter tree-sitter \
-  ttf-fira-code ttf-jetbrains-mono unrar vale webkit2gtk wget wmctrl xapian-core \
-  xdg-desktop-portal-hyprland xdg-utils xfce4-settings xh xz zathura \
-  zathura-djvu zathura-pdf-poppler zed zellij zenity zlib-ng zoxide
+  iputils jansson jbig2dec jq kitty lazygit leptonica libevent libffi libgccjit \
+  libjpeg-turbo libmupdf libpng libsecret libtiff libvoikko libvterm libxcb \
+  libxcomposite libxcursor libxfixes libxi libxkbcommon libxmu libxpm lldb llvm \
+  lynx make mc meson mosh mujs mupdf mupdf-tools ncdu ncurses neovim net-tools \
+  nnn notmuch nuspell openblas openconnect openssh openssl p7zip pandoc parallel \
+  pass pdfgrep pdfpc pdftk peco pinentry poppler poppler-glib powerline-fonts \
+  procs python python-gobject python-pip python-pipx python-pyopenssl qps ranger \
+  readline ripgrep ruby screen sdl2 shellcheck shfmt sndio sqlite sqlite stow \
+  systemd taplo texinfo the_silver_searcher thunar thunar-archive-plugin tig tk \
+  tmux trash-cli tree-sitter tree-sitter ttf-fira-code ttf-jetbrains-mono unrar \
+  vale webkit2gtk wget wmctrl xapian-core xdg-desktop-portal-hyprland xdg-utils \
+  xfce4-settings xh xz zathura zathura-djvu zathura-pdf-poppler zed zellij \
+  zenity zlib-ng zoxide
 
 # Desktop-shell profiles: both are installed so `desktop-shell` can switch
 # between Dank Material Shell and Noctalia without another package transaction.
