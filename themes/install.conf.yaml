@@ -1,0 +1,32 @@
+# Theme-specific deployment manifest.
+# The repository installer runs this manifest with themes/ as its base
+# directory, so all sources below are relative to this folder.
+- link:
+    ~/.config/themes:
+      relative: true
+      relink: true
+      path: .
+    ~/.config/theme:
+      relative: true
+      relink: true
+      path: ~/.config/themes/gruvbox-dark
+    ~/.config/gtk-3.0/gtk.css:
+      create: true
+      relative: true
+      relink: true
+      path: ~/.config/theme/gtk-3.0.css
+    ~/.config/gtk-3.0/settings.ini:
+      create: true
+      relative: true
+      relink: true
+      path: ~/.config/theme/gtk-3.0-settings.ini
+    ~/.config/gtk-4.0/gtk.css:
+      create: true
+      relative: true
+      relink: true
+      path: ~/.config/theme/gtk-4.0.css
+    ~/.config/gtk-4.0/settings.ini:
+      create: true
+      relative: true
+      relink: true
+      path: ~/.config/theme/gtk-4.0-settings.ini

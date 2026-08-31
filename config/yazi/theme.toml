@@ -1,10 +1,10 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 # Gruvbox Dark palette reference:
-# dark0=#282828 dark1=#3c3836 dark2=#504945 dark3=#665c54 dark4=#7c6f64
-# light0=#fbf1c7 light1=#ebdbb2 light2=#d5c4a1 light3=#bdae93 light4=#a89984
+# dark0=#282828 dark1=#3c3836 dark2=#83a598 dark3=#665c54 dark4=#7c6f64
+# light0=#fbf1c7 light2=#d5c4a1 light3=#bdae93 light4=#a89984
 # bright_red=#fb4934 bright_green=#b8bb26 bright_yellow=#fabd2f bright_blue=#83a598
-# bright_purple=#d3869b bright_aqua=#8ec07c bright_orange=#fe8019 gray=#928374
+# bright_purple=#d3869b bright_aqua=#8ec07c gray=#928374
 
 [flavor]
 dark = ""
@@ -16,10 +16,10 @@ light = ""
 cwd = { fg = "#b8bb26", bold = true }
 
 # Hovered / search
-hovered = { fg = "#282828", bg = "#458588", bold = true }
+hovered = { fg = "#282828", bg = "#83a598", bold = true }
 preview_hovered = { fg = "#83a598", underline = true }
 find_keyword = { fg = "#fabd2f", bold = true, italic = true }
-find_position = { fg = "#fe8019", bg = "reset", bold = true }
+find_position = { fg = "#fabd2f", bg = "reset", bold = true }
 symlink_target = { fg = "#8ec07c", italic = true }
 
 # Marker + counters
@@ -27,13 +27,13 @@ marker_selected = { fg = "#282828", bg = "#b8bb26", bold = true }
 marker_marked = { fg = "#282828", bg = "#d3869b", bold = true }
 marker_copied = { fg = "#282828", bg = "#8ec07c", bold = true }
 marker_cut = { fg = "#282828", bg = "#fb4934", bold = true }
-count_selected = { fg = "#282828", bg = "#fabd2f", bold = true }
+count_selected = { fg = "#282828", bg = "#83a598", bold = true }
 count_copied = { fg = "#282828", bg = "#8ec07c", bold = true }
 count_cut = { fg = "#282828", bg = "#fb4934", bold = true }
 
 # Border / syntax
 border_symbol = "│"
-border_style = { fg = "#504945" }
+border_style = { fg = "#83a598" }
 syntect_theme = ""
 
 # : }}}
@@ -42,7 +42,7 @@ syntect_theme = ""
 # : Tabs {{{
 
 [tabs]
-active = { fg = "#282828", bg = "#fabd2f", bold = true }
+active = { fg = "#282828", bg = "#83a598", bold = true }
 inactive = { fg = "#d5c4a1", bg = "#3c3836" }
 sep_inner = { open = "", close = "" }
 sep_outer = { open = "", close = "" }
@@ -55,7 +55,7 @@ sep_outer = { open = "", close = "" }
 [mode]
 normal_main = { fg = "#282828", bg = "#83a598", bold = true }
 normal_alt = { fg = "#83a598", bg = "#3c3836" }
-select_main = { fg = "#282828", bg = "#fabd2f", bold = true }
+select_main = { fg = "#282828", bg = "#83a598", bold = true }
 select_alt = { fg = "#fabd2f", bg = "#3c3836" }
 unset_main = { fg = "#282828", bg = "#d3869b", bold = true }
 unset_alt = { fg = "#d3869b", bg = "#3c3836" }
@@ -66,7 +66,7 @@ unset_alt = { fg = "#d3869b", bg = "#3c3836" }
 # : Status {{{
 
 [status]
-overall = { fg = "#ebdbb2", bg = "#282828" }
+overall = { fg = "#d5c4a1", bg = "#282828" }
 sep_left = { open = "", close = "" }
 sep_right = { open = "", close = "" }
 perm_sep = { fg = "#665c54" }
@@ -85,7 +85,7 @@ progress_error = { fg = "#fb4934", bg = "#282828" }
 
 [select]
 border = { fg = "#d3869b" }
-active = { fg = "#282828", bg = "#fabd2f", bold = true }
+active = { fg = "#282828", bg = "#83a598", bold = true }
 inactive = { fg = "#d5c4a1" }
 
 # : }}}
@@ -99,7 +99,7 @@ title = { fg = "#fabd2f", bold = true }
 content = {}
 list = {}
 btn_yes = { fg = "#282828", bg = "#8ec07c", bold = true }
-btn_no = { fg = "#ebdbb2", bg = "#3c3836" }
+btn_no = { fg = "#d5c4a1", bg = "#3c3836" }
 btn_labels = ["  [Y]es  ", "  (N)o  "]
 
 # : }}}
@@ -144,8 +144,8 @@ inactive = { fg = "#d5c4a1" }
 [input]
 border = { fg = "#83a598" }
 title = { fg = "#d3869b", bold = true }
-value = { fg = "#ebdbb2" }
-selected = { fg = "#282828", bg = "#fabd2f", bold = true }
+value = { fg = "#d5c4a1" }
+selected = { fg = "#282828", bg = "#83a598", bold = true }
 
 # : }}}
 
@@ -167,8 +167,8 @@ icon_command = ""
 
 [tasks]
 border = { fg = "#83a598" }
-title = { fg = "#ebdbb2" }
-hovered = { fg = "#282828", bg = "#fabd2f", bold = true }
+title = { fg = "#d5c4a1" }
+hovered = { fg = "#282828", bg = "#83a598", bold = true }
 
 # : }}}
 
@@ -193,7 +193,7 @@ on = { fg = "#8ec07c" }
 exec = { fg = "#fabd2f" }
 desc = { fg = "#d5c4a1" }
 hovered = { fg = "#282828", bg = "#83a598", bold = true }
-footer = { fg = "#282828", bg = "#ebdbb2" }
+footer = { fg = "#282828", bg = "#d5c4a1" }
 
 # : }}}
 
@@ -221,7 +221,7 @@ rules = [
   { mime = "application/xz", fg = "#d3869b" },
 
   # Fallback
-  { url = "*", fg = "#ebdbb2" },
+  { url = "*", fg = "#d5c4a1" },
   { url = "*/", fg = "#83a598" },
 ]
 

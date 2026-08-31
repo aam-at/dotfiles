@@ -164,7 +164,7 @@ enabled = false
 [theme]
 mode = "dark"
 source = "custom"
-custom_palette = "dms-blue"
+custom_palette = "gruvbox-dark"
 pure_black_dark = false
 
 # Keep Noctalia's own palette, but never render it into application configs.

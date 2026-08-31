@@ -1,0 +1,48 @@
+/* Gruvbox Dark GTK4 adapter generated from palette.toml. */
+@define-color window_bg_color #282828;
+@define-color window_fg_color #d5c4a1;
+@define-color view_bg_color #282828;
+@define-color view_fg_color #d5c4a1;
+@define-color headerbar_bg_color #282828;
+@define-color headerbar_fg_color #d5c4a1;
+@define-color sidebar_bg_color #3c3836;
+@define-color sidebar_fg_color #d5c4a1;
+@define-color card_bg_color #3c3836;
+@define-color card_fg_color #d5c4a1;
+@define-color popover_bg_color #3c3836;
+@define-color popover_fg_color #d5c4a1;
+@define-color accent_color #83a598;
+@define-color accent_bg_color #83a598;
+@define-color accent_fg_color #282828;
+@define-color destructive_color #fb4934;
+
+window,
+.background,
+headerbar,
+toolbar,
+popover,
+dialog,
+view,
+textview text,
+entry {
+  background-color: #282828;
+  color: #d5c4a1;
+  caret-color: #d79921;
+}
+
+button,
+card,
+list,
+row,
+menu {
+  background-color: #3c3836;
+  color: #d5c4a1;
+}
+
+button:hover,
+button:checked,
+row:selected,
+selection {
+  background-color: #83a598;
+  color: #282828;
+}

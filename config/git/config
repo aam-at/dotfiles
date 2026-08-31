@@ -1,7 +1,7 @@
 [include]
     path = aliases.gitconfig
     path = themes.gitconfig
-    path = ~/dotfiles/config/catppuccin/delta/catppuccin.gitconfig
+    path = ~/.config/theme/delta.gitconfig
 [core]
     editor = /usr/bin/nvim
     filemode = false

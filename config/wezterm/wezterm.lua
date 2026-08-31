@@ -36,8 +36,8 @@ config.font_size = 10
 -- Scrollback
 config.scrollback_lines = 10000
 
--- Color Configuration
-config.colors = require("cyberdream")
+-- Color Configuration. Keep this adapter in the centralized theme folder.
+config.colors = dofile(os.getenv("HOME") .. "/.config/theme/wezterm.lua")
 config.force_reverse_video_cursor = true
 
 -- Window Configuration

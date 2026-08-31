@@ -1,6 +1,6 @@
 - shell:
     - [
-        "sh -c 'if [ -L \"$HOME/.config/cosmic\" ]; then rm \"$HOME/.config/cosmic\"; fi; mkdir -p \"$HOME/.config/cosmic\"'",
+        'sh -c ''if [ -L "$HOME/.config/cosmic" ]; then rm "$HOME/.config/cosmic"; fi; mkdir -p "$HOME/.config/cosmic"''',
         Keep COSMIC config root as a real directory,
       ]
 

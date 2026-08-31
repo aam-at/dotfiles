@@ -136,7 +136,7 @@ manager's own `alt+number` bindings.)
 | File | Purpose |
 |---|---|
 | `kitty.conf` | main config, all keybindings |
-| `colors.conf` | active color scheme (Gruvbox Dark) |
+| `~/.config/theme/kitty.conf` | active generated color scheme |
 | `diff.conf` | config for `kitty +kitten diff` |
 | `open-actions.conf` | rules for what happens when you click a link/path |
 | `search.py` | scrollback search kitten (`F3`) |
