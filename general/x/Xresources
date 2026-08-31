@@ -1,15 +1,15 @@
-! Base16 Gruvbox dark, medium
+! Gruvbox Dark shared palette. Generated from palette.toml; do not edit by hand.
 *.background:                      #282828
 -*.background: [background_opacity]#282828
-*.color0:                          #282828
-*.color1:                          #fb4934
-*.color2:                          #b8bb26
-*.color3:                          #fabd2f
-*.color4:                          #83a598
-*.color5:                          #d3869b
-*.color6:                          #8ec07c
-*.color7:                          #d5c4a1
-*.color8:                          #665c54
+*.color0:                          #3c3836
+*.color1:                          #cc241d
+*.color2:                          #98971a
+*.color3:                          #d79921
+*.color4:                          #458588
+*.color5:                          #b16286
+*.color6:                          #689d6a
+*.color7:                          #a89984
+*.color8:                          #928374
 *.color9:                          #fb4934
 *.color10:                         #b8bb26
 *.color11:                         #fabd2f
@@ -17,13 +17,9 @@
 *.color13:                         #d3869b
 *.color14:                         #8ec07c
 *.color15:                         #fbf1c7
-*.color16:                         #fe8019
-*.color17:                         #d65d0e
-*.color18:                         #3c3836
-*.color19:                         #504945
-*.color20:                         #bdae93
-*.color21:                         #ebdbb2
-*.cursorColor:                     #d5c4a1
+*.color16:                         #fabd2f
+*.color17:                         #d79921
+*.cursorColor:                     #d79921
 *.foreground:                      #d5c4a1
 Xcursor.theme: Bibata-Modern-Ice
 Xcursor.size: 30

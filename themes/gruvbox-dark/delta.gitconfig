@@ -1,0 +1,21 @@
+# Delta adapter generated from palette.toml.
+[delta "gruvbox-dark"]
+    dark = true
+    syntax-theme = gruvbox-dark
+    file-style = "#d5c4a1"
+    file-decoration-style = "#d79921"
+    hunk-header-decoration-style = "#83a598 box ul"
+    hunk-header-file-style = "#83a598"
+    hunk-header-line-number-style = "#fabd2f"
+    hunk-header-style = file line-number syntax
+    line-numbers = true
+    line-numbers-left-style = "#928374"
+    line-numbers-minus-style = "#cc241d"
+    line-numbers-plus-style = "#98971a"
+    line-numbers-right-style = "#928374"
+    line-numbers-zero-style = "#928374"
+    minus-emph-style = "normal #cc241d"
+    minus-style = "normal #3c3836"
+    plus-emph-style = "syntax #98971a"
+    plus-style = "syntax #282828"
+    zero-style = syntax

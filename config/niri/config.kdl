@@ -19,3 +19,6 @@ include "dms/outputs.kdl"
 
 // The generated local selector defaults to Noctalia; switch it with desktop-shell.
 include "shells/active.kdl"
+
+// Load the active generated theme after shell and DMS configuration.
+include "../theme/niri.kdl"
