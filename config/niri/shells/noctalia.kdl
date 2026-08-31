@@ -44,5 +44,8 @@ window-rule {
   geometry-corner-radius 12
   clip-to-geometry true
 }
-layer-rule { match namespace="^noctalia-(wallpaper|overview).*"; place-within-backdrop true; }
+// Keep the normal wallpaper on the workspace Background layer. Moving
+// noctalia-wallpaper into Niri's backdrop makes ordinary workspaces blank.
+// Only an overview-specific surface belongs in the backdrop.
+layer-rule { match namespace="^noctalia-overview.*"; place-within-backdrop true; }
 layer-rule { match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"; }
