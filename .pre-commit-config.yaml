@@ -40,3 +40,11 @@ repos:
         entry: luac -p
         language: system
         files: \.lua$
+      - id: theme-generator-check
+        name: theme palette generator (drift check)
+        entry: >-
+          bash -c 'for p in themes/*/palette.toml; do python3
+          themes/generate.py "$p" --check || exit 1; done'
+        language: system
+        pass_filenames: false
+        always_run: true
