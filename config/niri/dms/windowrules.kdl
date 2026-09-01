@@ -20,10 +20,13 @@ window-rule {
   draw-border-with-background false
 }
 
-// Wezterm: auto-size columns
+// Wezterm: auto-size the column width to its own initial_cols, but still
+// fill the full workspace height (it has no height override otherwise,
+// unlike the auto-width case, and opened short as a result).
 window-rule {
   match app-id=r#"^org\.wezfurlong\.wezterm$"#
   default-column-width {}
+  default-window-height { proportion 1.0; }
 }
 
 // Full width apps

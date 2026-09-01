@@ -3,3 +3,22 @@ install.bat eol=crlf
 install_win.conf.yaml eol=crlf
 *.* eol=lf
 emacs/config/config-secure.el filter=git-crypt diff=git-crypt
+
+# `*.* eol=lf` above implies `text` for every dotted filename, which silently
+# corrupts binary formats whose bytes happen to contain 0D 0A (this is
+# exactly what happened to config/wezterm/bg-blurred.png — PNG's own magic
+# signature contains 0D 0A specifically to detect this class of corruption,
+# and it still got mangled on commit). Mark real binary formats explicitly so
+# they're never treated as text, regardless of what else matches above.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.icns binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.pdf binary

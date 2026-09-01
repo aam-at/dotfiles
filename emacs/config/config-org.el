@@ -490,6 +490,7 @@ DEADLINE: %^{Deadline}t
 %?"
            :if-new
            (file+head "papers/${citekey}.org" "#+TITLE: ${title}
+           :empty-lines 1
 #+STARTUP: latexpreview")
            :empty-lines 1
            :unnarrowed t)))

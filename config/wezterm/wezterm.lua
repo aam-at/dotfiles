@@ -1,7 +1,13 @@
 -- Initialize Configuration
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
-local opacity = 1
+-- Matches kitty's background_opacity 0.95: true window translucency, letting
+-- niri's compositor blur the wallpaper through it, rather than a static
+-- baked "blurred" image (config/wezterm/bg-blurred.png was that image; it
+-- was corrupted by a .gitattributes eol=lf rule mangling its binary bytes,
+-- with no clean copy left in git history to restore, so it's gone — see
+-- .gitattributes for the fix that stops this from recurring).
+local opacity = 0.95
 local transparent_bg = "rgba(22, 24, 26, " .. opacity .. ")"
 
 --- Get the current operating system
@@ -45,7 +51,6 @@ config.initial_rows = 45
 config.initial_cols = 180
 config.window_decorations = "RESIZE"
 config.window_background_opacity = opacity
-config.window_background_image = (os.getenv("WEZTERM_CONFIG_FILE") or ""):gsub("wezterm.lua", "bg-blurred.png")
 config.window_close_confirmation = "NeverPrompt"
 config.win32_system_backdrop = "Acrylic"
 
@@ -60,7 +65,7 @@ config.hide_tab_bar_if_only_one_tab = true
 config.show_tab_index_in_tab_bar = false
 config.use_fancy_tab_bar = false
 config.colors.tab_bar = {
-    background = config.window_background_image and "rgba(0, 0, 0, 0)" or transparent_bg,
+    background = transparent_bg,
     new_tab = { fg_color = config.colors.background, bg_color = config.colors.brights[6] },
     new_tab_hover = { fg_color = config.colors.background, bg_color = config.colors.foreground },
 }
@@ -100,9 +105,9 @@ config.default_prog = { "pwsh", "-NoLogo" }
 
 -- OS-Specific Overrides
 if host_os == "linux" then
-    config.default_prog = { "zsh" }
+    config.default_prog = { "fish" }
     config.front_end = "WebGpu"
-    config.window_background_image = os.getenv("HOME") .. "/.config/wezterm/bg-blurred.png"
+    config.wayland_window_background_blur = true -- compositor-blurred wallpaper under the translucent window (niri)
     config.window_decorations = nil -- use system decorations
 end
 
