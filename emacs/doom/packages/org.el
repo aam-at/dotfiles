@@ -12,6 +12,8 @@
 (package! org-gcal
 	  :recipe (:host github :repo "kidd/org-gcal.el"))
 (package! org-ref)
+(package! citar)
+(package! citar-org-roam)
 (package! org-roam-bibtex)
 (package! org-roam-ui)
 (package! vulpea)

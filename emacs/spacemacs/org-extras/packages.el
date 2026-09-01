@@ -30,6 +30,7 @@
                          :fetcher github
                          :repo "kidd/org-gcal.el"))
     org-ref
+    citar
     (delve :toggle org-enable-delve
            :location (recipe
                       :fetcher github
@@ -71,7 +72,10 @@
 					    "SY" 'aam/org-filter-entries-by-year
 					    "Sc" 'aam/org-sort-entries-by-citations
 					    "SC" 'aam/org-filter-entries-by-citations
-					    "Su" 'aam/org-citations-update-at-point)
+					    "Su" 'aam/org-citations-update-at-point
+					    "ic" 'org-cite-insert
+					    "io" 'citar-open
+					    "in" 'citar-open-note)
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images
             'append))
 

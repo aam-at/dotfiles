@@ -81,12 +81,12 @@
        emacs-lisp
        ess
        json
-       (latex +latexmk)
+       (latex +latexmk +cdlatex)
        ledger
        markdown
        (org +crypt +gnuplot +journal +noter +pandoc +present +pretty +roam)
        plantuml
-       (python +lsp +tree-sitter)
+       (python +lsp +tree-sitter +uv)
        rest
        (rust +lsp +tree-sitter)
        sh

@@ -13,16 +13,15 @@
 (package! auctex-label-numbers)
 (package! preview-auto)
 (package! texpresso
-	  :recipe (:host github :repo "let-def/texpresso" :files ("emacs/*.el")))
+          :recipe (:host github :repo "let-def/texpresso" :files ("emacs/*.el")))
 (package! twauctex
-	  :recipe (:host github :repo "cgroza/twauctex"))
+          :recipe (:host github :repo "cgroza/twauctex"))
 (package! clang-format)
 (package! doxymacs
-	  :recipe (:host github :repo "pniedzielski/doxymacs"))
+          :recipe (:host github :repo "pniedzielski/doxymacs"))
 (package! nov)
 (package! djvu)
 (package! spray)
-(package! elfeed-web)
 (package! langtool)
 (package! ranger)
 (package! rebox2)

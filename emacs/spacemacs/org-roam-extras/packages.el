@@ -36,9 +36,67 @@
     :init
     (spacemacs/set-leader-keys-for-major-mode 'org-mode "N" 'orb-note-actions)))
 
+(defconst aam/org-roam-ui-http-port 35902
+  "HTTP port for this profile's Org-roam UI instance.")
+
+(defconst aam/org-roam-ui-websocket-port 35904
+  "WebSocket port for this profile's Org-roam UI instance.")
+
+(defvar aam/org-roam-ui--source-build-dir nil
+  "Unmodified Org-roam UI build directory supplied by the package.")
+
+(defun aam/org-roam-ui--prepare-app-build ()
+  "Copy Org-roam UI's frontend and point it at this profile's WebSocket port."
+  (let* ((source (or aam/org-roam-ui--source-build-dir
+                     (setq aam/org-roam-ui--source-build-dir
+                           org-roam-ui-app-build-dir)))
+         (target (expand-file-name "org-roam-ui-spacemacs/"
+                                   spacemacs-cache-directory)))
+    ;; The upstream frontend hard-codes ws://localhost:35903.  A private copy
+    ;; lets Spacemacs use the next HTTP/WebSocket pair without changing Doom's
+    ;; UI or files managed by the package manager.
+    (when (or (not (file-directory-p target))
+              (file-newer-than-file-p source target))
+      (when (file-exists-p target)
+        (delete-directory target t))
+      (make-directory target t)
+      (copy-directory source target t t t)
+      (let ((replacements 0))
+        (dolist (file (directory-files-recursively target "\\.js\\'"))
+          (with-temp-buffer
+            (insert-file-contents file)
+            (goto-char (point-min))
+            (while (search-forward "ws://localhost:35903" nil t)
+              (replace-match
+               (format "ws://localhost:%d" aam/org-roam-ui-websocket-port)
+               t t)
+              (setq replacements (1+ replacements)))
+            (write-region (point-min) (point-max) file nil 'silent)))
+        (unless (> replacements 0)
+          (error "Could not set Org-roam UI's WebSocket port in %s" target))))
+    (setq org-roam-ui-app-build-dir target)))
+
+(defun aam/org-roam-ui--redirect-websocket-port (original port &rest args)
+  "Use this profile's WebSocket port for Org-roam UI's hard-coded default."
+  (apply original
+         (if (= port 35903) aam/org-roam-ui-websocket-port port)
+         args))
+
+(defun aam/org-roam-ui-enable ()
+  "Start Org-roam UI on ports that do not collide with the Doom profile."
+  (aam/org-roam-ui--prepare-app-build)
+  (setq org-roam-ui-port aam/org-roam-ui-http-port)
+  ;; Current Org-roam UI hard-codes 35903 for its server, so redirect it while
+  ;; retaining the package's normal mode lifecycle and restart behavior.
+  (unless (advice-member-p #'aam/org-roam-ui--redirect-websocket-port
+                           'websocket-server)
+    (advice-add 'websocket-server :around
+                #'aam/org-roam-ui--redirect-websocket-port))
+  (org-roam-ui-mode 1))
+
 (defun org-roam-extras/post-init-org-roam-ui ()
   (with-eval-after-load 'org
-    (org-roam-ui-mode)))
+    (aam/org-roam-ui-enable)))
 
 (defun org-roam-extras/post-init-org ()
   (require 'org-protocol)

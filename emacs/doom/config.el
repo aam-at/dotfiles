@@ -37,10 +37,15 @@
 (setenv "LSP_USE_PLISTS" "true")
 
 (setq org-enable-delve t
-      org-enable-gcal nil
-      org-enable-roam-ui nil
+      org-enable-gcal t
+      org-enable-roam-ui t
       aam-enable-explain-pause-at-startup nil
       aam-enable-magit-gptcommit t)
+
+;; The Org-roam index is derived data.  Keep Doom's copy under its isolated
+;; profile state so it can run alongside a Spacemacs profile without SQLite
+;; locking the shared database.
+(setq org-roam-db-location (expand-file-name "org-roam.db" doom-cache-dir))
 
 (load! "../config/autoloads")
 
@@ -196,6 +201,23 @@
 	      :config
 	      (evil-set-initial-state 'gscholar-bibtex-mode 'emacs))
 
+(map! :map bibtex-mode-map :localleader
+      :desc "Generate citation key" "g" #'aam/bibtex-generate-autokey
+      :desc "Entry actions" "h" #'org-ref-bibtex-entry-menu
+      :desc "New entry" "i" #'org-ref-bibtex-new-entry-menu
+      :desc "Next entry" "j" #'org-ref-bibtex-next-entry
+      :desc "Previous entry" "k" #'org-ref-bibtex-previous-entry
+      :desc "Open bibliography notes" "n" #'org-ref-open-bibtex-notes
+      :desc "Open bibliography PDF" "p" #'org-ref-open-bibtex-pdf
+      :desc "Open in browser (org-ref)" "B" #'org-ref-open-in-browser
+      :desc "Sort entry (org-ref)" "S" #'org-ref-sort-bibtex-entry)
+
+(use-package! helm-bibtex
+	      :commands helm-bibtex
+	      :init
+	      (map! :map bibtex-mode-map :localleader
+		    :desc "Helm BibTeX" "m" #'helm-bibtex))
+
 (use-package! ewmctrl
 	      :commands ewmctrl
 	      :init
@@ -229,6 +251,20 @@
 	      :init
 	      (map! :leader
 		    :desc "Toggle Write or Die" "t W d" #'write-or-die-toggle))
+
+(use-package! writeroom-mode
+	      :commands writeroom-mode
+	      :init
+	      (map! :leader
+		    :desc "Toggle writeroom" "t W r" #'writeroom-mode)
+	      :config
+	      (setq writeroom-width 90))
+
+(use-package! writegood-mode
+	      :commands writegood-mode
+	      :init
+	      (map! :leader
+		    :desc "Toggle writegood" "t W g" #'writegood-mode))
 
 (use-package! mw-thesaurus
 	      :commands mw-thesaurus-lookup-dwim
@@ -325,15 +361,6 @@
 	      (dolist (mode flycheck-vale-modes)
 		(flycheck-add-mode 'vale mode)))
 
-(after! writeroom-mode
-	(setq writeroom-width 90)
-	(map! :leader
-	      :desc "Toggle writeroom" "t W r" #'writeroom-mode))
-
-(after! writegood-mode
-	(map! :leader
-	      :desc "Toggle writegood" "t W g" #'writegood-mode))
-
 (autoload 'aam/common-setup "config-common" nil t)
 (autoload 'aam/lsp-setup "config-lsp" nil t)
 (autoload 'aam/secure-setup "config-secure" nil t)
@@ -395,6 +422,18 @@
 	      :desc "Convert ID link to file link" "l f" #'aam/org-convert-org-id-link-to-file-link
 	      :desc "Insert org-ref link" "l r" #'org-ref-insert-ref-link
 	      :desc "Insert org-ref label" "l R" #'org-ref-insert-label-link
+	      :desc "Open org-ref note" "l n" #'org-ref-open-notes-at-point
+	      (:prefix ("B" . "bibliography")
+		       :desc "Insert citation" "i" #'org-cite-insert
+		       :desc "Open citation resources" "o" #'citar-open
+		       :desc "Open citation note" "n" #'citar-open-note
+		       :desc "Insert legacy org-ref citation" "r" #'org-ref-insert-link)
+	      (:prefix ("C" . "recent clocks")
+		       :desc "Clock in" "i" #'org-mru-clock-in
+		       :desc "Go to clock" "g" #'org-mru-clock-goto
+		       :desc "Select recent task" "s" #'org-mru-clock-select-recent-task)
+	      (:prefix ("O" . "noter")
+		       :desc "Org noter" "n" #'org-noter)
 	      :desc "Roam bibliography actions" "N" #'orb-note-actions))
 
 (use-package! org-protocol-capture-html
@@ -416,10 +455,12 @@
 
 (use-package! org-contacts
 	      :after org
-	      :demand t)
+	      :commands (org-contacts org-contacts-agenda org-contacts-completing-read))
 
 (use-package! org-remark
 	      :after org
+	      ;; Desktop restoration may reactivate `org-remark-icon-mode' before
+	      ;; the first input, so this feature must precede saved-buffer restore.
 	      :demand t
 	      :config
 	      (org-remark-global-tracking-mode 1))
@@ -436,11 +477,13 @@
 
 (use-package! ox-epub
 	      :after org
-	      :demand t)
+	      :commands org-epub-export-to-epub)
 
 (use-package! org-re-reveal
 	      :after org
-	      :demand t)
+	      :commands (org-re-reveal-export-to-html
+			 org-re-reveal-export-to-html-and-browse
+			 org-re-reveal-export-current-subtree))
 
 (after! org
 	(map! :map org-mode-map :localleader
@@ -464,7 +507,8 @@
 	      (setq ob-async-no-async-languages-alist '("ipython")))
 
 (use-package! org-gcal
-	      :when org-enable-gcal
+	      :commands (org-gcal-sync org-gcal-fetch org-gcal-post-at-point
+				       org-gcal-refresh-token)
 	      :after org
 	      :init
 	      (map! :leader
@@ -492,10 +536,21 @@
 	      (with-eval-after-load 'pdf-annot
 		(add-hook 'pdf-annot-activate-handler-functions #'org-noter-pdftools-jump-to-note)))
 
+(defun aam/org-ref-enable ()
+  "Load legacy org-ref link support when an Org buffer is first visited."
+  (require 'org-ref))
+
 (use-package! org-ref
 	      :after org
-	      :demand t
+	      :commands (org-ref-insert-ref-link org-ref-insert-label-link
+						 org-ref-insert-link org-ref-open-notes-at-point
+						 org-ref-open-in-browser org-ref-bibtex-entry-menu
+						 org-ref-bibtex-new-entry-menu org-ref-bibtex-next-entry
+						 org-ref-bibtex-previous-entry org-ref-open-bibtex-notes
+						 org-ref-open-bibtex-pdf org-ref-sort-bibtex-entry)
+	      :hook (org-mode . aam/org-ref-enable)
 	      :config
+	      (advice-add 'org-ref-open-notes-at-point :override #'aam/org-ref-open-roam-note)
 	      (dolist (feature '(openalex doi-utils org-ref-pdf org-ref-url-utils org-ref-bibtex
 					  org-ref-arxiv org-ref-pubmed org-ref-isbn org-ref-wos org-ref-scopus
 					  x2bib org-ref-scifinder org-ref-worldcat))
@@ -518,6 +573,105 @@
 	      :after org
 	      :hook (org-mode . org-sticky-header-mode))
 
+(defcustom aam/org-roam-ui-port-search-limit 100
+  "Number of HTTP ports to try when starting Org-roam UI."
+  :type 'integer
+  :group 'org-roam)
+
+(defvar aam/org-roam-ui-websocket-port nil
+  "WebSocket port selected for the current Org-roam UI session.")
+
+(defvar aam/org-roam-ui-original-app-build-dir nil
+  "Unmodified Org-roam UI web build used to make port-specific copies.")
+
+(defvar aam/org-roam-ui-default-port nil
+  "Configured Org-roam UI HTTP port before fallback selection occurs.")
+
+(defun aam/org-roam-ui--web-build-for-ports (http-port websocket-port)
+  "Return an Org-roam UI web build configured for HTTP-PORT and WEBSOCKET-PORT."
+
+  (let* ((source (or aam/org-roam-ui-original-app-build-dir
+		     (setq aam/org-roam-ui-original-app-build-dir
+			   org-roam-ui-app-build-dir)))
+	 (target (expand-file-name
+		  (format "org-roam-ui-%d-%d" http-port websocket-port)
+		  doom-cache-dir))
+	 (marker (expand-file-name ".aam-port-configured" target)))
+    (unless (file-exists-p marker)
+      (make-directory target t)
+      (copy-directory source target nil t t)
+      ;; The upstream static client hard-codes its service endpoints.  Rewrite
+      ;; only the cached copy so a fallback port remains fully functional.
+      (dolist (file (directory-files-recursively target "\\.\\(?:html\\|js\\)$"))
+	(with-temp-buffer
+	  (insert-file-contents file)
+	  (goto-char (point-min))
+	  (while (search-forward "localhost:35901" nil t)
+	    (replace-match (format "localhost:%d" http-port) t t))
+	  (goto-char (point-min))
+	  (while (search-forward "localhost:35903" nil t)
+	    (replace-match (format "localhost:%d" websocket-port) t t))
+	  (write-region (point-min) (point-max) file nil 'silent)))
+      (write-region "" nil marker nil 'silent))
+    target))
+
+(defun aam/org-roam-ui--enable-with-ports (http-port websocket-port)
+  "Enable Org-roam UI with HTTP-PORT and WEBSOCKET-PORT.
+
+Org-roam UI currently hard-codes its WebSocket port internally, so bind its
+server constructor only while enabling the mode."
+  (require 'cl-lib)
+  (let ((websocket-server-function (symbol-function 'websocket-server)))
+    (setq org-roam-ui-port http-port
+	  aam/org-roam-ui-websocket-port websocket-port
+	  org-roam-ui-app-build-dir
+	  (aam/org-roam-ui--web-build-for-ports http-port websocket-port))
+    (cl-letf (((symbol-function 'websocket-server)
+	       (lambda (port &rest args)
+		 (apply websocket-server-function
+			(if (= port 35903) websocket-port port)
+			args))))
+      (org-roam-ui-mode 1))))
+
+(defun aam/org-roam-ui-start ()
+  "Start Org-roam UI on the first free localhost port pair.
+
+The default HTTP port is tried first.  Each subsequent attempt increments the
+HTTP port by one and keeps the WebSocket offset used by Org-roam UI."
+  (interactive)
+  (require 'org-roam-ui)
+  (if org-roam-ui-mode
+      (when (called-interactively-p 'interactive)
+	(org-roam-ui-open))
+    (let ((initial-port
+	   (or aam/org-roam-ui-default-port
+	       (setq aam/org-roam-ui-default-port org-roam-ui-port)))
+	  (attempt 0)
+	  started)
+      (while (and (not started) (< attempt aam/org-roam-ui-port-search-limit))
+	(let* ((http-port (+ initial-port attempt))
+	       (websocket-port (+ http-port 2)))
+	  (unless (or (aam-check-localhost-port http-port)
+		      (aam-check-localhost-port websocket-port))
+	    (condition-case err
+		(progn
+		  (aam/org-roam-ui--enable-with-ports http-port websocket-port)
+		  (setq started t)
+		  (message "Org-roam UI started on http://localhost:%d" http-port))
+	      (error
+	       ;; A competing process can claim a port after the availability
+	       ;; check.  Clean up and continue with the next candidate.
+	       (when org-roam-ui-mode
+		 (ignore-errors (org-roam-ui-mode -1)))
+	       (message "Org-roam UI port %d unavailable: %s" http-port
+			(error-message-string err))))))
+	(setq attempt (1+ attempt)))
+      (unless started
+	(user-error "Org-roam UI could not find a free port after %d attempts"
+		    aam/org-roam-ui-port-search-limit))
+      (when (called-interactively-p 'interactive)
+	(org-roam-ui-open)))))
+
 (after! org-roam
 	(require 'org-roam-protocol)
 	(org-roam-db-autosync-mode 1)
@@ -525,14 +679,34 @@
 	(org-roam-bibtex-mode 1)
 	(when (and org-enable-roam-ui
 	           (require 'org-roam-ui nil t))
-	  (org-roam-ui-mode 1)))
+	  (aam/org-roam-ui-start)))
+
+(use-package! citar-org-roam
+	      :after (citar org-roam)
+	      :config
+	      (setq citar-org-roam-capture-template-key "c"
+		    citar-org-roam-note-title-template "${author editor}, ${title}"
+		    citar-org-roam-template-fields
+		    '((:citar-title . ("title"))
+		      (:citar-author . ("author" "editor"))
+		      (:citar-date . ("date" "year" "issued"))
+		      (:citar-journal . ("journaltitle" "journal"))
+		      (:citar-doi . ("doi"))
+		      (:citar-url . ("url"))))
+	      (citar-org-roam-mode 1))
 
 (after! org-roam
+	(map! :map org-mode-map :localleader
+	      :desc "Vulpea find" "m v" #'vulpea-find
+	      :desc "Vulpea insert" "m V" #'vulpea-insert
+	      :desc "Vulpea backlinks" "m b" #'vulpea-find-backlink
+	      :desc "Toggle roam properties" "m T" #'aam/org-roam-toggle-properties)
 	(map! :leader
 	      :desc "Toggle roam properties" "n r T" #'aam/org-roam-toggle-properties))
 
 (use-package! vulpea
 	      :after org-roam
+	      :commands (vulpea-find vulpea-insert vulpea-find-backlink)
 	      :config
 	      (setq vulpea-db-sync-directories (list org-directory))
 	      (vulpea-db-autosync-mode 1)
@@ -543,6 +717,7 @@
 
 (use-package! org-mru-clock
 	      :after org
+	      :commands (org-mru-clock-in org-mru-clock-goto org-mru-clock-select-recent-task)
 	      :config
 	      (setq org-mru-clock-how-many 100)
 	      (add-hook 'minibuffer-setup-hook #'org-mru-clock-embark-minibuffer-hook)
@@ -619,6 +794,11 @@
 
 (after! python
 	(aam/python-setup)
+	(when (aam/eglot-client-p)
+	  ;; `set-eglot-client!' tries alternatives from left to right.
+	  (set-eglot-client! '(python-mode python-ts-mode)
+	                     '("ty" "server")
+	                     '("pyrefly" "lsp")))
 	(set-formatter! 'ruff :modes '(python-mode python-ts-mode)))
 
 (after! tex
@@ -722,7 +902,7 @@
 		    "C-<tab>" #'copilot-accept-completion-by-word))
 
 (use-package! shell-maker
-	      :demand t)
+	      :defer t)
 
 (use-package! copilot-chat
 	      :commands (copilot-chat-display copilot-chat-switch-to-buffer copilot-chat-reset)

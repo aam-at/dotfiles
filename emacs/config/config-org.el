@@ -205,20 +205,20 @@ This function is intended for use with `org-capture` workflows."
            ((agenda "" ((org-agenda-span 'day)
                         (org-super-agenda-groups
                          '((:name "Today"
-                                  :time-grid t
-                                  :todo "TODAY"
-                                  :scheduled today
-                                  :order 0)
+				  :time-grid t
+				  :todo "TODAY"
+				  :scheduled today
+				  :order 0)
                            (:habit t)
                            (:name "Due Today"
-                                  :deadline today
-                                  :order 2)
+				  :deadline today
+				  :order 2)
                            (:name "Due Soon"
-                                  :deadline future
-                                  :order 8)
+				  :deadline future
+				  :order 8)
                            (:name "Overdue"
-                                  :deadline past
-                                  :order 7)))))
+				  :deadline past
+				  :order 7)))))
             (alltodo "" ((org-agenda-overriding-header "")
                          (org-super-agenda-groups
                           '((:name "Inbox" :file-path "inbox" :order 0)
@@ -228,25 +228,25 @@ This function is intended for use with `org-capture` workflows."
            ((agenda "" ((org-agenda-span 'day)
                         (org-super-agenda-groups
                          '((:name "Today"
-                                  :time-grid t
-                                  :date today
-                                  :todo "TODAY"
-                                  :scheduled today
-                                  :order 1)))))
+				  :time-grid t
+				  :date today
+				  :todo "TODAY"
+				  :scheduled today
+				  :order 1)))))
             (alltodo "" ((org-agenda-overriding-header "")
                          (org-super-agenda-groups
                           '((:name "Next to do"
-                                   :todo "NEXT"
-                                   :order 1)
+				   :todo "NEXT"
+				   :order 1)
                             (:name "Due Today"
-                                   :deadline today
-                                   :order 2)
+				   :deadline today
+				   :order 2)
                             (:name "Due Soon"
-                                   :deadline future
-                                   :order 8)
+				   :deadline future
+				   :order 8)
                             (:name "Overdue"
-                                   :deadline past
-                                   :order 7)))))))
+				   :deadline past
+				   :order 7)))))))
           ;; Projects overview agenda
           ("p" "Projects overview"
            ((alltodo ""
@@ -281,13 +281,13 @@ This function is intended for use with `org-capture` workflows."
                   ((org-agenda-overriding-header "Eisenhower matrix")
                    (org-super-agenda-groups
                     '((:name "Do (urgent and important)"
-                             :and (:tag "important" :tag "urgent"))
+			     :and (:tag "important" :tag "urgent"))
                       (:name "Schedule (important but not urgent)"
-                             :and (:tag "important" :not (:tag "urgent")))
+			     :and (:tag "important" :not (:tag "urgent")))
                       (:name "Delegate (urgent but not important)"
-                             :and (:tag "urgent" :not (:tag "important")))
+			     :and (:tag "urgent" :not (:tag "important")))
                       (:name "Declutter (not urgent and not important)"
-                             :and (:not (:tag "important") :not (:tag "urgent")))))))))))
+			     :and (:not (:tag "important") :not (:tag "urgent")))))))))))
 
   (setq org-clock-history-length 23
         org-clock-in-resume t
@@ -493,6 +493,26 @@ DEADLINE: %^{Deadline}t
            :empty-lines 1
 #+STARTUP: latexpreview")
            :empty-lines 1
+           :unnarrowed t)
+          ("c" "Citar bibliography reference" plain
+           "
+* ${citar-date} - ${citar-title}
+:PROPERTIES:
+:CREATED: %U
+:CITEKEY: ${citar-citekey}
+:AUTHOR: ${citar-author}
+:JOURNAL: ${citar-journal}
+:YEAR: ${citar-date}
+:DOI: ${citar-doi}
+:URL: ${citar-url}
+:NOTER_DOCUMENT: %(aam-get-cite-pdf-filename \"${citar-citekey}\")
+:END:
+[[file:%(aam-get-cite-pdf-filename \"${citar-citekey}\")][pdf]]
+%?"
+           :if-new
+           (file+head "papers/${citar-citekey}.org" "#+TITLE: ${note-title}
+#+STARTUP: latexpreview")
+           :empty-lines 1
            :unnarrowed t)))
   (setq org-roam-capture-ref-templates
         '(("r" "ref" plain "%?" :target
@@ -534,12 +554,6 @@ DEADLINE: %^{Deadline}t
         org-ref-notes-directory (aam/org-path "papers")
         org-ref-default-bibliography aam/bibtex-files
         org-ref-pdf-directory (aam/bib-path "papers/"))
-  ;; org-cite configuration
-  (setq org-cite-global-bibliography
-        (let ((bibliography (or (bound-and-true-p citar-bibliography)
-                                (bound-and-true-p bibtex-completion-bibliography))))
-          (if (listp bibliography) bibliography (list bibliography))))
-
   ;; setup org modules
   (aam/org-setup-modules)
 
