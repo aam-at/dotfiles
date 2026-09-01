@@ -43,7 +43,6 @@
     ~/.xinitrc: general/x/xinitrc
 
     # XDG ~/.config apps
-    ~/.config/aichat: config/aichat
     ~/.config/alacritty: config/alacritty
     ~/.config/Antigravity IDE/User/:
       create: true
