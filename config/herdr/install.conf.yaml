@@ -1,0 +1,16 @@
+- link:
+    ~/.config/herdr: .
+
+- shell:
+    - command: |
+        command -v herdr >/dev/null 2>&1 || {
+          echo "herdr is not installed or is not on PATH" >&2
+          exit 1
+        }
+        herdr integration install pi
+        herdr integration install omp
+        herdr integration install claude
+        herdr integration install codex
+        herdr integration install opencode
+        herdr integration install copilot
+      description: Install HerdR integrations
