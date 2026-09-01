@@ -875,6 +875,45 @@ def generated_files(palette: dict[str, object]) -> dict[str, str]:
     return files
 
 
+def _srgb_channel(c: float) -> float:
+    return c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+
+
+def relative_luminance(hex_color: str) -> float:
+    r, g, b = (int(hex_color[i : i + 2], 16) / 255 for i in (1, 3, 5))
+    r, g, b = (_srgb_channel(c) for c in (r, g, b))
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def contrast_ratio(hex_a: str, hex_b: str) -> float:
+    la, lb = relative_luminance(hex_a), relative_luminance(hex_b)
+    lighter, darker = max(la, lb), min(la, lb)
+    return (lighter + 0.05) / (darker + 0.05)
+
+
+# WCAG-style contrast floor for role pairs where "hard to see" is a real bug,
+# not a style choice — this is what let the selection_background regression
+# (1.7:1, invisible in fzf) ship silently. Deliberately narrow: ANSI text
+# colors (e.g. a dim comment color) are often intentionally low-contrast, so
+# only role pairs that must be visually distinct are checked.
+CONTRAST_MIN = 3.0
+CONTRAST_PAIRS = (
+    ("selection_background", "background"),
+    ("foreground", "background"),
+)
+
+
+def check_contrast(palette: dict[str, object]) -> None:
+    for role_a, role_b in CONTRAST_PAIRS:
+        ratio = contrast_ratio(get(palette, role_a), get(palette, role_b))
+        if ratio < CONTRAST_MIN:
+            print(
+                f"generate.py: warning: {role_a} vs {role_b} contrast is "
+                f"{ratio:.2f}:1 (below {CONTRAST_MIN:.0f}:1) — likely hard to see",
+                file=sys.stderr,
+            )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("palette", type=Path, help="canonical palette TOML file")
@@ -892,6 +931,7 @@ def main() -> int:
 
     try:
         palette = load_palette(args.palette)
+        check_contrast(palette)
         output_dir = args.output_dir or args.palette.parent
         targets = {
             output_dir / name: content
