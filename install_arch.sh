@@ -71,7 +71,7 @@ install_packages \
 
 # rust utilities
 install_packages \
-  aichat atuin bottom broot eza gitu gitui gping lsd ouch sd starship \
+  atuin bottom broot eza gitu gitui gping lsd ouch sd starship \
   television texlab viu watchexec yazi
 
 # texlive
