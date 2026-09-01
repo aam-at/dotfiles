@@ -4,6 +4,43 @@
 (require 'aam-core)
 
 ;;;###autoload
+(defun aam/citar-setup ()
+  "Configure the shared Doom-biblio-style Citar and Org Cite workflow."
+  (require 'citar)
+  (require 'citar-capf)
+  (setq citar-bibliography aam/bibtex-files
+        citar-library-paths (list (aam/bib-path "papers/")
+                                  (aam/bib-path "review/")
+                                  (aam/bib-path "books/"))
+        citar-library-file-extensions '("pdf")
+        citar-notes-paths (list (aam/org-path "papers"))
+        org-cite-insert-processor 'citar
+        org-cite-follow-processor 'citar
+        org-cite-activate-processor 'citar)
+
+  ;; Keep native Org Cite exports predictable, matching Doom's biblio module.
+  (with-eval-after-load 'oc
+    (setq org-cite-global-bibliography aam/bibtex-files
+          org-cite-export-processors '((latex biblatex) (t csl))
+          org-support-shift-select t)
+    (require 'oc-biblatex))
+  ;; Load CSL only after the top-level Org feature to avoid an incremental-load
+  ;; cycle between `oc-csl', Citeproc, and Org.
+  (with-eval-after-load 'org
+    (require 'oc-csl))
+
+  ;; Helm otherwise takes over `org-cite-insert', bypassing Citar's rich
+  ;; completion interface.
+  (with-eval-after-load 'helm
+    (when (boundp 'helm-completing-read-handlers-alist)
+      (add-to-list 'helm-completing-read-handlers-alist '(org-cite-insert))))
+
+  ;; Complete citekeys directly in Org and LaTeX buffers, while retaining
+  ;; `org-cite-insert' for inserting correctly formatted citations.
+  (dolist (hook '(org-mode-hook LaTeX-mode-hook latex-mode-hook))
+    (add-hook hook #'citar-capf-setup)))
+
+;;;###autoload
 (defun aam/bibtex-setup ()
   ;; bibtex settings
   (setq bibtex-autokey-name-year-separator ""
@@ -41,12 +78,7 @@
           (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
           (default       . bibtex-completion-format-citation-default)))
   (setq bibtex-completion-pdf-open-function 'find-file)
-  ;; configure citar
-  (setq citar-bibliography aam/bibtex-files
-        citar-library-paths (list (aam/bib-path "papers/")
-                                  (aam/bib-path "review/")
-                                  (aam/bib-path "books/"))
-        citar-notes-paths (list (aam/org-path "papers")))
+  (aam/citar-setup)
 
   ;; orb-autokey
   (with-eval-after-load 'org-roam-bibtex

@@ -16,6 +16,8 @@
   '(
     activity-watch-mode
     biblio
+    citeproc
+    parsebib
     cape
     casual
     cloc
@@ -52,6 +54,12 @@
 (defun aam/post-init-biblio ()
   (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "lb" 'biblio-lookup)
   (evil-set-initial-state 'biblio-selection-mode 'emacs))
+
+(defun aam/init-citeproc ()
+  (use-package citeproc :defer t))
+
+(defun aam/init-parsebib ()
+  (use-package parsebib :defer t))
 
 (defun aam/init-casual()
   (use-package casual

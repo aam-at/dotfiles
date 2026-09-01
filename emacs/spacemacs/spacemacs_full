@@ -138,6 +138,7 @@ This function should only modify configuration layer settings."
                   org-enable-bootstrap-support t
                   org-enable-brain-support t
                   org-enable-epub-support t
+                  org-enable-gcal t
                   org-enable-github-support t
                   org-enable-mermaid-support t
                   org-enable-modern-support t
