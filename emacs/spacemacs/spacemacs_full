@@ -44,7 +44,6 @@ This function should only modify configuration layer settings."
              better-defaults
              bm
              (git :variables
-                  git-enable-magit-delta-plugin t
                   git-enable-magit-gitflow-plugin t)
              (compleseus :variables
                          compleseus-engine 'vertico
@@ -246,7 +245,6 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(exec-path-from-shell
                                       gcmh
-                                      keychain-environment
                                       magit-annex)
 
    ;; A list of packages that cannot be updated.
@@ -784,9 +782,6 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; setup keychain
-  (when (require 'keychain-environment nil 'noerror)
-    (keychain-refresh-environment))
   ;; auto load configs
   (autoload 'aam/ai-setup "config-ai" "Setup AI configurations" t)
   (autoload 'aam/bibtex-setup "config-bibtex" "Setup bibtex configurations" t)

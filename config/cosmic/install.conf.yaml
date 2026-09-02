@@ -1,7 +1,7 @@
 - shell:
     - [
-        'sh -c ''if [ -L "$HOME/.config/cosmic" ]; then rm "$HOME/.config/cosmic"; fi; mkdir -p "$HOME/.config/cosmic"''',
-        Keep COSMIC config root as a real directory,
+        'sh -c ''if [ -L "$HOME/.config/cosmic" ]; then rm "$HOME/.config/cosmic"; fi; mkdir -p "$HOME/.config/cosmic"; find -L "$HOME/.config/cosmic" -maxdepth 1 -type l -delete''',
+        Keep COSMIC config root real and remove stale namespace links,
       ]
 
 - link:

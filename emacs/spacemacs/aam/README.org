@@ -24,7 +24,6 @@ This layer adds some packages to customize spacemacs for my personal preference:
 - hackernews
 - sx
 - org-projectile
-- helm-system-packages
 - hide-lines
 - syslog-mode (system-packages)
 - ewmctrl

@@ -48,8 +48,8 @@ This function should only modify configuration layer settings."
                   git-enable-magit-gitflow-plugin t)
              helm
              (compleseus :variables
-                          compleseus-engine 'vertico
-                          compleseus-use-nerd-icons t)
+                         compleseus-engine 'vertico
+                         compleseus-use-nerd-icons t)
              helpful
              (ibuffer :variables ibuffer-group-buffers-by 'projects)
              outshine
@@ -180,8 +180,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(magit-annex
                                       gcmh
-                                      exec-path-from-shell
-                                      keychain-environment)
+                                      exec-path-from-shell)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -674,8 +673,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (gcmh-mode 1))
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
-   (let ((dotspacemacs-default-font (aam/default-font)))
-     (spacemacs/set-default-font dotspacemacs-default-font))))
+    (let ((dotspacemacs-default-font (aam/default-font)))
+      (spacemacs/set-default-font dotspacemacs-default-font))))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -690,9 +689,6 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; setup keychain
-  (when (require 'keychain-environment nil 'noerror)
-    (keychain-refresh-environment))
   ;; auto load configs
   (autoload 'aam/ai-setup "config-ai" "Setup AI configurations" t)
   (autoload 'aam/bibtex-setup "config-bibtex" "Setup bibtex configurations" t)
@@ -708,11 +704,11 @@ before packages are loaded."
   (aam/tex-setup)
   (aam/bibtex-setup)
   (spacemacs/set-leader-keys
-   "C-t l" #'visual-line-mode
-   "hc" #'helm-bibtex
-   "hC" #'citar-open)
+    "C-t l" #'visual-line-mode
+    "hc" #'helm-bibtex
+    "hC" #'citar-open)
   (spacemacs/set-leader-keys-for-major-mode
-   'bibtex-mode "g" #'aam/bibtex-generate-autokey))
+    'bibtex-mode "g" #'aam/bibtex-generate-autokey))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

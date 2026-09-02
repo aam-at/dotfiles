@@ -22,13 +22,12 @@
     casual
     cloc
     direnv
-    (explain-pause-mode :location (recipe
-                                   :fetcher github
-                                   :repo "lastquestion/explain-pause-mode"))
+    (explain-pause-mode
+     :location
+     (recipe :fetcher github :repo "lastquestion/explain-pause-mode"))
     ewmctrl
     fish-completion
     gscholar-bibtex
-    (helm-system-packages :requires helm)
     memoize
     ;; (nova :location (recipe
     ;;                  :fetcher github
@@ -214,10 +213,6 @@
     (spacemacs/set-leader-keys-for-major-mode 'bibtex-mode "ls" #'gscholar-bibtex)
     :config
     (evil-set-initial-state 'gscholar-bibtex-mode 'emacs)))
-
-(defun aam/init-helm-system-packages()
-  (use-package helm-system-packages
-    :defer t))
 
 (defun aam/init-memoize ()
   (use-package memoize))
