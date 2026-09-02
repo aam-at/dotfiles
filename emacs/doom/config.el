@@ -167,11 +167,6 @@
                              :desc "Previous mark" "p" #'bm-previous
                              :desc "List marks" "l" #'bm-show-all)))
 
-(use-package! magit-delta
-              :after magit
-              :config
-              (magit-delta-mode 1))
-
 (use-package! magit-gitflow
               :after magit)
 
