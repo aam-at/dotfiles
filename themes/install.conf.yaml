@@ -30,3 +30,14 @@
       relative: true
       relink: true
       path: ~/.config/theme/gtk-4.0-settings.ini
+- shell:
+    # GTK's own settings.ini loses to org.gnome.desktop.interface whenever a
+    # settings portal is running, which is every Wayland session here — so the
+    # generated keys have to be pushed into dconf or the theme silently falls
+    # back (a missing theme name falls back to *light* Adwaita, not dark).
+    - command: >-
+        command -v dconf >/dev/null &&
+        dconf load /org/gnome/desktop/interface/ < "$HOME/.config/theme/dconf.ini"
+        || true
+      description: Point the settings portal at the generated GTK theme
+      stderr: true
