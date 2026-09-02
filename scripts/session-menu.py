@@ -91,7 +91,9 @@ def ron_component_color(path: Path, key: str, fallback: str) -> str:
 
 def theme_colors() -> dict[str, str]:
     mode = "Dark" if portal_prefers_dark() else "Light"
-    root = Path.home() / ".config" / "cosmic" / f"com.system76.CosmicTheme.{mode}" / "v2"
+    root = (
+        Path.home() / ".config" / "cosmic" / f"com.system76.CosmicTheme.{mode}" / "v2"
+    )
 
     dark = mode == "Dark"
     return {
@@ -117,7 +119,9 @@ def theme_colors() -> dict[str, str]:
 
 class SessionMenu(Gtk.Application):
     def __init__(self) -> None:
-        super().__init__(application_id=APP_ID, flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
+        super().__init__(
+            application_id=APP_ID, flags=Gio.ApplicationFlags.DEFAULT_FLAGS
+        )
         self.window: Gtk.ApplicationWindow | None = None
 
     def do_activate(self) -> None:
@@ -167,10 +171,21 @@ class SessionMenu(Gtk.Application):
         card.append(actions)
 
         buttons = [
-            self.action_button("Lock", "Alt+L", "system-lock-screen-symbolic", ["loginctl", "lock-session"]),
-            self.action_button("Suspend", "Alt+S", "system-suspend-symbolic", ["systemctl", "suspend"]),
-            self.action_button("Log out", "Alt+O", "system-log-out-symbolic", ["cosmic-osd", "log-out"]),
-            self.action_button("Restart", "Alt+R", "system-reboot-symbolic", ["cosmic-osd", "restart"]),
+            self.action_button(
+                "Lock",
+                "Alt+L",
+                "system-lock-screen-symbolic",
+                ["loginctl", "lock-session"],
+            ),
+            self.action_button(
+                "Suspend", "Alt+S", "system-suspend-symbolic", ["systemctl", "suspend"]
+            ),
+            self.action_button(
+                "Log out", "Alt+O", "system-log-out-symbolic", ["cosmic-osd", "log-out"]
+            ),
+            self.action_button(
+                "Restart", "Alt+R", "system-reboot-symbolic", ["cosmic-osd", "restart"]
+            ),
             self.action_button(
                 "Shut down",
                 "Alt+P",
@@ -272,12 +287,12 @@ class SessionMenu(Gtk.Application):
     def install_css(colors: dict[str, str]) -> None:
         css = f"""
         .session-overlay {{
-            background-color: {colors['overlay']};
+            background-color: {colors["overlay"]};
         }}
 
         .session-card {{
-            background-color: {colors['card']};
-            color: {colors['text']};
+            background-color: {colors["card"]};
+            color: {colors["text"]};
             border-radius: 20px;
             padding: 30px;
             box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
@@ -285,13 +300,13 @@ class SessionMenu(Gtk.Application):
         }}
 
         .session-title {{
-            color: {colors['text']};
+            color: {colors["text"]};
             font-size: 24px;
             font-weight: 700;
         }}
 
         .session-subtitle, .session-hint {{
-            color: {colors['muted']};
+            color: {colors["muted"]};
         }}
 
         .session-subtitle {{
@@ -303,8 +318,8 @@ class SessionMenu(Gtk.Application):
         }}
 
         button.session-action {{
-            background: {colors['button']};
-            color: {colors['text']};
+            background: {colors["button"]};
+            color: {colors["text"]};
             border: 1px solid transparent;
             border-radius: 14px;
             box-shadow: none;
@@ -315,23 +330,23 @@ class SessionMenu(Gtk.Application):
         }}
 
         button.session-action:hover {{
-            background: {colors['button_hover']};
+            background: {colors["button_hover"]};
         }}
 
         button.session-action:focus-visible {{
-            border-color: {colors['accent']};
-            outline: 2px solid {colors['accent']};
+            border-color: {colors["accent"]};
+            outline: 2px solid {colors["accent"]};
             outline-offset: 2px;
         }}
 
         button.session-action.destructive-action {{
-            background: {colors['destructive']};
-            color: {colors['destructive_on']};
+            background: {colors["destructive"]};
+            color: {colors["destructive_on"]};
         }}
 
         button.session-action.destructive-action label,
         button.session-action.destructive-action image {{
-            color: {colors['destructive_on']};
+            color: {colors["destructive_on"]};
         }}
 
         .action-label {{
@@ -340,12 +355,12 @@ class SessionMenu(Gtk.Application):
         }}
 
         .action-key {{
-            color: {colors['muted']};
+            color: {colors["muted"]};
             font-size: 10px;
         }}
 
         button.destructive-action .action-key {{
-            color: {colors['destructive_on']};
+            color: {colors["destructive_on"]};
             opacity: 0.70;
         }}
         """

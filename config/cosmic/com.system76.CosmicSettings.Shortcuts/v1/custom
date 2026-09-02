@@ -46,7 +46,7 @@
     (modifiers: [Super], key: "space"): System(Launcher),
 
     // Noctalia shell controls with safe COSMIC-native equivalents.
-    (modifiers: [Super], key: "x"): Spawn("session-menu.sh"),
+    (modifiers: [Super], key: "x"): Spawn("session-menu.py"),
     (modifiers: [Super], key: "m"): Spawn("cosmic-settings system"),
     (modifiers: [Super], key: "n"): Spawn("cosmic-settings notifications"),
     (modifiers: [Super], key: "comma"): Spawn("cosmic-settings"),
