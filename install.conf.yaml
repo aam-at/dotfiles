@@ -117,10 +117,26 @@
     ~/.mbsyncrc: config/mbsyncrc
     ~/.notmuch-config: config/notmuch/config
 
+    # Coding agents: portable preferences only. Authentication, caches, history,
+    # project trust, and machine-specific MCP configuration stay local.
+    ~/.codex/config.toml:
+      create: true
+      path: config/agents/codex/config.toml
+    ~/.claude/settings.json:
+      create: true
+      path: config/agents/claude/settings.json
+    ~/.pi/agent/keybindings.json:
+      create: true
+      path: config/agents/pi/keybindings.json
+    ~/.pi/agent/settings.json:
+      create: true
+      path: config/agents/pi/settings.json
+    ~/.omp/agent/config.yml:
+      create: true
+      path: config/agents/omp/config.yml
+
     # Other editors / tools
     ~/.ideavimrc: idea/ideavimrc
-    ~/.pi/agent/keybindings.json: config/pi/keybindings.json
-    ~/.pi/agent/settings.json: config/pi/settings.json
     ~/.sbclrc: config/sbclrc
     ~/.screenrc: screen/screenrc
     ~/.stumpwmrc: config/stumpwm/stumpwmrc
