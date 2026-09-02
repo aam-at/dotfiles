@@ -6,7 +6,6 @@
 (package! unfill)
 (package! bm)
 (package! helpful)
-(package! magit-delta)
 (package! magit-gitflow)
 (package! material-theme)
 (package! spacemacs-theme)
