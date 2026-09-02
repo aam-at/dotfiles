@@ -33,6 +33,12 @@ NEUTRAL = {
     "fg3": "#bdae93",
 }
 
+# Icon and cursor themes are user choices, not palette colors, but GTK's
+# settings.ini and dconf both have to name them and disagreeing copies are how
+# the theme drifted last time. Single source of truth, edited by hand.
+ICON_THEME = "elementary"
+CURSOR_THEME = "sweet-cursors"
+
 
 def fail(message: str) -> "NoReturn":
     raise ValueError(message)
@@ -291,142 +297,297 @@ def render_dms(p: dict[str, object]) -> str:
     )
 
 
-def render_gtk(p: dict[str, object], version: str) -> str:
+def mix(hex_a: str, hex_b: str, weight: float) -> str:
+    """Blend hex_a toward hex_b; weight 0.0 keeps a, 1.0 returns b."""
+    channels = (
+        round(
+            int(hex_a[i : i + 2], 16) * (1 - weight)
+            + int(hex_b[i : i + 2], 16) * weight
+        )
+        for i in (1, 3, 5)
+    )
+    return "#" + "".join(f"{c:02x}" for c in channels)
+
+
+def is_dark(p: dict[str, object]) -> bool:
+    return relative_luminance(get(p, "background")) < 0.5
+
+
+def gtk_colors(p: dict[str, object]) -> dict[str, str]:
+    """Map the palette onto libadwaita's color names.
+
+    These names are the whole contract: adw-gtk3 (GTK3) and libadwaita (GTK4)
+    both resolve nearly every widget color through them — adw-gtk3-dark's own
+    stylesheet references them ~1200 times against only ~130 literal hex
+    values. Stock Adwaita is the opposite (788 literal hex, one reference), so
+    a palette can only reach GTK3 widgets when adw-gtk3 is the active theme.
+    """
     bg = get(p, "background")
     fg = get(p, "foreground")
-    selected = get(p, "selection_background")
-    selected_fg = get(p, "selection_foreground")
-    black = ansi(p, "normal", "black")
-    white = ansi(p, "normal", "white")
+    accent = get(p, "selection_background")
+    accent_fg = get(p, "selection_foreground")
+    surface = ansi(p, "normal", "black")  # bg1: chrome one step off the window
     border = ansi(p, "bright", "black")
-    accent_fg = get(p, "background")
+    dim = ansi(p, "normal", "white")
+    red = ansi(p, "bright", "red")
+    green = ansi(p, "bright", "green")
+    yellow = ansi(p, "bright", "yellow")
+    shade = "rgba(0, 0, 0, 0.36)" if is_dark(p) else "rgba(0, 0, 0, 0.12)"
+
+    return {
+        # Window and content surfaces.
+        "window_bg_color": bg,
+        "window_fg_color": fg,
+        "view_bg_color": bg,
+        "view_fg_color": fg,
+        "headerbar_bg_color": surface,
+        "headerbar_fg_color": fg,
+        "headerbar_backdrop_color": bg,
+        "headerbar_border_color": border,
+        "sidebar_bg_color": surface,
+        "sidebar_fg_color": fg,
+        "sidebar_backdrop_color": bg,
+        "sidebar_border_color": border,
+        "secondary_sidebar_bg_color": mix(bg, surface, 0.5),
+        "secondary_sidebar_fg_color": fg,
+        "secondary_sidebar_border_color": border,
+        "card_bg_color": surface,
+        "card_fg_color": fg,
+        "dialog_bg_color": surface,
+        "dialog_fg_color": fg,
+        "popover_bg_color": surface,
+        "popover_fg_color": fg,
+        "thumbnail_bg_color": surface,
+        "thumbnail_fg_color": fg,
+        "shade_color": shade,
+        "card_shade_color": shade,
+        "headerbar_shade_color": shade,
+        "sidebar_shade_color": shade,
+        "popover_shade_color": shade,
+        "scrollbar_outline_color": bg,
+        # Semantic accents.
+        "accent_bg_color": accent,
+        "accent_fg_color": accent_fg,
+        "accent_color": accent,
+        "destructive_bg_color": red,
+        "destructive_fg_color": bg,
+        "destructive_color": red,
+        "error_bg_color": red,
+        "error_fg_color": bg,
+        "error_color": red,
+        "warning_bg_color": yellow,
+        "warning_fg_color": bg,
+        "warning_color": yellow,
+        "success_bg_color": green,
+        "success_fg_color": bg,
+        "success_color": green,
+        # GTK3 legacy names. adw-gtk3 aliases these to the roles above, but
+        # apps that ship their own CSS (and stock Adwaita's few references)
+        # still read them directly, so they are defined rather than derived.
+        "theme_bg_color": bg,
+        "theme_fg_color": fg,
+        "theme_base_color": bg,
+        "theme_text_color": fg,
+        "theme_selected_bg_color": accent,
+        "theme_selected_fg_color": accent_fg,
+        "theme_unfocused_bg_color": bg,
+        "theme_unfocused_fg_color": mix(fg, bg, 0.4),
+        "theme_unfocused_base_color": bg,
+        "theme_unfocused_text_color": mix(fg, bg, 0.4),
+        "theme_unfocused_selected_bg_color": mix(accent, bg, 0.4),
+        "theme_unfocused_selected_fg_color": accent_fg,
+        "insensitive_bg_color": surface,
+        "insensitive_base_color": bg,
+        "insensitive_fg_color": dim,
+        "unfocused_insensitive_color": dim,
+        "text_view_bg": bg,
+        "content_view_bg": bg,
+        "borders": border,
+        "unfocused_borders": mix(border, bg, 0.4),
+    }
+
+
+def gtk_palette_scale(p: dict[str, object]) -> dict[str, str]:
+    """GNOME's named palette (blue_1..blue_5, ...), remapped to the theme.
+
+    Adwaita apps hardcode these for status chips, tags and syntax accents, so
+    leaving them at GNOME's defaults is what makes an otherwise-themed app
+    sprout stock GNOME blue. Each hue is a five-step ramp built from the
+    palette's normal/bright pair; orange and brown are blended from red and
+    yellow because the ANSI schema has no slot for them.
+    """
+    bg = get(p, "background")
+    fg = get(p, "foreground")
+    hues = {
+        name: (ansi(p, "normal", name), ansi(p, "bright", name)) for name in ANSI_NAMES
+    }
+    orange = (
+        mix(hues["red"][0], hues["yellow"][0], 0.5),
+        mix(hues["red"][1], hues["yellow"][1], 0.5),
+    )
+    ramps = {
+        "blue": hues["blue"],
+        "green": hues["green"],
+        "yellow": hues["yellow"],
+        "red": hues["red"],
+        "purple": hues["magenta"],
+        "orange": orange,
+        "brown": (mix(orange[0], bg, 0.35), mix(orange[1], bg, 0.2)),
+    }
+
+    scale: dict[str, str] = {}
+    for name, (normal, bright) in ramps.items():
+        steps = (
+            mix(bright, fg, 0.35),
+            bright,
+            mix(bright, normal, 0.5),
+            normal,
+            mix(normal, bg, 0.35),
+        )
+        for index, value in enumerate(steps, start=1):
+            scale[f"{name}_{index}"] = value
+
+    # Neutral ramps: light_1 is the lightest step, dark_5 the darkest.
+    light = (
+        ansi(p, "bright", "white"),
+        fg,
+        NEUTRAL["fg3"],
+        ansi(p, "normal", "white"),
+        NEUTRAL["bg4"],
+    )
+    dark = (
+        ansi(p, "bright", "black"),
+        NEUTRAL["bg4"],
+        NEUTRAL["bg3"],
+        ansi(p, "normal", "black"),
+        bg,
+    )
+    for index, value in enumerate(light, start=1):
+        scale[f"light_{index}"] = value
+    for index, value in enumerate(dark, start=1):
+        scale[f"dark_{index}"] = value
+    return scale
+
+
+# libadwaita 1.6 deprecated @define-color in favour of CSS custom properties
+# and reads these from :root. GTK3 has no equivalent, so the GTK4 adapter
+# emits both spellings.
+GTK4_VARIABLES = (
+    "window_bg_color",
+    "window_fg_color",
+    "view_bg_color",
+    "view_fg_color",
+    "headerbar_bg_color",
+    "headerbar_fg_color",
+    "headerbar_backdrop_color",
+    "headerbar_border_color",
+    "headerbar_shade_color",
+    "sidebar_bg_color",
+    "sidebar_fg_color",
+    "sidebar_backdrop_color",
+    "sidebar_border_color",
+    "sidebar_shade_color",
+    "secondary_sidebar_bg_color",
+    "secondary_sidebar_fg_color",
+    "secondary_sidebar_border_color",
+    "card_bg_color",
+    "card_fg_color",
+    "card_shade_color",
+    "dialog_bg_color",
+    "dialog_fg_color",
+    "popover_bg_color",
+    "popover_fg_color",
+    "popover_shade_color",
+    "thumbnail_bg_color",
+    "thumbnail_fg_color",
+    "shade_color",
+    "scrollbar_outline_color",
+    "accent_bg_color",
+    "accent_fg_color",
+    "accent_color",
+    "destructive_bg_color",
+    "destructive_fg_color",
+    "destructive_color",
+    "error_bg_color",
+    "error_fg_color",
+    "error_color",
+    "warning_bg_color",
+    "warning_fg_color",
+    "warning_color",
+    "success_bg_color",
+    "success_fg_color",
+    "success_color",
+)
+
+
+def render_gtk(p: dict[str, object], version: str) -> str:
+    colors = gtk_colors(p)
+    colors.update(gtk_palette_scale(p))
+    defines = "\n".join(
+        f"@define-color {name} {value};" for name, value in colors.items()
+    )
 
     if version == "3.0":
-        return f"""/* {p["name"]} GTK3 adapter generated from palette.toml. */
-@define-color theme_bg_color {bg};
-@define-color theme_fg_color {fg};
-@define-color theme_base_color {bg};
-@define-color theme_text_color {fg};
-@define-color theme_selected_bg_color {selected};
-@define-color theme_selected_fg_color {selected_fg};
-@define-color theme_unfocused_selected_bg_color {black};
-@define-color theme_unfocused_selected_fg_color {white};
-@define-color borders {border};
+        return f"""/* {p["name"]} GTK3 adapter generated from palette.toml.
+ * Requires the adw-gtk3 theme (pacman -S adw-gtk-theme); stock Adwaita
+ * hardcodes its colors and ignores nearly all of these definitions. */
+{defines}
 
-window,
-.background,
-window.background,
-headerbar,
-toolbar,
-menubar,
-treeview,
-viewport,
-scrolledwindow,
-statusbar {{
-  background-color: {bg};
-  color: {fg};
+/* Caret color has no named-color hook in either theme. */
+entry,
+textview,
+textview text {{
+  caret-color: {get(p, "cursor")};
+}}
+"""
+
+    variables = "\n".join(
+        f"  --{name.replace('_', '-')}: {colors[name]};" for name in GTK4_VARIABLES
+    )
+    return f"""/* {p["name"]} GTK4 adapter generated from palette.toml.
+ * libadwaita 1.6+ reads the custom properties; @define-color is kept for
+ * older libadwaita and for plain-GTK4 apps. */
+{defines}
+
+:root {{
+{variables}
 }}
 
 entry,
 textview,
-textview text,
-treeview.view {{
-  background-color: {bg};
-  color: {fg};
+textview text {{
   caret-color: {get(p, "cursor")};
-}}
-
-button,
-spinbutton,
-combobox button {{
-  background-color: {black};
-  color: {fg};
-  border-color: {border};
-}}
-
-button:hover,
-button:checked,
-row:selected,
-treeview.view:selected,
-entry selection,
-textview selection {{
-  background-color: {selected};
-  color: {selected_fg};
-}}
-
-label,
-menuitem,
-checkbutton,
-radiobutton {{
-  color: {fg};
-}}
-
-separator,
-undershoot.top,
-undershoot.bottom,
-undershoot.left,
-undershoot.right {{
-  background-color: {border};
-}}
-"""
-
-    return f"""/* {p["name"]} GTK4 adapter generated from palette.toml. */
-@define-color window_bg_color {bg};
-@define-color window_fg_color {fg};
-@define-color view_bg_color {bg};
-@define-color view_fg_color {fg};
-@define-color headerbar_bg_color {bg};
-@define-color headerbar_fg_color {fg};
-@define-color sidebar_bg_color {black};
-@define-color sidebar_fg_color {fg};
-@define-color card_bg_color {black};
-@define-color card_fg_color {fg};
-@define-color popover_bg_color {black};
-@define-color popover_fg_color {fg};
-@define-color accent_color {selected};
-@define-color accent_bg_color {selected};
-@define-color accent_fg_color {accent_fg};
-@define-color destructive_color {ansi(p, "bright", "red")};
-
-window,
-.background,
-headerbar,
-toolbar,
-popover,
-dialog,
-view,
-textview text,
-entry {{
-  background-color: {bg};
-  color: {fg};
-  caret-color: {get(p, "cursor")};
-}}
-
-button,
-card,
-list,
-row,
-menu {{
-  background-color: {black};
-  color: {fg};
-}}
-
-button:hover,
-button:checked,
-row:selected,
-selection {{
-  background-color: {selected};
-  color: {selected_fg};
 }}
 """
 
 
-def render_settings() -> str:
-    return """[Settings]
-gtk-application-prefer-dark-theme = true
-gtk-theme-name = Adwaita-dark
-gtk-icon-theme-name = Adwaita
+def render_settings(p: dict[str, object]) -> str:
+    """GTK's own settings file.
+
+    Note this loses to org.gnome.desktop.interface whenever a settings portal
+    is running (Wayland sessions normally have one), so themes/dconf.ini is
+    the copy that actually decides the theme there; both are generated from
+    the same palette so they cannot drift apart.
+    """
+    theme = "adw-gtk3-dark" if is_dark(p) else "adw-gtk3"
+    return f"""[Settings]
+gtk-application-prefer-dark-theme = {"true" if is_dark(p) else "false"}
+gtk-theme-name = {theme}
+gtk-icon-theme-name = {ICON_THEME}
+gtk-cursor-theme-name = {CURSOR_THEME}
 gtk-enable-animations = true
+"""
+
+
+def render_dconf(p: dict[str, object]) -> str:
+    """Keys for `dconf load /org/gnome/desktop/interface/`."""
+    theme = "adw-gtk3-dark" if is_dark(p) else "adw-gtk3"
+    scheme = "prefer-dark" if is_dark(p) else "prefer-light"
+    return f"""[/]
+gtk-theme='{theme}'
+color-scheme='{scheme}'
+icon-theme='{ICON_THEME}'
+cursor-theme='{CURSOR_THEME}'
 """
 
 
@@ -870,8 +1031,9 @@ def generated_files(palette: dict[str, object]) -> dict[str, str]:
     files = {name: generator(palette) for name, generator in GENERATORS.items()}
     files["gtk-3.0.css"] = render_gtk(palette, "3.0")
     files["gtk-4.0.css"] = render_gtk(palette, "4.0")
-    files["gtk-3.0-settings.ini"] = render_settings()
-    files["gtk-4.0-settings.ini"] = render_settings()
+    files["gtk-3.0-settings.ini"] = render_settings(palette)
+    files["gtk-4.0-settings.ini"] = render_settings(palette)
+    files["dconf.ini"] = render_dconf(palette)
     return files
 
 

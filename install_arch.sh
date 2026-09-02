@@ -37,25 +37,25 @@ install_packages() {
 }
 
 install_packages \
-  age alsa-lib aspell aspell-en aspell-ru automake base-devel bat bibtool bison \
-  btop bun bzip2 ca-certificates cava chafa clang cmake cscope curl dgop direnv \
-  dust emacs-wayland enchant enchant exo expat fasd fd ffmpeg file-roller fish \
-  fontconfig freeglut freetype2 fuse3 fzy gcc gcc gettext ghostty giflib git \
-  github-desktop glances global gmime3 gnome-keyring gnupg gnuplot gnutls gtk4 \
-  guile gvfs helix hexyl hspell htop httpie hunspell hyprpolkitagent imagemagick \
-  iotop iputils isync jansson jbig2dec jq kitty lazygit leptonica libevent \
-  libffi libgccjit libjpeg-turbo libmupdf libpng libsecret libtiff libvoikko \
-  libvterm libxcb libxcomposite libxcursor libxfixes libxi libxkbcommon libxmu \
-  libxpm lldb llvm lynx make markdown-oxide mc meson mosh mujs mupdf mupdf-tools \
-  ncdu ncurses neovim net-tools nnn notmuch nuspell openblas openconnect openssh \
-  openssl p7zip pandoc parallel pass pdfgrep pdfpc pdftk peco pinentry poppler \
-  poppler-glib procs python python-gobject python-pip python-pipx \
-  python-pyopenssl qps ranger readline ripgrep ruby screen sdl2 shellcheck shfmt \
-  sndio sqlite sqlite stow systemd taplo texinfo the_silver_searcher thunar \
-  thunar-archive-plugin tig tk tmux trash-cli tree-sitter tree-sitter unrar vale \
-  webkit2gtk wget wmctrl xapian-core xdg-desktop-portal-hyprland xdg-utils \
-  xfce4-settings xh xz zathura zathura-djvu zathura-pdf-poppler zed zellij \
-  zenity zlib-ng zoxide
+  adw-gtk-theme age alsa-lib aspell aspell-en aspell-ru automake base-devel bat \
+  bibtool bison btop bun bzip2 ca-certificates cava chafa clang cmake cscope curl \
+  dgop direnv dust emacs-wayland enchant enchant exo expat fasd fd ffmpeg \
+  file-roller fish fontconfig freeglut freetype2 fuse3 fzy gcc gcc gettext \
+  ghostty giflib git github-desktop glances global gmime3 gnome-keyring gnupg \
+  gnuplot gnutls gtk4 guile gvfs helix hexyl hspell htop httpie hunspell \
+  hyprpolkitagent imagemagick iotop iputils isync jansson jbig2dec jq kitty \
+  lazygit leptonica libevent libffi libgccjit libjpeg-turbo libmupdf libpng \
+  libsecret libtiff libvoikko libvterm libxcb libxcomposite libxcursor libxfixes \
+  libxi libxkbcommon libxmu libxpm lldb llvm lynx make markdown-oxide mc meson \
+  mosh mujs mupdf mupdf-tools ncdu ncurses neovim net-tools nnn notmuch nuspell \
+  openblas openconnect openssh openssl p7zip pandoc parallel pass pdfgrep pdfpc \
+  pdftk peco pinentry poppler poppler-glib procs python python-gobject python-pip \
+  python-pipx python-pyopenssl qps ranger readline ripgrep ruby screen sdl2 \
+  shellcheck shfmt sndio sqlite sqlite stow systemd taplo texinfo \
+  the_silver_searcher thunar thunar-archive-plugin tig tk tmux trash-cli \
+  tree-sitter tree-sitter unrar vale webkit2gtk wget wmctrl xapian-core \
+  xdg-desktop-portal-hyprland xdg-utils xfce4-settings xh xz zathura zathura-djvu \
+  zathura-pdf-poppler zed zellij zenity zlib-ng zoxide
 
 install_packages \
   powerline-fonts ttf-fira-code ttf-jetbrains-mono ttf-nerd-fonts-symbols-mono

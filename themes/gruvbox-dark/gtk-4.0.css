@@ -1,48 +1,165 @@
-/* Gruvbox Dark GTK4 adapter generated from palette.toml. */
+/* Gruvbox Dark GTK4 adapter generated from palette.toml.
+ * libadwaita 1.6+ reads the custom properties; @define-color is kept for
+ * older libadwaita and for plain-GTK4 apps. */
 @define-color window_bg_color #282828;
 @define-color window_fg_color #d5c4a1;
 @define-color view_bg_color #282828;
 @define-color view_fg_color #d5c4a1;
-@define-color headerbar_bg_color #282828;
+@define-color headerbar_bg_color #3c3836;
 @define-color headerbar_fg_color #d5c4a1;
+@define-color headerbar_backdrop_color #282828;
+@define-color headerbar_border_color #928374;
 @define-color sidebar_bg_color #3c3836;
 @define-color sidebar_fg_color #d5c4a1;
+@define-color sidebar_backdrop_color #282828;
+@define-color sidebar_border_color #928374;
+@define-color secondary_sidebar_bg_color #32302f;
+@define-color secondary_sidebar_fg_color #d5c4a1;
+@define-color secondary_sidebar_border_color #928374;
 @define-color card_bg_color #3c3836;
 @define-color card_fg_color #d5c4a1;
+@define-color dialog_bg_color #3c3836;
+@define-color dialog_fg_color #d5c4a1;
 @define-color popover_bg_color #3c3836;
 @define-color popover_fg_color #d5c4a1;
-@define-color accent_color #83a598;
+@define-color thumbnail_bg_color #3c3836;
+@define-color thumbnail_fg_color #d5c4a1;
+@define-color shade_color rgba(0, 0, 0, 0.36);
+@define-color card_shade_color rgba(0, 0, 0, 0.36);
+@define-color headerbar_shade_color rgba(0, 0, 0, 0.36);
+@define-color sidebar_shade_color rgba(0, 0, 0, 0.36);
+@define-color popover_shade_color rgba(0, 0, 0, 0.36);
+@define-color scrollbar_outline_color #282828;
 @define-color accent_bg_color #83a598;
 @define-color accent_fg_color #282828;
+@define-color accent_color #83a598;
+@define-color destructive_bg_color #fb4934;
+@define-color destructive_fg_color #282828;
 @define-color destructive_color #fb4934;
+@define-color error_bg_color #fb4934;
+@define-color error_fg_color #282828;
+@define-color error_color #fb4934;
+@define-color warning_bg_color #fabd2f;
+@define-color warning_fg_color #282828;
+@define-color warning_color #fabd2f;
+@define-color success_bg_color #b8bb26;
+@define-color success_fg_color #282828;
+@define-color success_color #b8bb26;
+@define-color theme_bg_color #282828;
+@define-color theme_fg_color #d5c4a1;
+@define-color theme_base_color #282828;
+@define-color theme_text_color #d5c4a1;
+@define-color theme_selected_bg_color #83a598;
+@define-color theme_selected_fg_color #282828;
+@define-color theme_unfocused_bg_color #282828;
+@define-color theme_unfocused_fg_color #908671;
+@define-color theme_unfocused_base_color #282828;
+@define-color theme_unfocused_text_color #908671;
+@define-color theme_unfocused_selected_bg_color #5f736b;
+@define-color theme_unfocused_selected_fg_color #282828;
+@define-color insensitive_bg_color #3c3836;
+@define-color insensitive_base_color #282828;
+@define-color insensitive_fg_color #a89984;
+@define-color unfocused_insensitive_color #a89984;
+@define-color text_view_bg #282828;
+@define-color content_view_bg #282828;
+@define-color borders #928374;
+@define-color unfocused_borders #685f56;
+@define-color blue_1 #a0b09b;
+@define-color blue_2 #83a598;
+@define-color blue_3 #649590;
+@define-color blue_4 #458588;
+@define-color blue_5 #3b6466;
+@define-color green_1 #c2be51;
+@define-color green_2 #b8bb26;
+@define-color green_3 #a8a920;
+@define-color green_4 #98971a;
+@define-color green_5 #71701f;
+@define-color yellow_1 #edbf57;
+@define-color yellow_2 #fabd2f;
+@define-color yellow_3 #e8ab28;
+@define-color yellow_4 #d79921;
+@define-color yellow_5 #9a7123;
+@define-color red_1 #ee745a;
+@define-color red_2 #fb4934;
+@define-color red_3 #e43628;
+@define-color red_4 #cc241d;
+@define-color red_5 #932521;
+@define-color purple_1 #d49c9d;
+@define-color purple_2 #d3869b;
+@define-color purple_3 #c27490;
+@define-color purple_4 #b16286;
+@define-color purple_5 #814e65;
+@define-color orange_1 #ed9a59;
+@define-color orange_2 #fa8332;
+@define-color orange_3 #e67028;
+@define-color orange_4 #d25e1f;
+@define-color orange_5 #964b22;
+@define-color brown_1 #d28e58;
+@define-color brown_2 #d07130;
+@define-color brown_3 #b35e29;
+@define-color brown_4 #964b22;
+@define-color brown_5 #703f24;
+@define-color light_1 #fbf1c7;
+@define-color light_2 #d5c4a1;
+@define-color light_3 #bdae93;
+@define-color light_4 #a89984;
+@define-color light_5 #7c6f64;
+@define-color dark_1 #928374;
+@define-color dark_2 #7c6f64;
+@define-color dark_3 #665c54;
+@define-color dark_4 #3c3836;
+@define-color dark_5 #282828;
 
-window,
-.background,
-headerbar,
-toolbar,
-popover,
-dialog,
-view,
-textview text,
-entry {
-  background-color: #282828;
-  color: #d5c4a1;
+:root {
+  --window-bg-color: #282828;
+  --window-fg-color: #d5c4a1;
+  --view-bg-color: #282828;
+  --view-fg-color: #d5c4a1;
+  --headerbar-bg-color: #3c3836;
+  --headerbar-fg-color: #d5c4a1;
+  --headerbar-backdrop-color: #282828;
+  --headerbar-border-color: #928374;
+  --headerbar-shade-color: rgba(0, 0, 0, 0.36);
+  --sidebar-bg-color: #3c3836;
+  --sidebar-fg-color: #d5c4a1;
+  --sidebar-backdrop-color: #282828;
+  --sidebar-border-color: #928374;
+  --sidebar-shade-color: rgba(0, 0, 0, 0.36);
+  --secondary-sidebar-bg-color: #32302f;
+  --secondary-sidebar-fg-color: #d5c4a1;
+  --secondary-sidebar-border-color: #928374;
+  --card-bg-color: #3c3836;
+  --card-fg-color: #d5c4a1;
+  --card-shade-color: rgba(0, 0, 0, 0.36);
+  --dialog-bg-color: #3c3836;
+  --dialog-fg-color: #d5c4a1;
+  --popover-bg-color: #3c3836;
+  --popover-fg-color: #d5c4a1;
+  --popover-shade-color: rgba(0, 0, 0, 0.36);
+  --thumbnail-bg-color: #3c3836;
+  --thumbnail-fg-color: #d5c4a1;
+  --shade-color: rgba(0, 0, 0, 0.36);
+  --scrollbar-outline-color: #282828;
+  --accent-bg-color: #83a598;
+  --accent-fg-color: #282828;
+  --accent-color: #83a598;
+  --destructive-bg-color: #fb4934;
+  --destructive-fg-color: #282828;
+  --destructive-color: #fb4934;
+  --error-bg-color: #fb4934;
+  --error-fg-color: #282828;
+  --error-color: #fb4934;
+  --warning-bg-color: #fabd2f;
+  --warning-fg-color: #282828;
+  --warning-color: #fabd2f;
+  --success-bg-color: #b8bb26;
+  --success-fg-color: #282828;
+  --success-color: #b8bb26;
+}
+
+entry,
+textview,
+textview text {
   caret-color: #d79921;
-}
-
-button,
-card,
-list,
-row,
-menu {
-  background-color: #3c3836;
-  color: #d5c4a1;
-}
-
-button:hover,
-button:checked,
-row:selected,
-selection {
-  background-color: #83a598;
-  color: #282828;
 }
