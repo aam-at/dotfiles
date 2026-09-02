@@ -47,9 +47,7 @@ WHERE id NOT IN (
       (let ((id (car orphan))
             (title (cadr orphan)))
         (insert "* ")
-        (insert (org-link-make-string
-                 (concat "id:" id)
-                 title))
+        (insert (org-link-make-string (concat "id:" id) title))
         (insert "\n")))))
 
 (provide 'aam-org-roam)

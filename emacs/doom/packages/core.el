@@ -2,7 +2,6 @@
 
 (package! exec-path-from-shell)
 (package! gruvbox-theme)
-(package! keychain-environment)
 (package! magit-annex)
 (package! unfill)
 (package! bm)

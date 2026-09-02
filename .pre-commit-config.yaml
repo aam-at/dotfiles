@@ -26,15 +26,17 @@ repos:
         entry: shfmt -w -i 2
         language: system
         files: (^|/)(bashrc|bash_profile|profile|[^/]+\.(bash|sh))$
-      - id: emacs-lisp-indent
-        name: Emacs Lisp indentation
+      - id: emacs-lisp-format
+        name: Emacs Lisp formatting
         entry: >-
           emacs --batch --quick --eval '(let ((root default-directory))
-          (dolist (file command-line-args-left) (find-file (expand-file-name
-          file root)) (emacs-lisp-mode) (indent-region (point-min) (point-max))
+          (dolist (file (process-lines "git" "ls-files" "--"
+          "*.el" "*.elisp" "*.lisp")) (find-file (expand-file-name file root))
+          (emacs-lisp-mode) (indent-region (point-min) (point-max))
           (save-buffer)))'
         language: system
-        files: \.(el|elisp|lisp)$
+        pass_filenames: false
+        always_run: true
       - id: lua-parse
         name: luac (Lua syntax)
         entry: luac -p

@@ -9,14 +9,16 @@
   (require 'citar)
   (require 'citar-capf)
   (setq citar-bibliography aam/bibtex-files
+        citar-library-file-extensions '("pdf")
         citar-library-paths (list (aam/bib-path "papers/")
                                   (aam/bib-path "review/")
                                   (aam/bib-path "books/"))
-        citar-library-file-extensions '("pdf")
         citar-notes-paths (list (aam/org-path "papers"))
-        org-cite-insert-processor 'citar
+        citar-open-note-function #'citar-org-roam-open-note
+        citar-org-roam-capture-template-key "r"
+        org-cite-activate-processor 'citar
         org-cite-follow-processor 'citar
-        org-cite-activate-processor 'citar)
+        org-cite-insert-processor 'citar)
 
   ;; Keep native Org Cite exports predictable, matching Doom's biblio module.
   (with-eval-after-load 'oc

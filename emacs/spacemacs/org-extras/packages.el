@@ -30,7 +30,6 @@
                          :fetcher github
                          :repo "kidd/org-gcal.el"))
     org-ref
-    citar
     (delve :toggle org-enable-delve
            :location (recipe
                       :fetcher github
