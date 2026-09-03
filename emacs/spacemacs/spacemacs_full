@@ -132,7 +132,7 @@ This function should only modify configuration layer settings."
                     latex-refresh-preview t
                     latex-view-pdf-in-split-window t)
              (org :variables
-                  org-contacts-files (list "~/Dropbox/Org/contacts.org")
+                  org-contacts-files (list "~/Dropbox/Org/areas/relationships.org")
                   org-enable-appear-support t
                   org-enable-bootstrap-support t
                   org-enable-brain-support t
@@ -849,5 +849,5 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   )
+   '(default ((t (:background nil)))))
   )
