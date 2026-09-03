@@ -8,7 +8,6 @@ return {
       "danilshvalov/org-modern.nvim",
       "Saghen/blink.cmp",
     },
-    event = "VeryLazy",
     ft = { "org" },
     config = function()
       local Menu = require("org-modern.menu")
@@ -64,12 +63,19 @@ return {
         tag = "0.7.0",
       },
     },
-    event = "VeryLazy",
     ft = { "org" },
     config = function()
       require("org-roam").setup({
         directory = "~/Dropbox/Org/",
+        database = {
+          persist = true,
+          update_on_save = true,
+        },
       })
+      -- Manual sync keymap
+      vim.keymap.set("n", "<leader>os", function()
+        require("org-roam").database:load({ force = true })
+      end, { desc = "Org-roam sync database" })
     end,
   },
   {
@@ -78,7 +84,7 @@ return {
       "nvim-orgmode/orgmode", -- required
       { "lukas-reineke/headlines.nvim", config = true }, -- optional nicety
     },
-
+    ft = { "org" },
     config = function()
       require("org-super-agenda").setup({
         org_files = {
@@ -95,8 +101,9 @@ return {
   },
   {
     "bi0ha2ard/telescope-org_roam.nvim",
-    requires = {
+    dependencies = {
       { "nvim-telescope/telescope.nvim" },
     },
+    ft = { "org" },
   },
 }

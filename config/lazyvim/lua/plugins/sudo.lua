@@ -1,7 +1,8 @@
 return {
-	"denialofsandwich/sudo.nvim",
-	dependencies = {
-		"MunifTanjim/nui.nvim",
-	},
-	config = true,
+  "denialofsandwich/sudo.nvim",
+  cmd = { "SudoRead", "SudoWrite", "SudoEdit" },
+  dependencies = {
+    "MunifTanjim/nui.nvim",
+  },
+  config = true,
 }

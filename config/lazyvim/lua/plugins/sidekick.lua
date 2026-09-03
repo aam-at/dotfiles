@@ -3,6 +3,13 @@ return {
 
   -- copilot-language-server
   {
+    "mason-org/mason.nvim",
+    opts = function(_, opts)
+      opts.ensure_installed = opts.ensure_installed or {}
+      table.insert(opts.ensure_installed, "copilot-language-server")
+    end,
+  },
+  {
     "neovim/nvim-lspconfig",
     opts = function(_, opts)
       local sk = LazyVim.opts("sidekick.nvim") ---@type sidekick.Config|{}
@@ -13,7 +20,7 @@ return {
         -- re-enable it without asking Mason to manage the CLI-provided server.
         opts.servers.copilot = vim.tbl_deep_extend("force", opts.servers.copilot or {}, {
           enabled = true,
-          mason = false,
+          mason = true,
         })
       end
     end,
@@ -26,9 +33,9 @@ return {
     event = "VeryLazy",
     opts = function(_, opts)
       local icons = {
-        Error = { " ", "DiagnosticError" },
-        Inactive = { " ", "MsgArea" },
-        Warning = { " ", "DiagnosticWarn" },
+        Error = { " ", "DiagnosticError" },
+        Inactive = { " ", "MsgArea" },
+        Warning = { " ", "DiagnosticWarn" },
         Normal = { LazyVim.config.icons.kinds.Copilot, "Special" },
       }
       table.insert(opts.sections.lualine_x, 2, {
@@ -49,7 +56,7 @@ return {
       table.insert(opts.sections.lualine_x, 2, {
         function()
           local status = require("sidekick.status").cli()
-          return " " .. (#status > 1 and #status or "")
+          return " " .. (#status > 1 and #status or "")
         end,
         cond = function()
           return #require("sidekick.status").cli() > 0

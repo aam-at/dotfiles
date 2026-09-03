@@ -15,9 +15,19 @@ return {
           keys = {
             { "K", "<cmd>Lspsaga hover_doc<cr>", desc = "Show doc", has = "hover" },
             { "gd", "<cmd>Lspsaga goto_definition<cr>", desc = "Goto Definition", has = "definition" },
-            { "gD", "<cmd>Lspsaga goto_type_definition<cr>", desc = "Goto Declaration", has = "typeDefinition" },
+            {
+              "gD",
+              "<cmd>Lspsaga goto_type_definition<cr>",
+              desc = "Goto Declaration",
+              has = "typeDefinition",
+            },
             { "gp", "<cmd>Lspsaga peek_definition<cr>", desc = "Peek Definition", has = "definition" },
-            { "gP", "<cmd>Lspsaga peek_type_definition<cr>", desc = "Peek Declaration", has = "typeDefinition" },
+            {
+              "gP",
+              "<cmd>Lspsaga peek_type_definition<cr>",
+              desc = "Peek Declaration",
+              has = "typeDefinition",
+            },
             { "gr", "<cmd>Lspsaga finder<cr>", desc = "References", has = "references" },
             {
               "gR",

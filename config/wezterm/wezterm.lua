@@ -13,14 +13,14 @@ local transparent_bg = "rgba(22, 24, 26, " .. opacity .. ")"
 --- Get the current operating system
 --- @return "windows"| "linux" | "macos"
 local function get_os()
-    local bin_format = package.cpath:match("%p[\\|/]?%p(%a+)")
-    if bin_format == "dll" then
-        return "windows"
-    elseif bin_format == "so" then
-        return "linux"
-    end
+  local bin_format = package.cpath:match("%p[\\|/]?%p(%a+)")
+  if bin_format == "dll" then
+    return "windows"
+  elseif bin_format == "so" then
+    return "linux"
+  end
 
-    return "macos"
+  return "macos"
 end
 
 local host_os = get_os()
@@ -28,14 +28,14 @@ local host_os = get_os()
 -- Font Configuration
 local emoji_font = "Segoe UI Emoji"
 if host_os == "linux" then
-    emoji_font = "Noto Color Emoji"
+  emoji_font = "Noto Color Emoji"
 end
 config.font = wezterm.font_with_fallback({
-    {
-        family = "JetBrainsMono Nerd Font",
-        weight = "Regular",
-    },
-    emoji_font,
+  {
+    family = "JetBrainsMono Nerd Font",
+    weight = "Regular",
+  },
+  emoji_font,
 })
 config.font_size = 10
 
@@ -65,39 +65,39 @@ config.hide_tab_bar_if_only_one_tab = true
 config.show_tab_index_in_tab_bar = false
 config.use_fancy_tab_bar = false
 config.colors.tab_bar = {
-    background = transparent_bg,
-    new_tab = { fg_color = config.colors.background, bg_color = config.colors.brights[6] },
-    new_tab_hover = { fg_color = config.colors.background, bg_color = config.colors.foreground },
+  background = transparent_bg,
+  new_tab = { fg_color = config.colors.background, bg_color = config.colors.brights[6] },
+  new_tab_hover = { fg_color = config.colors.background, bg_color = config.colors.foreground },
 }
 
 -- Tab Formatting
 wezterm.on("format-tab-title", function(tab, _, _, _, hover)
-    local background = config.colors.brights[1]
-    local foreground = config.colors.foreground
+  local background = config.colors.brights[1]
+  local foreground = config.colors.foreground
 
-    if tab.is_active then
-        background = config.colors.brights[7]
-        foreground = config.colors.background
-    elseif hover then
-        background = config.colors.brights[8]
-        foreground = config.colors.background
-    end
+  if tab.is_active then
+    background = config.colors.brights[7]
+    foreground = config.colors.background
+  elseif hover then
+    background = config.colors.brights[8]
+    foreground = config.colors.background
+  end
 
-    local title = tostring(tab.tab_index + 1)
-    return {
-        { Foreground = { Color = background } },
-        { Text = "█" },
-        { Background = { Color = background } },
-        { Foreground = { Color = foreground } },
-        { Text = title },
-        { Foreground = { Color = background } },
-        { Text = "█" },
-    }
+  local title = tostring(tab.tab_index + 1)
+  return {
+    { Foreground = { Color = background } },
+    { Text = "█" },
+    { Background = { Color = background } },
+    { Foreground = { Color = foreground } },
+    { Text = title },
+    { Foreground = { Color = background } },
+    { Text = "█" },
+  }
 end)
 
 -- Keybindings
 config.keys = {
-    { key = "v", mods = "CTRL", action = wezterm.action({ PasteFrom = "Clipboard" }) },
+  { key = "v", mods = "CTRL", action = wezterm.action({ PasteFrom = "Clipboard" }) },
 }
 
 -- Default Shell Configuration
@@ -105,10 +105,10 @@ config.default_prog = { "pwsh", "-NoLogo" }
 
 -- OS-Specific Overrides
 if host_os == "linux" then
-    config.default_prog = { "fish" }
-    config.front_end = "WebGpu"
-    config.wayland_window_background_blur = true -- compositor-blurred wallpaper under the translucent window (niri)
-    config.window_decorations = nil -- use system decorations
+  config.default_prog = { "fish" }
+  config.front_end = "WebGpu"
+  config.wayland_window_background_blur = true -- compositor-blurred wallpaper under the translucent window (niri)
+  config.window_decorations = nil -- use system decorations
 end
 
 return config
