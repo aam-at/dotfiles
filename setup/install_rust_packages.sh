@@ -17,10 +17,13 @@ cargo install --locked cargo-binstall cargo-edit cargo-outdated
 
 # Reuse cargo-binstall to install the wider toolchain.
 if command -v cargo-binstall >/dev/null 2>&1; then
-  cargo binstall -y kanata tealdeer
+  cargo binstall -y cargo-update herdr kanata
 else
   echo "cargo-binstall not found on PATH; skipping cargo binstall packages." >&2
 fi
+
+# asciinema gif generator
+cargo install --git https://github.com/asciinema/agg
 
 # CLI proxy that reduces LLM token consumption
 cargo install --git https://github.com/rtk-ai/rtk
