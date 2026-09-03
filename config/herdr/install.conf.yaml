@@ -1,5 +1,7 @@
 - link:
-    ~/.config/herdr: .
+    ~/.config/herdr/config.toml:
+      create: true
+      path: config.toml
 
 - shell:
     - command: |

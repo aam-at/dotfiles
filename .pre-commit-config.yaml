@@ -50,3 +50,7 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+  - repo: https://github.com/JohnnyMorganz/StyLua
+    rev: v0.20.0 # Use the latest stable StyLua version
+    hooks:
+      - id: stylua

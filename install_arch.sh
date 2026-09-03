@@ -74,7 +74,7 @@ install_packages \
 
 # rust utilities
 install_packages \
-  atuin bottom broot eza gitu gitui gping lsd ouch sd starship \
+  atuin bottom broot eza gitu gitui gping lsd navi ouch sd starship tealdear \
   television texlab viu watchexec yazi
 
 # texlive
@@ -93,7 +93,9 @@ yay -S --needed \
 # Install GUI packages
 if $GUI; then
   echo "Installing packages for Wayland..."
-  install_packages obsidian slack-desktop languagetool discord logseq-desktop-bin
+
+  install_packages \
+    discord languagetool logseq-desktop-bin neovide obsidian slack-desktop
 fi
 
 # Install Node.js
@@ -117,7 +119,7 @@ fi
 # Install Rust and cargo packages
 if $INSTALL_RUST; then
   echo "Installing Rust and cargo packages..."
-  install_packages rustup
+  install_packages cargo-update rustup
   rustup default stable
   "$REPO_DIR/setup/install_rust_packages.sh"
 
