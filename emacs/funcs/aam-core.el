@@ -21,13 +21,52 @@
   (start-process "xournal" "*helm-bibtex-xournal*" "/usr/bin/xournal"
                  (expand-file-name (aam-get-cite-pdf-filename (car key)))))
 
+(defun aam--bibtex-library-paths ()
+  "Return `bibtex-completion-library-path` as a list."
+  (if (listp bibtex-completion-library-path)
+      bibtex-completion-library-path
+    (list bibtex-completion-library-path)))
+
+(defun aam--select-cite-file (key files)
+  "Return the first existing file in FILES using a ~/ path."
+  (let ((existing-files
+         (delete-dups
+          (-filter #'file-exists-p files))))
+    (when (> (length existing-files) 1)
+      (warn "Multiple files detected for key %s: %S"
+            key existing-files))
+    (when existing-files
+      (abbreviate-file-name (car existing-files)))))
+
 (defun aam-get-cite-pdf-filename (key)
-  (let ((pdf-files (-filter #'file-exists-p
-                            (-map (lambda (pdf-path) (concat pdf-path (format "%s.pdf" key)))
-                                  bibtex-completion-library-path))))
-    (when (> (length pdf-files) 1)
-      (warn (format "Multiple files detected for key %s" key)))
-    (car pdf-files)))
+  "Return the PDF path for citation KEY."
+  (aam--select-cite-file
+   key
+   (-map
+    (lambda (library-path)
+      (expand-file-name
+       (format "%s.pdf" key)
+       library-path))
+    (aam--bibtex-library-paths))))
+
+(defun aam-get-cite-markdown-filename (key)
+  "Return the Docling Markdown path for citation KEY."
+  (aam--select-cite-file
+   key
+   (-mapcat
+    (lambda (library-path)
+      (let* ((markdown-library
+              (concat
+               (directory-file-name
+                (expand-file-name library-path))
+               "_md"))
+             (markdown-directory
+              (expand-file-name key markdown-library)))
+        (when (file-directory-p markdown-directory)
+          (directory-files-recursively
+           markdown-directory
+           "\\.md\\'"))))
+    (aam--bibtex-library-paths))))
 
 (defun aam-reopen-file-as-real ()
   "Reopen the current file if it is a symbolic link."
@@ -179,7 +218,7 @@ Works on whole buffer or the selected region if START-POS and END-POS are provid
   "Apply shared Org paths before Org-dependent packages initialize."
   (setq org-directory aam/org-root
         org-roam-directory aam/org-root
-        org-contacts-files (list (aam/org-path "contacts.org"))))
+        org-contacts-files (list (aam/org-path "areas/relationships.org"))))
 (defconst aam/minimum-emacs-version "31.1"
   "Minimum Emacs version supported by this configuration.")
 

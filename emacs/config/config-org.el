@@ -110,10 +110,40 @@ This function is intended for use with `org-capture` workflows."
     (find-file full-file-path)
     (goto-char (point-max))))
 
+(defun aam-org-yearly-journal-file ()
+  "Return path to this year's journal file (format: YYYY.org).
+Uses `aam/org-path` to locate the journal/ directory."
+  (let* ((year-file-name (format-time-string "%Y.org")) ;; File name format
+         (journal-path (aam/org-path "journal/")) ;; Base directory
+         (full-file-path (expand-file-name year-file-name journal-path))) ;; Complete path
+    full-file-path))
+
+(defun aam-org-yearly-journal-find-location ()
+  "Open or create this year's journal file based on the current year.
+The file is named using the format `<Year>.org` (e.g., `2026.org`) and stored
+in the `journal/` directory under the path returned by `aam/org-path`.
+
+This function is intended for use with `org-capture` workflows."
+  (interactive)
+  (let* ((full-file-path (aam-org-yearly-journal-file))) ;; Complete path
+    ;; Create the file with a default structure if it does not exist
+    (unless (file-exists-p full-file-path)
+      (with-temp-file full-file-path
+        (insert "#+TODO: TODO(t) NEXT(n) | DONE(d) FAILED(f)\n")
+        (insert (format-time-string "#+TITLE: %Y\n\n"))))
+    ;; Open the file and move to the end
+    (find-file full-file-path)
+    (goto-char (point-max))))
+
 ;;;###autoload
 (defun aam/org-setup ()
   ;; org settings
   (aam/configure-org-paths)
+  ;; interactive dashboards for the five live PARA areas
+  (add-to-list 'load-path (aam/org-path "scripts"))
+  (require 'org-area-dashboard)
+  (setq aam-org-area-dashboard-root org-directory)
+  (aam/org-area-dashboard-setup)
   (setq aam/org-inbox (aam/org-path "inbox.org"))
   (setq deft-directory org-directory
         deft-recursive t
@@ -169,13 +199,15 @@ This function is intended for use with `org-capture` workflows."
           ("DONE" . (:background "#32cd32" :foreground "#000000" :weight bold))
           ("FAILED" . (:background "#ff0000" :foreground "#ffffff" :weight bold :strike-through t))))
   ;; agenda settings
+  ;; Queues moved into the root index under `* Queues'; ideas moved to ideas/.
   (setq org-agenda-files (list (aam/org-path "inbox.org")
-                               (aam/org-path "habits.org")
                                (aam/org-path "someday.org")
-                               (aam/org-path "work.org")
-                               (aam/org-path "personal.org")
-                               (aam/org-path "ideas.org")
-                               (aam/org-path "archived.org")))
+                               (aam/org-path "archived.org")
+                               (aam/org-path "areas/work.org")
+                               (aam/org-path "areas/personal.org")
+                               (aam/org-path "areas/health.org")
+                               (aam/org-path "areas/relationships.org")
+                               (aam/org-path "areas/finance.org")))
   (setq aam/org-agenda-projects (aam/org-get-active-headline-files (aam/org-path "projects/index.org")))
   (setq org-agenda-files (append aam/org-agenda-projects org-agenda-files))
   (setq org-columns-default-format "%50ITEM(Title) %SCHEDULED(Date) %TAGS(Tags) %PRIORITY(P) %TODO(Todo)")
@@ -205,20 +237,20 @@ This function is intended for use with `org-capture` workflows."
            ((agenda "" ((org-agenda-span 'day)
                         (org-super-agenda-groups
                          '((:name "Today"
-				  :time-grid t
-				  :todo "TODAY"
-				  :scheduled today
-				  :order 0)
+                                  :time-grid t
+                                  :todo "TODAY"
+                                  :scheduled today
+                                  :order 0)
                            (:habit t)
                            (:name "Due Today"
-				  :deadline today
-				  :order 2)
+                                  :deadline today
+                                  :order 2)
                            (:name "Due Soon"
-				  :deadline future
-				  :order 8)
+                                  :deadline future
+                                  :order 8)
                            (:name "Overdue"
-				  :deadline past
-				  :order 7)))))
+                                  :deadline past
+                                  :order 7)))))
             (alltodo "" ((org-agenda-overriding-header "")
                          (org-super-agenda-groups
                           '((:name "Inbox" :file-path "inbox" :order 0)
@@ -228,25 +260,25 @@ This function is intended for use with `org-capture` workflows."
            ((agenda "" ((org-agenda-span 'day)
                         (org-super-agenda-groups
                          '((:name "Today"
-				  :time-grid t
-				  :date today
-				  :todo "TODAY"
-				  :scheduled today
-				  :order 1)))))
+                                  :time-grid t
+                                  :date today
+                                  :todo "TODAY"
+                                  :scheduled today
+                                  :order 1)))))
             (alltodo "" ((org-agenda-overriding-header "")
                          (org-super-agenda-groups
                           '((:name "Next to do"
-				   :todo "NEXT"
-				   :order 1)
+                                   :todo "NEXT"
+                                   :order 1)
                             (:name "Due Today"
-				   :deadline today
-				   :order 2)
+                                   :deadline today
+                                   :order 2)
                             (:name "Due Soon"
-				   :deadline future
-				   :order 8)
+                                   :deadline future
+                                   :order 8)
                             (:name "Overdue"
-				   :deadline past
-				   :order 7)))))))
+                                   :deadline past
+                                   :order 7)))))))
           ;; Projects overview agenda
           ("p" "Projects overview"
            ((alltodo ""
@@ -281,13 +313,13 @@ This function is intended for use with `org-capture` workflows."
                   ((org-agenda-overriding-header "Eisenhower matrix")
                    (org-super-agenda-groups
                     '((:name "Do (urgent and important)"
-			     :and (:tag "important" :tag "urgent"))
+                             :and (:tag "important" :tag "urgent"))
                       (:name "Schedule (important but not urgent)"
-			     :and (:tag "important" :not (:tag "urgent")))
+                             :and (:tag "important" :not (:tag "urgent")))
                       (:name "Delegate (urgent but not important)"
-			     :and (:tag "urgent" :not (:tag "important")))
+                             :and (:tag "urgent" :not (:tag "important")))
                       (:name "Declutter (not urgent and not important)"
-			     :and (:not (:tag "important") :not (:tag "urgent")))))))))))
+                             :and (:not (:tag "important") :not (:tag "urgent")))))))))))
 
   (setq org-clock-history-length 23
         org-clock-in-resume t
@@ -416,6 +448,14 @@ DEADLINE: %^{Deadline}t
            (function aam-org-monthly-journal-find-location)
            (file ,(aam/org-path "templates/monthly_review.org"))
            :jump-to-captured t)
+          ("sy" "Yearly Plan" plain
+           (function aam-org-yearly-journal-find-location)
+           (file ,(aam/org-path "templates/yearly_plan.org"))
+           :jump-to-captured t)
+          ("sY" "Yearly Review" plain
+           (function aam-org-yearly-journal-find-location)
+           (file ,(aam/org-path "templates/yearly_review.org"))
+           :jump-to-captured t)
           ;; Snippets for zettelkasten and PARA
           ("sn" "Simple (Atomic) Note" plain
            (file aam/org-capture-note-filepath-with-date)
@@ -427,12 +467,8 @@ DEADLINE: %^{Deadline}t
            (file ,(aam/org-path "templates/note.org"))
            :hook aam/org-roam-capture-finalize
            :jump-to-captured t)
-          ;; PARA projects and areas
-          ("sA" "Area" plain
-           (file aam/org-capture-area-filepath)
-           (file ,(aam/org-path "templates/area.org"))
-           :hook aam/org-roam-capture-finalize
-           :jump-to-captured t)
+          ;; PARA projects. Areas are a fixed set of five and are not captured:
+          ;; templates/area.org stays for a deliberate restructure.
           ("sP" "Project" plain
            (file aam/org-capture-project-filepath)
            (file ,(aam/org-path "templates/project.org"))
@@ -484,9 +520,10 @@ DEADLINE: %^{Deadline}t
 :YEAR: %^{year}
 :DOI: %^{doi}
 :URL: %^{url}
+:MARKDOWN_DOCUMENT: %(aam-get-cite-markdown-filename \"%^{citekey}\")
 :NOTER_DOCUMENT: %(aam-get-cite-pdf-filename \"%^{citekey}\")
 :END:
-[[file:%(aam-get-cite-pdf-filename \"%^{citekey}\")][pdf]]
+[[file:%(aam-get-cite-pdf-filename \"%^{citekey}\")][pdf]] [[file:%(aam-get-cite-markdown-filename \"%^{citekey}\")][md]]
 %?"
            :if-new
            (file+head "papers/${citekey}.org" "#+TITLE: ${title}
@@ -550,8 +587,7 @@ DEADLINE: %^{Deadline}t
       (setq delve-storage-paths (aam/org-path "delve")))
 
   ;; org-ref configuration
-  (setq org-ref-bibliography-notes (aam/org-path "papers.org")
-        org-ref-notes-directory (aam/org-path "papers")
+  (setq org-ref-notes-directory (aam/org-path "papers")
         org-ref-default-bibliography aam/bibtex-files
         org-ref-pdf-directory (aam/bib-path "papers/"))
   ;; setup org modules
