@@ -597,15 +597,15 @@ def render_wezterm(p: dict[str, object]) -> str:
     split = ansi(p, "bright", "black")
     return f"""-- Generated from palette.toml; WezTerm color adapter.
 return {{
-    foreground = "{get(p, "foreground")}",
-    background = "{get(p, "background")}",
-    cursor_bg = "{get(p, "cursor")}",
-    cursor_fg = "{get(p, "cursor_text")}",
-    selection_bg = "{get(p, "selection_background")}",
-    selection_fg = "{get(p, "selection_foreground")}",
-    ansi = {{ {normal} }},
-    brights = {{ {bright} }},
-    split = "{split}",
+  foreground = "{get(p, "foreground")}",
+  background = "{get(p, "background")}",
+  cursor_bg = "{get(p, "cursor")}",
+  cursor_fg = "{get(p, "cursor_text")}",
+  selection_bg = "{get(p, "selection_background")}",
+  selection_fg = "{get(p, "selection_foreground")}",
+  ansi = {{ {normal} }},
+  brights = {{ {bright} }},
+  split = "{split}",
 }}
 """
 

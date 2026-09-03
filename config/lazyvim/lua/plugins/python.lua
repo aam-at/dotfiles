@@ -20,6 +20,7 @@ return {
   -- automatically resolve imports for pyright server
   {
     "stevanmilic/nvim-lspimport",
+    ft = "python",
     config = function(_, opts)
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "python",
