@@ -29,6 +29,7 @@ config/niri/dms/cursor.kdl
 config/niri/dms/layout.kdl
 config/niri/dms/wpblur.kdl
 config/niri/shells/active.kdl
+emacs/doom/custom.el
 config/hypr/shells/active.conf
 
 
