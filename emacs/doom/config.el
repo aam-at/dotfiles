@@ -364,6 +364,37 @@
 
 (aam/common-setup)
 
+(defun aam/org-agenda-daily-overview ()
+  "Open the shared Daily overview agenda command."
+  (interactive)
+  (org-agenda nil "d"))
+
+(defun aam/open-doom-migration-guide ()
+  "Open the temporary Spacemacs-to-Doom migration guide."
+  (interactive)
+  (find-file
+   (expand-file-name "SPACEMACS-TO-DOOM-MIGRATION.md" doom-user-dir)))
+
+(map! :leader
+      (:prefix ("o a" . "org agenda")
+	       :desc "Daily overview" "d" #'aam/org-agenda-daily-overview))
+
+(use-package! citar
+	      :commands citar-open
+	      :init
+	      (map! :leader
+		    :desc "Search citations" "s c" #'citar-open))
+
+(after! doom-dashboard
+	(add-to-list '+dashboard-menu-sections
+		     '("Spacemacs to Doom migration"
+                       :icon "↪"
+                       :when (file-exists-p
+                              (expand-file-name "SPACEMACS-TO-DOOM-MIGRATION.md"
+						doom-user-dir))
+                       :action aam/open-doom-migration-guide)
+		     t))
+
 (condition-case err
     (aam/secure-setup)
   (error
@@ -975,11 +1006,3 @@ HTTP port by one and keeps the WebSocket offset used by Org-roam UI."
 (when (eq system-type 'gnu/linux)
   (after! mu4e
           (aam/mail-setup)))
-
-(add-hook! 'emacs-startup-hook
-           (defun aam/doom-startup-journal ()
-             (when (file-exists-p (aam-org-weekly-journal-file))
-               (save-selected-window
-                 (split-window-horizontally)
-                 (other-window 1)
-                 (aam-org-weekly-journal-find-location)))))
