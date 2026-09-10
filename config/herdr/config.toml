@@ -30,6 +30,7 @@ new_cwd = "follow"
 [keys]
 # tmux-compatible prefix
 prefix = "ctrl+a"
+settings = "prefix+comma"
 
 # Session-like workspace controls
 detach = "prefix+d"
@@ -41,8 +42,8 @@ switch_workspace = "prefix+shift+1..9"
 
 # Tabs
 new_tab = "prefix+c"
-previous_tab = "prefix+ctrl+h"
-next_tab = "prefix+ctrl+l"
+previous_tab = ["prefix+ctrl+p", "prefix+ctrl+h"]
+next_tab = ["prefix+ctrl+n", "prefix+ctrl+l"]
 
 # Agents: Vim-style movement through the agent list.
 previous_agent = "prefix+k"
@@ -54,6 +55,12 @@ focus_pane_left = "ctrl+h"
 focus_pane_down = "ctrl+j"
 focus_pane_up = "ctrl+k"
 focus_pane_right = "ctrl+l"
+cycle_pane_next = "prefix+tab"
+cycle_pane_previous = "prefix+shift+tab"
+
+# Sidebar space navigation mode.
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
 
 # Splitting and zoom
 split_vertical = "prefix+v"
@@ -82,6 +89,14 @@ width = "60%"
 height = "20%"
 
 [[keys.command]]
+key = "prefix+shift+semicolon"
+type = "popup"
+command = "FISH_NO_FASTFETCH=1 fish --private -C 'source (herdr completion fish | psub); commandline -r \"herdr \"; commandline -f repaint'"
+description = "Run a HerdR command"
+width = "80%"
+height = "20%"
+
+[[keys.command]]
 key = "prefix+alt+g"
 type = "popup"
 command = "lazygit"
@@ -98,6 +113,16 @@ sidebar_start_collapsed = false
 sidebar_width = 30
 prompt_new_tab_name = false
 pane_gaps = false
+pane_outer_borders = false
+hide_tab_bar_when_single_tab = false
+tab_bar_position = "bottom"
+# A compact tmux-like status area; the Powerline glyph needs a Nerd Font.
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "hostname" },
+  { type = "datetime", format = "%H:%M" },
+]
+tab_bar_right_separator = "  "
 status_indicators = "symbols"
 window_title = "{hostname}: herdr/{workspace}"
 show_agent_labels_on_pane_borders = true

@@ -1,4 +1,8 @@
 function fish_greeting
+    if set -q FISH_NO_FASTFETCH
+        return
+    end
+
     set -l text_color (set_color --bold brwhite)
     set -l reset_color (set_color normal)
 

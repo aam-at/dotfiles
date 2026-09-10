@@ -24,7 +24,6 @@
     "npm:pi-subagents",
     "npm:pi-btw",
     "npm:@sherif-fanous/pi-rtk",
-    "git:github.com/jonjonrankin/pi-caveman",
     "npm:remote-pi",
     "npm:pi-hermes-memory"
   ],

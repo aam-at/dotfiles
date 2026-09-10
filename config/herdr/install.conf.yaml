@@ -9,10 +9,11 @@
           echo "herdr is not installed or is not on PATH" >&2
           exit 1
         }
-        herdr integration install pi
-        herdr integration install omp
+        herdr integration install antigravity-cli
         herdr integration install claude
         herdr integration install codex
-        herdr integration install opencode
         herdr integration install copilot
+        herdr integration install omp
+        herdr integration install opencode
+        herdr integration install pi
       description: Install HerdR integrations
