@@ -1,6 +1,9 @@
-# Dedicated agent-workspace configuration.  HerdR runs directly in a Kitty OS
-# window and complements, rather than replaces, the tmux setup.
+# HerdR runs in its own Kitty window and complements the tmux setup.
 onboarding = false
+
+# -----------------------------------------------------------------------------
+# Theme
+# -----------------------------------------------------------------------------
 
 [theme]
 name = "gruvbox"
@@ -11,16 +14,72 @@ sidebar_bg = "#282828"
 active_row_bg = "#3c3836"
 selection_bg = "#504945"
 
+# -----------------------------------------------------------------------------
+# Terminal defaults
+# -----------------------------------------------------------------------------
+
 [terminal]
 default_shell = "fish"
 shell_mode = "non_login"
 new_cwd = "follow"
 
+# -----------------------------------------------------------------------------
+# Keybindings
+# -----------------------------------------------------------------------------
+
 [keys]
-# This is safe because HerdR is launched outside tmux in its own Kitty window.
+# tmux-compatible prefix
 prefix = "ctrl+a"
+
+# Session-like workspace controls
+detach = "prefix+d"
+new_workspace = "prefix+ctrl+c"
+workspace_picker = "prefix+s"
+rename_workspace = "prefix+shift+w"
+close_workspace = "prefix+shift+d"
 switch_workspace = "prefix+shift+1..9"
+
+# Tabs
+new_tab = "prefix+c"
+previous_tab = "prefix+ctrl+h"
+next_tab = "prefix+ctrl+l"
+
+# Agents: Vim-style movement through the agent list.
+previous_agent = "prefix+k"
+next_agent = "prefix+j"
 focus_agent = "prefix+alt+1..9"
+
+# Panes: direct Vim-style movement.
+focus_pane_left = "ctrl+h"
+focus_pane_down = "ctrl+j"
+focus_pane_up = "ctrl+k"
+focus_pane_right = "ctrl+l"
+
+# Splitting and zoom
+split_vertical = "prefix+v"
+split_horizontal = "prefix+b"
+zoom = "prefix+z"
+edit_scrollback = "prefix+enter"
+
+# Resize and reload.  These mirror the tmux bindings.
+reload_config = "prefix+r"
+resize_mode = "prefix+shift+r"
+resize_pane_left = "prefix+shift+comma"
+resize_pane_right = "prefix+shift+period"
+resize_pane_down = "prefix+minus"
+resize_pane_up = "prefix+plus"
+
+# Keep the sidebar available without taking tmux's prefix+b split binding.
+toggle_sidebar = "prefix+shift+b"
+
+# Popups
+[[keys.command]]
+key = "prefix+shift+c"
+type = "popup"
+command = "sh -c 'printf \"Workspace name: \"; IFS= read -r label; [ -n \"$label\" ] && herdr workspace create --label \"$label\" --cwd \"$PWD\" --focus'"
+description = "Create a named workspace"
+width = "60%"
+height = "20%"
 
 [[keys.command]]
 key = "prefix+alt+g"
@@ -30,19 +89,27 @@ description = "Open Lazygit"
 width = "80%"
 height = "80%"
 
+# -----------------------------------------------------------------------------
+# Interface
+# -----------------------------------------------------------------------------
+
 [ui]
 sidebar_start_collapsed = false
 sidebar_width = 30
+prompt_new_tab_name = false
+pane_gaps = false
 status_indicators = "symbols"
 window_title = "{hostname}: herdr/{workspace}"
 show_agent_labels_on_pane_borders = true
 
+# Sidebar content
 [ui.sidebar.agents]
 rows = [["state_icon", "agent", "state_text"], ["workspace", "tab"]]
 
 [ui.sidebar.spaces]
 rows = [["state_icon", "workspace"], ["branch", "git_status"]]
 
+# Notifications
 [ui.toast]
 delivery = "system"
 delay_seconds = 1
@@ -50,14 +117,23 @@ delay_seconds = 1
 [ui.toast.herdr]
 position = "bottom-right"
 
+# -----------------------------------------------------------------------------
+# Persistence and worktrees
+# -----------------------------------------------------------------------------
+
 [session]
+# Restore native agent sessions when a HerdR session restarts.
 resume_agents_on_restore = true
 
 [worktrees]
 directory = "~/.herdr/worktrees"
 
+# -----------------------------------------------------------------------------
+# Experimental features
+# -----------------------------------------------------------------------------
+
 [experimental]
-# Persist the workspace and native agent sessions, never pane screen contents.
+# Persist workspace and native agent sessions, never pane screen contents.
 pane_history = false
 allow_nested = false
 kitty_graphics = true
