@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Chat On Steroids
+Comment=Launch Chat On Steroids
+Exec=sh -c "exec \\"\\$HOME/.local/opt/chat-on-steroids/Chat-On-Steroids-Linux-x64.AppImage\\"" sh
+TryExec=sh
+Terminal=false
+Categories=Utility;
+StartupNotify=true
