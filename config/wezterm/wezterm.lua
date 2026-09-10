@@ -37,7 +37,7 @@ config.font = wezterm.font_with_fallback({
   },
   emoji_font,
 })
-config.font_size = 10
+config.font_size = 13
 
 -- Scrollback
 config.scrollback_lines = 10000
