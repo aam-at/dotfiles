@@ -1,0 +1,18 @@
+- link:
+    # Portable agent preferences only. Authentication, caches, history,
+    # project trust, and machine-specific MCP configuration stay local.
+    ~/.codex/config.toml:
+      create: true
+      path: codex/config.toml
+    ~/.claude/settings.json:
+      create: true
+      path: claude/settings.json
+    ~/.pi/agent/keybindings.json:
+      create: true
+      path: pi/keybindings.json
+    ~/.pi/agent/settings.json:
+      create: true
+      path: pi/settings.json
+    ~/.omp/agent/config.yml:
+      create: true
+      path: omp/config.yml
