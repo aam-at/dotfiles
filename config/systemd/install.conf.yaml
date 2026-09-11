@@ -2,6 +2,7 @@
     ~/.config/systemd/user/dms.service.d: dms.service.d
     ~/.config/systemd/user/dropbox.service: dropbox.service
     ~/.config/systemd/user/emacs@.service: emacs@.service
+    ~/.config/systemd/user/herdr.service: herdr.service
     ~/.config/systemd/user/kanata.service: kanata.service
     ~/.config/systemd/user/langtool.service: langtool.service
     ~/.config/systemd/user/lid-power-saver.service: lid-power-saver.service
@@ -10,3 +11,10 @@
 
 - shell:
     - [systemctl --user daemon-reload, Reload user systemd units]
+    - [systemctl --user enable dropbox.service, Enable Dropbox at login]
+    - [systemctl --user enable herdr.service, Enable HerdR server at login]
+    - [
+        systemctl --user enable lid-power-saver.service,
+        Enable lid power saver at login,
+      ]
+    - [systemctl --user enable ydotool.service, Enable ydotool at login]
