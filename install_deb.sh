@@ -446,4 +446,7 @@ if command -v snap &>/dev/null; then
   fi
 fi
 
+# Update shell completions
+"$REPO_DIR/setup/install_shell_completions.sh"
+
 echo "Setup complete!"

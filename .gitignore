@@ -1,8 +1,3 @@
-atom/
-/nvim/bundle/*
-/nvim/.cache
-/nvim/.netrwhist
-*.pyo
 /config/systemd/*target.wants/*
 **/__pycache__/*
 /config/fish/functions/fish_prompt.fish
@@ -13,9 +8,6 @@ atom/
 /config/btop/*.log
 /config/tmux/plugins/*
 /config/broot/launcher/
-/config/aichat/*.md
-/config/aichat/rags/
-/config/aichat/sessions/
 **/.python-version
 **/.env
 config/lazyvim/lazy-lock.json

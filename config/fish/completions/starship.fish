@@ -36,6 +36,7 @@ complete -c starship -n __fish_starship_needs_command -f -a preset -d 'Prints a 
 complete -c starship -n __fish_starship_needs_command -f -a print-config -d 'Prints the computed starship configuration'
 complete -c starship -n __fish_starship_needs_command -f -a prompt -d 'Prints the full starship prompt'
 complete -c starship -n __fish_starship_needs_command -f -a session -d 'Generate random session key'
+complete -c starship -n __fish_starship_needs_command -f -a statusline -d 'Prints the statusline with a specific profile'
 complete -c starship -n __fish_starship_needs_command -f -a time -d 'Prints time in milliseconds'
 complete -c starship -n __fish_starship_needs_command -f -a timings -d 'Prints timings of all active modules'
 complete -c starship -n __fish_starship_needs_command -f -a toggle -d 'Toggle a given starship module'
@@ -67,6 +68,7 @@ complete -c starship -n "__fish_starship_using_subcommand module" -l shlvl -d 'T
 complete -c starship -n "__fish_starship_using_subcommand module" -s l -l list -d 'List out all supported modules'
 complete -c starship -n "__fish_starship_using_subcommand module" -s h -l help -d 'Print help'
 complete -c starship -n "__fish_starship_using_subcommand preset" -s o -l output -d 'Output the preset to a file instead of stdout' -r -F
+complete -c starship -n "__fish_starship_using_subcommand preset" -s f -l force -d 'Forcibly overwrite the output file if it already exists'
 complete -c starship -n "__fish_starship_using_subcommand preset" -s l -l list -d 'List out all preset names'
 complete -c starship -n "__fish_starship_using_subcommand preset" -s h -l help -d 'Print help'
 complete -c starship -n "__fish_starship_using_subcommand print-config" -s d -l default -d 'Print the default instead of the computed config'
@@ -85,6 +87,17 @@ complete -c starship -n "__fish_starship_using_subcommand prompt" -l right -d 'P
 complete -c starship -n "__fish_starship_using_subcommand prompt" -l continuation -d 'Print the continuation prompt (instead of the standard left prompt)'
 complete -c starship -n "__fish_starship_using_subcommand prompt" -s h -l help -d 'Print help'
 complete -c starship -n "__fish_starship_using_subcommand session" -s h -l help -d 'Print help'
+complete -c starship -n "__fish_starship_using_subcommand statusline" -l profile -r
+complete -c starship -n "__fish_starship_using_subcommand statusline" -s s -l status -d 'The status code of the previously run command as an unsigned or signed 32bit integer' -r
+complete -c starship -n "__fish_starship_using_subcommand statusline" -l pipestatus -d 'Bash, Fish and Zsh support returning codes for each process in a pipeline' -r
+complete -c starship -n "__fish_starship_using_subcommand statusline" -s w -l terminal-width -d 'The width of the current interactive terminal' -r
+complete -c starship -n "__fish_starship_using_subcommand statusline" -s p -l path -d 'The path that the prompt should render for' -r -F
+complete -c starship -n "__fish_starship_using_subcommand statusline" -s P -l logical-path -d 'The logical path that the prompt should render for. This path should be a virtual/logical representation of the PATH argument' -r -F
+complete -c starship -n "__fish_starship_using_subcommand statusline" -s d -l cmd-duration -d 'The execution duration of the last command, in milliseconds' -r
+complete -c starship -n "__fish_starship_using_subcommand statusline" -s k -l keymap -d 'The keymap of fish/zsh/cmd' -r
+complete -c starship -n "__fish_starship_using_subcommand statusline" -s j -l jobs -d 'The number of currently running jobs' -r
+complete -c starship -n "__fish_starship_using_subcommand statusline" -l shlvl -d 'The current value of SHLVL, for shells that mis-handle it in $()' -r
+complete -c starship -n "__fish_starship_using_subcommand statusline" -s h -l help -d 'Print help'
 complete -c starship -n "__fish_starship_using_subcommand time" -s h -l help -d 'Print help'
 complete -c starship -n "__fish_starship_using_subcommand timings" -s s -l status -d 'The status code of the previously run command as an unsigned or signed 32bit integer' -r
 complete -c starship -n "__fish_starship_using_subcommand timings" -l pipestatus -d 'Bash, Fish and Zsh support returning codes for each process in a pipeline' -r
@@ -97,17 +110,18 @@ complete -c starship -n "__fish_starship_using_subcommand timings" -s j -l jobs 
 complete -c starship -n "__fish_starship_using_subcommand timings" -l shlvl -d 'The current value of SHLVL, for shells that mis-handle it in $()' -r
 complete -c starship -n "__fish_starship_using_subcommand timings" -s h -l help -d 'Print help'
 complete -c starship -n "__fish_starship_using_subcommand toggle" -s h -l help -d 'Print help'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a bug-report -d 'Create a pre-populated GitHub issue with information about your configuration'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a completions -d 'Generate starship shell completions for your shell to stdout'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a config -d 'Edit the starship configuration'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a explain -d 'Explains the currently showing modules'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a init -d 'Prints the shell function used to execute starship'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a module -d 'Prints a specific prompt module'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a preset -d 'Prints a preset config'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a print-config -d 'Prints the computed starship configuration'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a prompt -d 'Prints the full starship prompt'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a session -d 'Generate random session key'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a time -d 'Prints time in milliseconds'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a timings -d 'Prints timings of all active modules'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a toggle -d 'Toggle a given starship module'
-complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session time timings toggle help" -f -a help -d 'Print this message or the help of the given subcommand(s)'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a bug-report -d 'Create a pre-populated GitHub issue with information about your configuration'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a completions -d 'Generate starship shell completions for your shell to stdout'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a config -d 'Edit the starship configuration'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a explain -d 'Explains the currently showing modules'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a init -d 'Prints the shell function used to execute starship'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a module -d 'Prints a specific prompt module'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a preset -d 'Prints a preset config'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a print-config -d 'Prints the computed starship configuration'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a prompt -d 'Prints the full starship prompt'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a session -d 'Generate random session key'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a statusline -d 'Prints the statusline with a specific profile'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a time -d 'Prints time in milliseconds'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a timings -d 'Prints timings of all active modules'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a toggle -d 'Toggle a given starship module'
+complete -c starship -n "__fish_starship_using_subcommand help; and not __fish_seen_subcommand_from bug-report completions config explain init module preset print-config prompt session statusline time timings toggle help" -f -a help -d 'Print this message or the help of the given subcommand(s)'
