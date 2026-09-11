@@ -1,0 +1,13 @@
+[Unit]
+Description=Select power-saver when the lid closes on battery
+Documentation=man:powerprofilesctl(1)
+# Laptops only: machines without a lid skip the unit instead of failing.
+ConditionPathExistsGlob=/proc/acpi/button/lid/*/state
+
+[Service]
+ExecStart=%h/.local/bin/lid-power-saver.sh
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target
