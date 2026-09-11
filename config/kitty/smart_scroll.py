@@ -1,9 +1,4 @@
-from typing import Iterator
-
 import kitty.key_encoding as ke
-
-
-REPORT_ALL_EVENT_TYPES = 2
 
 
 def main():
