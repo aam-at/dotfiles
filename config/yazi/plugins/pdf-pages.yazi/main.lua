@@ -22,11 +22,6 @@ local function fail(job, err)
   return ya.preview_widget(job, ui.Text.parse(tostring(err)):area(job.area):wrap(ui.Wrap.YES))
 end
 
-local function shell_quote(value)
-  value = tostring(value)
-  return "'" .. value:gsub("'", [['"'"']]) .. "'"
-end
-
 local function load_state()
   if state.loaded then
     return
@@ -34,23 +29,29 @@ local function load_state()
 
   state.loaded = true
 
-  local output, err = Command("sh"):arg({
-    "-c",
-    'test -f "$1" && cat "$1" || true',
-    "sh",
-    tostring(state_file()),
-  }):output()
-
-  if not output or not output.status.success then
+  local file = io and io.open(tostring(state_file()), "r")
+  if not file then
     return
   end
 
-  for line in output.stdout:gmatch("[^\r\n]+") do
+  local data = file:read("*a") or ""
+  file:close()
+
+  for line in data:gmatch("[^\r\n]+") do
     local key, page = line:match("^(.-)%s+([0-9]+)$")
     if key and page then
       state.pages[key] = tonumber(page) or 0
     end
   end
+end
+
+local function serialize_state()
+  local lines = {}
+  for key, page in pairs(state.pages) do
+    lines[#lines + 1] = string.format("%s\t%d", key, page)
+  end
+  table.sort(lines)
+  return table.concat(lines, "\n") .. (#lines > 0 and "\n" or "")
 end
 
 local function persist_state()
@@ -59,41 +60,20 @@ local function persist_state()
     fs.create("dir_all", dir)
   end
 
-  local lines = {}
-  for key, page in pairs(state.pages) do
-    lines[#lines + 1] = string.format("%s\t%d", key, page)
-  end
-  table.sort(lines)
-
-  local data = table.concat(lines, "\n")
-  if #data > 0 then
-    data = data .. "\n"
-  end
-
-  fs.write(state_file(), data)
+  fs.write(state_file(), serialize_state())
 end
 
 local function persist_state_sync()
-  local lines = {}
-  for key, page in pairs(state.pages) do
-    lines[#lines + 1] = string.format("%s\t%d", key, page)
-  end
-  table.sort(lines)
-
   local file = io and io.open(tostring(state_file()), "w")
   if not file then
     return
   end
 
-  file:write(table.concat(lines, "\n"))
-  if #lines > 0 then
-    file:write("\n")
-  end
+  file:write(serialize_state())
   file:close()
 end
 
 local function set_skip(url, skip)
-  load_state()
   state.pages[tostring(url)] = skip
   persist_state()
 end
@@ -106,17 +86,14 @@ local function page_count(url)
     return cached > 0 and cached or nil
   end
 
-  local output, err = Command("sh"):arg({
-    "-lc",
-    string.format("pdfinfo %s | awk '/^Pages:/ { print $2; exit }'", shell_quote(url)),
-  }):output()
+  local output = Command("pdfinfo"):arg({ url }):output()
 
   if not output or not output.status.success then
     state.counts[url] = 0
     return nil
   end
 
-  local count = tonumber(output.stdout:match("(%d+)")) or 0
+  local count = tonumber(output.stdout:match("Pages:%s*(%d+)")) or 0
   state.counts[url] = count
   return count > 0 and count or nil
 end
@@ -195,17 +172,18 @@ function M:preload(job)
 
   local page = job.skip + 1
   local quality = tonumber(rt.preview.image_quality) or 90
-  local input = shell_quote(job.file.url)
-  local output_path = shell_quote(cache)
-  local cmd = string.format(
-    "pdftoppm -f %d -l %d -singlefile -jpeg -jpegopt quality=%d %s %s",
-    page,
-    page,
-    quality,
-    input,
-    output_path
-  )
-  local output, err = Command("sh"):arg({ "-lc", cmd }):output()
+  local output, err = Command("pdftoppm"):arg({
+    "-f",
+    tostring(page),
+    "-l",
+    tostring(page),
+    "-singlefile",
+    "-jpeg",
+    "-jpegopt",
+    "quality=" .. quality,
+    tostring(job.file.url),
+    tostring(cache),
+  }):output()
 
   if not output then
     return true, Err("Failed to start `pdftoppm`, error: %s", err)
