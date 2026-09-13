@@ -119,13 +119,15 @@
      "aorF" 'org-roam-node-find
      "aori" 'vulpea-insert
      "aorI" 'org-roam-node-insert
-     "aorb" 'vulpea-find-backlink)
+     "aorb" 'vulpea-find-backlink
+     "aorl" 'aam/org-roam-find-forward-link)
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
 					      "rf" 'vulpea-find
 					      "rF" 'org-roam-node-find
 					      "ri" 'vulpea-insert
 					      "rI" 'org-roam-node-insert
-					      "rb" 'vulpea-find-backlink)))
+					      "rb" 'vulpea-find-backlink
+					      "rl" 'aam/org-roam-find-forward-link)))
 
 (defun org-roam-extras/init-websocket ()
   (use-package websocket

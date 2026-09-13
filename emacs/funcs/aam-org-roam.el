@@ -50,5 +50,26 @@ WHERE id NOT IN (
         (insert (org-link-make-string (concat "id:" id) title))
         (insert "\n")))))
 
+(defun aam/org-roam-find-forward-link ()
+  "Select and visit a node linked from the Org-roam node at point."
+  (interactive)
+  (let* ((source (org-roam-node-at-point t))
+         (ids (mapcar
+               #'car
+               (org-roam-db-query
+                [:select :distinct [dest]
+			 :from links
+			 :where (= source $s1)
+			 :and (= type "id")]
+                (org-roam-node-id source)))))
+    (unless ids
+      (user-error "There are no forward links from the current note"))
+    (org-roam-node-visit
+     (org-roam-node-read
+      nil
+      (lambda (node)
+        (member (org-roam-node-id node) ids))
+      nil t "Forward link: "))))
+
 (provide 'aam-org-roam)
 ;;; aam-org-roam.el ends here
