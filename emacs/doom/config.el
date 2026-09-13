@@ -722,8 +722,10 @@ HTTP port by one and keeps the WebSocket offset used by Org-roam UI."
               :desc "Vulpea find" "m v" #'vulpea-find
               :desc "Vulpea insert" "m V" #'vulpea-insert
               :desc "Vulpea backlinks" "m b" #'vulpea-find-backlink
+              :desc "Org-roam forward links" "m l" #'aam/org-roam-find-forward-link
               :desc "Toggle roam properties" "m T" #'aam/org-roam-toggle-properties)
         (map! :leader
+              :desc "Org-roam forward links" "n r l" #'aam/org-roam-find-forward-link
               :desc "Toggle roam properties" "n r T" #'aam/org-roam-toggle-properties))
 
 (use-package! vulpea
