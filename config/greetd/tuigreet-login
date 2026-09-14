@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+# Show battery status only on hosts with a physical battery.
+set -eu
+
+set -- --time --remember --asterisks --background matrix --cmd /usr/bin/niri-session
+
+for battery in /sys/class/power_supply/BAT*; do
+    [ -d "$battery" ] || continue
+    set -- "$@" --battery
+    break
+done
+
+exec tuigreet "$@"

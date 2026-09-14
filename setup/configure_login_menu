@@ -6,11 +6,17 @@ set -euo pipefail
 script_path="$(readlink -f "${BASH_SOURCE[0]}")"
 repo_dir="$(cd "$(dirname "$script_path")/.." && pwd)"
 source_file="$repo_dir/config/greetd/config.toml"
+wrapper_file="$repo_dir/config/greetd/tuigreet-login"
 target_file="/etc/greetd/config.toml"
+target_wrapper="/usr/local/libexec/tuigreet-login"
 backup_file="/etc/greetd/config.toml.before-session-menu.$(date +%Y%m%d%H%M%S)"
 
 [[ -f "$source_file" ]] || {
   echo "Cannot find $source_file" >&2
+  exit 1
+}
+[[ -f "$wrapper_file" ]] || {
+  echo "Cannot find $wrapper_file" >&2
   exit 1
 }
 
@@ -24,6 +30,7 @@ if [[ -f "$target_file" ]]; then
 fi
 
 sudo install -D -m 0644 "$source_file" "$target_file"
+sudo install -D -m 0755 "$wrapper_file" "$target_wrapper"
 
 # Keep the current graphical session alive, but ensure the next boot starts
 # greetd instead of the display manager that currently owns the alias.
