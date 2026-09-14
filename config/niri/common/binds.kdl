@@ -15,6 +15,7 @@ binds {
     Mod+E hotkey-overlay-title="File Manager" { spawn "bash" "-c" "exec $FILE_MANAGER"; }
     Mod+B hotkey-overlay-title="Browser" { spawn "bash" "-c" "exec $BROWSER"; }
     Mod+C hotkey-overlay-title="Editor" { spawn "bash" "-c" "exec $EDITOR"; }
+    Mod+S repeat=false hotkey-overlay-title="Toggle Dictation" { spawn "toggle-dictation.sh"; }
     // === Security ===
     Mod+Shift+E { quit; }
 

@@ -1,0 +1,12 @@
+- link:
+    ~/.config/systemd/user/dms.service.d: dms.service.d
+    ~/.config/systemd/user/dropbox.service: dropbox.service
+    ~/.config/systemd/user/emacs@.service: emacs@.service
+    ~/.config/systemd/user/kanata.service: kanata.service
+    ~/.config/systemd/user/langtool.service: langtool.service
+    ~/.config/systemd/user/lid-power-saver.service: lid-power-saver.service
+    ~/.config/systemd/user/mako.service.d: mako.service.d
+    ~/.config/systemd/user/tmux.service: tmux.service
+
+- shell:
+    - [systemctl --user daemon-reload, Reload user systemd units]

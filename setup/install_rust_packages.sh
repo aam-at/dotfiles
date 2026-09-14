@@ -28,9 +28,6 @@ cargo install --git https://github.com/asciinema/agg
 # CLI proxy that reduces LLM token consumption
 cargo install --git https://github.com/rtk-ai/rtk
 
-# Additional tooling that requires git sources.
-cargo install --git https://github.com/blahgeek/emacs-lsp-booster
-
 # Ensure the key rustup components are available.
 rustup component add rustfmt
 rustup component add clippy

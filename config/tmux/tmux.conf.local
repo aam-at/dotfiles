@@ -374,6 +374,10 @@ tmux_conf_urlscan_options="--compact --dedupe"
 set -g default-terminal "xterm-256color"
 set -g terminal-overrides ',xterm-256color:Tc'
 
+# Prefix+S records into this exact pane, then delivers the transcript here even
+# when focus moves elsewhere while Whisper transcribes in the background.
+bind S run-shell 'DICTATION_TMUX_PANE=#{pane_id} toggle-dictation.sh'
+
 # settings for yazi
 set -g allow-passthrough on
 
