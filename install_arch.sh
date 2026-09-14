@@ -54,8 +54,8 @@ install_packages \
   readline ripgrep ruby screen sdl2 shellcheck shfmt sndio sqlite sqlite stow \
   systemd taplo texinfo the_silver_searcher thunar thunar-archive-plugin tig tk \
   tmux trash-cli tree-sitter tree-sitter unrar vale webkit2gtk wget wmctrl \
-  xapian-core xdg-desktop-portal-hyprland xdg-utils xfce4-settings xh xz zathura \
-  zathura-djvu zathura-pdf-poppler zed zellij zenity zlib-ng zoxide
+  xapian-core xdg-desktop-portal-hyprland xdg-utils xfce4-settings xh xz ydotool \
+  zathura zathura-djvu zathura-pdf-poppler zed zellij zenity zlib-ng zoxide
 
 install_packages \
   powerline-fonts ttf-fira-code ttf-jetbrains-mono ttf-nerd-fonts-symbols-mono

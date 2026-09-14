@@ -92,10 +92,6 @@
       path: config/python/pudb.cfg
     ~/.config/ranger: config/ranger
     ~/.config/starship.toml: config/starship.toml
-    ~/.config/systemd/user/:
-      create: true
-      glob: true
-      path: config/systemd/*
     ~/.config/television: config/television
     ~/.config/tmux: config/tmux
     ~/.config/wezterm: config/wezterm
