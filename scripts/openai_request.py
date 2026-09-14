@@ -1,184 +1,130 @@
 #!/usr/bin/env python
+"""Send one chat request to an OpenAI-compatible API (OpenAI, DeepSeek, Gemini)."""
+
 import argparse
 import json
 import os
-import subprocess
-import tempfile
-from typing import Dict, List, Optional
+import urllib.error
+import urllib.request
 
 try:
     from dotenv import load_dotenv
 
-    # Load environment variables
     load_dotenv()
 except ImportError:
-    dotenv = None
+    pass
 
-URL = "https://api.openai.com/v1/chat/completions"
+# provider: (chat completions URL, API key variable, default model)
+PROVIDERS = {
+    "openai": (
+        "https://api.openai.com/v1/chat/completions",
+        "OPENAI_API_KEY",
+        "gpt-4o-mini",
+    ),
+    "deepseek": (
+        "https://api.deepseek.com/v1/chat/completions",
+        "DEEPSEEK_API_KEY",
+        "deepseek-chat",
+    ),
+    "gemini": (
+        "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+        "GEMINI_API_KEY",
+        "gemini-1.5-flash",
+    ),
+}
 
 
-def read_file(file_path: str) -> str:
-    """Read the content of the file."""
-    try:
-        with open(file_path, "r") as file:
-            return file.read()
-    except IOError as e:
-        raise IOError(f"Error reading file {file_path}: {e}")
-
-
-def prepare_system_prompt(system_prompt: str, context_files: List[str]) -> str:
-    """Prepare the full system prompt including context files."""
-    full_prompt = system_prompt
-    for context_file in context_files:
-        file_name = os.path.basename(context_file)
+def build_payload(args, schema):
+    system_prompt = args.system_prompt
+    for path in args.context_files:
         try:
-            file_content = read_file(context_file)
-            full_prompt += f"\n\nRequest context in {file_name}:\n{file_content}"
-        except IOError as e:
-            print(f"Warning: {e}")
-    return full_prompt
+            with open(path) as f:
+                system_prompt += (
+                    f"\n\nRequest context in {os.path.basename(path)}:\n{f.read()}"
+                )
+        except OSError as e:
+            print(f"Warning: Error reading file {path}: {e}")
 
-
-def execute_curl_command(curl_command: List[str]) -> str:
-    """Execute the curl command and return the result."""
-    try:
-        result = subprocess.run(
-            curl_command, capture_output=True, text=True, check=True
-        )
-        return result.stdout
-    except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"Error executing curl command: {e.stderr}")
-
-
-def get_openai_response(
-    api_key: str,
-    model: str,
-    temperature: float,
-    system_prompt: str,
-    user_prompt: str,
-    context_files: List[str],
-    response_format: Optional[Dict],
-) -> str:
-    """Generate response using OpenAI API via curl."""
-    full_system_prompt = prepare_system_prompt(system_prompt, context_files)
-    messages = [
-        {"role": "system", "content": full_system_prompt},
-        {"role": "user", "content": user_prompt},
+    payload = {"model": args.model, "temperature": args.temperature}
+    if schema is not None:
+        if args.provider == "deepseek":
+            # DeepSeek supports JSON mode but not JSON schemas.
+            payload["response_format"] = {"type": "json_object"}
+            system_prompt += f"\n{schema}"
+        else:
+            payload["response_format"] = {
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "json_response",
+                    "strict": True,
+                    "schema": schema,
+                },
+            }
+    payload["messages"] = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": args.user_prompt},
     ]
-
-    payload = {
-        "model": model,
-        "messages": messages,
-        "temperature": temperature,
-    }
-    if response_format:
-        payload["response_format"] = {
-            "type": "json_schema",
-            "json_schema": {
-                "name": "json_response",
-                "strict": True,
-                "schema": response_format,
-            },
-        }
-    with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_file:
-        json.dump(payload, temp_file)
-        temp_file_path = temp_file.name
-
-    curl_command = [
-        "curl",
-        "-X",
-        "POST",
-        URL,
-        "-H",
-        f"Authorization: Bearer {api_key}",
-        "-H",
-        "Content-Type: application/json",
-        "--data-binary",
-        f"@{temp_file_path}",
-    ]
-
-    try:
-        response = execute_curl_command(curl_command)
-    finally:
-        # Clean up the temporary file
-        os.unlink(temp_file_path)
-
-    return response
+    return payload
 
 
-def parse_arguments() -> argparse.Namespace:
-    """Parse command line arguments."""
-    parser = argparse.ArgumentParser(
-        description="Generate reviews using LLM with OpenAI compatible API."
-    )
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--provider", choices=PROVIDERS, default="openai")
     parser.add_argument(
-        "--api_key", default=os.getenv("OPENAI_API_KEY"), help="API key"
+        "--api_key", help="API key (default: the provider's *_API_KEY variable)"
     )
-    parser.add_argument("--model", default="gpt-4o-mini", help="Model to use to use")
-    parser.add_argument(
-        "--temperature",
-        type=float,
-        default=0.7,
-        help="Temperature for sampling (default: 0.7 - good for creative writing)",
-    )
+    parser.add_argument("--model", help="Model (default: the provider's default model)")
+    parser.add_argument("--temperature", type=float, default=0.7)
     parser.add_argument(
         "--system_prompt",
         default="You are a large language model and a writing assistant. Respond concisely.",
-        help="System prompt",
     )
     parser.add_argument(
         "--context_files", nargs="*", default=[], help="Paths to context files"
     )
-    parser.add_argument("--user_prompt", required=True, help="User prompt")
-    parser.add_argument("--response_format", help="JSON output format file")
-    return parser.parse_args()
+    parser.add_argument("--user_prompt", required=True)
+    parser.add_argument("--response_format", help="JSON schema file for the response")
+    args = parser.parse_args()
 
+    url, key_var, default_model = PROVIDERS[args.provider]
+    args.model = args.model or default_model
+    api_key = args.api_key or os.getenv(key_var)
 
-def main():
-    args = parse_arguments()
-
-    response_format = None
+    schema = None
     if args.response_format:
         try:
-            with open(args.response_format, "r") as schema_file:
-                response_format = json.load(schema_file)
-        except (IOError, json.JSONDecodeError) as e:
+            with open(args.response_format) as f:
+                schema = json.load(f)
+        except (OSError, json.JSONDecodeError) as e:
             print(f"Error reading response format file: {e}")
             return
 
+    request = urllib.request.Request(
+        url,
+        data=json.dumps(build_payload(args, schema)).encode(),
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+    )
     try:
-        response = get_openai_response(
-            args.api_key,
-            args.model,
-            args.temperature,
-            args.system_prompt,
-            args.user_prompt,
-            args.context_files,
-            response_format,
-        )
-        response_json = json.loads(response)
-        choices = response_json.get("choices", [])
-        if len(choices) == 0:
-            print(response)
-        elif len(choices) == 1:
-            message_content = choices[0].get("message", {}).get("content", "{}")
-            try:
-                content = json.loads(message_content)
-                print(json.dumps(content, indent=2))
-            except json.JSONDecodeError:
-                print(message_content)
-        else:
-            for choice in choices:
-                message_content = choice.get("message", {}).get("content", "{}")
-                try:
-                    content = json.loads(message_content)
-                    print(
-                        f"Message {choice.get('index', 'N/A')}: {json.dumps(content, indent=2)}"
-                    )
-                except json.JSONDecodeError:
-                    print(f"Message {choice.get('index', 'N/A')}: {message_content}")
-    except Exception as e:
+        with urllib.request.urlopen(request) as response:
+            body = response.read().decode()
+    except urllib.error.HTTPError as e:
+        body = e.read().decode()
+    except urllib.error.URLError as e:
         print(f"An error occurred: {e}")
+        return
+
+    choices = json.loads(body).get("choices", [])
+    if not choices:
+        print(body)
+        return
+    content = choices[0].get("message", {}).get("content", "")
+    try:
+        print(json.dumps(json.loads(content), indent=2))
+    except json.JSONDecodeError:
+        print(content)
 
 
 if __name__ == "__main__":
