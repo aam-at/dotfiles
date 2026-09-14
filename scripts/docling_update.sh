@@ -5,12 +5,17 @@ JOBS=4
 DRY_RUN=false
 
 usage() {
-  echo "Usage: $(basename "$0") [OPTIONS] <pdf_folder> <md_folder>"
+  echo "Usage: $(basename "$0") [OPTIONS] <pdf_folder> [<pdf_folder> ...]"
   echo ""
   echo "Options:"
   echo "  -j, --jobs N     Parallel jobs (default: 4, use 1 for sequential)"
   echo "  -n, --dry-run    Show what would be converted without running docling"
   echo "  -h, --help       Show this help message"
+  echo ""
+  echo "Each Markdown destination is derived by appending _md to its PDF folder."
+  echo "For example:"
+  echo "  $(basename "$0") papers mypapers"
+  echo "  # converts into papers_md and mypapers_md"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -40,33 +45,23 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ $# -ne 2 ]]; then
+if (($# < 1)); then
   usage >&2
   exit 1
 fi
 
-PDF_FOLDER="$1"
-MD_FOLDER="$2"
-HASH_FILE="$MD_FOLDER/checklist.chk"
-LOCK_FILE="$MD_FOLDER/checklist.chk.lock"
 COUNTER_DIR=$(mktemp -d)
+LOCK_FILES=()
 
-trap 'rm -f "$LOCK_FILE"; rm -rf "$COUNTER_DIR"' EXIT
+cleanup() {
+  rm -f "${LOCK_FILES[@]}"
+  rm -rf "$COUNTER_DIR"
+}
+trap cleanup EXIT
 
 if ! command -v docling &>/dev/null; then
   echo "Error: docling is not installed or not in PATH" >&2
   exit 1
-fi
-
-if [[ ! -d "$PDF_FOLDER" ]]; then
-  echo "Error: PDF folder does not exist: $PDF_FOLDER" >&2
-  exit 1
-fi
-
-mkdir -p "$MD_FOLDER"
-if [[ ! -f "$HASH_FILE" ]]; then
-  touch "$HASH_FILE"
-  echo "Created hash file: $HASH_FILE"
 fi
 
 process_pdf() {
@@ -134,20 +129,44 @@ process_pdf() {
 
 export -f process_pdf
 
-shopt -s nullglob
-pdfs=("$PDF_FOLDER"/*.pdf)
+process_collection() {
+  local pdf_folder="$1"
+  local md_folder="$2"
+  local hash_file="$md_folder/checklist.chk"
+  local lock_file="$md_folder/checklist.chk.lock"
+  local pdfs
 
-if [[ ${#pdfs[@]} -eq 0 ]]; then
-  echo "No PDF files found in $PDF_FOLDER"
-  exit 0
-fi
+  if [[ ! -d "$pdf_folder" ]]; then
+    echo "Error: PDF folder does not exist: $pdf_folder" >&2
+    return 1
+  fi
 
-printf '%s\n' "${pdfs[@]}" |
-  xargs -P "$JOBS" -I{} bash -c \
-    'process_pdf "$@"' _ \
-    {} "$MD_FOLDER" "$HASH_FILE" "$LOCK_FILE" "$DRY_RUN" "$COUNTER_DIR"
+  mkdir -p "$md_folder"
+  if [[ ! -f "$hash_file" ]]; then
+    touch "$hash_file"
+    echo "Created hash file: $hash_file"
+  fi
+  LOCK_FILES+=("$lock_file")
 
-sort -k2 "$HASH_FILE" -o "$HASH_FILE"
+  shopt -s nullglob
+  pdfs=("$pdf_folder"/*.pdf)
+  if [[ ${#pdfs[@]} -eq 0 ]]; then
+    echo "No PDF files found in $pdf_folder"
+    return 0
+  fi
+
+  printf '%s\n' "${pdfs[@]}" |
+    xargs -P "$JOBS" -I{} bash -c \
+      'process_pdf "$@"' _ \
+      {} "$md_folder" "$hash_file" "$lock_file" "$DRY_RUN" "$COUNTER_DIR"
+
+  sort -k2 "$hash_file" -o "$hash_file"
+}
+
+while [[ $# -gt 0 ]]; do
+  process_collection "$1" "${1}_md"
+  shift
+done
 
 converted=$(find "$COUNTER_DIR" -name 'converted_*' | wc -l | tr -d ' ')
 skipped=$(find "$COUNTER_DIR" -name 'skipped_*' | wc -l | tr -d ' ')
