@@ -6,5 +6,8 @@
 vt = 1
 
 [default_session]
-command = "tuigreet --time --remember --asterisks --cmd /usr/bin/niri-session"
+# Built-in animation choices are matrix, doom, and none.  F4 opens tuigreet's
+# background selector; Matrix is the default here.  The wrapper adds a battery
+# indicator only when the host exposes one.
+command = "/usr/local/libexec/tuigreet-login"
 user = "greeter"
