@@ -106,11 +106,10 @@ To install wordnet on Ubuntu run:
 
 | Key Binding | Description           |
 |-------------+-----------------------|
-| ~SPS S w~   | open words hydra menu |
+| ~SPS S w~   | open words menu |
 
 ** textlint
 
 | Key Binding | Description                     |
 |-------------+---------------------------------|
 | ~SPS S !~   | run textlint in current buffer |
-

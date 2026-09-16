@@ -303,7 +303,7 @@
                :desc "Libre thesaurus antonyms" "L" #'le-thesaurus-get-antonyms
                :desc "Merriam-Webster thesaurus" "m" #'mw-thesaurus-lookup-dwim
                :desc "Synosaurus" "y" #'synosaurus-lookup
-               :desc "Words menu" "w" #'words-hydra/body
+               :desc "Words menu" "w" #'words
                :desc "Academic phrases" "p" #'academic-phrases
                :desc "Academic phrases by section" "P" #'academic-phrases-by-section))
 

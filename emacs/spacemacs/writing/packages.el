@@ -173,10 +173,10 @@
 (defun writing/init-words()
   (use-package words
     :defer t
-    :commands (words words-hydra/body)
+    :commands words
     :init
     (spacemacs/set-leader-keys
-     "Sw" 'words-hydra/body)))
+     "Sw" 'words)))
 
 (defun writing/init-academic-phrases()
   (spacemacs/set-leader-keys
