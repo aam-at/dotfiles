@@ -29,6 +29,13 @@
 
 ;;;***
 
+;;;### (autoloads nil "config-writing" "config-writing.el" (0 0 0 0))
+;;; Generated autoloads from config-writing.el
+
+(autoload 'aam/writing-setup "config-writing")
+
+;;;***
+
 ;;;### (autoloads nil "config-mail" "config-mail.el" (0 0 0 0))
 ;;; Generated autoloads from config-mail.el
 

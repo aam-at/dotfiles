@@ -11,9 +11,9 @@
 (package! synosaurus)
 (package! academic-phrases)
 (package! write-or-die
-	  :recipe (list :local-repo
-			(expand-file-name "../local/write-or-die"
-			                  (file-truename doom-user-dir))))
+	  :recipe (:host github
+			 :repo "aam-at/write-or-die"
+			 :files ("lisp/*.el" "sounds/*")))
 (package! words
 	  :recipe (list :local-repo
 			(expand-file-name "../local/words"

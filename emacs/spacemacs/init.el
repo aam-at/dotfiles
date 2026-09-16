@@ -515,7 +515,7 @@ It should only modify the values of Spacemacs settings."
    ;; If t, enable the `package-quickstart' feature to avoid full package
    ;; loading, otherwise no `package-quickstart' attemption (default nil).
    ;; Refer the FAQ.org "package-quickstart" section for details.
-   dotspacemacs-enable-package-quickstart t
+   dotspacemacs-enable-package-quickstart nil
 
    ;; If non-nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
@@ -719,12 +719,36 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil then byte-compile some of Spacemacs files.
    dotspacemacs-byte-compile t))
 
+(defconst aam/spacemacs-ignored-environment-variable-patterns
+  '("^ATUIN_"
+    "^FZF_"
+    "^HERDR_\\(?:ENV\\|PANE_ID\\|TAB_ID\\|WORKSPACE_ID\\)="
+    "^KITTY_\\(?:PID\\|PUBLIC_KEY\\|WINDOW_ID\\)="
+    "^MEMORY_PRESSURE_"
+    "^NIRI_"
+    "^OMF_PATH="
+    "^STARSHIP_SESSION_KEY="
+    "^_fifc_"
+    "^fifc_"
+    "^PATH_INIT="
+    "^PWD="
+    "^SHLVL="
+    "^VIRTUAL_ENV_DISABLE_PROMPT="
+    "^XCURSOR_"
+    "^XDG_\\(?:CURRENT_DESKTOP\\|RUNTIME_DIR\\|SEAT\\|SESSION_ID\\|VTNR\\)=")
+  "Patterns for terminal, shell, and session variables excluded from Spacemacs.")
+
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
 This function defines the environment variables for your Emacs session. By
 default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
+  ;; Exclude terminal, session, and shell-plugin state.  These variables are
+  ;; not useful to Emacs and some are invalid in Spacemacs' line-oriented
+  ;; environment snapshot.
+  (dolist (regexp aam/spacemacs-ignored-environment-variable-patterns)
+    (add-to-list 'spacemacs-ignored-environment-variables regexp))
   (spacemacs/load-spacemacs-env)
   (setenv "LSP_USE_PLISTS" "true"))
 
@@ -791,6 +815,7 @@ before packages are loaded."
   (autoload 'aam/python-setup "config-python" "Setup python configurations" t)
   (autoload 'aam/secure-setup "config-secure" "Setup secure configurations" t)
   (autoload 'aam/tex-setup "config-tex" "Setup TeX configurations" t)
+  (autoload 'aam/writing-setup "config-writing" "Setup writing configurations" t)
   ;; load configs
   (aam/common-setup)
   (if (aam/lsp-client-p)
@@ -810,6 +835,7 @@ before packages are loaded."
    "hC" #'citar-open)
   (spacemacs/set-leader-keys-for-major-mode
    'bibtex-mode "g" #'aam/bibtex-generate-autokey)
+  (aam/writing-setup)
   ;; linux specific
   (when (spacemacs/system-is-linux)
     (progn
@@ -828,26 +854,3 @@ before packages are loaded."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-  (custom-set-variables
-   ;; custom-set-variables was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(safe-local-variable-values
-     '((truncate-lines . "disabled")
-       (org-ditaa-jar-path . "/usr/share/ditaa/ditaa.jar")
-       (org-download-image-dir . "data/inbox") (org-download-heading-lvl)
-       (org-use-property-inheritance . t) (org-download-image-dir . "data/%\\2")
-       (org-download-heading-lvl . 0) (org-download-image-dir . "data"))))
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(default ((t (:background nil)))))
-  )

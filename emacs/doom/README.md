@@ -31,7 +31,7 @@ commands therefore use Doom's standard `SPC m` prefix.
 | `SPC h f/v/k` | Helpful callable / variable / key help |
 | `SPC b j` | Buffer marks: `t` toggle, `n` next, `p` previous, `l` list |
 | `SPC o w` | Window manager (`ewmctrl`) |
-| `SPC t W` | Writing modes: `d` Write or Die, `g` writegood, `r` writeroom |
+| `SPC t W` | Writing modes: `d` Write or Die, `p` profile, `s` statistics, `g` writegood, `r` writeroom |
 | `SPC s w` | Word tools; see below |
 | `SPC d a` | DAP fallback: `d` debug, `h` hydra |
 | `SPC n B` | Ebib bibliography manager |

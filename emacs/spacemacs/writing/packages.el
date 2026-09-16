@@ -34,7 +34,10 @@
         flycheck-vale
         writeroom-mode
         writegood-mode
-        (write-or-die :location ,(expand-file-name "write-or-die" writing-local-package-root))
+        (write-or-die :location (recipe
+                                 :fetcher github
+                                 :repo "aam-at/write-or-die"
+                                 :files ("lisp/*.el" "sounds/*")))
         ;; synonyms and thesaurus
         jinx
         powerthesaurus
@@ -117,16 +120,12 @@
 (defun writing/init-write-or-die ()
   (use-package write-or-die
     :defer t
-    :commands (write-or-die-mode write-or-die-toggle)
+    :commands (write-or-die write-or-die-start-profile write-or-die-stats)
     :init
-    (spacemacs/set-leader-keys "xD" #'write-or-die-toggle)
-    (spacemacs|add-toggle write-or-die
-                          :status (and (boundp 'write-or-die-state)
-                                       (> write-or-die-state 0))
-                          :on (write-or-die-go)
-                          :off (write-or-die-mode -1)
-                          :documentation "Activate `Write or Die!'"
-                          :evil-leader "C-t d")))
+    (spacemacs/set-leader-keys
+     "xD" #'write-or-die
+     "xP" #'write-or-die-start-profile
+     "xS" #'write-or-die-stats)))
 
 (defun writing/init-jinx()
   (use-package jinx

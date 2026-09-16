@@ -240,10 +240,13 @@
               (ultra-scroll-mode 1))
 
 (use-package! write-or-die
-              :commands (write-or-die-mode write-or-die-toggle)
+              :commands (write-or-die write-or-die-start-profile write-or-die-stats)
               :init
+              (aam/writing-setup)
               (map! :leader
-                    :desc "Toggle Write or Die" "t W d" #'write-or-die-toggle))
+                    :desc "Write or Die" "t W d" #'write-or-die
+                    :desc "Write or Die profile" "t W p" #'write-or-die-start-profile
+                    :desc "Write or Die statistics" "t W s" #'write-or-die-stats))
 
 (use-package! writeroom-mode
               :commands writeroom-mode
@@ -606,9 +609,7 @@
         (require 'org-roam-bibtex nil t)
         (org-roam-bibtex-mode 1)
         ;; Set after enabling the mode, which installs its own notes function.
-        (setq bibtex-completion-edit-notes-function #'aam/org-ref-edit-note)
-        (when (require 'org-roam-ui nil t)
-          (aam/org-roam-ui-start)))
+        (setq bibtex-completion-edit-notes-function #'aam/org-ref-edit-note))
 
 (use-package! citar-org-roam
               :after (citar org-roam)

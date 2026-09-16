@@ -27,5 +27,3 @@
       create: true
       force: true
       path: spacemacs/init.el
-
-    ~/.twittering-mode.gpg: ../../Dropbox/Software/emacs/twittering-mode.gpg

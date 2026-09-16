@@ -38,9 +38,7 @@
 
 (defun org-roam-extras/post-init-org-roam-ui ()
   (setq aam/org-roam-ui-cache-directory spacemacs-cache-directory
-        aam/org-roam-ui-default-port 35902)
-  (with-eval-after-load 'org
-    (aam/org-roam-ui-start)))
+        aam/org-roam-ui-default-port 35902))
 
 
 (defun org-roam-extras/post-init-org ()
