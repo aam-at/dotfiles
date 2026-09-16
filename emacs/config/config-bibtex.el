@@ -10,12 +10,10 @@
   (require 'citar-capf)
   (setq citar-bibliography aam/bibtex-files
         citar-library-file-extensions '("pdf")
-        citar-library-paths (list (aam/bib-path "papers/")
-                                  (aam/bib-path "review/")
-                                  (aam/bib-path "books/"))
+        citar-library-paths (aam/bib-library-paths)
         citar-notes-paths (list (aam/org-path "papers"))
-        citar-open-note-function #'citar-org-roam-open-note
-        citar-org-roam-capture-template-key "r"
+        citar-org-roam-capture-template-key "c"
+        citar-org-roam-note-title-template "${title}"
         org-cite-activate-processor 'citar
         org-cite-follow-processor 'citar
         org-cite-insert-processor 'citar)
@@ -60,9 +58,7 @@
   ;; configure bibtex-completion for org-ref
   (setq bibtex-completion-notes-path (aam/org-path "papers")
         bibtex-completion-bibliography aam/bibtex-files
-        bibtex-completion-library-path (list (aam/bib-path "papers/")
-                                             (aam/bib-path "review/")
-                                             (aam/bib-path "books/"))
+        bibtex-completion-library-path (aam/bib-library-paths)
         bibtex-completion-find-additional-pdfs t
         bibtex-completion-additional-search-fields '(keywords tags)
         bibtex-completion-pdf-symbol "⌘"

@@ -5,44 +5,59 @@
 (setq org-rating-guide (aam/org-path "templates/rating_guide.org"))
 (setq org-gtd-trigger-list (aam/org-path "templates/trigger_list.org"))
 
-(defvar org-template-view-mode-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "q") #'quit-window)  ;; Changed to quit-window
-    map))
+(defconst aam/org-roam-bib-note-head "#+TITLE: ${title}\n#+STARTUP: latexpreview"
+  "File header shared by the org-ref and Citar bibliography note templates.")
 
-(define-derived-mode org-template-view-mode org-mode "Template View"
-  "A special mode for displaying org templates."
-  (use-local-map org-template-view-mode-map)
-  (read-only-mode 1))
+(defun aam/org-roam-bib-note-template (citekey)
+  "Return the bibliography note body for the CITEKEY placeholder.
+Fields come from Citar in both templates, so org-ref (\"r\") and
+Citar (\"c\") notes are identical; missing fields expand to \"\"
+instead of prompting."
+  (let ((field (lambda (&rest fields)
+                 (format "%%(citar-get-display-value '%S \"%s\")" fields citekey))))
+    (concat "
+* " (funcall field "year" "date") " - ${title}
+:PROPERTIES:
+:CREATED: %U
+:Custom_ID: " citekey "
+:AUTHOR: " (funcall field "author" "editor") "
+:JOURNAL: " (funcall field "journaltitle" "journal" "booktitle") "
+:YEAR: " (funcall field "year" "date") "
+:DOI: " (funcall field "doi") "
+:URL: " (funcall field "url") "
+:MARKDOWN_DOCUMENT: %(aam/get-cite-markdown-filename \"" citekey "\")
+:NOTER_DOCUMENT: %(aam/get-cite-pdf-filename \"" citekey "\")
+:END:
+[[file:%(aam/get-cite-pdf-filename \"" citekey "\")][pdf]] [[file:%(aam/get-cite-markdown-filename \"" citekey "\")][md]]
+%?")))
 
-(defun aam-org-show-template (template-path buffer-name)
-  "Display a template file in a split window.
-TEMPLATE-PATH is the path to the template file.
-BUFFER-NAME is the name of the buffer to display it in."
-  (if-let* ((existing-buffer (get-buffer buffer-name)))
-      ;; If the buffer exists, ensure it is displayed
-      (display-buffer existing-buffer '(display-buffer-same-window))
-    ;; Otherwise, create the buffer and display the template
-    (with-current-buffer (get-buffer-create buffer-name)
-      (erase-buffer)
-      (insert-file-contents template-path)
-      (org-template-view-mode)))
-  ;; Always display the buffer in a visible window
-  (display-buffer buffer-name '((display-buffer-pop-up-window
-                                 display-buffer-same-window))))
+(defun aam/org-ref-edit-note (keys)
+  "Open the note for the first of KEYS, or create it via org-ref or Citar.
+New notes show the capture template menu: \"r\" creates the note through
+org-roam-bibtex, \"c\" through citar-org-roam."
+  (let ((key (car keys)))
+    (if (org-roam-node-from-ref (concat "@" key))
+        (orb-edit-note key)
+      (let* ((org-capture-templates org-roam-capture-templates)
+             (template (org-capture-select-template)))
+        (pcase (car-safe template)
+          ("c" (citar-open-notes (list key)))
+          ("r" (let ((org-roam-capture-templates (list template)))
+                 (orb-edit-note key)))
+          (_ (user-error "Abort")))))))
 
-;; Convenience functions for specific templates
-(defun aam-org-show-rating-guide ()
+;; Read-only template views; `q' closes them (`view-mode').
+(defun aam/org-show-rating-guide ()
   "Display the rating guide template."
   (interactive)
-  (aam-org-show-template org-rating-guide "*Rating Guide*"))
+  (view-file-other-window org-rating-guide))
 
-(defun aam-org-show-gtd-trigger-list ()
+(defun aam/org-show-gtd-trigger-list ()
   "Display the GTD trigger list template."
   (interactive)
-  (aam-org-show-template org-gtd-trigger-list "*GTD Trigger List*"))
+  (view-file-other-window org-gtd-trigger-list))
 
-(defun aam-org-daily-journal-find-location ()
+(defun aam/org-daily-journal-find-location ()
   "Open today's daily journal file for use with `org-capture`.
 This function ensures the journal entry is opened or created if it does not exist.
 It also inhibits inserting the heading since `org-capture` will handle that.
@@ -58,86 +73,48 @@ Finally, the cursor is placed at the end of the buffer, ready for editing."
   ;; Move the cursor to the end of the buffer
   (goto-char (point-max)))
 
-;;;###autoload
-(defun aam-org-weekly-journal-file ()
-  "Return path to current week's journal file (format: YYYYWNN.org).
-Uses `aam/org-path` to locate the journal/ directory."
-  (let* ((week-file-name (format-time-string "%GW%V.org")) ;; ISO week format
-         (journal-path (aam/org-path "journal/")) ;; Base directory
-         (full-file-path (expand-file-name week-file-name journal-path))) ;; Complete path
-    full-file-path))
+;; PERIOD -> (FILE-NAME-FORMAT TITLE-FORMAT), both for `format-time-string'.
+(defconst aam/org-journal-periods
+  '((weekly "%GW%V.org" "#+TITLE: Week %V, %G\n\n")
+    (monthly "%GM%m.org" "#+TITLE: %B, %G\n\n")
+    (yearly "%Y.org" "#+TITLE: %Y\n\n")))
 
 ;;;###autoload
-(defun aam-org-weekly-journal-find-location ()
-  "Open or create this week's journal file based on the current ISO week number.
-The file is named using the format `<Year>W<Week>.org` (e.g., `2023W42.org`)
-and stored in the `journal/` directory under the path returned by `aam/org-path`.
+(defun aam/org-journal-file (period)
+  "Return the current PERIOD's journal file, e.g. journal/2026W37.org."
+  (expand-file-name (format-time-string (car (alist-get period aam/org-journal-periods)))
+                    (aam/org-path "journal/")))
 
-This function is intended for use with `org-capture` workflows."
-  (interactive)
-  (let* ((full-file-path (aam-org-weekly-journal-file))) ;; Complete path
-    ;; Create the file with a default structure if it does not exist
-    (unless (file-exists-p full-file-path)
-      (with-temp-file full-file-path
-        (insert "#+TODO: TODO(t) NEXT(n) | DONE(d) FAILED(f)\n")
-        (insert (format-time-string "#+TITLE: Week %V, %G\n\n"))))
-    ;; Open the file and move to the end
-    (find-file full-file-path)
+;;;###autoload
+(defun aam/org-journal-find-location (period)
+  "Open the current PERIOD's journal file, creating it if needed, at its end.
+PERIOD is a key of `aam/org-journal-periods'.  Used as an `org-capture' target."
+  (let ((file (aam/org-journal-file period)))
+    (unless (file-exists-p file)
+      (with-temp-file file
+        (insert "#+TODO: TODO(t) NEXT(n) | DONE(d) FAILED(f)\n"
+                (format-time-string (cadr (alist-get period aam/org-journal-periods))))))
+    (find-file file)
     (goto-char (point-max))))
 
-(defun aam-org-monthly-journal-file ()
-  "Return path to current month's journal file (format: YYYYMM.org).
-Uses `aam/org-path` to locate the journal/ directory."
-  (let* ((month-file-name (format-time-string "%GM%m.org")) ;; File name format
-         (journal-path (aam/org-path "journal/")) ;; Base directory
-         (full-file-path (expand-file-name month-file-name journal-path))) ;; Complete path
-    full-file-path))
-
-(defun aam-org-monthly-journal-find-location ()
-  "Open or create this month's journal file based on the current year and month.
-The file is named using the format `<Year>M<Month>.org` (e.g., `2024M1.org`)
-and stored in the `journal/` directory under the path returned by `aam/org-path`.
-
-This function is intended for use with `org-capture` workflows."
-  (interactive)
-  (let* ((full-file-path (aam-org-monthly-journal-file))) ;; Complete path
-    ;; Create the file with a default structure if it does not exist
-    (unless (file-exists-p full-file-path)
-      (with-temp-file full-file-path
-        (insert "#+TODO: TODO(t) NEXT(n) | DONE(d) FAILED(f)\n")
-        (insert (format-time-string "#+TITLE: %B, %G\n\n"))))
-    ;; Open the file and move to the end
-    (find-file full-file-path)
-    (goto-char (point-max))))
-
-(defun aam-org-yearly-journal-file ()
-  "Return path to this year's journal file (format: YYYY.org).
-Uses `aam/org-path` to locate the journal/ directory."
-  (let* ((year-file-name (format-time-string "%Y.org")) ;; File name format
-         (journal-path (aam/org-path "journal/")) ;; Base directory
-         (full-file-path (expand-file-name year-file-name journal-path))) ;; Complete path
-    full-file-path))
-
-(defun aam-org-yearly-journal-find-location ()
-  "Open or create this year's journal file based on the current year.
-The file is named using the format `<Year>.org` (e.g., `2026.org`) and stored
-in the `journal/` directory under the path returned by `aam/org-path`.
-
-This function is intended for use with `org-capture` workflows."
-  (interactive)
-  (let* ((full-file-path (aam-org-yearly-journal-file))) ;; Complete path
-    ;; Create the file with a default structure if it does not exist
-    (unless (file-exists-p full-file-path)
-      (with-temp-file full-file-path
-        (insert "#+TODO: TODO(t) NEXT(n) | DONE(d) FAILED(f)\n")
-        (insert (format-time-string "#+TITLE: %Y\n\n"))))
-    ;; Open the file and move to the end
-    (find-file full-file-path)
-    (goto-char (point-max))))
+(defun aam/citar-dwim-at-bare-key (&rest _)
+  "Run citar's default action on a bare @citekey at point.
+Covers keys outside [cite:] syntax, e.g. in :ROAM_REFS:."
+  (when (and (derived-mode-p 'org-mode)
+             (thing-at-point-looking-at org-element-citation-key-re))
+    (let ((key (match-string-no-properties 1)))
+      (require 'citar)
+      (when (citar-get-entry key)
+        (citar-run-default-action (list key))
+        t))))
 
 ;;;###autoload
 (defun aam/org-setup ()
   ;; org settings
+  ;; RET on a bare @citekey: Doom's RET is `+org/dwim-at-point', Spacemacs' is
+  ;; `org-open-at-point'.
+  (advice-add (if (fboundp '+org/dwim-at-point) '+org/dwim-at-point 'org-open-at-point)
+              :before-until #'aam/citar-dwim-at-bare-key)
   (aam/configure-org-paths)
   ;; interactive dashboards for the five live PARA areas
   (add-to-list 'load-path (aam/org-path "scripts"))
@@ -168,18 +145,14 @@ This function is intended for use with `org-capture` workflows."
         org-clock-idle-time 30)
 
   ;; org safe-variables
-  (put 'org-download-image-dir 'safe-local-variable (lambda (_) t))
-  (put 'org-download-heading-lvl 'safe-local-variable (lambda (_) t))
-  (put 'org-attach-id-dir 'safe-local-variable (lambda (_) t))
-  (put 'org-use-property-inheritance 'safe-local-variable (lambda (_) t))
-  (put 'org-archive-location 'safe-local-variable (lambda (_) t))
-  (put 'org-current-tag-alist 'safe-local-variable (lambda (_) t))
+  (dolist (var '(org-download-image-dir org-download-heading-lvl org-attach-id-dir
+					org-use-property-inheritance org-archive-location org-current-tag-alist))
+    (put var 'safe-local-variable #'always))
 
   ;; sync buffers
   (add-hook 'org-mode-hook 'auto-revert-mode)
 
   ;; org appearance
-  (setq org-startup-indented t)
   (setq org-todo-keyword-faces
         '(("TODO" . (:foreground "#ff6347" :weight bold))
           ("NEXT" . (:foreground "#4169e1" :weight bold))
@@ -222,7 +195,6 @@ This function is intended for use with `org-capture` workflows."
         org-agenda-block-separator nil
         org-agenda-compact-blocks t
         org-agenda-include-deadlines t
-        org-agenda-include-diary t
         org-agenda-include-diary t
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-done t
@@ -331,20 +303,21 @@ This function is intended for use with `org-capture` workflows."
   ;; org capture settings
   (defun aam/org-capture-note-filepath (&optional with-date)
     "Return path to note with datetime prefix or without it"
-    (funcall (-partial 'aam/org-roam-get-filepath-for-title
-                       (aam/org-path "notes")
-                       (when (eq with-date t)
-                         'aam/org-roam-get-filepath-with-date))))
+    (aam/org-roam-get-filepath-for-title
+     (aam/org-path "notes")
+     (when (eq with-date t) 'aam/org-roam-get-filepath-with-date)))
   (defun aam/org-capture-note-filepath-with-date ()
-    (funcall (-partial 'aam/org-capture-note-filepath t)))
+    (aam/org-capture-note-filepath t))
   (defun aam/org-capture-project-filepath ()
     "Return path to structured note"
-    (funcall (-partial 'aam/org-roam-get-filepath-for-title
-                       (aam/org-path "projects"))))
-  (defun aam/org-capture-area-filepath ()
-    "Return path to structured note"
-    (funcall (-partial 'aam/org-roam-get-filepath-for-title
-                       (aam/org-path "areas"))))
+    (aam/org-roam-get-filepath-for-title (aam/org-path "projects")))
+  (defun aam/org-capture-idea-filepath ()
+    "Prompt for an idea title and return its `ideas/idea-<slug>.org' path."
+    (setq aam/org-capture-title (read-string "Idea title: "))
+    (expand-file-name
+     (format "idea-%s.org"
+             (aam/org-roam--title-to-slug aam/org-capture-title))
+     (aam/org-path "ideas")))
   (defun aam/org-capture-org-roam-link (file)
     (let ((node (with-current-buffer
                     (get-file-buffer file)
@@ -361,12 +334,10 @@ This function is intended for use with `org-capture` workflows."
   (add-hook 'org-capture-after-finalize-hook (lambda () (if (org-roam-file-p) (org-roam-db-sync))))
 
   (defun aam/org-roam-capture-finalize ()
-    "Insert text at the beginning of the captured file."
+    "Give the captured file a file-level ID property drawer."
     (save-excursion
       (goto-char (point-min))
-      (insert ":PROPERTIES:\n")
-      (insert (format ":ID: %s\n" (org-id-new)))
-      (insert ":END:\n")))
+      (org-id-get-create)))
   (setq org-capture-templates
         `(
           ("t" "Todo" entry (file ,aam/org-inbox)
@@ -397,7 +368,7 @@ DEADLINE: %^{Deadline}t
            (file ,aam/org-inbox)
            "* TODO [#A] Reply: %a :@home:@work:"
            :immediate-finish t)
-          ("j" "Journal entry" plain (function aam-org-daily-journal-find-location)
+          ("j" "Journal entry" plain (function aam/org-daily-journal-find-location)
            "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
            :jump-to-captured t :immediate-finish t)
           ("l" "Web link" entry (file ,aam/org-inbox)
@@ -420,43 +391,48 @@ DEADLINE: %^{Deadline}t
           ("s" "Snippets")
           ;; Snippets for journaling
           ("sg" "Gratitude journal" plain
-           (function aam-org-daily-journal-find-location)
+           (function aam/org-daily-journal-find-location)
            (file ,(aam/org-path "templates/gratitude_pages.org"))
            :jump-to-captured t)
           ("sp" "Morning Pages Note" plain
-           (function aam-org-daily-journal-find-location)
+           (function aam/org-daily-journal-find-location)
            (file ,(aam/org-path "templates/morning_pages.org"))
            :jump-to-captured t)
           ;; Snippets for planning and reviewing
           ("sd" "Daily Review" plain
-           (function aam-org-daily-journal-find-location)
+           (function aam/org-daily-journal-find-location)
            (file ,(aam/org-path "templates/daily_review.org"))
            :jump-to-captured t)
           ("sw" "Weekly Plan" plain
-           (function aam-org-weekly-journal-find-location)
+           (function ,(apply-partially #'aam/org-journal-find-location 'weekly))
            (file ,(aam/org-path "templates/weekly_plan.org"))
            :jump-to-captured t)
           ("sW" "Weekly Review" plain
-           (function aam-org-weekly-journal-find-location)
+           (function ,(apply-partially #'aam/org-journal-find-location 'weekly))
            (file ,(aam/org-path "templates/weekly_review.org"))
            :jump-to-captured t)
           ("sm" "Monthly Plan" plain
-           (function aam-org-monthly-journal-find-location)
+           (function ,(apply-partially #'aam/org-journal-find-location 'monthly))
            (file ,(aam/org-path "templates/monthly_plan.org"))
            :jump-to-captured t)
           ("sM" "Monthly Review" plain
-           (function aam-org-monthly-journal-find-location)
+           (function ,(apply-partially #'aam/org-journal-find-location 'monthly))
            (file ,(aam/org-path "templates/monthly_review.org"))
            :jump-to-captured t)
           ("sy" "Yearly Plan" plain
-           (function aam-org-yearly-journal-find-location)
+           (function ,(apply-partially #'aam/org-journal-find-location 'yearly))
            (file ,(aam/org-path "templates/yearly_plan.org"))
            :jump-to-captured t)
           ("sY" "Yearly Review" plain
-           (function aam-org-yearly-journal-find-location)
+           (function ,(apply-partially #'aam/org-journal-find-location 'yearly))
            (file ,(aam/org-path "templates/yearly_review.org"))
            :jump-to-captured t)
           ;; Snippets for zettelkasten and PARA
+          ("si" "Idea" plain
+           (file aam/org-capture-idea-filepath)
+           (file ,(aam/org-path "templates/idea.org"))
+           :hook aam/org-roam-capture-finalize
+           :jump-to-captured t)
           ("sn" "Simple (Atomic) Note" plain
            (file aam/org-capture-note-filepath-with-date)
            (file ,(aam/org-path "templates/note.org"))
@@ -502,53 +478,20 @@ DEADLINE: %^{Deadline}t
   (setq org-log-into-drawer "LOGBOOK")
 
   ;; org-roam settings
-  (setq org-roam-tag-sources '(prop last-directory))
   (setq org-roam-file-exclude-regexp '("data" "templates" "archived" "drafts"))
   (setq org-roam-graph-exclude-matcher '("journal" "inbox.org"))
   (setq org-roam-node-display-template
         (concat "${title:*} "
                 (propertize "${tags:10}" 'face 'org-tag)))
   (setq org-roam-capture-templates
-        '(("r" "Notes for bibliography reference" plain
-           "
-* %^{year} - ${title}
-:PROPERTIES:
-:CREATED: %U
-:Custom_ID: %^{citekey}
-:AUTHOR: %^{author}
-:JOURNAL: %^{journal}
-:YEAR: %^{year}
-:DOI: %^{doi}
-:URL: %^{url}
-:MARKDOWN_DOCUMENT: %(aam-get-cite-markdown-filename \"%^{citekey}\")
-:NOTER_DOCUMENT: %(aam-get-cite-pdf-filename \"%^{citekey}\")
-:END:
-[[file:%(aam-get-cite-pdf-filename \"%^{citekey}\")][pdf]] [[file:%(aam-get-cite-markdown-filename \"%^{citekey}\")][md]]
-%?"
-           :if-new
-           (file+head "papers/${citekey}.org" "#+TITLE: ${title}
-           :empty-lines 1
-#+STARTUP: latexpreview")
+        `(("r" "Bibliography reference (org-ref)" plain
+           ,(aam/org-roam-bib-note-template "%^{citekey}")
+           :target (file+head "papers/${citekey}.org" ,aam/org-roam-bib-note-head)
            :empty-lines 1
            :unnarrowed t)
-          ("c" "Citar bibliography reference" plain
-           "
-* ${citar-date} - ${citar-title}
-:PROPERTIES:
-:CREATED: %U
-:CITEKEY: ${citar-citekey}
-:AUTHOR: ${citar-author}
-:JOURNAL: ${citar-journal}
-:YEAR: ${citar-date}
-:DOI: ${citar-doi}
-:URL: ${citar-url}
-:NOTER_DOCUMENT: %(aam-get-cite-pdf-filename \"${citar-citekey}\")
-:END:
-[[file:%(aam-get-cite-pdf-filename \"${citar-citekey}\")][pdf]]
-%?"
-           :if-new
-           (file+head "papers/${citar-citekey}.org" "#+TITLE: ${note-title}
-#+STARTUP: latexpreview")
+          ("c" "Bibliography reference (Citar)" plain
+           ,(aam/org-roam-bib-note-template "${citar-citekey}")
+           :target (file+head "papers/${citar-citekey}.org" ,aam/org-roam-bib-note-head)
            :empty-lines 1
            :unnarrowed t)))
   (setq org-roam-capture-ref-templates
@@ -557,12 +500,14 @@ DEADLINE: %^{Deadline}t
            :unnarrowed t)))
 
   ;; org-roam-bibtex settings
+  ;; Match citar-org-roam, which always records references as @citekey.
+  (setq orb-roam-ref-format 'org-cite)
   (setq orb-preformat-keywords
         '("citekey" "date" "year" "type" "pdf?" "note?" "author" "editor"
           "journal" "url" "doi" "keywords"
           "author-abbrev" "editor-abbrev" "author-or-editor-abbrev"))
   (with-eval-after-load 'orb-note-actions
-    (add-to-list 'orb-note-actions-user (cons "Open PDF file(s) externally" #'aam-open-pdf-external)))
+    (add-to-list 'orb-note-actions-user (cons "Open PDF file(s) externally" #'aam/open-pdf-external)))
 
   ;; configure org-journal
   (setq org-journal-dir (aam/org-path "journal/"))
@@ -583,13 +528,8 @@ DEADLINE: %^{Deadline}t
   (setq org-doing-file (aam/org-path "todo.org"))
 
   ;; delve
-  (if (eq org-enable-delve t)
-      (setq delve-storage-paths (aam/org-path "delve")))
+  (setq delve-storage-paths (aam/org-path "delve"))
 
-  ;; org-ref configuration
-  (setq org-ref-notes-directory (aam/org-path "papers")
-        org-ref-default-bibliography aam/bibtex-files
-        org-ref-pdf-directory (aam/bib-path "papers/"))
   ;; setup org modules
   (aam/org-setup-modules)
 

@@ -10,38 +10,22 @@
     ~/.config/emacs/funcs:
       create: true
       path: funcs
-    ~/.config/emacs/spacemacs:
-      create: true
-      path: spacemacs
 
-    ~/.config/emacs/spacemacs-full/config:
+    ~/.config/emacs/spacemacs/config:
       create: true
+      force: true
       path: config
-    ~/.config/emacs/spacemacs-full/funcs:
+    ~/.config/emacs/spacemacs/funcs:
       create: true
+      force: true
       path: funcs
-    ~/.config/emacs/spacemacs-full/layers:
+    ~/.config/emacs/spacemacs/layers:
       create: true
+      force: true
       path: spacemacs
-    ~/.config/emacs/spacemacs-full/init.el:
+    ~/.config/emacs/spacemacs/init.el:
       create: true
-      path: spacemacs/spacemacs_full
-
-    ~/.config/emacs/spacemacs-basic/init.el:
-      create: true
-      path: spacemacs/spacemacs_basic
-
-    ~/.config/emacs/spacemacs-writing/config:
-      create: true
-      path: config
-    ~/.config/emacs/spacemacs-writing/funcs:
-      create: true
-      path: funcs
-    ~/.config/emacs/spacemacs-writing/layers:
-      create: true
-      path: spacemacs
-    ~/.config/emacs/spacemacs-writing/init.el:
-      create: true
-      path: spacemacs/spacemacs_writing
+      force: true
+      path: spacemacs/init.el
 
     ~/.twittering-mode.gpg: ../../Dropbox/Software/emacs/twittering-mode.gpg

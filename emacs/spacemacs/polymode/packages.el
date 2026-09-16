@@ -25,12 +25,14 @@
     poly-markdown
     poly-org))
 
+;; Whether Markdown/Org files open directly in poly-markdown-mode/poly-org-mode
+;; (fenced/src blocks get live fontification in their own major mode) is a
+;; shared toggle in aam-core.el, so both profiles stay in sync.
 (defun polymode/init-polymode ()
   (use-package polymode
     :defer t
     :init
-    (require 'poly-markdown)
-    (require 'poly-org)))
+    (spacemacs/set-leader-keys "tP" #'aam/polymode-auto-toggle)))
 
 (defun polymode/init-poly-markdown ())
 

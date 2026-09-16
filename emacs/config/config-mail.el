@@ -25,13 +25,13 @@
         message-kill-buffer-on-exit t)
 
   ;; See: http://emacs.stackexchange.com/questions/3051/how-can-i-use-eww-as-a-renderer-for-mu4e
-  (defun my-render-html-message ()
+  (defun aam/mu4e-render-html-message ()
     "Replacement for standard html2text using shr."
     (let ((dom (libxml-parse-html-region (point-min) (point-max))))
       (erase-buffer)
       (shr-insert-document dom)
       (goto-char (point-min))))
-  (setq mu4e-html2text-command 'my-render-html-message)
+  (setq mu4e-html2text-command 'aam/mu4e-render-html-message)
   ;; (setq mu4e-html2text-command "w3m -dump -T text/html")
   (setq mu4e-view-prefer-html t)
   (require 'mu4e-view)
@@ -78,147 +78,46 @@
           ("/sit/INBOX"   . ?w)
           ("/yandex/INBOX" . ?y)))
 
-  ;; mail account list
-  (setq mu4e-contexts
-        `( ,(make-mu4e-context
-             :name "Gmail"
-             :enter-func
-             (lambda () (mu4e-message "Switching to Gmail"))
-             ;; we match based on the contact-fields of the message
-             :match-func
-             (lambda (msg)
-               (when msg
-                 (mu4e-message-contact-field-matches msg
-                                                     :to "alexander.matyasko@gmail.com")))
-             :match-func
-             (lambda (msg)
-               (when msg
-                 (string-match-p "^/gmail" (mu4e-message-field msg :maildir))))
-             :vars
-             '((user-mail-address            . "alexander.matyasko@gmail.com")
-               (user-full-name               . "Alexander Matyasko")
-               (mu4e-sent-folder             . "/gmail/[Gmail]/Sent Mail")
-               (mu4e-drafts-folder           . "/gmail/[Gmail]/Drafts")
-               (mu4e-refile-folder           . "/gmail/[Gmail]/All Mail")
-               (mu4e-trash-folder            . "/gmail/[Gmail]/Trash")
-               (mu4e-compose-signature       . (concat
-                                                "Best regards,\n"
-                                                "Alexander Matyasko\n"))
-               (message-send-mail-function   . smtpmail-send-it)
-               (smtpmail-stream-type         . starttls)
-               (smtpmail-default-smtp-server . "smtp.gmail.com")
-               (smtpmail-smtp-server         . "smtp.gmail.com")
-               (smtpmail-smtp-service        . 587)))
-           ,(make-mu4e-context
-             :name "NTU"
-             :enter-func
-             (lambda () (mu4e-message "Switching to NTU mail"))
-             :match-func
-             (lambda (msg)
-               (when msg
-                 (mu4e-message-contact-field-matches msg
-                                                     :to "aliaksan001@e.ntu.edu.sg")))
-             :match-func
-             (lambda (msg)
-               (when msg
-                 (string-match-p "^/student" (mu4e-message-field msg :maildir))))
-             :vars
-             '((user-mail-address            . "aliaksan001@e.ntu.edu.sg")
-               (user-full-name               . "Alexander Matyasko")
-               (mu4e-sent-folder             . "/student/Sent Items")
-               (mu4e-drafts-folder           . "/student/Drafts")
-               (mu4e-trash-folder            . "/student/Deleted Items")
-               (mu4e-compose-signature       . (concat
-                                                "Best regards,\n"
-                                                "Alexander Matyasko\n"))
-               (message-send-mail-function   . smtpmail-send-it)
-               (smtpmail-stream-type         . starttls)
-               (smtpmail-default-smtp-server . "smtp.office365.com")
-               (smtpmail-smtp-server         . "smtp.office365.com")
-               (smtpmail-smtp-service        . 587)))
-           ,(make-mu4e-context
-             :name "SIT"
-             :enter-func
-             (lambda () (mu4e-message "Switching to SIT mail"))
-             :match-func
-             (lambda (msg)
-               (when msg
-                 (mu4e-message-contact-field-matches msg
-                                                     :to "a103596@singaporetech.edu.sg")))
-             :match-func
-             (lambda (msg)
-               (when msg
-                 (string-match-p "^/nus" (mu4e-message-field msg :maildir))))
-             :vars
-             '((user-mail-address            . "a103596@singaporetech.edu.sg")
-               (user-full-name               . "Alexander Matyasko")
-               (mu4e-sent-folder             . "/sit/Sent")
-               (mu4e-drafts-folder           . "/sit/Drafts")
-               (mu4e-trash-folder            . "/sit/Trash")
-               (mu4e-compose-signature       . (concat
-                                                "Best regards,\n"
-                                                "Alexander Matyasko\n"))
-               (message-send-mail-function   . smtpmail-send-it)
-               (smtpmail-stream-type         . starttls)
-               ;; use localhost davmail
-               (smtpmail-default-smtp-server . "localhost")
-               (smtpmail-smtp-server         . "localhost")
-               (smtpmail-smtp-service        . 1025)))
-           ,(make-mu4e-context
-             :name "NUS"
-             :enter-func
-             (lambda () (mu4e-message "Switching to NUS mail"))
-             :match-func
-             (lambda (msg)
-               (when msg
-                 (mu4e-message-contact-field-matches msg
-                                                     :to "alex.m@nus.edu.sg")))
-             :match-func
-             (lambda (msg)
-               (when msg
-                 (string-match-p "^/nus" (mu4e-message-field msg :maildir))))
-             :vars
-             '((user-mail-address            . "alex.m@nus.edu.sg")
-               (user-full-name               . "Alexander Matyasko")
-               (mu4e-sent-folder             . "/nus/Sent")
-               (mu4e-drafts-folder           . "/nus/Drafts")
-               (mu4e-trash-folder            . "/nus/Trash")
-               (mu4e-compose-signature       . (concat
-                                                "Best regards,\n"
-                                                "Alexander Matyasko\n"))
-               (message-send-mail-function   . smtpmail-send-it)
-               (smtpmail-stream-type         . starttls)
-               ;; use localhost davmail
-               (smtpmail-default-smtp-server . "localhost")
-               (smtpmail-smtp-server         . "localhost")
-               (smtpmail-smtp-service        . 1025)))
-           ,(make-mu4e-context
-             :name "Yandex"
-             :enter-func
-             (lambda () (mu4e-message "Switching to Yandex mail"))
-             :match-func
-             (lambda (msg)
-               (when msg
-                 (mu4e-message-contact-field-matches msg
-                                                     :to "alexander.matyasko@yandex.ru")))
-             :match-func
-             (lambda (msg)
-               (when msg
-                 (string-match-p "^/yandex" (mu4e-message-field msg :maildir))))
-             :vars
-             '((user-mail-address            . "alexander.matyasko@yandex.ru")
-               (user-full-name               . "Alexander Matyasko")
-               (mu4e-sent-folder             . "/yandex/Sent")
-               (mu4e-drafts-folder           . "/yandex/Drafts")
-               (mu4e-trash-folder            . "/yandex/Trash")
-               (mu4e-compose-signature       . (concat
-                                                "C уважением,\n"
-                                                "Александр Матяско\n"))
-               (message-send-mail-function   . smtpmail-send-it)
-               (smtpmail-stream-type         . starttls)
-               (smtpmail-default-smtp-server . "smtp.yandex.com")
-               (smtpmail-smtp-server         . "smtp.yandex.com")
-               (smtpmail-smtp-service        . 465)))))
+  ;; mail account list: a message matches a context by maildir or recipient
+  (let ((signature "Best regards,\nAlexander Matyasko\n"))
+    (setq mu4e-contexts
+          (mapcar
+           (pcase-lambda (`(,name ,address ,maildir ,sent ,drafts ,trash ,refile
+                                  ,smtp-server ,smtp-port ,signature))
+             (make-mu4e-context
+              :name name
+              :enter-func (lambda () (mu4e-message "Switching to %s mail" name))
+              :match-func
+              (lambda (msg)
+                (when msg
+                  (or (string-prefix-p maildir (mu4e-message-field msg :maildir))
+                      (mu4e-message-contact-field-matches msg :to address))))
+              :vars
+              `((user-mail-address . ,address)
+                (user-full-name . "Alexander Matyasko")
+                (mu4e-sent-folder . ,sent)
+                (mu4e-drafts-folder . ,drafts)
+                (mu4e-trash-folder . ,trash)
+                ,@(when refile `((mu4e-refile-folder . ,refile)))
+                (mu4e-compose-signature . ,signature)
+                (message-send-mail-function . smtpmail-send-it)
+                (smtpmail-stream-type . starttls)
+                (smtpmail-smtp-server . ,smtp-server)
+                (smtpmail-smtp-service . ,smtp-port))))
+           ;; SIT and NUS send through the local DavMail gateway.
+           `(("Gmail" "alexander.matyasko@gmail.com" "/gmail"
+              "/gmail/[Gmail]/Sent Mail" "/gmail/[Gmail]/Drafts" "/gmail/[Gmail]/Trash"
+              "/gmail/[Gmail]/All Mail" "smtp.gmail.com" 587 ,signature)
+             ("NTU" "aliaksan001@e.ntu.edu.sg" "/student"
+              "/student/Sent Items" "/student/Drafts" "/student/Deleted Items"
+              nil "smtp.office365.com" 587 ,signature)
+             ("SIT" "a103596@singaporetech.edu.sg" "/sit"
+              "/sit/Sent" "/sit/Drafts" "/sit/Trash" nil "localhost" 1025 ,signature)
+             ("NUS" "alex.m@nus.edu.sg" "/nus"
+              "/nus/Sent" "/nus/Drafts" "/nus/Trash" nil "localhost" 1025 ,signature)
+             ("Yandex" "alexander.matyasko@yandex.ru" "/yandex"
+              "/yandex/Sent" "/yandex/Drafts" "/yandex/Trash"
+              nil "smtp.yandex.com" 587 "C уважением,\nАлександр Матяско\n")))))
 
   (setq mu4e-compose-context-policy 'ask-if-none
         mu4e-context-policy 'pick-first)

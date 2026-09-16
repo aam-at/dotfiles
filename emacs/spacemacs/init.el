@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
-;; It must be stored in your home directory.
+;; Symlinked into the spacemacs SPACEMACSDIR profile (see ../install.conf.yaml).
 
 (add-to-list 'load-path (expand-file-name "../config" (file-name-directory load-file-name)))
 (require 'config-lsp)
@@ -149,7 +149,7 @@ This function should only modify configuration layer settings."
                   org-enable-roam-protocol t
                   org-enable-roam-support t
                   org-enable-roam-ui t
-                  org-enable-sticky-header nil
+                  org-enable-sticky-header t
                   org-enable-transclusion-support t
                   org-enable-trello-support nil
                   org-enable-valign t
@@ -766,8 +766,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setopt elisa-db-directory (concat spacemacs-cache-directory "elisa/"))
   ;; fixes font when emacs started in daemon mode
   (spacemacs|do-after-display-system-init
-    (let ((dotspacemacs-default-font (aam/default-font)))
-      (spacemacs/set-default-font dotspacemacs-default-font))))
+   (let ((dotspacemacs-default-font (aam/default-font)))
+     (spacemacs/set-default-font dotspacemacs-default-font))))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -805,26 +805,26 @@ before packages are loaded."
   (aam/tex-setup)
   (aam/bibtex-setup)
   (spacemacs/set-leader-keys
-    "C-t l" #'visual-line-mode
-    "hc" #'helm-bibtex
-    "hC" #'citar-open)
+   "C-t l" #'visual-line-mode
+   "hc" #'helm-bibtex
+   "hC" #'citar-open)
   (spacemacs/set-leader-keys-for-major-mode
-    'bibtex-mode "g" #'aam/bibtex-generate-autokey)
+   'bibtex-mode "g" #'aam/bibtex-generate-autokey)
   ;; linux specific
   (when (spacemacs/system-is-linux)
     (progn
       (autoload 'aam/mail-setup "config-mail" "Setup mail configurations" t)
       (aam/mail-setup)))
   ;; my startup screen
-  (defun aam-setup-startup-screen ()
+  (defun aam/setup-startup-screen ()
     "Split the existing startup screen and show the current week's journal file."
     (interactive)
     (save-selected-window
       (split-window-horizontally) ; Split horizontally
       (other-window 1)            ; Move to the new window
-      (aam-org-weekly-journal-find-location))) ; Display the journal file
-  (when (file-exists-p (aam-org-weekly-journal-file))
-    (aam-setup-startup-screen)))
+      (aam/org-journal-find-location 'weekly))) ; Display the journal file
+  (when (file-exists-p (aam/org-journal-file 'weekly))
+    (aam/setup-startup-screen)))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

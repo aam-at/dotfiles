@@ -227,7 +227,7 @@
 ;;     (nova-vertico-mode 1)))
 
 (defun aam/post-init-pdf-tools ()
-  (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "e" 'aam-extract-pdf-text-from-current-buffer))
+  (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "e" 'aam/extract-pdf-text-from-current-buffer))
 
 (defun aam/init-popper()
   (use-package popper

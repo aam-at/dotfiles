@@ -1,6 +1,36 @@
 ;;; aam-core.el --- Shared Emacs helpers -*- lexical-binding: t; -*-
 
-(defun aam-copy-file-name-to-clipboard ()
+(defvar aam-enable-explain-pause-at-startup nil
+  "If non-nil, automatically start `explain-pause-mode'.")
+
+(defvar aam-enable-magit-gptcommit nil
+  "If non-nil, automatically start `gptcommit-mode'.")
+
+(defvar aam-polymode-auto-alist
+  '(("\\.md\\'" . poly-markdown-mode)
+    ("\\.org\\'" . poly-org-mode))
+  "File patterns switched to their poly-mode variant by `aam/polymode-auto-toggle'.")
+
+(defvar aam-polymode-auto-p t
+  "Non-nil when files in `aam-polymode-auto-alist' open directly in polymode.
+Toggle with `aam/polymode-auto-toggle'; do not set directly.")
+
+(defun aam/polymode-auto-toggle ()
+  "Toggle whether Markdown/Org files open directly in their poly-mode variant."
+  (interactive)
+  (setq aam-polymode-auto-p (not aam-polymode-auto-p))
+  (dolist (entry aam-polymode-auto-alist)
+    (setq auto-mode-alist (delete entry auto-mode-alist))
+    (when aam-polymode-auto-p
+      (add-to-list 'auto-mode-alist entry)))
+  (message "Polymode auto-start %s" (if aam-polymode-auto-p "enabled" "disabled")))
+
+;; Apply the default state at load time so both profiles start in sync.
+(when aam-polymode-auto-p
+  (dolist (entry aam-polymode-auto-alist)
+    (add-to-list 'auto-mode-alist entry)))
+
+(defun aam/copy-file-name-to-clipboard ()
   "Copy the current buffer file name to the clipboard."
   (interactive)
   (let ((filename (if (equal major-mode 'dired-mode)
@@ -17,43 +47,37 @@
   (when (window-parent (selected-window))
     (delete-window)))
 
-(defun aam-open-pdf-external (key)
-  (start-process "xournal" "*helm-bibtex-xournal*" "/usr/bin/xournal"
-                 (expand-file-name (aam-get-cite-pdf-filename (car key)))))
+(defun aam/open-pdf-external (key)
+  (start-process "mupdf" "*helm-bibtex-mupdf*" "mupdf"
+                 (expand-file-name (aam/get-cite-pdf-filename (car key)))))
 
-(defun aam--bibtex-library-paths ()
-  "Return `bibtex-completion-library-path` as a list."
-  (if (listp bibtex-completion-library-path)
-      bibtex-completion-library-path
-    (list bibtex-completion-library-path)))
-
-(defun aam--select-cite-file (key files)
+(defun aam/cite--select-file (key files)
   "Return the first existing file in FILES using a ~/ path."
   (let ((existing-files
          (delete-dups
-          (-filter #'file-exists-p files))))
+          (seq-filter #'file-exists-p files))))
     (when (> (length existing-files) 1)
       (warn "Multiple files detected for key %s: %S"
             key existing-files))
     (when existing-files
       (abbreviate-file-name (car existing-files)))))
 
-(defun aam-get-cite-pdf-filename (key)
+(defun aam/get-cite-pdf-filename (key)
   "Return the PDF path for citation KEY."
-  (aam--select-cite-file
+  (aam/cite--select-file
    key
-   (-map
+   (mapcar
     (lambda (library-path)
       (expand-file-name
        (format "%s.pdf" key)
        library-path))
-    (aam--bibtex-library-paths))))
+    (aam/bib-library-paths))))
 
-(defun aam-get-cite-markdown-filename (key)
+(defun aam/get-cite-markdown-filename (key)
   "Return the Docling Markdown path for citation KEY."
-  (aam--select-cite-file
+  (aam/cite--select-file
    key
-   (-mapcat
+   (mapcan
     (lambda (library-path)
       (let* ((markdown-library
               (concat
@@ -66,9 +90,9 @@
           (directory-files-recursively
            markdown-directory
            "\\.md\\'"))))
-    (aam--bibtex-library-paths))))
+    (aam/bib-library-paths))))
 
-(defun aam-reopen-file-as-real ()
+(defun aam/reopen-file-as-real ()
   "Reopen the current file if it is a symbolic link."
   (interactive)
   (let ((file-name (buffer-file-name))
@@ -77,7 +101,7 @@
       (find-alternate-file real-file-name)
       (message "Reopened '%s' as '%s'." file-name real-file-name))))
 
-(defun aam-sort-selected-words (beg end)
+(defun aam/sort-selected-words (beg end)
   "Sort words in the selected region alphabetically, ignoring case and treating hyphens as single units."
   (interactive "r")
   (save-excursion
@@ -87,7 +111,7 @@
       (delete-region beg end)
       (insert (string-join sorted-words " ")))))
 
-(defun aam--extract-pdf-text-to-buffer (pdf-file)
+(defun aam/pdf--extract-text-to-buffer (pdf-file)
   "Extract text from PDF-FILE and return a buffer with the content."
   (let ((temp-buffer (generate-new-buffer "*PDF Text*"))
         (coding-system-for-read 'utf-8))
@@ -102,19 +126,19 @@
        (kill-buffer temp-buffer)
        (error "Failed to extract PDF text: %s" (error-message-string err))))))
 
-(defun aam--ensure-pdf-file (file)
+(defun aam/pdf--ensure-file (file)
   "Ensure FILE is a valid PDF file."
   (unless (and file (file-exists-p file) (string-match-p "\\.pdf$" file))
     (error "Invalid or non-existent PDF file: %s" file))
   file)
 
-(defun aam-extract-pdf-text-from-file (file)
+(defun aam/extract-pdf-text-from-file (file)
   "Extract text from a PDF file and display it in a temporary buffer."
   (interactive "fPDF file: ")
-  (let ((pdf-file (aam--ensure-pdf-file file)))
-    (switch-to-buffer (aam--extract-pdf-text-to-buffer pdf-file))))
+  (let ((pdf-file (aam/pdf--ensure-file file)))
+    (switch-to-buffer (aam/pdf--extract-text-to-buffer pdf-file))))
 
-(defun aam-extract-pdf-text-from-current-buffer ()
+(defun aam/extract-pdf-text-from-current-buffer ()
   "Extract text from the PDF file in the current pdf-tools buffer."
   (interactive)
   (unless (eq major-mode 'pdf-view-mode)
@@ -122,14 +146,14 @@
   (let ((pdf-file (buffer-file-name)))
     (unless pdf-file
       (error "No file associated with this buffer"))
-    (switch-to-buffer (aam--extract-pdf-text-to-buffer (aam--ensure-pdf-file pdf-file)))))
+    (switch-to-buffer (aam/pdf--extract-text-to-buffer (aam/pdf--ensure-file pdf-file)))))
 
-(defun aam-delete-empty-lines ()
+(defun aam/delete-empty-lines ()
   "Delete empty lines in current buffer"
   (interactive)
   (flush-lines "^[[:space:]]*$"))
 
-(defun aam-delete-xml-tags (&optional start-pos end-pos)
+(defun aam/delete-xml-tags (&optional start-pos end-pos)
   "Delete all XML-style tags and their content.
 Matches any XML tags like <tag>...</tag>.
 Works on whole buffer or the selected region if START-POS and END-POS are provided."
@@ -159,19 +183,19 @@ Works on whole buffer or the selected region if START-POS and END-POS are provid
     count))
 
 
-(defun aam-cuda-available-p ()
+(defun aam/cuda-available-p ()
   "Check if CUDA is available on the system."
   (zerop (call-process "nvidia-smi" nil nil nil)))
 
-(defun aam-gpu-memory-gb ()
+(defun aam/gpu-memory-gb ()
   "Get the amount of GPU memory in GB."
-  (when (aam-cuda-available-p)
+  (when (aam/cuda-available-p)
     (with-temp-buffer
       (call-process "nvidia-smi" nil t nil "--query-gpu=memory.total" "--format=csv,noheader,nounits")
       (/ (string-to-number (buffer-string)) 1024))))
 
 
-(defun aam-check-localhost-port (port)
+(defun aam/check-localhost-port (port)
   "Check if localhost port is accepting connections. Returns t if port is open, nil otherwise."
   (condition-case nil
       (let ((proc (open-network-stream
@@ -197,6 +221,10 @@ Works on whole buffer or the selected region if START-POS and END-POS are provid
 (defun aam/bib-path (path)
   "Return PATH relative to `aam/bib-root`."
   (expand-file-name path aam/bib-root))
+
+(defun aam/bib-library-paths ()
+  "Return the PDF library directories beneath `aam/bib-root`."
+  (mapcar #'aam/bib-path '("papers/" "review/" "books/")))
 
 (defvar aam/bibtex-files
   (list (aam/bib-path "refs.bib")

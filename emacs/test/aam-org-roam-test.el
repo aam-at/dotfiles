@@ -3,6 +3,10 @@
 (require 'ert)
 (require 'aam-org-roam)
 
+(defvar org-roam-ui-mode)
+(defvar org-roam-ui-port)
+
+
 (ert-deftest aam/org-roam-find-forward-link-visits-an-outgoing-target ()
   (let ((source 'source)
         (target 'target)
@@ -30,5 +34,26 @@
                  (setq visited node))))
       (aam/org-roam-find-forward-link)
       (should (eq visited target)))))
+
+(ert-deftest aam/org-roam-ui-start-skips-an-occupied-port-pair ()
+  (let ((org-roam-ui-mode nil)
+        (org-roam-ui-port 35901)
+        (aam/org-roam-ui-default-port 35901)
+        (aam/org-roam-ui-port-search-limit 3)
+        (original-require (symbol-function 'require))
+        enabled-with)
+    (cl-letf (((symbol-function 'require)
+               (lambda (feature &optional filename noerror)
+                 (if (eq feature 'org-roam-ui)
+                     t
+                   (funcall original-require feature filename noerror))))
+              ((symbol-function 'aam/check-localhost-port)
+               (lambda (port) (= port 35901)))
+              ((symbol-function 'aam/org-roam-ui--enable-with-ports)
+               (lambda (http-port websocket-port)
+                 (setq enabled-with (list http-port websocket-port)
+                       org-roam-ui-mode t))))
+      (should (= 35902 (aam/org-roam-ui-start)))
+      (should (equal enabled-with '(35902 35904))))))
 
 ;;; aam-org-roam-test.el ends here

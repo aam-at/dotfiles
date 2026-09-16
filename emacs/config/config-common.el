@@ -46,7 +46,7 @@
   ;; enable global activity watch (deferred to avoid blocking startup)
   (run-with-idle-timer 3 nil
 		       (lambda ()
-			 (when (aam-check-localhost-port 5600)
+			 (when (aam/check-localhost-port 5600)
 			   (message "Enable global activity watch")
 			   (global-activity-watch-mode))))
 
@@ -88,21 +88,13 @@
               (local-set-key (kbd "M-Q") 'unfill-paragraph)))
 
   ;; status line
-  (with-eval-after-load 'shfmt
-    (when (fboundp 'diminish)
-      (diminish 'shfmt-on-save-mode " ")))
-  (with-eval-after-load 'tree-sitter
-    (when (fboundp 'diminish)
-      (diminish 'tree-sitter-mode " ")))
-  (with-eval-after-load 'ts-fold
-    (when (fboundp 'diminish)
-      (diminish 'ts-fold-mode)))
-  (with-eval-after-load 'lsp-ui
-    (when (fboundp 'diminish)
-      (diminish 'lsp-mode " ")
-      (diminish 'lsp-lens-mode)))
-  (with-eval-after-load 'helm-gtags
-    (when (fboundp 'diminish)
-      (diminish 'helm-gtags-mode " ⓖ"))))
+  (pcase-dolist (`(,feature ,mode ,lighter)
+                 '((shfmt shfmt-on-save-mode " ")
+                   (tree-sitter tree-sitter-mode " ")
+                   (ts-fold ts-fold-mode nil)
+                   (helm-gtags helm-gtags-mode " ⓖ")))
+    (with-eval-after-load feature
+      (when (fboundp 'diminish)
+        (diminish mode lighter)))))
 
 (provide 'config-common)

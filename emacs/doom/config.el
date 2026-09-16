@@ -36,12 +36,6 @@
       lsp-use-plists t)
 (setenv "LSP_USE_PLISTS" "true")
 
-(setq org-enable-delve t
-      org-enable-gcal t
-      org-enable-roam-ui t
-      aam-enable-explain-pause-at-startup nil
-      aam-enable-magit-gptcommit t)
-
 ;; The Org-roam index is derived data.  Keep Doom's copy under its isolated
 ;; profile state so it can run alongside a Spacemacs profile without SQLite
 ;; locking the shared database.
@@ -91,6 +85,12 @@
               :config
               (popper-mode 1)
               (popper-echo-mode 1))
+
+;; Whether Markdown/Org files open directly in poly-markdown-mode/poly-org-mode
+;; (fenced/src blocks get live fontification in their own major mode) is a
+;; shared toggle in aam-core.el, so both profiles stay in sync.
+(map! :leader
+      :desc "Toggle polymode auto-start" "t P" #'aam/polymode-auto-toggle)
 
 ;; Vertico remains Doom's primary completion interface; Helm is kept only for
 ;; the few workflows that are still useful on their own.
@@ -180,7 +180,8 @@
               :commands biblio-lookup
               :init
               (map! :map bibtex-mode-map :localleader
-                    :desc "Biblio lookup" "b" #'biblio-lookup)
+                    (:prefix ("l" . "lookup")
+                             :desc "Biblio lookup" "b" #'biblio-lookup))
               :config
               (evil-set-initial-state 'biblio-selection-mode 'emacs))
 
@@ -188,7 +189,8 @@
               :commands gscholar-bibtex
               :init
               (map! :map bibtex-mode-map :localleader
-                    :desc "Google Scholar lookup" "s" #'gscholar-bibtex)
+                    (:prefix ("l" . "lookup")
+                             :desc "Google Scholar lookup" "s" #'gscholar-bibtex))
               :config
               (evil-set-initial-state 'gscholar-bibtex-mode 'emacs))
 
@@ -448,7 +450,7 @@
               (:prefix ("B" . "bibliography")
                        :desc "Insert citation" "i" #'org-cite-insert
                        :desc "Open citation resources" "o" #'citar-open
-                       :desc "Open citation note" "n" #'citar-open-note
+                       :desc "Open citation note" "n" #'citar-open-notes
                        :desc "Insert legacy org-ref citation" "r" #'org-ref-insert-link)
               (:prefix ("C" . "recent clocks")
                        :desc "Clock in" "i" #'org-mru-clock-in
@@ -572,7 +574,6 @@
                                                  org-ref-open-bibtex-pdf org-ref-sort-bibtex-entry)
               :hook (org-mode . aam/org-ref-enable)
               :config
-              (advice-add 'org-ref-open-notes-at-point :override #'aam/org-ref-open-roam-note)
               (dolist (feature '(openalex doi-utils org-ref-pdf org-ref-url-utils org-ref-bibtex
                                           org-ref-arxiv org-ref-pubmed org-ref-isbn org-ref-wos org-ref-scopus
                                           x2bib org-ref-scifinder org-ref-worldcat))
@@ -595,126 +596,23 @@
               :after org
               :hook (org-mode . org-sticky-header-mode))
 
-(defcustom aam/org-roam-ui-port-search-limit 100
-  "Number of HTTP ports to try when starting Org-roam UI."
-  :type 'integer
-  :group 'org-roam)
+(setq aam/org-roam-ui-cache-directory doom-cache-dir
+      aam/org-roam-ui-default-port 35901)
 
-(defvar aam/org-roam-ui-websocket-port nil
-  "WebSocket port selected for the current Org-roam UI session.")
-
-(defvar aam/org-roam-ui-original-app-build-dir nil
-  "Unmodified Org-roam UI web build used to make port-specific copies.")
-
-(defvar aam/org-roam-ui-default-port nil
-  "Configured Org-roam UI HTTP port before fallback selection occurs.")
-
-(defun aam/org-roam-ui--web-build-for-ports (http-port websocket-port)
-  "Return an Org-roam UI web build configured for HTTP-PORT and WEBSOCKET-PORT."
-
-  (let* ((source (or aam/org-roam-ui-original-app-build-dir
-                     (setq aam/org-roam-ui-original-app-build-dir
-                           org-roam-ui-app-build-dir)))
-         (target (expand-file-name
-                  (format "org-roam-ui-%d-%d" http-port websocket-port)
-                  doom-cache-dir))
-         (marker (expand-file-name ".aam-port-configured" target)))
-    (unless (file-exists-p marker)
-      (make-directory target t)
-      (copy-directory source target nil t t)
-      ;; The upstream static client hard-codes its service endpoints.  Rewrite
-      ;; only the cached copy so a fallback port remains fully functional.
-      (dolist (file (directory-files-recursively target "\\.\\(?:html\\|js\\)$"))
-        (with-temp-buffer
-          (insert-file-contents file)
-          (goto-char (point-min))
-          (while (search-forward "localhost:35901" nil t)
-            (replace-match (format "localhost:%d" http-port) t t))
-          (goto-char (point-min))
-          (while (search-forward "localhost:35903" nil t)
-            (replace-match (format "localhost:%d" websocket-port) t t))
-          (write-region (point-min) (point-max) file nil 'silent)))
-      (write-region "" nil marker nil 'silent))
-    target))
-
-(defun aam/org-roam-ui--enable-with-ports (http-port websocket-port)
-  "Enable Org-roam UI with HTTP-PORT and WEBSOCKET-PORT.
-
-Org-roam UI currently hard-codes its WebSocket port internally, so bind its
-server constructor only while enabling the mode."
-  (require 'cl-lib)
-  (let ((websocket-server-function (symbol-function 'websocket-server)))
-    (setq org-roam-ui-port http-port
-          aam/org-roam-ui-websocket-port websocket-port
-          org-roam-ui-app-build-dir
-          (aam/org-roam-ui--web-build-for-ports http-port websocket-port))
-    (cl-letf (((symbol-function 'websocket-server)
-               (lambda (port &rest args)
-                 (apply websocket-server-function
-                        (if (= port 35903) websocket-port port)
-                        args))))
-      (org-roam-ui-mode 1))))
-
-(defun aam/org-roam-ui-start ()
-  "Start Org-roam UI on the first free localhost port pair.
-
-The default HTTP port is tried first.  Each subsequent attempt increments the
-HTTP port by one and keeps the WebSocket offset used by Org-roam UI."
-  (interactive)
-  (require 'org-roam-ui)
-  (if org-roam-ui-mode
-      (when (called-interactively-p 'interactive)
-        (org-roam-ui-open))
-    (let ((initial-port
-           (or aam/org-roam-ui-default-port
-               (setq aam/org-roam-ui-default-port org-roam-ui-port)))
-          (attempt 0)
-          started)
-      (while (and (not started) (< attempt aam/org-roam-ui-port-search-limit))
-        (let* ((http-port (+ initial-port attempt))
-               (websocket-port (+ http-port 2)))
-          (unless (or (aam-check-localhost-port http-port)
-                      (aam-check-localhost-port websocket-port))
-            (condition-case err
-                (progn
-                  (aam/org-roam-ui--enable-with-ports http-port websocket-port)
-                  (setq started t)
-                  (message "Org-roam UI started on http://localhost:%d" http-port))
-              (error
-               ;; A competing process can claim a port after the availability
-               ;; check.  Clean up and continue with the next candidate.
-               (when org-roam-ui-mode
-                 (ignore-errors (org-roam-ui-mode -1)))
-               (message "Org-roam UI port %d unavailable: %s" http-port
-                        (error-message-string err))))))
-        (setq attempt (1+ attempt)))
-      (unless started
-        (user-error "Org-roam UI could not find a free port after %d attempts"
-                    aam/org-roam-ui-port-search-limit))
-      (when (called-interactively-p 'interactive)
-        (org-roam-ui-open)))))
 
 (after! org-roam
         (require 'org-roam-protocol)
         (org-roam-db-autosync-mode 1)
         (require 'org-roam-bibtex nil t)
         (org-roam-bibtex-mode 1)
-        (when (and org-enable-roam-ui
-                   (require 'org-roam-ui nil t))
+        ;; Set after enabling the mode, which installs its own notes function.
+        (setq bibtex-completion-edit-notes-function #'aam/org-ref-edit-note)
+        (when (require 'org-roam-ui nil t)
           (aam/org-roam-ui-start)))
 
 (use-package! citar-org-roam
               :after (citar org-roam)
               :config
-              (setq citar-org-roam-capture-template-key "c"
-                    citar-org-roam-note-title-template "${author editor}, ${title}"
-                    citar-org-roam-template-fields
-                    '((:citar-title . ("title"))
-                      (:citar-author . ("author" "editor"))
-                      (:citar-date . ("date" "year" "issued"))
-                      (:citar-journal . ("journaltitle" "journal"))
-                      (:citar-doi . ("doi"))
-                      (:citar-url . ("url"))))
               (citar-org-roam-mode 1))
 
 (after! org-roam
@@ -813,7 +711,7 @@ HTTP port by one and keeps the WebSocket offset used by Org-roam UI."
 (after! pdf-tools
         (map! :map pdf-view-mode-map
               :localleader
-              :desc "Extract text" "e" #'aam-extract-pdf-text-from-current-buffer
+              :desc "Extract text" "e" #'aam/extract-pdf-text-from-current-buffer
               :desc "Org noter" "N" #'org-noter))
 
 (after! python
@@ -826,7 +724,6 @@ HTTP port by one and keeps the WebSocket offset used by Org-roam UI."
         (set-formatter! 'ruff :modes '(python-mode python-ts-mode)))
 
 (after! tex
-        (require 'polymode nil t)
         (aam/tex-setup))
 
 (use-package! adaptive-wrap

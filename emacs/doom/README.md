@@ -39,7 +39,7 @@ commands therefore use Doom's standard `SPC m` prefix.
 | `SPC n M` | Recent Org clocks: `i` clock in, `g` go to clock, `s` select recent task |
 | `SPC n g` | Org Google Calendar: `s` sync, `f` fetch, `p` post, `r` refresh token (when enabled) |
 | `SPC n r T` | Toggle Org-roam properties |
-| `SPC n r v/V/b` | Vulpea find / insert / backlinks |
+| `SPC n r v/V/b/l` | Vulpea find / insert / backlinks; Org-roam forward links |
 | `SPC c F` | Clang-format the active region or buffer |
 | `SPC o l c/C` | Open / display Copilot Chat |
 | `SPC o l d` | Start speech dictation |

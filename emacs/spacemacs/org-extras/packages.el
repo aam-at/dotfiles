@@ -74,7 +74,7 @@
 					    "Su" 'aam/org-citations-update-at-point
 					    "ic" 'org-cite-insert
 					    "io" 'citar-open
-					    "in" 'citar-open-note)
+					    "in" 'citar-open-notes)
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images
             'append))
 
@@ -237,7 +237,7 @@
   (spacemacs/set-leader-keys-for-major-mode 'pdf-view-mode "N" 'org-noter)
   ;; https://lists.gnu.org/archive/html/emacs-orgmode/2016-11/msg00169.html
   ;; Before adding, remove it (to avoid clogging)
-  (delete '("\\.pdf\\'" . default) org-file-apps)
+  (setq org-file-apps (delete '("\\.pdf\\'" . default) org-file-apps))
   ;; https://lists.gnu.org/archive/html/emacs-orgmode/2016-11/msg00176.html
   (add-to-list 'org-file-apps
                '("\\.pdf\\'" . (lambda (file link)

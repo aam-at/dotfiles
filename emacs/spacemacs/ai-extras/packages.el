@@ -166,7 +166,7 @@
 (defun ai-extras/init-magit-gptcommit ()
   (use-package magit-gptcommit
     :defer t
-    :after magit llm
+    :after (magit llm)
     :init
     (if aam-enable-magit-gptcommit
         (progn

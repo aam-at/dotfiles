@@ -5,30 +5,6 @@
 (require 'json)
 (require 'url)
 
-(defvar aam-scholarly-citations-output nil
-  "Latest asynchronous citation-count result.")
-
-(defvar semantic-scholar-api-key nil
-  "API key for Semantic Scholar citation lookups.
-When nil, use SEMANTIC_SCHOLAR_API_KEY when it is available.")
-
-(defvar semantic-scholar-api-retry-seconds 5
-  "Seconds to retry transient Semantic Scholar API failures.")
-
-(defvar scholarly-default-method "google scholar [manual]"
-  "Default method used to fetch citation counts.")
-
-(defconst scholarly-methods-alist
-  '(("google scholar [manual]" . aam-scholarly-manual-citations)
-    ("google scholar [jina]" . aam-scholarly-jina-citations)
-    ("google scholar [scholarly no proxy]" . "scholarly_citations.py --proxy noproxy")
-    ("google scholar [scholarly freeproxy]" . "scholarly_citations.py --proxy freeproxy")
-    ("google scholar [scholarly scrapper]" . "scholarly_citations.py --proxy scrapper")
-    ("google scholar [serpapi scrapper]" . "serpapi_citations.py")
-    ("semantic scholar [manual]" . aam-semantic-scholar-manual-citations)
-    ("semantic scholar [api]" . aam-semantic-scholar-api-citations))
-  "Methods available to the scholarly citation-count helpers.")
-
 (defun aam/org-days-before-today (days)
   "Return the time DAYS days before today."
   (time-subtract (current-time) (days-to-time days)))
@@ -124,25 +100,25 @@ DAYS must be a positive integer greater than 1."
 				 (car (org-id-find uuid))))))))))))
 
 ;; https://github.com/munen/emacs.d#convenience-functions-when-working-with-pdf-exports
-(defun aam-update-other-buffer ()
+(defun aam/update-other-buffer ()
   (interactive)
   (other-window 1)
   (revert-buffer nil t)
   (other-window -1))
 
-(defun aam-org-compile-beamer-and-update-other-buffer ()
+(defun aam/org-compile-beamer-and-update-other-buffer ()
   "Has as a premise that it's run from an org-mode buffer and the
    other buffer already has the PDF open"
   (interactive)
   (org-beamer-export-to-pdf)
-  (aam-update-other-buffer))
+  (aam/update-other-buffer))
 
-(defun aam-org-compile-latex-and-update-other-buffer ()
+(defun aam/org-compile-latex-and-update-other-buffer ()
   "Has as a premise that it's run from an org-mode buffer and the
    other buffer already has the PDF open"
   (interactive)
   (org-latex-export-to-pdf)
-  (aam-update-other-buffer))
+  (aam/update-other-buffer))
 
 
 ;; Customization to handle files with IDs
@@ -361,189 +337,6 @@ DAYS must be a positive integer greater than 1."
       (concat dir "marginalia.org"))))
 
 
-;; Customization to automatically fetch scholarly citation counts
-(defun aam-scholarly-citations-process-sentinel (process event)
-  "Sentinel function to process the output from the Python script
-  when it finishes."
-  (when (string= event "finished\n")
-    (with-current-buffer (process-buffer process)
-      (setq aam-scholarly-citations-output (string-to-number (buffer-string)))
-      (kill-buffer))))
-
-(defun aam-scholarly-manual-citations (title)
-  "Search the title on Google Scholar and manually input the number of citations."
-  (let* ((search-url (concat "https://scholar.google.com/scholar?q="
-                             (url-hexify-string title))))
-    (browse-url search-url)
-    (read-number "Enter the number of citations: ")))
-
-(defun aam-scholarly-jina-citations (title)
-  "Fetch the number of citations for a given publication TITLE from
-  Google Scholar using jina.ai Reader API."
-  (let* ((encoded-title (url-encode-url (format "\"%s\"" title)))
-         (url (format "https://r.jina.ai/https://scholar.google.com/scholar?q=%s&hl=en" encoded-title))
-         (url-request-method "GET")
-         (buffer (url-retrieve-synchronously url))
-         citations)
-    (with-current-buffer buffer
-      (goto-char (point-min))
-      (re-search-forward "^$" nil 'move)
-      (delete-region (point-min) (point))
-      (setq citations
-            (save-match-data
-              (let ((case-fold-search t)
-                    (citation-matches 0)
-                    (citation-count nil))
-                (while (re-search-forward "Cited by \\([0-9]+\\)" nil t)
-                  (setq citation-matches (1+ citation-matches))
-                  (when (= citation-matches 1)
-                    (setq citation-count (string-to-number (match-string 1)))))
-                (cond
-                 ((= citation-matches 0) nil)
-                 ((> citation-matches 1)
-                  (display-warning 'aam-scholarly-jina-citations
-                                   (format "Multiple matches found for title '%s'. Returning the first match." title))
-                  citation-count)
-                 (t citation-count))))))
-    (kill-buffer buffer)
-    citations))
-
-(defun aam-semantic-scholar-manual-citations (title)
-  "Search TITLE on Semantic Scholar and manually input its citation count."
-  (let ((search-url (concat "https://www.semanticscholar.org/search?q="
-                            (url-hexify-string title)
-                            "&sort=relevance")))
-    (browse-url search-url)
-    (read-number "Enter the number of citations: ")))
-
-(defun aam-semantic-scholar--api-key ()
-  "Return the configured Semantic Scholar API key, or nil."
-  (let ((api-key (or (and (boundp 'semantic-scholar-api-key)
-                          semantic-scholar-api-key)
-                     (getenv "SEMANTIC_SCHOLAR_API_KEY"))))
-    (and api-key
-         (not (string= api-key ""))
-         api-key)))
-
-(defun aam-semantic-scholar--api-retry-seconds ()
-  "Return the Semantic Scholar API retry duration."
-  (let ((retry-seconds (if (boundp 'semantic-scholar-api-retry-seconds)
-                           semantic-scholar-api-retry-seconds
-                         5)))
-    (if (numberp retry-seconds)
-        (max 0 retry-seconds)
-      5)))
-
-(defun aam-semantic-scholar--retryable-status-p (status-code)
-  "Return non-nil when STATUS-CODE should be retried."
-  (or (not status-code)
-      (= status-code 429)
-      (>= status-code 500)))
-
-(defun aam-semantic-scholar--request-json (url &optional retry-seconds)
-  "Fetch URL from the Semantic Scholar API and return decoded JSON.
-Retry rate limits, server errors, and empty responses for
-RETRY-SECONDS seconds."
-  (let* ((api-key (aam-semantic-scholar--api-key))
-         (retry-seconds (or retry-seconds
-                            (aam-semantic-scholar--api-retry-seconds)))
-         (deadline (+ (float-time) retry-seconds))
-         (url-request-method "GET")
-         (url-request-extra-headers
-          (when api-key
-            `(("x-api-key" . ,api-key))))
-         (last-error-message "Semantic Scholar request failed"))
-    (catch 'done
-      (while t
-        (let ((buffer (condition-case err
-                          (url-retrieve-synchronously url t t 2)
-                        (error
-                         (setq last-error-message
-                               (format "Semantic Scholar request failed: %s"
-                                       (error-message-string err)))
-                         :request-error))))
-          (if (eq buffer :request-error)
-              nil
-            (if (not buffer)
-		(setq last-error-message "Semantic Scholar request returned no response")
-              (unwind-protect
-                  (with-current-buffer buffer
-                    (goto-char (point-min))
-                    (let ((status-code
-                           (when (looking-at "HTTP/[0-9.]+ \\([0-9]+\\)")
-                             (string-to-number (match-string 1)))))
-                      (re-search-forward "^$" nil 'move)
-                      (forward-line)
-                      (if (and status-code (>= status-code 400))
-                          (let ((body (string-trim
-                                       (buffer-substring-no-properties
-                                        (point) (point-max)))))
-                            (setq last-error-message
-                                  (format "Semantic Scholar request failed with HTTP %d: %s"
-                                          status-code body))
-                            (unless (aam-semantic-scholar--retryable-status-p status-code)
-                              (error "%s" last-error-message)))
-                        (let ((json-object-type 'alist)
-                              (json-array-type 'list)
-                              (json-key-type 'symbol))
-                          (throw 'done (json-read))))))
-                (kill-buffer buffer)))))
-        (if (< (float-time) deadline)
-            (sleep-for 0.25)
-          (error "%s" last-error-message))))))
-
-(defun aam-semantic-scholar-api-citations (title)
-  "Fetch the citation count for TITLE from the Semantic Scholar Graph API.
-Use `semantic-scholar-api-key` or SEMANTIC_SCHOLAR_API_KEY when
-available; otherwise, use an unauthenticated request."
-  (let* ((encoded-title (url-hexify-string (format "\"%s\"" title)))
-         (url (format
-               "https://api.semanticscholar.org/graph/v1/paper/search?query=%s&fields=title,citationCount&limit=1"
-               encoded-title))
-         (response (aam-semantic-scholar--request-json
-                    url
-                    (aam-semantic-scholar--api-retry-seconds)))
-         (paper (car (alist-get 'data response)))
-         (citations (alist-get 'citationCount paper)))
-    (unless paper
-      (error "No Semantic Scholar match found for title: %s" title))
-    (unless (numberp citations)
-      (error "Semantic Scholar result has no citation count for title: %s" title))
-    citations))
-
-(defun aam-scholarly-citations (title &optional method callback)
-  "Find the number of citations for a paper given its TITLE using
-  the method specified in METHOD. When the process finishes, call
-  CALLBACK with the number of citations as its argument. The METHOD
-  argument is used to look up the corresponding Python script and
-  options in `scholarly-methods-alist`. If METHOD is a manual method,
-  read the value from the user."
-  (let* ((method (or method "google scholar [manual]"))
-         (method-info (assoc method scholarly-methods-alist)))
-    (if (not method-info)
-        (error "Unknown method: %s" method)
-      (let ((method-function (cdr method-info)))
-        (if (functionp method-function)
-            (let ((citations (funcall method-function title)))
-              (when callback
-                (funcall callback citations))
-              citations)
-          (let* ((output-buffer (generate-new-buffer "*aam-scholarly-citations-output*"))
-                 (method-command method-function)
-                 (python-script (car (split-string method-command)))
-                 (process-args (list (shell-quote-argument title))))
-            (when method-command
-              (setq process-args (append (cdr (split-string method-command)) process-args)))
-            (setq aam-scholarly-citations-output nil)
-            (set-process-sentinel
-             (apply #'start-process "aam-scholarly-citations-process" output-buffer python-script process-args)
-             #'aam-scholarly-citations-process-sentinel)
-            (while (not aam-scholarly-citations-output)
-              (accept-process-output nil 0.1))
-            (when callback
-              (funcall callback aam-scholarly-citations-output))
-            aam-scholarly-citations-output))))))
-
 (defun aam/org-citations--trim-year-prefix (str)
   "Remove the 'YEAR - ' prefix from STR using a regular expression."
   (let ((year-prefix-regexp "^\\([0-9]\\{4\\}\\)\\s-*-\\s-*"))
@@ -560,23 +353,17 @@ available; otherwise, use an unauthenticated request."
                    heading))))
     title))
 
-(defun aam/org-citations-update-at-point (&optional method)
-  "Fetch the number of citations for the current Org-mode heading
-  and set the CITATION_COUNT property."
-  (interactive
-   (list (completing-read
-          (format "Select citation method (default: %s): " scholarly-default-method)
-          (mapcar #'car scholarly-methods-alist)
-          nil t "" nil scholarly-default-method)))
+(defun aam/org-citations-update-at-point ()
+  "Look up the current heading on Google Scholar and store its citation count."
+  (interactive)
   (unless (org-at-heading-p)
-    (error "Not at an Org-mode heading"))
-  (let* ((title (aam/org-citations--get-title-from-heading)))
-    (message "Fetching citations for title: %s" title)
-    (let ((citations (aam-scholarly-citations title method)))
-      (message "Citations: %d" citations)
-      (org-entry-put (point) "CITATION_COUNT" (number-to-string citations))
-      (org-entry-put (point) "CITATION_LAST_UPDATED" (format-time-string "%Y-%m-%d"))
-      (setq scholarly-default-method method))))
+    (user-error "Not at an Org-mode heading"))
+  (let ((title (aam/org-citations--get-title-from-heading)))
+    (browse-url (concat "https://scholar.google.com/scholar?q="
+                        (url-hexify-string title)))
+    (org-entry-put (point) "CITATION_COUNT"
+                   (number-to-string (read-number "Enter the number of citations: ")))
+    (org-entry-put (point) "CITATION_LAST_UPDATED" (format-time-string "%Y-%m-%d"))))
 
 (defun aam/org-get-year-from-link ()
   (string-to-number (aam/org-roam-get-property-from-link "YEAR")))

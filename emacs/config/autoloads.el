@@ -29,13 +29,6 @@
 
 ;;;***
 
-;;;### (autoloads nil "config-lsp" "config-lsp.el" (0 0 0 0))
-;;; Generated autoloads from config-lsp.el
-
-(autoload 'aam/lsp-setup "config-lsp")
-
-;;;***
-
 ;;;### (autoloads nil "config-mail" "config-mail.el" (0 0 0 0))
 ;;; Generated autoloads from config-mail.el
 
@@ -48,9 +41,9 @@
 
 (autoload 'aam/org-setup "config-org")
 
-(autoload 'aam-org-weekly-journal-file "config-org")
+(autoload 'aam/org-journal-file "config-org")
 
-(autoload 'aam-org-weekly-journal-find-location "config-org")
+(autoload 'aam/org-journal-find-location "config-org")
 
 ;;;***
 

@@ -1,14 +1,63 @@
 ;; -*- lexical-binding: t; -*-
 ;; This file configures tex for use.
 
+;; `define-innermode' and `define-polymode' are macros, so load them first.
+(require 'polymode)
+
+(defun aam/poly-latex-keep-outline-vars ()
+  "Stop polymode copying LaTeX outline settings into the Org-style chunk.
+Polymode reads this list in the buffer it leaves, so set it in all of them."
+  (setq-local polymode-move-these-vars-from-base-buffer
+              (seq-difference polymode-move-these-vars-from-base-buffer
+                              '(outline-regexp outline-level))))
+
+;; Org-style notes inside LaTeX comment environments:
+;;   \begin{comment}
+;;   * Heading
+;;   | a | b |
+;;   \end{comment}
+;; The inner mode is not `org-mode': Org parses elements in the base buffer
+;; (`org-with-base-buffer'), which is the LaTeX buffer here, so Org commands
+;; break.  `orgtbl-mode' edits tables and `outline-minor-mode' folds `*'
+;; headings; neither parses the buffer.
+(define-derived-mode aam/latex-comment-orgtbl-mode text-mode "OrgTbl"
+  "Text mode with Org tables and `*' headings, for LaTeX comment environments.
+TAB aligns tables and cycles heading visibility; M-<left>/<right> promote and
+demote headings."
+  (orgtbl-mode 1)
+  (aam/poly-latex-keep-outline-vars)
+  (setq-local outline-regexp "\\*+ "
+              outline-minor-mode-cycle t
+              outline-minor-mode-highlight 'override)
+  (outline-minor-mode 1)
+  (local-set-key (kbd "M-<left>") #'outline-promote)
+  (local-set-key (kbd "M-<right>") #'outline-demote))
+
+(define-innermode poly-latex-comment-orgtbl-innermode
+		  :mode 'aam/latex-comment-orgtbl-mode
+		  :head-mode 'host
+		  :tail-mode 'host
+		  :head-matcher "^[ \t]*\\\\begin{comment}.*\n"
+		  :tail-matcher "^[ \t]*\\\\end{comment}.*$"
+		  :head-adjust-face nil
+		  :indent-offset 0)
+
+(define-polymode poly-latex-mode
+		 :hostmode 'poly-latex-hostmode
+		 :innermodes '(poly-latex-comment-orgtbl-innermode)
+		 (aam/poly-latex-keep-outline-vars))
+
+(defun aam/poly-latex-maybe-enable ()
+  "Enable `poly-latex-mode' when the buffer has a comment environment.
+Run \\[poly-latex-mode] by hand after adding the first one."
+  (unless (or (bound-and-true-p polymode-mode) (buffer-base-buffer))
+    (when (save-excursion
+            (goto-char (point-min))
+            (re-search-forward "^[ \t]*\\\\begin{comment}" nil t))
+      (poly-latex-mode 1))))
+
 ;;;###autoload
 (defun aam/tex-setup ()
-  ;; Latex/Tex settings
-  (defun zeal-latex-settings()
-    ;; set manually docset for zeal
-    (setq zeal-at-point-docset "latex"))
-  (add-hook 'LaTeX-mode-hook 'zeal-latex-settings)
-
   ;; Auctex settings
   (setq-default TeX-master nil) ; Query for master file.
   (setq TeX-parse-self t ; parse on load
@@ -29,78 +78,38 @@
   (with-eval-after-load 'pdf-tools
     (add-hook 'pdf-view-mode-hook #'pdf-sync-minor-mode))
 
-  ;; zathura for emacs
-  (setq zathura-procs ())
-  (defun zathura-forward-search ()
-    ;; Open the compiled pdf in Zathura with synctex. This is complicated since
-    ;; 1) Zathura refuses to acknowledge Synctex directive if the pdf is not
-    ;; already opened
-    ;; 2) This means we have to bookkeep open Zathura processes ourselves: first
-    ;; open a new pdf from the beginning, if it is not already open. Then call
-    ;; Zathura again with the synctex directive.
-    (interactive)
-    (let* ((zathura-launch-buf (get-buffer-create "*Zathura Output*"))
-           (pdfname (TeX-master-file "pdf"))
-           (zatentry (assoc pdfname zathura-procs))
-           (zatproc (if (and zatentry (process-live-p (cdr zatentry)))
-                        (cdr zatentry)
-                      (progn
-                        (let ((proc (progn (message "Launching Zathura")
-                                           (start-process "zathura-launch"
-                                                          zathura-launch-buf "zathura"
-                                                          "-x" "emacsclient +%{line} %{input}" pdfname))))
-                          (when zatentry
-                            (setq zathura-procs (delq zatentry zathura-procs)))
-                          (add-to-list 'zathura-procs (cons pdfname proc))
-                          (set-process-query-on-exit-flag proc nil)
-                          proc))))
-           (pid (process-id zatproc))
-           (synctex (format "%s:0:%s"
-                            (TeX-current-line)
-                            (TeX-current-file-name-master-relative))))
-      (start-process "zathura-synctex" zathura-launch-buf "zathura" "--synctex-forward" synctex pdfname)))
-  ;; PDF syncing
-  (setq TeX-view-program-list
-        '(("Skim" "displayline -b -g %n %o %b")
-          ("Evince" "evince --page-index=%(outpage) %o")
-          ("Okular" "okular --unique %o#src:%n%b")
-          ("Zathura" zathura-forward-search)
-          ("PDF Tools" TeX-pdf-tools-sync-view)))
+  (add-hook 'LaTeX-mode-hook #'aam/poly-latex-maybe-enable)
+
+  ;; relative line numbers (LaTeX is a text mode, so prog-mode settings skip it)
+  (add-hook 'LaTeX-mode-hook
+            (lambda ()
+              (setq-local display-line-numbers-type 'relative)
+              (display-line-numbers-mode 1)))
+
+  ;; PDF viewers.  C-c C-v uses PDF Tools; AUCTeX's built-in "Zathura" viewer
+  ;; also forward-searches.  External viewers with forward search via C-c C-c:
   (setq TeX-view-program-selection '((output-pdf "PDF Tools")
                                      (output-dvi "xdvi")))
   (with-eval-after-load 'tex
-    (add-to-list 'TeX-command-list '("View Evince" "evince %o" TeX-run-command nil t
-                                     :help "Open document using evince"))
-    (add-to-list 'TeX-command-list '("View Zathura" "zathura %o" TeX-run-command nil t
-                                     :help "Open document using zathura")))
+    ;; Inverse search (Ctrl+click in Zathura) goes back to this Emacs daemon.
+    (add-to-list 'TeX-command-list
+                 `("View Zathura"
+                   ,(concat "zathura --synctex-forward %n:0:\"%b\" -x \"emacsclient -s "
+                            server-name " +%{line} %{input}\" %o")
+                   TeX-run-discard-or-function nil t
+                   :help "Open document at point in Zathura"))
+    ;; MuPDF has no SyncTeX support: ask synctex for the page and open it there.
+    ;; ponytail: opens a new MuPDF window per call; MuPDF cannot move a running one.
+    (add-to-list 'TeX-command-list
+                 '("View MuPDF"
+                   "mupdf %o $(synctex view -i %n:0:\"%b\" -o %o | sed -n 's/^Page://p' | head -n 1)"
+                   TeX-run-discard-or-function nil t
+                   :help "Open document at point's page in MuPDF")))
 
-  ;; Doc-view settings
-  (defun my-doc-view-settings ()
-    ;; Automatic update for pdf
-    (auto-revert-mode)
-    ;; Emacs freezes with linum-mode
-    (linum-mode -1))
-
-  (add-hook 'doc-view-mode-hook 'my-doc-view-settings)
+  ;; doc-view: reload the PDF on change and fit it to the window
+  (add-hook 'doc-view-mode-hook #'auto-revert-mode)
   (define-advice doc-view-display (:after (&rest _) fit-width)
     "Fit document width to window after displaying."
-    (doc-view-fit-width-to-window))
-
-  ;; Define the inner mode for the LaTeX comment environment
-  (define-innermode poly-latex-comment-md-innermode
-		    :mode 'markdown-mode
-		    :head-mode 'host
-		    :tail-mode 'host
-		    :head-matcher "^[ \t]*\\\\begin{comment}.*$"
-		    :tail-matcher "^[ \t]*\\\\end{comment}.*$"
-		    :head-adjust-face nil
-		    :body-indent-offset 0
-		    :indent-offset 0)
-
-  (define-polymode poly-latex-mode
-		   :hostmode 'poly-latex-hostmode
-		   :innermodes '(poly-latex-comment-md-innermode)
-		   (setq-local polymode-run-these-before-change-functions-in-other-buffers nil)
-		   (setq-local polymode-run-these-after-change-functions-in-other-buffers nil)))
+    (doc-view-fit-width-to-window)))
 
 (provide 'config-tex)

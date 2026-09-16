@@ -76,85 +76,75 @@
    "^\\s-*$"
    (buffer-substring-no-properties beg end)))
 
+(defun aam/latex--insert-on-own-line (text)
+  "Insert TEXT at point on a line of its own; return that line's start."
+  (unless (aam/latex-empty-or-whitespace-region-p (line-beginning-position) (point))
+    (insert "\n"))
+  (insert text)
+  (prog1 (line-beginning-position)
+    (unless (aam/latex-empty-or-whitespace-region-p (point) (line-end-position))
+      (insert "\n"))))
+
 (defun aam/latex-toggle-math ()
   "Create or toggle LaTeX math ($'s or \\[ and \\]).
 
-  If region is active, surrounds it by \\[ and \\]. Also inserts
-  appropriate newlines.
+If region is active, surround it by \\[ and \\] on their own lines.
 
-  If point is in LaTeX math mode and surrounded by $'s, surrounds
-  it by \\[ and \\] instead. Also inserts appropriate newlines.
+If point is in math surrounded by $'s, surround it by \\[ and \\]
+instead, on their own lines.
 
-  If point is in LaTeX math mode and surrounded by \\[ and
-  \\], surrounds it by $'s instead.
+If point is in math surrounded by \\[ and \\], surround it by $'s.
 
-  If point is in LaTeX math mode and neither surrounded by $'s or
-  \\[ and \\], does nothing and reports an error.
+If point is in math delimited otherwise, signal an error.
 
-  If point is not in LaTeX math mode and on an empty line,
-  inserts \\[ and \\] and puts the point in between. Also inserts
-  appropriate newlines.
-
-  If point is not in LaTeX math mode and not on an empty
-  line, inserts a new line below the current line and proceeds as
-  above.
-  "
+If point is not in math, insert a \\[ \\] pair on new lines around an
+empty line and put point there."
   (interactive)
   (cond
-   ((use-region-p) ;; surround region with \[ \]
-    (error "LaTeX-math on region not yet implemented"))
+   ((use-region-p)
+    (let ((beg (region-beginning))
+          (end (copy-marker (region-end))))
+      (deactivate-mark)
+      (save-excursion
+        (goto-char end)
+        (aam/latex--insert-on-own-line "\\]")
+        (setq end (point-marker))
+        (goto-char beg)
+        (indent-region (aam/latex--insert-on-own-line "\\[") end))))
    ((texmathp)
-    (cond
-     ((string-equal (car texmathp-why) "$") ;; change $$ to \[\]
-      (save-excursion
-        (let* ((beg (cdr texmathp-why))
-               (end (search-forward-regexp "^\\$\\|[^\\]\\$")))
-          ;; update end marker
-          (goto-char end)
-          (backward-char 1)
-          (unless (aam/latex-empty-or-whitespace-region-p (line-beginning-position) (point))
-            (insert "\n"))
-          (delete-char 1)
-          (insert "\\]") ;; closing $
-          (unless (aam/latex-empty-or-whitespace-region-p (point) (line-end-position))
-            (insert "\n"))
-          (setq end (+ 1 (line-end-position)))
-
-          ;; update start marker
-          (goto-char beg)
-          (unless (aam/latex-empty-or-whitespace-region-p (line-beginning-position) beg)
-            (insert "\n"))
-          (delete-char 1) ;; opening $
-          (insert "\\[")
-          (setq beq (line-beginning-position))
-          (unless (aam/latex-empty-or-whitespace-region-p (point) (line-end-position))
-            (insert "\n"))
-          (indent-region beg end))))
-     ((string-equal (car texmathp-why) "\\[") ;; change \[\] to $$
-      (save-excursion
-        (let* ((beg (cdr texmathp-why))
-               (end (search-forward-regexp "^\\\\\\]\\|[^\\]\\\\\\]")))
-          (goto-char end)
-          (delete-char -2)
-          (insert "$")
-          (goto-char beg)
-          (delete-char 2)
-          (insert "$"))))
-
-     (t ;; nothing to do
-      (error "Point in math mode but surrounded by %s" (car texmathp-why)))))
-   (t ;; insert new \[ \] pair
-    (progn
-      (unless (aam/latex-empty-or-whitespace-region-p
-               (line-beginning-position) (line-end-position))
-        (end-of-line)
-        (insert "\n"))
-      (insert "\\[")
-      (LaTeX-indent-line)
-      (insert "\n\n\\]")
-      (LaTeX-indent-line)
-      (forward-line -1)
-      (LaTeX-indent-line)))))
+    (let ((open (copy-marker (cdr texmathp-why))))
+      (pcase (car texmathp-why)
+        ("$"
+         (save-excursion
+           (goto-char (1+ open))
+           (re-search-forward "\\(?:^\\|[^\\]\\)\\$")
+           (delete-char -1)
+           (aam/latex--insert-on-own-line "\\]")
+           (let ((end (point-marker)))
+             (goto-char open)
+             (delete-char 1)
+             (indent-region (aam/latex--insert-on-own-line "\\[") end))))
+        ("\\["
+         (save-excursion
+           (goto-char (+ 2 open))
+           (re-search-forward "\\(?:^\\|[^\\]\\)\\\\\\]")
+           (delete-char -2)
+           (insert "$")
+           (goto-char open)
+           (delete-char 2)
+           (insert "$")))
+        (other (user-error "Point in math mode but surrounded by %s" other)))))
+   (t
+    (unless (aam/latex-empty-or-whitespace-region-p
+             (line-beginning-position) (line-end-position))
+      (end-of-line)
+      (insert "\n"))
+    (insert "\\[")
+    (LaTeX-indent-line)
+    (insert "\n\n\\]")
+    (LaTeX-indent-line)
+    (forward-line -1)
+    (LaTeX-indent-line))))
 
 (provide 'aam-latex)
 ;;; aam-latex.el ends here

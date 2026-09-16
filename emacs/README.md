@@ -46,18 +46,16 @@ Use these XDG locations instead:
 ~/.local/state/emacs/            generated Doom state
 ```
 
-Dotbot links the current profiles to `~/.config/emacs/doom`,
-`~/.config/emacs/spacemacs-full`, `~/.config/emacs/spacemacs-basic`, and
-`~/.config/emacs/spacemacs-writing`.  The `emacs-profile` launcher starts a
+Dotbot links the current profiles to `~/.config/emacs/doom`
+and `~/.config/emacs/spacemacs`.  The `emacs-profile` launcher starts a
 profile, while `doom-profile` runs the Doom CLI with the matching isolated
 paths:
 
 ```sh
 emacs-profile doom
-emacs-profile spacemacs-full
-emacs-profile --insecure spacemacs-full
-emacs-profile --daemon=research spacemacs-writing
-emacs-profile -nw spacemacs-basic
+emacs-profile spacemacs
+emacs-profile --insecure spacemacs
+emacs-profile -nw spacemacs
 doom-profile sync
 ```
 
@@ -83,8 +81,8 @@ used by graphical file-open requests:
 systemctl --user daemon-reload
 systemctl --user disable --now emacs.service  # one-time migration from the old unit
 emacs-daemon switch doom
-emacs-daemon switch spacemacs-full
-emacs-daemon open spacemacs-full path/to/file
+emacs-daemon switch spacemacs
+emacs-daemon open spacemacs path/to/file
 ```
 
 `switch` intentionally keeps only one managed profile enabled and records the
@@ -92,7 +90,7 @@ selection in `~/.local/state/emacs/default-profile`; `emacsclient-visual.sh`,
 desktop-file associations, and the Hyprland editor binding follow it.  To run
 two profiles concurrently, start each instance explicitly and connect to its
 named socket with `emacsclient --socket-name=<profile>`.  For a one-off frame,
-use `EMACS_PROFILE=spacemacs-full emacsclient-visual.sh`.
+use `EMACS_PROFILE=spacemacs emacsclient-visual.sh`.
 
 ## Optional native Wayland build
 

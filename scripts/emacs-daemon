@@ -3,7 +3,7 @@
 # Manage named systemd user daemons for the Emacs profiles in this repository.
 set -euo pipefail
 
-profiles=(doom spacemacs-full spacemacs-basic spacemacs-writing)
+profiles=(doom spacemacs)
 state_root="${XDG_STATE_HOME:-$HOME/.local/state}/emacs"
 selected_profile_file="$state_root/default-profile"
 

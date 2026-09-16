@@ -9,7 +9,7 @@ state_root="${XDG_STATE_HOME:-$HOME/.local/state}/emacs"
 
 usage() {
   printf 'Usage: %s [--insecure] [--daemon[=NAME]] [-nw] PROFILE [EMACS-ARG ...]\n' "${0##*/}" >&2
-  printf 'Profiles: doom, spacemacs-full, spacemacs-basic, spacemacs-writing, or an XDG profile name.\n' >&2
+  printf 'Profiles: doom, spacemacs, or an XDG profile name.\n' >&2
   exit 64
 }
 
@@ -70,7 +70,7 @@ doom)
     DOOMLOCALDIR="$state_root/doom" \
     emacs "${early_emacs_args[@]}" --init-directory="$framework" "${emacs_args[@]}"
   ;;
-spacemacs-full|spacemacs-basic|spacemacs-writing)
+spacemacs)
   framework="$data_root/spacemacs"
   profile_dir="$config_root/$profile"
   [[ -f "$framework/init.el" ]] || {
