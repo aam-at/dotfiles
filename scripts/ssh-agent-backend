@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+# Select the SSH agent exposed to new login sessions.
+
+set -euo pipefail
+
+runtime_dir=${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR must be set}
+environment_dir=${XDG_CONFIG_HOME:-"$HOME/.config"}/environment.d
+selection_file=$environment_dir/90-ssh-agent-backend.conf
+
+usage() {
+  cat <<'EOF'
+Usage: ssh-agent-backend {status|gpg|desktop}
+
+Select the SSH agent used by new login sessions:
+  gpg      GnuPG's SSH agent (the default)
+  desktop  GNOME Keyring's SSH agent at login
+
+The desktop backend needs pam_gnome_keyring in the display manager's PAM
+configuration to be unlocked by the login password. This command does not
+change system PAM configuration.
+EOF
+}
+
+write_selection() {
+  local socket=$1
+  local temporary_file
+
+  install -d -m 700 "$environment_dir"
+  temporary_file=$(mktemp "$environment_dir/.ssh-agent-backend.XXXXXX")
+  printf 'SSH_AUTH_SOCK=%s\n' "$socket" >"$temporary_file"
+  mv "$temporary_file" "$selection_file"
+}
+
+show_pam_warning() {
+  if ! rg -q 'pam_gnome_keyring\.so' /etc/pam.d/greetd 2>/dev/null; then
+    cat >&2 <<'EOF'
+Warning: greetd is not configured with pam_gnome_keyring. The desktop keyring
+will not be unlocked by your login password until that system PAM integration
+is added.
+EOF
+  fi
+}
+
+case ${1:-status} in
+  status)
+    printf 'Configured override: %s\n' "$selection_file"
+    if [[ -r $selection_file ]]; then
+      cat "$selection_file"
+    else
+      printf 'SSH_AUTH_SOCK default: %s/gnupg/S.gpg-agent.ssh\n' "$runtime_dir"
+    fi
+    printf 'Current manager socket: %s\n' "$(systemctl --user show-environment | sed -n 's/^SSH_AUTH_SOCK=//p')"
+    ;;
+  gpg)
+    socket="$runtime_dir/gnupg/S.gpg-agent.ssh"
+    write_selection '${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh'
+    systemctl --user set-environment "SSH_AUTH_SOCK=$socket"
+    printf 'Selected GnuPG SSH agent. New sessions will use %s\n' "$socket"
+    ;;
+  desktop)
+    socket="$runtime_dir/keyring/ssh"
+    systemctl --user start gnome-keyring-daemon.service
+    GNOME_KEYRING_CONTROL="$runtime_dir/keyring" \
+      gnome-keyring-daemon --start --components=ssh >/dev/null
+    if [[ ! -S $socket ]]; then
+      printf 'GNOME Keyring did not create %s\n' "$socket" >&2
+      exit 1
+    fi
+    write_selection '${XDG_RUNTIME_DIR}/keyring/ssh'
+    systemctl --user set-environment "SSH_AUTH_SOCK=$socket"
+    printf 'Selected desktop SSH keyring. New sessions will use %s\n' "$socket"
+    show_pam_warning
+    ;;
+  -h|--help|help)
+    usage
+    ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac

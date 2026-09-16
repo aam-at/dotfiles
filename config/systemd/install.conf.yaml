@@ -2,6 +2,7 @@
     ~/.config/systemd/user/dms.service.d: dms.service.d
     ~/.config/systemd/user/dropbox.service: dropbox.service
     ~/.config/systemd/user/emacs@.service: emacs@.service
+    ~/.config/systemd/user/gnome-keyring-daemon.service.d: gnome-keyring-daemon.service.d
     ~/.config/systemd/user/herdr.service: herdr.service
     ~/.config/systemd/user/kanata.service: kanata.service
     ~/.config/systemd/user/langtool.service: langtool.service
