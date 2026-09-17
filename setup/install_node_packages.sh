@@ -63,7 +63,6 @@ packages=(
   "@google/gemini-cli@latest"
   "@mariozechner/pi-coding-agent"
   "@marp-team/marp-cli"
-  "@openai/codex@latest"
   "@qwen-code/qwen-code@latest"
   "@sylphx/pdf-reader-mcp"
   "@th0rgal/ralph-wiggum"
@@ -83,6 +82,8 @@ packages=(
   "vscode-json-languageserver"
   "yaml-language-server"
 )
+# codex requires a standalone installation
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
 
 install_packages "${packages[@]}"
 
