@@ -30,3 +30,8 @@ config/DankMaterialShell/themes
 config/DankMaterialShell/plugins
 config/DankMaterialShell/.*
 config/DankMaterialShell/monitors.json
+**/.claude/
+**/.codex/
+**/.agents/
+**/.commandcode/
+**/.pi/
