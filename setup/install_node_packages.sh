@@ -59,6 +59,7 @@ run_x() {
 # -----------------------------
 packages=(
   "@anthropic-ai/claude-code@latest"
+  "@github/copilot-language-server"
   "@github/copilot@latest"
   "@google/gemini-cli@latest"
   "@mariozechner/pi-coding-agent"
@@ -82,10 +83,10 @@ packages=(
   "vscode-json-languageserver"
   "yaml-language-server"
 )
-# codex requires a standalone installation
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
 
 install_packages "${packages[@]}"
+# codex requires a standalone installation
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
 
 # -----------------------------
 # AI skills integration
