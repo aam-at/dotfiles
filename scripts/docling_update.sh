@@ -197,8 +197,8 @@ process_pdf() {
     hash_tmp=$(mktemp "$md_folder/.checklist.chk.XXXXXX")
     if ! (
       flock -x 9
-      awk -v filename="$filename" '$2 != filename' "$hash_file" > "$hash_tmp"
-      printf '%s  %s\n' "$computed_hash" "$filename" >> "$hash_tmp"
+      awk -v filename="$filename" '$2 != filename' "$hash_file" >"$hash_tmp"
+      printf '%s  %s\n' "$computed_hash" "$filename" >>"$hash_tmp"
       mv "$hash_tmp" "$hash_file"
     ) 9>"$lock_file"; then
       rm -f "$hash_tmp"
