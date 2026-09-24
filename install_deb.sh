@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$REPO_DIR/setup/lib.sh"
@@ -11,66 +12,29 @@ INSTALL_RUST=${INSTALL_RUST:-true}
 INSTALL_GO=${INSTALL_GO:-true}
 INSTALL_LUA=${INSTALL_LUA:-true}
 INSTALL_NODE=${INSTALL_NODE:-true}
+INSTALL_OLLAMA=${INSTALL_OLLAMA:-false}
 INSTALL_EMACS=${INSTALL_EMACS:-true}
 INSTALL_FONTS=${INSTALL_FONTS:-true}
 
 # Detect WSL
-if grep -qi microsoft /proc/version; then
-  WSL=true
-  echo "This script is running on WSL"
-else
-  WSL=false
-  echo "This script is running on Ubuntu"
+WSL=false
+grep -qi microsoft /proc/version && WSL=true
+
+# Keep Windows binaries off PATH (takes effect after `wsl --shutdown`)
+if $WSL; then
+  grep -q appendWindowsPath /etc/wsl.conf 2>/dev/null || printf '\n[interop]\nappendWindowsPath=false\n' | sudo tee -a /etc/wsl.conf >/dev/null
+  PATH=$(tr ':' '\n' <<<"$PATH" | grep -v '^/mnt/' | paste -sd:)
 fi
 
-# Parse command line arguments
-while [[ $# -gt 0 ]]; do
-  case $1 in
-  --gui)
-    GUI=true
-    shift
-    ;;
-  --no-python)
-    INSTALL_PYTHON=false
-    shift
-    ;;
-  --no-rust)
-    INSTALL_RUST=false
-    shift
-    ;;
-  --no-go)
-    INSTALL_GO=false
-    shift
-    ;;
-  --no-node)
-    INSTALL_NODE=false
-    shift
-    ;;
-  --no-emacs)
-    INSTALL_EMACS=false
-    shift
-    ;;
-  --no-fonts)
-    INSTALL_FONTS=false
-    shift
-    ;;
-  *)
-    echo "Unknown option: $1"
-    exit 1
-    ;;
-  esac
-done
-
-# Source .bashrc
-source "$HOME/.bashrc"
+parse_common_args "$@"
 
 # Install Gogh Color theme
-bash -c "$(wget -qO- https://git.io/vQgMr)"
+$WSL || bash -c "$(wget -qO- https://git.io/vQgMr)"
 
 # Function to install packages
 install_packages() {
   echo "Installing packages..."
-  sudo apt-fast install -y "$@"
+  sudo DEBIAN_FRONTEND=noninteractive apt-fast install -y "$@"
 }
 
 # Function to add PPA and install packages
@@ -87,64 +51,47 @@ sudo add-apt-repository ppa:apt-fast/stable -y
 sudo apt-get update
 sudo apt-get install -y apt-fast
 
-# Install basic packages
 install_packages \
   apt-file autojump automake bat bison btop build-essential ca-certificates \
-  checkinstall clang cmake cmake cscope curl davmail fasd fd-find ffmpeg \
-  ffmpegthumbnailer fish fonts-firacode fonts-jetbrains-mono fonts-powerline \
-  freeglut3-dev fswatch fzy g++-multilib gawk gcc-10 gcc-multilib gettext git \
-  glances global gnome-epub-thumbnailer gnupg gnupg2 guile-3.0-dev htop iotop \
-  iputils-arping jq kitty libadwaita-1-dev libasound2-dev libbz2-dev \
-  libbz2-dev libcld2-dev libenchant-2-dev libevent-dev libexpat1-dev \
-  libffi-dev libfontconfig1-dev libfontconfig1-dev libfreetype6-dev \
-  libfreetype6-dev libfuse-dev libgccjit-13-dev libgccjit0 libgif-dev \
-  libgmime-3.0-dev libgnutls28-dev libgtk-4-dev libgumbo-dev libjansson-dev \
-  libjansson4 libjbig2dec0-dev libjpeg-dev libleptonica-dev liblzma-dev \
-  libmagick++-dev libmagickcore-dev libmujs-dev libmupdf-dev libncurses-dev \
-  libncurses6 libncursesw6 libopenblas-dev libpng-dev libpoppler-glib-dev \
-  libpoppler-private-dev libreadline-dev libsdl2-dev libsndio-dev \
-  libsqlite3-dev libssl-dev libssl-dev libsystemd-dev libtiff-dev \
+  checkinstall clang cmake cscope curl davmail fasd fd-find ffmpeg \
+  ffmpegthumbnailer freeglut3-dev fswatch fzy g++-multilib gawk \
+  gcc-multilib gettext glances global gnome-epub-thumbnailer gnupg htop \
+  iotop iputils-arping jq kitty libadwaita-1-dev libasound2-dev libbz2-dev \
+  libcld2-dev libenchant-2-dev libevent-dev libexpat1-dev libffi-dev \
+  libfontconfig1-dev libfreetype6-dev libfuse-dev libgccjit-13-dev libgccjit0 \
+  libgif-dev libgmime-3.0-dev libgnutls28-dev libgtk-4-dev libgumbo-dev \
+  libjansson-dev libjansson4 libjbig2dec0-dev libjpeg-dev libleptonica-dev \
+  liblzma-dev libmagick++-dev libmagickcore-dev libmujs-dev libmupdf-dev \
+  libncurses-dev libncurses6 libncursesw6 libopenblas-dev libpng-dev \
+  libpoppler-glib-dev libpoppler-private-dev libreadline-dev libsdl2-dev \
+  libsndio-dev libsqlite3-dev libssl-dev libsystemd-dev libtiff-dev \
   libtree-sitter-dev libvterm-dev libwebkit2gtk-4.1-dev libxapian-dev \
   libxcb-composite0-dev libxcb-xfixes0-dev libxcursor-dev libxi-dev \
   libxkbcommon-dev libxmu-dev libxpm-dev llvm lynx make mc meson mosh ncdu \
-  net-tools nnn openconnect openssh-server p7zip-full p7zip-rar pandoc \
-  parallel pass pdfgrep pdfpc peco pipx pkg-config pkg-config plocate postfix \
-  powertop protobuf-compiler pydf python-dev-is-python3 python3 \
-  python3-openssl python3-pip ranger ripgrep ruby ruby-dev screen shellcheck \
+  net-tools nnn openconnect openssh-server 7zip 7zip-rar pandoc \
+  parallel pass pdfgrep pdfpc peco pipx pkg-config plocate powertop \
+  protobuf-compiler pydf python-dev-is-python3 python3 python3-openssl \
+  python3-pip ranger ripgrep ruby ruby-dev screen shellcheck \
   silversearcher-ag sqlite3 stow texinfo tig tk-dev tmux tmuxinator trash-cli \
   ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zlib1g-dev \
   zoxide
 
-fd_path=$(command -v fdfind || true)
-bat_path=$(command -v batcat || true)
+install_packages \
+  fonts-firacode fonts-jetbrains-mono fonts-powerline
 
 # Ensure fd/bat commands are available under expected names.
-if [ -n "$fd_path" ]; then
-  sudo ln -sf "$fd_path" /usr/local/bin/fd
-fi
-if [ -n "$bat_path" ]; then
-  sudo ln -sf "$bat_path" /usr/local/bin/bat
-fi
+command -v fdfind &>/dev/null && sudo ln -sf "$(command -v fdfind)" /usr/local/bin/fd
+command -v batcat &>/dev/null && sudo ln -sf "$(command -v batcat)" /usr/local/bin/bat
 
-# Add repositories and install upstream packages
-
+# install git tools
 add_ppa_and_install git-core/ppa \
-  gh git git-annex git-crypt git-flow git-hub git-lfs \
-  git-secrets
-gh extension install github/gh-copilot # Install github copilot cli
+  gh git git-annex git-crypt git-flow git-hub git-lfs git-secrets
 add_ppa_and_install fish-shell/release-3 fish
 
-# Install TLP for battery management (non-WSL only)
+# Install TLP for battery management and postfix (non-WSL only)
 if ! $WSL; then
   add_ppa_and_install linrunner/tlp tlp
-fi
-
-# Install Node.js
-if $INSTALL_NODE; then
-  echo "Installing Node.js..."
-  curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-  install_packages nodejs
-  "$REPO_DIR/setup/install_node_packages.sh"
+  install_packages postfix
 fi
 
 # Install GUI packages
@@ -163,286 +110,139 @@ if $GUI; then
 
   # Install Ruby gems
   sudo gem install anystyle anystyle-cli
-
-  # Install text linting tools
-  sudo npm i -g textlint write-good textlint-plugin-latex textlint-rule-write-good \
-    textlint-rule-no-start-duplicated-conjunction textlint-rule-max-comma \
-    textlint-rule-terminology textlint-rule-period-in-list-item \
-    textlint-rule-unexpanded-acronym textlint-rule-abbr-within-parentheses \
-    textlint-rule-alex textlint-rule-common-misspellings \
-    textlint-rule-en-max-word-count textlint-rule-diacritics \
-    textlint-rule-stop-words
 fi
 
-# Create tools directory
-mkdir -p "$TOOLS_DIR"
-
-# Install tmux
-if ! command -v tmux &>/dev/null || [ ! -d "/usr/local/stow/tmux" ]; then
-  echo "Installing tmux..."
-  curl -s https://api.github.com/repos/tmux/tmux/releases/latest | jq -r ".assets[] | select(.name | endswith(\".tar.gz\")).browser_download_url" | wget -O "/tmp/tmux.tar.gz" -i -
-  mkdir -p /tmp/tmux
-  tar -xzvf "/tmp/tmux.tar.gz" -C "/tmp/tmux" --strip-components=1
-  cd "/tmp/tmux" || exit
-  ./configure
-  make -j "$(nproc)"
-  sudo make install prefix=/usr/local/stow/tmux
-  cd -- || exit
-  cd /usr/local/stow || exit
-  sudo stow -S tmux
-  cd - || exit
+# Install Node.js
+if $INSTALL_NODE; then
+  echo "Installing Node.js..."
+  curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+  install_packages nodejs
+  "$REPO_DIR/setup/install_node_packages.sh"
 fi
 
-# Instal neovim
-if ! command -v nvim &>/dev/null || [ ! -d "/usr/local/stow/nvim" ]; then
-  echo "Installing neovim..."
-  curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r ".assets[] | select(.name | endswith(\"-linux-x86_64.tar.gz\")).browser_download_url" | wget -O "/tmp/nvim.tar.gz" -i -
-  sudo mkdir -p /usr/local/stow/nvim
-  sudo tar -xzvf "/tmp/nvim.tar.gz" -C "/usr/local/stow/nvim" --strip-components=1
-  cd -- || exit
-  cd /usr/local/stow || exit
-  sudo stow -S nvim
-  cd - || exit
-  echo "✅ neovim installed successfully!"
-else
-  echo "neovim already installed."
-fi
-
-# Install pyenv and plugins
-if $INSTALL_PYTHON && [ ! -d "$HOME/.pyenv" ]; then
-  echo "Installing pyenv and plugins..."
-  git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-  git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
-  git clone https://github.com/pyenv/pyenv-pip-migrate.git ~/.pyenv/plugins/pyenv-pip-migrate
-  git clone https://github.com/pyenv/pyenv-doctor.git ~/.pyenv/plugins/pyenv-doctor
-  git clone https://github.com/pyenv/pyenv-update.git ~/.pyenv/plugins/pyenv-update
-
-  # Install Python 3.11.9 with pyenv and set up virtual environments
-  CONFIGURE_OPTS=--enable-shared pyenv install 3.11.13
-
-  pyenv virtualenv 3.11.13 neovim3
-  pyenv activate neovim3
-  pip install pynvim
-
-  pyenv virtualenv 3.11.13 tensor3
-  pyenv activate tensor3
-  pip install -U "jedi>=0.13.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"
-  pip install -U "ptvsd>=4.2" epc importmagic mupy pudb
-  pip install -U pylsp-mypy python-lsp-black python-lsp-ruff python-lsp-server[all]
-
-  pyenv deactivate
+if $INSTALL_PYTHON; then
+  echo "Installing uv and plugins..."
   pipx install uv
 
   "$REPO_DIR/setup/install_python_tools.sh"
 fi
 
-# Install delta
-if ! command -v delta &>/dev/null; then
-  echo "Installing delta..."
-  curl -s https://api.github.com/repos/dandavison/delta/releases/latest | jq -r ".assets[] | select(.name | endswith(\"amd64.deb\") and contains(\"musl\")).browser_download_url" | wget -O /tmp/delta.deb -i -
-  sudo dpkg -i /tmp/delta.deb
-  rm /tmp/delta.deb
-  echo "✅ delta installed successfully!"
-else
-  echo "delta already installed."
-fi
-
-# Install fastfetch
-if ! command -v fastfetch &>/dev/null; then
-  echo "Installing fastfetch-cli..."
-  curl -s https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest | jq -r ".assets[] | select(.name | endswith(\"amd64.deb\")).browser_download_url" | wget -O /tmp/fastfetch.deb -i -
-  sudo dpkg -i /tmp/fastfetch.deb
-  rm /tmp/fastfetch.deb
-  echo "✅ fastfetch-cli installed successfully!"
-else
-  echo "fastfetch-cli already installed."
-fi
-
 if $INSTALL_FONTS && ! $WSL; then
-  install_font_package() {
-    local repo_url="$1"
-    local dir_name="$2"
-    local font_subdir="$3"
-
-    if [ ! -d "$TOOLS_DIR/$dir_name" ]; then
-      echo "Installing $font_subdir..."
-      git clone --depth=1 "$repo_url" "$TOOLS_DIR/$dir_name"
-    fi
-    if [ ! -d "$font_subdir" ]; then
-      install_fonts "$TOOLS_DIR/$dir_name" "" "$font_subdir"
-    else
-      echo "Skipping $font_subdir installation as it is already installed"
-    fi
-  }
-  # Define font packages
-  font_packages=(
-    "https://github.com/JetBrains/JetBrainsMono/|jetbrains-fonts|JetBrainsFonts"
-    "https://github.com/adobe-fonts/source-code-pro|adobe-source-code-pro-fonts|AdobeFonts"
-    "https://github.com/domtronn/all-the-icons.el|all-icons-fonts|AllIconsFonts"
-    "https://github.com/iaolo/iA-Fonts|iawriter-fonts|iAWriterFonts"
-    "https://github.com/powerline/fonts|powerline-fonts|PowerlineFonts"
-    "https://github.com/ryanoasis/nerd-fonts|nerd-fonts|NerdFonts"
-    "https://github.com/sebastiencs/icons-in-terminal|icons-fonts|IconsFonts"
-  )
-
-  # Install each font package
-  for package in "${font_packages[@]}"; do
-    IFS='|' read -r repo_url dir_name font_subdir <<<"$package"
-    install_font_package "$repo_url" "$dir_name" "$font_subdir"
-  done
-
-  # Install cochineal font
-  wget https://mirrors.ctan.org/fonts/cochineal.zip -O /tmp/cochineal.zip
-  unzip /tmp/cochineal.zip -d $TOOLS_DIR/cochineal-fonts
-  install_fonts "$TOOLS_DIR/cochineal-fonts" "" "CochinealFonts"
+  install_font_packages "$TOOLS_DIR"
 fi
+
+# Install tmux from source
+if [ ! -d "/usr/local/stow/tmux" ]; then
+  echo "Installing tmux..."
+  curl -s https://api.github.com/repos/tmux/tmux/releases/latest | jq -r ".assets[] | select(.name | endswith(\".tar.gz\")).browser_download_url" | wget -O "/tmp/tmux.tar.gz" -i -
+  mkdir -p /tmp/tmux
+  tar -xzf "/tmp/tmux.tar.gz" -C "/tmp/tmux" --strip-components=1
+  (cd /tmp/tmux && ./configure && make -j "$(nproc)" && sudo make install prefix=/usr/local/stow/tmux)
+  (cd /usr/local/stow && sudo stow -S tmux)
+  rm -rf /tmp/tmux /tmp/tmux.tar.gz
+fi
+
+# Install neovim
+if [ ! -d "/usr/local/stow/nvim" ]; then
+  echo "Installing neovim..."
+  curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r ".assets[] | select(.name | endswith(\"-linux-x86_64.tar.gz\")).browser_download_url" | wget -O "/tmp/nvim.tar.gz" -i -
+  sudo mkdir -p /usr/local/stow/nvim
+  sudo tar -xzf "/tmp/nvim.tar.gz" -C "/usr/local/stow/nvim" --strip-components=1
+  (cd /usr/local/stow && sudo stow -S nvim)
+  rm -f /tmp/nvim.tar.gz
+fi
+
+# Install .deb releases from GitHub
+install_github_deb() {
+  local cmd=$1 repo=$2 filter=$3
+  if ! command -v "$cmd" &>/dev/null; then
+    echo "Installing $cmd..."
+    curl -s "https://api.github.com/repos/$repo/releases/latest" | jq -r ".assets[] | select($filter).browser_download_url" | wget -O "/tmp/$cmd.deb" -i -
+    sudo dpkg -i "/tmp/$cmd.deb"
+    rm "/tmp/$cmd.deb"
+  fi
+}
+install_github_deb delta dandavison/delta '.name | endswith("amd64.deb") and contains("musl")'
+install_github_deb fastfetch fastfetch-cli/fastfetch '.name | endswith("amd64.deb")'
 
 # Install Rust and cargo packages
 if $INSTALL_RUST; then
-  if ! command -v cargo &>/dev/null; then
-    echo "Installing Rust and cargo..."
+  echo "Installing Rust and cargo packages..."
+  if ! command -v rustup &>/dev/null; then
     curl https://sh.rustup.rs -sSf | sh -s -- -y
   fi
-  echo "Installing Rust and cargo packages..."
   source "$HOME/.cargo/env"
+  rustup default stable
   "$REPO_DIR/setup/install_rust_packages.sh"
+
+  # for kanata
+  if ! $WSL; then
+    sudo groupadd -f uinput
+    sudo usermod -aG input,uinput "$USER"
+  fi
 
   if $GUI; then
     cargo install --git https://github.com/neovide/neovide
-    if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-      echo "Installing xremap for Wayland..."
-      cargo install xremap --features gnome
-    elif [ "$XDG_SESSION_TYPE" = "x11" ]; then
-      echo "Installing xremap for X11..."
-      cargo install xremap --features x11
-    fi
-    # configure xremap to use without sudo
-    sudo gpasswd -a $USER input
-    echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/input.rules
   fi
 fi
 
 # Install go packages
 if $INSTALL_GO; then
-  if ! command -v go &>/dev/null; then
-    echo "Installing go..."
-    add_ppa_and_install longsleep/golang-backports golang-go
-  fi
-  echo "Installing go packages..."
+  add_ppa_and_install longsleep/golang-backports golang-go
+  echo "Installing go and go packages..."
   "$REPO_DIR/setup/install_go_packages.sh"
 fi
 
 # Install lua packages
 if $INSTALL_LUA; then
-  if ! command -v luarocks &>/dev/null; then
-    echo "Installing luarocks..."
-    install_packages luarocks
-  fi
+  echo "Installing luarocks and tiktoken_core..."
+  install_packages luarocks
   luarocks install --local tiktoken_core
 fi
 
-# Install Doom Emacs and Spacemacs
 if $INSTALL_EMACS; then
   install_emacs
 fi
 
-# Install Intellimacs
-if $GUI && [ ! -d "$HOME/.intellimacs" ]; then
-  echo "Installing Intellimacs..."
-  git clone https://github.com/MarcoIeni/intellimacs ~/.intellimacs
+if $GUI; then
+  install_intellimacs
 fi
+
+if $INSTALL_OLLAMA; then
+  install_ollama
+fi
+
+install_fzf
 
 # Install pathpicker
 if ! command -v fpp &>/dev/null; then
   echo "Installing pathpicker..."
   git clone --depth=1 https://github.com/facebook/PathPicker.git /tmp/PathPicker
-  cd /tmp/PathPicker/debian || exit
-  ./package.sh
-  cd .. || exit
-  sudo dpkg -i *.deb
-  cd ..
-  rm -rf PathPicker
-fi
-
-# Install fzf
-if [ ! -d "$HOME/.fzf" ]; then
-  echo "Installing fzf..."
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install --all
-fi
-
-# Install icons-in-terminal
-if [ ! -d "$HOME/.local/share/icons-in-terminal" ]; then
-  echo "Installing icons-in-terminal..."
-  git clone --depth=1 https://github.com/sebastiencs/icons-in-terminal /tmp/icons-in-terminal
-  cd /tmp/icons-in-terminal || exit
-  ./install.sh
-  rm -rf /tmp/icons-in-terminal
-  cd - || exit
+  (cd /tmp/PathPicker/debian && ./package.sh && sudo dpkg -i ../*.deb)
+  rm -rf /tmp/PathPicker
 fi
 
 # Install NoiseTorch (GUI and non-WSL only)
 if $GUI && ! $WSL && ! command -v noisetorch &>/dev/null; then
   echo "Installing NoiseTorch..."
   git clone --depth=1 https://github.com/noisetorch/NoiseTorch /tmp/NoiseTorch
-  cd /tmp/NoiseTorch || exit
-  make -j "$(nproc)"
-  mkdir -p ~/.local/bin
-  cp ./bin/noisetorch ~/.local/bin/
-  cp ./assets/noisetorch.desktop ~/.local/share/applications
-  cp ./assets/icon/noisetorch.png ~/.local/share/icons/hicolor/256x256/apps
+  (cd /tmp/NoiseTorch && make -j "$(nproc)")
+  mkdir -p ~/.local/bin ~/.local/share/applications ~/.local/share/icons/hicolor/256x256/apps
+  cp /tmp/NoiseTorch/bin/noisetorch ~/.local/bin/
+  cp /tmp/NoiseTorch/assets/noisetorch.desktop ~/.local/share/applications
+  cp /tmp/NoiseTorch/assets/icon/noisetorch.png ~/.local/share/icons/hicolor/256x256/apps
   rm -rf /tmp/NoiseTorch
-  cd - || exit
 fi
 
-# Install ollama
-if ! $WSL && ! command -v ollama &>/dev/null; then
-  echo "Installing ollama..."
-  curl -fsSL https://ollama.com/install.sh | sh
-  ollama_models=(
-    # coding
-    "qwen2.5-coder:3b" "qwen2.5-coder:7b"
-    # llm
-    "gemma3:4b" "gemma3:12b" "phi4:mini"
-    # embedding
-    "granite-embedding:278m" "mxbai-embed-large:latest" "nomic-embed-text:latest")
-  for ollama_model in "${ollama_models[@]}"; do
-    ollama pull "$ollama_model"
-  done
-fi
-
-# Install tdrop
-if ! command -v tdrop &>/dev/null; then
-  echo "Installing tdrop..."
-  temp_dir=$(mktemp -d)
-  git clone --depth 1 https://github.com/noctuid/tdrop "$temp_dir"
-  cd "$temp_dir" || exit
-  sudo make install PREFIX=/usr/local/stow/tdrop
-  cd /usr/local/stow || exit
-  sudo stow -S tdrop
-  cd - || exit
-  rm -rf "$temp_dir"
-  echo "tdrop installation complete."
-fi
-
-# Install snap packages (non-WSL only)
+# Install snap packages
 if command -v snap &>/dev/null; then
   echo "Installing snap packages..."
   sudo snap refresh
-  sudo snap install vale
-  sudo snap install dust
-  sudo snap install --classic helix
-  sudo snap install --classic zellij
+  sudo snap install vale dust
+  sudo snap install --classic helix zellij
   if $GUI && ! $WSL; then
-    sudo snap install --classic obsidian
-    sudo snap install --classic pycharm-professional
-    sudo snap install --classic skype
-    sudo snap install --classic slack
-    sudo snap install languagetool
-    sudo snap install discord
-    sudo snap install logseq
-    sudo snap install opera
-    sudo snap install spotify
+    sudo snap install --classic obsidian slack
+    sudo snap install discord languagetool logseq spotify
   fi
 fi
 
