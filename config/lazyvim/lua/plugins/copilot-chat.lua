@@ -5,6 +5,21 @@ return {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "main",
     cmd = "CopilotChat",
+    -- tiktoken_core (token counting) goes in build/, which CopilotChat adds to
+    -- package.cpath. Windows' BusyBox make can't run the Makefile, so fetch the
+    -- same prebuilt LuaJIT DLL it would download.
+    build = vim.fn.has("win32") == 1
+        and function(plugin)
+          vim.fn.mkdir(plugin.dir .. "/build", "p")
+          local res = vim.system({
+            "curl", "-LSsf", "-o", plugin.dir .. "/build/tiktoken_core.dll",
+            "https://github.com/gptlang/lua-tiktoken/releases/latest/download/tiktoken_core-windows-x86_64-luajit.dll",
+          }):wait()
+          if res.code ~= 0 then
+            error("tiktoken_core download failed: " .. (res.stderr or ""))
+          end
+        end
+      or "make tiktoken",
     opts = function()
       local user = vim.env.USER or "User"
       user = user:sub(1, 1):upper() .. user:sub(2)
