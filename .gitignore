@@ -35,3 +35,8 @@ config/DankMaterialShell/monitors.json
 **/.agents/
 **/.commandcode/
 **/.pi/
+
+# tools/wellbeing build outputs
+tools/wellbeing/wellbeing
+tools/wellbeing/wellbeing.test
+tools/wellbeing/*.exe

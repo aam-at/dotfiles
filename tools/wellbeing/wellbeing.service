@@ -1,0 +1,13 @@
+[Unit]
+Description=Digital wellbeing: screen time nudges, focus mode and bedtime (ActivityWatch)
+Documentation=file://%h/dotfiles/tools/wellbeing/wellbeing.c
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/lib/wellbeing/wellbeing
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target

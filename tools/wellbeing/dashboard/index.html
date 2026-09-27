@@ -1,0 +1,454 @@
+<!doctype html>
+<!--
+  wellbeing's dashboard, served by aw-server at /pages/wellbeing/ (setup adds
+  this folder to aw-server.toml's [server.custom_static]), on the same origin
+  as ActivityWatch's API. Shows screen time, and edits the settings the
+  wellbeing helper reads from aw-server: "wellbeing" (limits, focus list,
+  bedtime, commands) and "wellbeing.state" (focus mode, a paused bedtime).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screen Time</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    /* gruvbox; dark is the default. */
+    --page: #282828; --card: #32302f; --line: #45403d; --track: #3c3836; --field: #282828;
+    --ink: #ebdbb2; --ink-2: #bdae93; --ink-3: #928374;
+    --bar: #4f9bd9; --bar-quiet: #3a6f9c; --accent: #fabd2f; --on-accent: #282828;
+    --warning: #fabd2f; --danger: #fb4934; --good: #b8bb26;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --page: #fbf1c7; --card: #f9f5d7; --line: #e5d5ad; --track: #ebdbb2; --field: #fbf1c7;
+      --ink: #3c3836; --ink-2: #665c54; --ink-3: #7c6f64;
+      --bar: #1d6fa3; --bar-quiet: #8fb4d0; --accent: #b57614; --on-accent: #fbf1c7;
+      --warning: #b57614; --danger: #9d0006; --good: #79740e;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.45 "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 24px 16px 40px; }
+  header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0; }
+  h2 { font-size: 14px; font-weight: 600; margin: 0 0 12px; }
+  h3 { font-size: 13px; font-weight: 600; margin: 16px 0 8px; color: var(--ink-2); }
+  .muted { color: var(--ink-3); }
+  .secondary { color: var(--ink-2); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin-top: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; min-width: 0; }
+  .wide { grid-column: 1 / -1; }
+  .header-right { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+  /* Switches: focus mode, bedtime. */
+  .switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+  .switch input { position: absolute; opacity: 0; }
+  .switch .knob { width: 34px; height: 20px; border-radius: 10px; background: var(--track); border: 1px solid var(--line); position: relative; transition: background .15s; }
+  .switch .knob::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--ink-3); transition: transform .15s, background .15s; }
+  .switch input:checked + .knob { background: var(--accent); border-color: var(--accent); }
+  .switch input:checked + .knob::after { transform: translateX(14px); background: var(--on-accent); }
+  .switch input:focus-visible + .knob { outline: 2px solid var(--bar); outline-offset: 2px; }
+
+  .hero { display: flex; gap: 32px; align-items: flex-end; flex-wrap: wrap; }
+  .hero .value { font-size: 52px; font-weight: 600; line-height: 1; letter-spacing: -0.5px; }
+  .hero .label { color: var(--ink-2); margin-bottom: 6px; }
+
+  /* Last 7 days: columns from one baseline, 4px rounded tops. */
+  .week { display: grid; grid-template-columns: 44px 1fr; gap: 8px; height: 190px; }
+  .ticks { position: relative; font-size: 11px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .ticks span { position: absolute; right: 0; transform: translateY(50%); }
+  .plot { position: relative; border-bottom: 1px solid var(--line); }
+  .gridline { position: absolute; left: 0; right: 0; border-top: 1px solid var(--line); }
+  .columns { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(7, 1fr); }
+  .column { position: relative; display: flex; justify-content: center; align-items: flex-end; }
+  .column .mark { width: 24px; background: var(--bar-quiet); border-radius: 4px 4px 0 0; min-height: 1px; }
+  .column.today .mark { background: var(--bar); }
+  .column:hover .mark { filter: brightness(1.15); }
+  .column .cap { position: absolute; font-size: 12px; font-weight: 600; transform: translateY(-4px); }
+  .days { display: grid; grid-template-columns: 44px repeat(7, 1fr); gap: 0 8px; margin-top: 6px; font-size: 12px; color: var(--ink-3); }
+  .days span { text-align: center; }
+  .days span:first-child { grid-column: 2; }
+  .days .today { color: var(--ink); font-weight: 600; }
+  .tooltip { position: absolute; pointer-events: none; background: var(--page); color: var(--ink); border: 1px solid var(--line); border-radius: 8px;
+    padding: 6px 10px; font-size: 12px; white-space: nowrap; transform: translate(-50%, -100%); display: none; z-index: 1; }
+
+  .rows { display: grid; gap: 10px; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 2px 10px; align-items: baseline; }
+  .row .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row .time { color: var(--ink-2); font-variant-numeric: tabular-nums; text-align: right; }
+  .row .track { grid-column: 1 / -1; height: 6px; }
+  .row .fill { height: 100%; background: var(--bar); border-radius: 0 3px 3px 0; min-width: 2px; }
+  .row .add { visibility: hidden; }
+  .row:hover .add, .row .add:focus-visible { visibility: visible; }
+
+  .meter { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; }
+  .meter .track { grid-column: 1 / -1; height: 8px; background: var(--track); border-radius: 4px; overflow: hidden; }
+  .meter .fill { height: 100%; background: var(--bar); border-radius: 4px; }
+  .meter.warning .fill { background: var(--warning); }
+  .meter.over .fill { background: var(--danger); }
+  .meter .state { grid-column: 1 / -1; font-size: 12px; color: var(--ink-2); }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 6px; border-radius: 6px; border: 1px solid currentColor; margin-left: 6px; }
+  .warning .badge { color: var(--warning); }
+  .over .badge { color: var(--danger); }
+
+  /* The settings editor. */
+  input[type="text"], input[type="number"], input[type="time"], select {
+    font: inherit; color: var(--ink); background: var(--field); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; min-width: 0;
+  }
+  input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--bar); outline-offset: 1px; }
+  .rule { display: grid; grid-template-columns: 100px minmax(0, 1fr) auto auto; gap: 8px; margin-bottom: 8px; align-items: center; }
+  .rule.no-minutes { grid-template-columns: 100px minmax(0, 1fr) auto; }
+  .rule .minutes { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+  .rule .unit { font-size: 12px; color: var(--ink-3); }
+  .times { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .command { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 8px; margin-bottom: 8px; align-items: center; font-size: 12px; }
+  .command input { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 12px; }
+  button { font: inherit; cursor: pointer; border-radius: 8px; padding: 5px 12px; border: 1px solid var(--line); background: transparent; color: var(--ink); }
+  button:hover { background: var(--track); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+  button.primary:hover { filter: brightness(1.08); }
+  button.icon { padding: 2px 9px; color: var(--ink-3); }
+  button.small { padding: 1px 8px; font-size: 12px; color: var(--ink-2); }
+  .actions { display: flex; gap: 12px; align-items: center; margin-top: 16px; }
+  details summary { cursor: pointer; color: var(--ink-2); font-size: 13px; margin-top: 16px; }
+  details .note { font-size: 12px; color: var(--ink-3); margin: 8px 0; }
+  .table-view { font-size: 12px; color: var(--ink-2); margin-top: 12px; }
+  table { border-collapse: collapse; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  td, th { padding: 2px 16px 2px 0; text-align: left; font-weight: normal; }
+  .error { color: var(--danger); }
+  .saved { color: var(--good); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Screen time</h1>
+    <div class="header-right">
+      <label class="switch" title="Do Not Disturb, and a nudge when an app or site on your focus list comes to the front">
+        <input type="checkbox" id="focus-mode"><span class="knob"></span><span>Focus mode</span>
+      </label>
+      <span class="muted" id="updated"></span>
+    </div>
+  </header>
+
+  <div class="grid">
+    <section class="card wide">
+      <div class="hero">
+        <div><div class="label">Today</div><div class="value" id="today-total">--</div></div>
+        <div class="secondary" id="today-delta"></div>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2>Last 7 days</h2>
+      <div class="week">
+        <div class="ticks" id="ticks"></div>
+        <div class="plot" id="plot"><div class="columns" id="columns"></div><div class="tooltip" id="tooltip"></div></div>
+      </div>
+      <div class="days" id="days"></div>
+      <details class="table-view"><summary>Show as a table</summary><table id="week-table"></table></details>
+    </section>
+
+    <section class="card wide">
+      <h2>Daily limits</h2>
+      <div class="rows" id="limits"></div>
+    </section>
+
+    <section class="card">
+      <h2>Apps today</h2>
+      <div class="rows" id="apps"></div>
+    </section>
+
+    <section class="card">
+      <h2>Websites today</h2>
+      <div class="rows" id="sites"></div>
+    </section>
+
+    <section class="card wide">
+      <h2>Settings</h2>
+      <h3>Daily limits: a nudge 5 minutes before, at the limit, and every 30 minutes over</h3>
+      <div id="edit-limits"></div>
+      <button class="small" id="add-limit">Add a limit</button>
+
+      <h3>Focus mode: a nudge when one of these comes to the front</h3>
+      <div id="edit-focus"></div>
+      <button class="small" id="add-focus">Add an app or site</button>
+
+      <h3>Bedtime: grayscale screen and Do Not Disturb</h3>
+      <label class="switch"><input type="checkbox" id="bedtime-enabled"><span class="knob"></span><span>Bedtime</span></label>
+      <div class="times">from <input type="time" id="bedtime-start" value="23:00"> to <input type="time" id="bedtime-end" value="07:00"></div>
+
+      <details>
+        <summary>Advanced: Do Not Disturb and grayscale commands</summary>
+        <p class="note">Shell commands the helper runs. Empty: the default for this desktop (Windows: windots' Toggle-Dnd.ps1 and built-in grayscale; Linux: DankMaterialShell or noctalia, COSMIC, Hyprland's screen shader).</p>
+        <div class="command"><span>DND on</span><input type="text" id="dnd_on" placeholder="default"></div>
+        <div class="command"><span>DND off</span><input type="text" id="dnd_off" placeholder="default"></div>
+        <div class="command"><span>Grayscale on</span><input type="text" id="grayscale_on" placeholder="default"></div>
+        <div class="command"><span>Grayscale off</span><input type="text" id="grayscale_off" placeholder="default"></div>
+      </details>
+
+      <div class="actions"><button class="primary" id="save">Save</button><span id="save-status"></span></div>
+      <datalist id="app-names"></datalist><datalist id="site-names"></datalist>
+    </section>
+  </div>
+</main>
+
+<script>
+const API = "/api/0";
+// As in wellbeing.c: Windows exes and Linux window classes.
+const BROWSERS = ["msedge.exe", "chrome.exe", "brave.exe", "firefox.exe", "vivaldi.exe", "opera.exe", "firefox", "firefox-esr", "librewolf", "zen",
+  "zen-browser", "chromium", "chromium-browser", "google-chrome", "Google-chrome", "brave-browser", "Brave-browser", "microsoft-edge", "Microsoft-edge",
+  "vivaldi-stable", "Vivaldi-stable", "opera"];
+const $ = (id) => document.getElementById(id);
+function el(tag, props = {}, ...children) {
+  const node = Object.assign(document.createElement(tag), props);
+  node.append(...children);
+  return node;
+}
+
+function duration(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  return minutes >= 60 ? `${Math.floor(minutes / 60)}h ${minutes % 60}m` : `${minutes}m`;
+}
+const displayName = (rule) => (rule.kind === "app" ? rule.name.replace(/\.exe$/i, "") : rule.name);
+const domainMatches = (domain, rule) => {
+  domain = domain.toLowerCase(); rule = rule.toLowerCase();
+  return rule !== "" && (domain === rule || domain.endsWith("." + rule));
+};
+const ruleUsage = (day, rule) =>
+  (rule.kind === "app" ? day.apps : day.sites || [])
+    .filter((e) => (rule.kind === "app" ? e.data.app.toLowerCase() === rule.name.toLowerCase() : domainMatches(e.data.$domain, rule.name)))
+    .reduce((sum, e) => sum + e.duration, 0);
+
+// ---- ActivityWatch ----
+
+const common = [
+  'afk = flood(query_bucket(find_bucket("aw-watcher-afk_")));',
+  'windows = flood(query_bucket(find_bucket("aw-watcher-window_")));',
+  'windows = filter_period_intersect(windows, filter_keyvals(afk, "status", ["not-afk"]));',
+];
+const web = [
+  `browsers = filter_keyvals(windows, "app", ${JSON.stringify(BROWSERS)});`,
+  'web = split_url_events(filter_period_intersect(flood(query_bucket(find_bucket("aw-watcher-web-"))), browsers));',
+];
+const QUERIES = {
+  // The week needs only daily totals: no per-app merge for six past days.
+  totals: [...common, "RETURN = sum_durations(windows);"],
+  detail: [...common, ...web, 'RETURN = {"total": sum_durations(windows), "apps": sort_by_duration(merge_events_by_keys(windows, ["app"])), "sites": sort_by_duration(merge_events_by_keys(web, ["$domain"]))};'],
+  // Without the browser extension's bucket.
+  detailNoWeb: [...common, 'RETURN = {"total": sum_durations(windows), "apps": sort_by_duration(merge_events_by_keys(windows, ["app"]))};'],
+};
+
+async function query(periods, lines) {
+  const response = await fetch(`${API}/query/`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ timeperiods: periods, query: lines }) });
+  if (!response.ok) throw new Error(`aw-server ${response.status}`);
+  return response.json();
+}
+
+async function getSetting(key) {
+  const response = await fetch(`${API}/settings/${key}`);
+  return response.ok ? response.json() : null;
+}
+
+async function setSetting(key, value) {
+  const response = await fetch(`${API}/settings/${key}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(value) });
+  if (!response.ok) throw new Error(`aw-server ${response.status}`);
+}
+
+function dayPeriod(daysAgo) {
+  const start = new Date(); start.setHours(0, 0, 0, 0); start.setDate(start.getDate() - daysAgo);
+  const end = new Date(start); end.setDate(end.getDate() + 1);
+  return { start, period: `${start.toISOString()}/${end.toISOString()}` };
+}
+
+// ---- Screen time ----
+
+let config = { limits: [], focus: [], bedtime: { enabled: false, start: "23:00", end: "07:00" }, commands: {} };
+let today = { total: 0, apps: [], sites: [] };
+
+function rows(container, events, kind) {
+  container.replaceChildren();
+  const shown = events.filter((e) => e.duration >= 60).slice(0, 10);
+  if (!shown.length) return container.append(el("div", { className: "muted", textContent: "Nothing yet today." }));
+  const max = shown[0].duration;
+  for (const e of shown) {
+    const name = kind === "app" ? e.data.app : e.data.$domain;
+    const add = el("button", { className: "small add", textContent: "Limit", title: `Add a daily limit for ${name}` });
+    add.addEventListener("click", () => { addRule("limits", { kind, name, minutes: 30 }); $("edit-limits").lastElementChild.querySelector("input[type=number]").focus(); });
+    const fill = el("div", { className: "fill" });
+    fill.style.width = `${(e.duration / max) * 100}%`;
+    container.append(el("div", { className: "row" },
+      el("span", { className: "name", textContent: kind === "app" ? displayName({ kind, name }) : name }),
+      add, el("span", { className: "time", textContent: duration(e.duration) }), el("div", { className: "track" }, fill)));
+  }
+}
+
+function limits() {
+  const container = $("limits");
+  container.replaceChildren();
+  if (!config.limits.length) return container.append(el("div", { className: "muted", textContent: "None set. Add one under Settings, or with Limit next to an app or site." }));
+  for (const limit of config.limits) {
+    const used = ruleUsage(today, limit), allowed = limit.minutes * 60;
+    const state = used >= allowed ? "over" : allowed - used <= 300 && allowed >= 600 ? "warning" : "";
+    const fill = el("div", { className: "fill" });
+    fill.style.width = `${Math.min(100, (used / allowed) * 100)}%`;
+    const note = el("span", { className: "state", textContent: state === "over" ? `${duration(used - allowed)} over` : `${duration(allowed - used)} left` });
+    if (state) note.append(el("span", { className: "badge", textContent: state === "over" ? "Limit reached" : "Almost there" }));
+    container.append(el("div", { className: `meter ${state}` },
+      el("span", { className: "name", textContent: displayName(limit) }),
+      el("span", { className: "time secondary", textContent: `${duration(used)} of ${duration(allowed)}` }),
+      el("div", { className: "track" }, fill), note));
+  }
+}
+
+function week(days) {
+  const max = Math.max(...days.map((d) => d.total), 3600);
+  const top = Math.ceil(max / 3600) * 3600, step = top <= 4 * 3600 ? 3600 : 2 * 3600;
+  const plot = $("plot"), tooltip = $("tooltip");
+  plot.querySelectorAll(".gridline").forEach((g) => g.remove());
+  $("ticks").replaceChildren(); $("columns").replaceChildren(); $("days").replaceChildren();
+  for (let value = 0; value <= top; value += step) {
+    const tick = el("span", { textContent: `${value / 3600}h` });
+    tick.style.bottom = `${(value / top) * 100}%`;
+    $("ticks").append(tick);
+    if (value) { const line = el("div", { className: "gridline" }); line.style.bottom = tick.style.bottom; plot.prepend(line); }
+  }
+  const table = $("week-table");
+  table.replaceChildren(el("tr", {}, el("th", { textContent: "Day" }), el("th", { textContent: "Screen time" })));
+  days.forEach((day, i) => {
+    const isToday = i === days.length - 1;
+    const full = day.start.toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "short" });
+    const mark = el("div", { className: "mark" });
+    mark.style.height = `${(day.total / top) * 100}%`;
+    const column = el("div", { className: `column${isToday ? " today" : ""}` }, mark);
+    if (isToday) { const cap = el("span", { className: "cap", textContent: duration(day.total) }); cap.style.bottom = mark.style.height; column.append(cap); }
+    column.addEventListener("mousemove", (event) => {
+      const box = plot.getBoundingClientRect();
+      tooltip.textContent = `${full}: ${duration(day.total)}`;
+      Object.assign(tooltip.style, { left: `${event.clientX - box.left}px`, top: `${event.clientY - box.top - 8}px`, display: "block" });
+    });
+    column.addEventListener("mouseleave", () => (tooltip.style.display = "none"));
+    $("columns").append(column);
+    $("days").append(el("span", { className: isToday ? "today" : "", textContent: isToday ? "Today" : day.start.toLocaleDateString(undefined, { weekday: "short" }) }));
+    table.append(el("tr", {}, el("td", { textContent: full }), el("td", { textContent: duration(day.total) })));
+  });
+}
+
+function suggestions() {
+  const fill = (id, names) => $(id).replaceChildren(...[...new Set(names)].map((value) => el("option", { value })));
+  fill("app-names", today.apps.map((e) => e.data.app));
+  fill("site-names", (today.sites || []).map((e) => e.data.$domain));
+}
+
+async function refresh() {
+  try {
+    const periods = [6, 5, 4, 3, 2, 1, 0].map(dayPeriod);
+    const [totals, detail, state] = await Promise.all([
+      query(periods.slice(0, 6).map((p) => p.period), QUERIES.totals),
+      query([periods[6].period], QUERIES.detail).catch(() => query([periods[6].period], QUERIES.detailNoWeb)),
+      getSetting("wellbeing.state"),
+    ]);
+    today = detail[0];
+    const days = [...totals.map((total, i) => ({ total, start: periods[i].start })), { total: today.total, start: periods[6].start }];
+    $("today-total").textContent = duration(today.total);
+    const past = days.slice(0, -1).filter((d) => d.total > 0);
+    if (past.length) {
+      const average = past.reduce((s, d) => s + d.total, 0) / past.length, difference = today.total - average;
+      $("today-delta").textContent = `${duration(Math.abs(difference))} ${difference >= 0 ? "more" : "less"} than your daily average of ${duration(average)} (last ${past.length} days)`;
+    }
+    week(days);
+    limits();
+    rows($("apps"), today.apps, "app");
+    rows($("sites"), today.sites || [], "site");
+    suggestions();
+    $("focus-mode").checked = !!(state && state.focus_mode);
+    $("updated").textContent = `Updated ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+  } catch (error) {
+    $("updated").replaceChildren(el("span", { className: "error", textContent: `Couldn't reach ActivityWatch (${error.message}).` }));
+  }
+}
+
+// ---- Settings ----
+
+function addRule(list, rule) {
+  const withMinutes = list === "limits";
+  const kind = el("select", {}, el("option", { value: "site", textContent: "Website" }), el("option", { value: "app", textContent: "App" }));
+  kind.value = rule.kind || "site";
+  const name = el("input", { type: "text", value: rule.name || "", placeholder: "youtube.com or Discord.exe", spellcheck: false });
+  const setList = () => name.setAttribute("list", kind.value === "app" ? "app-names" : "site-names");
+  kind.addEventListener("change", setList);
+  setList();
+  const remove = el("button", { className: "icon", textContent: "✕", title: "Remove" });
+  const row = el("div", { className: `rule${withMinutes ? "" : " no-minutes"}` }, kind, name);
+  if (withMinutes) row.append(el("span", { className: "minutes" }, el("input", { type: "number", min: 1, max: 1440, value: rule.minutes || 30, style: "width:60px" }), el("span", { className: "unit", textContent: "min" })));
+  remove.addEventListener("click", () => row.remove());
+  row.append(remove);
+  $(list === "limits" ? "edit-limits" : "edit-focus").append(row);
+}
+
+function readRules(containerId, withMinutes) {
+  return [...$(containerId).children].map((row) => {
+    const [kind, name] = row.querySelectorAll("select, input[type=text]");
+    const rule = { kind: kind.value, name: name.value.trim() };
+    if (withMinutes) rule.minutes = Math.max(1, parseInt(row.querySelector("input[type=number]").value) || 0);
+    return rule;
+  }).filter((rule) => rule.name);
+}
+
+function showConfig() {
+  $("edit-limits").replaceChildren(); $("edit-focus").replaceChildren();
+  config.limits.forEach((rule) => addRule("limits", rule));
+  config.focus.forEach((rule) => addRule("focus", rule));
+  $("bedtime-enabled").checked = !!config.bedtime.enabled;
+  $("bedtime-start").value = config.bedtime.start || "23:00";
+  $("bedtime-end").value = config.bedtime.end || "07:00";
+  for (const key of ["dnd_on", "dnd_off", "grayscale_on", "grayscale_off"]) $(key).value = (config.commands || {})[key] || "";
+}
+
+async function save() {
+  config = {
+    limits: readRules("edit-limits", true),
+    focus: readRules("edit-focus", false),
+    bedtime: { enabled: $("bedtime-enabled").checked, start: $("bedtime-start").value, end: $("bedtime-end").value },
+    commands: Object.fromEntries(["dnd_on", "dnd_off", "grayscale_on", "grayscale_off"].map((key) => [key, $(key).value.trim()])),
+  };
+  const status = $("save-status");
+  try {
+    await setSetting("wellbeing", config);
+    status.className = "saved";
+    status.textContent = "Saved. The helper picks it up within 10 seconds.";
+    showConfig();
+    limits();
+  } catch (error) {
+    status.className = "error";
+    status.textContent = `Not saved: ${error.message}`;
+  }
+}
+
+async function toggleFocus(event) {
+  // Keep a paused bedtime as it is.
+  const state = (await getSetting("wellbeing.state")) || {};
+  try { await setSetting("wellbeing.state", { ...state, focus_mode: event.target.checked }); }
+  catch { event.target.checked = !event.target.checked; }
+}
+
+async function start() {
+  const stored = await getSetting("wellbeing").catch(() => null);
+  if (stored) config = { ...config, ...stored, bedtime: { ...config.bedtime, ...(stored.bedtime || {}) } };
+  showConfig();
+  $("add-limit").addEventListener("click", () => addRule("limits", { kind: "site", minutes: 30 }));
+  $("add-focus").addEventListener("click", () => addRule("focus", { kind: "site" }));
+  $("save").addEventListener("click", save);
+  $("focus-mode").addEventListener("change", toggleFocus);
+  await refresh();
+  // Only while the page is visible; at once when it's shown again.
+  setInterval(() => document.visibilityState === "visible" && refresh(), 60000);
+  document.addEventListener("visibilitychange", () => document.visibilityState === "visible" && refresh());
+}
+
+start();
+</script>
+</body>
+</html>
