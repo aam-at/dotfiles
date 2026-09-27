@@ -30,6 +30,12 @@ repos:
         entry: shfmt -w -i 2
         language: system
         files: (^|/)(bashrc|bash_profile|profile|[^/]+\.(bash|sh))$
+      - id: c-tools
+        name: C tools (compile and test)
+        entry: sh tools/test.sh
+        language: system
+        files: ^tools/.*\.(c|h)$
+        pass_filenames: false
       - id: emacs-lisp-format
         name: Emacs Lisp formatting
         entry: >-
