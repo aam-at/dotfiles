@@ -87,8 +87,10 @@ typedef struct {
 
 typedef struct {
     int focus_mode;
-    /* The date ("2026-09-28") of the bedtime that was paused, or "". */
+    /* The date ("2026-09-28") of the scheduled bedtime that was paused, or "". */
     char bedtime_paused[16];
+    /* Bedtime turned on by hand lasts until this time (epoch seconds); 0: not. */
+    long long bedtime_until;
 } State;
 
 typedef struct {
@@ -212,18 +214,21 @@ static void parse_config(const char *text, Config *out, const Config *previous) 
     json_free(&json);
 }
 
-/* The "wellbeing.state" setting: {"focus_mode": true, "bedtime_paused": "2026-09-28"}. */
+/* The "wellbeing.state" setting:
+   {"focus_mode": true, "bedtime_paused": "2026-09-28", "bedtime_until": 1790560800}. */
 static void parse_state(const char *text, State *out) {
     memset(out, 0, sizeof *out);
     Json json;
     if (!text || !json_parse(text, &json)) return;
     out->focus_mode = json_bool(&json, json_get(&json, 0, "focus_mode"));
     json_string(&json, json_get(&json, 0, "bedtime_paused"), out->bedtime_paused, sizeof out->bedtime_paused);
+    out->bedtime_until = (long long)json_number(&json, json_get(&json, 0, "bedtime_until"), 0);
     json_free(&json);
 }
 
 static void state_json(const State *state, char *out, size_t size) {
-    snprintf(out, size, "{\"focus_mode\": %s, \"bedtime_paused\": \"%s\"}", state->focus_mode ? "true" : "false", state->bedtime_paused);
+    snprintf(out, size, "{\"focus_mode\": %s, \"bedtime_paused\": \"%s\", \"bedtime_until\": %lld}", state->focus_mode ? "true" : "false",
+        state->bedtime_paused, state->bedtime_until);
 }
 
 /* All settings ({"wellbeing": {...}, "wellbeing.state": {...}, ...}) into
@@ -414,6 +419,67 @@ static void bedtime_date(time_t now, int start, char *out, size_t size) {
     strftime(out, size, "%Y-%m-%d", localtime(&now));
 }
 
+/* Bedtime turned on by hand without a schedule lasts until this time. */
+#define DEFAULT_BEDTIME_END (7 * 60)
+
+/* The first time after now that a day reaches this minute after midnight. */
+static time_t next_time_of_day(time_t now, int minute) {
+    struct tm local = *localtime(&now);
+    local.tm_hour = minute / 60, local.tm_min = minute % 60, local.tm_sec = 0, local.tm_isdst = -1;
+    time_t at = mktime(&local);
+    if (at <= now) {
+        local.tm_mday++, local.tm_isdst = -1;
+        at = mktime(&local);
+    }
+    return at;
+}
+
+/* Whether bedtime is on: turned on by hand and not over, or scheduled now
+   and not paused. */
+static int bedtime_active(const State *s, const Config *c, time_t now) {
+    if (s->bedtime_until > (long long)now) return 1;
+    struct tm local = *localtime(&now);
+    if (!in_bedtime(local.tm_hour * 60 + local.tm_min, c->bedtime_start, c->bedtime_end)) return 0;
+    char date[16];
+    bedtime_date(now, c->bedtime_start, date, sizeof date);
+    return strcmp(date, s->bedtime_paused) != 0;
+}
+
+/* When the bedtime that's on ends, in minutes after midnight. */
+static int bedtime_end_minute(const State *s, const Config *c, time_t now) {
+    if (s->bedtime_until > (long long)now) {
+        time_t until = (time_t)s->bedtime_until;
+        struct tm local = *localtime(&until);
+        return local.tm_hour * 60 + local.tm_min;
+    }
+    return c->bedtime_end >= 0 ? c->bedtime_end : DEFAULT_BEDTIME_END;
+}
+
+typedef enum { BEDTIME_STARTED, BEDTIME_RESUMED, BEDTIME_ENDED, BEDTIME_PAUSED } BedtimeChange;
+
+/* The bedtime key (--bedtime), as on Android. Off: on now, until the
+   schedule's end time (or 07:00), or a paused scheduled bedtime resumes.
+   On: one turned on by hand ends; a scheduled one pauses until the next
+   night. */
+static BedtimeChange toggle_bedtime(State *s, const Config *c, time_t now) {
+    struct tm local = *localtime(&now);
+    int scheduled = in_bedtime(local.tm_hour * 60 + local.tm_min, c->bedtime_start, c->bedtime_end);
+    char date[16] = "";
+    if (scheduled) bedtime_date(now, c->bedtime_start, date, sizeof date);
+    if (bedtime_active(s, c, now)) {
+        s->bedtime_until = 0;
+        if (!scheduled) return BEDTIME_ENDED;
+        snprintf(s->bedtime_paused, sizeof s->bedtime_paused, "%s", date);
+        return BEDTIME_PAUSED;
+    }
+    if (scheduled) {
+        s->bedtime_paused[0] = 0;
+        return BEDTIME_RESUMED;
+    }
+    s->bedtime_until = next_time_of_day(now, c->bedtime_end >= 0 ? c->bedtime_end : DEFAULT_BEDTIME_END);
+    return BEDTIME_STARTED;
+}
+
 /* ---- Status for bars ---- */
 
 /* The widget's JSON; top_placeholder stands in for the top app when there's
@@ -542,17 +608,9 @@ static void sync_dnd(int bedtime_on) {
     run_or_builtin(wanted ? defaults.dnd_on : defaults.dnd_off, -1);
 }
 
-static int bedtime_on(void) {
-    time_t now = time(NULL);
-    struct tm local = *localtime(&now);
-    if (!in_bedtime(local.tm_hour * 60 + local.tm_min, config.bedtime_start, config.bedtime_end)) return 0;
-    char date[16];
-    bedtime_date(now, config.bedtime_start, date, sizeof date);
-    return strcmp(date, state.bedtime_paused) != 0;
-}
-
 static void update_bedtime(void) {
-    int on = bedtime_on(), started = on && !grayscale_applied;
+    time_t now = time(NULL);
+    int on = bedtime_active(&state, &config, now), started = on && !grayscale_applied;
     if (on != grayscale_applied) {
         grayscale_applied = on;
         Config defaults = config;
@@ -563,7 +621,8 @@ static void update_bedtime(void) {
     sync_dnd(on);
     if (!started) return;
     char body[96];
-    snprintf(body, sizeof body, "Grayscale and Do Not Disturb until %02d:%02d.", config.bedtime_end / 60, config.bedtime_end % 60);
+    int end = bedtime_end_minute(&state, &config, now);
+    snprintf(body, sizeof body, "Grayscale and Do Not Disturb until %02d:%02d.", end / 60, end % 60);
     notify("Bedtime", body, -1);
 }
 
@@ -666,21 +725,13 @@ static void core_toggle_focus(void) {
     platform_sync_soon();
 }
 
-/* --bedtime: pause tonight's bedtime, or resume it. */
+/* --bedtime: bedtime on now, or off (see toggle_bedtime). */
 static void core_toggle_bedtime(void) {
-    time_t now = time(NULL);
-    struct tm local = *localtime(&now);
-    if (!in_bedtime(local.tm_hour * 60 + local.tm_min, config.bedtime_start, config.bedtime_end)) {
-        notify("Bedtime", config.bedtime_start < 0 ? "Bedtime is off; set it in the dashboard." : "Not bedtime now.", -1);
-        return;
-    }
-    char date[16];
-    bedtime_date(now, config.bedtime_start, date, sizeof date);
-    int pausing = strcmp(state.bedtime_paused, date) != 0;
-    snprintf(state.bedtime_paused, sizeof state.bedtime_paused, "%s", pausing ? date : "");
-    /* Resuming brings its own notice ("Bedtime ... until"). */
+    BedtimeChange change = toggle_bedtime(&state, &config, time(NULL));
+    /* Turning it on brings its own notice ("Bedtime ... until"). */
     update_bedtime();
-    if (pausing) notify("Bedtime", "Paused until tomorrow's bedtime.", -1);
+    if (change == BEDTIME_PAUSED) notify("Bedtime", "Paused until tomorrow's bedtime.", -1);
+    else if (change == BEDTIME_ENDED) notify("Bedtime", "Off.", -1);
     /* Saved by the settings sync just after, so a slow or missing aw-server
        never holds up the notice. */
     state_unsaved = 1;
@@ -689,6 +740,7 @@ static void core_toggle_bedtime(void) {
 
 /* Usage every minute, while someone is at the keyboard. */
 static void core_usage(void) {
+    update_bedtime();
     time_t now = time(NULL);
     struct tm local = *localtime(&now);
     if (local.tm_yday != today) {
@@ -785,17 +837,7 @@ static int toggle(int focus) {
     Config current;
     parse_settings(response, &current, NULL, &state);
     if (focus) state.focus_mode = !state.focus_mode;
-    else {
-        time_t now = time(NULL);
-        struct tm local = *localtime(&now);
-        if (!in_bedtime(local.tm_hour * 60 + local.tm_min, current.bedtime_start, current.bedtime_end)) {
-            fputs("wellbeing: not bedtime now\n", stderr);
-            return 1;
-        }
-        char date[16];
-        bedtime_date(now, current.bedtime_start, date, sizeof date);
-        snprintf(state.bedtime_paused, sizeof state.bedtime_paused, "%s", strcmp(state.bedtime_paused, date) == 0 ? "" : date);
-    }
+    else toggle_bedtime(&state, &current, time(NULL));
     return save_state() ? 0 : 1;
 }
 

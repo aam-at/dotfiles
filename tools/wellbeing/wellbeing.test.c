@@ -81,11 +81,11 @@ static void test_settings(void) {
     CHECK(!parse_settings("not json", &c, NULL, &s) && !parse_settings("[1]", &c, NULL, &s));
 
     char json[128];
-    State state = {1, "2026-09-28"};
+    State state = {1, "2026-09-28", 1790560800};
     state_json(&state, json, sizeof json);
-    CHECK_STR(json, "{\"focus_mode\": true, \"bedtime_paused\": \"2026-09-28\"}");
+    CHECK_STR(json, "{\"focus_mode\": true, \"bedtime_paused\": \"2026-09-28\", \"bedtime_until\": 1790560800}");
     parse_state(json, &s);
-    CHECK(s.focus_mode == 1 && strcmp(s.bedtime_paused, "2026-09-28") == 0);
+    CHECK(s.focus_mode == 1 && strcmp(s.bedtime_paused, "2026-09-28") == 0 && s.bedtime_until == 1790560800);
 }
 
 static void test_matching(void) {
@@ -200,6 +200,52 @@ static void test_bedtime(void) {
     bedtime_date(mktime(&local), 1410, date, sizeof date), CHECK_STR(date, "2026-09-28");
 }
 
+/* A local time on 28 September 2026 (hour, minute). */
+static time_t at(int day, int hour, int minute) {
+    struct tm local = {0};
+    local.tm_year = 2026 - 1900, local.tm_mon = 8, local.tm_mday = day, local.tm_hour = hour, local.tm_min = minute, local.tm_isdst = -1;
+    return mktime(&local);
+}
+
+/* The bedtime key: on now or off, with and without a schedule. */
+static void test_bedtime_toggle(void) {
+    Config none;
+    parse_config("{}", &none, NULL);
+    State s = {0};
+    time_t evening = at(28, 20, 0);
+    CHECK(!bedtime_active(&s, &none, evening));
+    /* No schedule: on until 07:00 tomorrow, then off again. */
+    CHECK(toggle_bedtime(&s, &none, evening) == BEDTIME_STARTED);
+    CHECK(s.bedtime_until == at(29, 7, 0) && bedtime_active(&s, &none, evening));
+    CHECK(bedtime_end_minute(&s, &none, evening) == 7 * 60);
+    CHECK(bedtime_active(&s, &none, at(29, 6, 59)) && !bedtime_active(&s, &none, at(29, 7, 0)));
+    CHECK(toggle_bedtime(&s, &none, evening) == BEDTIME_ENDED);
+    CHECK(s.bedtime_until == 0 && !bedtime_active(&s, &none, evening));
+    /* After midnight, on until 07:00 the same morning. */
+    toggle_bedtime(&s, &none, at(28, 1, 30));
+    CHECK(s.bedtime_until == at(28, 7, 0));
+
+    Config scheduled;
+    parse_config("{\"bedtime\": {\"enabled\": true, \"start\": \"23:30\", \"end\": \"06:30\"}}", &scheduled, NULL);
+    State t = {0};
+    /* Scheduled and on: the key pauses it until the next night... */
+    time_t night = at(29, 2, 0);
+    CHECK(bedtime_active(&t, &scheduled, night));
+    CHECK(toggle_bedtime(&t, &scheduled, night) == BEDTIME_PAUSED);
+    CHECK(strcmp(t.bedtime_paused, "2026-09-28") == 0 && !bedtime_active(&t, &scheduled, night));
+    CHECK(bedtime_active(&t, &scheduled, at(29, 23, 45)));
+    /* ...and again resumes it. */
+    CHECK(toggle_bedtime(&t, &scheduled, night) == BEDTIME_RESUMED);
+    CHECK(bedtime_active(&t, &scheduled, night) && !*t.bedtime_paused);
+    /* Outside the schedule: on now, until the schedule's end time. */
+    State u = {0};
+    CHECK(toggle_bedtime(&u, &scheduled, evening) == BEDTIME_STARTED);
+    CHECK(u.bedtime_until == at(29, 6, 30) && bedtime_end_minute(&u, &scheduled, evening) == 6 * 60 + 30);
+    /* Turned on by hand, then the schedule starts: the key turns it all off. */
+    CHECK(toggle_bedtime(&u, &scheduled, at(28, 23, 40)) == BEDTIME_PAUSED);
+    CHECK(u.bedtime_until == 0 && !bedtime_active(&u, &scheduled, at(28, 23, 40)));
+}
+
 static void test_json(void) {
     Json json;
     CHECK(json_parse("{\"a\": \"caf\\u00e9 \\\"x\\\" \\ud83c\\udfb5\", \"b\": [true, false, null, -2.5]}", &json));
@@ -222,6 +268,7 @@ int main(int argc, char **argv) {
     test_usage();
     test_limit_nudges();
     test_bedtime();
+    test_bedtime_toggle();
     test_json();
     if (argc > 1 && strcmp(argv[1], "--live") == 0) {
         if (argc > 2) http_port = atoi(argv[2]);
