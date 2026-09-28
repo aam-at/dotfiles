@@ -106,6 +106,9 @@ if $GUI; then
       chrome-gnome-shell gnome-shell-extensions \
       network-manager-openconnect network-manager-openconnect-gnome \
       zathura zathura-djvu zathura-pdf-poppler
+
+    # aw-server and awatcher (Wayland window and idle watcher).
+    "$REPO_DIR/setup/install_activitywatch.sh"
   fi
 
   # Install Ruby gems

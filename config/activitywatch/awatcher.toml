@@ -1,0 +1,22 @@
+# awatcher (aw-awatcher.service), linked to ~/.config/awatcher/config.toml.
+
+[server]
+host = "127.0.0.1"
+port = 5600
+
+[awatcher]
+# As aw-watcher-afk and windots' window-watcher.exe on Windows.
+idle-timeout-seconds = 180
+poll-time-idle-seconds = 5
+poll-time-window-seconds = 1
+
+# Leading status glyphs are dropped from titles, as windots' window watcher
+# does on Windows: a spinner ("◐ Task", "⠋ Building"), an unsaved dot
+# ("● main.c - Zed"), an emoji. Otherwise a title that animates, such as
+# Claude Code's in a terminal, becomes a new event every second, each
+# lasting about 0 s, and that time goes missing. Letters (any script),
+# digits and ASCII stay; a title of glyphs only is kept as it is.
+# (Matches are anchored at both ends; the first filter that matches wins.)
+[[awatcher.filters]]
+match-title = '[^\x00-\x7F\p{L}\p{N}]+\s*(.+)'
+replace-title = '$1'

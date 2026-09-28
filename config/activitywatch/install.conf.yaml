@@ -1,0 +1,13 @@
+- link:
+    ~/.config/awatcher/config.toml:
+      path: awatcher.toml
+      create: true
+    ~/.config/systemd/user/aw-server.service: aw-server.service
+    ~/.config/systemd/user/aw-awatcher.service: aw-awatcher.service
+
+- shell:
+    - [systemctl --user daemon-reload, Reload user systemd units]
+    - [
+        systemctl --user enable aw-server.service aw-awatcher.service,
+        Enable ActivityWatch at login,
+      ]

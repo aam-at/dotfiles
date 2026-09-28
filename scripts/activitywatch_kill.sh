@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Stops ActivityWatch: the watcher and aw-server (config/activitywatch).
 
-pkill aw-
-notify-send "ActivityWatch killed" # Optional, sends a notification when ActivityWatch is killed
+systemctl --user stop aw-awatcher.service aw-server.service
+notify-send "ActivityWatch stopped"

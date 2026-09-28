@@ -1,0 +1,21 @@
+[Unit]
+Description=ActivityWatch window and idle watcher for Wayland (awatcher)
+Documentation=https://github.com/2e3s/awatcher
+After=aw-server.service graphical-session.target
+Requires=aw-server.service
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+# Upstream's unit: the compositor's environment can take a moment to arrive.
+TimeoutStartSec=120
+ExecStartPre=/bin/sleep 5
+ExecSearchPath=%h/.local/bin:/usr/local/bin:/usr/bin
+ExecStart=aw-awatcher
+Restart=always
+RestartSec=5
+RestartSteps=2
+RestartMaxDelaySec=15
+
+[Install]
+WantedBy=graphical-session.target

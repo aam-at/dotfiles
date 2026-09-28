@@ -96,6 +96,9 @@ if $GUI; then
 
   install_packages \
     discord languagetool logseq-desktop-bin neovide obsidian slack-desktop
+
+  # aw-server and awatcher (Wayland window and idle watcher).
+  "$REPO_DIR/setup/install_activitywatch.sh"
 fi
 
 # Install Node.js

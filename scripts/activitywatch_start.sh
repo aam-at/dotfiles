@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
+# Starts ActivityWatch: aw-server and the Wayland window/idle watcher
+# (awatcher), as systemd user units (config/activitywatch; installed by
+# setup/install_activitywatch.sh). They also start at login.
 
-cd ~/.local/opt/activitywatch # Put your ActivityWatch install folder here
-
-./aw-watcher-afk/aw-watcher-afk &
-./aw-watcher-window/aw-watcher-window & # you can add --exclude-title here to exclude window title tracking for this session only
-notify-send "ActivityWatch started"     # Optional, sends a notification when ActivityWatch is started
-./aw-server/aw-server
+systemctl --user start aw-server.service aw-awatcher.service &&
+  notify-send "ActivityWatch started"

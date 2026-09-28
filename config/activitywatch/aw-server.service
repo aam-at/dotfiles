@@ -1,0 +1,15 @@
+[Unit]
+Description=ActivityWatch server (aw-server)
+Documentation=https://docs.activitywatch.net
+
+[Service]
+Type=simple
+# activitywatch-bin puts it in /usr/bin; setup/install_activitywatch.sh
+# otherwise links it into ~/.local/bin.
+ExecSearchPath=%h/.local/bin:/usr/local/bin:/usr/bin
+ExecStart=aw-server
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
