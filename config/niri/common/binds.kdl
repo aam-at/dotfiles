@@ -16,6 +16,10 @@ binds {
     Mod+B hotkey-overlay-title="Browser" { spawn "bash" "-c" "exec $BROWSER"; }
     Mod+C hotkey-overlay-title="Editor" { spawn "bash" "-c" "exec $EDITOR"; }
     Mod+S repeat=false hotkey-overlay-title="Toggle Dictation" { spawn "toggle-dictation.sh"; }
+
+    // === Wellbeing (dotfiles' tools/wellbeing) ===
+    Mod+Alt+Z repeat=false hotkey-overlay-title="Focus Mode" { spawn "sh" "-c" "exec $HOME/.local/bin/wellbeing --focus"; }
+    Mod+Alt+S repeat=false hotkey-overlay-title="Bedtime On/Off" { spawn "sh" "-c" "exec $HOME/.local/bin/wellbeing --bedtime"; }
     // === Security ===
     Mod+Shift+E { quit; }
 

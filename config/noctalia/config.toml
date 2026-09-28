@@ -53,7 +53,7 @@ capsule_radius = 12
 capsule_padding = 6
 # Match DMS's left / center / right bar rhythm using Noctalia-native widgets.
 start = ["launcher", "workspaces", "active_window"]
-center = ["media", "clock", "weather"]
+center = ["media", "clock", "weather", "aam/wellbeing:screen_time"]
 end = [
   "tray",
   "keyboard_layout",
@@ -173,3 +173,13 @@ enable_builtin_templates = false
 enable_community_templates = false
 builtin_ids = []
 community_ids = []
+
+# Plugins kept in dotfiles (./plugins): the wellbeing screen time widget.
+[plugins]
+enabled = ["aam/wellbeing"]
+
+[[plugins.source]]
+name = "dotfiles"
+kind = "path"
+location = "~/.config/noctalia/plugins"
+enabled = true

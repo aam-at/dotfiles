@@ -13,5 +13,8 @@
   },
   "hyprSpecialWorkspaceIndicator": {
     "enabled": true
+  },
+  "wellbeing": {
+    "enabled": true
   }
 }

@@ -27,7 +27,9 @@ config/hypr/shells/active.conf
 
 /.worktrees/
 config/DankMaterialShell/themes
-config/DankMaterialShell/plugins
+# DMS clones installed plugins here; the wellbeing widget is ours.
+config/DankMaterialShell/plugins/*
+!config/DankMaterialShell/plugins/wellbeing/
 config/DankMaterialShell/.*
 config/DankMaterialShell/monitors.json
 **/.claude/

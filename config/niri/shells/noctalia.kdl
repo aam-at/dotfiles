@@ -17,6 +17,7 @@ binds {
   Mod+V { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
   Mod+M { spawn "noctalia" "msg" "panel-toggle" "control-center" "system"; }
   Mod+N { spawn "noctalia" "msg" "panel-toggle" "control-center" "notifications"; }
+  Mod+Alt+N { spawn "noctalia" "msg" "notification-dnd-toggle"; }
   Mod+Y { spawn "noctalia" "msg" "panel-toggle" "wallpaper"; }
   Mod+Comma { spawn "noctalia" "msg" "settings-toggle"; }
   Super+X { spawn "noctalia" "msg" "panel-toggle" "session"; }

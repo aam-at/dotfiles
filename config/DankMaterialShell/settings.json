@@ -574,7 +574,7 @@
         "hyprSpecialWorkspaceIndicator",
         "focusedWindow"
       ],
-      "centerWidgets": ["music", "clock", "weather"],
+      "centerWidgets": ["music", "clock", "weather", "wellbeing"],
       "rightWidgets": [
         {
           "id": "systemTray",

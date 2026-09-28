@@ -1,0 +1,11 @@
+{
+  "id": "wellbeing",
+  "name": "Wellbeing",
+  "description": "Today's screen time from dotfiles' tools/wellbeing. Click: top app; middle-click: focus mode; right-click: dashboard.",
+  "version": "1.0.0",
+  "author": "aam",
+  "icon": "timer",
+  "type": "widget",
+  "component": "./WellbeingWidget.qml",
+  "permissions": []
+}

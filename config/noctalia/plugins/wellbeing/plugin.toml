@@ -1,0 +1,11 @@
+# Today's screen time in the noctalia bar, from dotfiles' tools/wellbeing.
+# Found through the "dotfiles" path source in ../../config.toml.
+id = "aam/wellbeing"
+name = "Wellbeing"
+version = "1.0.0"
+plugin_api = 3
+author = "aam"
+
+[[widget]]
+id = "screen_time"
+entry = "widget.luau"
