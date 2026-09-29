@@ -99,8 +99,8 @@ prepend_previewers = [
   { mime = "application/x-rar", run = 'piper -- ouch l -t -y "$1"' },
   { mime = "application/x-xz", run = 'piper -- ouch l -t -y "$1"' },
   { url = "*.csv", run = 'piper -- bat -p --color=always "$1"' },
-  { url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
-  { url = "*.markdown", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
+  { url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w "${w:-80}" -s dark "$1"' },
+  { url = "*.markdown", run = 'piper -- CLICOLOR_FORCE=1 glow -w "${w:-80}" -s dark "$1"' },
 ]
 
 previewers = [
