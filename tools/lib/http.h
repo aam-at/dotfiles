@@ -91,4 +91,28 @@ static int http_request(const char *method, const char *path, const char *body, 
     return status;
 }
 
+/* POST that counts as success on 2xx, or 304 (the bucket already exists). */
+static inline int http_post(const char *path, const char *body) {
+    int status = http_request("POST", path, body, NULL, 0);
+    return (status >= 200 && status < 300) || status == 304;
+}
+
+#ifdef _WIN32
+/* Current time as FILETIME ticks: 100 ns since 1601, UTC. */
+static inline unsigned long long now_ticks(void) {
+    FILETIME file;
+    GetSystemTimeAsFileTime(&file);
+    return (unsigned long long)file.dwHighDateTime << 32 | file.dwLowDateTime;
+}
+
+/* aw-server's timestamp format, in UTC, for FILETIME ticks. */
+static inline void format_timestamp(unsigned long long ticks, char *out, size_t size) {
+    FILETIME file = {(DWORD)ticks, (DWORD)(ticks >> 32)};
+    SYSTEMTIME t;
+    FileTimeToSystemTime(&file, &t);
+    snprintf(out, size, "%04d-%02d-%02dT%02d:%02d:%02d.%03d000+00:00",
+        t.wYear, t.wMonth, t.wDay, t.wHour, t.wMinute, t.wSecond, t.wMilliseconds);
+}
+#endif
+
 #endif

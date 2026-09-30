@@ -18,7 +18,7 @@ typedef struct {
 } Json;
 
 /* 0 if text isn't JSON. Free with json_free. */
-static int json_parse(const char *text, Json *json) {
+static inline int json_parse(const char *text, Json *json) {
     jsmn_parser parser;
     jsmn_init(&parser);
     int count = jsmn_parse(&parser, text, strlen(text), NULL, 0);
@@ -32,14 +32,14 @@ static int json_parse(const char *text, Json *json) {
     return json->count > 0;
 }
 
-static void json_free(Json *json) {
+static inline void json_free(Json *json) {
     free(json->tokens);
     json->tokens = NULL;
     json->count = 0;
 }
 
 /* The index just past token i and everything inside it. */
-static int json_skip(const Json *json, int i) {
+static inline int json_skip(const Json *json, int i) {
     int end = i + 1;
     if (json->tokens[i].type == JSMN_OBJECT)
         for (int child = 0; child < json->tokens[i].size; child++) end = json_skip(json, json_skip(json, end));
@@ -48,14 +48,14 @@ static int json_skip(const Json *json, int i) {
     return end;
 }
 
-static int json_equals(const Json *json, int i, const char *s) {
+static inline int json_equals(const Json *json, int i, const char *s) {
     const jsmntok_t *t = &json->tokens[i];
     size_t length = strlen(s);
     return t->type == JSMN_STRING && (size_t)(t->end - t->start) == length && strncmp(json->text + t->start, s, length) == 0;
 }
 
 /* The value of key in the object at token i, or -1. */
-static int json_get(const Json *json, int i, const char *key) {
+static inline int json_get(const Json *json, int i, const char *key) {
     if (i < 0 || i >= json->count || json->tokens[i].type != JSMN_OBJECT) return -1;
     int at = i + 1;
     for (int child = 0; child < json->tokens[i].size; child++) {
@@ -66,29 +66,29 @@ static int json_get(const Json *json, int i, const char *key) {
 }
 
 /* The n-th element of the array at token i, or -1. */
-static int json_at(const Json *json, int i, int n) {
+static inline int json_at(const Json *json, int i, int n) {
     if (i < 0 || json->tokens[i].type != JSMN_ARRAY || n >= json->tokens[i].size) return -1;
     int at = i + 1;
     while (n-- > 0) at = json_skip(json, at);
     return at;
 }
 
-static int json_size(const Json *json, int i) {
+static inline int json_size(const Json *json, int i) {
     return i >= 0 && (json->tokens[i].type == JSMN_ARRAY || json->tokens[i].type == JSMN_OBJECT) ? json->tokens[i].size : 0;
 }
 
-static double json_number(const Json *json, int i, double fallback) {
+static inline double json_number(const Json *json, int i, double fallback) {
     if (i < 0 || json->tokens[i].type != JSMN_PRIMITIVE) return fallback;
     char c = json->text[json->tokens[i].start];
     return c == '-' || (c >= '0' && c <= '9') ? atof(json->text + json->tokens[i].start) : fallback;
 }
 
-static int json_bool(const Json *json, int i) {
+static inline int json_bool(const Json *json, int i) {
     return i >= 0 && json->tokens[i].type == JSMN_PRIMITIVE && json->text[json->tokens[i].start] == 't';
 }
 
 /* A string token, unescaped into UTF-8; "" if i isn't a string. */
-static void json_string(const Json *json, int i, char *out, size_t size) {
+static inline void json_string(const Json *json, int i, char *out, size_t size) {
     size_t n = 0;
     if (i >= 0 && json->tokens[i].type == JSMN_STRING)
         for (const char *c = json->text + json->tokens[i].start, *end = json->text + json->tokens[i].end; c < end && n + 4 < size; c++) {
@@ -121,13 +121,18 @@ static void json_string(const Json *json, int i, char *out, size_t size) {
 }
 
 /* s as a JSON string body (no quotes). */
-static void json_escape(const char *s, char *out, size_t size) {
+static inline void json_escape(const char *s, char *out, size_t size) {
     size_t n = 0;
     for (; *s && n + 7 < size; s++) {
         unsigned char c = (unsigned char)*s;
         if (c == '"' || c == '\\') out[n++] = '\\', out[n++] = (char)c;
         else if (c < 0x20) n += (size_t)snprintf(out + n, size - n, "\\u%04x", c);
         else out[n++] = (char)c;
+    }
+    /* Truncated mid-character: drop the partial one, or the JSON is invalid. */
+    if (*s && ((unsigned char)*s & 0xC0) == 0x80) {
+        while (n > 0 && ((unsigned char)out[n - 1] & 0xC0) == 0x80) n--;
+        if (n > 0 && (unsigned char)out[n - 1] >= 0xC0) n--;
     }
     out[n] = 0;
 }
