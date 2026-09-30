@@ -52,16 +52,18 @@
                                     :chat-model "deepseek-coder"
                                     :url "https://api.deepseek.com/v1"))
 
-  ;; whisper settings
-  (setq whisper-install-directory "~/local/tools/"
-        whisper-model
-        (cond
-         ((>= (aam/gpu-memory-gb) 6) "large-v3")
-         ((>= (aam/gpu-memory-gb) 4) "medium")
-         (t "small"))
-        whisper-language "en"
-        whisper-translate nil
-        whisper-use-threads (/ (num-processors) 2))
+  ;; whisper: transcribe with scripts/whisper_ov.py (Whisper on OpenVINO) instead of
+  ;; whisper.cpp; see setup/install_whisper_openvino.sh. Its audio must be 16 kHz mono.
+  (setq whisper-install-whispercpp nil
+        whisper-language "en")
+  (with-eval-after-load 'whisper
+    (defun whisper-command (input-file)
+      (list (or (executable-find "python3") "python")
+            (expand-file-name "scripts/whisper_ov.py" (or (getenv "DOTFILES") "~/dotfiles"))
+            input-file "--lang" whisper-language))
+    (advice-add 'whisper--record-command :filter-return
+                (lambda (cmd) (append (butlast cmd 2) '("-ac" "1") (last cmd 2)))
+                '((name . whisper-mono))))
 
   ;; copilot-chat settings
   (setq copilot-chat-frontend 'shell-maker

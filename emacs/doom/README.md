@@ -45,7 +45,7 @@ commands therefore use Doom's standard `SPC m` prefix.
 | `SPC o l d` | Start speech dictation |
 | `SPC o l E` | Open the Ellama command menu |
 | `SPC o l k` | Open Khoj |
-| `SPC o l w/W` | Whisper fast / accurate transcription |
+| `SPC o l w` | Whisper transcription (OpenVINO backend, `scripts/whisper_ov.py`) |
 | `SPC c A` | Copilot code actions; see below |
 | `SPC b A` | Copilot context buffers: `a` add, `d` remove, `l` list |
 | `SPC g c m` | Generate a commit message with Copilot Chat |

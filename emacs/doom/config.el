@@ -808,11 +808,10 @@
                     :desc "Ellama" "o l E" #'ellama))
 
 (use-package! whisper
-              :commands (whisper-transcribe-fast whisper-transcribe)
+              :commands whisper-run
               :init
               (map! :leader
-                    :desc "Whisper fast transcription" "o l w" #'whisper-transcribe-fast
-                    :desc "Whisper accurate transcription" "o l W" #'whisper-transcribe))
+                    :desc "Whisper transcription" "o l w" #'whisper-run))
 
 (use-package! copilot
               :hook (prog-mode . copilot-mode)
