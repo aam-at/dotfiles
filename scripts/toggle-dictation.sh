@@ -21,6 +21,14 @@ TRANSCRIPT_FILE="${TRANSCRIPT_BASE}.txt"
 MODEL="${DICTATION_MODEL:-$HOME/.local/share/whisper-cpp/ggml-large-v3-turbo-q8_0.bin}"
 THREADS="${DICTATION_THREADS:-8}"
 MODEL_NAME="$(basename "$MODEL")"
+OV_DIR="$HOME/.local/share/whisper-ov"
+OV_TOOL="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/whisper_ov.py"
+OV_MODEL_DIR="$OV_DIR/models/whisper-large-v3-turbo-int8-ov"
+# Whisper on OpenVINO (NPU/GPU) through whisper_ov.py, which keeps the model
+# loaded in a background server that the script starts through uv; set up by
+# setup/install_whisper_openvino.sh. Without it, whisper.cpp.
+OV_READY=false
+[[ -f "$OV_TOOL" && -f "$OV_MODEL_DIR/openvino_encoder_model.xml" ]] && OV_READY=true
 MODEL_URL="${DICTATION_MODEL_URL:-https://huggingface.co/ggerganov/whisper.cpp/resolve/main/$MODEL_NAME?download=true}"
 
 umask 077
@@ -199,22 +207,35 @@ start_recording() {
     return 1
   fi
   echo "$pid" >"$PID_FILE"
+  # Load the model while you talk (a no-op when the server is already up);
+  # without the toggle lock fd, so it cannot hold the lock.
+  if $OV_READY; then
+    python3 "$OV_TOOL" --start 9>&- >/dev/null 2>&1 &
+  fi
   notify "Recording... press the hotkey again to stop"
 }
 
-transcribe_and_deliver() {
-  trap 'rm -f "$TRANSCRIBE_PID_FILE" "$TARGET_FILE"' EXIT
+clean_text() {
+  tr '\n' ' ' | sed -E \
+    -e 's/^[^[:alnum:]]+//' \
+    -e 's/^[[:space:]]+|[[:space:]]+$//g'
+}
 
-  local target_kind target_id
-  if [[ -f "$TARGET_FILE" ]]; then
-    IFS=$'\t' read -r target_kind target_id <"$TARGET_FILE"
-  else
-    target_kind="focus"
-    target_id=""
+# Print the cleaned transcript of $WAV_FILE, or notify and fail.
+transcribe_openvino() {
+  local out
+  local rc=0
+  out="$(python3 "$OV_TOOL" "$WAV_FILE" 2>"$LOG_FILE")" || rc=$?
+  rm -f "$WAV_FILE"
+  if ((rc)); then
+    notify "Transcription failed (see $LOG_FILE)"
+    return 1
   fi
+  printf '%s' "$out" | clean_text
+}
 
-  notify "Transcribing..."
-
+transcribe_whisper_cpp() {
+  local text
   if ! ensure_model; then
     rm -f "$WAV_FILE"
     return 1
@@ -238,15 +259,33 @@ transcribe_and_deliver() {
   fi
   rm -f "$WAV_FILE"
 
-  local text
   if [[ ! -s "$TRANSCRIPT_FILE" ]]; then
     notify "No transcript produced (see $LOG_FILE)"
     return 1
   fi
-  text="$(tr '\n' ' ' <"$TRANSCRIPT_FILE" | sed -E \
-    -e 's/^[^[:alnum:]]+//' \
-    -e 's/^[[:space:]]+|[[:space:]]+$//g')"
+  clean_text <"$TRANSCRIPT_FILE"
   rm -f "$TRANSCRIPT_FILE"
+}
+
+transcribe_and_deliver() {
+  trap 'rm -f "$TRANSCRIBE_PID_FILE" "$TARGET_FILE"' EXIT
+
+  local target_kind target_id
+  if [[ -f "$TARGET_FILE" ]]; then
+    IFS=$'\t' read -r target_kind target_id <"$TARGET_FILE"
+  else
+    target_kind="focus"
+    target_id=""
+  fi
+
+  notify "Transcribing..."
+
+  local text
+  if $OV_READY; then
+    text="$(transcribe_openvino)" || return 1
+  else
+    text="$(transcribe_whisper_cpp)" || return 1
+  fi
 
   if [[ -z "$text" ]]; then
     notify "No speech detected"
