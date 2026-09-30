@@ -8,8 +8,7 @@
 # The first NPU compile takes minutes; later starts load the cache in seconds,
 # and whisper_ov.py then keeps the model loaded in a background server.
 # NPU/GPU need Intel's drivers (intel-npu-driver / intel compute runtime) and
-# your user in the `render` group. Once this has run, toggle-dictation.sh
-# prefers it over whisper.cpp.
+# your user in the `render` group. toggle-dictation.sh needs this to have run.
 
 set -euo pipefail
 

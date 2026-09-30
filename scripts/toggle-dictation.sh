@@ -16,37 +16,11 @@ LOCK_FILE="$STATE_DIR/lock"
 TARGET_FILE="$STATE_DIR/target"
 TRANSCRIBE_PID_FILE="$STATE_DIR/transcribe.pid"
 FAILED_TRANSCRIPT_FILE="$STATE_DIR/last-failed-transcript.txt"
-TRANSCRIPT_BASE="$STATE_DIR/transcript"
-TRANSCRIPT_FILE="${TRANSCRIPT_BASE}.txt"
-MODEL="${DICTATION_MODEL:-$HOME/.local/share/whisper-cpp/ggml-large-v3-turbo-q8_0.bin}"
-THREADS="${DICTATION_THREADS:-8}"
-MODEL_NAME="$(basename "$MODEL")"
-OV_DIR="$HOME/.local/share/whisper-ov"
 OV_TOOL="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/whisper_ov.py"
-OV_MODEL_DIR="$OV_DIR/models/whisper-large-v3-turbo-int8-ov"
-# Whisper on OpenVINO (NPU/GPU) through whisper_ov.py, which keeps the model
-# loaded in a background server that the script starts through uv; set up by
-# setup/install_whisper_openvino.sh. Without it, whisper.cpp.
-OV_READY=false
-[[ -f "$OV_TOOL" && -f "$OV_MODEL_DIR/openvino_encoder_model.xml" ]] && OV_READY=true
-MODEL_URL="${DICTATION_MODEL_URL:-https://huggingface.co/ggerganov/whisper.cpp/resolve/main/$MODEL_NAME?download=true}"
+OV_MODEL_DIR="$HOME/.local/share/whisper-ov/models/whisper-large-v3-turbo-int8-ov"
 
 umask 077
 mkdir -p "$STATE_DIR"
-
-# Prefer whichever build setup/install_whisper_cpp_gpu.sh made for this
-# machine's hardware. A GPU build still works fine with no GPU present
-# (ggml falls back to its own CPU backend at runtime), so no separate
-# CPU-retry logic is needed here — just pick the best binary available.
-WHISPER_BIN="${DICTATION_WHISPER_BIN:-}"
-if [[ -z "$WHISPER_BIN" ]]; then
-  for candidate in whisper-cli-cuda whisper-cli-sycl whisper-cli-vulkan whisper-cli-cpu whisper-cli; do
-    if command -v "$candidate" >/dev/null 2>&1; then
-      WHISPER_BIN="$candidate"
-      break
-    fi
-  done
-fi
 
 # Serialize toggle invocations: a key-repeat or double-press firing this
 # script again while a previous run is still starting/stopping/transcribing
@@ -58,30 +32,12 @@ notify() {
   notify-send -h string:x-canonical-private-synchronous:dictation "Dictation" "$1" || true
 }
 
-ensure_model() {
-  [[ -s "$MODEL" ]] && return 0
-
-  if ! command -v curl >/dev/null 2>&1; then
-    notify "Model missing and curl is unavailable"
-    echo "curl is required to download $MODEL" >>"$LOG_FILE"
-    return 1
-  fi
-
-  mkdir -p "$(dirname "$MODEL")"
-  local tmp
-  tmp="$(mktemp "${MODEL}.tmp.XXXXXX")"
-  notify "Downloading Whisper model: $MODEL_NAME"
-  if curl --fail --location --retry 3 --retry-delay 2 --progress-bar \
-    "$MODEL_URL" -o "$tmp" 2>>"$LOG_FILE" && [[ -s "$tmp" ]]; then
-    mv -f "$tmp" "$MODEL"
-    notify "Whisper model downloaded: $MODEL_NAME"
-    return 0
-  fi
-
-  rm -f "$tmp"
-  notify "Model download failed (see $LOG_FILE)"
-  return 1
-}
+# Whisper on OpenVINO (NPU/GPU) through whisper_ov.py, which keeps the model
+# loaded in a background server that the script starts through uv.
+if [[ ! -f "$OV_MODEL_DIR/openvino_encoder_model.xml" ]]; then
+  notify "Whisper model missing: run setup/install_whisper_openvino.sh"
+  exit 1
+fi
 
 is_recording() {
   [[ -f "$PID_FILE" ]] || return 1
@@ -209,62 +165,22 @@ start_recording() {
   echo "$pid" >"$PID_FILE"
   # Load the model while you talk (a no-op when the server is already up);
   # without the toggle lock fd, so it cannot hold the lock.
-  if $OV_READY; then
-    python3 "$OV_TOOL" --start 9>&- >/dev/null 2>&1 &
-  fi
+  python3 "$OV_TOOL" --start 9>&- >/dev/null 2>&1 &
   notify "Recording... press the hotkey again to stop"
 }
 
-clean_text() {
-  tr '\n' ' ' | sed -E \
-    -e 's/^[^[:alnum:]]+//' \
-    -e 's/^[[:space:]]+|[[:space:]]+$//g'
-}
-
-# Print the cleaned transcript of $WAV_FILE, or notify and fail.
-transcribe_openvino() {
-  local out
-  local rc=0
+# Transcribe $WAV_FILE, or notify and fail.
+transcribe() {
+  local out rc=0
   out="$(python3 "$OV_TOOL" "$WAV_FILE" 2>"$LOG_FILE")" || rc=$?
   rm -f "$WAV_FILE"
   if ((rc)); then
     notify "Transcription failed (see $LOG_FILE)"
     return 1
   fi
-  printf '%s' "$out" | clean_text
-}
-
-transcribe_whisper_cpp() {
-  local text
-  if ! ensure_model; then
-    rm -f "$WAV_FILE"
-    return 1
-  fi
-
-  # Read Whisper's dedicated text artifact rather than stdout.  With -np,
-  # stdout still contains the recognizer's result framing on some builds,
-  # including a leading `---` separator.
-  rm -f "$TRANSCRIPT_FILE"
-  # ponytail: no CPU-retry here — a GPU build already falls back to ggml's
-  # own CPU backend when the GPU is simply absent (verified with
-  # CUDA_VISIBLE_DEVICES=""), so a second binary invocation would just
-  # duplicate that. A GPU that's present but broken (bad driver, etc) still
-  # fails outright; if that turns out to happen in practice, override with
-  # DICTATION_WHISPER_BIN=whisper-cli-cpu rather than reintroducing a retry.
-  if ! "$WHISPER_BIN" -m "$MODEL" -t "$THREADS" -l en -np -nt -otxt \
-    -of "$TRANSCRIPT_BASE" -f "$WAV_FILE" >/dev/null 2>"$LOG_FILE"; then
-    notify "Transcription failed (see $LOG_FILE)"
-    rm -f "$WAV_FILE"
-    return 1
-  fi
-  rm -f "$WAV_FILE"
-
-  if [[ ! -s "$TRANSCRIPT_FILE" ]]; then
-    notify "No transcript produced (see $LOG_FILE)"
-    return 1
-  fi
-  clean_text <"$TRANSCRIPT_FILE"
-  rm -f "$TRANSCRIPT_FILE"
+  printf '%s' "$out" | tr '\n' ' ' | sed -E \
+    -e 's/^[^[:alnum:]]+//' \
+    -e 's/^[[:space:]]+|[[:space:]]+$//g'
 }
 
 transcribe_and_deliver() {
@@ -281,11 +197,7 @@ transcribe_and_deliver() {
   notify "Transcribing..."
 
   local text
-  if $OV_READY; then
-    text="$(transcribe_openvino)" || return 1
-  else
-    text="$(transcribe_whisper_cpp)" || return 1
-  fi
+  text="$(transcribe)" || return 1
 
   if [[ -z "$text" ]]; then
     notify "No speech detected"
