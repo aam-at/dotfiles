@@ -128,6 +128,8 @@ Covers keys outside [cite:] syntax, e.g. in :ROAM_REFS:."
   ;; set org-roam directory before loading agenda
   (setq org-default-notes-file (aam/org-path "refile.org"))
   (add-hook 'org-mode-hook (lambda () (auto-fill-mode 1)))
+  ;; @name completion through org-contacts' built-in CAPF
+  (add-hook 'org-mode-hook #'org-contacts-completion-setup)
   ;; vulpea settings
   (setq vulpea-db-sync-directories (list org-directory))
   (run-with-idle-timer 5 nil (lambda () (vulpea-db-autosync-mode +1)))
