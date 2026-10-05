@@ -1,3 +1,7 @@
+- defaults:
+    link:
+      force: true
+
 - link:
     ~/.config/herdr/config.toml:
       create: true

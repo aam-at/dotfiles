@@ -1,3 +1,7 @@
+- defaults:
+    link:
+      force: true
+
 - link:
     ~/.config/systemd/user/dms.service.d: dms.service.d
     ~/.config/systemd/user/dropbox.service: dropbox.service

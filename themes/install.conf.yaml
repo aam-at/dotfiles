@@ -1,6 +1,10 @@
 # Theme-specific deployment manifest.
 # The repository installer runs this manifest with themes/ as its base
 # directory, so all sources below are relative to this folder.
+- defaults:
+    link:
+      force: true
+
 - link:
     ~/.config/themes:
       relative: true

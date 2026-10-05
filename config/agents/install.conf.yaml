@@ -1,3 +1,7 @@
+- defaults:
+    link:
+      force: true
+
 - link:
     # Portable agent preferences only. Authentication, caches, history,
     # project trust, and machine-specific MCP configuration stay local.

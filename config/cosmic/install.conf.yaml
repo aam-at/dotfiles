@@ -1,3 +1,7 @@
+- defaults:
+    link:
+      force: true
+
 - shell:
     - [
         'sh -c ''if [ -L "$HOME/.config/cosmic" ]; then rm "$HOME/.config/cosmic"; fi; mkdir -p "$HOME/.config/cosmic"; find -L "$HOME/.config/cosmic" -maxdepth 1 -type l -delete''',
@@ -11,7 +15,6 @@
     ~/.config/cosmic/:
       create: true
       glob: true
-      force: true
       path: "*system76.*"
 
     # COSMIC-specific XDG autostart hooks (trash cleanup and clipboard history).

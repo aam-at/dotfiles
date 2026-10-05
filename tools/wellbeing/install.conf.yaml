@@ -1,3 +1,7 @@
+- defaults:
+    link:
+      force: true
+
 - link:
     ~/.config/systemd/user/wellbeing.service: wellbeing.service
 

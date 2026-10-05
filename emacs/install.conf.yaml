@@ -1,3 +1,7 @@
+- defaults:
+    link:
+      force: true
+
 - link:
     # Framework checkouts and generated state live outside the dotfiles repo;
     # see README.md. This manifest owns only profile configuration.
@@ -13,17 +17,13 @@
 
     ~/.config/emacs/spacemacs/config:
       create: true
-      force: true
       path: config
     ~/.config/emacs/spacemacs/funcs:
       create: true
-      force: true
       path: funcs
     ~/.config/emacs/spacemacs/layers:
       create: true
-      force: true
       path: spacemacs
     ~/.config/emacs/spacemacs/init.el:
       create: true
-      force: true
       path: spacemacs/init.el

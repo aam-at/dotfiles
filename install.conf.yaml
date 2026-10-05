@@ -1,3 +1,7 @@
+- defaults:
+    link:
+      force: true
+
 - clean: ["~"]
 - shell:
     - [git submodule update --depth 1 --init --recursive, Installing submodules]
