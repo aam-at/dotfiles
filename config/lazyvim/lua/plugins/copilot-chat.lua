@@ -11,10 +11,15 @@ return {
     build = vim.fn.has("win32") == 1
         and function(plugin)
           vim.fn.mkdir(plugin.dir .. "/build", "p")
-          local res = vim.system({
-            "curl", "-LSsf", "-o", plugin.dir .. "/build/tiktoken_core.dll",
-            "https://github.com/gptlang/lua-tiktoken/releases/latest/download/tiktoken_core-windows-x86_64-luajit.dll",
-          }):wait()
+          local res = vim
+            .system({
+              "curl",
+              "-LSsf",
+              "-o",
+              plugin.dir .. "/build/tiktoken_core.dll",
+              "https://github.com/gptlang/lua-tiktoken/releases/latest/download/tiktoken_core-windows-x86_64-luajit.dll",
+            })
+            :wait()
           if res.code ~= 0 then
             error("tiktoken_core download failed: " .. (res.stderr or ""))
           end

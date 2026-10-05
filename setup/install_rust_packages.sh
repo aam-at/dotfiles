@@ -17,7 +17,7 @@ cargo install --locked cargo-binstall cargo-edit cargo-outdated
 
 # Reuse cargo-binstall to install the wider toolchain.
 if command -v cargo-binstall >/dev/null 2>&1; then
-  cargo binstall -y cargo-update herdr kanata
+  cargo binstall -y cargo-update kanata prek
 else
   echo "cargo-binstall not found on PATH; skipping cargo binstall packages." >&2
 fi

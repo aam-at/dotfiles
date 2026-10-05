@@ -18,7 +18,7 @@ uv_tools=(
   git+https://github.com/bcbernardo/aw-watcher-ask.git
   gpustat
   isort
-  marker-pdf
+  docling
   nvitop
   poetry
   pre-commit
@@ -33,8 +33,7 @@ uv_tools=(
 )
 
 for tool in "${uv_tools[@]}"; do
-  uv tool install "$tool"
+  uv tool install -U "$tool"
 done
 
-uv tool install --force --python python3.12 aider-chat
 uv tool update-shell

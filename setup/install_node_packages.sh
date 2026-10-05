@@ -72,12 +72,9 @@ packages=(
   "bibtex-tidy"
   "cline"
   "dockerfile-language-server-nodejs"
-  "js-beautify"
   "openclaw"
   "opencode-ai@latest"
   "prettier"
-  "typescript"
-  "typescript-formatter"
   "typescript-language-server"
   "vim-language-server"
   "vscode-json-languageserver"
@@ -86,7 +83,7 @@ packages=(
 
 install_packages "${packages[@]}"
 # codex requires a standalone installation
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
+curl -fsSL https://chatgpt.com/codex/install.sh | CODEX_NON_INTERACTIVE=1 sh
 
 # -----------------------------
 # AI skills integration
