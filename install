@@ -38,5 +38,5 @@ for config in "${configs[@]}"; do
     relative_config="${config#"${BASEDIR}/"}"
 
     echo "==> Running ${relative_config}"
-    "${DOTBOT}" -d "${config_dir}" -c "${config}" "${@}"
+    "${DOTBOT}" --force-color -d "${config_dir}" -c "${config}" "${@}"
 done
