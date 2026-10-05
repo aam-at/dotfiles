@@ -22,6 +22,7 @@ DICTATION_LANG (en), WHISPER_OV_IDLE (server idle exit, 1800 s), WHISPER_OV_PORT
 invents text for near-silence). Compiled NPU/GPU blobs are cached beside the model;
 the first NPU compile takes minutes.
 """
+
 import argparse
 import json
 import os
@@ -60,7 +61,9 @@ def pipe_for(model, spec):
         try:
             PIPE = None  # free the old model before loading another
             t = time.perf_counter()
-            pipe = openvino_genai.WhisperPipeline(model, d, CACHE_DIR=str(Path(model) / f"cache-{d}"))
+            pipe = openvino_genai.WhisperPipeline(
+                model, d, CACHE_DIR=str(Path(model) / f"cache-{d}")
+            )
             print(f"loaded {d} in {time.perf_counter() - t:.1f}s", flush=True)
             PIPE = (d, pipe)
             return pipe, d
@@ -75,7 +78,9 @@ def transcribe(pipe, pcm, lang):
 
     audio = np.frombuffer(pcm, dtype="<i2").astype(np.float32) / 32768.0
     seconds = len(audio) / 16000
-    if not len(audio) or np.sqrt(np.mean(audio**2)) < float(os.environ.get("WHISPER_OV_MIN_RMS", 0.003)):
+    if not len(audio) or np.sqrt(np.mean(audio**2)) < float(
+        os.environ.get("WHISPER_OV_MIN_RMS", 0.003)
+    ):
         return "", seconds
     cfg = pipe.get_generation_config()
     cfg.language = f"<|{lang}|>"
@@ -121,7 +126,12 @@ def serve(a):
                 pipe, device = pipe_for(a.model, a.device)
                 t = time.perf_counter()
                 text, seconds = transcribe(pipe, pcm, head.get("lang", a.lang))
-                reply = {"text": text, "audio": seconds, "generate": time.perf_counter() - t, "device": device}
+                reply = {
+                    "text": text,
+                    "audio": seconds,
+                    "generate": time.perf_counter() - t,
+                    "device": device,
+                }
             except Exception as e:  # report to the client, keep serving
                 reply = {"error": f"{type(e).__name__}: {e}"}
             f.write(json.dumps(reply).encode() + b"\n")
@@ -147,8 +157,21 @@ def ensure_server(a):
         else {"start_new_session": True}
     )
     subprocess.Popen(
-        ["uv", "run", "--quiet", __file__, "--serve", "--device", a.device, "--model", a.model],
-        stdin=subprocess.DEVNULL, stdout=open(LOG, "ab"), stderr=subprocess.STDOUT, **kw,
+        [
+            "uv",
+            "run",
+            "--quiet",
+            __file__,
+            "--serve",
+            "--device",
+            a.device,
+            "--model",
+            a.model,
+        ],
+        stdin=subprocess.DEVNULL,
+        stdout=open(LOG, "ab"),
+        stderr=subprocess.STDOUT,
+        **kw,
     )
     # The server binds before it loads, so this only waits for Python to start.
     for _ in range(100):
@@ -185,13 +208,18 @@ def main():
         ensure_server(a)
         with socket.create_connection(ADDR, timeout=5) as s, s.makefile("rwb") as f:
             s.settimeout(1200)  # a cold NPU compile can take minutes
-            f.write(json.dumps({"bytes": len(pcm), "lang": a.lang}).encode() + b"\n" + pcm)
+            f.write(
+                json.dumps({"bytes": len(pcm), "lang": a.lang}).encode() + b"\n" + pcm
+            )
             f.flush()
             reply = json.loads(f.readline())
         if "error" in reply:
             sys.exit(reply["error"])
         print(reply["text"])
-        print(f"device={reply['device']} audio={reply['audio']:.1f}s generate={reply['generate']:.2f}s", file=sys.stderr)
+        print(
+            f"device={reply['device']} audio={reply['audio']:.1f}s generate={reply['generate']:.2f}s",
+            file=sys.stderr,
+        )
 
 
 if __name__ == "__main__":

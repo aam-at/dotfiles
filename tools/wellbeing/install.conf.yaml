@@ -9,4 +9,7 @@
     - [make install, Build and install wellbeing]
     - [systemctl --user daemon-reload, Reload user systemd units]
     - [systemctl --user enable wellbeing.service, Enable wellbeing at login]
-    - [systemctl --user try-restart wellbeing.service, Restart wellbeing if running]
+    - [
+        systemctl --user try-restart wellbeing.service,
+        Restart wellbeing if running,
+      ]

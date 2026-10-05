@@ -1,14 +1,31 @@
 #!/usr/bin/env bash
 
-set -e
+set -uo pipefail
 
 DOTBOT_DIR="dotbot"
 DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTBOT="${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}"
 
-cd "${BASEDIR}"
-git submodule update --init --recursive "${DOTBOT_DIR}"
+failures=()
+failure_outputs=()
+
+run_step() {
+    local label="$1"
+    local output
+    shift
+
+    if output="$("$@" 2>&1)"; then
+        [[ -z "${output}" ]] || printf '%s\n' "${output}"
+    else
+        failures+=("${label}")
+        failure_outputs+=("${output}")
+    fi
+}
+
+cd "${BASEDIR}" || exit 1
+echo "==> Initializing ${DOTBOT_DIR}"
+run_step "Initialize ${DOTBOT_DIR}" git submodule update --init --recursive "${DOTBOT_DIR}"
 
 configs=()
 
@@ -33,10 +50,23 @@ if [[ ${#configs[@]} -eq 0 ]]; then
     exit 1
 fi
 
-for config in "${configs[@]}"; do
-    config_dir="$(dirname "${config}")"
-    relative_config="${config#"${BASEDIR}/"}"
+if [[ -x "${DOTBOT}" ]]; then
+    for config in "${configs[@]}"; do
+        config_dir="$(dirname "${config}")"
+        relative_config="${config#"${BASEDIR}/"}"
 
-    echo "==> Running ${relative_config}"
-    "${DOTBOT}" --force-color -d "${config_dir}" -c "${config}" "${@}"
-done
+        echo "==> Running ${relative_config}"
+        run_step "${relative_config}" "${DOTBOT}" --force-color -d "${config_dir}" -c "${config}" "${@}"
+    done
+else
+    failures+=("Run Dotbot manifests")
+    failure_outputs+=("Dotbot executable not found: ${DOTBOT}")
+fi
+
+if ((${#failures[@]})); then
+    printf '\n==> Installation finished with %d failure(s):\n' "${#failures[@]}" >&2
+    for index in "${!failures[@]}"; do
+        printf '\n--- %s ---\n%s\n' "${failures[index]}" "${failure_outputs[index]}" >&2
+    done
+    exit 1
+fi
