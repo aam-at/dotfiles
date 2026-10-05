@@ -1,0 +1,12 @@
+[Unit]
+Description=Select a power profile for AC or battery power
+Documentation=man:powerprofilesctl(1)
+ConditionPathExistsGlob=/sys/class/power_supply/BAT*/status
+
+[Service]
+ExecStart=%h/.local/bin/power-profile-auto.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
