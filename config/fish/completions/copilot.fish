@@ -1,6 +1,6 @@
 # Print an optspec for argparse to handle cmd's options that are independent of any subcommand.
 function __fish_copilot_global_optspecs
-    string join \n v/version i/interactive= fleet p/prompt= s/silent enable-memory model= reasoning-effort= context= auto-tier= enable-reasoning-summaries agent= r/resume= continue n/name= session-id= connect= cloud w/worktree= allow-all-tools allow-all-paths disallow-temp-dir banner screen-reader plain-diff C= log-dir= extension-sdk-path= config-dir= log-level= save-trajectory-output= prefer-version= stream= output-format= share= share-gist add-dir= attachment= disable-mcp-server= disable-builtin-mcps enable-all-github-mcp-tools add-github-mcp-toolset= add-github-mcp-tool= plugin-dir= additional-mcp-config= allow-all-mcp-server-instructions additional-content-exclusion-policies= allow-tool= deny-tool= available-tools= excluded-tools= secret-env-vars= allow-url= deny-url= allow-all-urls allow-all yolo max-autopilot-continues= mode= autopilot plan experimental bash-env= mouse= show-timing server ui-server headless managed-server acp stdio host= disable-remote-sessions remote remote-export port= session-idle-timeout= auth-token-env= log-interactive-shells print-debug-info collect-debug-logs= collect-debug-logs-output= relay ahp= environment-id= ahp-host listen= workspace= sandbox dynamic-retrieval= enable-mcp-server= max-ai-credits= assisted-approval embedded-host usage-output-file= no-custom-instructions no-auto-update no-ask-user no-color no-experimental no-bash-env no-mouse no-remote no-remote-export no-auto-login no-sandbox no-eager-powershell-resolution h/help
+    string join \n v/version i/interactive= fleet p/prompt= s/silent enable-memory model= reasoning-effort= context= auto-tier= enable-reasoning-summaries agent= r/resume= continue n/name= session-id= connect= cloud w/worktree= allow-all-tools allow-all-paths disallow-temp-dir banner screen-reader plain-diff C= log-dir= extension-sdk-path= config-dir= log-level= save-trajectory-output= prefer-version= stream= output-format= share= share-gist add-dir= attachment= disable-mcp-server= disable-builtin-mcps enable-all-github-mcp-tools add-github-mcp-toolset= add-github-mcp-tool= plugin-dir= additional-mcp-config= mcp-github-auth= allow-all-mcp-server-instructions additional-content-exclusion-policies= allow-tool= deny-tool= available-tools= excluded-tools= secret-env-vars= allow-url= deny-url= allow-all-urls allow-all yolo max-autopilot-continues= mode= autopilot plan experimental bash-env= mouse= show-timing server ui-server headless managed-server acp stdio host= disable-remote-sessions remote remote-export port= session-idle-timeout= auth-token-env= log-interactive-shells print-debug-info collect-debug-logs= collect-debug-logs-output= relay ahp= environment-id= ahp-host listen= workspace= sandbox dynamic-retrieval= enable-mcp-server= max-ai-credits= assisted-approval embedded-host usage-output-file= no-custom-instructions no-auto-update no-ask-user no-color no-experimental no-bash-env no-mouse no-remote no-remote-export no-auto-login no-sandbox no-eager-powershell-resolution h/help
 end
 
 function __fish_copilot_needs_command
@@ -30,12 +30,16 @@ complete -c copilot -n __fish_copilot_needs_command -l model -d 'Set the AI mode
 claude-sonnet-5\t''
 claude-fable-5.1\t''
 claude-fable-5\t''
+claude-opus-5.5\t''
 claude-opus-5\t''
 claude-opus-4.8\t''
 claude-opus-4.8-fast\t''
 claude-opus-4.7\t''
 claude-sonnet-4.6\t''
 claude-haiku-4.5\t''
+gpt-6.1-sol\t''
+gpt-6-sol\t''
+gpt-6-luna\t''
 gpt-6-astra\t''
 gpt-5.6-sol\t''
 gpt-5.6-terra\t''
@@ -52,7 +56,9 @@ gemini-3.6-flash\t''
 gemini-3.5-flash\t''
 grok-4.5\t''
 kimi-k3\t''
-kimi-k2.7-code\t''"
+kimi-k2.7-code\t''
+claude-sonnet-5.5\t''
+grok-4.6\t''"
 complete -c copilot -n __fish_copilot_needs_command -l reasoning-effort -d 'Set the reasoning effort level' -r -f -a "none\t''
 minimal\t''
 low\t''
@@ -70,7 +76,7 @@ complete -c copilot -n __fish_copilot_needs_command -s r -l resume -d 'Resume fr
 complete -c copilot -n __fish_copilot_needs_command -s n -l name -d 'Set a name for the new session' -r
 complete -c copilot -n __fish_copilot_needs_command -l session-id -d 'Resume an existing session or task by ID, or set the UUID for a new session' -r
 complete -c copilot -n __fish_copilot_needs_command -l connect -d 'Connect directly to a remote session (optionally specify session ID or task ID)' -r
-complete -c copilot -n __fish_copilot_needs_command -s w -l worktree -d 'Create or reuse an isolated git worktree under <repo>.worktrees/ and start the session inside it (name is optional)' -r
+complete -c copilot -n __fish_copilot_needs_command -s w -l worktree -d 'Create or reuse an isolated git worktree and start the session inside it (name is optional; the location follows the worktreePathTemplate setting)' -r
 complete -c copilot -n __fish_copilot_needs_command -s C -d 'Change working directory before doing anything else' -r
 complete -c copilot -n __fish_copilot_needs_command -l log-dir -d 'Set log file directory (default: ~/.copilot/logs/)' -r
 complete -c copilot -n __fish_copilot_needs_command -l extension-sdk-path -d 'Override the bundled @github/copilot-sdk injected into extension subprocesses with a local `copilot-sdk/` folder. Invalid paths fall back to the bundled SDK.' -r
@@ -96,6 +102,7 @@ complete -c copilot -n __fish_copilot_needs_command -l add-github-mcp-toolset -d
 complete -c copilot -n __fish_copilot_needs_command -l add-github-mcp-tool -d 'Add a tool to enable for the GitHub MCP server instead of the default CLI subset (can be used multiple times). Use "*" for all tools.' -r
 complete -c copilot -n __fish_copilot_needs_command -l plugin-dir -d 'Load a plugin from a local directory (can be used multiple times). A relative path resolves against the session working directory (the --resume/--worktree/-C directory), whatever order the options appear in' -r
 complete -c copilot -n __fish_copilot_needs_command -l additional-mcp-config -d 'Additional MCP servers configuration as JSON string or file path (prefix with @) (can be used multiple times; augments config from ~/.copilot/mcp-config.json for this session). A relative @ path resolves against the session working directory (the --resume/--worktree/-C directory) and a leading ~/ expands to your home directory' -r
+complete -c copilot -n __fish_copilot_needs_command -l mcp-github-auth -d 'Send the signed-in GitHub account credential only to this explicit --additional-mcp-config server and approved origin. HTTPS is required except for literal loopback HTTP. Never put a token in this argument. Can be used multiple times.' -r
 complete -c copilot -n __fish_copilot_needs_command -l additional-content-exclusion-policies -d 'Additional content exclusion policies as JSON string or file path (prefix with @) (can be used multiple times)' -r
 complete -c copilot -n __fish_copilot_needs_command -l allow-tool -d 'Tools the CLI has permission to use; will not prompt for permission' -r
 complete -c copilot -n __fish_copilot_needs_command -l deny-tool -d 'Tools the CLI does not have permission to use; will not prompt for permission' -r
@@ -119,7 +126,7 @@ complete -c copilot -n __fish_copilot_needs_command -l collect-debug-logs-output
 complete -c copilot -n __fish_copilot_needs_command -l ahp -d 'Experimental: attach to an Agent Host Protocol host and run its sessions (default: ws://127.0.0.1:8765)' -r
 complete -c copilot -n __fish_copilot_needs_command -l environment-id -d 'Target environment id for --relay' -r
 complete -c copilot -n __fish_copilot_needs_command -l listen -d 'Address --ahp-host binds, as host:port' -r
-complete -c copilot -n __fish_copilot_needs_command -l workspace -d 'Directory --ahp-host runs its session in' -r
+complete -c copilot -n __fish_copilot_needs_command -l workspace -d 'Workspace boundary for --ahp-host sessions' -r
 complete -c copilot -n __fish_copilot_needs_command -l dynamic-retrieval -d 'Enable or disable embeddings-based dynamic retrieval per category and persist the choice (category: skills). Repeatable, e.g. --dynamic-retrieval skills=off' -r
 complete -c copilot -n __fish_copilot_needs_command -l enable-mcp-server -d 'Enable an MCP server disabled in settings for this run only; nothing is persisted (can be used multiple times)' -r
 complete -c copilot -n __fish_copilot_needs_command -l max-ai-credits -d 'Set max AI credits for this session' -r
@@ -138,7 +145,7 @@ complete -c copilot -n __fish_copilot_needs_command -l banner -d 'Show the start
 complete -c copilot -n __fish_copilot_needs_command -l screen-reader -d 'Enable screen reader optimizations'
 complete -c copilot -n __fish_copilot_needs_command -l plain-diff -d 'Disable rich diff rendering (syntax highlighting via diff tool specified by git config)'
 complete -c copilot -n __fish_copilot_needs_command -l share-gist -d 'Share session to a secret GitHub gist after completion in non-interactive mode'
-complete -c copilot -n __fish_copilot_needs_command -l disable-builtin-mcps -d 'Disable all built-in MCP servers (currently: github-mcp-server)'
+complete -c copilot -n __fish_copilot_needs_command -l disable-builtin-mcps -d 'Disable all built-in MCP servers (currently: github-mcp-server, githubiq)'
 complete -c copilot -n __fish_copilot_needs_command -l enable-all-github-mcp-tools -d 'Enable all GitHub MCP server tools instead of the default CLI subset. Overrides --add-github-mcp-toolset and --add-github-mcp-tool options.'
 complete -c copilot -n __fish_copilot_needs_command -l allow-all-mcp-server-instructions -d 'Include initialization instructions from all MCP servers in the system prompt instead of only allowlisted servers'
 complete -c copilot -n __fish_copilot_needs_command -l allow-all-urls -d 'Allow access to all URLs without confirmation'
@@ -160,7 +167,7 @@ complete -c copilot -n __fish_copilot_needs_command -l remote-export -d 'Export 
 complete -c copilot -n __fish_copilot_needs_command -l log-interactive-shells -d 'Log raw PTY data from interactive shell sessions'
 complete -c copilot -n __fish_copilot_needs_command -l print-debug-info -d 'Print CLI version, terminal capabilities, and detection-related env vars, then exit'
 complete -c copilot -n __fish_copilot_needs_command -l relay -d 'Experimental: connect to a remote agent host via Mission Control + Web PubSub relay'
-complete -c copilot -n __fish_copilot_needs_command -l ahp-host -d 'Experimental: run as an Agent Host Protocol host'
+complete -c copilot -n __fish_copilot_needs_command -l ahp-host -d 'Experimental: serve AHP 0.9 with copilotd\'s in-process backend'
 complete -c copilot -n __fish_copilot_needs_command -l sandbox -d 'Run this session\'s shell commands inside the OS-level sandbox for this run only (does not change your saved sandbox setting)'
 complete -c copilot -n __fish_copilot_needs_command -l assisted-approval -d 'Review tool permission requests with the assisted-approval safety judge instead of approving them outright. Equivalent to the `assisted` mode of /permissions. Takes precedence over --allow-all-tools when the judge engages; requires --experimental or enabledFeatureFlags.AUTO_APPROVAL. (env: COPILOT_ASSISTED_APPROVAL)'
 complete -c copilot -n __fish_copilot_needs_command -l embedded-host -d 'Run as an in-process FFI embedded host (Rust engine driven over the C ABI; no stdio/TCP transport)'
@@ -183,6 +190,7 @@ complete -c copilot -n __fish_copilot_needs_command -f -a help -d 'Display help 
 complete -c copilot -n __fish_copilot_needs_command -f -a init -d 'Initialize Copilot instructions'
 complete -c copilot -n __fish_copilot_needs_command -f -a update -d 'Download the latest version'
 complete -c copilot -n __fish_copilot_needs_command -f -a version -d 'Display version information'
+complete -c copilot -n __fish_copilot_needs_command -f -a workflow -d 'Run dynamic workflows'
 complete -c copilot -n __fish_copilot_needs_command -f -a sessions -d 'Manage saved sessions'
 complete -c copilot -n __fish_copilot_needs_command -f -a memories -d 'Manage memories'
 complete -c copilot -n __fish_copilot_needs_command -f -a plugin -d 'Manage plugins'
@@ -190,6 +198,7 @@ complete -c copilot -n __fish_copilot_needs_command -f -a mcp -d 'Manage MCP ser
 complete -c copilot -n __fish_copilot_needs_command -f -a skill -d 'Manage skills'
 complete -c copilot -n __fish_copilot_needs_command -f -a instruction -d 'Inspect instruction sources'
 complete -c copilot -n __fish_copilot_needs_command -f -a lsp -d 'Inspect language server configuration'
+complete -c copilot -n __fish_copilot_needs_command -f -a sandbox -d 'Manage command sandboxing'
 complete -c copilot -n __fish_copilot_needs_command -f -a taskbar-selftest -d 'Diagnose the Windows taskbar-presence (Forerunner) pipeline'
 complete -c copilot -n __fish_copilot_needs_command -f -a completion -d 'Generate a shell completion script'
 complete -c copilot -n "__fish_copilot_using_subcommand app" -s h -l help -d 'Print help (see more with \'--help\')'
@@ -208,6 +217,14 @@ complete -c copilot -n "__fish_copilot_using_subcommand init" -l no-eager-powers
 complete -c copilot -n "__fish_copilot_using_subcommand init" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c copilot -n "__fish_copilot_using_subcommand update" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c copilot -n "__fish_copilot_using_subcommand version" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c copilot -n "__fish_copilot_using_subcommand workflow; and not __fish_seen_subcommand_from run" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c copilot -n "__fish_copilot_using_subcommand workflow; and not __fish_seen_subcommand_from run" -f -a run -d 'Run a registered dynamic workflow'
+complete -c copilot -n "__fish_copilot_using_subcommand workflow; and __fish_seen_subcommand_from run" -l args -d 'Workflow arguments as inline JSON or an @-prefixed JSON file' -r
+complete -c copilot -n "__fish_copilot_using_subcommand workflow; and __fish_seen_subcommand_from run" -l result-file -d 'Write only the workflow result to this JSON file' -r
+complete -c copilot -n "__fish_copilot_using_subcommand workflow; and __fish_seen_subcommand_from run" -l output-format -d 'Output format: \'text\' (default) or \'json\' (JSONL)' -r -f -a "text\t''
+json\t''"
+complete -c copilot -n "__fish_copilot_using_subcommand workflow; and __fish_seen_subcommand_from run" -s s -l silent -d 'Suppress workflow progress output'
+complete -c copilot -n "__fish_copilot_using_subcommand workflow; and __fish_seen_subcommand_from run" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c copilot -n "__fish_copilot_using_subcommand sessions; and not __fish_seen_subcommand_from import" -s h -l help -d 'Print help'
 complete -c copilot -n "__fish_copilot_using_subcommand sessions; and not __fish_seen_subcommand_from import" -f -a import -d 'Import a semantic session from JSONL'
 complete -c copilot -n "__fish_copilot_using_subcommand sessions; and __fish_seen_subcommand_from import" -l output -d 'Output format' -r -f -a "json\t''"
@@ -270,7 +287,7 @@ sse\t''"
 complete -c copilot -n "__fish_copilot_using_subcommand mcp; and __fish_seen_subcommand_from add" -l env -d 'Environment variable (KEY=VALUE, can be repeated)' -r
 complete -c copilot -n "__fish_copilot_using_subcommand mcp; and __fish_seen_subcommand_from add" -l header -d 'HTTP header for remote servers, can be repeated' -r
 complete -c copilot -n "__fish_copilot_using_subcommand mcp; and __fish_seen_subcommand_from add" -l tools -d 'Tool filter: "*" for all, comma-separated list, or "" for none' -r
-complete -c copilot -n "__fish_copilot_using_subcommand mcp; and __fish_seen_subcommand_from add" -l timeout -d 'Timeout in milliseconds' -r
+complete -c copilot -n "__fish_copilot_using_subcommand mcp; and __fish_seen_subcommand_from add" -l timeout -d 'Timeout in milliseconds (1-4294967295)' -r
 complete -c copilot -n "__fish_copilot_using_subcommand mcp; and __fish_seen_subcommand_from add" -l config-dir -d 'Path to the configuration directory (deprecated: use COPILOT_HOME env var)' -r
 complete -c copilot -n "__fish_copilot_using_subcommand mcp; and __fish_seen_subcommand_from add" -l json -d 'Output added config as JSON'
 complete -c copilot -n "__fish_copilot_using_subcommand mcp; and __fish_seen_subcommand_from add" -l show-secrets -d 'Show full environment variable and header values in output, masked by default'
@@ -309,10 +326,18 @@ complete -c copilot -n "__fish_copilot_using_subcommand lsp; and not __fish_seen
 complete -c copilot -n "__fish_copilot_using_subcommand lsp; and __fish_seen_subcommand_from list" -l config-dir -d 'Path to the configuration directory (deprecated: use COPILOT_HOME env var)' -r
 complete -c copilot -n "__fish_copilot_using_subcommand lsp; and __fish_seen_subcommand_from list" -l json -d 'Output as JSON'
 complete -c copilot -n "__fish_copilot_using_subcommand lsp; and __fish_seen_subcommand_from list" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c copilot -n "__fish_copilot_using_subcommand sandbox; and not __fish_seen_subcommand_from ca" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c copilot -n "__fish_copilot_using_subcommand sandbox; and not __fish_seen_subcommand_from ca" -f -a ca -d 'Manage the credential proxy certificate authority'
+complete -c copilot -n "__fish_copilot_using_subcommand sandbox; and __fish_seen_subcommand_from ca" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c copilot -n "__fish_copilot_using_subcommand sandbox; and __fish_seen_subcommand_from ca" -f -a status -d 'Show whether the OS trusts the certificate authority'
+complete -c copilot -n "__fish_copilot_using_subcommand sandbox; and __fish_seen_subcommand_from ca" -f -a rotate -d 'Replace the certificate authority'
+complete -c copilot -n "__fish_copilot_using_subcommand sandbox; and __fish_seen_subcommand_from ca" -f -a remove -d 'Remove the certificate authority from OS trust'
+complete -c copilot -n "__fish_copilot_using_subcommand sandbox; and __fish_seen_subcommand_from ca" -f -a create -d 'Create the certificate authority without trusting it'
+complete -c copilot -n "__fish_copilot_using_subcommand sandbox; and __fish_seen_subcommand_from ca" -f -a trust -d 'Add the certificate authority to OS trust'
 complete -c copilot -n "__fish_copilot_using_subcommand taskbar-selftest" -l strict -d 'Exit non-zero unless tasks.json was actually written'
 complete -c copilot -n "__fish_copilot_using_subcommand taskbar-selftest" -s h -l help -d 'Print help (see more with \'--help\')'
 complete -c copilot -n "__fish_copilot_using_subcommand completion" -s h -l help -d 'Print help (see more with \'--help\')'
-complete -c copilot -l model -r -f -a 'auto claude-sonnet-5 claude-fable-5.1 claude-fable-5 claude-opus-5 claude-opus-4.8 claude-opus-4.8-fast claude-opus-4.7 claude-sonnet-4.6 claude-haiku-4.5 gpt-6-astra gpt-5.6-sol gpt-5.6-terra gpt-5.6-luna gpt-5.5 gpt-5.4 gpt-5.4-mini gpt-5.3-codex gpt-5-mini mai-code-1.1-flash gemini-3.8-flash gemini-3.7-flash gemini-3.6-flash gemini-3.5-flash grok-4.5 kimi-k3 kimi-k2.7-code'
+complete -c copilot -l model -r -f -a 'auto claude-sonnet-5 claude-fable-5.1 claude-fable-5 claude-opus-5.5 claude-opus-5 claude-opus-4.8 claude-opus-4.8-fast claude-opus-4.7 claude-sonnet-4.6 claude-haiku-4.5 gpt-6.1-sol gpt-6-sol gpt-6-luna gpt-6-astra gpt-5.6-sol gpt-5.6-terra gpt-5.6-luna gpt-5.5 gpt-5.4 gpt-5.4-mini gpt-5.3-codex gpt-5-mini mai-code-1.1-flash gemini-3.8-flash gemini-3.7-flash gemini-3.6-flash gemini-3.5-flash grok-4.5 kimi-k3 kimi-k2.7-code claude-sonnet-5.5 grok-4.6'
 complete -c copilot -l reasoning-effort -r -f -a 'none minimal low medium high xhigh max'
 complete -c copilot -l context -r -f -a 'default long_context'
 complete -c copilot -l auto-tier -r -f -a 'efficiency balance intelligence'
