@@ -36,11 +36,13 @@
                                        :embedding-model "nomic-embed-text"))
 
   ;; gptel settings
-  (setq gptel-model "llama3.1:8b-instruct"
-        gptel-backend (gptel-make-ollama "Ollama"
-					 :host "localhost:11434"
+  (setq gptel-model 'deepseek/deepseek-v4.1-flash
+        gptel-backend (gptel-make-openai "OpenRouter"
+					 :host "openrouter.ai"
+					 :endpoint "/api/v1/chat/completions"
 					 :stream t
-					 :models '("llama3.1:8b-instruct-q8_0"))
+					 :key openrouter-api-key
+					 :models '(deepseek/deepseek-v4.1-flash))
         gptel-log-level 'nil
         gptel-default-mode 'org-mode
         gptel-expert-commands t
