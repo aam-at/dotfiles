@@ -33,18 +33,14 @@ DAYS must be a positive integer greater than 1."
 
 (defun aam/org-narrow-to-subtree ()
   (interactive)
-  (let ((org-indirect-buffer-display 'current-window))
-    (if (not (boundp 'org-indirect-buffer-file-name))
-        (let ((above-buffer (current-buffer))
-              (org-filename (buffer-file-name)))
-          (org-tree-to-indirect-buffer (1+ (org-current-level)))
-          (setq-local org-indirect-buffer-file-name org-filename)
-          (setq-local org-indirect-above-buffer above-buffer))
-      (let ((above-buffer (current-buffer))
-            (org-filename org-indirect-buffer-file-name))
-        (org-tree-to-indirect-buffer (1+ (org-current-level)))
-        (setq-local org-indirect-buffer-file-name org-filename)
-        (setq-local org-indirect-above-buffer above-buffer)))))
+  (let ((org-indirect-buffer-display 'current-window)
+        (above-buffer (current-buffer))
+        (org-filename (if (boundp 'org-indirect-buffer-file-name)
+                          org-indirect-buffer-file-name
+                        (buffer-file-name))))
+    (org-tree-to-indirect-buffer (1+ (org-current-level)))
+    (setq-local org-indirect-buffer-file-name org-filename)
+    (setq-local org-indirect-above-buffer above-buffer)))
 
 (defun aam/org-widen-from-subtree ()
   (interactive)
@@ -143,7 +139,7 @@ DAYS must be a positive integer greater than 1."
   (let ((file-contents (with-temp-buffer
                          (insert-file-contents file)
                          (buffer-string))))
-    (s-contains-p ":ID:" file-contents)))
+    (and (string-search ":ID:" file-contents) t)))
 
 (defun aam/org-id--list-files (&optional directory)
   "List the .org files with :ID: in DIRECTORY and in its sub-directories."
@@ -213,7 +209,7 @@ DAYS must be a positive integer greater than 1."
                     ("__*" . "_")  ;; remove sequential underscores
                     ("^_" . "")  ;; remove starting underscore
                     ("_$" . "")))  ;; remove ending underscore
-           (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
+           (slug (seq-reduce #'cl-replace pairs (strip-nonspacing-marks title))))
       (downcase slug))))
 
 (defun aam/org-roam-get-filepath-for-title (&optional path template)
@@ -233,7 +229,7 @@ DAYS must be a positive integer greater than 1."
 (defun aam/org-roam-get-filepath-with-date (slug)
   "Return the filepath with datetime prefix"
   (let ((date (format-time-string "%Y%m%d-%H%M")))
-    (s-lex-format "${date}_${slug}.org")))
+    (format "%s_%s.org" date slug)))
 
 (defun aam/org-roam-get-property-from-link (property)
   "Extract the specified PROPERTY from the first org-heading in the
@@ -259,11 +255,8 @@ DAYS must be a positive integer greater than 1."
 (defun aam/org-roam-get-entry-prop (property)
   "Get the specified PROPERTY from the current entry or try to get
   it from a link within the entry."
-  (let (entry-property)
-    (setq entry-property (org-entry-get (point) property))
-    (unless entry-property
-      (setq entry-property (aam/org-roam-get-property-from-link property)))
-    entry-property))
+  (or (org-entry-get (point) property)
+      (aam/org-roam-get-property-from-link property)))
 
 (defun aam/org-vulpea-memo-refresh ()
   (interactive)
@@ -283,19 +276,17 @@ DAYS must be a positive integer greater than 1."
   org-roam and org-transclude."
   (interactive)
   (when (org-in-regexp "\\[\\[\\(.+\\):\\(.+\\)\\]\\[\\(.+\\)\\]\\]" 1)
-    (let ((link (org-link-unescape (match-string-no-properties 0)))
-          (type (match-string-no-properties 1))
-          (target (match-string-no-properties 2))
-          (text (match-string-no-properties 3)))
+    (let ((type (match-string-no-properties 1))
+          (target (match-string-no-properties 2)))
       (when (string-equal type "id")
         (goto-char (match-beginning 1))
         (delete-region (match-beginning 1) (match-end 2))
         (let* ((path (car (org-id-find target)))
                ;; Remove any prefix from the path that appears before Dropbox,
                ;; as the Dropbox folder is always located in user home dir.
-               copy-               (index (string-match-p "Dropbox" path))
-               (path (substring path index)))
-          (insert (s-lex-format "file:~/${path}")))))))
+               (path (substring path (string-match-p "Dropbox" path))))
+          (insert "file:~/" path))))))
+
 
 (defun aam/org-transclusion-add-org-id--tofile (link &rest args)
   (when (string= "id" (org-element-property :type link))
@@ -395,35 +386,25 @@ DAYS must be a positive integer greater than 1."
       (org-entry-put (point) "CITATION_LAST_UPDATED" citation-date)
       (message "Citations updated!"))))
 
+(defun aam/org-sort-by (get property)
+  "Sort Org-mode entries by numeric PROPERTY, read with GET; entries without it sort first."
+  (org-sort-entries nil ?F
+                    (lambda () (string-to-number (or (funcall get property) "-1")))))
+
 (defun aam/org-sort-entries-by-year ()
   "Sort Org-mode entries by the YEAR property."
   (interactive)
-  (org-sort-entries nil ?F
-                    (lambda ()
-                      (let* ((year (aam/org-roam-get-entry-prop "YEAR")))
-                        (if year
-                            (string-to-number year)
-                          -1)))))
+  (aam/org-sort-by #'aam/org-roam-get-entry-prop "YEAR"))
 
 (defun aam/org-sort-entries-by-citations ()
   "Sort Org-mode entries by the CITATION_COUNT property."
   (interactive)
-  (org-sort-entries nil ?F
-                    (lambda ()
-                      (let* ((citations (aam/org-roam-get-entry-prop "CITATION_COUNT")))
-                        (if citations
-                            (string-to-number citations)
-                          -1)))))
+  (aam/org-sort-by #'aam/org-roam-get-entry-prop "CITATION_COUNT"))
 
 (defun aam/org-sort-entries-by-impact ()
   "Sort Org-mode entries by the IMPACT_FACTOR property."
   (interactive)
-  (org-sort-entries nil ?F
-                    (lambda ()
-                      (let* ((factor (org-entry-get (point) "IMPACT_FACTOR")))
-                        (if factor
-                            (string-to-number factor)
-                          -1)))))
+  (aam/org-sort-by (lambda (property) (org-entry-get (point) property)) "IMPACT_FACTOR"))
 
 (defun aam/org-remove-all-overlays ()
   "Remove all overlays in the current org-mode buffer."
@@ -432,127 +413,54 @@ DAYS must be a positive integer greater than 1."
     (let ((inhibit-read-only t))
       (remove-overlays))))
 
-(defun aam/org-filter-entries-by-year (year)
-  "Highlights entries in the current org-mode buffer based on if the YEAR
-  property value of the entry is larger than the provided value.
-  YEAR: The minimum value of the YEAR property."
-  (interactive "sYear minimum value: ")
-  (let ((property "YEAR")
-        (min-year (string-to-number year)))
-    (remove-overlays)
-    (org-map-entries
-     (lambda ()
-       (let ((entry-prop (aam/org-roam-get-entry-prop property))
-             (headline-begin (org-entry-beginning-position))
-             (headline-end (org-entry-end-position))
-             overlay)
-         (if (null entry-prop)
-             (setq entry-prop -1)
-           (setq entry-prop (string-to-number entry-prop)))
-         (when (and entry-prop (>= entry-prop min-year))
-           ;; Create a new overlay to highlighted matched entries
-           (setq overlay (make-overlay headline-begin headline-end))
+(defun aam/org-filter-by (property minimum)
+  "Highlight entries whose numeric PROPERTY is at least MINIMUM and fold the rest.
+Entries without the property count as -1."
+  (remove-overlays)
+  (org-map-entries
+   (lambda ()
+     (if (>= (string-to-number (or (aam/org-roam-get-entry-prop property) "-1")) minimum)
+         (let ((overlay (make-overlay (org-entry-beginning-position) (org-entry-end-position))))
            (overlay-put overlay 'face '(:background "#67b11d" :foreground "#282828"))
            (org-fold-show-entry)
-           (org-fold-show-set-visibility 'nil))
-         (unless (and entry-prop (>= entry-prop min-year))
-           (org-fold-subtree t)))))))
+           (org-fold-show-set-visibility nil))
+       (org-fold-subtree t)))))
+
+(defun aam/org-filter-entries-by-year (year)
+  "Highlight entries whose YEAR property is at least YEAR and fold the rest."
+  (interactive "sYear minimum value: ")
+  (aam/org-filter-by "YEAR" (string-to-number year)))
 
 (defun aam/org-filter-entries-by-citations (citations)
-  "Highlights entries in the current org-mode buffer based on if the
-  CITATION_COUNT property value of the entry is larger than the provided value.
-  CITATIONS: the minimum value of the CITATION_COUNT property."
+  "Highlight entries whose CITATION_COUNT property is at least CITATIONS and fold the rest."
   (interactive "sCitations minimum value: ")
-  (let ((property "CITATION_COUNT")
-        (min-citations (string-to-number citations)))
-    (remove-overlays)
-    (org-map-entries
-     (lambda ()
-       (let ((entry-prop (aam/org-roam-get-entry-prop property))
-             (headline-begin (org-entry-beginning-position))
-             (headline-end (org-entry-end-position))
-             overlay)
-         (if (null entry-prop)
-             (setq entry-prop -1)
-           (setq entry-prop (string-to-number entry-prop)))
-         (when (and entry-prop (>= entry-prop min-citations))
-           ;; Create a new overlay to highlighted matched entries
-           (setq overlay (make-overlay headline-begin headline-end))
-           (overlay-put overlay 'face '(:background "#67b11d" :foreground "#282828"))
-           (org-fold-show-entry)
-           (org-fold-show-set-visibility 'nil))
-         (unless (and entry-prop (>= entry-prop min-citations))
-           (org-fold-subtree t)))))))
+  (aam/org-filter-by "CITATION_COUNT" (string-to-number citations)))
 
-
+
 ;;  Misc functions
-(defun aam/org-json-get-list (attribute message)
-  "Get the value of ATTRIBUTE from MESSAGE and convert it to a list if it's a vector."
-  (let ((value (alist-get attribute message)))
-    (if (vectorp value)
-        (append value nil)  ;; Convert vector to list
-      value)))  ;; Return as-is if it's already a list
-
 (defun aam/org-convert-json-to-review (message-string)
-  "Convert JSON string to an my Emacs review template and insert at point."
+  "Convert JSON string to my Emacs review template and insert at point."
   (interactive "sEnter JSON string: ")
-  (let* ((json-object-type 'alist)
-         (message (json-read-from-string message-string))
-         (output ""))
-
-    ;; TLDR
-    (setq output (concat output "+ *TLDR:*\n\n  <<tldr>>" (alist-get 'TLDR message) "\n"))
-
-    ;; Summary
-    (setq output (concat output "+ *Summary:*\n\n  <<summary>>" (alist-get 'Summary message) "\n"))
-
-    ;; Related Work
-    (setq output (concat output "+ *Related work:*\n"))
-    (setq temp (alist-get 'Related_work message))
-    (let ((related-work-list (aam/org-json-get-list 'Related_work message))) ;; Convert vector to list
-      (dolist (rw related-work-list)
-        (setq output (concat output "  * " (alist-get 'citation rw) " - " (alist-get 'relationship rw) "\n"))))
-
-    ;; Contributions
-    (setq output (concat output "+ *Contributions:*\n"))
-    (let ((count 1)
-          (contributions-list (aam/org-json-get-list 'Contributions message)))
-      (dolist (contribution contributions-list)
-        (setq output (concat output (format "  %d. %s\n" count contribution)))
-        (setq count (1+ count))))
-
-    ;; Approach
-    (setq output (concat output "+ *Approach:*\n\n  " (alist-get 'Approach message) "\n"))
-
-    ;; Pros
-    (setq output (concat output "+ *Pros:*\n"))
-    (let ((pros-list (aam/org-json-get-list 'Pros message)))
-      (dolist (pro pros-list)
-        (setq output (concat output "  * " pro "\n"))))
-
-    ;; Cons
-    (setq output (concat output "+ *Cons:*\n"))
-    (let ((cons-list (aam/org-json-get-list 'Cons message)))
-      (dolist (con cons-list)
-        (setq output (concat output "  * " con "\n"))))
-
-    ;; Notes and Questions
-    (setq output (concat output "+ *Notes and questions:*\n"))
-    (let ((nq-list (aam/org-json-get-list 'Notes_and_questions message)))
-      (dolist (nq nq-list)
-        (setq output (concat output "  * " nq "\n"))))
-
-    ;; Future Work
-    (setq output (concat output "+ *Future work:*\n"))
-    (let ((fw-list (aam/org-json-get-list 'Future_work message)))
-      (dolist (fw fw-list)
-        (setq output (concat output "  * " fw "\n"))))
-
-    ;; Conclusion
-    (setq output (concat output "+ *Conclusion:*\n\n  " (alist-get 'Conclusion message)))
-
-    ;; Insert the final output at point
-    (insert output)))
+  (let ((review (json-parse-string message-string :object-type 'alist :array-type 'list)))
+    (cl-flet ((text (key) (alist-get key review ""))
+              (bullets (key) (mapconcat (lambda (item) (concat "  * " item "\n"))
+                                        (alist-get key review) "")))
+      (insert "+ *TLDR:*\n\n  <<tldr>>" (text 'TLDR) "\n"
+              "+ *Summary:*\n\n  <<summary>>" (text 'Summary) "\n"
+              "+ *Related work:*\n"
+              (mapconcat (lambda (rw)
+                           (format "  * %s - %s\n" (alist-get 'citation rw) (alist-get 'relationship rw)))
+                         (alist-get 'Related_work review) "")
+              "+ *Contributions:*\n"
+              (cl-loop for contribution in (alist-get 'Contributions review)
+                       for n from 1
+                       concat (format "  %d. %s\n" n contribution))
+              "+ *Approach:*\n\n  " (text 'Approach) "\n"
+              "+ *Pros:*\n" (bullets 'Pros)
+              "+ *Cons:*\n" (bullets 'Cons)
+              "+ *Notes and questions:*\n" (bullets 'Notes_and_questions)
+              "+ *Future work:*\n" (bullets 'Future_work)
+              "+ *Conclusion:*\n\n  " (text 'Conclusion)))))
 
 (provide 'aam-org)
 ;;; aam-org.el ends here

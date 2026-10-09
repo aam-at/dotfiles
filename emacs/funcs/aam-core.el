@@ -111,42 +111,31 @@ Toggle with `aam/polymode-auto-toggle'; do not set directly.")
       (delete-region beg end)
       (insert (string-join sorted-words " ")))))
 
-(defun aam/pdf--extract-text-to-buffer (pdf-file)
-  "Extract text from PDF-FILE and return a buffer with the content."
-  (let ((temp-buffer (generate-new-buffer "*PDF Text*"))
-        (coding-system-for-read 'utf-8))
-    (condition-case err
-        (progn
-          (call-process "pdftotext" nil temp-buffer nil "-layout" "-nopgbrk" pdf-file "-")
-          (with-current-buffer temp-buffer
-            (set-buffer-modified-p nil)
-            (goto-char (point-min)))
-          temp-buffer)
-      (error
-       (kill-buffer temp-buffer)
-       (error "Failed to extract PDF text: %s" (error-message-string err))))))
-
-(defun aam/pdf--ensure-file (file)
-  "Ensure FILE is a valid PDF file."
-  (unless (and file (file-exists-p file) (string-match-p "\\.pdf$" file))
+(defun aam/pdf--extract (file)
+  "Show the text of the PDF FILE, from `pdftotext', in a new buffer."
+  (unless (and file (file-exists-p file) (string-match-p "\\.pdf\\'" file))
     (error "Invalid or non-existent PDF file: %s" file))
-  file)
+  (unless (executable-find "pdftotext")
+    (error "Failed to extract PDF text: pdftotext not found"))
+  (switch-to-buffer
+   (with-current-buffer (generate-new-buffer "*PDF Text*")
+     (let ((coding-system-for-read 'utf-8))
+       (call-process "pdftotext" nil t nil "-layout" "-nopgbrk" file "-"))
+     (set-buffer-modified-p nil)
+     (goto-char (point-min))
+     (current-buffer))))
 
 (defun aam/extract-pdf-text-from-file (file)
   "Extract text from a PDF file and display it in a temporary buffer."
   (interactive "fPDF file: ")
-  (let ((pdf-file (aam/pdf--ensure-file file)))
-    (switch-to-buffer (aam/pdf--extract-text-to-buffer pdf-file))))
+  (aam/pdf--extract file))
 
 (defun aam/extract-pdf-text-from-current-buffer ()
   "Extract text from the PDF file in the current pdf-tools buffer."
   (interactive)
   (unless (eq major-mode 'pdf-view-mode)
     (error "This function only works in pdf-tools buffers. Current mode: %s" major-mode))
-  (let ((pdf-file (buffer-file-name)))
-    (unless pdf-file
-      (error "No file associated with this buffer"))
-    (switch-to-buffer (aam/pdf--extract-text-to-buffer (aam/pdf--ensure-file pdf-file)))))
+  (aam/pdf--extract buffer-file-name))
 
 (defun aam/delete-empty-lines ()
   "Delete empty lines in current buffer"
@@ -226,18 +215,17 @@ Works on whole buffer or the selected region if START-POS and END-POS are provid
   "Return the PDF library directories beneath `aam/bib-root`."
   (mapcar #'aam/bib-path '("papers/" "review/" "books/")))
 
-(defvar aam/bibtex-files
-  (list (aam/bib-path "refs.bib")
-        (aam/bib-path "review.bib")
-        (aam/bib-path "books.bib")
-        (aam/bib-path "myrefs.bib"))
+(defun aam/bib--files ()
+  "Return the bibliography files beneath `aam/bib-root`."
+  (mapcar #'aam/bib-path '("refs.bib" "review.bib" "books.bib" "myrefs.bib")))
+
+(defvar aam/bibtex-files (aam/bib--files)
   "Bibliography files shared by citation packages.")
 
 (defun aam/set-bibliography-root (root)
   "Set ROOT and refresh `aam/bibtex-files` beneath it."
   (setq aam/bib-root (file-truename (expand-file-name root))
-        aam/bibtex-files
-        (mapcar #'aam/bib-path '("refs.bib" "review.bib" "books.bib" "myrefs.bib"))))
+        aam/bibtex-files (aam/bib--files)))
 
 (defvar org-projectile-file "TODOs.org"
   "Org file used for project TODO collection.")

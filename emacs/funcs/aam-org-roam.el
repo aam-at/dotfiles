@@ -13,9 +13,11 @@
       (org-fold-show-all '(drawers))
     (org-fold-hide-drawer-all)))
 
-(defun aam/org-roam-orphan-nodes-by-id ()
-  "Return a list of all orphan nodes in `org-roam`."
-  (org-roam-db-query "SELECT
+(defun aam/org-roam-insert-orphan-nodes ()
+  "Insert all orphan nodes in `org-roam' in the current buffer."
+  (interactive)
+  (pcase-dolist (`(,id ,title)
+                 (org-roam-db-query "SELECT
 id, title
 FROM nodes
 WHERE id NOT IN (
@@ -24,17 +26,7 @@ WHERE id NOT IN (
                   LEFT OUTER JOIN links l ON n.id = l.source OR n.id = l.dest
                   WHERE l.type LIKE '%%id%%'
                   )"))
-
-(defun aam/org-roam-insert-orphan-nodes ()
-  "Insert all orphan nodes in `org-roam' in the current buffer."
-  (interactive)
-  (let* ((orphans (aam/org-roam-orphan-nodes-by-id)))
-    (dolist (orphan orphans)
-      (let ((id (car orphan))
-            (title (cadr orphan)))
-        (insert "* ")
-        (insert (org-link-make-string (concat "id:" id) title))
-        (insert "\n")))))
+    (insert "* " (org-link-make-string (concat "id:" id) title) "\n")))
 
 (defun aam/org-roam-find-forward-link ()
   "Select and visit a node linked from the Org-roam node at point."
@@ -58,10 +50,11 @@ WHERE id NOT IN (
       nil t "Forward link: "))))
 
 
-(defcustom aam/org-roam-ui-port-search-limit 100
-  "Number of HTTP ports to try when starting Org-roam UI."
-  :type 'integer
-  :group 'org-roam)
+;; Declared special so the `let' of the build dir below is dynamic even when
+;; this file is compiled before org-roam-ui is loaded.
+(defvar org-roam-ui-app-build-dir)
+(defvar org-roam-ui-port)
+(defvar org-roam-ui-mode)
 
 (defvar aam/org-roam-ui-cache-directory nil
   "Directory for port-specific Org-roam UI web builds.")
@@ -69,22 +62,14 @@ WHERE id NOT IN (
 (defvar aam/org-roam-ui-default-port nil
   "Preferred HTTP port for the current Emacs profile.")
 
-(defvar aam/org-roam-ui-websocket-port nil
-  "WebSocket port selected for the current Org-roam UI session.")
-
-(defvar aam/org-roam-ui-original-app-build-dir nil
-  "Unmodified Org-roam UI web build used to make port-specific copies.")
-
-(defun aam/org-roam-ui--web-build-for-ports (http-port websocket-port)
-  "Return an Org-roam UI web build configured for HTTP-PORT and WEBSOCKET-PORT."
-  (unless aam/org-roam-ui-cache-directory
-    (error "`aam/org-roam-ui-cache-directory' is not configured"))
-  (let* ((source (or aam/org-roam-ui-original-app-build-dir
-                     (setq aam/org-roam-ui-original-app-build-dir
-                           org-roam-ui-app-build-dir)))
+(defun aam/org-roam-ui--web-build (http-port websocket-port)
+  "Return a copy of the Org-roam UI web build that uses HTTP-PORT and WEBSOCKET-PORT.
+The build hard-codes its ports, so each port pair gets its own copy."
+  (let* ((source org-roam-ui-app-build-dir)
          (target (expand-file-name
                   (format "org-roam-ui-%d-%d/" http-port websocket-port)
-                  aam/org-roam-ui-cache-directory))
+                  (or aam/org-roam-ui-cache-directory
+                      (error "`aam/org-roam-ui-cache-directory' is not configured"))))
          (marker (expand-file-name ".aam-port-configured" target)))
     (when (or (not (file-exists-p marker))
               (file-newer-than-file-p source marker))
@@ -94,83 +79,62 @@ WHERE id NOT IN (
         (delete-directory target t))
       (make-directory target t)
       (copy-directory source target nil t t)
-      (dolist (file (directory-files-recursively
-                     target "\\.\\(?:html\\|js\\)\\'"))
+      (dolist (file (directory-files-recursively target "\\.\\(?:html\\|js\\)\\'"))
         (with-temp-buffer
           (insert-file-contents file)
-          (goto-char (point-min))
-          (while (search-forward "localhost:35901" nil t)
-            (replace-match (format "localhost:%d" http-port) t t))
-          (goto-char (point-min))
-          (while (search-forward "localhost:35903" nil t)
-            (replace-match (format "localhost:%d" websocket-port) t t))
+          (pcase-dolist (`(,from . ,to) `(("localhost:35901" . ,(format "localhost:%d" http-port))
+                                          ("localhost:35903" . ,(format "localhost:%d" websocket-port))))
+            (goto-char (point-min))
+            (while (search-forward from nil t)
+              (replace-match to t t)))
           (write-region (point-min) (point-max) file nil 'silent)))
       (write-region "" nil marker nil 'silent))
     target))
 
 (defun aam/org-roam-ui--enable-with-ports (http-port websocket-port)
-  "Enable Org-roam UI with HTTP-PORT and WEBSOCKET-PORT."
-  (require 'cl-lib)
-  (let ((websocket-server-function (symbol-function 'websocket-server)))
-    (setq org-roam-ui-port http-port
-          aam/org-roam-ui-websocket-port websocket-port
-          org-roam-ui-app-build-dir
-          (aam/org-roam-ui--web-build-for-ports http-port websocket-port))
-    ;; Org-roam UI currently passes its hard-coded default to
-    ;; `websocket-server'.  Keep the override local to mode startup rather than
-    ;; advising every WebSocket server in the Emacs process.
-    (cl-letf (((symbol-function 'websocket-server)
-               (lambda (port &rest args)
-                 (apply websocket-server-function
-                        (if (= port 35903) websocket-port port)
-                        args))))
-      (org-roam-ui-mode 1))))
+  "Enable Org-roam UI on HTTP-PORT and WEBSOCKET-PORT; return nil if that fails."
+  (condition-case err
+      (let ((org-roam-ui-app-build-dir (aam/org-roam-ui--web-build http-port websocket-port))
+            (websocket-server-function (symbol-function 'websocket-server)))
+        (setq org-roam-ui-port http-port)
+        ;; Org-roam UI passes its hard-coded default to `websocket-server'.
+        ;; Keep the override local to mode startup rather than advising every
+        ;; WebSocket server in the Emacs process.
+        (cl-letf (((symbol-function 'websocket-server)
+                   (lambda (port &rest args)
+                     (apply websocket-server-function
+                            (if (= port 35903) websocket-port port)
+                            args))))
+          (org-roam-ui-mode 1))
+        (message "Org-roam UI started on http://localhost:%d" http-port)
+        t)
+    (error
+     ;; Also run cleanup after partial initialization, where the mode
+     ;; variable may still be nil but a server process already exists.
+     (ignore-errors (org-roam-ui-mode -1))
+     (message "Org-roam UI port %d unavailable: %s" http-port (error-message-string err))
+     nil)))
 
 (defun aam/org-roam-ui-start ()
   "Start Org-roam UI on the first free localhost HTTP/WebSocket port pair.
 
-Return the selected HTTP port.  When called interactively while the mode is
-already active, open the existing UI instead."
+Return the selected HTTP port.  When called interactively, also open the UI."
   (interactive)
   (require 'org-roam-ui)
-  (if org-roam-ui-mode
-      (progn
-        (when (called-interactively-p 'interactive)
-          (org-roam-ui-open))
-        org-roam-ui-port)
-    (let ((initial-port (or aam/org-roam-ui-default-port org-roam-ui-port))
-          (attempt 0)
-          selected-port)
-      (unless (and (integerp initial-port)
-                   (<= 1 initial-port 65533))
-        (error "Invalid Org-roam UI HTTP port: %S" initial-port))
-      (while (and (not selected-port)
-                  (< attempt aam/org-roam-ui-port-search-limit))
-        (let* ((http-port (+ initial-port attempt))
-               (websocket-port (+ http-port 2)))
-          (when (> websocket-port 65535)
-            (setq attempt aam/org-roam-ui-port-search-limit))
-          (unless (or (> websocket-port 65535)
-                      (aam/check-localhost-port http-port)
-                      (aam/check-localhost-port websocket-port))
-            (condition-case err
-                (progn
-                  (aam/org-roam-ui--enable-with-ports http-port websocket-port)
-                  (setq selected-port http-port)
-                  (message "Org-roam UI started on http://localhost:%d" http-port))
-              (error
-               ;; Also run cleanup after partial initialization, where the mode
-               ;; variable may still be nil but a server process already exists.
-               (ignore-errors (org-roam-ui-mode -1))
-               (message "Org-roam UI port %d unavailable: %s"
-                        http-port (error-message-string err))))))
-        (setq attempt (1+ attempt)))
-      (unless selected-port
-        (user-error "Org-roam UI could not find a free port after %d attempts"
-                    aam/org-roam-ui-port-search-limit))
-      (when (called-interactively-p 'interactive)
-        (org-roam-ui-open))
-      selected-port)))
+  (prog1
+      (if org-roam-ui-mode
+          org-roam-ui-port
+        (let ((first (or aam/org-roam-ui-default-port org-roam-ui-port)))
+          (unless (and (integerp first) (<= 1 first 65533))
+            (error "Invalid Org-roam UI HTTP port: %S" first))
+          (or (cl-loop for http from first to (min (+ first 99) 65533)
+                       when (and (not (aam/check-localhost-port http))
+                                 (not (aam/check-localhost-port (+ http 2)))
+                                 (aam/org-roam-ui--enable-with-ports http (+ http 2)))
+                       return http)
+              (user-error "Org-roam UI could not find a free port from %d" first))))
+    (when (called-interactively-p 'interactive)
+      (org-roam-ui-open))))
 
 
 ;;; Zettel explore: interactive version of the zettel-explore skill.
@@ -245,6 +209,25 @@ Titles contain commas, so | separates the picks."
     (delq nil (mapcar (lambda (label) (assoc label cands))
                       (completing-read-multiple (concat prompt ": ") cands)))))
 
+(defun aam/zettel--show (path)
+  "Pop up the vault note PATH in a new window; return its buffer."
+  (let ((buf (find-file-noselect (aam/org-path path))))
+    (display-buffer buf '(display-buffer-pop-up-window))
+    buf))
+
+(defun aam/zettel--attach (path)
+  "Pop up the vault note PATH and add it to the gptel context; return its buffer."
+  (gptel-add-file (aam/org-path path))
+  (aam/zettel--show path))
+
+(defun aam/zettel--chat (name system prompt)
+  "Return a new gptel chat buffer NAME with SYSTEM as its system prompt and PROMPT inserted."
+  (with-current-buffer (generate-new-buffer name)
+    (org-mode) (gptel-mode 1)
+    (setq-local gptel-system-prompt system)
+    (insert prompt)
+    (current-buffer)))
+
 ;;;###autoload
 (defun aam/zettel-explore (question terms)
   "Explore the vault for QUESTION: open notes, follow links, chat with the LLM.
@@ -259,13 +242,11 @@ pick ends the loop."
                              (unless (string-empty-p terms)
                                (aam/zettel--search terms '("name" "text")))))
                     (user-error "No notes match %S" question)))
-         (chat (generate-new-buffer "*zettel-explore*"))
+         (chat (aam/zettel--chat
+                "*zettel-explore*"
+                "Answer from the attached notes only, citing each note by title and path. Shape: Answer (2-5 sentences); What the notes say (bullets, each citing a note); Connections; Inference (marked as yours); Gaps. Suggest which linked notes to open next."
+                (concat "* " question "\n")))
          (seen nil))
-    (with-current-buffer chat
-      (org-mode) (gptel-mode 1)
-      (setq-local gptel-system-prompt
-                  "Answer from the attached notes only, citing each note by title and path. Shape: Answer (2-5 sentences); What the notes say (bullets, each citing a note); Connections; Inference (marked as yours); Gaps. Suggest which linked notes to open next.")
-      (insert "* " question "\n"))
     (delete-other-windows)
     (switch-to-buffer chat)
     (gptel-context-remove-all)
@@ -274,10 +255,7 @@ pick ends the loop."
         (if (null paths)
             (setq cands nil)
           (setq seen (append paths seen))
-          (dolist (p paths)
-            (let ((file (aam/org-path p)))
-              (display-buffer (find-file-noselect file) '(display-buffer-pop-up-window))
-              (gptel-add-file file)))
+          (mapc #'aam/zettel--attach paths)
           (balance-windows)
           (setq cands (cl-remove-if (lambda (c) (member (cdr c) seen))
                                     (delete-dups (append (mapcan #'aam/zettel--neighbours paths)
@@ -298,44 +276,31 @@ link, with the target's id. Copy accepted sentences into the note yourself."
                      "Link candidates"
                      (aam/zettel--search (file-relative-name buffer-file-name aam/org-root)
                                          '("similar") :unlinked t :scope "notes"))
-                    (user-error "No link candidates chosen")))
-         (chat (generate-new-buffer "*zettel-connect*"))
-         (targets nil))
+                    (user-error "No link candidates chosen"))))
     (gptel-context-remove-all)
     (gptel-add-file buffer-file-name)
     (delete-other-windows)
-    (dolist (pick picks)
-      (let* ((file (aam/org-path (cdr pick)))
-             (buf (find-file-noselect file)))
-        (display-buffer buf '(display-buffer-pop-up-window))
-        (gptel-add-file file)
-        (push (format "- %s: id:%s" (file-name-base file)
-                      (with-current-buffer buf (org-with-point-at 1 (org-id-get))))
-              targets)))
-    (balance-windows)
-    (with-current-buffer chat
-      (org-mode) (gptel-mode 1)
-      (setq-local gptel-system-prompt
-                  "A link is a claim about how two ideas relate. For each candidate, name the relationship from the first note to it (supports, contradicts, specializes, generalizes, explains, provides evidence for, operationalizes, mitigates, exposes a limitation of, motivates) or reject it with a reason. Links point to the note that owns the concept, at most five. For each accepted link write ONE sentence for the first note that states why, containing [[id:ID][words from the sentence]], using only the ids given.")
-      (insert "* Connect " (buffer-name note) "\nCandidates (all attached):\n"
-              (mapconcat #'identity (nreverse targets) "\n") "\n"))
-    (pop-to-buffer chat)
-    (gptel-send)))
+    (let ((targets (mapcar (lambda (pick)
+                             (format "- %s: id:%s" (file-name-base (cdr pick))
+                                     (with-current-buffer (aam/zettel--attach (cdr pick))
+                                       (org-with-point-at 1 (org-id-get)))))
+                           picks)))
+      (balance-windows)
+      (pop-to-buffer
+       (aam/zettel--chat
+        "*zettel-connect*"
+        "A link is a claim about how two ideas relate. For each candidate, name the relationship from the first note to it (supports, contradicts, specializes, generalizes, explains, provides evidence for, operationalizes, mitigates, exposes a limitation of, motivates) or reject it with a reason. Links point to the note that owns the concept, at most five. For each accepted link write ONE sentence for the first note that states why, containing [[id:ID][words from the sentence]], using only the ids given."
+        (concat "* Connect " (buffer-name note) "\nCandidates (all attached):\n"
+                (string-join targets "\n") "\n")))
+      (gptel-send))))
 
 (defun aam/zettel--ask (name system files prompt)
   "Open FILES (vault paths), attach them to gptel, and ask PROMPT in a new chat buffer."
   (gptel-context-remove-all)
-  (dolist (f files)
-    (display-buffer (find-file-noselect (aam/org-path f)) '(display-buffer-pop-up-window))
-    (gptel-add-file (aam/org-path f)))
+  (mapc #'aam/zettel--attach files)
   (balance-windows)
-  (let ((chat (generate-new-buffer name)))
-    (with-current-buffer chat
-      (org-mode) (gptel-mode 1)
-      (setq-local gptel-system-prompt system)
-      (insert prompt))
-    (pop-to-buffer chat)
-    (gptel-send)))
+  (pop-to-buffer (aam/zettel--chat name system prompt))
+  (gptel-send))
 
 (defun aam/zettel--findings (&rest args)
   "List of (KIND PATHS DETAIL) from `org-cli check' over notes with keyword ARGS."
@@ -345,21 +310,20 @@ link, with the target's id. Copy accepted sentences into the note yourself."
 ;;; Zettel garden: findings list from `org-cli check', judged one at a time.
 
 (defconst aam/zettel-garden-prompts
-  '(("orphan" . "Is this note worth linking from others? Say which kinds of notes should link to it and why, or recommend leaving it: an honest orphan beats a padded link.")
-    ("no-backlinks" . "Is this note worth linking from others? Say which kinds of notes should link to it and why, or recommend leaving it: an honest orphan beats a padded link.")
-    ("no-links-out" . "Is this a reference note (may link nowhere) or an atomic claim that should say what it builds on? If the latter, say what it builds on.")
-    ("bare-links" . "For each link-only list item, write the clause saying why the link is there and show the sentence it belongs in, or recommend deleting it.")
-    ("long-atomic" . "Is this one claim defended at length (leave it and say so) or several claims? If several, propose a split: one #L3 note per claim, the original becoming a short #L2 topic note that routes to them.")
-    ("no-role" . "Propose one role tag with a reason: #L1 map, #L2 topic, #L3 atomic, #L4 leaf, reference.")
-    ("unlinked-similar" . "Do the two notes make different claims (recommend a link and name the relationship) or the same claim (duplicates: propose merging the weaker into the stronger)?")
-    ("unlinked-across-topics" . "This is raw material for ideas, not a defect. Name the claim the two notes make together, if any, and suggest M-x aam/zettel-ideate."))
+  (let ((unlinked "Is this note worth linking from others? Say which kinds of notes should link to it and why, or recommend leaving it: an honest orphan beats a padded link."))
+    `(("orphan" . ,unlinked)
+      ("no-backlinks" . ,unlinked)
+      ("no-links-out" . "Is this a reference note (may link nowhere) or an atomic claim that should say what it builds on? If the latter, say what it builds on.")
+      ("bare-links" . "For each link-only list item, write the clause saying why the link is there and show the sentence it belongs in, or recommend deleting it.")
+      ("long-atomic" . "Is this one claim defended at length (leave it and say so) or several claims? If several, propose a split: one #L3 note per claim, the original becoming a short #L2 topic note that routes to them.")
+      ("no-role" . "Propose one role tag with a reason: #L1 map, #L2 topic, #L3 atomic, #L4 leaf, reference.")
+      ("unlinked-similar" . "Do the two notes make different claims (recommend a link and name the relationship) or the same claim (duplicates: propose merging the weaker into the stronger)?")
+      ("unlinked-across-topics" . "This is raw material for ideas, not a defect. Name the claim the two notes make together, if any, and suggest M-x aam/zettel-ideate.")))
   "Judging question per `org-cli check' finding kind.")
 
-(defvar aam/zettel-garden-mode-map
-  (let ((m (make-sparse-keymap)))
-    (define-key m (kbd "RET") #'aam/zettel-garden-open)
-    (define-key m (kbd "a") #'aam/zettel-garden-ask)
-    m))
+(defvar-keymap aam/zettel-garden-mode-map
+  "RET" #'aam/zettel-garden-open
+  "a" #'aam/zettel-garden-ask)
 
 ;; Evil's normal state shadows the mode map (a is `evil-append', RET `evil-ret').
 (with-eval-after-load 'evil
@@ -378,8 +342,7 @@ link, with the target's id. Copy accepted sentences into the note yourself."
 (defun aam/zettel-garden-open ()
   "Open the notes of the finding at point."
   (interactive)
-  (dolist (p (nth 1 (aam/zettel-garden--item)))
-    (display-buffer (find-file-noselect (aam/org-path p)) '(display-buffer-pop-up-window))))
+  (mapc #'aam/zettel--show (nth 1 (aam/zettel-garden--item))))
 
 (defun aam/zettel-garden-ask ()
   "Ask the LLM to judge the finding at point."
@@ -445,6 +408,57 @@ SEED is a vault note path, a topic, or empty for cross-topic pairs."
                "\n\nFor each pair, write the central claim of each note in one sentence, then present up to two ideas in this form, ranked by novelty then testability:\n"
                "### <one-sentence claim>\n- From: <Title (path)>: <its claim>; <Title (path)>: <its claim>\n- Lens: transfer | mechanism | contradiction | conjunction\n- Why it follows: <one or two sentences>\n- Cheapest test: <what to run or read>; refuted if <result>\n"
                "End with one line per dropped pair and why. Use the full paths given.\n")))))
+
+;;; Paper review: interactive version of the add-org-paper-with-review skill.
+;; The skill and this command run scripts/add_org_paper.py with the same flags,
+;; and the script names the harnesses, models and efforts for both.
+
+(defun aam/org-paper-review--python ()
+  "Python that runs the vault scripts."
+  (or (executable-find "python3") "python"))
+
+(defun aam/org-paper-review--catalog ()
+  "Harnesses with their models, and efforts, as the script lists them.
+Each list has its default first, the harness list included."
+  (let ((default-directory aam/org-root))
+    (json-parse-string
+     (car (process-lines (aam/org-paper-review--python)
+                         "scripts/add_org_paper.py" "--list-models"))
+     :object-type 'alist :array-type 'list)))
+
+;;;###autoload
+(defun aam/org-paper-review (harness model effort)
+  "Review the paper note in the current buffer with scripts/add_org_paper.py.
+HARNESS, MODEL and EFFORT are read with completion, default first; a model
+or effort outside the candidates can be typed. The note is reverted when the
+review finishes."
+  (interactive
+   (let-alist (aam/org-paper-review--catalog)
+     (let* ((harnesses (mapcar (lambda (entry) (symbol-name (car entry))) .models))
+            (harness (completing-read "Harness: " harnesses nil t nil nil (car harnesses)))
+            (models (alist-get (intern harness) .models)))
+       (list harness
+             (completing-read "Model: " models nil nil nil nil (car models))
+             (completing-read "Reasoning effort: " .efforts nil nil nil nil
+                              (car .efforts))))))
+  (unless (and buffer-file-name
+               (file-in-directory-p buffer-file-name (aam/org-path "papers/")))
+    (user-error "Not visiting a paper note"))
+  (save-buffer)
+  (let ((note (current-buffer))
+        (default-directory aam/org-root))
+    (with-current-buffer
+        (compile (mapconcat #'shell-quote-argument
+                            (list (aam/org-paper-review--python)
+                                  "scripts/add_org_paper.py" "--review"
+                                  (file-relative-name buffer-file-name aam/org-root)
+                                  "--harness" harness "--model" model "--effort" effort)
+                            " "))
+      (add-hook 'compilation-finish-functions
+                (lambda (&rest _)
+                  (when (buffer-live-p note)
+                    (with-current-buffer note (revert-buffer t t t))))
+                nil t))))
 
 (provide 'aam-org-roam)
 ;;; aam-org-roam.el ends here

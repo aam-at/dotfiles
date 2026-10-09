@@ -19,7 +19,16 @@
   (setq desktop-restore-eager 5
         desktop-files-not-to-save "^$"
         desktop-load-locked-desktop t)
-  (desktop-save-mode t)
+  ;; A daemon has no GUI frame at startup, and org-modern errors on buffers
+  ;; restored then; restore the desktop on the first graphical frame instead.
+  (if (daemonp)
+      (letrec ((restore (lambda (frame)
+                          (when (display-graphic-p frame)
+                            (remove-hook 'after-make-frame-functions restore)
+                            (desktop-save-mode 1)
+                            (desktop-read)))))
+        (add-hook 'after-make-frame-functions restore))
+    (desktop-save-mode t))
 
   ;; tune gcmh for writing sessions — larger threshold, auto idle delay
   (with-eval-after-load 'gcmh

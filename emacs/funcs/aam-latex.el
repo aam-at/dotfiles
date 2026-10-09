@@ -20,20 +20,7 @@
 
      ;; State 1: One sentence per line
      ((= cycle-state 1)
-      (save-excursion
-        (goto-char start)
-        (while (< (point) end)
-          (let ((sentence-start (point)))
-            (forward-sentence)
-            (when (< (point) end)
-              (let ((sentence-end (point)))
-                (goto-char sentence-start)
-                (delete-horizontal-space)
-                (while (search-forward "\n" sentence-end t)
-                  (replace-match " " nil t))
-                (goto-char sentence-end)
-                (delete-horizontal-space)
-                (insert "\n"))))))
+      (aam/latex-split-to-one-sentence-per-line)
       (setq cycle-state 2))
 
      ;; State 2: Restore original unformatted text

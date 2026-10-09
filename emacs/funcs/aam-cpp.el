@@ -5,12 +5,8 @@
   (interactive)
   (save-excursion
     (if (region-active-p)
-        (progn
-          (clang-format-region (region-beginning) (region-end))
-          (message "Formatted selected region."))
-      (progn
-        (clang-format-buffer)
-        (message "Formatted buffer.")))
+        (clang-format-region (region-beginning) (region-end))
+      (clang-format-buffer))
     (whitespace-cleanup)))
 
 (provide 'aam-cpp)
