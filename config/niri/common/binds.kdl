@@ -24,9 +24,11 @@ binds {
     Mod+Shift+E { quit; }
 
     // === Window Management ===
-    Mod+Q repeat=false { close-window; }
-    Mod+F { maximize-column; }
-    Mod+Shift+F { fullscreen-window; }
+    // These go through scratch-terminal.sh so they also work on the drop-down
+    // scratch terminal, a layer-shell panel niri has no window actions for.
+    Mod+Q repeat=false hotkey-overlay-title="Close Window" { spawn "sh" "-c" "exec $HOME/.config/niri/scripts/scratch-terminal.sh close-window"; }
+    Mod+F hotkey-overlay-title="Maximize Column" { spawn "sh" "-c" "exec $HOME/.config/niri/scripts/scratch-terminal.sh maximize-column"; }
+    Mod+Shift+F hotkey-overlay-title="Fullscreen Window" { spawn "sh" "-c" "exec $HOME/.config/niri/scripts/scratch-terminal.sh fullscreen-window"; }
     Mod+Shift+T { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+W { toggle-column-tabbed-display; }
@@ -146,16 +148,16 @@ binds {
     Mod+Shift+C { center-column; }
     Mod+Ctrl+C { center-visible-columns; }
 
-    // === Manual Sizing ===
-    Mod+Minus { set-column-width "-10%"; }
-    Mod+Equal { set-column-width "+10%"; }
-    Mod+Shift+Minus { set-window-height "-10%"; }
-    Mod+Shift+Equal { set-window-height "+10%"; }
+    // === Manual Sizing (also via scratch-terminal.sh, see Window Management) ===
+    Mod+Minus hotkey-overlay-title=null { spawn "sh" "-c" "exec $HOME/.config/niri/scripts/scratch-terminal.sh set-column-width -10%"; }
+    Mod+Equal hotkey-overlay-title=null { spawn "sh" "-c" "exec $HOME/.config/niri/scripts/scratch-terminal.sh set-column-width +10%"; }
+    Mod+Shift+Minus hotkey-overlay-title=null { spawn "sh" "-c" "exec $HOME/.config/niri/scripts/scratch-terminal.sh set-window-height -10%"; }
+    Mod+Shift+Equal hotkey-overlay-title=null { spawn "sh" "-c" "exec $HOME/.config/niri/scripts/scratch-terminal.sh set-window-height +10%"; }
     // === Fine-Grained Resize (5% steps) ===
-    Mod+Ctrl+Minus { set-column-width "-5%"; }
-    Mod+Ctrl+Equal { set-column-width "+5%"; }
-    Mod+Ctrl+Shift+Minus { set-window-height "-5%"; }
-    Mod+Ctrl+Shift+Equal { set-window-height "+5%"; }
+    Mod+Ctrl+Minus hotkey-overlay-title=null { spawn "sh" "-c" "exec $HOME/.config/niri/scripts/scratch-terminal.sh set-column-width -5%"; }
+    Mod+Ctrl+Equal hotkey-overlay-title=null { spawn "sh" "-c" "exec $HOME/.config/niri/scripts/scratch-terminal.sh set-column-width +5%"; }
+    Mod+Ctrl+Shift+Minus hotkey-overlay-title=null { spawn "sh" "-c" "exec $HOME/.config/niri/scripts/scratch-terminal.sh set-window-height -5%"; }
+    Mod+Ctrl+Shift+Equal hotkey-overlay-title=null { spawn "sh" "-c" "exec $HOME/.config/niri/scripts/scratch-terminal.sh set-window-height +5%"; }
     // === Column Width Presets (direct set) ===
     Mod+Ctrl+1 { set-column-width "33.333%"; }
     Mod+Ctrl+2 { set-column-width "50%"; }

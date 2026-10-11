@@ -1,0 +1,21 @@
+// Keyboard and pointer policy. DMS regenerates dms/input.kdl (it once wiped
+// the caps:swapescape option), so everything it must not overwrite lives here.
+// Niri merges this with the input block from dms/input.kdl.
+
+input {
+  keyboard {
+    xkb {
+      layout "us,ru"
+      options "grp:alt_shift_toggle,compose:ralt,caps:swapescape"
+    }
+    numlock
+    repeat-delay 250
+    repeat-rate 35
+  }
+
+  touchpad {
+    scroll-factor 0.3
+  }
+
+  focus-follows-mouse max-scroll-amount="0%"
+}

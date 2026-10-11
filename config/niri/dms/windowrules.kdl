@@ -1,162 +1,156 @@
-// Window rules
-// Ported from Hyprland dms/rules.conf
+// DMS Window Rules - Managed by DankMaterialShell
+// Do not edit manually - changes may be overwritten
 
-// === Base visuals ===
-// GNOME apps: rounded corners, clip to geometry
+// @id=dms_rule_0 @name=
 window-rule {
-  match app-id=r#"^org\.gnome\."#
-  draw-border-with-background false
-  geometry-corner-radius 12
-  clip-to-geometry true
-}
-
-// Terminal emulators: no border background
-window-rule {
-  match app-id=r#"^org\.wezfurlong\.wezterm$"#
-  match app-id="Alacritty"
-  match app-id="zen"
-  match app-id="com.mitchellh.ghostty"
-  match app-id="kitty"
-  draw-border-with-background false
+    match app-id="^org\\.gnome\\."
+    geometry-corner-radius 12
+    clip-to-geometry true
+    draw-border-with-background false
 }
 
-// Wezterm: auto-size the column width to its own initial_cols, but still
-// fill the full workspace height (it has no height override otherwise,
-// unlike the auto-width case, and opened short as a result).
+// @id=dms_rule_1 @name=
 window-rule {
-  match app-id=r#"^org\.wezfurlong\.wezterm$"#
-  default-column-width {}
-  default-window-height { proportion 1.0; }
+    match app-id="^org\\.wezfurlong\\.wezterm$"
+    match app-id="Alacritty"
+    match app-id="zen"
+    match app-id="com.mitchellh.ghostty"
+    match app-id="kitty"
+    draw-border-with-background false
 }
 
-// Full width apps
+// @id=dms_rule_2 @name=
 window-rule {
-  match app-id=r#"^microsoft-edge"#
-  match app-id=r#"^google-chrome"#
-  match app-id=r#"^emacs(client)?$"#
-  match app-id=r#"^dev\.zed\.Zed"#
-  match app-id=r#"^code(-url-handler)?$"#
-  match app-id=r#"^antigravity"#
-  match app-id=r#"^jetbrains-pycharm"#
-  default-column-width { proportion 1.0; }
+    match app-id="^org\\.wezfurlong\\.wezterm$"
 }
 
-// === App tile defaults ===
+// @id=dms_rule_3 @name=
 window-rule {
-  match app-id=r#"^gnome-control-center$"#
-  match app-id=r#"^nm-connection-editor$"#
-  default-column-width { proportion 0.5; }
-  open-floating false
+    match app-id="^microsoft-edge"
+    match app-id="^google-chrome"
+    match app-id="^emacs(client)?$"
+    match app-id="^dev\\.zed\\.Zed"
+    match app-id="^code(-url-handler)?$"
+    match app-id="^antigravity"
+    match app-id="^jetbrains-pycharm"
 }
 
-// === App float defaults ===
+// @id=dms_rule_4 @name=
 window-rule {
-  match app-id=r#"^gnome-calculator$"#
-  match app-id=r#"^galculator$"#
-  match app-id=r#"^blueman-manager$"#
-  match app-id=r#"^org\.gnome\.Nautilus$"#
-  match app-id=r#"^xdg-desktop-portal$"#
-  match app-id=r#"^zoom$"#
-  open-floating true
+    match app-id="^gnome-control-center$"
+    match app-id="^nm-connection-editor$"
+    open-floating false
+    default-column-width { proportion 0.5; }
 }
 
-// Additional float apps (from Hyprland rules)
+// @id=dms_rule_5 @name=
 window-rule {
-  match app-id="guifetch"
-  match app-id="yad"
-  match app-id="zenity"
-  match app-id="wev"
-  match app-id=r#"^org\.gnome\.FileRoller$"#
-  match app-id="file-roller"
-  match app-id=r#"^com\.github\.GradienceTeam\.Gradience$"#
-  match app-id="feh"
-  match app-id="imv"
-  match app-id="system-config-printer"
-  match app-id=r#"^nwg-look$"#
-  open-floating true
+    match app-id="^gnome-calculator$"
+    match app-id="^galculator$"
+    match app-id="^blueman-manager$"
+    match app-id="^org\\.gnome\\.Nautilus$"
+    match app-id="^xdg-desktop-portal$"
+    match app-id="^zoom$"
+    open-floating true
 }
 
-// Quickshell: floating
+// @id=dms_rule_6 @name=
 window-rule {
-  match app-id=r#"org\.quickshell$"#
-  open-floating true
+    match app-id="guifetch"
+    match app-id="yad"
+    match app-id="zenity"
+    match app-id="wev"
+    match app-id="^org\\.gnome\\.FileRoller$"
+    match app-id="file-roller"
+    match app-id="^com\\.github\\.GradienceTeam\\.Gradience$"
+    match app-id="feh"
+    match app-id="imv"
+    match app-id="system-config-printer"
+    match app-id="^nwg-look$"
+    open-floating true
 }
 
-// GNOME Settings: floating
+// @id=dms_rule_7 @name=
 window-rule {
-  match app-id=r#"^org\.gnome\.Settings$"#
-  open-floating true
+    match app-id="org\\.quickshell$"
+    open-floating true
 }
 
-// Pavucontrol / yad-icon-browser: floating
+// @id=dms_rule_8 @name=
 window-rule {
-  match app-id=r#"^pavucontrol$"#
-  match app-id=r#"^org\.pulseaudio\.pavucontrol$"#
-  match app-id="yad-icon-browser"
-  open-floating true
+    match app-id="^org\\.gnome\\.Settings$"
+    open-floating true
 }
 
-// === Dialog windows ===
+// @id=dms_rule_9 @name=
 window-rule {
-  match title=r#"^(Select|Open)( a)? (File|Folder)(s)?$"#
-  open-floating true
-}
-window-rule {
-  match title=r#"^File (Operation|Upload)( Progress)?$"#
-  open-floating true
-}
-window-rule {
-  match title=r#".* Properties$"#
-  open-floating true
-}
-window-rule {
-  match title="Export Image as PNG"
-  match title="GIMP Crash Debug"
-  match title="Save As"
-  match title="Library"
-  open-floating true
+    match app-id="^pavucontrol$"
+    match app-id="^org\\.pulseaudio\\.pavucontrol$"
+    match app-id="yad-icon-browser"
+    open-floating true
 }
 
-// === Picture-in-Picture ===
+// @id=dms_rule_10 @name=
 window-rule {
-  match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-  match title=r#"Picture(-| )in(-| )[Pp]icture"#
-  open-floating true
+    match title="^(Select|Open)( a)? (File|Folder)(s)?$"
+    open-floating true
 }
 
-// === Steam / Games ===
+// @id=dms_rule_11 @name=
 window-rule {
-  match app-id=r#"^steam$"# title=r#"^notificationtoasts_\d+_desktop$"#
-  default-floating-position x=10 y=10 relative-to="bottom-right"
-  open-focused false
+    match title="^File (Operation|Upload)( Progress)?$"
+    open-floating true
 }
 
+// @id=dms_rule_12 @name=
 window-rule {
-  match app-id="steam"
-  geometry-corner-radius 10
+    match title=".* Properties$"
+    open-floating true
 }
 
+// @id=dms_rule_13 @name=
 window-rule {
-  match app-id="steam" title="Friends List"
-  open-floating true
+    match title="Export Image as PNG"
+    match title="GIMP Crash Debug"
+    match title="Save As"
+    match title="Library"
+    open-floating true
 }
 
+// @id=dms_rule_14 @name=
 window-rule {
-  match app-id=r#"^com-atlauncher-App$"# title="ATLauncher Console"
-  open-floating true
+    match app-id="firefox$" title="^Picture-in-Picture$"
+    match title="Picture(-| )in(-| )[Pp]icture"
+    open-floating true
 }
 
-// Scratch terminal (dms/scripts/scratch-terminal.sh, Mod+Grave): floating,
-// sized proportional to whichever output it opens on.
+// @id=dms_rule_15 @name=
 window-rule {
-  match app-id=r#"^scratch-terminal$"#
-  open-floating true
-  default-column-width { proportion 0.8; }
-  default-window-height { proportion 0.8; }
+    match app-id="^steam$" title="^notificationtoasts_\\d+_desktop$"
+    open-focused false
+    default-floating-position x=10 y=10 relative-to="bottom-right"
 }
 
-// === Layer rules ===
-layer-rule {
-  match namespace="^quickshell$"
-  place-within-backdrop true
+// @id=dms_rule_16 @name=
+window-rule {
+    match app-id="steam"
+    geometry-corner-radius 10
+}
+
+// @id=dms_rule_17 @name=
+window-rule {
+    match app-id="steam" title="Friends List"
+    open-floating true
+}
+
+// @id=dms_rule_18 @name=
+window-rule {
+    match app-id="^com-atlauncher-App$" title="ATLauncher Console"
+    open-floating true
+}
+
+// @id=dms-floating-windows @name=DMS Floating Windows
+window-rule {
+    match app-id="^com.danklinux.dms$"
+    open-floating true
 }

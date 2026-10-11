@@ -6,8 +6,10 @@
 // The active desktop shell is selected through shells/active.kdl.
 
 // Core settings
+include "common/input.kdl"
 include "dms/misc.kdl"
 include "dms/input.kdl"
+include "common/input.kdl"
 include "dms/environment.kdl"
 
 // Behavior
