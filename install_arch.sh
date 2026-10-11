@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
+# Arch setup: system services, packages, desktop, language toolchains and
+# editors. Run ./install afterwards to link the configuration.
+# Options: see --help. INSTALL_DESKTOP_SHELLS=false skips the desktop shells.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$REPO_DIR/setup/lib.sh"
 
-# Default values
+# ── Options ──────────────────────────────────────────────────
+
 GUI=${GUI:-false}
 TOOLS_DIR=${TOOLS_DIR:-"$HOME/local/tools"}
 INSTALL_PYTHON=${INSTALL_PYTHON:-true}
@@ -27,57 +31,80 @@ fi
 
 parse_common_args "$@"
 
-# Install Gogh Color theme
-bash -c "$(wget -qO- https://git.io/vQgMr)"
+# ── Helpers ──────────────────────────────────────────────────
 
-# Function to install packages
 install_packages() {
   echo "Installing packages..."
-  sudo pacman -S --needed "$@"
+  sudo pacman -S --needed --noconfirm "$@"
 }
 
+install_aur_packages() {
+  echo "Installing AUR packages..."
+  yay -S --needed --noconfirm "$@"
+}
+
+# ── System ───────────────────────────────────────────────────
+
+install_packages power-profiles-daemon
+sudo systemctl enable --now power-profiles-daemon.service
+
+# Firmware updates and NVMe health.
+install_packages fwupd nvme-cli
+
+if [[ "$(findmnt -no FSTYPE / 2>/dev/null || true)" == btrfs ]]; then
+  install_packages btrfs-progs
+fi
+
+# ── Base packages ────────────────────────────────────────────
+
+# Everything below relies on these (yay, ufw and pipx among them).
 install_packages \
-  adw-gtk-theme age alsa-lib aspell aspell-en aspell-ru automake base-devel \
-  bash-completion bat bibtool bison btop bun bzip2 ca-certificates cava chafa \
-  clang cmake cscope curl dgop direnv dust emacs-wayland enchant enchant exo \
-  expat fasd fd ffmpeg file-roller fish fontconfig freeglut freetype2 fuse3 fzy \
-  gcc gcc gettext ghostty giflib git github-desktop glances global gmime3 \
-  gnome-keyring gnupg gnuplot gnutls gtk4 guile gvfs helix hexyl hspell htop \
-  httpie hunspell hyprpolkitagent imagemagick iotop iputils isync jansson \
-  jbig2dec jq kitty lazygit leptonica libevent libffi libgccjit libjpeg-turbo \
+  adw-gtk-theme age alsa-lib appmenu-gtk-module aspell aspell-en aspell-ru \
+  automake base-devel bash-completion bat bc bibtool bison btop bun bzip2 \
+  ca-certificates cava chafa clang cmake cscope curl dgop direnv dust \
+  emacs-wayland enchant exo expat fasd fd ffmpeg file-roller fish fontconfig \
+  freeglut freetype2 fuse2 fuse3 fzy gcc gettext ghostty giflib git \
+  github-desktop glances global gmime3 gnome-keyring gnupg gnuplot gnutls gtk4 \
+  guile gvfs helix hexyl hspell htop httpie hunspell hyprpolkitagent \
+  imagemagick iotop iputils isync jansson jbig2dec jq kitty lazygit leptonica \
+  libappindicator libdbusmenu-glib libevent libffi libgccjit libjpeg-turbo \
   libmupdf libpng libsecret libtiff libvoikko libvterm libxcb libxcomposite \
   libxcursor libxfixes libxi libxkbcommon libxmu libxpm lldb llvm lynx make \
   markdown-oxide mc meson mosh mujs mupdf mupdf-tools ncdu ncurses neovim \
   net-tools nnn notmuch nuspell openblas openconnect openssh openssl p7zip \
   pandoc parallel pass pdfgrep pdfpc pdftk peco pinentry poppler poppler-glib \
   procs python python-gobject python-pip python-pipx python-pyopenssl qps ranger \
-  readline ripgrep ruby screen sdl2 shellcheck shfmt sndio sqlite sqlite stow \
-  systemd taplo texinfo the_silver_searcher thunar thunar-archive-plugin tig tk \
-  tmux trash-cli tree-sitter tree-sitter unrar vale webkit2gtk wget wmctrl \
-  xapian-core xdg-desktop-portal-hyprland xdg-utils xfce4-settings xh xz ydotool \
+  readline ripgrep ruby screen sdl2 shellcheck shfmt sndio sqlite stow systemd \
+  taplo texinfo the_silver_searcher thunar thunar-archive-plugin tig tk tmux \
+  trash-cli tree-sitter ufw unrar vale webkit2gtk-4.1 wget wmctrl xapian-core \
+  xdg-desktop-portal-hyprland xdg-utils xfce4-settings xh xz yay ydotool \
   zathura zathura-djvu zathura-pdf-poppler zed zellij zenity zlib-ng zoxide
 
-install_packages \
-  powerline-fonts ttf-fira-code ttf-jetbrains-mono ttf-nerd-fonts-symbols-mono
+# Preserve remote access before enabling the firewall.
+sudo ufw allow ssh
+sudo ufw enable
 
-# Desktop-shell profiles: both are installed so `desktop-shell` can switch
-# between Dank Material Shell and Noctalia without another package transaction.
-# Set INSTALL_DESKTOP_SHELLS=false to skip this desktop-only bundle.
-if $INSTALL_DESKTOP_SHELLS; then
-  install_packages \
-    brightnessctl cliphist dms-shell hyprland matugen niri noctalia quickshell
-fi
+# ── Command-line tools ───────────────────────────────────────
 
-# install git tools
-install_packages \
-  git git-annex git-crypt git-delta git-lfs github-cli
+install_packages git-annex git-crypt git-delta git-lfs github-cli
 
-# rust utilities
 install_packages \
-  atuin bottom broot eza gitu gitui gping lsd navi ouch sd starship tealdear \
+  atuin bottom broot eza gitu gitui gping lsd navi ouch sd starship tealdeer \
   television texlab viu watchexec yazi
 
-# texlive
+install_aur_packages fpp-git fswatch git-hub git-secrets gitflow-avh mu
+
+# Install or update herdr.
+if command -v herdr >/dev/null 2>&1; then
+  herdr update
+else
+  curl -fsSL https://herdr.dev/install.sh | sh
+fi
+
+install_fzf
+
+# ── TeX Live ─────────────────────────────────────────────────
+
 install_packages \
   biber perl-file-homedir perl-ipc-system-simple perl-tk perl-yaml-tiny \
   texlive-basic texlive-bibtexextra texlive-binextra texlive-fontsextra \
@@ -85,23 +112,45 @@ install_packages \
   texlive-latexrecommended texlive-luatex texlive-mathscience \
   texlive-plaingeneric texlive-xetex wdiff
 
-yay -S --needed \
-  antigravity claude-desktop-appimage dsearch-bin fpp-git fswatch git-hub \
-  git-secrets git-secrets gitflow-avh insync microsoft-edge-stable-bin mu \
-  noisetorch teams-for-linux visual-studio-code-bin
+# ── Fonts ────────────────────────────────────────────────────
 
-# Install GUI packages
+install_packages \
+  powerline-fonts ttf-fira-code ttf-jetbrains-mono ttf-nerd-fonts-symbols-mono
+
+if $INSTALL_FONTS; then
+  install_font_packages "$TOOLS_DIR"
+fi
+
+# ── Desktop ──────────────────────────────────────────────────
+
+# Both shells are installed so `desktop-shell` can switch between Dank
+# Material Shell and Noctalia without another package transaction.
+if $INSTALL_DESKTOP_SHELLS; then
+  install_packages \
+    brightnessctl cliphist dms-shell hyprland matugen niri noctalia quickshell
+fi
+
+install_packages chatgpt-desktop-bin claude-desktop
+
+install_aur_packages \
+  antigravity dsearch-bin insync microsoft-edge-stable-bin noisetorch \
+  teams-for-linux visual-studio-code-bin
+
 if $GUI; then
   echo "Installing packages for Wayland..."
 
-  install_packages \
-    discord languagetool logseq-desktop-bin neovide obsidian slack-desktop
+  install_packages discord flatpak languagetool neovide obsidian
+
+  flatpak install flathub com.discordapp.Discord
+  flatpak install flathub com.logseq.Logseq
+  flatpak install flathub it.mijorus.gearlever
 
   # aw-server and awatcher (Wayland window and idle watcher).
   "$REPO_DIR/setup/install_activitywatch.sh"
 fi
 
-# Install Node.js
+# ── Language toolchains ──────────────────────────────────────
+
 if $INSTALL_NODE; then
   echo "Installing Node.js..."
   install_packages nodejs npm
@@ -110,16 +159,10 @@ fi
 
 if $INSTALL_PYTHON; then
   echo "Installing uv and plugins..."
-  pipx install uv
-
+  pipx install --force uv
   "$REPO_DIR/setup/install_python_tools.sh"
 fi
 
-if $INSTALL_FONTS; then
-  install_font_packages "$TOOLS_DIR"
-fi
-
-# Install Rust and cargo packages
 if $INSTALL_RUST; then
   echo "Installing Rust and cargo packages..."
   install_packages cargo-update rustup
@@ -136,19 +179,17 @@ if $INSTALL_RUST; then
   fi
 fi
 
-# Install go packages
 if $INSTALL_GO; then
-  install_packages go
   echo "Installing go and go packages..."
+  install_packages go
   "$REPO_DIR/setup/install_go_packages.sh"
 fi
 
-# Install lua packages
 if $INSTALL_LUA; then
-  echo "Installing luarocks and tiktoken_core..."
-  install_packages luarocks
-  luarocks install --local tiktoken_core
+  install_packages lua
 fi
+
+# ── Editors and AI ───────────────────────────────────────────
 
 if $INSTALL_EMACS; then
   install_emacs
@@ -162,9 +203,9 @@ if $INSTALL_OLLAMA; then
   install_ollama
 fi
 
-install_fzf
+# ── Shell completions ────────────────────────────────────────
 
-# Update shell completions
+# Last, so every tool installed above gets its completions.
 "$REPO_DIR/setup/install_shell_completions.sh"
 
 echo "Setup complete!"

@@ -33,6 +33,14 @@ NEUTRAL = {
     "fg3": "#bdae93",
 }
 
+# Noctalia paints its bar and panels with the surface role and has no setting
+# of its own for the bar's background, so palette.toml may give the shell a
+# surface and text color that differ from the terminal background/foreground:
+#   [noctalia]
+#   surface = "#1d2021"
+#   on_surface = "#ebdbb2"
+NOCTALIA_OVERRIDES = ("surface", "on_surface")
+
 # Icon and cursor themes are user choices, not palette colors, but GTK's
 # settings.ini and dconf both have to name them and disagreeing copies are how
 # the theme drifted last time. Single source of truth, edited by hand.
@@ -76,6 +84,15 @@ def load_palette(path: Path) -> dict[str, object]:
             fail(f"ansi.{intensity} must be a table")
         for name in ANSI_NAMES:
             color(table.get(name), f"ansi.{intensity}.{name}")
+
+    # Optional per-shell overrides, see render_noctalia.
+    noctalia = data.get("noctalia", {})
+    if not isinstance(noctalia, dict):
+        fail("noctalia must be a table")
+    for key, value in noctalia.items():
+        if key not in NOCTALIA_OVERRIDES:
+            fail(f"noctalia.{key} is not one of {', '.join(NOCTALIA_OVERRIDES)}")
+        noctalia[key] = color(value, f"noctalia.{key}")
 
     data["name"] = str(data.get("name", path.stem))
     return data
@@ -226,6 +243,9 @@ def render_btop(p: dict[str, object]) -> str:
 def render_noctalia(p: dict[str, object]) -> str:
     normal = {name: ansi(p, "normal", name) for name in ANSI_NAMES}
     bright = {name: ansi(p, "bright", name) for name in ANSI_NAMES}
+    shell = p.get("noctalia", {})
+    surface = shell.get("surface", get(p, "background"))
+    on_surface = shell.get("on_surface", get(p, "foreground"))
     dark = {
         "mPrimary": get(p, "selection_background"),
         "mOnPrimary": get(p, "background"),
@@ -235,14 +255,14 @@ def render_noctalia(p: dict[str, object]) -> str:
         "mOnTertiary": get(p, "background"),
         "mError": bright["red"],
         "mOnError": get(p, "background"),
-        "mSurface": get(p, "background"),
-        "mOnSurface": get(p, "foreground"),
+        "mSurface": surface,
+        "mOnSurface": on_surface,
         "mSurfaceVariant": normal["black"],
         "mOnSurfaceVariant": normal["white"],
         "mOutline": bright["black"],
         "mShadow": get(p, "background"),
         "mHover": normal["black"],
-        "mOnHover": get(p, "foreground"),
+        "mOnHover": on_surface,
         "terminal": {
             "background": get(p, "background"),
             "foreground": get(p, "foreground"),

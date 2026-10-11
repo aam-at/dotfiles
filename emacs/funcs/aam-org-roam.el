@@ -163,7 +163,7 @@ and loads the embedding model each time (4-14s per call), a warm one answers in
       (process-send-string
        aam/zettel--server
        (concat (json-serialize `(:jsonrpc "2.0" :id ,id :method "tools/call"
-                                 :params (:name ,tool :arguments ,args)))
+					  :params (:name ,tool :arguments ,args)))
                "\n"))
       ;; One JSON reply per line; skip any left over from a call quit with C-g.
       (while (not reply)
@@ -328,7 +328,7 @@ link, with the target's id. Copy accepted sentences into the note yourself."
 ;; Evil's normal state shadows the mode map (a is `evil-append', RET `evil-ret').
 (with-eval-after-load 'evil
   (evil-define-key* '(normal motion) aam/zettel-garden-mode-map
-    (kbd "RET") #'aam/zettel-garden-open "a" #'aam/zettel-garden-ask))
+		    (kbd "RET") #'aam/zettel-garden-open "a" #'aam/zettel-garden-ask))
 
 (define-derived-mode aam/zettel-garden-mode tabulated-list-mode "Zettel-Garden"
   "Findings from `org-cli check'. RET opens the note(s), a asks the LLM to judge."

@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
+# Debian/Ubuntu setup, WSL included: system services, packages, desktop,
+# language toolchains and editors. Run ./install afterwards to link the
+# configuration. Options: see --help.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$REPO_DIR/setup/lib.sh"
 
-# Default values
+# ── Options ──────────────────────────────────────────────────
+
 GUI=${GUI:-false}
 TOOLS_DIR=${TOOLS_DIR:-"$HOME/local/tools"}
 INSTALL_PYTHON=${INSTALL_PYTHON:-true}
@@ -16,7 +20,6 @@ INSTALL_OLLAMA=${INSTALL_OLLAMA:-false}
 INSTALL_EMACS=${INSTALL_EMACS:-true}
 INSTALL_FONTS=${INSTALL_FONTS:-true}
 
-# Detect WSL
 WSL=false
 grep -qi microsoft /proc/version && WSL=true
 
@@ -28,16 +31,13 @@ fi
 
 parse_common_args "$@"
 
-# Install Gogh Color theme
-$WSL || bash -c "$(wget -qO- https://git.io/vQgMr)"
+# ── Helpers ──────────────────────────────────────────────────
 
-# Function to install packages
 install_packages() {
   echo "Installing packages..."
   sudo DEBIAN_FRONTEND=noninteractive apt-fast install -y "$@"
 }
 
-# Function to add PPA and install packages
 add_ppa_and_install() {
   local ppa=$1
   shift
@@ -46,11 +46,33 @@ add_ppa_and_install() {
   install_packages "$@"
 }
 
-# Install apt-fast
+# Install the latest .deb release from GitHub unless the command exists.
+install_github_deb() {
+  local cmd=$1 repo=$2 filter=$3
+  if ! command -v "$cmd" &>/dev/null; then
+    echo "Installing $cmd..."
+    curl -s "https://api.github.com/repos/$repo/releases/latest" | jq -r ".assets[] | select($filter).browser_download_url" | wget -O "/tmp/$cmd.deb" -i -
+    sudo dpkg -i "/tmp/$cmd.deb"
+    rm "/tmp/$cmd.deb"
+  fi
+}
+
+# ── System ───────────────────────────────────────────────────
+
+# install_packages downloads through apt-fast.
 sudo add-apt-repository ppa:apt-fast/stable -y
 sudo apt-get update
 sudo apt-get install -y apt-fast
 
+# TLP for battery management, and postfix.
+if ! $WSL; then
+  add_ppa_and_install linrunner/tlp tlp
+  install_packages postfix
+fi
+
+# ── Base packages ────────────────────────────────────────────
+
+# Everything below relies on these (jq, stow and pipx among them).
 install_packages \
   apt-file autojump automake bat bison btop build-essential ca-certificates \
   checkinstall clang cmake cscope curl davmail fasd fd-find ffmpeg \
@@ -76,25 +98,68 @@ install_packages \
   ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zlib1g-dev \
   zoxide
 
-install_packages \
-  fonts-firacode fonts-jetbrains-mono fonts-powerline
-
 # Ensure fd/bat commands are available under expected names.
 command -v fdfind &>/dev/null && sudo ln -sf "$(command -v fdfind)" /usr/local/bin/fd
 command -v batcat &>/dev/null && sudo ln -sf "$(command -v batcat)" /usr/local/bin/bat
 
-# install git tools
-add_ppa_and_install git-core/ppa \
-  gh git git-annex git-crypt git-flow git-hub git-lfs git-secrets
 add_ppa_and_install fish-shell/release-3 fish
 
-# Install TLP for battery management and postfix (non-WSL only)
-if ! $WSL; then
-  add_ppa_and_install linrunner/tlp tlp
-  install_packages postfix
+# ── Command-line tools ───────────────────────────────────────
+
+add_ppa_and_install git-core/ppa \
+  gh git git-annex git-crypt git-flow git-hub git-lfs git-secrets
+
+install_github_deb delta dandavison/delta '.name | endswith("amd64.deb") and contains("musl")'
+install_github_deb fastfetch fastfetch-cli/fastfetch '.name | endswith("amd64.deb")'
+
+# tmux from source
+if [ ! -d "/usr/local/stow/tmux" ]; then
+  echo "Installing tmux..."
+  curl -s https://api.github.com/repos/tmux/tmux/releases/latest | jq -r ".assets[] | select(.name | endswith(\".tar.gz\")).browser_download_url" | wget -O "/tmp/tmux.tar.gz" -i -
+  mkdir -p /tmp/tmux
+  tar -xzf "/tmp/tmux.tar.gz" -C "/tmp/tmux" --strip-components=1
+  (cd /tmp/tmux && ./configure && make -j "$(nproc)" && sudo make install prefix=/usr/local/stow/tmux)
+  (cd /usr/local/stow && sudo stow -S tmux)
+  rm -rf /tmp/tmux /tmp/tmux.tar.gz
 fi
 
-# Install GUI packages
+# neovim from its release tarball
+if [ ! -d "/usr/local/stow/nvim" ]; then
+  echo "Installing neovim..."
+  curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r ".assets[] | select(.name | endswith(\"-linux-x86_64.tar.gz\")).browser_download_url" | wget -O "/tmp/nvim.tar.gz" -i -
+  sudo mkdir -p /usr/local/stow/nvim
+  sudo tar -xzf "/tmp/nvim.tar.gz" -C "/usr/local/stow/nvim" --strip-components=1
+  (cd /usr/local/stow && sudo stow -S nvim)
+  rm -f /tmp/nvim.tar.gz
+fi
+
+if ! command -v fpp &>/dev/null; then
+  echo "Installing pathpicker..."
+  git clone --depth=1 https://github.com/facebook/PathPicker.git /tmp/PathPicker
+  (cd /tmp/PathPicker/debian && ./package.sh && sudo dpkg -i ../*.deb)
+  rm -rf /tmp/PathPicker
+fi
+
+if command -v snap &>/dev/null; then
+  echo "Installing snap packages..."
+  sudo snap refresh
+  sudo snap install vale dust
+  sudo snap install --classic helix zellij
+fi
+
+install_fzf
+
+# ── Fonts ────────────────────────────────────────────────────
+
+install_packages \
+  fonts-firacode fonts-jetbrains-mono fonts-powerline
+
+if $INSTALL_FONTS && ! $WSL; then
+  install_font_packages "$TOOLS_DIR"
+fi
+
+# ── Desktop ──────────────────────────────────────────────────
+
 if $GUI; then
   echo "Installing packages for X11..."
   install_packages \
@@ -109,13 +174,18 @@ if $GUI; then
 
     # aw-server and awatcher (Wayland window and idle watcher).
     "$REPO_DIR/setup/install_activitywatch.sh"
+
+    if command -v snap &>/dev/null; then
+      sudo snap install --classic obsidian slack
+      sudo snap install discord languagetool logseq spotify
+    fi
   fi
 
-  # Install Ruby gems
   sudo gem install anystyle anystyle-cli
 fi
 
-# Install Node.js
+# ── Language toolchains ──────────────────────────────────────
+
 if $INSTALL_NODE; then
   echo "Installing Node.js..."
   curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash -
@@ -126,49 +196,9 @@ fi
 if $INSTALL_PYTHON; then
   echo "Installing uv and plugins..."
   pipx install uv
-
   "$REPO_DIR/setup/install_python_tools.sh"
 fi
 
-if $INSTALL_FONTS && ! $WSL; then
-  install_font_packages "$TOOLS_DIR"
-fi
-
-# Install tmux from source
-if [ ! -d "/usr/local/stow/tmux" ]; then
-  echo "Installing tmux..."
-  curl -s https://api.github.com/repos/tmux/tmux/releases/latest | jq -r ".assets[] | select(.name | endswith(\".tar.gz\")).browser_download_url" | wget -O "/tmp/tmux.tar.gz" -i -
-  mkdir -p /tmp/tmux
-  tar -xzf "/tmp/tmux.tar.gz" -C "/tmp/tmux" --strip-components=1
-  (cd /tmp/tmux && ./configure && make -j "$(nproc)" && sudo make install prefix=/usr/local/stow/tmux)
-  (cd /usr/local/stow && sudo stow -S tmux)
-  rm -rf /tmp/tmux /tmp/tmux.tar.gz
-fi
-
-# Install neovim
-if [ ! -d "/usr/local/stow/nvim" ]; then
-  echo "Installing neovim..."
-  curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r ".assets[] | select(.name | endswith(\"-linux-x86_64.tar.gz\")).browser_download_url" | wget -O "/tmp/nvim.tar.gz" -i -
-  sudo mkdir -p /usr/local/stow/nvim
-  sudo tar -xzf "/tmp/nvim.tar.gz" -C "/usr/local/stow/nvim" --strip-components=1
-  (cd /usr/local/stow && sudo stow -S nvim)
-  rm -f /tmp/nvim.tar.gz
-fi
-
-# Install .deb releases from GitHub
-install_github_deb() {
-  local cmd=$1 repo=$2 filter=$3
-  if ! command -v "$cmd" &>/dev/null; then
-    echo "Installing $cmd..."
-    curl -s "https://api.github.com/repos/$repo/releases/latest" | jq -r ".assets[] | select($filter).browser_download_url" | wget -O "/tmp/$cmd.deb" -i -
-    sudo dpkg -i "/tmp/$cmd.deb"
-    rm "/tmp/$cmd.deb"
-  fi
-}
-install_github_deb delta dandavison/delta '.name | endswith("amd64.deb") and contains("musl")'
-install_github_deb fastfetch fastfetch-cli/fastfetch '.name | endswith("amd64.deb")'
-
-# Install Rust and cargo packages
 if $INSTALL_RUST; then
   echo "Installing Rust and cargo packages..."
   if ! command -v rustup &>/dev/null; then
@@ -189,19 +219,31 @@ if $INSTALL_RUST; then
   fi
 fi
 
-# Install go packages
 if $INSTALL_GO; then
-  add_ppa_and_install longsleep/golang-backports golang-go
   echo "Installing go and go packages..."
+  add_ppa_and_install longsleep/golang-backports golang-go
   "$REPO_DIR/setup/install_go_packages.sh"
 fi
 
-# Install lua packages
 if $INSTALL_LUA; then
   echo "Installing luarocks and tiktoken_core..."
   install_packages luarocks
   luarocks install --local tiktoken_core
 fi
+
+# NoiseTorch is built with Go, so it comes after the toolchains.
+if $GUI && ! $WSL && ! command -v noisetorch &>/dev/null; then
+  echo "Installing NoiseTorch..."
+  git clone --depth=1 https://github.com/noisetorch/NoiseTorch /tmp/NoiseTorch
+  (cd /tmp/NoiseTorch && make -j "$(nproc)")
+  mkdir -p ~/.local/bin ~/.local/share/applications ~/.local/share/icons/hicolor/256x256/apps
+  cp /tmp/NoiseTorch/bin/noisetorch ~/.local/bin/
+  cp /tmp/NoiseTorch/assets/noisetorch.desktop ~/.local/share/applications
+  cp /tmp/NoiseTorch/assets/icon/noisetorch.png ~/.local/share/icons/hicolor/256x256/apps
+  rm -rf /tmp/NoiseTorch
+fi
+
+# ── Editors and AI ───────────────────────────────────────────
 
 if $INSTALL_EMACS; then
   install_emacs
@@ -215,41 +257,9 @@ if $INSTALL_OLLAMA; then
   install_ollama
 fi
 
-install_fzf
+# ── Shell completions ────────────────────────────────────────
 
-# Install pathpicker
-if ! command -v fpp &>/dev/null; then
-  echo "Installing pathpicker..."
-  git clone --depth=1 https://github.com/facebook/PathPicker.git /tmp/PathPicker
-  (cd /tmp/PathPicker/debian && ./package.sh && sudo dpkg -i ../*.deb)
-  rm -rf /tmp/PathPicker
-fi
-
-# Install NoiseTorch (GUI and non-WSL only)
-if $GUI && ! $WSL && ! command -v noisetorch &>/dev/null; then
-  echo "Installing NoiseTorch..."
-  git clone --depth=1 https://github.com/noisetorch/NoiseTorch /tmp/NoiseTorch
-  (cd /tmp/NoiseTorch && make -j "$(nproc)")
-  mkdir -p ~/.local/bin ~/.local/share/applications ~/.local/share/icons/hicolor/256x256/apps
-  cp /tmp/NoiseTorch/bin/noisetorch ~/.local/bin/
-  cp /tmp/NoiseTorch/assets/noisetorch.desktop ~/.local/share/applications
-  cp /tmp/NoiseTorch/assets/icon/noisetorch.png ~/.local/share/icons/hicolor/256x256/apps
-  rm -rf /tmp/NoiseTorch
-fi
-
-# Install snap packages
-if command -v snap &>/dev/null; then
-  echo "Installing snap packages..."
-  sudo snap refresh
-  sudo snap install vale dust
-  sudo snap install --classic helix zellij
-  if $GUI && ! $WSL; then
-    sudo snap install --classic obsidian slack
-    sudo snap install discord languagetool logseq spotify
-  fi
-fi
-
-# Update shell completions
+# Last, so every tool installed above gets its completions.
 "$REPO_DIR/setup/install_shell_completions.sh"
 
 echo "Setup complete!"

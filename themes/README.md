@@ -12,6 +12,13 @@ The `theme-generator-check` pre-commit hook runs `--check` over every
 `themes/*/palette.toml`. A hand-edit to a generated file fails the commit
 unless the generator reproduces it.
 
+## Gogh
+
+`themes/install_gogh.sh` runs [Gogh](https://github.com/Gogh-Co/Gogh), an
+interactive picker that writes a color scheme into the running terminal's own
+profile. It covers terminals with no adapter here, such as GNOME Terminal.
+Neither installer calls it, since it prompts. Run it by hand to recolor.
+
 ## Adding a consumer
 
 1. Pick a wiring pattern from the target file's format, not from the app.

@@ -68,11 +68,7 @@ capsule_border_width = 1
 # YASB's left / center / right lanes using Noctalia-native widgets.
 start = ["launcher", "workspaces", "active_window"]
 center = ["media", "clock", "weather", "aam/wellbeing:screen_time"]
-end = [
-  "tray",
-  "group:status",
-  "control-center",
-]
+end = ["tray", "group:status", "control-center"]
 
 # One shared capsule for all status widgets, like the YASB bar on Windows.
 [[bar.main.capsule_group]]
