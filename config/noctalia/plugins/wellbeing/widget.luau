@@ -1,5 +1,5 @@
 -- Today's screen time from dotfiles' tools/wellbeing (`wellbeing --status`,
--- the same JSON windots' YASB widget shows): an hourglass, or a moon while
+-- the same JSON windots' YASB widget shows): a stopwatch, or a moon while
 -- focus mode is on. Click shows the top app, middle-click toggles focus mode
 -- (Mod+Alt+Z does too), right-click opens the dashboard.
 
@@ -9,7 +9,7 @@ local DASHBOARD = "http://127.0.0.1:5600/pages/wellbeing/"
 local total, topApp, focusMode, showTopApp = "--", "", false, false
 
 local function render()
-  barWidget.setGlyph(focusMode and "moon" or "hourglass")
+  barWidget.setGlyph(focusMode and "moon" or "stopwatch")
   if showTopApp and topApp ~= "" then
     barWidget.setText(total .. " · " .. topApp)
   else

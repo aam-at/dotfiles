@@ -1,0 +1,11 @@
+# Dictation state in the noctalia bar, from scripts/toggle-dictation.sh.
+# Found through the "dotfiles" path source in ../../config.toml.
+id = "aam/dictation"
+name = "Dictation"
+version = "1.0.0"
+plugin_api = 3
+author = "aam"
+
+[[widget]]
+id = "status"
+entry = "widget.luau"

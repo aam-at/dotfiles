@@ -1,4 +1,5 @@
-# Noctalia profile matching the DMS visual language used by the Niri setup.
+# Noctalia profile matching the YASB bar on Windows
+# (~/windots/yasb/themes/noctalia): gruvbox capsules on a dark glass sheet.
 
 [shell]
 font_family = "Inter Variable"
@@ -22,9 +23,10 @@ app_grid = false
 sort_by_usage = true
 
 [shell.keyboard_layout.custom_labels]
-# Match the two XKB layouts configured in Niri and keep the bar label compact.
-us = "EN"
-ru = "RU"
+# Keyed by the exact XKB layout name (`niri msg keyboard-layouts`); lowercase
+# codes like YASB's language widget.
+"English (US)" = "en"
+Russian = "ru"
 
 [dock]
 # Keep Niri's workspace full height: the dock floats over client windows,
@@ -35,66 +37,95 @@ layer = "overlay"
 [bar.main]
 position = "top"
 thickness = 36
-# Keep the long, opaque DMS base, then use darker inset capsules for hierarchy.
-background_opacity = 1.0
-# DMS's background is edge-to-edge; only its widgets are rounded.
+# YASB's bar is a glass sheet hanging from the top edge: square where it meets
+# the screen, rounded below, floated 8px off the sides, with a hairline edge.
+background_opacity = 0.95
 radius = 0
+radius_bottom_left = 16
+radius_bottom_right = 16
 concave_edge_corners = false
-margin_ends = 0
+margin_ends = 8
 margin_edge = 0
-padding = 4
+# Borders are painted beside the fill, not over it, so a translucent one shows
+# the wallpaper. These are YASB's cream edges pre-blended onto the fill.
+border = "#363632"
+border_width = 1
+padding = 5
 widget_spacing = 4
 shadow = false
+# YASB sets 12px regular text; only the clock, language and workspaces are bold.
+font_scale = 0.9
+font_weight = 400
+# 30px capsules (0.82 of the bar) with the same faint cream edge as YASB's.
 capsule = true
 capsule_fill = "surface_variant"
 capsule_opacity = 1.0
 capsule_thickness = 0.82
 capsule_radius = 12
-capsule_padding = 6
-# Match DMS's left / center / right bar rhythm using Noctalia-native widgets.
+capsule_padding = 8
+capsule_border = "#4a4540"
+capsule_border_width = 1
+# YASB's left / center / right lanes using Noctalia-native widgets.
 start = ["launcher", "workspaces", "active_window"]
 center = ["media", "clock", "weather", "aam/wellbeing:screen_time"]
 end = [
   "tray",
-  "keyboard_layout",
-  "lock_keys",
-  "caffeine",
-  "group:connectivity",
-  "clipboard",
-  "notifications",
-  "battery",
+  "group:status",
   "control-center",
 ]
 
+# One shared capsule for all status widgets, like the YASB bar on Windows.
 [[bar.main.capsule_group]]
-id = "connectivity"
-members = ["network", "net-download", "net-upload"]
+id = "status"
+members = [
+  "keyboard_layout",
+  "lock_keys",
+  "caffeine",
+  "network",
+  "net-download",
+  "net-upload",
+  "volume",
+  "aam/dictation:status",
+  "clipboard",
+  "notifications",
+  "battery",
+]
 fill = "surface_variant"
-padding = 6
+border = "#4a4540"
+border_width = 1
+padding = 8
 radius = 12
 opacity = 1.0
-widget_spacing = 6
+widget_spacing = 10
 
 [widget.launcher]
-glyph = "grid-dots"
-capsule_padding = 6
+glyph = "search"
 
+# YASB's power menu button: three dots at the end of the bar.
+[widget.control-center]
+glyph = "dots"
+
+# YASB's numbered pills: grey when idle, the focus yellow and wider when active.
 [widget.workspaces]
 style = "regular"
+show_labels = true
+label_source = "id"
+font_weight = 600
 pill_scale = 1.0
-active_pill_size = 1.65
-inactive_pill_size = 1.0
-focused_color = "primary"
-occupied_color = "outline"
-empty_color = "surface_variant"
+active_pill_size = 2.4
+inactive_pill_size = 1.55
+focused_color = "#fabd2f"
+occupied_color = "#504945"
+empty_color = "#504945"
 change_color_on_hover = false
 
 [widget.active_window]
-min_length = 170
+min_length = 80
 max_length = 320
 icon_size = 16
 title_scroll = "on_hover"
-capsule_padding = 7
+# Muted title, so the clock stays the bar's centrepiece.
+color = "on_surface_variant"
 
 [widget.media]
 min_length = 150
@@ -106,22 +137,29 @@ hide_when_no_media = true
 [widget.clock]
 format = "{:%H:%M} · {:%a %d}"
 tooltip_format = "{:%A, %B %d, %Y}"
+font_weight = 600
+color = "#fbf1c7"
 
 [widget.weather]
 # Match DMS's existing automatic location setting rather than showing a placeholder.
 enabled = true
 max_length = 72
 show_condition = false
+icon_color = "#f6e3b4"
 
 [widget.network]
 show_label = false
 vpn_status = "both"
+
+[widget.volume]
+show_label = false
 
 [widget.keyboard_layout]
 # Text-only EN/RU status; left-click cycles Niri's configured layouts.
 show_glyph = false
 show_label = true
 display = "short"
+font_weight = 600
 
 [widget.lock_keys]
 # Match DMS's transient Caps Lock indicator and stay hidden when it is off.
@@ -134,16 +172,24 @@ show_scroll_lock = false
 [widget.net-download]
 type = "sysmon"
 stat = "net_rx"
-network_speed_compact = true
+network_speed_compact = false
 visualization = "none"
-label_min_width = 42
+label_min_width = 50
+# Muted and small like YASB's traffic widget; no tint as the speed rises.
+font_scale = 0.92
+color = "on_surface_variant"
+highlight_color = "on_surface_variant"
 
 [widget.net-upload]
 type = "sysmon"
 stat = "net_tx"
-network_speed_compact = true
+network_speed_compact = false
 visualization = "none"
-label_min_width = 42
+label_min_width = 50
+# Muted and small like YASB's traffic widget; no tint as the speed rises.
+font_scale = 0.92
+color = "on_surface_variant"
+highlight_color = "on_surface_variant"
 
 [system.monitor]
 enabled = true
@@ -174,9 +220,9 @@ enable_community_templates = false
 builtin_ids = []
 community_ids = []
 
-# Plugins kept in dotfiles (./plugins): the wellbeing screen time widget.
+# Plugins kept in dotfiles (./plugins): the wellbeing screen time and dictation status widgets.
 [plugins]
-enabled = ["aam/wellbeing"]
+enabled = ["aam/wellbeing", "aam/dictation"]
 
 [[plugins.source]]
 name = "dotfiles"

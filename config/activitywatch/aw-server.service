@@ -4,9 +4,10 @@ Documentation=https://docs.activitywatch.net
 
 [Service]
 Type=simple
-# activitywatch-bin puts it in /usr/bin; setup/install_activitywatch.sh
-# otherwise links it into ~/.local/bin.
-ExecSearchPath=%h/.local/bin:/usr/local/bin:/usr/bin
+# activitywatch-bin puts it in /opt/activitywatch/aw-server (only aw-qt is
+# in /usr/bin); setup/install_activitywatch.sh otherwise links it into
+# ~/.local/bin.
+ExecSearchPath=%h/.local/bin:/usr/local/bin:/usr/bin:/opt/activitywatch/aw-server
 ExecStart=aw-server
 Restart=on-failure
 RestartSec=5
