@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Arch setup: system services, packages, desktop, language toolchains and
 # editors. Run ./install afterwards to link the configuration.
-# Options: see --help. INSTALL_DESKTOP_SHELLS=false skips the desktop shells.
+# Options: see --help. --gui adds the desktop and its applications;
+# INSTALL_DESKTOP_SHELLS=false leaves the desktop shells out of it.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -59,30 +60,29 @@ fi
 
 # Everything below relies on these (yay, ufw and pipx among them).
 install_packages \
-  adw-gtk-theme age alsa-lib appmenu-gtk-module aspell aspell-en aspell-ru \
-  automake base-devel bash-completion bat bc bibtool bison btop bun bzip2 \
-  ca-certificates cava chafa clang cmake cscope curl dgop direnv dust \
-  emacs-wayland enchant exo expat fasd fd ffmpeg file-roller fish fontconfig \
-  freeglut freetype2 fuse2 fuse3 fzy gcc gettext ghostty giflib git \
-  github-desktop glances global gmime3 gnome-keyring gnupg gnuplot gnutls gtk4 \
-  guile gvfs helix hexyl hspell htop httpie hunspell hyprpolkitagent \
-  imagemagick iotop iputils isync jansson jbig2dec jq kitty lazygit leptonica \
-  libappindicator libdbusmenu-glib libevent libffi libgccjit libjpeg-turbo \
-  libmupdf libpng libsecret libtiff libvoikko libvterm libxcb libxcomposite \
-  libxcursor libxfixes libxi libxkbcommon libxmu libxpm lldb llvm lynx make \
-  markdown-oxide mc meson mosh mujs mupdf mupdf-tools ncdu ncurses neovim \
-  net-tools nnn notmuch nuspell openblas openconnect openssh openssl p7zip \
-  pandoc parallel pass pdfgrep pdfpc pdftk peco pinentry poppler poppler-glib \
-  procs python python-gobject python-pip python-pipx python-pyopenssl qps ranger \
-  readline ripgrep ruby screen sdl2 shellcheck shfmt sndio sqlite stow systemd \
-  taplo texinfo the_silver_searcher thunar thunar-archive-plugin tig tk tmux \
-  trash-cli tree-sitter ufw unrar vale webkit2gtk-4.1 wget wmctrl xapian-core \
-  xdg-desktop-portal-hyprland xdg-utils xfce4-settings xh xz yay ydotool \
-  zathura zathura-djvu zathura-pdf-poppler zed zellij zenity zlib-ng zoxide
+  age alsa-lib aspell aspell-en aspell-ru automake base-devel bash-completion \
+  bat bc bibtool bison btop bun bzip2 ca-certificates cava chafa clang cmake \
+  cscope curl dgop direnv dust emacs-wayland enchant expat fasd fd ffmpeg fish \
+  fontconfig freeglut freetype2 fuse2 fuse3 fzy gcc gettext giflib git glances \
+  global gmime3 gnome-keyring gnupg gnuplot gnutls gtk4 guile gvfs helix hexyl \
+  hspell htop httpie hunspell imagemagick iotop iputils isync jansson jbig2dec \
+  jq lazygit leptonica libappindicator libdbusmenu-glib libevent libffi \
+  libgccjit libjpeg-turbo libmupdf libpng libsecret libtiff libvoikko libvterm \
+  libxcb libxcomposite libxcursor libxfixes libxi libxkbcommon libxmu libxpm \
+  lldb llvm lynx make markdown-oxide mc meson mosh mujs mupdf mupdf-tools ncdu \
+  ncurses neovim net-tools nnn notmuch nuspell openblas openconnect openssh \
+  openssl p7zip pandoc parallel pass pdfgrep pdftk peco pinentry poppler \
+  poppler-glib procs python python-gobject python-pip python-pipx \
+  python-pyopenssl ranger readline ripgrep ruby screen sdl2 shellcheck shfmt \
+  sndio sqlite stow systemd taplo texinfo the_silver_searcher tig tk tmux \
+  trash-cli tree-sitter ufw unrar vale webkit2gtk-4.1 wget xapian-core \
+  xdg-utils xh xz yay ydotool zellij zlib-ng zoxide
 
 # Preserve remote access before enabling the firewall.
 sudo ufw allow ssh
-sudo ufw enable
+sudo ufw --force enable
+# `ufw enable` alone does not load the rules at boot.
+sudo systemctl enable --now ufw.service
 
 # ── Command-line tools ───────────────────────────────────────
 
@@ -123,27 +123,29 @@ fi
 
 # ── Desktop ──────────────────────────────────────────────────
 
-# Both shells are installed so `desktop-shell` can switch between Dank
-# Material Shell and Noctalia without another package transaction.
-if $INSTALL_DESKTOP_SHELLS; then
-  install_packages \
-    brightnessctl cliphist dms-shell hyprland matugen niri noctalia quickshell
-fi
-
-install_packages chatgpt-desktop-bin claude-desktop
-
-install_aur_packages \
-  antigravity dsearch-bin insync microsoft-edge-stable-bin noisetorch \
-  teams-for-linux visual-studio-code-bin
-
 if $GUI; then
-  echo "Installing packages for Wayland..."
+  echo "Installing the desktop and its applications..."
 
-  install_packages discord flatpak languagetool neovide obsidian
+  # Both shells are installed so `desktop-shell` can switch between Dank
+  # Material Shell and Noctalia without another package transaction.
+  if $INSTALL_DESKTOP_SHELLS; then
+    install_packages \
+      brightnessctl cliphist dms-shell hyprland matugen niri noctalia quickshell
+  fi
 
-  flatpak install flathub com.discordapp.Discord
-  flatpak install flathub com.logseq.Logseq
-  flatpak install flathub it.mijorus.gearlever
+  install_packages \
+    adw-gtk-theme appmenu-gtk-module chatgpt-desktop-bin claude-desktop \
+    discord exo file-roller flatpak ghostty github-desktop hyprpolkitagent \
+    kitty languagetool neovide obsidian pdfpc qps thunar thunar-archive-plugin \
+    wmctrl xdg-desktop-portal-hyprland xfce4-settings zathura zathura-djvu \
+    zathura-pdf-poppler zed zenity
+
+  install_aur_packages \
+    antigravity dsearch-bin insync microsoft-edge-stable-bin noisetorch \
+    teams-for-linux visual-studio-code-bin
+
+  flatpak install -y flathub com.logseq.Logseq
+  flatpak install -y flathub it.mijorus.gearlever
 
   # aw-server and awatcher (Wayland window and idle watcher).
   "$REPO_DIR/setup/install_activitywatch.sh"
@@ -165,18 +167,12 @@ fi
 
 if $INSTALL_RUST; then
   echo "Installing Rust and cargo packages..."
-  install_packages cargo-update rustup
+  install_packages rustup
   rustup default stable
   "$REPO_DIR/setup/install_rust_packages.sh"
 
   # for kanata
-  sudo groupadd -f uinput
-  sudo usermod -aG input "$USER"
-  sudo usermod -aG uinput "$USER"
-
-  if $GUI; then
-    cargo install --git https://github.com/neovide/neovide
-  fi
+  configure_uinput_access
 fi
 
 if $INSTALL_GO; then

@@ -76,27 +76,25 @@ fi
 install_packages \
   apt-file autojump automake bat bison btop build-essential ca-certificates \
   checkinstall clang cmake cscope curl davmail fasd fd-find ffmpeg \
-  ffmpegthumbnailer freeglut3-dev fswatch fzy g++-multilib gawk \
-  gcc-multilib gettext glances global gnome-epub-thumbnailer gnupg htop \
-  iotop iputils-arping jq kitty libadwaita-1-dev libasound2-dev libbz2-dev \
-  libcld2-dev libenchant-2-dev libevent-dev libexpat1-dev libffi-dev \
-  libfontconfig1-dev libfreetype6-dev libfuse-dev libgccjit-13-dev libgccjit0 \
-  libgif-dev libgmime-3.0-dev libgnutls28-dev libgtk-4-dev libgumbo-dev \
-  libjansson-dev libjansson4 libjbig2dec0-dev libjpeg-dev libleptonica-dev \
-  liblzma-dev libmagick++-dev libmagickcore-dev libmujs-dev libmupdf-dev \
-  libncurses-dev libncurses6 libncursesw6 libopenblas-dev libpng-dev \
-  libpoppler-glib-dev libpoppler-private-dev libreadline-dev libsdl2-dev \
-  libsndio-dev libsqlite3-dev libssl-dev libsystemd-dev libtiff-dev \
-  libtree-sitter-dev libvterm-dev libwebkit2gtk-4.1-dev libxapian-dev \
-  libxcb-composite0-dev libxcb-xfixes0-dev libxcursor-dev libxi-dev \
-  libxkbcommon-dev libxmu-dev libxpm-dev llvm lynx make mc meson mosh ncdu \
-  net-tools nnn openconnect openssh-server 7zip 7zip-rar pandoc \
-  parallel pass pdfgrep pdfpc peco pipx pkg-config plocate powertop \
+  freeglut3-dev fswatch fzy g++-multilib gawk gcc-multilib gettext glances \
+  global gnupg htop iotop iputils-arping jq libadwaita-1-dev libasound2-dev \
+  libbz2-dev libcld2-dev libenchant-2-dev libevent-dev libexpat1-dev \
+  libffi-dev libfontconfig1-dev libfreetype6-dev libfuse-dev libgccjit-13-dev \
+  libgccjit0 libgif-dev libgmime-3.0-dev libgnutls28-dev libgtk-4-dev \
+  libgumbo-dev libjansson-dev libjansson4 libjbig2dec0-dev libjpeg-dev \
+  libleptonica-dev liblzma-dev libmagick++-dev libmagickcore-dev libmujs-dev \
+  libmupdf-dev libncurses-dev libncurses6 libncursesw6 libopenblas-dev \
+  libpng-dev libpoppler-glib-dev libpoppler-private-dev libreadline-dev \
+  libsdl2-dev libsndio-dev libsqlite3-dev libssl-dev libsystemd-dev \
+  libtiff-dev libtree-sitter-dev libvterm-dev libwebkit2gtk-4.1-dev \
+  libxapian-dev libxcb-composite0-dev libxcb-xfixes0-dev libxcursor-dev \
+  libxi-dev libxkbcommon-dev libxmu-dev libxpm-dev llvm lynx make mc meson \
+  mosh ncdu net-tools nnn openconnect openssh-server 7zip 7zip-rar pandoc \
+  parallel pass pdfgrep peco pipx pkg-config plocate powertop \
   protobuf-compiler pydf python-dev-is-python3 python3 python3-openssl \
-  python3-pip ranger ripgrep ruby ruby-dev screen shellcheck \
-  silversearcher-ag sqlite3 stow texinfo tig tk-dev tmux tmuxinator trash-cli \
-  ubuntu-restricted-extras unrar wget wmctrl xdg-utils xz-utils zlib1g-dev \
-  zoxide
+  python3-pip ranger ripgrep ruby ruby-dev screen shellcheck silversearcher-ag \
+  sqlite3 stow texinfo tig tk-dev tmux tmuxinator trash-cli \
+  ubuntu-restricted-extras unrar wget xdg-utils xz-utils zlib1g-dev zoxide
 
 # Ensure fd/bat commands are available under expected names.
 command -v fdfind &>/dev/null && sudo ln -sf "$(command -v fdfind)" /usr/local/bin/fd
@@ -163,8 +161,9 @@ fi
 if $GUI; then
   echo "Installing packages for X11..."
   install_packages \
-    alacritty anki bibtool ditaa fbreader gnome-tweaks graphviz html2text isync \
-    notmuch plantuml tabbed xdotool
+    alacritty anki bibtool ditaa fbreader ffmpegthumbnailer \
+    gnome-epub-thumbnailer gnome-tweaks graphviz html2text isync kitty notmuch \
+    pdfpc plantuml tabbed wmctrl xdotool
 
   if ! $WSL; then
     install_packages \
@@ -210,8 +209,7 @@ if $INSTALL_RUST; then
 
   # for kanata
   if ! $WSL; then
-    sudo groupadd -f uinput
-    sudo usermod -aG input,uinput "$USER"
+    configure_uinput_access
   fi
 
   if $GUI; then

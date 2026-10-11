@@ -189,6 +189,18 @@ install_fzf() {
   fi
 }
 
+# ── uinput ───────────────────────────────────────────────────
+
+# kanata reads /dev/input/event* and writes /dev/uinput; the input group
+# covers both once this rule hands it /dev/uinput.
+configure_uinput_access() {
+  sudo usermod -aG input "$USER"
+  echo 'KERNEL=="uinput", GROUP="input", MODE="0660", OPTIONS+="static_node=uinput"' |
+    sudo tee /etc/udev/rules.d/99-uinput.rules >/dev/null
+  sudo udevadm control --reload
+  sudo udevadm trigger --subsystem-match=misc --sysname-match=uinput
+}
+
 # ── Argument parsing ─────────────────────────────────────────
 
 # Sets INSTALL_* and GUI variables. Call after defining defaults.
