@@ -5,6 +5,9 @@
 font_family = "Inter Variable"
 corner_radius_scale = 1.0
 telemetry_enabled = false
+# Noctalia is the session polkit agent: hyprpolkitagent aborts on niri as soon
+# as it maps its dialog, which leaves internal drives "not authorized".
+polkit_agent = true
 
 [shell.panel]
 # DMS uses opaque, softly rounded surfaces rather than glass effects.

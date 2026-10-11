@@ -75,8 +75,8 @@ install_packages \
   poppler-glib procs python python-gobject python-pip python-pipx \
   python-pyopenssl ranger readline ripgrep ruby screen sdl2 shellcheck shfmt \
   sndio sqlite stow systemd taplo texinfo the_silver_searcher tig tk tmux \
-  trash-cli tree-sitter ufw unrar vale webkit2gtk-4.1 wget xapian-core \
-  xdg-utils xh xz yay ydotool zellij zlib-ng zoxide
+  trash-cli tree-sitter ufw unrar vale webkit2gtk-4.1 wget xapian-core xdg-utils \
+  xh xz yay ydotool zellij zlib-ng zoxide
 
 # Preserve remote access before enabling the firewall.
 sudo ufw allow ssh
@@ -135,9 +135,9 @@ if $GUI; then
 
   install_packages \
     adw-gtk-theme appmenu-gtk-module chatgpt-desktop-bin claude-desktop \
-    discord exo file-roller flatpak ghostty github-desktop hyprpolkitagent \
-    kitty languagetool neovide obsidian pdfpc qps thunar thunar-archive-plugin \
-    wmctrl xdg-desktop-portal-hyprland xfce4-settings zathura zathura-djvu \
+    discord exo file-roller flatpak ghostty github-desktop kitty languagetool \
+    neovide obsidian pdfpc qps thunar thunar-archive-plugin wmctrl \
+    xdg-desktop-portal-hyprland xfce4-settings zathura zathura-djvu \
     zathura-pdf-poppler zed zenity
 
   install_aur_packages \

@@ -1,6 +1,7 @@
 [Unit]
 Description=Dropbox file synchronization
 Documentation=https://help.dropbox.com/installs/linux-commands
+After=graphical-session.target
 ConditionPathExists=%h/.dropbox-dist/dropboxd
 
 [Service]

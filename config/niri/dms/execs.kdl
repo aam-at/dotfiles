@@ -1,7 +1,8 @@
 // Startup applications
 // Matches Hyprland execs.conf
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
-spawn-at-startup "/usr/lib/hyprpolkitagent/hyprpolkitagent"
+// No hyprpolkitagent here: DMS registers its own polkit agent, and only one
+// agent can own the session.
 
 // Non-critical maintenance (match Hyprland: trash-empty 30)
 spawn-at-startup "trash-empty" "30"

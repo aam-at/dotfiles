@@ -2,7 +2,8 @@
 // own processes, panels, and IPC bindings, so the two shells never run together.
 
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
-spawn-at-startup "/usr/lib/hyprpolkitagent/hyprpolkitagent"
+// No hyprpolkitagent here: Noctalia registers its own polkit agent
+// (shell.polkit_agent), and only one agent can own the session.
 spawn-at-startup "trash-empty" "30"
 spawn-at-startup "noctalia"
 
