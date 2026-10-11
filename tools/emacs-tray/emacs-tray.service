@@ -1,0 +1,16 @@
+[Unit]
+Description=Tray icons for the Doom and Spacemacs daemons
+Documentation=file://%h/dotfiles/tools/emacs-tray/emacs-tray.c
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/lib/emacs-tray/emacs-tray
+# Open runs emacsclient for as long as its frame is up: stopping or
+# restarting the tray must not close the frames it opened.
+KillMode=process
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target

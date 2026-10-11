@@ -65,7 +65,10 @@ Emacs initializes its display. Use a named daemon when running more than one
 profile so each server has its own socket.
 
 Clone Doom to `~/.local/share/emacs/doom` and Spacemacs to
-`~/.local/share/emacs/spacemacs`.  Future standalone profiles, such as
+`~/.local/share/emacs/spacemacs` (`install_emacs` in `setup/lib.sh` does both).
+Doom keeps its modules in a git submodule: run `git submodule update --init`
+in the checkout, then `doom-profile -! sync --no-env`, or no module's packages
+(evil, vertico, ...) are installed.  Future standalone profiles, such as
 Prelude or Emalla, can place an `init.el` in `~/.config/emacs/<profile>/` and
 run `emacs-profile <profile>`.
 

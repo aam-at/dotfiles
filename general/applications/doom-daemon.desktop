@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=DoomDaemon
+Comment=Start the Doom Emacs daemon
+Exec=emacs-daemon start doom
+Icon=emacs
+Type=Application
+Terminal=false
+Categories=Utility;TextEditor;
+StartupNotify=false

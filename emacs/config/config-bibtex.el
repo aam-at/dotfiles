@@ -8,7 +8,7 @@
   "Configure the shared Doom-biblio-style Citar and Org Cite workflow."
   (require 'citar)
   (require 'citar-capf)
-  (setq citar-bibliography aam/bibtex-files
+  (setq citar-bibliography (aam/bibtex-existing-files)
         citar-library-file-extensions '("pdf")
         citar-library-paths (aam/bib-library-paths)
         citar-notes-paths (list (aam/org-path "papers"))
@@ -20,7 +20,7 @@
 
   ;; Keep native Org Cite exports predictable, matching Doom's biblio module.
   (with-eval-after-load 'oc
-    (setq org-cite-global-bibliography aam/bibtex-files
+    (setq org-cite-global-bibliography (aam/bibtex-existing-files)
           org-cite-export-processors '((latex biblatex) (t csl))
           org-support-shift-select t)
     (require 'oc-biblatex))
@@ -57,7 +57,7 @@
 
   ;; configure bibtex-completion for org-ref
   (setq bibtex-completion-notes-path (aam/org-path "papers")
-        bibtex-completion-bibliography aam/bibtex-files
+        bibtex-completion-bibliography (aam/bibtex-existing-files)
         bibtex-completion-library-path (aam/bib-library-paths)
         bibtex-completion-find-additional-pdfs t
         bibtex-completion-additional-search-fields '(keywords tags)
@@ -83,7 +83,7 @@
     (setq orb-autokey-format "%a%y%t"))
 
   ;; ebib settings
-  (setq ebib-preload-bib-files aam/bibtex-files)
+  (setq ebib-preload-bib-files (aam/bibtex-existing-files))
   (evil-set-initial-state 'ebib-index-mode 'emacs)
   (evil-set-initial-state 'ebib-entry-mode 'emacs)
   (evil-set-initial-state 'ebib-log-mode 'emacs))

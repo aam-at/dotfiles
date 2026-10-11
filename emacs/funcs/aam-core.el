@@ -222,6 +222,12 @@ Works on whole buffer or the selected region if START-POS and END-POS are provid
 (defvar aam/bibtex-files (aam/bib--files)
   "Bibliography files shared by citation packages.")
 
+(defun aam/bibtex-existing-files ()
+  "Return the `aam/bibtex-files' that exist.
+bibtex-completion signals an error for a missing file, which aborts a
+daemon's startup on a machine that does not have the library."
+  (seq-filter #'file-exists-p aam/bibtex-files))
+
 (defun aam/set-bibliography-root (root)
   "Set ROOT and refresh `aam/bibtex-files` beneath it."
   (setq aam/bib-root (file-truename (expand-file-name root))

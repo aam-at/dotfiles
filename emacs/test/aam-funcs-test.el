@@ -301,6 +301,17 @@ trailer<</Root 1 0 R/Size 6>>
                                    '("refs.bib" "review.bib" "books.bib" "myrefs.bib")))))
         (delete-directory root t)))))
 
+(ert-deftest aam/bibtex-existing-files-skips-missing-files ()
+  (let* ((root (file-name-as-directory (file-truename (make-temp-file "bib" t))))
+         (present (expand-file-name "refs.bib" root))
+         (aam/bibtex-files (list present (expand-file-name "review.bib" root))))
+    (unwind-protect
+        (progn
+          (should-not (aam/bibtex-existing-files))
+          (write-region "" nil present nil 'silent)
+          (should (equal (aam/bibtex-existing-files) (list present))))
+      (delete-directory root t))))
+
 ;;; LaTeX.
 
 (defconst aam/test-prose "One sentence here.  Another sentence follows it.  Third one is last.\n")

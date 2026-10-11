@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Doom
+Comment=Open a Doom Emacs frame, starting its daemon if needed
+Exec=emacs-daemon open doom
+Icon=emacs
+Type=Application
+Terminal=false
+Categories=Utility;TextEditor;
+StartupNotify=true
+StartupWMClass=Emacs

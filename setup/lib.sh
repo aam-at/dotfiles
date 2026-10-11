@@ -121,8 +121,10 @@ install_ollama() {
 
 install_emacs() {
   local emacs_data_dir="$HOME/.local/share/emacs"
+  local emacs_config_dir="$HOME/.config/emacs"
   local doom_dir="$emacs_data_dir/doom"
   local spacemacs_dir="$emacs_data_dir/spacemacs"
+  local scripts_dir="${REPO_DIR:-$HOME/dotfiles}/scripts"
 
   mkdir -p "$emacs_data_dir"
 
@@ -132,12 +134,37 @@ install_emacs() {
   else
     echo "Doom Emacs already installed."
   fi
+  # Doom's modules are a git submodule (sources/doom+). Without it Doom still
+  # starts, but no module's packages (evil, vertico, ...) get installed.
+  git -C "$doom_dir" submodule update --init --recursive --depth=1 ||
+    echo "Warning: failed to fetch Doom's modules" >&2
 
   if [ ! -d "$spacemacs_dir" ]; then
     echo "Installing Spacemacs..."
     git clone --depth=1 https://github.com/aam-at/spacemacs "$spacemacs_dir"
   else
     echo "Spacemacs already installed."
+  fi
+
+  # Packages need the profiles that ./install links into ~/.config/emacs.
+  if [ -f "$emacs_config_dir/doom/init.el" ]; then
+    echo "Installing Doom packages..."
+    "$scripts_dir/doom-profile" -! sync --no-env ||
+      echo "Warning: doom sync failed; rerun: doom-profile -! sync --no-env" >&2
+  else
+    echo "Doom profile is not linked yet; run ./install, then: doom-profile -! sync --no-env" >&2
+  fi
+
+  if [ -d "$spacemacs_dir/elpa" ]; then
+    echo "Spacemacs packages already installed."
+  elif [ -f "$emacs_config_dir/spacemacs/init.el" ]; then
+    echo "Installing Spacemacs packages..."
+    # Loading Spacemacs in batch mode installs its layers' packages, then exits.
+    SPACEMACSDIR="$emacs_config_dir/spacemacs" emacs --batch \
+      --init-directory="$spacemacs_dir" -l "$spacemacs_dir/init.el" ||
+      echo "Warning: Spacemacs package installation failed; it retries when Spacemacs starts" >&2
+  else
+    echo "Spacemacs profile is not linked yet; run ./install, then start Spacemacs once" >&2
   fi
 }
 

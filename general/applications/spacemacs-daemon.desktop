@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=SpacemacsDaemon
+Comment=Start the Spacemacs daemon
+Exec=emacs-daemon start spacemacs
+Icon=emacs
+Type=Application
+Terminal=false
+Categories=Utility;TextEditor;
+StartupNotify=false

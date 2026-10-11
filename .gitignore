@@ -42,3 +42,7 @@ config/DankMaterialShell/monitors.json
 tools/wellbeing/wellbeing
 tools/wellbeing/wellbeing.test
 tools/wellbeing/*.exe
+
+# tools/emacs-tray build outputs
+tools/emacs-tray/emacs-tray
+tools/emacs-tray/emacs-tray.test

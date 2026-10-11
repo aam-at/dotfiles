@@ -1,0 +1,15 @@
+- defaults:
+    link:
+      force: true
+
+- link:
+    ~/.config/systemd/user/emacs-tray.service: emacs-tray.service
+
+- shell:
+    - [make install, Build and install emacs-tray]
+    - [systemctl --user daemon-reload, Reload user systemd units]
+    - [systemctl --user enable emacs-tray.service, Enable emacs-tray at login]
+    - [
+        systemctl --user try-restart emacs-tray.service,
+        Restart emacs-tray if running,
+      ]
