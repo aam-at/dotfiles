@@ -1,0 +1,47 @@
+{
+  "projectSettingsFolded": true,
+  "providerInstances": {
+    "claudeAgent_cswap1": {
+      "driver": "claudeAgent",
+      "displayName": "Claude (1 gmail)",
+      "enabled": true,
+      "config": {
+        "binaryPath": "claude",
+        "homePath": "C:\\Users\\amatyasko\\.claude-swap-backup\\sessions\\1-alexander.matyasko_gmail.com"
+      }
+    },
+    "claudeAgent_cswap2": {
+      "driver": "claudeAgent",
+      "displayName": "Claude (2 HARMONY)",
+      "enabled": true,
+      "config": {
+        "binaryPath": "claude",
+        "homePath": "C:\\Users\\amatyasko\\.claude-swap-backup\\sessions\\2-aliaksan001_e.ntu.edu.sg"
+      }
+    },
+    "claudeAgent_cswap3": {
+      "driver": "claudeAgent",
+      "displayName": "Claude (3 A*STAR)",
+      "enabled": true,
+      "config": {
+        "binaryPath": "claude",
+        "homePath": "C:\\Users\\amatyasko\\.claude-swap-backup\\sessions\\3-alexander_matyasko_a-star.edu.sg"
+      }
+    },
+    "acpRegistry_copilot": {
+      "driver": "acpRegistry",
+      "displayName": "Copilot",
+      "enabled": true,
+      "config": {
+        "agentId": "github-copilot-cli",
+        "distribution": "auto",
+        "registryIconUrl": "https://cdn.agentclientprotocol.com/registry/v1/latest/github-copilot-cli.svg"
+      }
+    },
+    "antigravity": {
+      "driver": "antigravity",
+      "displayName": "Antigravity",
+      "enabled": true
+    }
+  }
+}
