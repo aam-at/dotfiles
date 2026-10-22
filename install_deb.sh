@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Debian/Ubuntu setup, WSL included: system services, packages, desktop,
-# language toolchains and editors. Run ./install afterwards to link the
-# configuration. Options: see --help.
+# language toolchains, editors, and local GUI tools. Run ./install afterwards
+# to link the configuration. Options: see --help.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -253,6 +253,10 @@ fi
 
 if $INSTALL_OLLAMA; then
   install_ollama
+fi
+
+if $GUI; then
+  install_local_tools
 fi
 
 # ── Shell completions ────────────────────────────────────────

@@ -90,6 +90,9 @@ _atuin() {
     atuin,register)
       cmd="atuin__subcmd__register"
       ;;
+    atuin,resume)
+      cmd="atuin__subcmd__resume"
+      ;;
     atuin,scripts)
       cmd="atuin__subcmd__scripts"
       ;;
@@ -110,6 +113,9 @@ _atuin() {
       ;;
     atuin,sync)
       cmd="atuin__subcmd__sync"
+      ;;
+    atuin,threads)
+      cmd="atuin__subcmd__threads"
       ;;
     atuin,update)
       cmd="atuin__subcmd__update"
@@ -177,6 +183,12 @@ _atuin() {
     atuin__subcmd__ai,inline)
       cmd="atuin__subcmd__ai__subcmd__inline"
       ;;
+    atuin__subcmd__ai,resume)
+      cmd="atuin__subcmd__ai__subcmd__resume"
+      ;;
+    atuin__subcmd__ai,session)
+      cmd="atuin__subcmd__ai__subcmd__session"
+      ;;
     atuin__subcmd__ai__subcmd__help,help)
       cmd="atuin__subcmd__ai__subcmd__help__subcmd__help"
       ;;
@@ -185,6 +197,84 @@ _atuin() {
       ;;
     atuin__subcmd__ai__subcmd__help,inline)
       cmd="atuin__subcmd__ai__subcmd__help__subcmd__inline"
+      ;;
+    atuin__subcmd__ai__subcmd__help,resume)
+      cmd="atuin__subcmd__ai__subcmd__help__subcmd__resume"
+      ;;
+    atuin__subcmd__ai__subcmd__help,session)
+      cmd="atuin__subcmd__ai__subcmd__help__subcmd__session"
+      ;;
+    atuin__subcmd__ai__subcmd__help__subcmd__session,enable)
+      cmd="atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__enable"
+      ;;
+    atuin__subcmd__ai__subcmd__help__subcmd__session,import)
+      cmd="atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__import"
+      ;;
+    atuin__subcmd__ai__subcmd__help__subcmd__session,list)
+      cmd="atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__list"
+      ;;
+    atuin__subcmd__ai__subcmd__help__subcmd__session,resume)
+      cmd="atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__resume"
+      ;;
+    atuin__subcmd__ai__subcmd__help__subcmd__session,search)
+      cmd="atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__search"
+      ;;
+    atuin__subcmd__ai__subcmd__help__subcmd__session,show)
+      cmd="atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__show"
+      ;;
+    atuin__subcmd__ai__subcmd__help__subcmd__session,tail)
+      cmd="atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__tail"
+      ;;
+    atuin__subcmd__ai__subcmd__session,enable)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__enable"
+      ;;
+    atuin__subcmd__ai__subcmd__session,help)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__help"
+      ;;
+    atuin__subcmd__ai__subcmd__session,import)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__import"
+      ;;
+    atuin__subcmd__ai__subcmd__session,list)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__list"
+      ;;
+    atuin__subcmd__ai__subcmd__session,resume)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__resume"
+      ;;
+    atuin__subcmd__ai__subcmd__session,search)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__search"
+      ;;
+    atuin__subcmd__ai__subcmd__session,show)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__show"
+      ;;
+    atuin__subcmd__ai__subcmd__session,tail)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__tail"
+      ;;
+    atuin__subcmd__ai__subcmd__session__subcmd__help,enable)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__enable"
+      ;;
+    atuin__subcmd__ai__subcmd__session__subcmd__help,help)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__help"
+      ;;
+    atuin__subcmd__ai__subcmd__session__subcmd__help,import)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__import"
+      ;;
+    atuin__subcmd__ai__subcmd__session__subcmd__help,list)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__list"
+      ;;
+    atuin__subcmd__ai__subcmd__session__subcmd__help,resume)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__resume"
+      ;;
+    atuin__subcmd__ai__subcmd__session__subcmd__help,search)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__search"
+      ;;
+    atuin__subcmd__ai__subcmd__session__subcmd__help,show)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__show"
+      ;;
+    atuin__subcmd__ai__subcmd__session__subcmd__help,tail)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__tail"
+      ;;
+    atuin__subcmd__config,disable)
+      cmd="atuin__subcmd__config__subcmd__disable"
       ;;
     atuin__subcmd__config,enable)
       cmd="atuin__subcmd__config__subcmd__enable"
@@ -200,6 +290,9 @@ _atuin() {
       ;;
     atuin__subcmd__config,set)
       cmd="atuin__subcmd__config__subcmd__set"
+      ;;
+    atuin__subcmd__config__subcmd__help,disable)
+      cmd="atuin__subcmd__config__subcmd__help__subcmd__disable"
       ;;
     atuin__subcmd__config__subcmd__help,enable)
       cmd="atuin__subcmd__config__subcmd__help__subcmd__enable"
@@ -369,6 +462,9 @@ _atuin() {
     atuin__subcmd__help,register)
       cmd="atuin__subcmd__help__subcmd__register"
       ;;
+    atuin__subcmd__help,resume)
+      cmd="atuin__subcmd__help__subcmd__resume"
+      ;;
     atuin__subcmd__help,scripts)
       cmd="atuin__subcmd__help__subcmd__scripts"
       ;;
@@ -389,6 +485,9 @@ _atuin() {
       ;;
     atuin__subcmd__help,sync)
       cmd="atuin__subcmd__help__subcmd__sync"
+      ;;
+    atuin__subcmd__help,threads)
+      cmd="atuin__subcmd__help__subcmd__threads"
       ;;
     atuin__subcmd__help,update)
       cmd="atuin__subcmd__help__subcmd__update"
@@ -428,6 +527,36 @@ _atuin() {
       ;;
     atuin__subcmd__help__subcmd__ai,inline)
       cmd="atuin__subcmd__help__subcmd__ai__subcmd__inline"
+      ;;
+    atuin__subcmd__help__subcmd__ai,resume)
+      cmd="atuin__subcmd__help__subcmd__ai__subcmd__resume"
+      ;;
+    atuin__subcmd__help__subcmd__ai,session)
+      cmd="atuin__subcmd__help__subcmd__ai__subcmd__session"
+      ;;
+    atuin__subcmd__help__subcmd__ai__subcmd__session,enable)
+      cmd="atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__enable"
+      ;;
+    atuin__subcmd__help__subcmd__ai__subcmd__session,import)
+      cmd="atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__import"
+      ;;
+    atuin__subcmd__help__subcmd__ai__subcmd__session,list)
+      cmd="atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__list"
+      ;;
+    atuin__subcmd__help__subcmd__ai__subcmd__session,resume)
+      cmd="atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__resume"
+      ;;
+    atuin__subcmd__help__subcmd__ai__subcmd__session,search)
+      cmd="atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__search"
+      ;;
+    atuin__subcmd__help__subcmd__ai__subcmd__session,show)
+      cmd="atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__show"
+      ;;
+    atuin__subcmd__help__subcmd__ai__subcmd__session,tail)
+      cmd="atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__tail"
+      ;;
+    atuin__subcmd__help__subcmd__config,disable)
+      cmd="atuin__subcmd__help__subcmd__config__subcmd__disable"
       ;;
     atuin__subcmd__help__subcmd__config,enable)
       cmd="atuin__subcmd__help__subcmd__config__subcmd__enable"
@@ -543,6 +672,9 @@ _atuin() {
     atuin__subcmd__help__subcmd__kv,set)
       cmd="atuin__subcmd__help__subcmd__kv__subcmd__set"
       ;;
+    atuin__subcmd__help__subcmd__mcp,install)
+      cmd="atuin__subcmd__help__subcmd__mcp__subcmd__install"
+      ;;
     atuin__subcmd__help__subcmd__output,search)
       cmd="atuin__subcmd__help__subcmd__output__subcmd__search"
       ;;
@@ -567,6 +699,9 @@ _atuin() {
     atuin__subcmd__help__subcmd__scripts,run)
       cmd="atuin__subcmd__help__subcmd__scripts__subcmd__run"
       ;;
+    atuin__subcmd__help__subcmd__store,compact)
+      cmd="atuin__subcmd__help__subcmd__store__subcmd__compact"
+      ;;
     atuin__subcmd__help__subcmd__store,pull)
       cmd="atuin__subcmd__help__subcmd__store__subcmd__pull"
       ;;
@@ -587,6 +722,27 @@ _atuin() {
       ;;
     atuin__subcmd__help__subcmd__store,verify)
       cmd="atuin__subcmd__help__subcmd__store__subcmd__verify"
+      ;;
+    atuin__subcmd__help__subcmd__threads,enable)
+      cmd="atuin__subcmd__help__subcmd__threads__subcmd__enable"
+      ;;
+    atuin__subcmd__help__subcmd__threads,import)
+      cmd="atuin__subcmd__help__subcmd__threads__subcmd__import"
+      ;;
+    atuin__subcmd__help__subcmd__threads,list)
+      cmd="atuin__subcmd__help__subcmd__threads__subcmd__list"
+      ;;
+    atuin__subcmd__help__subcmd__threads,resume)
+      cmd="atuin__subcmd__help__subcmd__threads__subcmd__resume"
+      ;;
+    atuin__subcmd__help__subcmd__threads,search)
+      cmd="atuin__subcmd__help__subcmd__threads__subcmd__search"
+      ;;
+    atuin__subcmd__help__subcmd__threads,show)
+      cmd="atuin__subcmd__help__subcmd__threads__subcmd__show"
+      ;;
+    atuin__subcmd__help__subcmd__threads,tail)
+      cmd="atuin__subcmd__help__subcmd__threads__subcmd__tail"
       ;;
     atuin__subcmd__history,dedup)
       cmd="atuin__subcmd__history__subcmd__dedup"
@@ -768,6 +924,18 @@ _atuin() {
     atuin__subcmd__kv__subcmd__help,set)
       cmd="atuin__subcmd__kv__subcmd__help__subcmd__set"
       ;;
+    atuin__subcmd__mcp,help)
+      cmd="atuin__subcmd__mcp__subcmd__help"
+      ;;
+    atuin__subcmd__mcp,install)
+      cmd="atuin__subcmd__mcp__subcmd__install"
+      ;;
+    atuin__subcmd__mcp__subcmd__help,help)
+      cmd="atuin__subcmd__mcp__subcmd__help__subcmd__help"
+      ;;
+    atuin__subcmd__mcp__subcmd__help,install)
+      cmd="atuin__subcmd__mcp__subcmd__help__subcmd__install"
+      ;;
     atuin__subcmd__output,help)
       cmd="atuin__subcmd__output__subcmd__help"
       ;;
@@ -834,6 +1002,9 @@ _atuin() {
     atuin__subcmd__scripts__subcmd__help,run)
       cmd="atuin__subcmd__scripts__subcmd__help__subcmd__run"
       ;;
+    atuin__subcmd__store,compact)
+      cmd="atuin__subcmd__store__subcmd__compact"
+      ;;
     atuin__subcmd__store,help)
       cmd="atuin__subcmd__store__subcmd__help"
       ;;
@@ -857,6 +1028,9 @@ _atuin() {
       ;;
     atuin__subcmd__store,verify)
       cmd="atuin__subcmd__store__subcmd__verify"
+      ;;
+    atuin__subcmd__store__subcmd__help,compact)
+      cmd="atuin__subcmd__store__subcmd__help__subcmd__compact"
       ;;
     atuin__subcmd__store__subcmd__help,help)
       cmd="atuin__subcmd__store__subcmd__help__subcmd__help"
@@ -882,6 +1056,54 @@ _atuin() {
     atuin__subcmd__store__subcmd__help,verify)
       cmd="atuin__subcmd__store__subcmd__help__subcmd__verify"
       ;;
+    atuin__subcmd__threads,enable)
+      cmd="atuin__subcmd__threads__subcmd__enable"
+      ;;
+    atuin__subcmd__threads,help)
+      cmd="atuin__subcmd__threads__subcmd__help"
+      ;;
+    atuin__subcmd__threads,import)
+      cmd="atuin__subcmd__threads__subcmd__import"
+      ;;
+    atuin__subcmd__threads,list)
+      cmd="atuin__subcmd__threads__subcmd__list"
+      ;;
+    atuin__subcmd__threads,resume)
+      cmd="atuin__subcmd__threads__subcmd__resume"
+      ;;
+    atuin__subcmd__threads,search)
+      cmd="atuin__subcmd__threads__subcmd__search"
+      ;;
+    atuin__subcmd__threads,show)
+      cmd="atuin__subcmd__threads__subcmd__show"
+      ;;
+    atuin__subcmd__threads,tail)
+      cmd="atuin__subcmd__threads__subcmd__tail"
+      ;;
+    atuin__subcmd__threads__subcmd__help,enable)
+      cmd="atuin__subcmd__threads__subcmd__help__subcmd__enable"
+      ;;
+    atuin__subcmd__threads__subcmd__help,help)
+      cmd="atuin__subcmd__threads__subcmd__help__subcmd__help"
+      ;;
+    atuin__subcmd__threads__subcmd__help,import)
+      cmd="atuin__subcmd__threads__subcmd__help__subcmd__import"
+      ;;
+    atuin__subcmd__threads__subcmd__help,list)
+      cmd="atuin__subcmd__threads__subcmd__help__subcmd__list"
+      ;;
+    atuin__subcmd__threads__subcmd__help,resume)
+      cmd="atuin__subcmd__threads__subcmd__help__subcmd__resume"
+      ;;
+    atuin__subcmd__threads__subcmd__help,search)
+      cmd="atuin__subcmd__threads__subcmd__help__subcmd__search"
+      ;;
+    atuin__subcmd__threads__subcmd__help,show)
+      cmd="atuin__subcmd__threads__subcmd__help__subcmd__show"
+      ;;
+    atuin__subcmd__threads__subcmd__help,tail)
+      cmd="atuin__subcmd__threads__subcmd__help__subcmd__tail"
+      ;;
     *)
       ;;
     esac
@@ -889,7 +1111,7 @@ _atuin() {
 
   case "${cmd}" in
   atuin)
-    opts="-h -V --help --version search output stats sync login logout register key status account history setup init import doctor update kv store dotfiles scripts hook ai mcp wrapped default-config config info daemon __internal __internal_ pty-proxy uuid contributors gen-completions help"
+    opts="-h -V --help --version search output stats sync login logout register key status account history setup init import doctor update kv store dotfiles scripts hook ai threads resume mcp wrapped default-config config info daemon __internal __internal_ pty-proxy uuid contributors gen-completions help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -1265,7 +1487,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__ai)
-    opts="-h --help inline init help"
+    opts="-h --help inline init session resume help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -1279,7 +1501,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__ai__subcmd__help)
-    opts="inline init help"
+    opts="inline init session resume help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -1334,6 +1556,132 @@ _atuin() {
     COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
     return 0
     ;;
+  atuin__subcmd__ai__subcmd__help__subcmd__resume)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__help__subcmd__session)
+    opts="list show search tail import resume enable"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__enable)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__import)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__list)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__resume)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__search)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__show)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__tail)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
   atuin__subcmd__ai__subcmd__init)
     opts="-h --help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
@@ -1370,8 +1718,332 @@ _atuin() {
     COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
     return 0
     ;;
+  atuin__subcmd__ai__subcmd__resume)
+    opts="-h --print --in --fork --as-is --switch --branch --filter-mode --inline-height --keymap-mode --shell-widget --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --in)
+      COMPREPLY=($(compgen -W "claude codex opencode pi omp" -- "${cur}"))
+      return 0
+      ;;
+    --branch)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --filter-mode)
+      COMPREPLY=($(compgen -W "global host workspace directory branch" -- "${cur}"))
+      return 0
+      ;;
+    --inline-height)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --keymap-mode)
+      COMPREPLY=($(compgen -W "emacs vim-normal vim-insert auto" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session)
+    opts="-h --help list show search tail import resume enable help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__enable)
+    opts="-h --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__help)
+    opts="list show search tail import resume enable help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__enable)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__help)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__import)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__list)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__resume)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__search)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__show)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__tail)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__import)
+    opts="-h --harness --style --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --harness)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --style)
+      COMPREPLY=($(compgen -W "auto plain pretty json ndjson" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__list)
+    opts="-h --style --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --style)
+      COMPREPLY=($(compgen -W "auto plain pretty json ndjson" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__resume)
+    opts="-h --print --in --fork --as-is --switch --branch --filter-mode --inline-height --keymap-mode --shell-widget --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --in)
+      COMPREPLY=($(compgen -W "claude codex opencode pi omp" -- "${cur}"))
+      return 0
+      ;;
+    --branch)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --filter-mode)
+      COMPREPLY=($(compgen -W "global host workspace directory branch" -- "${cur}"))
+      return 0
+      ;;
+    --inline-height)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --keymap-mode)
+      COMPREPLY=($(compgen -W "emacs vim-normal vim-insert auto" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__search)
+    opts="-h --harness --limit --style --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --harness)
+      COMPREPLY=($(compgen -W "claude-code codex opencode pi omp" -- "${cur}"))
+      return 0
+      ;;
+    --limit)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --style)
+      COMPREPLY=($(compgen -W "auto plain pretty json ndjson" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__show)
+    opts="-h --style --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --style)
+      COMPREPLY=($(compgen -W "auto plain pretty json ndjson" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__tail)
+    opts="-h --style --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --style)
+      COMPREPLY=($(compgen -W "auto plain pretty json ndjson" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
   atuin__subcmd__config)
-    opts="-h --help get set enable print help"
+    opts="-h --help get set enable disable print help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -1384,8 +2056,22 @@ _atuin() {
     COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
     return 0
     ;;
+  atuin__subcmd__config__subcmd__disable)
+    opts="-h --help daemon output-capture octavo threads"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
   atuin__subcmd__config__subcmd__enable)
-    opts="-h --help daemon output-capture"
+    opts="-h --help daemon output-capture octavo threads"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -1413,8 +2099,22 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__config__subcmd__help)
-    opts="get set enable print help"
+    opts="get set enable disable print help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__config__subcmd__help__subcmd__disable)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
     fi
@@ -2037,7 +2737,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__help)
-    opts="search output stats sync login logout register key status account history setup init import doctor update kv store dotfiles scripts hook ai mcp wrapped default-config config info daemon __internal __internal_ pty-proxy uuid contributors gen-completions help"
+    opts="search output stats sync login logout register key status account history setup init import doctor update kv store dotfiles scripts hook ai threads resume mcp wrapped default-config config info daemon __internal __internal_ pty-proxy uuid contributors gen-completions help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -2205,7 +2905,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__help__subcmd__ai)
-    opts="inline init"
+    opts="inline init session resume"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -2246,9 +2946,149 @@ _atuin() {
     COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
     return 0
     ;;
+  atuin__subcmd__help__subcmd__ai__subcmd__resume)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__ai__subcmd__session)
+    opts="list show search tail import resume enable"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__enable)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__import)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__list)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__resume)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__search)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__show)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__tail)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
   atuin__subcmd__help__subcmd__config)
-    opts="get set enable print"
+    opts="get set enable disable print"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__config__subcmd__disable)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
     fi
@@ -3017,8 +3857,22 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__help__subcmd__mcp)
-    opts=""
+    opts="install"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__mcp__subcmd__install)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
     fi
@@ -3087,6 +3941,20 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__help__subcmd__register)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__resume)
     opts=""
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
@@ -3255,8 +4123,22 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__help__subcmd__store)
-    opts="status rebuild rekey purge verify push pull"
+    opts="status rebuild rekey compact purge verify push pull"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__store__subcmd__compact)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
     fi
@@ -3369,6 +4251,118 @@ _atuin() {
   atuin__subcmd__help__subcmd__sync)
     opts=""
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__threads)
+    opts="list show search tail import resume enable"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__threads__subcmd__enable)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__threads__subcmd__import)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__threads__subcmd__list)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__threads__subcmd__resume)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__threads__subcmd__search)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__threads__subcmd__show)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__threads__subcmd__tail)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
     fi
@@ -4231,7 +5225,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__init)
-    opts="-h --disable-ctrl-r --disable-up-arrow --disable-ai --help zsh bash fish nu xonsh powershell"
+    opts="-h --disable-ctrl-r --disable-up-arrow --disable-ai --bind-ai-resume --help zsh bash fish nu xonsh powershell"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -4541,8 +5535,64 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__mcp)
-    opts="-h --help"
+    opts="-h --help install help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__mcp__subcmd__help)
+    opts="install help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__mcp__subcmd__help__subcmd__help)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__mcp__subcmd__help__subcmd__install)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__mcp__subcmd__install)
+    opts="-h --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
     fi
@@ -4641,7 +5691,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__pty__subcmd__proxy)
-    opts="-h --debug-osc133 --shell --help init help"
+    opts="-h --debug-markers --shell --help init help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -4743,6 +5793,40 @@ _atuin() {
       ;;
     -e)
       COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__resume)
+    opts="-h --print --in --fork --as-is --switch --branch --filter-mode --inline-height --keymap-mode --shell-widget --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --in)
+      COMPREPLY=($(compgen -W "claude codex opencode pi omp" -- "${cur}"))
+      return 0
+      ;;
+    --branch)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --filter-mode)
+      COMPREPLY=($(compgen -W "global host workspace directory branch" -- "${cur}"))
+      return 0
+      ;;
+    --inline-height)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --keymap-mode)
+      COMPREPLY=($(compgen -W "emacs vim-normal vim-insert auto" -- "${cur}"))
       return 0
       ;;
     *)
@@ -5199,7 +6283,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__store)
-    opts="-h --help status rebuild rekey purge verify push pull help"
+    opts="-h --help status rebuild rekey compact purge verify push pull help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -5212,9 +6296,37 @@ _atuin() {
     COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
     return 0
     ;;
-  atuin__subcmd__store__subcmd__help)
-    opts="status rebuild rekey purge verify push pull help"
+  atuin__subcmd__store__subcmd__compact)
+    opts="-h --help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__store__subcmd__help)
+    opts="status rebuild rekey compact purge verify push pull help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__store__subcmd__help__subcmd__compact)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
     fi
@@ -5478,8 +6590,298 @@ _atuin() {
     COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
     return 0
     ;;
+  atuin__subcmd__threads)
+    opts="-h --help list show search tail import resume enable help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__enable)
+    opts="-h --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__help)
+    opts="list show search tail import resume enable help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__help__subcmd__enable)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__help__subcmd__help)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__help__subcmd__import)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__help__subcmd__list)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__help__subcmd__resume)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__help__subcmd__search)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__help__subcmd__show)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__help__subcmd__tail)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__import)
+    opts="-h --harness --style --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --harness)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --style)
+      COMPREPLY=($(compgen -W "auto plain pretty json ndjson" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__list)
+    opts="-h --style --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --style)
+      COMPREPLY=($(compgen -W "auto plain pretty json ndjson" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__resume)
+    opts="-h --print --in --fork --as-is --switch --branch --filter-mode --inline-height --keymap-mode --shell-widget --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --in)
+      COMPREPLY=($(compgen -W "claude codex opencode pi omp" -- "${cur}"))
+      return 0
+      ;;
+    --branch)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --filter-mode)
+      COMPREPLY=($(compgen -W "global host workspace directory branch" -- "${cur}"))
+      return 0
+      ;;
+    --inline-height)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --keymap-mode)
+      COMPREPLY=($(compgen -W "emacs vim-normal vim-insert auto" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__search)
+    opts="-h --harness --limit --style --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --harness)
+      COMPREPLY=($(compgen -W "claude-code codex opencode pi omp" -- "${cur}"))
+      return 0
+      ;;
+    --limit)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --style)
+      COMPREPLY=($(compgen -W "auto plain pretty json ndjson" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__show)
+    opts="-h --style --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --style)
+      COMPREPLY=($(compgen -W "auto plain pretty json ndjson" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__tail)
+    opts="-h --style --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --style)
+      COMPREPLY=($(compgen -W "auto plain pretty json ndjson" -- "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
   atuin__subcmd__update)
-    opts="-h --check --version --help"
+    opts="-h --check --version --prerelease --help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0

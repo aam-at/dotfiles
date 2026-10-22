@@ -154,7 +154,7 @@ _starship() {
     return 0
     ;;
   starship__subcmd__config)
-    opts="-h --help [NAME] [VALUE]"
+    opts="-h --help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -470,7 +470,7 @@ _starship() {
     return 0
     ;;
   starship__subcmd__init)
-    opts="-h --print-full-init --help <SHELL>"
+    opts="-h --print-full-init --help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -484,7 +484,7 @@ _starship() {
     return 0
     ;;
   starship__subcmd__module)
-    opts="-l -s -w -p -P -d -k -j -h --list --status --pipestatus --terminal-width --path --logical-path --cmd-duration --keymap --jobs --shlvl --help [NAME]"
+    opts="-l -s -w -p -P -d -k -j -h --list --status --pipestatus --terminal-width --path --logical-path --cmd-duration --keymap --jobs --shlvl --help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -584,7 +584,7 @@ _starship() {
     return 0
     ;;
   starship__subcmd__print__subcmd__config)
-    opts="-d -h --default --help [NAME]..."
+    opts="-d -h --default --help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -868,7 +868,7 @@ _starship() {
     return 0
     ;;
   starship__subcmd__toggle)
-    opts="-h --help <NAME> [VALUE]"
+    opts="-h --help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0

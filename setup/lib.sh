@@ -177,6 +177,13 @@ install_intellimacs() {
   fi
 }
 
+install_local_tools() {
+  for tool in emacs-tray wellbeing; do
+    echo "Building and installing $tool..."
+    make -C "$REPO_DIR/tools/$tool" install
+  done
+}
+
 # ── fzf ──────────────────────────────────────────────────────
 
 install_fzf() {
@@ -246,7 +253,7 @@ parse_common_args() {
       ;;
     --help | -h)
       echo "Usage: $0 [OPTIONS]"
-      echo "  --gui          Install GUI packages"
+      echo "  --gui          Install GUI packages and local GUI tools"
       echo "  --ollama       Install Ollama + models"
       echo "  --no-python    Skip Python toolchain"
       echo "  --no-rust      Skip Rust toolchain"

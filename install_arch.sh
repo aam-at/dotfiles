@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Arch setup: system services, packages, desktop, language toolchains and
-# editors. Run ./install afterwards to link the configuration.
+# Arch setup: system services, packages, desktop, language toolchains, editors,
+# and local GUI tools. Run ./install afterwards to link the configuration.
 # Options: see --help. --gui adds the desktop and its applications;
 # INSTALL_DESKTOP_SHELLS=false leaves the desktop shells out of it.
 set -euo pipefail
@@ -193,6 +193,7 @@ fi
 
 if $GUI; then
   install_intellimacs
+  install_local_tools
 fi
 
 if $INSTALL_OLLAMA; then
