@@ -141,8 +141,8 @@ if $GUI; then
     zathura-pdf-poppler zed zenity
 
   install_aur_packages \
-    antigravity dsearch-bin insync microsoft-edge-stable-bin noisetorch \
-    teams-for-linux visual-studio-code-bin
+    antigravity dsearch-bin google-chrome insync microsoft-edge-stable-bin \
+    noisetorch teams-for-linux visual-studio-code-bin
 
   flatpak install -y flathub com.logseq.Logseq
   flatpak install -y flathub it.mijorus.gearlever
