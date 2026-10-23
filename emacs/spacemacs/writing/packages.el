@@ -70,17 +70,6 @@
 			   :command ("npx" "textlint"
 				     "--config" (eval (expand-file-name "~/.textlintrc"))
 				     "--format" "unix"
-				     "--rule" "write-good"
-				     "--rule" "no-start-duplicated-conjunction"
-				     "--rule" "max-comma"
-				     "--rule" "terminology"
-				     "--rule" "period-in-list-item"
-				     "--rule" "abbr-within-parentheses"
-				     "--rule" "alex"
-				     "--rule" "common-misspellings"
-				     "--rule" "en-max-word-count"
-				     "--rule" "diacritics"
-				     "--rule" "stop-words"
 				     "--plugin"
 				     (eval
 				      (if (derived-mode-p 'tex-mode)
@@ -98,16 +87,7 @@
 (defun writing/init-flycheck-vale ()
   "Initialize flycheck-vale"
   (with-eval-after-load  'flycheck
-    (require 'flycheck-vale)
-    (setq flycheck-vale-modes '(text-mode
-                                markdown-mode
-                                rst-mode
-                                org-mode
-                                latex-mode
-                                LaTeX-mode))
-    (flycheck-vale-setup)
-    (dolist (mode flycheck-vale-modes)
-      (flycheck-add-mode 'vale mode))))
+    (require 'flycheck-vale)))
 
 (defun writing/post-init-writeroom-mode ()
   (setq writeroom-width 90)

@@ -5,16 +5,24 @@
         }
     },
     "rules": {
-        "write-good": true,
+        "write-good": {
+            "eprime": true
+        },
         "no-start-duplicated-conjunction": true,
-        "max-comma": true,
+        "max-comma": {
+            "max": 4
+        },
         "terminology": true,
-        "period-in-list-item": true,
         "abbr-within-parentheses": true,
         "alex": true,
+        "apostrophe": true,
         "common-misspellings": true,
-        "en-max-word-count": true,
+        "date-weekday-mismatch": true,
+        "en-max-word-count": {
+            "max": 35
+        },
         "diacritics": true,
-        "stop-words": true
+        "stop-words": true,
+        "unexpanded-acronym": true
     }
 }

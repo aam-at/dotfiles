@@ -3,3 +3,21 @@ MinAlertLevel = suggestion # suggestion, warning or error
 
 [*.{md,txt,org,tex}]
 BasedOnStyles = proselint, write-good, Readability
+
+# Skip citations, links and inline code so they are not read as prose.
+TokenIgnores = (cite[a-z]*:[^ \n]+), (\[cite[^\]]*\]), (\[\[[^\]]+\]\]), (@[A-Za-z0-9_:-]+), (=[^=\n]+=), (~[^~\n]+~)
+
+# Hedging ("may suggest") is correct in scientific claims.
+proselint.Hedging = NO
+proselint.Jargon = NO
+proselint.But = NO
+proselint.Annotations = NO
+
+# Whole-document readability scores add one alert at line 1; keep only
+# Gunning-Fog, with a threshold set for academic text (see Readability/GunningFog.yml).
+Readability.AutomatedReadability = NO
+Readability.ColemanLiau = NO
+Readability.FleschKincaid = NO
+Readability.FleschReadingEase = NO
+Readability.LIX = NO
+Readability.SMOG = NO

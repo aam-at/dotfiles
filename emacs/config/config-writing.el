@@ -18,7 +18,22 @@
         write-or-die-sound-backend 'auto)
   ;; Windows Emacs derives LANG from the locale (en-SG -> "ENE"), which jinx
   ;; would take as a dictionary name.
-  (setq jinx-languages "en_US"))
+  (setq jinx-languages "en_US")
+  ;; Org uses a stdin-only vale checker: the package's own one passes the file
+  ;; path and also pipes the buffer, so vale exits early and Emacs hits a closed pipe.
+  (with-eval-after-load 'flycheck-vale
+    (setq flycheck-vale-modes '(text-mode markdown-mode rst-mode latex-mode LaTeX-mode))
+    (flycheck-vale-setup)
+    (dolist (mode flycheck-vale-modes)
+      (flycheck-add-mode 'vale mode))
+    (flycheck-define-checker vale-stdin
+			     "Vale prose linter reading the buffer from stdin."
+			     :command ("vale" "--output=line" "--ext" ".org" "--no-wrap")
+			     :standard-input t
+			     :error-patterns
+			     ((info line-start "stdin.org:" line ":" column ":" (id (+ (not ":"))) ":" (message) line-end))
+			     :modes org-mode)
+    (add-to-list 'flycheck-checkers 'vale-stdin)))
 
 (provide 'config-writing)
 ;;; config-writing.el ends here

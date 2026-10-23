@@ -327,17 +327,6 @@
 				 :command ("npx" "textlint"
 					   "--config" (eval (expand-file-name "~/.textlintrc"))
 					   "--format" "unix"
-					   "--rule" "write-good"
-					   "--rule" "no-start-duplicated-conjunction"
-					   "--rule" "max-comma"
-					   "--rule" "terminology"
-					   "--rule" "period-in-list-item"
-					   "--rule" "abbr-within-parentheses"
-					   "--rule" "alex"
-					   "--rule" "common-misspellings"
-					   "--rule" "en-max-word-count"
-					   "--rule" "diacritics"
-					   "--rule" "stop-words"
 					   "--plugin"
 					   (eval (if (derived-mode-p 'tex-mode) "latex" "@textlint/text"))
 					   source-inplace)
@@ -350,12 +339,7 @@
         (add-to-list 'flycheck-checkers 'textlint))
 
 (use-package! flycheck-vale
-              :after flycheck
-              :config
-              (setq flycheck-vale-modes '(text-mode markdown-mode rst-mode org-mode latex-mode LaTeX-mode))
-              (flycheck-vale-setup)
-              (dolist (mode flycheck-vale-modes)
-                (flycheck-add-mode 'vale mode)))
+              :after flycheck)
 
 (autoload 'aam/common-setup "config-common" nil t)
 (autoload 'aam/lsp-setup "config-lsp" nil t)
