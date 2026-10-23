@@ -6,6 +6,7 @@ Host github.com
   IdentitiesOnly yes
 
 Host *
+  AddKeysToAgent yes
   ServerAliveInterval 240
   ControlMaster auto
   ControlPath ~/.ssh/master-%r@%h:%p
