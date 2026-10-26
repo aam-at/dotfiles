@@ -11,7 +11,7 @@ Environment=TERM=xterm-24bit
 Environment=SSH_AUTH_SOCK=%t/keyring/ssh
 EnvironmentFile=-%h/.bash_env
 ExecStart=%h/.local/bin/emacs-profile %i --daemon=%i
-ExecStop=/usr/bin/emacsclient --socket-name=%i --eval "(kill-emacs)"
+ExecStop=/usr/bin/emacsclient --alternate-editor=/bin/false --socket-name=%i --eval "(kill-emacs)"
 # Emacs exits with 15 once it has been told to stop; that is not a failure.
 SuccessExitStatus=15
 Restart=on-failure

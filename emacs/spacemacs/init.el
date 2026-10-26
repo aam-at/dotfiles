@@ -5,6 +5,7 @@
 (add-to-list 'load-path (expand-file-name "../config" (file-name-directory load-file-name)))
 (require 'config-lsp)
 (require 'config-ui)
+(require 'config-wayland)
 
 (defun dotspacemacs/layers ()
   "Layer configuration:

@@ -33,7 +33,7 @@ wait_for_daemon() {
   local profile="$1"
   local attempt=0
   while ((attempt++ < 100)); do
-    if emacsclient --socket-name="$profile" --eval '(emacs-pid)' >/dev/null 2>&1; then
+    if emacsclient --alternate-editor=/bin/false --socket-name="$profile" --eval '(emacs-pid)' >/dev/null 2>&1; then
       return 0
     fi
     sleep 0.1

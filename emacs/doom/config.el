@@ -20,6 +20,7 @@
 (add-to-list 'load-path aam/shared-funcs-dir)
 
 (require 'config-ui)
+(require 'config-wayland)
 (setq doom-theme aam/theme
       doom-font (font-spec :family aam/monospace-font-family
                            :size (aam/font-size))
