@@ -32,19 +32,32 @@ EOF
 
 while (($#)); do
   case "$1" in
-    --stop)
-      if (($# < 2)) || [[ ! $2 =~ ^[0-9]+$ ]] || (( 10#$2 < 2 )); then
-        echo '--stop requires a numeric PID greater than 1.' >&2
-        exit 2
-      fi
-      stop_pids+=("$2")
-      stop_requested=true
-      shift 2
-      ;;
-    --drop-caches) drop_caches=true; shift ;;
-    --dry-run) dry_run=true; shift ;;
-    -h|--help) usage; exit 0 ;;
-    *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
+  --stop)
+    if (($# < 2)) || [[ ! $2 =~ ^[0-9]+$ ]] || ((10#$2 < 2)); then
+      echo '--stop requires a numeric PID greater than 1.' >&2
+      exit 2
+    fi
+    stop_pids+=("$2")
+    stop_requested=true
+    shift 2
+    ;;
+  --drop-caches)
+    drop_caches=true
+    shift
+    ;;
+  --dry-run)
+    dry_run=true
+    shift
+    ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  *)
+    echo "Unknown option: $1" >&2
+    usage >&2
+    exit 2
+    ;;
   esac
 done
 

@@ -194,7 +194,7 @@ update_editor_targets
 
 update_common_targets
 
-if ((!SKIP_TOOLCHAINS)); then
+if ((! SKIP_TOOLCHAINS)); then
   if command -v gem >/dev/null 2>&1 && command -v anystyle >/dev/null 2>&1; then
     run_step 'AnyStyle Ruby gems' sudo gem update anystyle anystyle-cli
   fi
@@ -203,7 +203,7 @@ if ((!SKIP_TOOLCHAINS)); then
   fi
 fi
 
-if ((!SKIP_USER_APPS)); then
+if ((! SKIP_USER_APPS)); then
   if [[ -d "$HOME/.local/opt/activitywatch" ]]; then
     run_step 'ActivityWatch standalone server' update_activitywatch_server
   fi

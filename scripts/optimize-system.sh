@@ -44,24 +44,55 @@ EOF
 
 while (($#)); do
   case "$1" in
-    --trim-now) trim_now=true; shift ;;
-    --clean-tmp) clean_tmp=true; shift ;;
-    --flush-dns) flush_dns=true; shift ;;
-    --startup) startup=true; shift ;;
-    --rebuild-font-cache) rebuild_fonts=true; shift ;;
-    --disk-health) disk_health=true; shift ;;
-    --firmware-updates) firmware_updates=true; shift ;;
-    --dry-run) dry_run=true; shift ;;
-    --max-uptime-days)
-      if (($# < 2)) || [[ ! $2 =~ ^[0-9]+$ ]] || (( 10#$2 < 1 )); then
-        echo '--max-uptime-days requires a positive integer.' >&2
-        exit 2
-      fi
-      max_uptime_days=$((10#$2))
-      shift 2
-      ;;
-    -h|--help) usage; exit 0 ;;
-    *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
+  --trim-now)
+    trim_now=true
+    shift
+    ;;
+  --clean-tmp)
+    clean_tmp=true
+    shift
+    ;;
+  --flush-dns)
+    flush_dns=true
+    shift
+    ;;
+  --startup)
+    startup=true
+    shift
+    ;;
+  --rebuild-font-cache)
+    rebuild_fonts=true
+    shift
+    ;;
+  --disk-health)
+    disk_health=true
+    shift
+    ;;
+  --firmware-updates)
+    firmware_updates=true
+    shift
+    ;;
+  --dry-run)
+    dry_run=true
+    shift
+    ;;
+  --max-uptime-days)
+    if (($# < 2)) || [[ ! $2 =~ ^[0-9]+$ ]] || ((10#$2 < 1)); then
+      echo '--max-uptime-days requires a positive integer.' >&2
+      exit 2
+    fi
+    max_uptime_days=$((10#$2))
+    shift 2
+    ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  *)
+    echo "Unknown option: $1" >&2
+    usage >&2
+    exit 2
+    ;;
   esac
 done
 
@@ -136,10 +167,10 @@ elif command -v needs-restarting >/dev/null 2>&1; then
   needs-restarting -r >/dev/null 2>&1
   reboot_status=$?
   case "$reboot_status" in
-    0) printf 'No reboot requirement reported by needs-restarting.\n' ;;
-    1) printf 'needs-restarting reports a reboot is required.\n' ;;
-    *) printf 'Could not determine reboot status (needs-restarting exit %s).\n' \
-      "$reboot_status" ;;
+  0) printf 'No reboot requirement reported by needs-restarting.\n' ;;
+  1) printf 'needs-restarting reports a reboot is required.\n' ;;
+  *) printf 'Could not determine reboot status (needs-restarting exit %s).\n' \
+    "$reboot_status" ;;
   esac
 else
   printf 'No standard reboot-required marker was found.\n'
@@ -233,9 +264,9 @@ if "$firmware_updates"; then
     fwupdmgr get-updates
     fwupd_status=$?
     case "$fwupd_status" in
-      0|2) ;;
-      *) printf 'Could not query fwupd for available firmware updates (exit %s).\n' \
-        "$fwupd_status" >&2 ;;
+    0 | 2) ;;
+    *) printf 'Could not query fwupd for available firmware updates (exit %s).\n' \
+      "$fwupd_status" >&2 ;;
     esac
   else
     printf 'fwupd is not installed.\n' >&2

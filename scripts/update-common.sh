@@ -37,20 +37,20 @@ parse_update_args() {
 
   while (($# > 0)); do
     case "$1" in
-      -h | --help)
-        show_update_help "$script_name"
-        exit 0
-        ;;
-      --skip-system) SKIP_SYSTEM=1 ;;
-      --skip-toolchains) SKIP_TOOLCHAINS=1 ;;
-      --skip-user-apps) SKIP_USER_APPS=1 ;;
-      --skip-doom) SKIP_DOOM=1 ;;
-      --skip-spacemacs) SKIP_SPACEMACS=1 ;;
-      *)
-        printf 'Unknown argument: %s\n' "$1" >&2
-        show_update_help "$script_name"
-        return 2
-        ;;
+    -h | --help)
+      show_update_help "$script_name"
+      exit 0
+      ;;
+    --skip-system) SKIP_SYSTEM=1 ;;
+    --skip-toolchains) SKIP_TOOLCHAINS=1 ;;
+    --skip-user-apps) SKIP_USER_APPS=1 ;;
+    --skip-doom) SKIP_DOOM=1 ;;
+    --skip-spacemacs) SKIP_SPACEMACS=1 ;;
+    *)
+      printf 'Unknown argument: %s\n' "$1" >&2
+      show_update_help "$script_name"
+      return 2
+      ;;
     esac
     shift
   done

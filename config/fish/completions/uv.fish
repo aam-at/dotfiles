@@ -518,7 +518,7 @@ complete -c uv -n "__fish_uv_using_subcommand init" -l name -d 'The name of the 
 complete -c uv -n "__fish_uv_using_subcommand init" -l description -d 'Set the project description' -r -f
 complete -c uv -n "__fish_uv_using_subcommand init" -l vcs -d 'Initialize a version control system for the project' -r -f -a "git\t'Use Git for version control'
 none\t'Do not use any version control system'"
-complete -c uv -n "__fish_uv_using_subcommand init" -l build-backend -d 'Initialize a build-backend of choice for the project' -r -f -a "uv\t'Use uv as the project build backend'
+complete -c uv -n "__fish_uv_using_subcommand init" -l build-backend -d 'Initialize a build-backend of choice for the project [env: UV_INIT_BUILD_BACKEND=]' -r -f -a "uv\t'Use uv as the project build backend'
 hatch\t'Use [hatchling](https://pypi.org/project/hatchling) as the project build backend'
 flit\t'Use [flit-core](https://pypi.org/project/flit-core) as the project build backend'
 pdm\t'Use [pdm-backend](https://pypi.org/project/pdm-backend) as the project build backend'

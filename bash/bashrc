@@ -3,12 +3,12 @@
 
 # Refresh GPG's SSH Pinentry context for this interactive terminal.
 if [[ -n ${SSH_AUTH_SOCK:-} && -S $SSH_AUTH_SOCK ]] &&
-    command -v gpg-connect-agent >/dev/null 2>&1 && command -v gpgconf >/dev/null 2>&1; then
+  command -v gpg-connect-agent >/dev/null 2>&1 && command -v gpgconf >/dev/null 2>&1; then
   __dotfiles_gpg_ssh_socket=$(gpgconf --list-dirs agent-ssh-socket 2>/dev/null)
   __dotfiles_active_ssh_socket=$(readlink -f -- "$SSH_AUTH_SOCK" 2>/dev/null)
   __dotfiles_current_tty=$(tty 2>/dev/null)
   if [[ "$__dotfiles_active_ssh_socket" == "$__dotfiles_gpg_ssh_socket" &&
-      "$__dotfiles_current_tty" == /dev/* ]]; then
+    "$__dotfiles_current_tty" == /dev/* ]]; then
     export GPG_TTY="$__dotfiles_current_tty"
     gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
   fi

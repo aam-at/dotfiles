@@ -42,13 +42,20 @@ EOF
 
 while (($#)); do
   case "$1" in
-    --dry-run) dry_run=true ;;
-    --system) system=true ;;
-    --full-bun-cache) full_bun_cache=true ;;
-    --no-clean-tmp) clean_tmp=false ;;
-    --containers) containers=true ;;
-    -h|--help) usage; exit 0 ;;
-    *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
+  --dry-run) dry_run=true ;;
+  --system) system=true ;;
+  --full-bun-cache) full_bun_cache=true ;;
+  --no-clean-tmp) clean_tmp=false ;;
+  --containers) containers=true ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  *)
+    echo "Unknown option: $1" >&2
+    usage >&2
+    exit 2
+    ;;
   esac
   shift
 done
