@@ -15,8 +15,7 @@
     - [mkdir -p ~/.gnupg && chmod 700 ~/.gnupg, Secure GnuPG home directory]
     - [cd bash/bashmarks && make install, Install bashmarks]
     - [
-        chmod +x scripts/*.sh && mkdir -p ~/.local/bin && ln -frs scripts/*
-        ~/.local/bin/,
+        "sh -c 'chmod +x scripts/*.sh && mkdir -p ~/.local/bin && find scripts -maxdepth 1 -type f -exec ln -frs -t ~/.local/bin/ {} +'",
         Link scripts,
       ]
     - [
