@@ -214,5 +214,251 @@
     "key": "ctrl+l",
     "command": "acceptSelectedCodeAction",
     "when": "codeActionMenuVisible"
+  },
+  // tmux-style terminal chords, mirroring config/tmux (C-a prefix) and config/herdr
+  {
+    "key": "ctrl+a ctrl+a",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "\u0001" },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a c",
+    "command": "workbench.action.terminal.new",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a ctrl+c",
+    "command": "workbench.action.terminal.newInNewWindow",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a v",
+    "command": "workbench.action.terminal.split",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a b",
+    "command": "workbench.action.terminal.split",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a z",
+    "command": "workbench.action.toggleMaximizedPanel",
+    "when": "terminalFocus"
+  },
+  // maximize pane (tmux prefix+M _maximize_pane; toggles like prefix+z)
+  {
+    "key": "ctrl+a shift+m",
+    "command": "workbench.action.toggleMaximizedPanel",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a d",
+    "command": "workbench.action.terminal.toggleTerminal",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a shift+d",
+    "command": "workbench.action.terminal.kill",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a s",
+    "command": "workbench.action.quickOpenTerm",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a shift+w",
+    "command": "workbench.action.terminal.rename",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a ,",
+    "command": "workbench.action.openSettings",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a ctrl+h",
+    "command": "workbench.action.terminal.focusPrevious",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a ctrl+l",
+    "command": "workbench.action.terminal.focusNext",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a ctrl+p",
+    "command": "workbench.action.terminal.focusPrevious",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a ctrl+n",
+    "command": "workbench.action.terminal.focusNext",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a tab",
+    "command": "workbench.action.terminal.focusNextPane",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a shift+tab",
+    "command": "workbench.action.terminal.focusPreviousPane",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a enter",
+    "command": "workbench.action.terminal.focusAccessibleBuffer",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a [",
+    "command": "workbench.action.terminal.focusAccessibleBuffer",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a shift+,",
+    "command": "workbench.action.terminal.resizePaneLeft",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a shift+.",
+    "command": "workbench.action.terminal.resizePaneRight",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a -",
+    "command": "workbench.action.terminal.resizePaneDown",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a shift+=",
+    "command": "workbench.action.terminal.resizePaneUp",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a ctrl+e",
+    "command": "workbench.action.terminal.clear",
+    "when": "terminalFocus"
+  },
+  // clipboard (tmux prefix+y paste-buffer, tmux-yank)
+  {
+    "key": "ctrl+a y",
+    "command": "workbench.action.terminal.copySelection",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a p",
+    "command": "workbench.action.terminal.paste",
+    "when": "terminalFocus"
+  },
+  // link picker (tmux-thumbs t, tmux-open, urlscan U)
+  {
+    "key": "ctrl+a u",
+    "command": "workbench.action.terminal.openDetectedLink",
+    "when": "terminalFocus"
+  },
+  // edit config (tmux prefix+e) and find session (tmux-fzf C-f)
+  {
+    "key": "ctrl+a e",
+    "command": "workbench.action.openSettingsJson",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a ctrl+f",
+    "command": "workbench.action.quickOpenTerm",
+    "when": "terminalFocus"
+  },
+  // select terminal tab by number (tmux prefix+1..9 select-window, base-index 1)
+  {
+    "key": "ctrl+a 1",
+    "command": "workbench.action.terminal.focusAtIndex1",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a 2",
+    "command": "workbench.action.terminal.focusAtIndex2",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a 3",
+    "command": "workbench.action.terminal.focusAtIndex3",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a 4",
+    "command": "workbench.action.terminal.focusAtIndex4",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a 5",
+    "command": "workbench.action.terminal.focusAtIndex5",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a 6",
+    "command": "workbench.action.terminal.focusAtIndex6",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a 7",
+    "command": "workbench.action.terminal.focusAtIndex7",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a 8",
+    "command": "workbench.action.terminal.focusAtIndex8",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+a 9",
+    "command": "workbench.action.terminal.focusAtIndex9",
+    "when": "terminalFocus"
+  },
+  // direct pane navigation (tmux bind -n C-h/j/k/l, herdr focus_pane_*).
+  // VS Code cannot focus terminal split panes directionally, so in a split
+  // these cycle the pane ring (previous = left/up, next = right/down); without
+  // a split they fall back to workbench navigation (panel <-> editor groups).
+  {
+    "key": "ctrl+h",
+    "command": "workbench.action.terminal.focusPreviousPane",
+    "when": "terminalFocus && terminalSplitPaneActive"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.terminal.focusNextPane",
+    "when": "terminalFocus && terminalSplitPaneActive"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.terminal.focusPreviousPane",
+    "when": "terminalFocus && terminalSplitPaneActive"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.terminal.focusNextPane",
+    "when": "terminalFocus && terminalSplitPaneActive"
+  },
+  {
+    "key": "ctrl+h",
+    "command": "workbench.action.navigateLeft",
+    "when": "terminalFocus && !terminalSplitPaneActive"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.navigateDown",
+    "when": "terminalFocus && !terminalSplitPaneActive"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.navigateUp",
+    "when": "terminalFocus && !terminalSplitPaneActive"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.navigateRight",
+    "when": "terminalFocus && !terminalSplitPaneActive"
   }
 ]
