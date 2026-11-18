@@ -117,6 +117,9 @@ _atuin() {
     atuin,threads)
       cmd="atuin__subcmd__threads"
       ;;
+    atuin,trick-or-treat)
+      cmd="atuin__subcmd__trick__subcmd__or__subcmd__treat"
+      ;;
     atuin,update)
       cmd="atuin__subcmd__update"
       ;;
@@ -213,6 +216,9 @@ _atuin() {
     atuin__subcmd__ai__subcmd__help__subcmd__session,list)
       cmd="atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__list"
       ;;
+    atuin__subcmd__ai__subcmd__help__subcmd__session,push)
+      cmd="atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__push"
+      ;;
     atuin__subcmd__ai__subcmd__help__subcmd__session,resume)
       cmd="atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__resume"
       ;;
@@ -237,6 +243,9 @@ _atuin() {
     atuin__subcmd__ai__subcmd__session,list)
       cmd="atuin__subcmd__ai__subcmd__session__subcmd__list"
       ;;
+    atuin__subcmd__ai__subcmd__session,push)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__push"
+      ;;
     atuin__subcmd__ai__subcmd__session,resume)
       cmd="atuin__subcmd__ai__subcmd__session__subcmd__resume"
       ;;
@@ -260,6 +269,9 @@ _atuin() {
       ;;
     atuin__subcmd__ai__subcmd__session__subcmd__help,list)
       cmd="atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__list"
+      ;;
+    atuin__subcmd__ai__subcmd__session__subcmd__help,push)
+      cmd="atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__push"
       ;;
     atuin__subcmd__ai__subcmd__session__subcmd__help,resume)
       cmd="atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__resume"
@@ -489,6 +501,9 @@ _atuin() {
     atuin__subcmd__help,threads)
       cmd="atuin__subcmd__help__subcmd__threads"
       ;;
+    atuin__subcmd__help,trick-or-treat)
+      cmd="atuin__subcmd__help__subcmd__trick__subcmd__or__subcmd__treat"
+      ;;
     atuin__subcmd__help,update)
       cmd="atuin__subcmd__help__subcmd__update"
       ;;
@@ -542,6 +557,9 @@ _atuin() {
       ;;
     atuin__subcmd__help__subcmd__ai__subcmd__session,list)
       cmd="atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__list"
+      ;;
+    atuin__subcmd__help__subcmd__ai__subcmd__session,push)
+      cmd="atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__push"
       ;;
     atuin__subcmd__help__subcmd__ai__subcmd__session,resume)
       cmd="atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__resume"
@@ -731,6 +749,9 @@ _atuin() {
       ;;
     atuin__subcmd__help__subcmd__threads,list)
       cmd="atuin__subcmd__help__subcmd__threads__subcmd__list"
+      ;;
+    atuin__subcmd__help__subcmd__threads,push)
+      cmd="atuin__subcmd__help__subcmd__threads__subcmd__push"
       ;;
     atuin__subcmd__help__subcmd__threads,resume)
       cmd="atuin__subcmd__help__subcmd__threads__subcmd__resume"
@@ -1068,6 +1089,9 @@ _atuin() {
     atuin__subcmd__threads,list)
       cmd="atuin__subcmd__threads__subcmd__list"
       ;;
+    atuin__subcmd__threads,push)
+      cmd="atuin__subcmd__threads__subcmd__push"
+      ;;
     atuin__subcmd__threads,resume)
       cmd="atuin__subcmd__threads__subcmd__resume"
       ;;
@@ -1092,6 +1116,9 @@ _atuin() {
     atuin__subcmd__threads__subcmd__help,list)
       cmd="atuin__subcmd__threads__subcmd__help__subcmd__list"
       ;;
+    atuin__subcmd__threads__subcmd__help,push)
+      cmd="atuin__subcmd__threads__subcmd__help__subcmd__push"
+      ;;
     atuin__subcmd__threads__subcmd__help,resume)
       cmd="atuin__subcmd__threads__subcmd__help__subcmd__resume"
       ;;
@@ -1111,7 +1138,7 @@ _atuin() {
 
   case "${cmd}" in
   atuin)
-    opts="-h -V --help --version search output stats sync login logout register key status account history setup init import doctor update kv store dotfiles scripts hook ai threads resume mcp wrapped default-config config info daemon __internal __internal_ pty-proxy uuid contributors gen-completions help"
+    opts="-h -V --help --version search output stats sync login logout register key status account history setup init import doctor update kv store dotfiles scripts hook ai threads resume mcp wrapped trick-or-treat default-config config info daemon __internal __internal_ pty-proxy uuid contributors gen-completions help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -1571,7 +1598,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__ai__subcmd__help__subcmd__session)
-    opts="list show search tail import resume enable"
+    opts="list show search tail import push resume enable"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -1613,6 +1640,20 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__list)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__help__subcmd__session__subcmd__push)
     opts=""
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
@@ -1726,7 +1767,7 @@ _atuin() {
     fi
     case "${prev}" in
     --in)
-      COMPREPLY=($(compgen -W "claude codex opencode pi omp" -- "${cur}"))
+      COMPREPLY=($(compgen -W "claude-code codex copilot grok kiro opencode pi omp amp" -- "${cur}"))
       return 0
       ;;
     --branch)
@@ -1753,7 +1794,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__ai__subcmd__session)
-    opts="-h --help list show search tail import resume enable help"
+    opts="-h --help list show search tail import push resume enable help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -1781,7 +1822,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__ai__subcmd__session__subcmd__help)
-    opts="list show search tail import resume enable help"
+    opts="list show search tail import push resume enable help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -1837,6 +1878,20 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__list)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__help__subcmd__push)
     opts=""
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
@@ -1914,7 +1969,7 @@ _atuin() {
     fi
     case "${prev}" in
     --harness)
-      COMPREPLY=($(compgen -f "${cur}"))
+      COMPREPLY=($(compgen -W "claude-code codex copilot grok kiro opencode pi omp amp" -- "${cur}"))
       return 0
       ;;
     --style)
@@ -1946,6 +2001,28 @@ _atuin() {
     COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
     return 0
     ;;
+  atuin__subcmd__ai__subcmd__session__subcmd__push)
+    opts="-h --harness --session --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --harness)
+      COMPREPLY=($(compgen -W "claude-code codex copilot grok kiro opencode pi omp amp" -- "${cur}"))
+      return 0
+      ;;
+    --session)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
   atuin__subcmd__ai__subcmd__session__subcmd__resume)
     opts="-h --print --in --fork --as-is --switch --branch --filter-mode --inline-height --keymap-mode --shell-widget --help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
@@ -1954,7 +2031,7 @@ _atuin() {
     fi
     case "${prev}" in
     --in)
-      COMPREPLY=($(compgen -W "claude codex opencode pi omp" -- "${cur}"))
+      COMPREPLY=($(compgen -W "claude-code codex copilot grok kiro opencode pi omp amp" -- "${cur}"))
       return 0
       ;;
     --branch)
@@ -1988,7 +2065,7 @@ _atuin() {
     fi
     case "${prev}" in
     --harness)
-      COMPREPLY=($(compgen -W "claude-code codex opencode pi omp" -- "${cur}"))
+      COMPREPLY=($(compgen -W "claude-code codex copilot grok kiro opencode pi omp amp" -- "${cur}"))
       return 0
       ;;
     --limit)
@@ -2737,7 +2814,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__help)
-    opts="search output stats sync login logout register key status account history setup init import doctor update kv store dotfiles scripts hook ai threads resume mcp wrapped default-config config info daemon __internal __internal_ pty-proxy uuid contributors gen-completions help"
+    opts="search output stats sync login logout register key status account history setup init import doctor update kv store dotfiles scripts hook ai threads resume mcp wrapped trick-or-treat default-config config info daemon __internal __internal_ pty-proxy uuid contributors gen-completions help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -2961,7 +3038,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__help__subcmd__ai__subcmd__session)
-    opts="list show search tail import resume enable"
+    opts="list show search tail import push resume enable"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -3003,6 +3080,20 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__list)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__ai__subcmd__session__subcmd__push)
     opts=""
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 5 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
@@ -4263,7 +4354,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__help__subcmd__threads)
-    opts="list show search tail import resume enable"
+    opts="list show search tail import push resume enable"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -4305,6 +4396,20 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__help__subcmd__threads__subcmd__list)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__threads__subcmd__push)
     opts=""
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
@@ -4363,6 +4468,20 @@ _atuin() {
   atuin__subcmd__help__subcmd__threads__subcmd__tail)
     opts=""
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__help__subcmd__trick__subcmd__or__subcmd__treat)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
     fi
@@ -5810,7 +5929,7 @@ _atuin() {
     fi
     case "${prev}" in
     --in)
-      COMPREPLY=($(compgen -W "claude codex opencode pi omp" -- "${cur}"))
+      COMPREPLY=($(compgen -W "claude-code codex copilot grok kiro opencode pi omp amp" -- "${cur}"))
       return 0
       ;;
     --branch)
@@ -6221,12 +6340,16 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__setup)
-    opts="-h --help"
+    opts="-h --yes --no-shell-history --no-threads --no-agent-history --no-ctrl-r --no-up-arrow --no-mcp --sync --no-import --help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
     fi
     case "${prev}" in
+    --sync)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
     *)
       COMPREPLY=()
       ;;
@@ -6591,7 +6714,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__threads)
-    opts="-h --help list show search tail import resume enable help"
+    opts="-h --help list show search tail import push resume enable help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -6619,7 +6742,7 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__threads__subcmd__help)
-    opts="list show search tail import resume enable help"
+    opts="list show search tail import push resume enable help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -6675,6 +6798,20 @@ _atuin() {
     return 0
     ;;
   atuin__subcmd__threads__subcmd__help__subcmd__list)
+    opts=""
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__threads__subcmd__help__subcmd__push)
     opts=""
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
@@ -6752,7 +6889,7 @@ _atuin() {
     fi
     case "${prev}" in
     --harness)
-      COMPREPLY=($(compgen -f "${cur}"))
+      COMPREPLY=($(compgen -W "claude-code codex copilot grok kiro opencode pi omp amp" -- "${cur}"))
       return 0
       ;;
     --style)
@@ -6784,6 +6921,28 @@ _atuin() {
     COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
     return 0
     ;;
+  atuin__subcmd__threads__subcmd__push)
+    opts="-h --harness --session --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
+    --harness)
+      COMPREPLY=($(compgen -W "claude-code codex copilot grok kiro opencode pi omp amp" -- "${cur}"))
+      return 0
+      ;;
+    --session)
+      COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
   atuin__subcmd__threads__subcmd__resume)
     opts="-h --print --in --fork --as-is --switch --branch --filter-mode --inline-height --keymap-mode --shell-widget --help"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]]; then
@@ -6792,7 +6951,7 @@ _atuin() {
     fi
     case "${prev}" in
     --in)
-      COMPREPLY=($(compgen -W "claude codex opencode pi omp" -- "${cur}"))
+      COMPREPLY=($(compgen -W "claude-code codex copilot grok kiro opencode pi omp amp" -- "${cur}"))
       return 0
       ;;
     --branch)
@@ -6826,7 +6985,7 @@ _atuin() {
     fi
     case "${prev}" in
     --harness)
-      COMPREPLY=($(compgen -W "claude-code codex opencode pi omp" -- "${cur}"))
+      COMPREPLY=($(compgen -W "claude-code codex copilot grok kiro opencode pi omp amp" -- "${cur}"))
       return 0
       ;;
     --limit)
@@ -6873,6 +7032,20 @@ _atuin() {
       COMPREPLY=($(compgen -W "auto plain pretty json ndjson" -- "${cur}"))
       return 0
       ;;
+    *)
+      COMPREPLY=()
+      ;;
+    esac
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+    return 0
+    ;;
+  atuin__subcmd__trick__subcmd__or__subcmd__treat)
+    opts="-h --help"
+    if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
+      return 0
+    fi
+    case "${prev}" in
     *)
       COMPREPLY=()
       ;;

@@ -11,12 +11,24 @@ _copilot_config_context() {
       cfg_skip=''
       case "$cfg_word" in -*) ;; *) continue ;; esac
     fi
+    if [ -n "$cfg_skip" ]; then
+      # An option that requires `=` reads a separate word only when it is
+      # one of its values, which the parser turns into `--option=value`.
+      case "$cfg_skip=$cfg_word" in
+      '--sync-session=on' | '--sync-session=off')
+        cfg_skip=''
+        continue
+        ;;
+      esac
+      cfg_skip=''
+    fi
     case "$cfg_stage" in
     root)
       case "$cfg_word" in
-      --interactive | -i | --prompt | -p | --model | --reasoning-effort | --context | --auto-tier | --agent | --name | -n | --session-id | --new-session-id | -C | --log-dir | --extension-sdk-path | --config-dir | --log-level | --save-trajectory-output | --prefer-version | --stream | --output-format | --add-dir | --attachment | --disable-mcp-server | --add-github-mcp-toolset | --add-github-mcp-tool | --plugin-dir | --additional-mcp-config | --mcp-github-auth | --additional-content-exclusion-policies | --max-autopilot-continues | --mode | --host | --port | --session-idle-timeout | --auth-token-env | --collect-debug-logs | --collect-debug-logs-output | --ahp-authenticate | --environment | --host-environment | --host-compute-id | --host-ahp-token | --host-ahp-listen | --host-directory | --dynamic-retrieval | --enable-mcp-server | --max-ai-credits | --usage-output-file) cfg_skip=required ;;
-      --resume | -r | --connect | --worktree | -w | --share | --allow-tool | --deny-tool | --available-tools | --excluded-tools | --secret-env-vars | --allow-url | --deny-url | --bash-env | --mouse | --sync-session | --ahp) cfg_skip=optional ;;
-      --interactive=* | -i?* | --prompt=* | -p?* | --model=* | --reasoning-effort=* | --context=* | --auto-tier=* | --agent=* | --resume=* | -r?* | --name=* | -n?* | --session-id=* | --new-session-id=* | --connect=* | --worktree=* | -w?* | -C?* | --log-dir=* | --extension-sdk-path=* | --config-dir=* | --log-level=* | --save-trajectory-output=* | --prefer-version=* | --stream=* | --output-format=* | --share=* | --add-dir=* | --attachment=* | --disable-mcp-server=* | --add-github-mcp-toolset=* | --add-github-mcp-tool=* | --plugin-dir=* | --additional-mcp-config=* | --mcp-github-auth=* | --additional-content-exclusion-policies=* | --allow-tool=* | --deny-tool=* | --available-tools=* | --excluded-tools=* | --secret-env-vars=* | --allow-url=* | --deny-url=* | --max-autopilot-continues=* | --mode=* | --bash-env=* | --mouse=* | --host=* | --sync-session=* | --port=* | --session-idle-timeout=* | --auth-token-env=* | --collect-debug-logs=* | --collect-debug-logs-output=* | --ahp=* | --ahp-authenticate=* | --environment=* | --host-environment=* | --host-compute-id=* | --host-ahp-token=* | --host-ahp-listen=* | --host-directory=* | --dynamic-retrieval=* | --enable-mcp-server=* | --max-ai-credits=* | --usage-output-file=* | --version | -v | --fleet | --trust-folder | --silent | -s | --disable-client-telemetry | --enable-memory | --enable-reasoning-summaries | --continue | --cloud | --allow-all-tools | --allow-all-paths | --disallow-temp-dir | --banner | --screen-reader | --plain-diff | --share-gist | --disable-builtin-mcps | --enable-all-github-mcp-tools | --allow-all-mcp-server-instructions | --allow-all-urls | --allow-all | --yolo | --autopilot | --plan | --experimental | --show-timing | --server | --ui-server | --headless | --managed-server | --acp | --stdio | --disable-remote-sessions | --remote | --log-interactive-shells | --print-debug-info | --host-ahp | --host-ahp-disable-token | --sandbox | --assisted-approval | --embedded-host | --no-custom-instructions | --no-auto-update | --no-ask-user | --no-color | --no-experimental | --no-bash-env | --no-mouse | --no-auto-login | --no-sandbox | --no-eager-powershell-resolution | --help | -h) ;;
+      --interactive | -i | --prompt | -p | --model | --reasoning-effort | --effort | --context | --auto-tier | --fusion-tier | --agent | --name | -n | --session-id | --new-session-id | -C | --log-dir | --extension-sdk-path | --config-dir | --log-level | --save-trajectory-output | --prefer-version | --stream | --output-format | --add-dir | --attachment | --disable-mcp-server | --add-github-mcp-toolset | --add-github-mcp-tool | --plugin-dir | --additional-mcp-config | --mcp-github-auth | --additional-content-exclusion-policies | --max-autopilot-continues | --mode | --host | --port | --session-idle-timeout | --auth-token-env | --collect-debug-logs | --collect-debug-logs-output | --ahp-authenticate | --environment | --host-environment | --host-compute-id | --host-ahp-token | --host-ahp-listen | --host-directory | --dynamic-retrieval | --enable-mcp-server | --max-ai-credits | --usage-output-file) cfg_skip=required ;;
+      --resume | -r | --connect | --worktree | -w | --share | --allow-tool | --deny-tool | --available-tools | --excluded-tools | --secret-env-vars | --allow-url | --deny-url | --bash-env | --mouse | --ahp) cfg_skip=optional ;;
+      --sync-session) cfg_skip="$cfg_word" ;;
+      --interactive=* | -i?* | --prompt=* | -p?* | --model=* | --reasoning-effort=* | --effort=* | --context=* | --auto-tier=* | --fusion-tier=* | --agent=* | --resume=* | -r?* | --name=* | -n?* | --session-id=* | --new-session-id=* | --connect=* | --worktree=* | -w?* | -C?* | --log-dir=* | --extension-sdk-path=* | --config-dir=* | --log-level=* | --save-trajectory-output=* | --prefer-version=* | --stream=* | --output-format=* | --share=* | --add-dir=* | --attachment=* | --disable-mcp-server=* | --add-github-mcp-toolset=* | --add-github-mcp-tool=* | --plugin-dir=* | --additional-mcp-config=* | --mcp-github-auth=* | --additional-content-exclusion-policies=* | --allow-tool=* | --deny-tool=* | --available-tools=* | --excluded-tools=* | --secret-env-vars=* | --allow-url=* | --deny-url=* | --max-autopilot-continues=* | --mode=* | --bash-env=* | --mouse=* | --host=* | --sync-session=* | --port=* | --session-idle-timeout=* | --auth-token-env=* | --collect-debug-logs=* | --collect-debug-logs-output=* | --ahp=* | --ahp-authenticate=* | --environment=* | --host-environment=* | --host-compute-id=* | --host-ahp-token=* | --host-ahp-listen=* | --host-directory=* | --dynamic-retrieval=* | --enable-mcp-server=* | --max-ai-credits=* | --usage-output-file=* | --version | -v | --fleet | --trust-folder | --silent | -s | --disable-client-telemetry | --enable-memory | --enable-reasoning-summaries | --continue | --cloud | --allow-all-tools | --allow-all-paths | --disallow-temp-dir | --banner | --screen-reader | --plain-diff | --share-gist | --disable-builtin-mcps | --enable-all-github-mcp-tools | --allow-all-mcp-server-instructions | --allow-all-urls | --allow-all | --yolo | --autopilot | --plan | --experimental | --show-timing | --server | --ui-server | --headless | --managed-server | --acp | --stdio | --disable-remote-sessions | --remote | --log-interactive-shells | --print-debug-info | --host-ahp | --host-ahp-disable-token | --host-allow-session-creation | --sandbox | --assisted-approval | --embedded-host | --no-custom-instructions | --no-auto-update | --no-ask-user | --no-color | --no-experimental | --no-bash-env | --no-mouse | --no-auto-login | --no-sandbox | --no-eager-powershell-resolution | --help | -h | --no-remote-export) ;;
       config) cfg_stage=args ;;
       *) return 1 ;;
       esac
@@ -62,9 +74,9 @@ _copilot_config_candidates() {
   cfg_values='' cfg_path='' cfg_list=''
   if [ "$cfg_position" = 0 ]; then
     case "$cfg_scope:$cfg_mode" in
-    user:remove) cfg_values='ahpEnvironment.acceptRemoteConnections ahpEnvironment.allowCreatingNewSessions ahpEnvironment.computeId ahpEnvironment.name ahpEnvironment.publishNewSessionsByDefault ahpEnvironment.requireConnectionBinding allowedUrls askUser assistedApprovalInstructions autoTier autoUpdate autoUpdatesChannel banner bannerStyle bashEnv beep beepOnSchedule commandHistoryMaxSize compactPaste companyAnnouncements connectors contextManagementTools contextTier continueOnAutoMode copyOnCodeBlockClick copyOnSelect customAgents.defaultLocalOnly defaultMode defaultPermissionMode deniedUrls disableAllHooks disabledHooks disabledMcpServers disabledSkills dynamicRetrieval.mcp dynamicRetrieval.skills editorMode effortLevel enableAllGithubMcpTools enabledMcpServers experimental extensions.disabledExtensions extensions.mode feature_flags.enabled footer.showAgent footer.showAiUsed footer.showBranch footer.showCiStatus footer.showCodeChanges footer.showContextWindow footer.showCustom footer.showDirectory footer.showModelEffort footer.showPullRequest footer.showQuota footer.showSandbox footer.showSchedules footer.showUsername footer.showYolo githubMcpInsiders githubMcpTools githubMcpToolsets ide.autoConnect ide.openDiffOnEdit ignoredSkillsLocations imageGeneration imageGenerationWatermark includeCoAuthoredBy inlineImageLiveWindow inlineImages keepAlive memory mergeStrategy model modelProviderId mouse notifications pinnedPrompts planContextTier planEffortLevel planModel planModelProviderId powershellFlags proxyKerberosServicePrincipal proxyUrl remoteExport renderHexColors renderMarkdown respectGitignore sandbox.addCurrentWorkingDirectory sandbox.allowBypass sandbox.allowDevToolAccess sandbox.auth.gh sandbox.auth.git sandbox.credentials.envVars.*.injectHosts sandbox.enabled sandbox.sandboxLspServers sandbox.sandboxMcpServers sandbox.userPolicy.filesystem.deniedPaths sandbox.userPolicy.filesystem.readonlyPaths sandbox.userPolicy.filesystem.readwritePaths sandbox.userPolicy.network.allowedHosts sandbox.userPolicy.network.allowLocalNetwork sandbox.userPolicy.network.allowOutbound sandbox.userPolicy.network.blockedHosts sandbox.userPolicy.network.proxy.url sandbox.userPolicy.network.proxy.username screenReader scrollbar showReasoning showTimestamps showTipsOnStartup showToolDurations sidebar.accentActiveSession sidebar.coloredHints sidebar.enabled sidebar.hoverFocus sidebar.showCloseButton sidebar.showHeaderButtons sidebar.showResumableSessions skillDirectories statusLine.padding statusLine.refreshInterval statusLine.type stayInAutopilot stream subagents.contextManagementTools subagents.maxConcurrency subagents.maxDepth tabs.enabled tabs.hide tabs.sort taskbarPresence terminalNotifications terminalProgress theme toolSearch transcriptView updateTerminalTitle voice.selectedDevice.name voice.selectedDevice.occurrence workflows.logPhaseNames workflows.maxConcurrentRuns worktreeBaseRef worktreePathTemplate' ;;
+    user:remove) cfg_values='ahpEnvironment.acceptRemoteConnections ahpEnvironment.allowCreatingNewSessions ahpEnvironment.computeId ahpEnvironment.name ahpEnvironment.publishNewSessionsByDefault ahpEnvironment.requireConnectionBinding aiSecretDetection allowedUrls askUser assistedApprovalInstructions autoTier autoUpdate autoUpdatesChannel banner bannerStyle bashEnv beep beepOnSchedule commandHistoryMaxSize compactPaste companyAnnouncements connectors contextManagementTools contextTier continueOnAutoMode copyOnCodeBlockClick copyOnSelect customAgents.defaultLocalOnly defaultMode defaultPermissionMode deniedUrls disableAllHooks disabledHooks disabledMcpServers disabledSkills dynamicRetrieval.mcp dynamicRetrieval.skills editorMode effortLevel enableAllGithubMcpTools enabledMcpServers experimental extensions.disabledExtensions extensions.mode feature_flags.enabled footer.showAgent footer.showAiUsed footer.showBranch footer.showCiStatus footer.showCodeChanges footer.showContextWindow footer.showCustom footer.showDirectory footer.showModelEffort footer.showPullRequest footer.showQuota footer.showSandbox footer.showSchedules footer.showUsername footer.showYolo fusionTier githubMcpInsiders githubMcpTools githubMcpToolsets ide.autoConnect ide.codeProduct ide.openDiffOnEdit ignoredSkillsLocations imageGeneration imageGenerationWatermark includeCoAuthoredBy inlineImageLiveWindow inlineImages keepAlive memory mergeStrategy model modelProviderId mouse notifications pinnedPrompts planContextTier planEffortLevel planModel planModelProviderId powershellFlags proxyKerberosServicePrincipal proxyUrl remoteExport renderHexColors renderMarkdown respectGitignore sandbox.addCurrentWorkingDirectory sandbox.allowBypass sandbox.allowDevToolAccess sandbox.auth.gh sandbox.auth.git sandbox.credentials.envVars.*.injectHosts sandbox.enabled sandbox.sandboxExtensions sandbox.sandboxLspServers sandbox.sandboxMcpServers sandbox.userPolicy.filesystem.deniedPaths sandbox.userPolicy.filesystem.enumeratePaths sandbox.userPolicy.filesystem.readonlyPaths sandbox.userPolicy.filesystem.readwritePaths sandbox.userPolicy.network.allowedHosts sandbox.userPolicy.network.allowLocalNetwork sandbox.userPolicy.network.allowOutbound sandbox.userPolicy.network.blockedHosts sandbox.userPolicy.network.proxy.url sandbox.userPolicy.network.proxy.username screenReader scrollbar sessionManagementTools.close sessionManagementTools.create sessionManagementTools.enabled sessionManagementTools.list sessionManagementTools.message sessionManagementTools.scope showReasoning showTimestamps showToolDurations sidebar.accentActiveSession sidebar.coloredHints sidebar.ctrlCClosesSession sidebar.enabled sidebar.exitClosesSession sidebar.hoverFocus sidebar.showCloseButton sidebar.showHeaderButtons sidebar.showResumableSessions skillDirectories statusLine.padding statusLine.refreshInterval statusLine.type stayInAutopilot stream subagents.contextManagementTools subagents.maxConcurrency subagents.maxDepth tabs.enabled tabs.hide tabs.sort taskbarPresence terminalNotifications terminalProgress theme toolSearch updateTerminalTitle voice.selectedDevice.name voice.selectedDevice.occurrence workflows.logPhaseNames workflows.maxConcurrentRuns worktreeBaseRef worktreePathTemplate' ;;
     repo:remove) cfg_values='autoTier companyAnnouncements contextTier deniedUrls disableAllHooks disabledMcpServers disabledSkills effortLevel includeCoAuthoredBy mergeStrategy model modelProviderId respectGitignore skillDirectories' ;;
-    *:read) cfg_values='ahpEnvironment.acceptRemoteConnections ahpEnvironment.allowCreatingNewSessions ahpEnvironment.computeId ahpEnvironment.name ahpEnvironment.publishNewSessionsByDefault ahpEnvironment.requireConnectionBinding allowedUrls askUser assistedApprovalInstructions autoTier autoUpdate autoUpdatesChannel banner bannerStyle bashEnv beep beepOnSchedule builtInAgents.rubberDuck builtInAgents.rubberDuckAutoInvoke commandHistoryMaxSize compactPaste companyAnnouncements connectors contextManagementTools contextTier continueOnAutoMode copilotUrl copyOnCodeBlockClick copyOnSelect customAgents.defaultLocalOnly defaultMode defaultPermissionMode deniedUrls disableAllHooks disabledHooks disabledMcpServers disabledSkills dynamicRetrieval.mcp dynamicRetrieval.skills editorMode effortLevel enableAllGithubMcpTools enabledMcpServers experimental extensions.disabledExtensions extensions.mode feature_flags.enabled footer.showAgent footer.showAiUsed footer.showBranch footer.showCiStatus footer.showCodeChanges footer.showContextWindow footer.showCustom footer.showDirectory footer.showModelEffort footer.showPullRequest footer.showQuota footer.showSandbox footer.showSchedules footer.showUsername footer.showYolo githubMcpInsiders githubMcpTools githubMcpToolsets ide.autoConnect ide.openDiffOnEdit ignoredSkillsLocations imageGeneration imageGenerationWatermark includeCoAuthoredBy inlineImageLiveWindow inlineImages keepAlive logLevel memory mergeStrategy model modelProviderId mouse notifications permissions.disableAssistedPermissionsMode permissions.disableBypassPermissionsMode pinnedPrompts planContextTier planEffortLevel planModel planModelProviderId powershellFlags proxyKerberosServicePrincipal proxyUrl remoteExport remoteSessions renderHexColors renderMarkdown respectGitignore sandbox.addCurrentWorkingDirectory sandbox.allowBypass sandbox.allowDevToolAccess sandbox.auth.gh sandbox.auth.git sandbox.credentials.envVars.*.injectHosts sandbox.enabled sandbox.sandboxLspServers sandbox.sandboxMcpServers sandbox.userPolicy.experimental.seatbelt.keychainAccess sandbox.userPolicy.filesystem.deniedPaths sandbox.userPolicy.filesystem.readonlyPaths sandbox.userPolicy.filesystem.readwritePaths sandbox.userPolicy.network.allowedHosts sandbox.userPolicy.network.allowLocalNetwork sandbox.userPolicy.network.allowOutbound sandbox.userPolicy.network.blockedHosts sandbox.userPolicy.network.proxy.password sandbox.userPolicy.network.proxy.url sandbox.userPolicy.network.proxy.username sandbox.userPolicy.seatbelt.keychainAccess screenReader scrollbar shellShortcut showReasoning showTimestamps showTipsOnStartup showToolDurations sidebar.accentActiveSession sidebar.coloredHints sidebar.enabled sidebar.hoverFocus sidebar.showCloseButton sidebar.showHeaderButtons sidebar.showResumableSessions skillDirectories statusLine.command statusLine.padding statusLine.refreshInterval statusLine.type stayInAutopilot storeTokenPlaintext stream streamerMode subagents.contextManagementTools subagents.disabledSubagents subagents.maxConcurrency subagents.maxDepth tabs.enabled tabs.hide tabs.sort taskbarPresence telemetry.capture.identity telemetry.capture.policyDetail telemetry.capture.prompts telemetry.capture.responses telemetry.capture.toolArguments telemetry.capture.toolOutput telemetry.captureContent terminalNotifications terminalProgress theme toolSearch transcriptView updateTerminalTitle voice.enabled voice.selectedDevice.name voice.selectedDevice.occurrence voice.selectedModel workflows.defaultLimits.maxAiCredits workflows.defaultLimits.maxConcurrentSubagents workflows.defaultLimits.maxTotalSubagents workflows.defaultLimits.timeoutSeconds workflows.logPhaseNames workflows.maxConcurrentRuns worktreeBaseRef worktreePathTemplate' ;;
+    *:read) cfg_values='ahpEnvironment.acceptRemoteConnections ahpEnvironment.allowCreatingNewSessions ahpEnvironment.computeId ahpEnvironment.name ahpEnvironment.publishNewSessionsByDefault ahpEnvironment.requireConnectionBinding aiSecretDetection allowedUrls askUser assistedApprovalInstructions autoTier autoUpdate autoUpdatesChannel banner bannerStyle bashEnv beep beepOnSchedule builtInAgents.rubberDuck builtInAgents.rubberDuckAutoInvoke commandHistoryMaxSize compactPaste companyAnnouncements connectors contextManagementTools contextTier continueOnAutoMode copilotUrl copyOnCodeBlockClick copyOnSelect customAgents.defaultLocalOnly defaultMode defaultPermissionMode deniedUrls disableAllHooks disabledHooks disabledMcpServers disabledSkills dynamicRetrieval.mcp dynamicRetrieval.skills editorMode effortLevel enableAllGithubMcpTools enabledMcpServers experimental extensions.disabledExtensions extensions.mode feature_flags.enabled footer.showAgent footer.showAiUsed footer.showBranch footer.showCiStatus footer.showCodeChanges footer.showContextWindow footer.showCustom footer.showDirectory footer.showModelEffort footer.showPullRequest footer.showQuota footer.showSandbox footer.showSchedules footer.showUsername footer.showYolo fusionTier githubMcpInsiders githubMcpTools githubMcpToolsets ide.autoConnect ide.codeProduct ide.openDiffOnEdit ignoredSkillsLocations imageGeneration imageGenerationWatermark includeCoAuthoredBy inlineImageLiveWindow inlineImages keepAlive logLevel memory mergeStrategy model modelProviderId mouse notifications permissions.disableBypassPermissionsMode pinnedPrompts planContextTier planEffortLevel planModel planModelProviderId powershellFlags proxyKerberosServicePrincipal proxyUrl remoteExport remoteSessions renderHexColors renderMarkdown respectGitignore sandbox.addCurrentWorkingDirectory sandbox.allowBypass sandbox.allowDevToolAccess sandbox.auth.gh sandbox.auth.git sandbox.credentials.envVars.*.injectHosts sandbox.enabled sandbox.sandboxExtensions sandbox.sandboxLspServers sandbox.sandboxMcpServers sandbox.userPolicy.experimental.seatbelt.keychainAccess sandbox.userPolicy.filesystem.deniedPaths sandbox.userPolicy.filesystem.enumeratePaths sandbox.userPolicy.filesystem.readonlyPaths sandbox.userPolicy.filesystem.readwritePaths sandbox.userPolicy.network.allowedHosts sandbox.userPolicy.network.allowLocalNetwork sandbox.userPolicy.network.allowOutbound sandbox.userPolicy.network.blockedHosts sandbox.userPolicy.network.proxy.password sandbox.userPolicy.network.proxy.url sandbox.userPolicy.network.proxy.username sandbox.userPolicy.seatbelt.keychainAccess screenReader scrollbar sessionManagementTools.close sessionManagementTools.create sessionManagementTools.enabled sessionManagementTools.list sessionManagementTools.message sessionManagementTools.scope shellShortcut showReasoning showTimestamps showTipsOnStartup showToolDurations sidebar.accentActiveSession sidebar.coloredHints sidebar.ctrlCClosesSession sidebar.enabled sidebar.exitClosesSession sidebar.hoverFocus sidebar.showCloseButton sidebar.showHeaderButtons sidebar.showResumableSessions skillDirectories statusLine.command statusLine.padding statusLine.refreshInterval statusLine.type stayInAutopilot storeTokenPlaintext stream streamerMode subagents.contextManagementTools subagents.disabledSubagents subagents.maxConcurrency subagents.maxDepth tabs.enabled tabs.hide tabs.sort taskbarPresence telemetry.capture.identity telemetry.capture.policyDetail telemetry.capture.prompts telemetry.capture.responses telemetry.capture.toolArguments telemetry.capture.toolOutput telemetry.captureContent terminalNotifications terminalProgress theme toolSearch updateTerminalTitle voice.enabled voice.selectedDevice.name voice.selectedDevice.occurrence voice.selectedModel workflows.defaultLimits.maxAiCredits workflows.defaultLimits.maxConcurrentSubagents workflows.defaultLimits.maxTotalSubagents workflows.defaultLimits.timeoutSeconds workflows.logPhaseNames workflows.maxConcurrentRuns worktreeBaseRef worktreePathTemplate' ;;
     esac
     return
   fi
@@ -77,6 +89,7 @@ _copilot_config_candidates() {
   'user:ahpEnvironment.name') cfg_values='' cfg_path='' cfg_list='' ;;
   'user:ahpEnvironment.publishNewSessionsByDefault') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:ahpEnvironment.requireConnectionBinding') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:aiSecretDetection') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:allowedUrls') cfg_values='' cfg_path='' cfg_list='yes' ;;
   'user:askUser') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:assistedApprovalInstructions') cfg_values='' cfg_path='' cfg_list='' ;;
@@ -130,10 +143,12 @@ _copilot_config_candidates() {
   'user:footer.showSchedules') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:footer.showUsername') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:footer.showYolo') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:fusionTier') cfg_values='standard high max' cfg_path='' cfg_list='' ;;
   'user:githubMcpInsiders') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:githubMcpTools') cfg_values='' cfg_path='' cfg_list='yes' ;;
   'user:githubMcpToolsets') cfg_values='' cfg_path='' cfg_list='yes' ;;
   'user:ide.autoConnect') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:ide.codeProduct') cfg_values='stable insiders' cfg_path='' cfg_list='' ;;
   'user:ide.openDiffOnEdit') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:ignoredSkillsLocations') cfg_values='' cfg_path='directory' cfg_list='yes' ;;
   'user:imageGeneration') cfg_values='true false' cfg_path='' cfg_list='' ;;
@@ -167,9 +182,11 @@ _copilot_config_candidates() {
   'user:sandbox.auth.git') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:sandbox.credentials.envVars.*.injectHosts') cfg_values='' cfg_path='' cfg_list='yes' ;;
   'user:sandbox.enabled') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:sandbox.sandboxExtensions') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:sandbox.sandboxLspServers') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:sandbox.sandboxMcpServers') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:sandbox.userPolicy.filesystem.deniedPaths') cfg_values='' cfg_path='file' cfg_list='yes' ;;
+  'user:sandbox.userPolicy.filesystem.enumeratePaths') cfg_values='' cfg_path='directory' cfg_list='yes' ;;
   'user:sandbox.userPolicy.filesystem.readonlyPaths') cfg_values='' cfg_path='file' cfg_list='yes' ;;
   'user:sandbox.userPolicy.filesystem.readwritePaths') cfg_values='' cfg_path='file' cfg_list='yes' ;;
   'user:sandbox.userPolicy.network.allowedHosts') cfg_values='' cfg_path='' cfg_list='yes' ;;
@@ -180,13 +197,20 @@ _copilot_config_candidates() {
   'user:sandbox.userPolicy.network.proxy.username') cfg_values='' cfg_path='' cfg_list='' ;;
   'user:screenReader') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:scrollbar') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:sessionManagementTools.close') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:sessionManagementTools.create') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:sessionManagementTools.enabled') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:sessionManagementTools.list') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:sessionManagementTools.message') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:sessionManagementTools.scope') cfg_values='all in-process' cfg_path='' cfg_list='' ;;
   'user:showReasoning') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:showTimestamps') cfg_values='true false' cfg_path='' cfg_list='' ;;
-  'user:showTipsOnStartup') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:showToolDurations') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:sidebar.accentActiveSession') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:sidebar.coloredHints') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:sidebar.ctrlCClosesSession') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:sidebar.enabled') cfg_values='true false' cfg_path='' cfg_list='' ;;
+  'user:sidebar.exitClosesSession') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:sidebar.hoverFocus') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:sidebar.showCloseButton') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:sidebar.showHeaderButtons') cfg_values='true false' cfg_path='' cfg_list='' ;;
@@ -208,7 +232,6 @@ _copilot_config_candidates() {
   'user:terminalProgress') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:theme') cfg_values='default github dim high-contrast colorblind' cfg_path='' cfg_list='' ;;
   'user:toolSearch') cfg_values='true false' cfg_path='' cfg_list='' ;;
-  'user:transcriptView') cfg_values='default concise' cfg_path='' cfg_list='' ;;
   'user:updateTerminalTitle') cfg_values='true false' cfg_path='' cfg_list='' ;;
   'user:voice.selectedDevice.name') cfg_values='' cfg_path='' cfg_list='' ;;
   'user:voice.selectedDevice.occurrence') cfg_values='' cfg_path='' cfg_list='' ;;
@@ -249,10 +272,37 @@ _copilot_config_key_candidates() {
 }
 
 # Copyright (c) Microsoft Corporation. All rights reserved.
+# Bash also splits words at COMP_WORDBREAKS characters, so `--log-level=debug`
+# arrives as `--log-level`, `=`, `debug`. Rejoin the pieces that COMP_LINE
+# shows were typed with no blank between them, as the shell and clap see them.
+_copilot_config_words() {
+  local line="${COMP_LINE-}" word blanks i
+  cfg_words=()
+  for ((i = 0; i < COMP_CWORD; i++)); do
+    word="${COMP_WORDS[i]}"
+    blanks="${line%%[![:blank:]]*}"
+    line="${line#"$blanks"}"
+    if [[ "$line" != "$word"* ]]; then
+      cfg_words=("${COMP_WORDS[@]:1:COMP_CWORD-1}")
+      return
+    fi
+    line="${line#"$word"}"
+    if ((i == 0)); then
+      continue
+    elif [[ -z "$blanks" && ${#cfg_words[@]} -gt 0 ]]; then
+      cfg_words[${#cfg_words[@]} - 1]+="$word"
+    else
+      cfg_words+=("$word")
+    fi
+  done
+}
+
 _copilot_config_complete() {
   local cfg_mode cfg_scope cfg_key cfg_position cfg_literal cfg_values cfg_path cfg_list
   local cur="${COMP_WORDS[COMP_CWORD]}" candidate
-  _copilot_config_context "${COMP_WORDS[@]:1:COMP_CWORD-1}" || return 1
+  local -a cfg_words
+  _copilot_config_words
+  _copilot_config_context "${cfg_words[@]}" || return 1
   # Leave option completion to clap, unless -- made this a literal operand.
   if [[ "$cur" == -* && "$cfg_literal" = 0 ]]; then return 1; fi
   _copilot_config_candidates
@@ -463,7 +513,7 @@ _copilot() {
 
   case "${cmd}" in
   copilot)
-    opts="-v -i -p -s -r -n -w -C -h --version --interactive --fleet --prompt --trust-folder --silent --disable-client-telemetry --enable-memory --model --reasoning-effort --context --auto-tier --enable-reasoning-summaries --agent --resume --continue --name --session-id --new-session-id --connect --cloud --worktree --allow-all-tools --allow-all-paths --disallow-temp-dir --banner --screen-reader --plain-diff --log-dir --extension-sdk-path --config-dir --log-level --save-trajectory-output --prefer-version --stream --output-format --share --share-gist --add-dir --attachment --disable-mcp-server --disable-builtin-mcps --enable-all-github-mcp-tools --add-github-mcp-toolset --add-github-mcp-tool --plugin-dir --additional-mcp-config --mcp-github-auth --allow-all-mcp-server-instructions --additional-content-exclusion-policies --allow-tool --deny-tool --available-tools --excluded-tools --secret-env-vars --allow-url --deny-url --allow-all-urls --allow-all --yolo --max-autopilot-continues --mode --autopilot --plan --experimental --bash-env --mouse --show-timing --server --ui-server --headless --managed-server --acp --stdio --host --disable-remote-sessions --sync-session --port --session-idle-timeout --auth-token-env --log-interactive-shells --print-debug-info --collect-debug-logs --collect-debug-logs-output --ahp --ahp-authenticate --environment --host-environment --host-compute-id --host-ahp --host-ahp-token --host-ahp-disable-token --host-ahp-listen --host-directory --sandbox --dynamic-retrieval --enable-mcp-server --max-ai-credits --assisted-approval --embedded-host --usage-output-file --no-custom-instructions --no-auto-update --no-ask-user --no-color --no-experimental --no-bash-env --no-mouse --no-auto-login --no-sandbox --no-eager-powershell-resolution --help app login help init config update version workflow sessions memories plugin mcp skill instruction lsp sandbox taskbar-selftest completion"
+    opts="-v -i -p -s -r -n -w -C -h --version --interactive --fleet --prompt --trust-folder --silent --disable-client-telemetry --enable-memory --model --reasoning-effort --context --auto-tier --enable-reasoning-summaries --agent --resume --continue --name --session-id --new-session-id --connect --cloud --worktree --allow-all-tools --allow-all-paths --disallow-temp-dir --banner --screen-reader --plain-diff --log-dir --extension-sdk-path --config-dir --log-level --save-trajectory-output --prefer-version --stream --output-format --share --share-gist --add-dir --attachment --disable-mcp-server --disable-builtin-mcps --enable-all-github-mcp-tools --add-github-mcp-toolset --add-github-mcp-tool --plugin-dir --additional-mcp-config --mcp-github-auth --allow-all-mcp-server-instructions --additional-content-exclusion-policies --allow-tool --deny-tool --available-tools --excluded-tools --secret-env-vars --allow-url --deny-url --allow-all-urls --allow-all --yolo --max-autopilot-continues --mode --autopilot --plan --experimental --bash-env --mouse --show-timing --server --ui-server --headless --managed-server --acp --stdio --host --disable-remote-sessions --sync-session --port --session-idle-timeout --auth-token-env --log-interactive-shells --print-debug-info --collect-debug-logs --collect-debug-logs-output --ahp --ahp-authenticate --environment --host-environment --host-compute-id --host-ahp --host-ahp-token --host-ahp-disable-token --host-ahp-listen --host-directory --host-allow-session-creation --sandbox --dynamic-retrieval --enable-mcp-server --max-ai-credits --assisted-approval --embedded-host --usage-output-file --no-custom-instructions --no-auto-update --no-ask-user --no-color --no-experimental --no-bash-env --no-mouse --no-auto-login --no-sandbox --no-eager-powershell-resolution --help app login help init config update version workflow sessions memories plugin mcp skill instruction lsp sandbox taskbar-selftest completion"
     if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]]; then
       COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
       return 0
@@ -486,7 +536,7 @@ _copilot() {
       return 0
       ;;
     --model)
-      COMPREPLY=($(compgen -W "auto claude-sonnet-5.5 claude-sonnet-5 claude-fable-5.1 claude-fable-5 claude-opus-5.5 claude-opus-5 claude-opus-4.8 claude-opus-4.8-fast claude-sonnet-4.6 claude-haiku-5.5 claude-haiku-4.5 gpt-6.1-sol gpt-6-sol gpt-6-luna gpt-6-astra gpt-5.6-sol gpt-5.6-terra gpt-5.6-luna gpt-5.5 gpt-5.4 gpt-5.4-mini gpt-5.3-codex gpt-5-mini mai-code-1.1-flash gemini-4-argon gemini-3.8-flash gemini-3.7-flash grok-4.7 grok-4.6 grok-4.5 kimi-k3" -- "${cur}"))
+      COMPREPLY=($(compgen -W "auto fusion claude-sonnet-5.5 claude-sonnet-5 claude-fable-5.2 claude-fable-5.1 claude-fable-5 claude-opus-5.5 claude-opus-5 claude-opus-4.8 claude-opus-4.8-fast claude-sonnet-4.6 claude-haiku-5.5 claude-haiku-4.5 gpt-6.2-sol gpt-6.2-astra gpt-6.1-sol gpt-6.1-terra gpt-6-sol gpt-6-luna gpt-6-astra gpt-5.6-sol gpt-5.6-terra gpt-5.6-luna gpt-5.3-codex mai-code-1.1-flash gemini-4-carbon gemini-4-argon gemini-3.8-flash grok-4.7 grok-4.6 kimi-k3" -- "${cur}"))
       return 0
       ;;
     --reasoning-effort)
@@ -499,6 +549,10 @@ _copilot() {
       ;;
     --auto-tier)
       COMPREPLY=($(compgen -f "${cur}"))
+      return 0
+      ;;
+    --fusion-tier)
+      COMPREPLY=($(compgen -W "standard high max" -- "${cur}"))
       return 0
       ;;
     --agent)

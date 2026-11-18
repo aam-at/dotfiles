@@ -4701,6 +4701,7 @@ complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_sub
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -f -a metadata -d 'View metadata about the current workspace'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -f -a dir -d 'Display the path of a workspace member'
 complete -c uv -n "__fish_uv_using_subcommand workspace; and not __fish_seen_subcommand_from metadata dir list" -f -a list -d 'List the members of a workspace'
+complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l output-version -d 'Request a specific version of the metadata schema' -r
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l script -d 'View metadata for the specified PEP 723 Python script, rather than the current workspace' -r -F
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l index -d 'The indexes to use when resolving dependencies, in addition to the default index' -r
 complete -c uv -n "__fish_uv_using_subcommand workspace; and __fish_seen_subcommand_from metadata" -l default-index -d 'The default package index (by default: <https://pypi.org/simple>)' -r
