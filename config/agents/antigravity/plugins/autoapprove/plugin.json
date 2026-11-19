@@ -1,0 +1,6 @@
+{
+  "name": "autoapprove",
+  "displayName": "Auto-approve",
+  "description": "Answers agy approval dialogs in a herdr or tmux pane, including ones an admin policy forces. Toggle with `! autoapprove on|off`.",
+  "version": "1.0.0"
+}
