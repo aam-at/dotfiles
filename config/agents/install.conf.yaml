@@ -18,6 +18,12 @@
     ~/.local/bin/compaction:
       create: true
       path: antigravity/plugins/compaction-gate/hooks/compaction_gate.py
+    ~/.gemini/config/plugins/autoapprove:
+      create: true
+      path: antigravity/plugins/autoapprove
+    ~/.local/bin/autoapprove:
+      create: true
+      path: antigravity/plugins/autoapprove/hooks/autoapprove.py
     ~/.pi/agent/keybindings.json:
       create: true
       path: pi/keybindings.json

@@ -9,6 +9,7 @@ supported files into each agent's normal home directory.
 | Codex | `codex/config.toml` | `~/.codex/config.toml` |
 | Claude Code | `claude/settings.json` | `~/.claude/settings.json` |
 | Antigravity | `antigravity/plugins/compaction-gate/` | `~/.gemini/config/plugins/compaction-gate` |
+| Antigravity | `antigravity/plugins/autoapprove/` | `~/.gemini/config/plugins/autoapprove` |
 | Pi | `pi/settings.json`, `pi/keybindings.json` | `~/.pi/agent/` |
 | OMP | `omp/config.yml` | `~/.omp/agent/config.yml` |
 
