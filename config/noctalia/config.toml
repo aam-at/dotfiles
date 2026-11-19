@@ -61,7 +61,7 @@ font_scale = 0.9
 font_weight = 400
 # 30px capsules (0.82 of the bar) with the same faint cream edge as YASB's.
 capsule = true
-capsule_fill = "surface_variant"
+capsule_fill = "surface_container"
 capsule_opacity = 1.0
 capsule_thickness = 0.82
 capsule_radius = 12
@@ -81,15 +81,13 @@ members = [
   "lock_keys",
   "caffeine",
   "network",
-  "net-download",
-  "net-upload",
   "volume",
   "aam/dictation:status",
   "clipboard",
   "notifications",
   "battery",
 ]
-fill = "surface_variant"
+fill = "surface_container"
 border = "#4a4540"
 border_width = 1
 padding = 8
@@ -99,6 +97,10 @@ widget_spacing = 10
 
 [widget.launcher]
 glyph = "search"
+
+[widget.tray]
+# Keep daemon and application indicators available without taking bar width.
+drawer = true
 
 # YASB's power menu button: three dots at the end of the bar.
 [widget.control-center]
@@ -150,6 +152,11 @@ icon_color = "#f6e3b4"
 show_label = false
 vpn_status = "both"
 
+# Open the live resource graphs, including network throughput, on left-click.
+# Right-click keeps the network widget's built-in connection toggle behavior.
+[widget.network.actions]
+left = "panel-toggle control-center system"
+
 [widget.volume]
 show_label = false
 
@@ -167,28 +174,6 @@ hide_when_off = true
 show_caps_lock = true
 show_num_lock = false
 show_scroll_lock = false
-
-[widget.net-download]
-type = "sysmon"
-stat = "net_rx"
-network_speed_compact = false
-visualization = "none"
-label_min_width = 50
-# Muted and small like YASB's traffic widget; no tint as the speed rises.
-font_scale = 0.92
-color = "on_surface_variant"
-highlight_color = "on_surface_variant"
-
-[widget.net-upload]
-type = "sysmon"
-stat = "net_tx"
-network_speed_compact = false
-visualization = "none"
-label_min_width = 50
-# Muted and small like YASB's traffic widget; no tint as the speed rises.
-font_scale = 0.92
-color = "on_surface_variant"
-highlight_color = "on_surface_variant"
 
 [system.monitor]
 enabled = true
