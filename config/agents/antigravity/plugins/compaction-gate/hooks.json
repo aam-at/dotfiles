@@ -1,0 +1,12 @@
+{
+  "compaction-gate": {
+    "enabled": true,
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "python3 ./hooks/compaction_gate.py --hook",
+        "timeout": 5
+      }
+    ]
+  }
+}

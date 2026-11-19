@@ -11,6 +11,13 @@
     ~/.claude/settings.json:
       create: true
       path: claude/settings.json
+    ~/.gemini/config/plugins/compaction-gate:
+      create: true
+      path: antigravity/plugins/compaction-gate
+    # agy's `!` prefix is a shell escape, so `! compaction 750k` reaches this.
+    ~/.local/bin/compaction:
+      create: true
+      path: antigravity/plugins/compaction-gate/hooks/compaction_gate.py
     ~/.pi/agent/keybindings.json:
       create: true
       path: pi/keybindings.json

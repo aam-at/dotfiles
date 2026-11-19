@@ -1,0 +1,6 @@
+{
+  "enabled": true,
+  "mode": "gate",
+  "threshold": "500k",
+  "warnThreshold": null
+}

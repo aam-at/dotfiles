@@ -1,0 +1,6 @@
+{
+  "name": "compaction-gate",
+  "displayName": "Compaction Gate",
+  "description": "Configurable PreInvocation context-token threshold gate for Antigravity.",
+  "version": "1.0.0"
+}
