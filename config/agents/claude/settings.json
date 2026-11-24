@@ -2,12 +2,21 @@
   "model": "sonnet",
   "enableWorkflows": true,
   "effortLevel": "high",
+  "env": {
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
+  },
   "modelSettings": {
     "claude-sonnet-5": {
       "effortLevel": "high"
     }
   },
   "tui": "fullscreen",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
   "editorMode": "vim",
   "inputNeededNotifEnabled": true
 }
