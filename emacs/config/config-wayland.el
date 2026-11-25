@@ -13,7 +13,12 @@
       (cons (getenv "WAYLAND_DISPLAY") (cdr args)))))
 
 (when (and (featurep 'pgtk) (getenv "WAYLAND_DISPLAY"))
-  (advice-add 'make-frame-on-display :filter-args #'aam/frame-on-wayland))
+  (advice-add 'make-frame-on-display :filter-args #'aam/frame-on-wayland)
+  ;; The server builds client frames via `make-frame', bypassing
+  ;; `make-frame-on-display', so remap `emacsclient's -display :N there too.
+  (with-eval-after-load 'server
+    (advice-add 'server-create-window-system-frame
+                :filter-args #'aam/frame-on-wayland)))
 
 (provide 'config-wayland)
 ;;; config-wayland.el ends here
